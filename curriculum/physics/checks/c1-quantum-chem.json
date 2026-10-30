@@ -1,0 +1,1988 @@
+{
+	"courseId": "c1-quantum-chem",
+	"checks": {
+		"c1-l001-molecular-hamiltonian-atomic-units": [
+			{
+				"kind": "mc",
+				"prompt": "In the full molecular Hamiltonian, which term prevents the electronic Schrödinger equation from splitting into independent one-electron equations?",
+				"options": [
+					"The electron-electron repulsion $1/r_{ij}$, which couples two electrons' coordinates",
+					"The electron-nuclear attraction, because every nucleus pulls on every electron at the same time",
+					"The electron kinetic energy, because the Laplacians of different electrons are mixed together",
+					"The nuclear-nuclear repulsion, because it depends on the positions of all nuclei together, so no single-electron equation can absorb it"
+				],
+				"answer": 0,
+				"explanation": "Kinetic energy and electron-nuclear attraction are sums of one-electron operators, and nuclear repulsion is a constant at fixed nuclei. Only $1/r_{ij}$ depends on two electrons' coordinates, so it blocks separation of variables."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Chemical accuracy means errors below 1 kcal/mol. Using 1 $E_h$ = 627.51 kcal/mol, express 1 kcal/mol in millihartree (m$E_h$).",
+				"answer": 1.5936,
+				"tolerance": 0.02,
+				"unit": "mE_h",
+				"explanation": "1 kcal/mol = 1/627.51 $E_h$ = 1.594 m$E_h$. Total energies are of order $10^2$ $E_h$ for small molecules, so chemical accuracy asks for roughly 1 part in $10^5$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In atomic units the hydrogen 1s state has $E=-0.5$. What are $\\langle T\\rangle$ and $\\langle V\\rangle$ in the same units?",
+				"options": [
+					"$\\langle T\\rangle=0$ and $\\langle V\\rangle=-0.5$, because the ground-state electron is essentially at rest",
+					"$\\langle T\\rangle=+0.5$ and $\\langle V\\rangle=-1.0$, since $2\\langle T\\rangle=-\\langle V\\rangle$ (virial theorem)",
+					"$\\langle T\\rangle=-0.25$ and $\\langle V\\rangle=-0.25$, because the energy splits equally between the two terms",
+					"$\\langle T\\rangle=+1.0$ and $\\langle V\\rangle=-1.5$, because kinetic energy must exceed the total energy in magnitude for a bound state"
+				],
+				"answer": 1,
+				"explanation": "For a Coulomb potential $2\\langle T\\rangle=-\\langle V\\rangle$, so $E=\\langle T\\rangle+\\langle V\\rangle=-\\langle T\\rangle$ and $\\langle T\\rangle=+0.5$, $\\langle V\\rangle=-1.0$. Kinetic energy is never negative, and a bound electron is never at rest (uncertainty principle)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the repulsion between electrons makes the many-electron Schrödinger equation impossible to solve exactly, and what assumption the chemist's 'electrons in orbitals' picture makes to get around it.",
+				"rubric": "Full credit requires: (1) the $1/r_{ij}$ term couples the coordinates of different electrons so the wavefunction cannot be written as a product of one-electron functions; (2) the orbital picture assumes each electron moves independently in an average field of the nuclei and the other electrons (a product or determinant of orbitals); (3) the cost of ignoring instantaneous avoidance is the correlation error.",
+				"modelAnswer": "Each electron's motion depends on where every other electron is at that instant, through $1/r_{ij}$, so no product of one-electron functions can solve the equation. The orbital picture replaces the instantaneous repulsion by an average field, so each electron sees a smeared-out cloud of the others. That is a good first approximation but it misses the way electrons dodge each other, which is the correlation energy."
+			}
+		],
+		"c1-l002-born-oppenheimer": [
+			{
+				"kind": "numeric",
+				"prompt": "The Born-Oppenheimer expansion parameter is $\\kappa=(m_e/M)^{1/4}$. Evaluate it for a hydrogen nucleus (proton, $m_p/m_e=1836.15$). Give a dimensionless number.",
+				"answer": 0.152765,
+				"tolerance": 0.02,
+				"explanation": "$\\kappa=(1/1836)^{1/4}=0.153$. Corrections to the adiabatic energies scale as $\\kappa^4=m_e/M$, about $5\\times10^{-4}$ for hydrogen, which is why BO works for most chemistry."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is it a good approximation to solve for the electrons with the nuclei held fixed?",
+				"options": [
+					"Nuclei carry no kinetic energy inside molecules, so their motion drops out of the Hamiltonian",
+					"Electrons and nuclei interact only weakly because the nuclear charge is screened by the electron cloud",
+					"The electronic wavefunction does not depend on nuclear positions, so every derivative of it vanishes",
+					"Electrons move much faster than nuclei, so they adjust almost instantly to any nuclear configuration"
+				],
+				"answer": 3,
+				"explanation": "The small mass ratio makes electronic motion fast relative to vibration. The electronic state follows the nuclei adiabatically, and the nuclei move on the energy surface the electrons generate."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In which situation is the Born-Oppenheimer approximation expected to fail?",
+				"options": [
+					"Two electronic states come close in energy, as near a conical intersection",
+					"The molecule contains hydrogen, because H is the lightest nucleus and therefore moves too fast for the electrons to follow",
+					"The molecule has many electrons, because the potential energy surface then has too many dimensions",
+					"A vibrational mode is excited above the zero-point level, because the nuclei then move too quickly"
+				],
+				"answer": 0,
+				"explanation": "The nonadiabatic coupling scales as 1/(energy gap) between electronic states. Where states nearly touch (photochemistry, conical intersections) the adiabatic separation breaks down. Ordinary vibrational excitation stays far slower than electronic motion."
+			},
+			{
+				"kind": "short",
+				"prompt": "What does the function $E_{el}(\\mathbf R)$ mean, and why does a chemist's notion of 'molecular structure' (bond lengths, a transition state) depend on the Born-Oppenheimer approximation?",
+				"rubric": "Full credit requires: (1) $E_{el}(\\mathbf R)$ is the electronic energy (plus nuclear repulsion) with nuclei clamped at geometry $\\mathbf R$, and it acts as the potential for nuclear motion; (2) without BO the wavefunction is not a nuclear framework with electrons following, so bond lengths and a surface with minima and saddle points would not exist as such; (3) mention of adiabatic following or the mass ratio.",
+				"modelAnswer": "$E_{el}(\\mathbf R)$ is the energy the electrons settle into when the nuclei are frozen at positions $\\mathbf R$; it becomes the potential energy surface on which the nuclei move. Minima on that surface are what we call stable structures and saddle points are transition states. That picture only makes sense because light electrons follow the heavy nuclei adiabatically, which is the BO approximation."
+			}
+		],
+		"c1-l003-potential-energy-surfaces": [
+			{
+				"kind": "mc",
+				"prompt": "At a transition state on a potential energy surface, what do the eigenvalues of the Hessian (second-derivative matrix) look like?",
+				"options": [
+					"The gradient is zero and all eigenvalues are positive, because the structure is a stable minimum",
+					"The gradient is zero and exactly one eigenvalue is negative, giving one imaginary frequency",
+					"The gradient is nonzero and one eigenvalue is zero, because the system is still sliding downhill",
+					"The gradient is zero and all eigenvalues are negative, because it sits at the top of the barrier"
+				],
+				"answer": 1,
+				"explanation": "A first-order saddle point is a maximum along exactly one direction (the reaction coordinate) and a minimum along all others. The single negative curvature gives one imaginary frequency."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Near its equilibrium bond length the H$_2$ potential energy surface has curvature $k\\approx575$ N/m. With reduced mass $\\mu=0.504$ u, what is the harmonic vibrational wavenumber $\\tilde\\nu=\\frac1{2\\pi c}\\sqrt{k/\\mu}$? Give cm$^{-1}$.",
+				"answer": 4400.8,
+				"tolerance": 0.02,
+				"unit": "cm^-1",
+				"explanation": "$\\omega=\\sqrt{k/\\mu}=8.3\\times10^{14}$ s$^{-1}$, so $\\tilde\\nu\\approx4400$ cm$^{-1}$ (experimental fundamental is 4161 cm$^{-1}$, the difference being anharmonicity). The curvature of the surface alone sets the frequency."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Hellmann-Feynman theorem says the force on nucleus $A$ is $-\\langle\\Psi|\\partial\\hat H/\\partial\\mathbf R_A|\\Psi\\rangle$. What does this tell a chemist?",
+				"options": [
+					"The force equals the derivative of the wavefunction with respect to $\\mathbf R_A$, so it must be computed numerically",
+					"The force depends only on the kinetic energy of the electrons, since the potential terms cancel in the expectation value",
+					"Forces on nuclei vanish at every geometry, because the electrons always rearrange to cancel the net force",
+					"For a variational wavefunction the force is just the classical electrostatic pull of the electron density and the other nuclei"
+				],
+				"answer": 3,
+				"explanation": "The derivative of the energy needs no derivative of $\\Psi$, only the electron density, which is why analytic gradients make geometry optimization cheap. The force vanishes only at stationary points of the surface."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the second derivatives of the potential energy surface lead to vibrational frequencies, and why a transition state has an imaginary frequency.",
+				"rubric": "Full credit requires: (1) near a stationary point the energy is quadratic in displacements, the Hessian plays the role of force constants, and diagonalizing the mass-weighted Hessian gives normal-mode frequencies $\\omega=\\sqrt{\\lambda}$; (2) at a saddle point one eigenvalue is negative so $\\omega$ is imaginary, meaning the motion along that mode is unstable (the reaction coordinate); (3) a minimum has all real frequencies.",
+				"modelAnswer": "Expanding the energy to second order around a stationary point gives a harmonic potential whose force constants are the Hessian entries. Mass-weighting and diagonalizing gives normal modes with $\\omega^2$ equal to the eigenvalues. At a transition state one curvature is negative, so $\\omega^2<0$ and the frequency is imaginary: displacing along that mode lowers the energy and leads to products or reactants."
+			}
+		],
+		"c1-l004-helium-electron-repulsion": [
+			{
+				"kind": "numeric",
+				"prompt": "A helium trial wavefunction $1s(\\zeta)1s(\\zeta)$ has $\\langle H\\rangle=\\zeta^2-2Z\\zeta+\\tfrac58\\zeta$ in hartree with $Z=2$. Minimize over $\\zeta$ and give the minimum energy in $E_h$.",
+				"answer": -2.84766,
+				"tolerance": 0.01,
+				"unit": "E_h",
+				"explanation": "$d\\langle H\\rangle/d\\zeta=2\\zeta-2Z+5/8=0$ gives $\\zeta=Z-5/16=1.6875$ and $E=-\\zeta^2=-2.8477\\,E_h$, within 2% of the exact $-2.9037\\,E_h$. The optimum $\\zeta$ is below 2 because each electron screens the nucleus from the other."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The optimal orbital exponent for helium is $\\zeta=1.6875$, not 2. What does this indicate physically?",
+				"options": [
+					"Each electron partially screens the nuclear charge from the other, so the effective charge is smaller than $Z$",
+					"The nucleus has a smaller charge than expected because of electron-electron repulsion inside the nucleus",
+					"The electrons orbit at different radii, so one sees $Z=2$ and the other sees $Z=1.375$ on average",
+					"The variational method cannot reproduce the correct nuclear charge, so $\\zeta$ is an artifact of the trial form"
+				],
+				"answer": 0,
+				"explanation": "The repulsion term $5\\zeta/8$ pushes the optimum to smaller $\\zeta$: the other electron's cloud cancels part of the nuclear attraction. This is the origin of Slater's rules and shielding in the periodic table."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For helium the Hartree-Fock energy is $-2.8617\\,E_h$ and the exact energy is $-2.9037\\,E_h$. What does the difference of $0.042\\,E_h$ (about 1.1 eV) represent?",
+				"options": [
+					"The relativistic correction, because the 1s electrons of helium move at a sizable fraction of the speed of light",
+					"The correlation energy: the lowering from electrons avoiding each other beyond the average field",
+					"The basis-set error of the Hartree-Fock calculation, which vanishes with a large enough orbital basis",
+					"The zero-point energy of the nucleus, which the clamped-nucleus Hamiltonian does not include"
+				],
+				"answer": 1,
+				"explanation": "$E_{corr}=E_{exact}-E_{HF}$ at the complete-basis, nonrelativistic limit. Helium's $-0.042\\,E_h$ is the benchmark: a single pair of electrons already costs about 1 eV when treated only on average."
+			},
+			{
+				"kind": "short",
+				"prompt": "The independent-electron estimate of the helium ground state ignores $1/r_{12}$ and gives $-4\\,E_h$, far from the exact $-2.90\\,E_h$. Explain why it is so poor, and how first-order perturbation theory and the variational choice of $\\zeta$ each improve it.",
+				"rubric": "Full credit requires: (1) the omitted repulsion is large (about +1.25 $E_h$ at first order, comparable to the binding energy of one electron), so ignoring it raises the error by over 1 $E_h$; (2) first-order perturbation theory adds $\\langle 1/r_{12}\\rangle=5Z/8$ using the unperturbed orbitals and gives $-2.75\\,E_h$; (3) the variational $\\zeta$ lets the orbitals expand to reflect screening, lowering the energy further to $-2.848\\,E_h$.",
+				"modelAnswer": "The repulsion between the two electrons is of order $1.25\\,E_h$, so dropping it leaves a huge error. First-order perturbation theory adds its expectation value in the hydrogenic orbitals and gives $-2.75\\,E_h$. Letting the orbital exponent relax to $Z-5/16$ also lets the electrons screen each other, so the orbitals expand slightly and the energy falls to $-2.848\\,E_h$."
+			}
+		],
+		"c1-l005-variational-principle": [
+			{
+				"kind": "numeric",
+				"prompt": "Take a Gaussian trial function $\\psi=e^{-\\alpha r^2}$ for the hydrogen atom, for which $\\langle H\\rangle=\\tfrac32\\alpha-2\\sqrt{2\\alpha/\\pi}$ in hartree. Minimize over $\\alpha$ and give the best energy in $E_h$.",
+				"answer": -0.424413,
+				"tolerance": 0.01,
+				"unit": "E_h",
+				"explanation": "$d\\langle H\\rangle/d\\alpha=0$ gives $\\alpha=8/(9\\pi)=0.283$ and $E=-4/(3\\pi)=-0.4244\\,E_h$. It lies above the exact $-0.5$ (as it must), by 15%, because a Gaussian has no nuclear cusp and decays too quickly."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A trial wavefunction has an error of size $\\varepsilon$ compared with the true ground state. How does the error in $\\langle H\\rangle$ scale?",
+				"options": [
+					"As $\\varepsilon$, so the energy is exactly as accurate as the wavefunction itself",
+					"As $\\sqrt\\varepsilon$, so the energy is less accurate than the wavefunction",
+					"As $\\varepsilon^2$, so the energy is much more accurate than the wavefunction",
+					"As $\\varepsilon^3$, so the energy error vanishes faster than any property"
+				],
+				"answer": 2,
+				"explanation": "Writing $\\psi=\\psi_0+\\varepsilon\\phi$ and expanding, the first-order term vanishes because $\\psi_0$ is stationary. Energies converge quadratically, while properties that are expectation values of other operators (dipole moments, say) converge only linearly."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A student's variational calculation on the hydrogen atom returns $E=-0.62\\,E_h$ for a normalized trial function. What should they conclude?",
+				"options": [
+					"A bug somewhere (integrals, normalization or Hamiltonian), since no trial function can fall below $-0.5\\,E_h$",
+					"The trial function is excellent, because a lower energy always means a better wavefunction than the exact one",
+					"The exact ground-state energy must really be near $-0.62\\,E_h$, so the textbook value needs revision",
+					"The result is acceptable, because variational energies are allowed to fall below the true energy by about 20%"
+				],
+				"answer": 0,
+				"explanation": "The variational principle is a strict lower bound $E[\\psi]\\ge E_0$, so a value below $E_0$ signals a bug. Comparing energies from different variational methods is only meaningful because of this bound."
+			},
+			{
+				"kind": "short",
+				"prompt": "Using an expansion of the trial function in the exact eigenstates of $\\hat H$, show why $\\langle H\\rangle\\ge E_0$, and say why a non-variational method such as MP2 can give an energy below the exact one.",
+				"rubric": "Full credit requires: (1) expand $\\psi=\\sum c_n\\phi_n$ so that $\\langle H\\rangle-E_0=\\sum|c_n|^2(E_n-E_0)/\\sum|c_n|^2\\ge0$ since each $E_n\\ge E_0$; (2) equality only if $\\psi$ is the ground state; (3) methods that are not an expectation value of $\\hat H$ over a normalized trial function (perturbation theory, coupled cluster) carry no such bound, so they can undershoot.",
+				"modelAnswer": "Expanding $\\psi$ in eigenstates gives $\\langle H\\rangle=\\sum|c_n|^2E_n$, a weighted average of energies none of which is below $E_0$, so the average cannot be below $E_0$ either. MP2 and coupled cluster are not computed as $\\langle\\psi|H|\\psi\\rangle$ of a normalized wavefunction, so the bound does not apply and they can fall below the exact energy."
+			}
+		],
+		"c1-l006-linear-variation-matrix": [
+			{
+				"kind": "numeric",
+				"prompt": "Two basis functions have $H_{11}=-0.50\\,E_h$, $H_{22}=-0.30\\,E_h$ and coupling $H_{12}=-0.10\\,E_h$ (orthonormal). What is the lower eigenvalue in $E_h$?",
+				"answer": -0.541421,
+				"tolerance": 0.01,
+				"unit": "E_h",
+				"explanation": "$E_-=\\tfrac12(H_{11}+H_{22})-\\sqrt{\\left(\\tfrac12(H_{11}-H_{22})\\right)^2+H_{12}^2}=-0.40-0.1414=-0.5414\\,E_h$. It is 0.041 $E_h$ below $H_{11}$: the coupling has pushed the lower level down."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the lower eigenvalue of a 2x2 problem always at or below the lower diagonal element $H_{11}$?",
+				"options": [
+					"The off-diagonal element adds a negative energy to both states, so both eigenvalues must go down",
+					"The variational method always returns the lowest diagonal element, with off-diagonal terms only rescaling it",
+					"Coupling causes level repulsion: the lower level moves down and the upper level up",
+					"The eigenvalues must average to the diagonal mean, so the lower one is fixed by the upper one"
+				],
+				"answer": 2,
+				"explanation": "The trace is conserved, so the eigenvalues sum to $H_{11}+H_{22}$ while the spread grows with $|H_{12}|$. Level repulsion (the no-crossing rule for same-symmetry states) is the root of bonding and antibonding splitting."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two states with equal energies ($H_{11}=H_{22}$) are coupled by a small $H_{12}$. What are the eigenvectors?",
+				"options": [
+					"Equal-weight combinations $(1,\\pm1)/\\sqrt2$, however small $H_{12}$ is",
+					"Mostly the original states, with a small admixture proportional to $H_{12}$",
+					"The original states unchanged, since a weak coupling cannot mix degenerate levels",
+					"Combinations whose weights depend on the ratio $H_{12}/H_{11}$, approaching $(1,0)$ for weak coupling"
+				],
+				"answer": 0,
+				"explanation": "For degenerate states the denominator in the mixing coefficient is zero, so mixing is always maximal. This is why two equal AOs on a stretched H$_2$ still form fully delocalized bonding and antibonding orbitals."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how minimizing $E=\\mathbf c^\\dagger\\mathbf H\\mathbf c/\\mathbf c^\\dagger\\mathbf c$ with respect to the coefficients leads to an eigenvalue problem, and why the lowest eigenvalue is the best estimate of the ground-state energy.",
+				"rubric": "Full credit requires: (1) setting the derivative of $E$ with respect to each $c_i^*$ to zero gives $(\\mathbf H-E)\\mathbf c=0$, so $E$ is an eigenvalue of the matrix; (2) the energy is the Rayleigh quotient, so any normalized combination lies between the lowest and highest eigenvalue; (3) the lowest eigenvalue is therefore the best (and a variational upper-bound) estimate of $E_0$ in this basis.",
+				"modelAnswer": "The energy is a Rayleigh quotient of the coefficient vector, and setting its derivative with respect to every coefficient to zero gives $\\mathbf H\\mathbf c=E\\mathbf c$. The stationary values are the eigenvalues. Because the quotient is never below the smallest eigenvalue, that one is the best approximation to the ground-state energy available in the basis and is an upper bound to the exact value."
+			}
+		],
+		"c1-l007-nonorthogonal-hc-sce": [
+			{
+				"kind": "numeric",
+				"prompt": "Two normalized AOs have $\\alpha=-0.50\\,E_h$, $\\beta=-0.30\\,E_h$ and overlap $S=0.40$. The antibonding level is $E_-=(\\alpha-\\beta)/(1-S)$. By how much does it lie above $\\alpha$, in $E_h$?",
+				"answer": 0.166667,
+				"tolerance": 0.02,
+				"unit": "E_h",
+				"explanation": "$E_-=(-0.50+0.30)/0.60=-0.333\\,E_h$, i.e. $0.167\\,E_h$ above $\\alpha$, while the bonding level $E_+=-0.571\\,E_h$ is only $0.071\\,E_h$ below it. Overlap makes the antibonding orbital more destabilized than the bonding one is stabilized."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why must the secular equation for AO basis functions be $\\det(\\mathbf H-E\\mathbf S)=0$ rather than $\\det(\\mathbf H-E\\mathbf 1)=0$?",
+				"options": [
+					"The Hamiltonian matrix is not Hermitian for AOs on different atoms, so it must be corrected by $\\mathbf S$",
+					"The AOs overlap, so normalization is $\\mathbf c^\\dagger\\mathbf S\\mathbf c=1$ rather than $\\mathbf c^\\dagger\\mathbf c=1$",
+					"Overlap integrals change the eigenvalues of the true Hamiltonian, so $\\mathbf S$ must be included to correct them",
+					"$\\mathbf S$ is needed only for numerical stability and has no effect on the exact solutions"
+				],
+				"answer": 1,
+				"explanation": "Minimizing $\\mathbf c^\\dagger\\mathbf H\\mathbf c$ with the constraint $\\mathbf c^\\dagger\\mathbf S\\mathbf c=1$ (a Lagrange multiplier $E$) gives $\\mathbf H\\mathbf c=E\\mathbf S\\mathbf c$. $\\mathbf S$ is the metric of the non-orthogonal basis; $\\mathbf H$ itself is Hermitian."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the two-AO model with overlap, the antibonding orbital rises more than the bonding one falls. What does this imply for two helium atoms, each with a filled 1s orbital (four electrons in total)?",
+				"options": [
+					"Filling both gives a net stabilization, because the bonding orbital is the lower of the two",
+					"There is no net effect, because the bonding and antibonding shifts cancel exactly when both are filled",
+					"Filling both orbitals gives a net destabilization (repulsion), so He$_2$ has no chemical bond",
+					"There is a stronger bond than in H$_2$, because four electrons share the overlap region"
+				],
+				"answer": 2,
+				"explanation": "With both orbitals doubly occupied the total is $2E_++2E_-=4(\\alpha-\\beta S)/(1-S^2)$, which is above $4\\alpha$ because $\\beta<0$. This closed-shell (four-electron) repulsion is the source of steric repulsion."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how overlap changes the variational eigenvalue problem, and why this makes four-electron interactions repulsive while two-electron interactions are attractive.",
+				"rubric": "Full credit requires: (1) the generalized problem $\\mathbf H\\mathbf c=E\\mathbf S\\mathbf c$ with normalization through $\\mathbf S$; (2) energies $E_\\pm=(\\alpha\\pm\\beta)/(1\\pm S)$ with the antibonding level pushed up more than the bonding level goes down; (3) two electrons occupy only the bonding level (net lowering) but four electrons fill both levels and the net shift is upward.",
+				"modelAnswer": "Overlap enters through the metric $\\mathbf S$ in $\\mathbf H\\mathbf c=E\\mathbf S\\mathbf c$, giving $E_\\pm=(\\alpha\\pm\\beta)/(1\\pm S)$. The $1\\pm S$ denominators push the antibonding level farther above $\\alpha$ than the bonding level lies below it. A pair of electrons in the bonding orbital is a net gain, but filling both orbitals gives a net rise, which is the repulsion between closed-shell fragments."
+			}
+		],
+		"c1-l008-lowdin-orthogonalization": [
+			{
+				"kind": "numeric",
+				"prompt": "Two normalized AOs have overlap $S_{12}=0.6$, so $\\mathbf S=\\begin{pmatrix}1&0.6\\\\0.6&1\\end{pmatrix}$ with eigenvalues $1\\pm0.6$. What is the diagonal element $(\\mathbf S^{-1/2})_{11}=\\tfrac12[(1.6)^{-1/2}+(0.4)^{-1/2}]$?",
+				"answer": 1.18585,
+				"tolerance": 0.02,
+				"explanation": "$(1.6)^{-1/2}=0.7906$ and $(0.4)^{-1/2}=1.5811$, so the diagonal element is $1.186$ and the off-diagonal element is $\\tfrac12(0.7906-1.5811)=-0.395$. The Lowdin orbitals are each AO with some of the neighbor subtracted."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A very large basis set gives an overlap matrix with an eigenvalue of $10^{-9}$. What is the practical problem and its standard remedy?",
+				"options": [
+					"Near linear dependence amplifies noise in $\\mathbf S^{-1/2}$; canonical orthogonalization drops it",
+					"The Hamiltonian becomes non-Hermitian, so the calculation must be restarted with a smaller basis set",
+					"The molecule is too symmetric, so one should lower the point group before diagonalizing $\\mathbf S$, which would remove the redundancy",
+					"The eigenvalue is physically meaningful and shows that two electrons share a single orbital"
+				],
+				"answer": 0,
+				"explanation": "Scaling by $s^{-1/2}=10^{4.5}$ magnifies rounding error and drives numerical garbage into the Fock matrix. Canonical orthogonalization ($\\mathbf X=\\mathbf U\\mathbf s^{-1/2}$) simply drops eigenvectors with $s<$ a threshold (typically $10^{-6}$-$10^{-7}$) and slightly reduces the dimension."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What distinguishes symmetric (Lowdin) orthogonalization from sequential Gram-Schmidt orthogonalization?",
+				"options": [
+					"It is faster because it needs no matrix diagonalization, only a single normalization of each function",
+					"It treats all functions alike and yields the orthonormal set closest to the original AOs, whatever the ordering",
+					"It preserves the original functions exactly but reduces their number to the rank of the Hamiltonian",
+					"It orthogonalizes only the occupied orbitals, leaving virtual orbitals non-orthogonal for use in correlation calculations"
+				],
+				"answer": 1,
+				"explanation": "Gram-Schmidt depends on the order of the functions and favors the first ones. $\\mathbf S^{-1/2}$ minimizes $\\sum_\\mu\\|\\phi_\\mu^{\\rm orth}-\\varphi_\\mu\\|^2$, so the orthogonalized functions are the most 'atom-like' set, which is why Lowdin charges and orbitals are popular."
+			},
+			{
+				"kind": "short",
+				"prompt": "Outline how to turn $\\mathbf F\\mathbf C=\\mathbf S\\mathbf C\\boldsymbol\\varepsilon$ into an ordinary eigenvalue problem, and explain why the orbital energies are unchanged by the transformation.",
+				"rubric": "Full credit requires: (1) build $\\mathbf X$ with $\\mathbf X^\\dagger\\mathbf S\\mathbf X=\\mathbf 1$ from the eigendecomposition of $\\mathbf S$ (e.g. $\\mathbf S^{-1/2}$); (2) form $\\mathbf F'=\\mathbf X^\\dagger\\mathbf F\\mathbf X$, diagonalize it, and back-transform $\\mathbf C=\\mathbf X\\mathbf C'$; (3) the eigenvalues are the same because $\\mathbf C=\\mathbf X\\mathbf C'$ is just a change of basis for the same variational space.",
+				"modelAnswer": "Diagonalize $\\mathbf S=\\mathbf U\\mathbf s\\mathbf U^\\dagger$ and define $\\mathbf X=\\mathbf U\\mathbf s^{-1/2}\\mathbf U^\\dagger$ so that $\\mathbf X^\\dagger\\mathbf S\\mathbf X=\\mathbf 1$. Solve $\\mathbf F'\\mathbf C'=\\mathbf C'\\boldsymbol\\varepsilon$ with $\\mathbf F'=\\mathbf X^\\dagger\\mathbf F\\mathbf X$ and set $\\mathbf C=\\mathbf X\\mathbf C'$. The eigenvalues are unchanged because the transformation only re-expresses the same functions in an orthonormal combination."
+			}
+		],
+		"c1-l009-basis-completeness": [
+			{
+				"kind": "numeric",
+				"prompt": "A particle in a box of length 1 (with $\\hbar^2/2m=1$) has exact ground-state energy $\\pi^2=9.870$. Using the single trial function $\\psi=x(1-x)$, $\\langle H\\rangle=\\int\\psi'^2\\,dx/\\int\\psi^2\\,dx=10$. What is the percent error of this variational estimate?",
+				"answer": 1.32118,
+				"tolerance": 0.05,
+				"unit": "%",
+				"explanation": "$(10-\\pi^2)/\\pi^2=1.32\\%$. A single smooth function already gets the energy to about 1%, and adding terms can only lower it further toward $\\pi^2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "When a fourth basis function is added to a three-function linear variational calculation, which statement about the lowest eigenvalue is guaranteed?",
+				"options": [
+					"It decreases strictly and can end up below the exact ground-state energy for an incomplete basis",
+					"It may rise or fall, because the added function changes the Hamiltonian matrix",
+					"It stays the same, because the added function can only change the excited-state eigenvalues",
+					"It cannot rise, and it stays above the exact ground-state energy"
+				],
+				"answer": 3,
+				"explanation": "Rayleigh-Ritz eigenvalues obey the Hylleraas-Undheim-MacDonald interlacing $E_i^{(n+1)}\\le E_i^{(n)}\\le E_{i+1}^{(n+1)}$ and each bounds the exact $E_i$ from above, so adding functions only improves or leaves the energies."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do correlated calculations converge slowly with the size of an orbital basis built from smooth functions?",
+				"options": [
+					"A kink of $\\Psi$ at $r_{12}\\to0$ that smooth products mimic only with many high-$\\ell$ functions",
+					"Electrons repel each other too weakly for the basis functions to see the interaction at all",
+					"Smooth functions cannot represent the long tail of the orbitals, so diffuse functions dominate the error",
+					"The basis becomes linearly dependent after about three functions per electron pair"
+				],
+				"answer": 0,
+				"explanation": "The exact wavefunction is linear in $r_{12}$ near coalescence, a kink that a basis of smooth products represents only through high partial waves. The correlation energy converges as $L^{-3}$ in the maximum angular momentum, which motivates cc-pVXZ sets and extrapolation."
+			},
+			{
+				"kind": "short",
+				"prompt": "What does the 'complete basis set limit' mean, and why do quantum chemists extrapolate to it instead of just using the largest basis they can afford?",
+				"rubric": "Full credit requires: (1) the limit where the basis spans the whole Hilbert space so the energy (for a given method) no longer changes with the basis; (2) practical bases are finite and the method's error is a smooth, known function of the basis size, so a sequence of sets (e.g. TZ, QZ) can be fit to extrapolate; (3) the cost grows steeply with basis size, so extrapolation reaches the limit more cheaply than a single huge calculation.",
+				"modelAnswer": "The complete-basis-set limit is what you would get if the basis could represent any function exactly, which removes basis error and leaves only the error of the method. Finite sets converge smoothly, for example as $X^{-3}$ for the correlation energy, so one uses two or three modest bases and extrapolates. Costs rise as a high power of the basis size, so the largest affordable basis would still be farther from the limit than the extrapolation."
+			}
+		],
+		"c1-l010-symmetry-operations-point-groups": [
+			{
+				"kind": "mc",
+				"prompt": "BF$_3$ (planar) and NH$_3$ (pyramidal) both have a threefold axis. What distinguishes their point groups?",
+				"options": [
+					"NH$_3$ has no mirror planes at all, so it is $C_3$, while BF$_3$ has three, so it is $C_{3v}$",
+					"BF$_3$ has a horizontal plane $\\sigma_h$ ($D_{3h}$); NH$_3$ has only vertical planes ($C_{3v}$)",
+					"BF$_3$ has an inversion centre, so it is $D_{3d}$, while NH$_3$ has three $C_2$ axes, so it is $D_3$",
+					"They have the same point group, $C_{3v}$, because both are made of one central atom and three identical ligands"
+				],
+				"answer": 1,
+				"explanation": "BF$_3$: $E$, $2C_3$, $3C_2$, $\\sigma_h$, $2S_3$, $3\\sigma_v$ (order 12, $D_{3h}$). NH$_3$: $E$, $2C_3$, $3\\sigma_v$ (order 6, $C_{3v}$). Atom count alone never fixes the point group; the geometry does."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which symmetry property of a molecule rules out optical activity (chirality)?",
+				"options": [
+					"The presence of any proper rotation axis $C_n$ with $n\\ge2$, since rotations interconvert enantiomers",
+					"The presence of a principal axis of order three or higher, because it forces an achiral shape",
+					"Any improper axis $S_n$, including a mirror plane ($S_1$) or an inversion centre ($S_2$)",
+					"The absence of an inversion centre, because only $i$ can turn a molecule into its mirror image"
+				],
+				"answer": 2,
+				"explanation": "A molecule is superimposable on its mirror image if (and only if) it has an improper rotation axis $S_n$. A mirror plane is $S_1$ and an inversion centre is $S_2$; molecules with only $C_n$ axes ($C_n$, $D_n$ groups) can be chiral."
+			},
+			{
+				"kind": "short",
+				"prompt": "Assign the point group of cis-1,2-dichloroethene, listing the symmetry elements you find, and contrast it with the trans isomer.",
+				"rubric": "Full credit requires: (1) cis is planar with a $C_2$ axis through the C=C midpoint in the plane, the molecular plane, and a perpendicular plane containing $C_2$: $C_{2v}$; (2) trans has $C_2$ perpendicular to the plane, a horizontal mirror plane (the molecular plane) and an inversion centre: $C_{2h}$; (3) correct identification that cis has a dipole moment and trans does not.",
+				"modelAnswer": "cis-1,2-dichloroethene has a $C_2$ axis in the molecular plane through the midpoint of C=C, the molecular plane itself, and a second mirror plane perpendicular to it containing the axis, so it is $C_{2v}$ and polar. The trans isomer has $C_2$ perpendicular to the plane, $\\sigma_h$ (the molecular plane) and an inversion centre, so it is $C_{2h}$ and has no dipole."
+			}
+		],
+		"c1-l011-groups-classes-multiplication": [
+			{
+				"kind": "numeric",
+				"prompt": "The group $C_{3v}$ has order $h=6$ and three classes, hence three irreps. Two of them are one-dimensional. Use $\\sum_il_i^2=h$ to find the dimension of the third.",
+				"answer": 2,
+				"tolerance": 0.001,
+				"explanation": "$1^2+1^2+l^2=6$ gives $l=2$. The two-dimensional irrep is $E$, which is why NH$_3$ has doubly degenerate orbitals (e.g. the NH bonding pair) while C$_{2v}$ water never does."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In $C_{3v}$, the product $\\sigma_vC_3$ is not equal to $C_3\\sigma_v$. What does this show?",
+				"options": [
+					"The group is non-Abelian, which is exactly what allows degenerate (multi-dimensional) irreps",
+					"The symmetry operations are not well defined, since the result depends on their order",
+					"The molecule has less symmetry than $C_3$ alone, because the mirror plane destroys the rotation",
+					"The operations are in different classes, so they must belong to different irreps of dimension one"
+				],
+				"answer": 0,
+				"explanation": "Abelian groups (such as $C_{2v}$) have only one-dimensional irreps. Non-commuting operations imply at least one irrep with $l>1$, so degeneracy arises from non-Abelian symmetry."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do $C_3$ and $C_3^2$ belong to the same class in $C_{3v}$, while $C_3$ and $\\sigma_v$ do not?",
+				"options": [
+					"They have the same rotation angle, whereas $\\sigma_v$ is a different operation that moves different atoms",
+					"Classes group operations with the same effect on the atoms, and $C_3$ and $C_3^2$ move the same atoms",
+					"A mirror turns $C_3$ into its inverse $C_3^2$, but conjugation never converts a rotation into a reflection",
+					"Every operation is its own class unless the group is Abelian, so $C_3$ and $C_3^2$ merge only by chance"
+				],
+				"answer": 2,
+				"explanation": "A class is the set $\\{X^{-1}AX\\}$. In $C_{3v}$, $\\sigma_v^{-1}C_3\\sigma_v=C_3^2$ so these two are conjugate, but conjugation preserves the type of operation, so a reflection can never be conjugate to a rotation."
+			},
+			{
+				"kind": "short",
+				"prompt": "What is a conjugacy class of symmetry operations in physical terms, and why does a character depend only on the class of an operation?",
+				"rubric": "Full credit requires: (1) operations in a class are the same kind of operation seen from a symmetry-equivalent viewpoint (e.g. the three equivalent mirror planes of NH$_3$), related by $X^{-1}AX$; (2) matrices of conjugate operations are related by a similarity transformation, and the trace is invariant under similarity; (3) hence all operations in a class have the same character, so tables list classes.",
+				"modelAnswer": "A class collects operations that look identical once you relabel the equivalent atoms or axes, such as the three vertical mirror planes of NH$_3$. If $B=X^{-1}AX$ then the representation matrices satisfy $D(B)=D(X)^{-1}D(A)D(X)$, and a trace is unchanged by a similarity transformation. So conjugate operations share a character, which is why character tables list one column per class."
+			}
+		],
+		"c1-l012-representations-characters": [
+			{
+				"kind": "numeric",
+				"prompt": "The matrix of a rotation by angle $\\phi$ about $z$ acting on the basis $(x,y,z)$ has trace $1+2\\cos\\phi$. What is the character $\\chi(C_6)$ for the $60^\\circ$ rotation?",
+				"answer": 2,
+				"tolerance": 0.01,
+				"explanation": "$1+2\\cos60^\\circ=2$. The same formula gives $\\chi(C_3)=0$ and $\\chi(C_2)=-1$, which are the characters of the $(x,y,z)$ representation in $D_{6h}$ and $C_{3v}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Characters are the same in any basis you choose for the representation. Why is this important?",
+				"options": [
+					"The trace is invariant under change of basis, so characters label the representation, not the coordinates",
+					"Matrices of symmetry operations are always diagonal, so characters equal the matrix elements in any basis",
+					"Changing basis only permutes the order of the operations, so characters are listed in a different order",
+					"Characters are defined using the determinant, which is invariant under all linear transformations"
+				],
+				"answer": 0,
+				"explanation": "$\\mathrm{Tr}(P^{-1}DP)=\\mathrm{Tr}\\,D$. Two representations are equivalent exactly when their characters agree, which is why a table of characters is a complete fingerprint."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does it mean for a representation to be irreducible?",
+				"options": [
+					"Its matrices are all one-dimensional, so no further reduction is possible in any basis",
+					"It is built from a single symmetry operation, so it cannot be factored into products",
+					"No basis change can block-diagonalize all its matrices together (no invariant subspace)",
+					"Its characters sum to zero over the group, so it contains no totally symmetric part"
+				],
+				"answer": 2,
+				"explanation": "A reducible representation can be block-diagonalized by a common change of basis, i.e. it splits into smaller invariant subspaces. The irreps are the indivisible blocks; $E$ in $C_{3v}$ is irreducible but two-dimensional."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the matrix representation of the symmetry operations provides a way to block-diagonalize the Hamiltonian, and what each block physically represents.",
+				"rubric": "Full credit requires: (1) symmetry operations commute with $\\hat H$, so $\\hat H$ cannot connect basis functions that transform differently; (2) choosing a basis of functions that transform as the irreps (a symmetry-adapted basis) makes $\\mathbf H$ and $\\mathbf S$ block-diagonal; (3) each block corresponds to one irrep and its eigenfunctions carry that symmetry label (with degeneracy equal to the irrep dimension).",
+				"modelAnswer": "Because every symmetry operation commutes with $\\hat H$, matrix elements of $\\hat H$ vanish between functions belonging to different irreps. Using a basis that transforms as the irreps therefore makes the Hamiltonian block-diagonal, with one block per irrep, so large secular problems break into small independent ones. Each block's eigenfunctions are labeled by the irrep and are degenerate to the extent that the irrep is multi-dimensional."
+			}
+		],
+		"c1-l013-great-orthogonality-theorem": [
+			{
+				"kind": "numeric",
+				"prompt": "In $C_{3v}$ (classes $E$, $2C_3$, $3\\sigma_v$; $h=6$) a reducible representation has characters $(3,0,1)$. Compute $\\frac1h\\sum_R\\chi(R)^2$, which equals $\\sum_in_i^2$.",
+				"answer": 2,
+				"tolerance": 0.01,
+				"explanation": "$(9+2\\cdot0+3\\cdot1)/6=2$. Since $\\sum n_i^2=2$ with integer multiplicities, the representation contains two different irreps once each ($A_1+E$ here, as the next lesson shows)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the orthogonality of the rows of a character table mean in practical terms?",
+				"options": [
+					"Each irrep corresponds to exactly one symmetry operation and the two never overlap",
+					"Characters of different irreps must always sum to zero over every individual class of the group",
+					"Irreps with orthogonal rows can never be combined to form a reducible representation",
+					"Irreps have independent character patterns, so a reducible set decomposes in only one way"
+				],
+				"answer": 3,
+				"explanation": "Rows are orthogonal vectors in the class-weighted space: $\\sum_cg_c\\chi_i(c)^*\\chi_j(c)=h\\delta_{ij}$. Projecting a reducible set of characters onto a row therefore extracts the multiplicity of that irrep uniquely."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does a group have exactly as many irreps as classes?",
+				"options": [
+					"Each class of operations generates its own one-dimensional irrep, so the two counts must match",
+					"Class functions live in a space of dimension $n_{\\rm classes}$, spanned by the irrep characters",
+					"Each irrep is defined as the set of operations in one class, so the counts coincide by definition",
+					"The order $h$ equals the sum of class sizes, so the same number of irreps must appear"
+				],
+				"answer": 1,
+				"explanation": "Characters are constant on classes, so they live in a space of dimension $n_{\\rm classes}$. The great orthogonality theorem makes the irrep characters orthogonal and complete in that space, hence $n_{\\rm irreps}=n_{\\rm classes}$."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the great orthogonality theorem in words and describe how Schur's lemma is used to prove it. What does it buy a chemist?",
+				"rubric": "Full credit requires: (1) matrix elements of inequivalent irreps are orthogonal over the group, and for the same irrep proportional to $h/l_i$ times Kronecker deltas; (2) Schur's lemmas: a matrix that commutes with every matrix of an irrep is a multiple of the identity, and intertwining matrices between inequivalent irreps vanish; (3) consequences: $\\sum l_i^2=h$, orthogonal characters, and a unique reduction formula, which let chemists build character tables and decompose any basis.",
+				"modelAnswer": "The theorem says that the matrix elements of different irreps, viewed as vectors over the group elements, are orthogonal, and that the squared norm of an element is $h/l_i$. It follows by averaging an arbitrary matrix over the group and using Schur's lemma, which says the average commutes with the irreps and so must be a multiple of the identity (or zero for inequivalent irreps). A chemist gets orthogonal characters, the dimension rule and a unique way to decompose any set of orbitals."
+			}
+		],
+		"c1-l014-character-tables-reduction": [
+			{
+				"kind": "numeric",
+				"prompt": "For H$_2$O (molecule in the $yz$ plane) the characters of the 9-dimensional representation of all atomic displacements under $(E,C_2,\\sigma_{xz},\\sigma_{yz})$ are $(9,-1,1,3)$. Use the reduction formula to find how many times $B_2$ (characters $1,-1,-1,1$) appears.",
+				"answer": 3,
+				"tolerance": 0.001,
+				"explanation": "$n_{B_2}=\\frac14(9\\cdot1+(-1)(-1)+1\\cdot(-1)+3\\cdot1)=3$. The full reduction is $3A_1+A_2+2B_1+3B_2$; removing translations ($A_1+B_1+B_2$) and rotations ($A_2+B_1+B_2$) leaves the vibrations $2A_1+B_2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In H$_2$O ($C_2$ axis = $z$, molecule in the $yz$ plane), to which irrep does the oxygen 2$p_x$ orbital belong?",
+				"options": [
+					"$A_1$, because the orbital is centred on the oxygen atom that lies on the $C_2$ axis",
+					"$B_2$, because it changes sign under the $C_2$ rotation like any $p$ orbital",
+					"$B_1$, because it transforms like $x$ and is perpendicular to the molecular plane",
+					"$A_2$, because it is antisymmetric with respect to the plane of the molecule"
+				],
+				"answer": 2,
+				"explanation": "$x$ transforms as $B_1$ in the standard $C_{2v}$ table (symmetric under $\\sigma_{xz}$, antisymmetric under $C_2$ and $\\sigma_{yz}$). Being out-of-plane and of different symmetry from every H SALC, the O 2$p_x$ is the non-bonding 1$b_1$ lone pair."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The two H 1s orbitals of water span $\\Gamma=A_1+B_2$. What does this say about their interaction with the oxygen orbitals?",
+				"options": [
+					"Only O orbitals of $A_1$ and $B_2$ symmetry can combine with them; O 2$p_x$ ($B_1$) is non-bonding",
+					"All three O 2p orbitals combine with the H SALCs, since they are all on the same atom",
+					"Only the O 2s orbital can combine with them, because it is the only totally symmetric orbital",
+					"The H SALCs must combine with each other first, so no O orbital can mix until the SALCs have been reduced further"
+				],
+				"answer": 0,
+				"explanation": "Matrix elements vanish between different irreps, so the 6x6 valence problem splits into $a_1$ (3 functions), $b_2$ (2 functions) and $b_1$ (1 function) blocks. This is the whole content of the standard water MO diagram."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how the reduction formula extracts the irreps contained in a reducible representation, and why it works.",
+				"rubric": "Full credit requires: (1) $n_i=\\frac1h\\sum_R\\chi_{\\rm red}(R)\\chi_i(R)^*$, a class-weighted dot product of the reducible characters with each irrep row; (2) it works because $\\chi_{\\rm red}=\\sum_jn_j\\chi_j$ and the irrep rows are orthogonal with norm $h$; (3) result must be non-negative integers, which serves as an arithmetic check.",
+				"modelAnswer": "Write the reducible characters as a sum $\\sum_jn_j\\chi_j$ over irreps. Taking the class-weighted dot product with irrep $i$ and dividing by $h$ picks out $n_i$, because the character rows are orthogonal and each has squared norm $h$. A quick check is that every $n_i$ comes out as a non-negative integer."
+			}
+		],
+		"c1-l015-projection-operators-salcs": [
+			{
+				"kind": "numeric",
+				"prompt": "Applying the $E$-irrep projection operator of $C_{3v}$ (characters $2,-1,-1,0,0,0$ for $E,C_3,C_3^2,\\sigma_v,\\sigma_v',\\sigma_v''$) to $s_1$ yields $\\propto2s_1-s_2-s_3$. What is the normalization constant $N$ for the combination $N(2s_1-s_2-s_3)$ (assume the $s_i$ are orthonormal)?",
+				"answer": 0.408248,
+				"tolerance": 0.01,
+				"explanation": "$N=1/\\sqrt{4+1+1}=1/\\sqrt6=0.408$. The partner is $(s_2-s_3)/\\sqrt2$, which comes from projecting $s_2$ or $s_3$ and removing the part already found."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Projecting $s_1$ with the $A_2$ projection operator of $C_{3v}$ gives zero. Why?",
+				"options": [
+					"The $A_2$ operator contains the character $-1$, which always annihilates a function on the $C_3$ axis",
+					"The $s_1$ orbital is too far from the mirror planes, so the projection operator cannot reach it",
+					"The three $s$ orbitals span $A_1+E$ only, so they contain no $A_2$ component to project out",
+					"$A_2$ is not a valid irrep of $C_{3v}$ when the basis functions are spherically symmetric"
+				],
+				"answer": 2,
+				"explanation": "Projection operators extract only components that exist: the contributions $s_1+s_2+s_3$ from the rotations are cancelled by minus the same sum from the reflections. The reduction of $\\Gamma_{3s}$ already told us there is no $A_2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What makes symmetry-adapted combinations so useful when solving for molecular orbitals?",
+				"options": [
+					"$\\mathbf H$ and $\\mathbf S$ do not couple different irreps, so the problem splits into blocks",
+					"They are the exact molecular orbitals, so no diagonalization is required",
+					"They have lower energy than any other linear combination of the same AOs, by the variational principle",
+					"They remove electron repulsion from the problem by placing the electrons on different atoms, so each block is a one-electron problem"
+				],
+				"answer": 0,
+				"explanation": "SALCs are not the final MOs in general; they only make the matrices block diagonal. Within an irrep block that contains several SALCs (e.g. three $a_1$ functions in water) a small diagonalization is still needed."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe in your own words how a projection operator generates a symmetry-adapted combination from a single atomic orbital, using the $A_1$ combination of three H 1s orbitals in NH$_3$ as the example.",
+				"rubric": "Full credit requires: (1) apply every symmetry operation to the starting orbital, multiply each result by the character of the target irrep, and add them; (2) for $A_1$ all characters are $+1$, giving $s_1+s_2+s_3$ (each appearing twice); (3) normalize to $(s_1+s_2+s_3)/\\sqrt3$ and note that this is the totally symmetric combination that can mix with N 2s and 2$p_z$.",
+				"modelAnswer": "Take $s_1$ and apply each of the six operations of $C_{3v}$: this sends $s_1$ to $s_1$, $s_2$ or $s_3$ (twice each). Weight each image by the $A_1$ character (all $+1$) and sum, giving $2(s_1+s_2+s_3)$. Normalizing gives $(s_1+s_2+s_3)/\\sqrt3$, the in-phase combination that can interact with the nitrogen $a_1$ orbitals."
+			}
+		],
+		"c1-l016-direct-products-selection-rules": [
+			{
+				"kind": "mc",
+				"prompt": "The $n\\to\\pi^*$ transition of formaldehyde (C$_{2v}$, $n=b_2$, $\\pi^*=b_1$) is very weak. What does group theory say?",
+				"options": [
+					"$B_2\\otimes B_1=A_1$, so the transition is allowed, and its weakness must be due to poor spatial overlap",
+					"$B_2\\otimes B_1=B_2$, which matches $y$, so it is allowed only for light polarized along the molecular axis",
+					"$B_2\\otimes B_1=A_2$, which is not $x$, $y$ or $z$, so the transition is electric-dipole forbidden",
+					"Spin multiplicity changes in $n\\to\\pi^*$, so spin symmetry forbids it rather than spatial symmetry"
+				],
+				"answer": 2,
+				"explanation": "The integral $\\langle\\psi_f|\\mu|\\psi_i\\rangle$ requires $\\Gamma_f\\otimes\\Gamma_\\mu\\otimes\\Gamma_i\\ni A_1$. The product $A_2$ is not any of $x,y,z$, so the transition is symmetry-forbidden and gains weak intensity only through vibronic coupling (hence $\\varepsilon\\sim10^2$)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two eigenfunctions of $\\hat H$ belong to different irreps. What is the matrix element $\\langle\\psi_a|\\hat H|\\psi_b\\rangle$?",
+				"options": [
+					"Nonzero in general, but it is smaller than the diagonal elements because the states have different symmetry",
+					"Zero only if the two states have different energy, since symmetry never forbids coupling between degenerate states",
+					"Equal to the overlap integral, because $\\hat H$ acts like the identity on symmetry-adapted functions",
+					"Zero, because $\\hat H$ is totally symmetric and the product $\\Gamma_a\\otimes\\Gamma_b$ then does not contain $A_1$"
+				],
+				"answer": 3,
+				"explanation": "$\\hat H$ is invariant under every symmetry operation, so it transforms as $A_1$. An integral over all space is nonzero only if the integrand contains $A_1$; for different irreps $\\Gamma_a\\otimes A_1\\otimes\\Gamma_b\\not\\ni A_1$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the fact that the Hamiltonian commutes with every symmetry operation leads to symmetry labels on energy levels and to degeneracy.",
+				"rubric": "Full credit requires: (1) $[\\hat H,\\hat R]=0$ means $\\hat R\\psi$ is an eigenfunction with the same energy, so a set of degenerate eigenfunctions is mapped into itself and forms a representation; (2) this representation is an irrep (apart from accidental degeneracy), so eigenstates are labeled by irreps; (3) the degeneracy equals the dimension of the irrep, which is why only non-Abelian groups give degenerate levels.",
+				"modelAnswer": "If $\\hat H\\psi=E\\psi$ and $\\hat R$ commutes with $\\hat H$, then $\\hat R\\psi$ is also an eigenfunction with the same $E$. So the set of degenerate eigenfunctions is mapped into itself by the group and forms a representation, normally an irrep. Each level is therefore labeled by an irrep and its degeneracy is the irrep's dimension, so the multi-dimensional irreps of non-Abelian groups give the degenerate orbitals."
+			}
+		],
+		"c1-l017-h2plus-lcao-setup": [
+			{
+				"kind": "numeric",
+				"prompt": "For two hydrogen 1s orbitals separated by $R$ bohr the overlap is $S=e^{-R}(1+R+R^2/3)$. What is $S$ at $R=2.0\\,a_0$ (close to the H$_2^+$ equilibrium)?",
+				"answer": 0.586453,
+				"tolerance": 0.02,
+				"explanation": "$S=e^{-2}(1+2+4/3)=0.1353\\times4.333=0.586$. The 1s orbitals overlap strongly at bonding distances, so overlap cannot be neglected; $S\\to1$ as $R\\to0$ and $S\\to0$ as $R\\to\\infty$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The resonance integral $\\beta=\\langle1s_A|\\hat H|1s_B\\rangle$ is negative. What is the physical content of this?",
+				"options": [
+					"It is the Coulomb repulsion between the two nuclei, which is always positive, so the stated sign must come from the kinetic energy term",
+					"An electron in the overlap region feels both nuclei, so mixing lowers its energy",
+					"It is the energy of an electron on atom A, which is negative because the electron is bound",
+					"It measures the kinetic energy lost when the electron moves from A to B, so it is always negative"
+				],
+				"answer": 1,
+				"explanation": "$\\beta$ (more exactly $H_{AB}$) is an interference term. It is negative because the product $1s_A1s_B$ is large only between the nuclei, where the potential is deep. It vanishes at large $R$ and is the origin of the bonding-antibonding splitting."
+			},
+			{
+				"kind": "mc",
+				"prompt": "LCAO with fixed hydrogen 1s orbitals gives $R_e=1.32$ Å and $D_e=1.76$ eV for H$_2^+$, versus the exact 1.06 Å and 2.79 eV. What is the main reason the simple LCAO underbinds?",
+				"options": [
+					"The Born-Oppenheimer approximation fails for H$_2^+$, because the single electron is light compared with the protons",
+					"The LCAO ansatz ignores nuclear repulsion, so the equilibrium separation is overestimated",
+					"Fixed spherical 1s functions cannot contract toward the bond or polarize along it, limiting the density between the nuclei",
+					"H$_2^+$ has only one electron, so there is no correlation and the exact answer must equal the LCAO one, whatever the basis"
+				],
+				"answer": 2,
+				"explanation": "Allowing the exponent to scale (orbital contraction) and adding 2p$\\sigma$ functions (polarization) recovers essentially the exact curve. Both are basis-set improvements, which is why polarization functions are standard in molecular basis sets."
+			},
+			{
+				"kind": "short",
+				"prompt": "In H$_2^+$, explain the roles of the overlap integral $S$, the Coulomb-type integral $\\alpha=H_{AA}$ and the resonance integral $\\beta=H_{AB}$ in producing the bonding and antibonding energies.",
+				"rubric": "Full credit requires: (1) $\\alpha$ is the energy of the electron on one atom in the field of both nuclei (including $1/R$), setting the average energy of the pair; (2) $\\beta$ is the interaction of the two AOs, which is negative and controls the splitting; (3) $S$ normalizes the orbitals and makes the energies $(\\alpha\\pm\\beta)/(1\\pm S)$, so the antibonding level is raised more than the bonding level is lowered.",
+				"modelAnswer": "$\\alpha$ is the energy of an electron localized on one proton while feeling both, and fixes where the pair of levels is centred. $\\beta$ is the interaction between the two AOs, negative and growing with overlap, and it controls how far the two levels split. $S$ appears in the denominators of $E_\\pm=(\\alpha\\pm\\beta)/(1\\pm S)$ and is the reason the antibonding level lies farther above $\\alpha$ than the bonding level lies below it."
+			}
+		],
+		"c1-l018-bonding-antibonding-origin": [
+			{
+				"kind": "numeric",
+				"prompt": "Computing $E_+(R)=(H_{AA}+H_{AB})/(1+S)$ with hydrogen 1s orbitals gives a minimum of $-0.5648\\,E_h$ at $R=2.49\\,a_0$. The separated atom plus proton has $-0.5\\,E_h$. What is the LCAO dissociation energy in eV? (1 $E_h$ = 27.211 eV)",
+				"answer": 1.76414,
+				"tolerance": 0.02,
+				"unit": "eV",
+				"explanation": "$D_e=(0.5648-0.5)\\times27.211=1.76$ eV, compared with the exact 2.79 eV. The curve $E_-(R)$ has no minimum at all: the $\\sigma_u^*$ state is repulsive."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At the equilibrium bond length of H$_2^+$ the virial theorem gives $2\\langle T\\rangle=-\\langle V\\rangle$. Compared with a separated H atom (where $\\langle T\\rangle=0.5\\,E_h$), the electronic kinetic energy of the bound molecule is:",
+				"options": [
+					"Higher, because $\\langle T\\rangle=-E_{\\rm total}=0.565\\,E_h$ exceeds $0.5\\,E_h$",
+					"Lower, because delocalizing over two nuclei always reduces kinetic energy at the equilibrium distance",
+					"Unchanged, because the kinetic energy of an electron is conserved when it forms a bond",
+					"Zero, because at equilibrium the net force on the nuclei vanishes and the electron is at rest"
+				],
+				"answer": 0,
+				"explanation": "At $R_e$ the virial theorem gives $\\langle T\\rangle=-E$, so a more negative energy means a larger kinetic energy. Ruedenberg's analysis shows that kinetic-energy lowering from delocalization starts the bonding at long range, but at bonding distances the orbitals contract and the potential energy falls by twice as much as $T$ rises."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement about the antibonding orbital $\\psi_-=(1s_A-1s_B)/\\sqrt{2(1-S)}$ is correct?",
+				"options": [
+					"It has a node at each nucleus and puts the electron outside the bond, so its energy is lower than that of the bonding orbital",
+					"It has a node at the mid-plane and a repulsive energy curve at all $R$",
+					"It has no node and differs from $\\psi_+$ only by the sign convention of the overall phase",
+					"It is the same as the excited 2s state of the hydrogen atom, so its energy is $-0.125\\,E_h$"
+				],
+				"answer": 1,
+				"explanation": "Subtracting two identical functions of opposite sign gives zero at the mid-plane by symmetry; $\\psi_-$ is $\\sigma_u$ (odd under inversion). Its energy $E_-(R)$ is above $-0.5\\,E_h$ at every $R$, so it is repulsive."
+			},
+			{
+				"kind": "short",
+				"prompt": "A friend says a chemical bond forms because electrons between the nuclei attract both of them. Using H$_2^+$ as the example, explain in your own words why this is only part of the story and what the quantum-mechanical origin of the energy lowering is.",
+				"rubric": "Full credit requires: (1) bonding is a consequence of delocalization/interference of the two AOs, which lowers the kinetic energy of the electron (a larger box) before any contraction; (2) the electron-nuclear attraction picture alone is incomplete because the density in the overlap region is accompanied by changes in kinetic energy, and by the virial theorem the total energy lowering at equilibrium corresponds to potential energy falling by twice what kinetic energy rises; (3) mention that the antibonding combination has a node and is raised.",
+				"modelAnswer": "A static electron cloud between the nuclei does attract both of them, but the full story is an energy balance that includes kinetic energy. Mixing the two 1s orbitals in phase lets the electron spread over a larger region, which lowers its kinetic energy (the interference of the two waves), and then the orbitals contract toward the bond, lowering the potential energy by more than the kinetic energy rises. The out-of-phase combination has a node and is pushed up."
+			}
+		],
+		"c1-l019-h2-molecular-orbital": [
+			{
+				"kind": "numeric",
+				"prompt": "At the H$_2$ equilibrium bond length the Hartree-Fock-limit energy is $-1.1336\\,E_h$ and the exact (nonrelativistic) energy is $-1.1745\\,E_h$. What is the correlation energy in kcal/mol? (1 $E_h$ = 627.5 kcal/mol)",
+				"answer": 25.6319,
+				"tolerance": 0.05,
+				"unit": "kcal/mol",
+				"explanation": "$0.0408\\,E_h\\times627.5=25.6$ kcal/mol (1.11 eV). This is the energy that the single closed-shell MO configuration cannot capture even with a complete basis; it is about a quarter of the 109 kcal/mol bond energy."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The H$_2$ ground-state configuration is $\\sigma_g(1)\\sigma_g(2)$. Why must its spin part be a singlet?",
+				"options": [
+					"Both electrons occupy the same orbital, so they must have the same spin to avoid cancelling in the product wavefunction",
+					"The singlet has lower energy by Hund's rule, which requires spins to be paired in every bond",
+					"The spatial part is symmetric, so the spin part must be antisymmetric",
+					"The nuclei are identical bosons, so the electrons must adopt the singlet state to compensate"
+				],
+				"answer": 2,
+				"explanation": "The Pauli principle demands overall antisymmetry. A symmetric space function needs the antisymmetric (singlet) spin function $\\alpha\\beta-\\beta\\alpha$; the triplet requires an antisymmetric space part such as $\\sigma_g\\sigma_u$, which is repulsive."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the MO energy $E=2h_{gg}+J_{gg}+1/R$, which term treats the electron-electron repulsion, and with what limitation?",
+				"options": [
+					"$h_{gg}$, which already contains the repulsion because it is evaluated with the two-electron wavefunction",
+					"$1/R$, because the nuclear repulsion also keeps the electrons apart on average",
+					"$J_{gg}$, which is exact because the two electrons occupy the same orbital and cannot be correlated",
+					"$J_{gg}$, the classical repulsion of two smeared charge clouds, with no instantaneous avoidance"
+				],
+				"answer": 3,
+				"explanation": "Putting both electrons in $\\sigma_g$ makes the pair density a product $|\\sigma_g(1)|^2|\\sigma_g(2)|^2$; the electrons are uncorrelated and $J_{gg}$ overestimates their repulsion. The resulting error is the correlation energy."
+			},
+			{
+				"kind": "short",
+				"prompt": "The MO wavefunction $\\sigma_g(1)\\sigma_g(2)$ places both electrons in the same orbital. Explain in your own words what this assumption means for how the two electrons move relative to each other.",
+				"rubric": "Full credit requires: (1) the probability density is a product of identical one-electron densities, so the position of one electron does not affect the distribution of the other (uncorrelated); (2) in particular both electrons can be on the same atom with the same probability as on different atoms; (3) real electrons avoid each other, so this overestimates their repulsion (the Coulomb hole is missing).",
+				"modelAnswer": "In $\\sigma_g(1)\\sigma_g(2)$ the joint density is just the product of two one-electron densities, so knowing where electron 1 is tells you nothing about electron 2. The two electrons are as likely to be on the same atom as on different atoms, even though they repel. This neglect of instantaneous avoidance is the missing correlation."
+			}
+		],
+		"c1-l020-valence-bond-vs-mo": [
+			{
+				"kind": "numeric",
+				"prompt": "The ionic dissociation channel H$^+$ + H$^-$ lies above 2 H by IE(H) $-$ EA(H) $=13.598-0.754$ eV. The MO function is 50% ionic at every $R$, so at large $R$ its energy error is roughly half of this gap. Estimate the error in eV.",
+				"answer": 6.422,
+				"tolerance": 0.02,
+				"unit": "eV",
+				"explanation": "$(13.598-0.754)/2=6.42$ eV. This enormous error is the signature of static (non-dynamical) correlation, and it is why restricted HF cannot describe bond breaking."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement compares the MO (σg²) and Heitler-London (HL) descriptions of H$_2$ correctly?",
+				"options": [
+					"MO is half ionic at all $R$ and fails at dissociation; HL has no ionic terms and dissociates correctly",
+					"MO dissociates correctly to two H atoms, while HL wrongly dissociates to H$^+$ + H$^-$",
+					"HL contains 50% ionic character at every $R$, while MO is purely covalent, which is why MO is better at long range",
+					"MO and HL are identical wavefunctions once the AOs are normalized, so the difference is only a matter of notation"
+				],
+				"answer": 0,
+				"explanation": "$\\sigma_g(1)\\sigma_g(2)\\propto[\\text{covalent}]+[\\text{ionic}]$ with equal weights. HL keeps only the covalent part. The exact wavefunction needs the right ionic weight at each $R$, which is what mixing in $\\sigma_u^2$ provides."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does a two-configuration treatment, $c_g\\sigma_g^2-c_u\\sigma_u^2$, repair the MO dissociation problem?",
+				"options": [
+					"Adding $\\sigma_u^2$ raises the energy of the ionic terms until they no longer dissociate",
+					"At large $R$ ($c_u\\to c_g$) the ionic terms cancel, leaving the covalent H + H function",
+					"It places one electron in $\\sigma_g$ and one in $\\sigma_u$, which is a lower-energy triplet",
+					"It enforces the singlet spin symmetry, which restores the correct dissociation limit by itself"
+				],
+				"answer": 1,
+				"explanation": "In the limit $S\\to0$, $\\sigma_g^2\\propto\\text{cov}+\\text{ion}$ and $\\sigma_u^2\\propto\\text{ion}-\\text{cov}$. The combination $\\sigma_g^2-\\sigma_u^2$ cancels the ionic part, so CI includes static correlation by allowing the weights to vary with $R$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what 'static correlation' means using the dissociation of H$_2$, and why the problem arises in a single-determinant description.",
+				"rubric": "Full credit requires: (1) near-degeneracy of $\\sigma_g^2$ and $\\sigma_u^2$ at stretched geometry means no single configuration is adequate; (2) a closed-shell determinant forces equal covalent and ionic weights, giving a large error that grows with $R$; (3) multiple configurations (or broken-symmetry orbitals) are needed to restore correct dissociation.",
+				"modelAnswer": "When the bond is stretched the $\\sigma_g$ and $\\sigma_u$ orbitals become almost degenerate, so the configurations $\\sigma_g^2$ and $\\sigma_u^2$ are equally important, and no single determinant is a good description. A closed-shell determinant locks in equal covalent and ionic weights, giving an energy error of several eV at dissociation. Mixing configurations (CI) cures it, but a one-determinant method cannot."
+			}
+		],
+		"c1-l021-diatomic-mo-diagrams": [
+			{
+				"kind": "numeric",
+				"prompt": "Two orthogonal AOs on atoms A and B have $\\alpha_A=-0.50\\,E_h$, $\\alpha_B=-0.30\\,E_h$ and $\\beta=-0.10\\,E_h$. The bonding MO is $\\cos\\theta\\,\\varphi_A+\\sin\\theta\\,\\varphi_B$ with $\\tan2\\theta=2\\beta/(\\alpha_A-\\alpha_B)$. What fraction of the bonding electron density sits on the lower-energy atom A, $\\cos^2\\theta$?",
+				"answer": 0.853553,
+				"tolerance": 0.02,
+				"explanation": "$\\tan2\\theta=1$, so $2\\theta=45^\\circ$ and $\\cos^2\\theta=(1+\\cos45^\\circ)/2=0.854$. The bonding electrons live mostly on the more electronegative (lower-$\\alpha$) atom, which is the origin of bond polarity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is O$_2$ paramagnetic in MO theory, even though the Lewis structure shows a double bond with all electrons paired?",
+				"options": [
+					"Oxygen has an odd number of electrons, so at least one spin must be unpaired",
+					"The $\\sigma$ bonding orbital is only singly occupied because of the large atomic electronegativity",
+					"Two electrons sit in the degenerate $\\pi^*$ pair with parallel spins (Hund's rule), a triplet",
+					"O$_2$ is paramagnetic only in the gas phase, where thermal motion breaks one of the bonds"
+				],
+				"answer": 2,
+				"explanation": "Valence MO filling gives $\\ldots(\\pi_u)^4(\\pi_g^*)^2$ with two electrons in two degenerate orbitals; exchange favours parallel spins (bond order 2, $S=1$). The Lewis picture cannot represent this, which is a standard success of MO theory."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In N$_2$ the $\\sigma_g(2p)$ orbital lies above the $\\pi_u(2p)$ pair, while in O$_2$ the order is reversed. What causes the switch?",
+				"options": [
+					"The nuclear charge of O is larger, which stabilizes the $\\pi$ orbitals more than the $\\sigma$ orbitals",
+					"O$_2$ has more electrons, and electron repulsion pushes the $\\sigma$ orbital down when it is occupied",
+					"Overlap is larger for $\\pi$ than for $\\sigma$ orbitals in O$_2$ but not in N$_2$, because of the bond length",
+					"2s-2p mixing is strong in N$_2$ (small gap) and weak in O$_2$, so it pushes $\\sigma_g(2p)$ up only in N$_2$"
+				],
+				"answer": 3,
+				"explanation": "Same-symmetry orbitals mix with strength proportional to $1/\\Delta E$. For N the 2s and 2p are close, so the two $\\sigma_g$ orbitals repel and $\\sigma_g(2p)$ is pushed above $\\pi_u$; for O (and F) the larger gap suppresses the mixing."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the difference in AO energies, $\\alpha_A-\\alpha_B$, controls bond polarity in a heteronuclear diatomic, and what happens in the limits $|\\beta|\\gg|\\Delta\\alpha|$ and $|\\Delta\\alpha|\\gg|\\beta|$.",
+				"rubric": "Full credit requires: (1) the bonding MO has larger weight on the lower-energy (more electronegative) atom, with mixing angle $\\tan2\\theta=2\\beta/\\Delta\\alpha$; (2) $|\\beta|\\gg|\\Delta\\alpha|$ gives nearly equal sharing (covalent, 50/50); (3) $|\\Delta\\alpha|\\gg|\\beta|$ gives almost complete transfer to the electronegative atom (ionic) with only a small covalent perturbation (shift $\\beta^2/\\Delta\\alpha$).",
+				"modelAnswer": "The 2x2 problem gives a mixing angle $\\tan2\\theta=2\\beta/(\\alpha_A-\\alpha_B)$, so the bonding orbital is weighted toward the lower-energy atom. When the coupling dominates, the orbital is shared nearly equally and the bond is covalent. When the energy gap dominates, the electron pair sits almost entirely on the electronegative atom (ionic bond), and the covalent character is only a second-order correction proportional to $\\beta^2/\\Delta\\alpha$."
+			}
+		],
+		"c1-l022-huckel-theory": [
+			{
+				"kind": "numeric",
+				"prompt": "In simple Huckel theory butadiene has roots $x=\\pm1.618,\\pm0.618$ (energies $E=\\alpha+x\\beta$). Its four $\\pi$ electrons fill the two lowest MOs. Two isolated ethylene double bonds have $E_\\pi=4\\alpha+4\\beta$. What is the delocalization energy of butadiene in units of $|\\beta|$?",
+				"answer": 0.472136,
+				"tolerance": 0.02,
+				"unit": "|beta|",
+				"explanation": "$E_\\pi=2(1.618+0.618)\\beta=4.472\\beta$ plus $4\\alpha$, so the extra stabilization over two localized ethylenes is $0.472|\\beta|$. With $|\\beta|\\approx75$ kJ/mol (the value that reproduces benzene) this is about 35 kJ/mol, more than twice the experimental conjugation energy of butadiene (about 15 kJ/mol), a reminder that Huckel numbers are qualitative."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The three allyl MOs have $x=+\\sqrt2,0,-\\sqrt2$. What is special about the middle orbital $\\psi_2$ and why does it matter for the allyl cation, radical and anion?",
+				"options": [
+					"Non-bonding ($E=\\alpha$) with no amplitude on the central carbon, so charge or spin sits on the termini",
+					"It is bonding between all three carbons, so adding electrons to it strengthens both C-C bonds equally",
+					"It is localized on the central carbon, so the cation, radical and anion differ in the charge on that atom",
+					"It is the same as the HOMO of ethylene, so the allyl species are just ethylene plus a spectator carbon with no real effect"
+				],
+				"answer": 0,
+				"explanation": "$\\psi_2\\propto(\\varphi_1-\\varphi_3)/\\sqrt2$ has a node at C2 and $E=\\alpha$. Cation (0 e in $\\psi_2$), radical (1) and anion (2) therefore keep the same frame and place charge/spin on C1 and C3, which is the MO picture of the two allyl resonance forms."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement lists the Huckel approximations correctly?",
+				"options": [
+					"Include all two-electron repulsions through Coulomb and exchange integrals but neglect the nuclear framework",
+					"Separate $\\pi$ from $\\sigma$; $H_{ii}=\\alpha$, $H_{ij}=\\beta$ for bonded atoms, else 0; $S_{ij}=\\delta_{ij}$",
+					"Treat the $\\sigma$ and $\\pi$ electrons together but include only interactions between atoms three bonds apart",
+					"Set the overlap integral between bonded neighbors to 1 and all Hamiltonian off-diagonal elements to 0"
+				],
+				"answer": 1,
+				"explanation": "Huckel is a topological one-electron model: only connectivity enters. It ignores electron repulsion explicitly (absorbed into $\\alpha$, $\\beta$) and neglects overlap, yet reproduces trends in conjugated molecules because those are controlled by symmetry and connectivity."
+			},
+			{
+				"kind": "short",
+				"prompt": "Huckel theory ignores electron-electron repulsion explicitly and still predicts useful chemistry. Explain, in your own words, what it can and cannot tell you.",
+				"rubric": "Full credit requires: (1) it captures topology/symmetry: relative MO energies, nodal patterns, HOMO/LUMO, delocalization energies, 4n+2 trends, charge and spin distributions; (2) its parameters $\\alpha$, $\\beta$ absorb average repulsion and are fitted, so absolute energies and excited-state energies are not reliable; (3) it cannot treat geometry changes, heteroatom details or electron correlation quantitatively.",
+				"modelAnswer": "Huckel theory keeps only which atoms are connected, so it gets the qualitative structure of the $\\pi$ MOs right: the ordering of levels, where the nodes are, which orbital is HOMO or LUMO, and trends such as extra stabilization of rings with $4n+2$ electrons. The effects of electron repulsion are buried in the fitted $\\alpha$ and $\\beta$, so it cannot give reliable absolute or excited-state energies, bond-length changes or correlation effects."
+			}
+		],
+		"c1-l023-rings-symmetry-aromaticity": [
+			{
+				"kind": "numeric",
+				"prompt": "Benzene's Huckel $\\pi$ levels are $x=2,1,1,-1,-1,-2$ (units of $|\\beta|$, $E=\\alpha+x\\beta$ with $\\beta<0$). Six electrons fill the three lowest MOs. Three isolated ethylenes have $E_\\pi=6\\alpha+6\\beta$. What is benzene's Huckel resonance (delocalization) energy in units of $|\\beta|$?",
+				"answer": 2,
+				"tolerance": 0.01,
+				"unit": "|beta|",
+				"explanation": "$E_\\pi=2(2+1+1)\\beta=8\\beta$ versus $6\\beta$ for three ethylenes, giving $2|\\beta|$. This is much larger than butadiene's $0.47|\\beta|$: closed-shell cyclic delocalization is the aromatic effect."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do monocyclic conjugated rings with $4n+2$ $\\pi$ electrons form closed shells while those with $4n$ electrons do not?",
+				"options": [
+					"The $4n+2$ rings have more electrons, and a larger number of electrons always gives lower energy per electron",
+					"The $4n$ rings have no $\\pi$ overlap at all because the $p$ orbitals of alternate atoms are orthogonal",
+					"Levels are one non-degenerate level plus degenerate pairs, so shells close at $2+4n$ electrons",
+					"The $4n+2$ rings have an odd number of electron pairs, which is required for a singlet ground state"
+				],
+				"answer": 2,
+				"explanation": "$E_k=\\alpha+2\\beta\\cos(2\\pi k/N)$ gives one level at $k=0$ and degenerate $\\pm k$ pairs (plus one nondegenerate level at $k=N/2$ for even $N$). Filling $k=0$ then pairs requires $2,6,10,\\dots$ electrons for a closed shell; $4n$ leaves a half-filled degenerate pair, which distorts or becomes a diradical."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Cyclobutadiene has Huckel levels $\\alpha+2\\beta,\\alpha,\\alpha,\\alpha-2\\beta$. Why is square, closed-shell cyclobutadiene not the ground state?",
+				"options": [
+					"Two electrons would half-fill a degenerate non-bonding pair, which is Jahn-Teller unstable",
+					"The $\\pi$ energy is higher than for two isolated double bonds, so the square structure collapses to ethylene",
+					"Square cyclobutadiene has no $\\pi$ orbitals, because the ring strain removes the $p$ overlap, leaving only the $\\sigma$ framework",
+					"The two lowest orbitals are degenerate and fully occupied, which violates the Pauli principle"
+				],
+				"answer": 0,
+				"explanation": "Placing 4 electrons in $\\{\\alpha+2\\beta,\\alpha,\\alpha,\\alpha-2\\beta\\}$ puts two electrons in the degenerate non-bonding pair, with Hund's-rule diradical character in the square. Distortion to a rectangle (D$_{2h}$) lifts the degeneracy and gives a singlet ground state."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the energies of a cyclic polyene follow from the rotational (cyclic) symmetry of the ring, and how that gives the Frost-Musulin circle construction.",
+				"rubric": "Full credit requires: (1) the ring has a $C_N$ symmetry, so MOs can be built as $\\sum_je^{2\\pi ikj/N}\\varphi_j$ (Bloch-like functions with phase $2\\pi k/N$); (2) substituting gives $E_k=\\alpha+2\\beta\\cos(2\\pi k/N)$; (3) the energies are the projections onto a vertical axis of the vertices of a regular $N$-gon inscribed in a circle of radius $2|\\beta|$ with one vertex at the bottom (Frost circle).",
+				"modelAnswer": "The ring is invariant under rotation by $2\\pi/N$, so the MOs can be chosen as phase-twisted sums $\\sum_je^{2\\pi ikj/N}\\varphi_j$, one for each $k$. Applying the Huckel Hamiltonian, each atom couples to its two neighbors, giving $E_k=\\alpha+2\\beta\\cos(2\\pi k/N)$. These values are the heights of the vertices of a regular polygon inscribed in a circle of radius $2|\\beta|$ with a vertex at the bottom, which is the Frost circle."
+			}
+		],
+		"c1-l024-huckel-tight-binding-bands": [
+			{
+				"kind": "numeric",
+				"prompt": "For a linear polyene with $N$ carbons the Huckel HOMO-LUMO gap is $\\Delta_N=4|\\beta|\\sin\\!\\big(\\pi/[2(N+1)]\\big)$. Evaluate it for $N=10$ (decapentaene) in units of $|\\beta|$.",
+				"answer": 0.569259,
+				"tolerance": 0.02,
+				"unit": "|beta|",
+				"explanation": "$4\\sin(\\pi/22)=0.569\\,|\\beta|$, compared with $2|\\beta|$ for ethylene ($N=2$). The gap shrinks like $2\\pi|\\beta|/(N+1)$, so longer polyenes absorb at longer wavelength, and in the infinite chain the gap would close into a band."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A uniform half-filled chain ($N\\to\\infty$, one electron per site) is unstable toward bond alternation (Peierls distortion). Why?",
+				"options": [
+					"Alternation increases the bandwidth, which lowers the total electron kinetic energy at no cost, so a metal always prefers a longer period",
+					"Alternating bonds open a gap at the Fermi level, lowering the occupied energy",
+					"Uniform bonds violate the Pauli principle because adjacent electrons have identical wavefunctions",
+					"The unit cell must contain two atoms for any lattice to have a well-defined Bloch wavevector"
+				],
+				"answer": 1,
+				"explanation": "The doubled unit cell folds the band and splits it at $k=\\pm\\pi/2a$, the Fermi points, replacing a metal by a semiconductor. This is the reason polyacetylene has alternating bonds, and is the solid-state analogue of the Jahn-Teller distortion of cyclobutadiene."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The density of states of a 1D tight-binding band diverges at the band edges. What is the physical reason?",
+				"options": [
+					"The wavefunctions at the band edge are completely localized on single atoms",
+					"The orbital coefficients at the edge are all equal in sign, so there is only one allowed state per site",
+					"The group velocity $dE/dk$ vanishes there, so many $k$-states are packed into a narrow energy interval",
+					"The band edge is where electron-electron repulsion is strongest, concentrating states in energy"
+				],
+				"answer": 2,
+				"explanation": "$g(E)\\propto1/|dE/dk|$, and $dE/dk=-2\\beta a\\sin ka\\to0$ at $k=0,\\pi/a$. These van Hove singularities appear as sharp features in the optical spectra of conjugated polymers."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the Huckel MOs of a linear polyene with $N$ carbons relate to the Bloch band $E(k)=\\alpha+2\\beta\\cos ka$ of an infinite chain, and what changes physically as $N$ grows.",
+				"rubric": "Full credit requires: (1) the finite-chain energies $E_k=\\alpha+2\\beta\\cos[k\\pi/(N+1)]$ sample the same cosine band at discrete $k$ values set by the boundary conditions (standing waves); (2) as $N$ grows the levels become dense, spanning a band of width $4|\\beta|$ and the HOMO-LUMO gap closes as $\\sim1/N$; (3) mention of the ring as periodic boundary conditions, or the Peierls gap that reopens it in real polyenes.",
+				"modelAnswer": "A chain of $N$ sites has standing-wave MOs with wavevectors $k\\pi/(N+1)$, so its levels are the same cosine $\\alpha+2\\beta\\cos ka$ sampled at $N$ points. As $N$ increases the levels crowd into a continuous band of width $4|\\beta|$ and the HOMO-LUMO gap shrinks as $1/N$. In real polyenes bond alternation reopens a finite gap, so the infinite polymer is a semiconductor rather than a metal."
+			}
+		],
+		"c1-l025-water-symmetry-adapted-mos": [
+			{
+				"kind": "numeric",
+				"prompt": "In the minimal valence basis of H$_2$O (O 2s, 2$p_x$, 2$p_y$, 2$p_z$ and two H 1s) the 6x6 secular problem splits by $C_{2v}$ symmetry. How many basis functions are in the largest block (the $a_1$ block)?",
+				"answer": 3,
+				"tolerance": 0.001,
+				"explanation": "$a_1$: O 2s, O 2$p_z$ and the in-phase H SALC ($s_1+s_2$) gives a 3x3 block; $b_2$: O 2$p_y$ and $s_1-s_2$ give 2x2; $b_1$: O 2$p_x$ alone gives 1x1. The sum is $3+2+1=6$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The photoelectron spectrum of water shows two lone-pair-type ionizations at about 12.6 and 14.7 eV. What does this say about the 'two equivalent lone pairs' of the Lewis picture?",
+				"options": [
+					"Water has only one lone pair, and the second band is a vibrational progression of the first band, as in a vibronic progression",
+					"The two lone pairs are equivalent but differ in energy because of the Jahn-Teller effect",
+					"The 14.7 eV band is an O-H bonding orbital, so the Lewis lone pairs both lie at 12.6 eV",
+					"The lone pairs are inequivalent: 1$b_1$ is pure O 2$p$, 3$a_1$ is in-plane with s-p mixing"
+				],
+				"answer": 3,
+				"explanation": "The two ionizations are 1$b_1$ ($\\approx12.6$ eV) and 3$a_1$ ($\\approx14.7$ eV). Equivalent rabbit-ear hybrids are a unitary mixture of these two occupied orbitals: same total density and energy, but they do not correspond to distinct ionization energies."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In water, the O 2$p_x$ orbital (perpendicular to the molecular plane) is non-bonding. What guarantees this?",
+				"options": [
+					"No combination of H 1s orbitals has $b_1$ symmetry, so symmetry forbids any interaction",
+					"The $p_x$ orbital is too high in energy to overlap with the hydrogen 1s orbitals",
+					"The $p_x$ orbital is perpendicular to the molecular axis, and perpendicular orbitals never overlap in any molecule",
+					"The hydrogens carry a partial positive charge that repels the $p_x$ electrons"
+				],
+				"answer": 0,
+				"explanation": "The H SALCs span $a_1+b_2$, while $p_x$ transforms as $b_1$. All matrix elements $\\langle p_x|\\hat H|\\mathrm{SALC}\\rangle$ vanish by symmetry, so 1$b_1$ keeps the atomic energy of O 2p (a lone pair)."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Lewis structure of water shows two equivalent lone pairs and two equivalent O-H bonds, but the MO picture and the photoelectron spectrum show inequivalent orbitals. Explain in your own words why both descriptions are valid and what each is good for.",
+				"rubric": "Full credit requires: (1) a Slater determinant is unchanged (energy, density) by a unitary mixing among occupied orbitals, so localized 'equivalent' orbitals and canonical delocalized MOs describe the same state; (2) canonical MOs have definite symmetry and orbital energies that correspond to ionization energies (Koopmans), so they explain the spectrum; (3) localized orbitals match bonding and lone-pair chemistry (Lewis, VSEPR) and are good for chemical interpretation.",
+				"modelAnswer": "A determinant is invariant to a unitary rotation among its occupied orbitals, so the total density and energy are the same whether you use the delocalized canonical MOs or equivalent localized bonds and lone pairs. The canonical orbitals have symmetry labels and orbital energies that track ionization energies, so they explain the two lone-pair bands. The localized set matches the Lewis picture and is better for talking about bonds and reactivity."
+			}
+		],
+		"c1-l026-ammonia-methane-hybridization": [
+			{
+				"kind": "mc",
+				"prompt": "The photoelectron spectrum of CH$_4$ shows two bands (about 14 eV and 23 eV) although the four C-H bonds are equivalent. How are the two pictures reconciled?",
+				"options": [
+					"The two bands show that two of the C-H bonds are shorter than the other two in the ground state",
+					"Four equivalent bonds are a unitary mixture of the canonical $a_1$ and $t_2$ MOs",
+					"Hybridization is a real step in which the carbon 2s electron is promoted into 2p before the molecule forms, giving four equal bonds",
+					"The 23 eV band is an excitation of the carbon 1s core electrons, not a valence ionization"
+				],
+				"answer": 1,
+				"explanation": "Occupied canonical orbitals $a_1$ (C 2s + H) and $t_2$ (C 2p + H, triply degenerate) hold 8 electrons. Unitary mixing gives four equivalent 'sp$^3$-like' bond orbitals. The spectrum measures canonical orbitals, while chemical bonding language uses the localized ones."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The four H 1s orbitals of CH$_4$ ($T_d$) span $\\Gamma=A_1+T_2$. Which carbon valence orbitals can interact with them?",
+				"options": [
+					"Only carbon 2s, because the 2p orbitals have the wrong angular momentum for tetrahedral symmetry",
+					"Carbon 2s with the $t_2$ SALCs, since the $t_2$ combination has a node at the carbon nucleus",
+					"All four carbon valence orbitals combine with a single $a_1$ SALC, giving four degenerate bonds",
+					"Carbon 2s ($a_1$) with the $a_1$ SALC and the three carbon 2p ($t_2$) with the three $t_2$ SALCs"
+				],
+				"answer": 3,
+				"explanation": "Under $T_d$, $s\\to a_1$ and $(p_x,p_y,p_z)\\to t_2$. Only like irreps interact, so the problem splits into a 2x2 $a_1$ block and a 3x3 (triply degenerate) $t_2$ block, giving 1$a_1$ and 1$t_2$ bonding MOs and their antibonding partners."
+			},
+			{
+				"kind": "short",
+				"prompt": "Is hybridization a physical process? Explain what sp$^3$ hybrids are in MO theory and what they can and cannot predict.",
+				"rubric": "Full credit requires: (1) hybrids are linear combinations of AOs chosen for convenience; localized bond orbitals are a unitary transformation of the occupied canonical MOs; (2) they leave the total wavefunction (determinant), energy and density unchanged, so hybridization is not a physical step in bond formation; (3) they are useful for describing local geometry and bonding but do not predict orbital energies or ionization energies, which require the canonical set.",
+				"modelAnswer": "Hybrids are just a convenient choice of basis: mixing the occupied canonical MOs into localized bond orbitals does not change the determinant, the energy or the density, so nothing is 'promoted'. They are good for describing local geometry and bond character, but individual orbital energies and ionization energies are properties of the canonical MOs, not of the hybrids."
+			}
+		],
+		"c1-l027-walsh-diagrams": [
+			{
+				"kind": "numeric",
+				"prompt": "Water has $r_{OH}=0.9572$ Å and $\\angle$HOH $=104.52^\\circ$. The H$\\cdots$H distance is $2r\\sin(\\theta/2)$. What is it in Å?",
+				"answer": 1.5139,
+				"tolerance": 0.02,
+				"unit": "Å",
+				"explanation": "$2(0.9572)\\sin(52.26^\\circ)=1.515$ Å. As the angle closes the two H SALCs overlap more; in a Walsh diagram the competition between this overlap and the O 2s-2p mixing that stabilizes $3a_1$ sets the bend angle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Following Walsh's rule, why are AH$_2$ molecules with 5 to 8 valence electrons bent, while 4-electron BeH$_2$ is linear?",
+				"options": [
+					"The in-plane $\\pi_u$ component ($3a_1$) is stabilized strongly on bending, so occupying it favors a bent shape",
+					"Electrons beyond four repel each other more in a linear geometry because they sit on opposite sides",
+					"Bending lowers the energy of the $2\\sigma_g$ and $1\\sigma_u$ orbitals, which are the only ones occupied for 5 to 8 electrons",
+					"Bent molecules have lower nuclear repulsion, and the effect is larger the more electrons the molecule contains"
+				],
+				"answer": 0,
+				"explanation": "On bending, the in-plane $\\pi_u$ component acquires s-character and bonding overlap and falls steeply in energy, whereas the other orbitals change mildly. BeH$_2$ with 4 electrons does not occupy it. Walsh's rule is a qualitative orbital-energy argument, not a total-energy calculation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the Walsh diagram a useful device for predicting molecular geometry?",
+				"options": [
+					"It gives the exact total energy at every bond angle without any electronic structure calculation",
+					"It follows each orbital energy along a geometric coordinate, and occupied-orbital sums roughly track the energy",
+					"It only depends on the nuclear repulsion, so the electron count is irrelevant",
+					"It replaces the potential energy surface with a single orbital whose energy has a unique minimum at the equilibrium angle"
+				],
+				"answer": 1,
+				"explanation": "Sums of occupied orbital energies reflect the electronic part of the energy (not including electron repulsion and nuclear repulsion), so the changes of orbital energies are a good qualitative guide to geometry. It breaks down when those omitted terms change strongly."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how a Walsh diagram is constructed for AH$_2$ and how it explains the bent shape of water.",
+				"rubric": "Full credit requires: (1) compute or sketch orbital energies as a function of the HAH angle from 180 degrees to about 90 degrees, labeling orbitals by irrep ($a_1$, $b_2$, $b_1$); (2) the $3a_1$ orbital is stabilized as the molecule bends (s-p mixing), the 1$b_2$ is moderately raised, 1$b_1$ is constant (pure p); (3) water's 8 valence electrons occupy 3$a_1$, so the sum of orbital energies is lowest in a bent geometry (about 104 degrees).",
+				"modelAnswer": "One tracks how each MO energy changes with the H-O-H angle, labeling the orbitals by $C_{2v}$ irreps. As the molecule bends, the in-plane $\\pi_u$-derived $3a_1$ is lowered strongly because it mixes in oxygen 2s character and the 1$b_2$ rises a little, while the out-of-plane $b_1$ stays at the pure O 2p energy. With 8 electrons the $3a_1$ is occupied, so bending lowers the total orbital energy and gives a bent equilibrium angle."
+			}
+		],
+		"c1-l028-orbital-interaction-perturbation": [
+			{
+				"kind": "numeric",
+				"prompt": "A filled donor orbital at $-0.45\\,E_h$ interacts with an empty acceptor orbital at $-0.15\\,E_h$ with coupling $|H_{12}|=0.05\\,E_h$ (overlap neglected). Using second-order perturbation theory, $\\Delta E\\approx H_{12}^2/(E_1-E_2)$, by how much is the two-electron donor level lowered? Give the magnitude in kJ/mol.",
+				"answer": 21.8792,
+				"tolerance": 0.05,
+				"unit": "kJ/mol",
+				"explanation": "$|\\Delta E|=(0.05)^2/0.30=8.3\\times10^{-3}\\,E_h=21.9$ kJ/mol per orbital pair (the exact 2x2 value is 21.3 kJ/mol). Two electrons in the lowered orbital give twice this lowering, a rough estimate of a donor-acceptor stabilization."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two filled orbitals interact (four-electron case), one on each fragment. Which is the net effect on the energy?",
+				"options": [
+					"Attractive: filling both orbitals doubles the stabilization compared with the two-electron case",
+					"Zero: the shifts of the bonding and antibonding orbitals cancel exactly when both are occupied",
+					"Repulsive: the antibonding level rises more than the bonding level falls (Pauli repulsion)",
+					"Attractive for hydrogen-bond donors only, since only they have filled orbitals pointing at an acceptor"
+				],
+				"answer": 2,
+				"explanation": "Without overlap the shifts would cancel; with $S>0$, $E_+=(\\alpha+\\beta)/(1+S)$ falls by less than $E_-=(\\alpha-\\beta)/(1-S)$ rises. Closed-shell repulsion scales as $S^2$ and decays exponentially with distance, which is the physical content of the van der Waals radius."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In orbital-interaction theory, which two orbitals interact most strongly (largest stabilization)?",
+				"options": [
+					"Orbitals close in energy that overlap well, since $\\Delta E\\propto|H_{12}|^2/\\Delta\\varepsilon$",
+					"Orbitals that are far apart in energy, since a large gap gives a large mixing coefficient",
+					"Orbitals on the same atom, since overlap is largest for functions with the same center",
+					"Orbitals with the same occupation, because electrons of the same spin repel strongly"
+				],
+				"answer": 0,
+				"explanation": "The stabilization grows with the square of the coupling (overlap) and inversely with the energy gap. This 'overlap and energy match' rule underlies donor-acceptor chemistry, hyperconjugation and frontier-orbital theory."
+			},
+			{
+				"kind": "short",
+				"prompt": "A nucleophile's HOMO interacts with an electrophile's LUMO. Use second-order perturbation theory to explain why this interaction stabilizes the pair and in what direction the orbitals mix.",
+				"rubric": "Full credit requires: (1) the filled HOMO is lowered by $|H_{12}|^2/(E_{\\rm HOMO}-E_{\\rm LUMO})$ with two electrons in it, so the energy goes down; (2) the HOMO mixes in the LUMO with coefficient $H_{12}/(E_{\\rm HOMO}-E_{\\rm LUMO})$, with in-phase overlap in the bonding region, transferring electron density to the acceptor; (3) the smaller the HOMO-LUMO gap the larger the effect.",
+				"modelAnswer": "Treating the coupling as a perturbation, the filled donor orbital mixes in a small amount of the empty acceptor orbital with coefficient $H_{12}/(E_{\\rm HOMO}-E_{\\rm LUMO})$, in phase in the region between the fragments. That mixing lowers its energy by $|H_{12}|^2/(E_{\\rm HOMO}-E_{\\rm LUMO})$ and moves electron density onto the acceptor, so the interaction is stabilizing and strongest when the gap is small."
+			}
+		],
+		"c1-l029-frontier-orbitals-woodward-hoffmann": [
+			{
+				"kind": "mc",
+				"prompt": "Under thermal conditions, which electrocyclic ring-closure mode is allowed for hexatriene (6 $\\pi$ electrons) and butadiene (4 $\\pi$ electrons)?",
+				"options": [
+					"Both close disrotatory, because disrotation preserves the mirror plane in every polyene",
+					"Hexatriene closes disrotatory and butadiene closes conrotatory",
+					"Hexatriene closes conrotatory and butadiene closes disrotatory",
+					"Both close conrotatory thermally; disrotatory modes are allowed only photochemically"
+				],
+				"answer": 1,
+				"explanation": "Thermal electrocyclizations obey: $4n$ electrons conrotatory, $4n+2$ disrotatory; photochemical reverses. The rule follows from the correlation diagrams, which conserve $C_2$ (conrotatory) or $\\sigma$ (disrotatory) symmetry along the path."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the correlation diagram for the disrotatory closure of butadiene to cyclobutene, why is the thermal reaction forbidden?",
+				"options": [
+					"The product has a lower symmetry than the reactant, so the reaction cannot proceed",
+					"Disrotatory motion breaks the mirror plane, so the orbital symmetry changes along the path",
+					"Same-symmetry levels cannot cross, so the ground configuration correlates with a doubly excited product state",
+					"The $\\sigma$ and $\\pi$ orbitals of the product are degenerate, which stops the electrons from relaxing along the reaction path"
+				],
+				"answer": 2,
+				"explanation": "Along the disrotatory path the mirror plane is conserved, and the occupied $\\psi_1,\\psi_2$ correlate with $\\sigma$ and $\\pi^*$ orbitals of the product rather than with $\\sigma$ and $\\pi$. Because same-symmetry levels avoid crossing, this forces a large barrier (or an excited-state product)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain 'conservation of orbital symmetry' in group-theory terms, using a thermal [2+2] cycloaddition of two ethylenes versus a [4+2] Diels-Alder reaction.",
+				"rubric": "Full credit requires: (1) pick the symmetry elements preserved along the reaction path (the group of the approach), label reactant and product orbitals by irreps, and correlate orbitals of the same symmetry in energy order (non-crossing rule); (2) [4+2] (6 electrons, suprafacial) correlates occupied reactant orbitals with occupied product orbitals, so there is no symmetry-imposed barrier; (3) [2+2] suprafacial correlates a filled reactant orbital with an empty product orbital, so the thermal reaction has a high barrier (symmetry forbidden).",
+				"modelAnswer": "One finds the symmetry elements that persist along the approach (for example two mirror planes), labels the reactant and product MOs by irreps and connects levels of the same irrep in energy order, since same-symmetry levels cannot cross. For the Diels-Alder reaction every occupied reactant orbital connects to an occupied product orbital, so the ground state evolves smoothly. For the thermal [2+2] a filled reactant orbital connects to an empty antibonding product orbital, so the ground-state configuration is forced up in energy and the reaction has a large barrier."
+			}
+		],
+		"c1-l030-spin-antisymmetry-slater-determinants": [
+			{
+				"kind": "numeric",
+				"prompt": "Expanding a Slater determinant of $N$ spin orbitals gives $N!$ product terms. How many product terms are in the determinant for the 10 electrons of water (5 doubly occupied orbitals)?",
+				"answer": 3628800,
+				"tolerance": 0.001,
+				"explanation": "$10!=3\\,628\\,800$ terms, which is why one never expands a determinant by hand and instead works with the Slater-Condon rules. Even for a modest molecule such as benzene (42 electrons) $N!$ is astronomically large."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a single Slater determinant, how are the positions of two electrons correlated?",
+				"options": [
+					"Electrons of opposite spin avoid each other (Coulomb hole), while electrons of the same spin move independently",
+					"All pairs of electrons are fully correlated, because the determinant is built from all possible permutations",
+					"No electrons are correlated; the determinant is just the product of the orbitals symmetrized over the electrons",
+					"Same-spin electrons avoid each other (Fermi hole); opposite-spin electrons are uncorrelated"
+				],
+				"answer": 3,
+				"explanation": "Antisymmetry forces $\\Psi=0$ when two same-spin electrons share a position. Opposite-spin electrons have no such constraint in a determinant (their spatial wavefunction can be a simple product), so the missing opposite-spin correlation is the correlation energy."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can a Slater determinant never contain the same spin orbital twice?",
+				"options": [
+					"The two electrons would have the same energy, and the Hamiltonian forbids degenerate occupancy",
+					"Two identical columns make the determinant vanish: this is the Pauli exclusion principle",
+					"The normalization factor $1/\\sqrt{N!}$ diverges when two spin orbitals are the same",
+					"Two identical spin orbitals would be orthogonal, so the overlap in the determinant would vanish"
+				],
+				"answer": 1,
+				"explanation": "A determinant with two equal columns is identically zero. The Pauli exclusion principle is thus a consequence of the antisymmetry of the many-electron wavefunction, not an extra postulate about orbitals."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how the Pauli exclusion principle follows from antisymmetry, and what the 'Fermi hole' in a Slater determinant means physically.",
+				"rubric": "Full credit requires: (1) the wavefunction must change sign under exchange of any two electrons, so two electrons with the same spin orbital (or the same spin at the same point) give $\\Psi=0$; (2) Fermi hole: for same-spin electrons the probability of finding them at the same position is zero, and small nearby, so the electron carries a region of reduced same-spin density around it; (3) this exchange effect is present without any Coulomb interaction and lowers the repulsion energy.",
+				"modelAnswer": "Antisymmetry means swapping two electrons flips the sign of $\\Psi$. If two electrons were in the same spin orbital, swapping them would change nothing and flip the sign, so $\\Psi=0$: that is Pauli exclusion. The same property makes the probability of finding two same-spin electrons at the same point vanish, so each electron is surrounded by a Fermi hole where same-spin electrons are rare, which reduces their Coulomb repulsion even before correlation is included."
+			}
+		],
+		"c1-l031-slater-condon-rules": [
+			{
+				"kind": "numeric",
+				"prompt": "Water has 10 electrons: 5 spin orbitals with $\\alpha$ spin and 5 with $\\beta$ spin. Exchange integrals $K_{ab}$ are nonzero only between spin orbitals of the same spin. How many distinct nonzero pair terms $K_{ab}$ ($a<b$) appear in the energy of the closed-shell determinant?",
+				"answer": 20,
+				"tolerance": 0.001,
+				"explanation": "Each spin set has $\\binom52=10$ pairs and there are two spin sets, giving 20. The 45 distinct Coulomb pair terms $J_{ab}$ ($a<b$) include all $\\binom{10}2$ pairs, but exchange survives only for parallel spins."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two Slater determinants differ in three spin orbitals. What is $\\langle\\Psi|\\hat H|\\Psi'\\rangle$?",
+				"options": [
+					"Nonzero in general, since the three differing orbitals can each interact through the kinetic energy",
+					"Equal to the overlap of the three differing orbitals, since $\\hat H$ is Hermitian",
+					"Zero, because $\\hat H$ has at most two-electron operators and can change at most two spin orbitals",
+					"Zero only if the three orbitals have opposite spins, because spin then makes the integral vanish"
+				],
+				"answer": 2,
+				"explanation": "The Slater-Condon rules: identical determinants give $\\sum h_{aa}+\\tfrac12\\sum(J-K)$; one difference gives one-electron and two-electron terms; two differences give $\\langle ab\\|rs\\rangle$ only; more than two differences give zero."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does the exchange integral $K_{ab}$ appear only for electrons of parallel spin?",
+				"options": [
+					"Exchange swaps the two electrons, and the spin overlap vanishes for opposite spins",
+					"Opposite-spin electrons are attracted to each other, so their exchange energy cancels the repulsion",
+					"Electrons with parallel spins repel more strongly, so there is an extra repulsion term for them",
+					"Exchange is a relativistic effect that arises only from spin-orbit coupling between parallel-spin electrons in heavy atoms"
+				],
+				"answer": 0,
+				"explanation": "The matrix element $\\langle ab|ba\\rangle$ contains the spin overlaps $\\langle\\sigma_a|\\sigma_b\\rangle\\langle\\sigma_b|\\sigma_a\\rangle$. They vanish for $\\alpha\\beta$ and equal 1 for parallel spins. So exchange lowers the energy of parallel-spin pairs, the origin of Hund's rule."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words the difference between the Coulomb integral $J_{ab}$ and the exchange integral $K_{ab}$ in the energy of a determinant.",
+				"rubric": "Full credit requires: (1) $J_{ab}$ is the classical electrostatic repulsion between the charge densities $|\\chi_a|^2$ and $|\\chi_b|^2$ and is always positive; (2) $K_{ab}$ has no classical analogue: it comes from antisymmetry (swapping the electrons) and involves the overlap density $\\chi_a^*\\chi_b$; it lowers the energy and applies only to parallel spins; (3) the pair energy is $J_{ab}-K_{ab}$.",
+				"modelAnswer": "$J_{ab}$ is the ordinary electrostatic repulsion of two charge clouds and is always positive. $K_{ab}$ arises because the wavefunction is antisymmetric, so there is a term in which the two electrons swap orbitals; it involves the overlap density $\\chi_a^*\\chi_b$ and exists only for parallel spins. It lowers the energy, so the pair contributes $J_{ab}-K_{ab}$."
+			}
+		],
+		"c1-l032-hartree-fock-equations-fock-operator": [
+			{
+				"kind": "numeric",
+				"prompt": "For helium with the orbital $1s(\\zeta)$, $\\zeta=27/16$, the one-electron integral is $h_{11}=-1.9512\\,E_h$ and the Coulomb integral is $J_{11}=1.0547\\,E_h$. In a closed-shell Hartree-Fock calculation the occupied-orbital energy is $\\varepsilon=h_{11}+J_{11}$ (the same-orbital exchange cancels the self-term). Give $\\varepsilon$ in eV (1 $E_h$ = 27.211 eV).",
+				"answer": -24.395,
+				"tolerance": 0.02,
+				"unit": "eV",
+				"explanation": "$\\varepsilon=-0.8965\\,E_h=-24.4$ eV. Koopmans' theorem would read this as the ionization energy (the experimental value is 24.59 eV). Note the sum of the two electrons' $\\varepsilon$ values does not equal the total energy."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The exchange operator $\\hat K_b$ acting on an orbital $\\chi_a$ is called non-local. What does that mean?",
+				"options": [
+					"It means the exchange potential has the same value at every point in space, so it is only a constant energy shift",
+					"$\\hat K_b\\chi_a(1)$ depends on an integral of $\\chi_a$ over all space, not just its value at $\\mathbf r_1$",
+					"It means exchange acts only between electrons on different atoms, so it has no local contribution",
+					"It means the operator acts on the spin variables only and leaves the spatial orbital unchanged"
+				],
+				"answer": 1,
+				"explanation": "$\\hat K_b\\chi_a(1)=[\\int\\chi_b^*(2)r_{12}^{-1}\\chi_a(2)\\,d\\mathbf x_2]\\chi_b(1)$: it is an integral operator, not a multiplicative potential, so exchange cannot be written as a local $v(\\mathbf r)$. This is why DFT's local $v_{xc}$ is a nontrivial approximation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why must the Hartree-Fock equations be solved iteratively?",
+				"options": [
+					"The orbital energies depend on the basis set, so the basis must be refined until it stops changing",
+					"The Hamiltonian is time dependent, so the orbitals must be updated at each time step",
+					"The Fock operator depends on $\\hat J_b$ and $\\hat K_b$ built from the very orbitals being solved for",
+					"The exact wavefunction is unknown, so the equations are solved by trial and error with random orbitals"
+				],
+				"answer": 2,
+				"explanation": "The one-electron operator $\\hat f$ depends on its own eigenfunctions, a nonlinear problem solved by self-consistent-field (SCF) iteration: guess orbitals, build $\\hat f$, solve, and repeat until the orbitals stop changing."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in physical terms what the Coulomb and exchange parts of the Fock operator describe about the field felt by one electron.",
+				"rubric": "Full credit requires: (1) $\\hat h$ is the kinetic energy plus attraction to the nuclei; (2) $\\sum_b\\hat J_b$ is the average electrostatic potential of the charge clouds of all occupied spin orbitals (including its own, spuriously); (3) $-\\sum_b\\hat K_b$ is the exchange correction from antisymmetry, which removes self-interaction and reduces repulsion by same-spin electrons (Fermi hole).",
+				"modelAnswer": "Each electron moves in the field of the nuclei, plus the average electrostatic field $\\sum_b\\hat J_b$ of all the electron clouds, plus an exchange correction $-\\sum_b\\hat K_b$. The exchange term arises from antisymmetry: it subtracts the self-interaction contained in the Coulomb term and reduces the repulsion from same-spin electrons, which stay apart by the Pauli principle."
+			}
+		],
+		"c1-l033-interpreting-hartree-fock": [
+			{
+				"kind": "numeric",
+				"prompt": "In closed-shell helium, $E_{HF}=2\\varepsilon-J_{11}$ (the pair repulsion is counted twice in $2\\varepsilon$). With $\\varepsilon=-0.8965\\,E_h$ and $J_{11}=1.0547\\,E_h$, find $E_{HF}$ in $E_h$.",
+				"answer": -2.8477,
+				"tolerance": 0.01,
+				"unit": "E_h",
+				"explanation": "$2(-0.8965)-1.0547=-2.8477\\,E_h$, the same value as the variational calculation of lesson 4. Summing orbital energies alone ($-1.793\\,E_h$) would be far off because each electron's $\\varepsilon$ already includes the interaction with the other."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the Hartree-Fock energy of a one-electron system (hydrogen atom) exact?",
+				"options": [
+					"The Fock operator for one electron is the kinetic plus potential energy and nothing else, so the equation is a different one from the exact Schrodinger equation",
+					"There are no other electrons, and correlation energy is defined only for atoms with at least two shells",
+					"Hartree-Fock theory is exact for any atom in the limit of an infinite basis set",
+					"$J_{aa}$ is cancelled exactly by the self-exchange $K_{aa}$, so the electron does not repel itself"
+				],
+				"answer": 3,
+				"explanation": "In the Hartree method (no exchange) an electron repels its own cloud, an error called self-interaction. In HF, $J_{aa}=K_{aa}$ and the electron's own field cancels, so one-electron systems are exact. Approximate DFT functionals do not cancel it exactly."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does $E_0\\neq\\sum_a\\varepsilon_a$ in Hartree-Fock?",
+				"options": [
+					"Each $\\varepsilon_a$ already includes repulsion with all others, so summing counts every pair twice",
+					"The orbital energies are defined only up to an additive constant, so their sum has no meaning",
+					"The Fock operator omits the kinetic energy, which must be added separately to the sum of orbital energies",
+					"Orbital energies describe virtual orbitals only, so they cannot enter the total energy"
+				],
+				"answer": 0,
+				"explanation": "$\\sum_a\\varepsilon_a=\\sum h_{aa}+\\sum_{ab}(J_{ab}-K_{ab})$ whereas $E_0=\\sum h_{aa}+\\tfrac12\\sum_{ab}(J_{ab}-K_{ab})$, so $E_0=\\sum\\varepsilon_a-\\tfrac12\\sum_{ab}(J_{ab}-K_{ab})$ (plus $V_{NN}$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "What physical effect does Hartree-Fock theory include exactly, and what does it leave out? Use the terms Fermi hole and Coulomb hole.",
+				"rubric": "Full credit requires: (1) HF includes exchange exactly for the single determinant (Fermi hole: same-spin electrons avoid each other) and cancels self-interaction; (2) it treats each electron in the average field of the others, so opposite-spin electrons are uncorrelated; the Coulomb hole (instantaneous avoidance due to $1/r_{12}$) is absent; (3) the missing energy is the correlation energy $E_c=E_{exact}-E_{HF}<0$.",
+				"modelAnswer": "HF includes exchange exactly for the one determinant, so same-spin electrons keep apart (Fermi hole) and self-interaction cancels. It treats the electrons only through their average field, so opposite-spin electrons are not correlated and there is no Coulomb hole, the dip in pair probability caused by their repulsion. The resulting energy error is the correlation energy, always negative."
+			}
+		],
+		"c1-l034-roothaan-hall-equations": [
+			{
+				"kind": "numeric",
+				"prompt": "For $M=100$ basis functions, how many symmetry-unique two-electron integrals $(\\mu\\nu|\\lambda\\sigma)$ are there? Use the 8-fold permutational symmetry: the number of pairs is $P=M(M+1)/2$ and the number of unique integrals is $P(P+1)/2$.",
+				"answer": 12753775,
+				"tolerance": 0.02,
+				"explanation": "$P=5050$ and $P(P+1)/2=12\\,753\\,775$, about $M^4/8$. This is why storing integrals becomes the bottleneck for large basis sets and why direct and density-fitting algorithms are used."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the closed-shell (RHF) Fock matrix $F_{\\mu\\nu}=H^{\\rm core}_{\\mu\\nu}+\\sum_{\\lambda\\sigma}P_{\\lambda\\sigma}[(\\mu\\nu|\\sigma\\lambda)-\\tfrac12(\\mu\\lambda|\\sigma\\nu)]$, why does the exchange term carry a factor $\\tfrac12$?",
+				"options": [
+					"Exchange is a half-strength effect because only half of the electrons are in occupied orbitals",
+					"$P$ counts both spins in the Coulomb term, but exchange acts only between same-spin electrons",
+					"The factor $\\tfrac12$ avoids counting each pair of basis functions twice in the double sum",
+					"It reflects the zero-point energy of the electrons, which is half the classical value"
+				],
+				"answer": 1,
+				"explanation": "With $\\mathbf P=2\\mathbf C_{occ}\\mathbf C_{occ}^\\dagger$ the density counts $\\alpha$ and $\\beta$ electrons together. All of it repels the electron through $J$, but only the same-spin half exchanges, so $K$ enters with $\\tfrac12$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the Roothaan-Hall equation $\\mathbf F\\mathbf C=\\mathbf S\\mathbf C\\boldsymbol\\varepsilon$, what are the columns of $\\mathbf C$?",
+				"options": [
+					"The AO populations (electron counts) obtained after the SCF converges, summed over all occupied orbitals",
+					"The matrix elements of the Fock operator in the molecular orbital basis",
+					"Expansion coefficients of each MO in the AO basis, with $\\mathbf C^\\dagger\\mathbf S\\mathbf C=\\mathbf 1$",
+					"The eigenvalues of the overlap matrix, which determine the number of occupied orbitals"
+				],
+				"answer": 2,
+				"explanation": "$\\psi_i=\\sum_\\mu C_{\\mu i}\\varphi_\\mu$. The coefficients are the generalized eigenvectors of $\\mathbf F$ in the $\\mathbf S$ metric. From the occupied columns one builds the density matrix $\\mathbf P$, which is used to build the next $\\mathbf F$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how expanding the orbitals in a basis turns the integro-differential Hartree-Fock equations into a matrix problem, and why the cost grows steeply with basis-set size.",
+				"rubric": "Full credit requires: (1) inserting $\\psi_i=\\sum C_{\\mu i}\\varphi_\\mu$ and projecting gives algebraic equations $\\mathbf F\\mathbf C=\\mathbf S\\mathbf C\\boldsymbol\\varepsilon$ with $\\mathbf F$ depending on $\\mathbf P$ through two-electron integrals; (2) the number of two-electron integrals scales as $M^4$ (about $M^4/8$ unique), and building $\\mathbf F$ requires contracting them with $\\mathbf P$ at each iteration; (3) the problem remains nonlinear, so iteration is needed.",
+				"modelAnswer": "Expanding the orbitals in basis functions and projecting the Fock equation onto each function gives a matrix equation $\\mathbf F\\mathbf C=\\mathbf S\\mathbf C\\boldsymbol\\varepsilon$, where $\\mathbf F$ depends on the density matrix and on all the two-electron integrals $(\\mu\\nu|\\lambda\\sigma)$. Those integrals number about $M^4/8$, and each SCF cycle contracts them with $\\mathbf P$, so cost grows as roughly the fourth power of the basis size. Since $\\mathbf F$ depends on $\\mathbf C$, the matrix problem must still be iterated."
+			}
+		],
+		"c1-l035-scf-procedure-convergence": [
+			{
+				"kind": "numeric",
+				"prompt": "DIIS combines previous Fock matrices with coefficients $c_i$ ($\\sum c_i=1$) that minimize the norm of $\\sum c_i\\mathbf e_i$, where $\\mathbf e=\\mathbf F\\mathbf P\\mathbf S-\\mathbf S\\mathbf P\\mathbf F$. Two earlier iterations have error vectors $\\mathbf e_1=(0.10,0.02)$ and $\\mathbf e_2=(-0.05,0.01)$. What is the optimal $c_1$ (with $c_2=1-c_1$)?",
+				"answer": 0.327434,
+				"tolerance": 0.02,
+				"explanation": "Minimize $|\\mathbf e_2+c_1(\\mathbf e_1-\\mathbf e_2)|^2$: $c_1=-\\mathbf e_2\\cdot\\mathbf d/|\\mathbf d|^2$ with $\\mathbf d=(0.15,0.01)$, giving $0.327$ (and $c_2=0.673$). The extrapolated error is far smaller than either input, which is why DIIS converges in 10-20 iterations."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is $\\mathbf e=\\mathbf F\\mathbf P\\mathbf S-\\mathbf S\\mathbf P\\mathbf F$ a good convergence measure for the SCF?",
+				"options": [
+					"It vanishes exactly when the Roothaan equations hold, and it is cheap to compute",
+					"It measures the total energy change per iteration, which must be below $10^{-12}\\,E_h$ for convergence",
+					"It equals the difference between the occupied and virtual orbital energies, so it is zero at the HOMO-LUMO crossing",
+					"It is the gradient of the correlation energy, which vanishes for a converged determinant"
+				],
+				"answer": 0,
+				"explanation": "At self-consistency $\\mathbf F$ and $\\mathbf P$ share eigenvectors so the commutator vanishes. It is also the orbital-rotation gradient between occupied and virtual orbitals, so it measures how far the determinant is from stationary."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A stability analysis of a converged RHF solution finds a negative eigenvalue of the orbital Hessian (an RHF-to-UHF instability). What does this tell you?",
+				"options": [
+					"It is the exact ground state, because SCF always converges to the global minimum",
+					"A saddle point in orbital space: relaxing symmetry constraints can lower the energy",
+					"The basis set is too small, since instabilities arise only from incomplete bases",
+					"The wavefunction has the wrong number of electrons, so the occupations must be re-assigned"
+				],
+				"answer": 1,
+				"explanation": "A converged SCF only guarantees $\\mathbf e=0$. A stability analysis (the orbital Hessian) can reveal negative eigenvalues; following them leads to broken-symmetry solutions (e.g., RHF to UHF in stretched H$_2$), and different starting guesses can reach different states."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does an SCF calculation on a molecule with a very small HOMO-LUMO gap (for example, a stretched bond) converge poorly, and what remedies exist?",
+				"rubric": "Full credit requires: (1) a small gap means occupied and virtual orbitals mix strongly in each update, so the density oscillates (charge sloshing) and plain iteration overshoots; (2) remedies: damping or level shifting (raise virtuals), DIIS extrapolation, a better initial guess or second-order (Newton-like) methods; (3) check the result with a stability analysis because the solution may be a saddle point.",
+				"modelAnswer": "When the gap is small, tiny changes in $\\mathbf F$ rotate occupied and virtual orbitals strongly, so successive densities overshoot and oscillate. Fixes are damping the update, raising the virtual orbitals with a level shift, using DIIS to extrapolate from earlier cycles, starting from a better guess, or using second-order methods. Afterward, one should confirm with a stability analysis that the solution is a minimum."
+			}
+		],
+		"c1-l036-koopmans-brillouin": [
+			{
+				"kind": "numeric",
+				"prompt": "A Hartree-Fock calculation on water gives $\\varepsilon(1b_1)=-0.5092\\,E_h$. Koopmans' theorem takes $-\\varepsilon$ as the ionization energy. By how many eV does this exceed the experimental first ionization energy of 12.62 eV? (1 $E_h$ = 27.211 eV)",
+				"answer": 1.23604,
+				"tolerance": 0.05,
+				"unit": "eV",
+				"explanation": "$0.5092\\times27.211=13.86$ eV, an overestimate of 1.2 eV. The neglected relaxation of the remaining orbitals lowers the true IE (by roughly 1-2 eV here) while correlation changes it in the opposite direction, so Koopmans' theorem is often surprisingly good."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Koopmans' theorem often gives decent valence ionization energies, but fails badly for core ionization. Why?",
+				"options": [
+					"Core orbitals are not eigenfunctions of the Fock operator, so Koopmans' theorem does not apply to them",
+					"Core electrons are not described by the determinant because they lie far below the Fermi level of the valence electrons and decouple from them",
+					"Core-hole relaxation is huge (10-20 eV), so the errors no longer cancel",
+					"Relaxation vanishes for core ionization, while correlation adds a large error to the valence orbitals"
+				],
+				"answer": 2,
+				"explanation": "Koopmans' IE$=-\\varepsilon_a$ is the frozen-orbital value. Relaxation lowers the cation's energy, and the differing pair correlation energy of cation and neutral works the other way. For valence orbitals these roughly cancel; for core holes the relaxation dwarfs the rest."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Brillouin's theorem states $\\langle\\Phi_0|\\hat H|\\Phi_i^a\\rangle=f_{ia}=0$. What does it imply for the HF determinant?",
+				"options": [
+					"The HF wavefunction already contains the exact correlation energy through the singly excited determinants",
+					"The energy of the HF determinant cannot be improved by any further change of orbitals",
+					"Doubly excited determinants cannot mix with the HF determinant either, so CISD equals HF",
+					"Singles do not couple directly to the HF determinant, so the HF density is correct to first order"
+				],
+				"answer": 3,
+				"explanation": "At self-consistency the occupied-virtual block of $\\mathbf F$ vanishes, so singles do not couple. Correlation first enters through doubles, and singles influence the energy only indirectly (through coupling to doubles), though they change properties such as dipole moments."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why errors in Koopmans' theorem partly cancel, and why virtual-orbital energies from HF are poor estimates of electron affinities.",
+				"rubric": "Full credit requires: (1) Koopmans neglects orbital relaxation of the $N-1$ electron system (makes IE too large) and neglects the change in correlation energy (makes IE too small), so these tend to cancel; (2) a virtual orbital in HF experiences the potential of all $N$ electrons, not $N+1$, so it is too diffuse and its energy is a poor EA (often positive for anions, sign error); (3) mention that $\\Delta$SCF (total-energy differences) accounts for relaxation.",
+				"modelAnswer": "Removing an electron lets the other orbitals contract, lowering the cation energy, so Koopmans' value is too high; but the cation has fewer pairs, hence less correlation energy to lose, which pushes the true value the other way. The two effects partially cancel. A virtual orbital is computed in the field of all $N$ electrons rather than $N+1$, so it is too diffuse and its energy is a poor electron affinity; total-energy differences ($\\Delta$SCF) capture relaxation."
+			}
+		],
+		"c1-l037-open-shells-uhf-rohf": [
+			{
+				"kind": "numeric",
+				"prompt": "A UHF wavefunction for stretched H$_2$ has $\\langle S^2\\rangle=1.0$. Treat it as a mixture of the singlet ($S^2=0$) and the $M_S=0$ triplet ($S^2=2$). What percentage of the wavefunction is triplet (weight of the triplet component)?",
+				"answer": 50,
+				"tolerance": 0.01,
+				"unit": "%",
+				"explanation": "$\\langle S^2\\rangle=0\\cdot w_0+2w_1=1.0$ gives $w_1=0.5$, i.e. 50% triplet. The energy is right (two H atoms), but the wavefunction is not a spin eigenstate; the physical singlet could be recovered by spin projection."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the key difference between UHF and ROHF for a radical?",
+				"options": [
+					"UHF uses different spatial orbitals for $\\alpha$ and $\\beta$ (lower energy, spin-contaminated); ROHF is a spin eigenfunction",
+					"UHF keeps all orbitals doubly occupied, while ROHF allows the unpaired electron to occupy any orbital",
+					"UHF is a correlated method that includes double excitations, while ROHF does not",
+					"ROHF gives lower energies than UHF because it satisfies the variational principle with more constraints, so it is preferred for radicals"
+				],
+				"answer": 0,
+				"explanation": "UHF has more variational freedom, so $E_{\\rm UHF}\\le E_{\\rm ROHF}$, but the extra freedom lets it mix in higher multiplets (spin contamination). ROHF is a pure spin state, at the price of higher energy and awkward orbital energies."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the allyl radical, UHF predicts small negative spin density on the central carbon, while ROHF predicts zero. Which statement is correct?",
+				"options": [
+					"The negative spin density is a numerical artifact and should always be discarded",
+					"Spin density is negative wherever the electron density is small, so it carries no physical meaning",
+					"Spin polarization: the unpaired electron polarizes the paired ones, and ESR hyperfine couplings are sensitive to it",
+					"ROHF is correct because the unpaired electron is only in the nonbonding MO, and hyperfine couplings should be zero there"
+				],
+				"answer": 2,
+				"explanation": "Spin polarization (exchange interaction of the SOMO with the doubly occupied orbitals) puts negative spin density where the SOMO has a node. This is real, measured in ESR spectra (McConnell relation), and a standard failure of ROHF."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is the UHF energy of stretched H$_2$ lower than RHF, and why is this 'better energy' obtained at a cost?",
+				"rubric": "Full credit requires: (1) UHF allows the $\\alpha$ and $\\beta$ orbitals to localize on different atoms beyond the Coulson-Fischer point, removing the ionic terms and dissociating to two H atoms; (2) the cost is that the determinant is a mixture of singlet and triplet ($\\langle S^2\\rangle\\neq0$), i.e. broken spin symmetry and spin contamination; (3) it represents static correlation via symmetry breaking rather than a multi-determinant wavefunction.",
+				"modelAnswer": "Beyond the Coulson-Fischer distance the $\\alpha$ and $\\beta$ electrons can sit in different spatial orbitals, each localized on one atom. That removes the unphysical ionic terms and the energy goes to that of two H atoms, far below RHF. The price is a wavefunction that is a mix of singlet and triplet ($\\langle S^2\\rangle=1$), so spin symmetry is broken even though the energy is good."
+			}
+		],
+		"c1-l038-sto-versus-gto": [
+			{
+				"kind": "numeric",
+				"prompt": "Two s-type Gaussians $e^{-\\alpha r_A^2}$ and $e^{-\\beta r_B^2}$ with $\\alpha=1.0$, $\\beta=0.5$ (bohr$^{-2}$) sit on centres $R=1.5$ bohr apart. Their product is a single Gaussian centred at $P$ times the prefactor $\\exp[-\\alpha\\beta R^2/(\\alpha+\\beta)]$. Evaluate the prefactor.",
+				"answer": 0.472367,
+				"tolerance": 0.02,
+				"explanation": "$\\alpha\\beta/(\\alpha+\\beta)=0.333$ and $R^2=2.25$, so the prefactor is $e^{-0.75}=0.472$. The centre $P=(\\alpha A+\\beta B)/(\\alpha+\\beta)$ lies two-thirds of the way toward the tighter Gaussian. This is the reason three- and four-centre integrals reduce to closed-form two-centre expressions."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Gaussian-type orbitals (GTOs) have the wrong shape at the nucleus and at long range, yet almost all quantum chemistry programs use them. Why?",
+				"options": [
+					"A product of two Gaussians is one Gaussian on a third centre, so multicentre integrals are cheap",
+					"Gaussians satisfy the nuclear cusp condition better than exponentials, so they need fewer functions",
+					"Gaussians are complete as a basis, whereas Slater functions are not, so the answers converge faster",
+					"Gaussians are orthogonal on different centres, so the overlap matrix is always the identity"
+				],
+				"answer": 0,
+				"explanation": "STOs have the correct cusp and exponential tail but yield very hard three- and four-centre two-electron integrals. GTOs need roughly 3 times as many primitives, but the Gaussian product theorem makes each integral so cheap that the net cost is far lower."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Compared with the hydrogen 1s orbital $e^{-r}$, what are the two main defects of a single Gaussian $e^{-\\alpha r^2}$?",
+				"options": [
+					"It has a node at the nucleus and decays too slowly at long range, unlike the real 1s orbital",
+					"It has zero slope at the nucleus (no cusp) and decays too fast at long range",
+					"It is too diffuse near the nucleus and has too many radial nodes for a 1s function",
+					"It violates normalization and orthogonality to the 2s orbital"
+				],
+				"answer": 1,
+				"explanation": "The exact wavefunction satisfies the Kato cusp condition $\\psi'(0)=-Z\\psi(0)$; a Gaussian has $\\psi'(0)=0$. Contracting several Gaussians (STO-3G, etc.) mimics both the cusp and the tail well enough for chemistry."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the shape differences between STOs and GTOs matter physically, and how contracting several Gaussians repairs them.",
+				"rubric": "Full credit requires: (1) the STO has a cusp at the nucleus and an $e^{-\\zeta r}$ tail matching the exact solution, while a Gaussian is flat at the origin and falls off as $e^{-\\alpha r^2}$; (2) tight Gaussians are needed for the core region and diffuse Gaussians for the tail, so a fixed linear combination (contraction) of several primitives reproduces an STO-like shape; (3) the net trade: more primitives but vastly cheaper integrals.",
+				"modelAnswer": "A Slater function reproduces the nuclear cusp and the exponential tail of an atomic orbital, but a single Gaussian is flat at the nucleus and drops off too quickly. Adding several Gaussians with different exponents, tight ones for the core region and wide ones for the tail, in a fixed combination gives something close to an STO. That costs more primitives but each integral is analytic and cheap, so the total calculation is faster."
+			}
+		],
+		"c1-l039-contracted-basis-sets": [
+			{
+				"kind": "numeric",
+				"prompt": "The cc-pVDZ basis uses [3s2p1d] on each carbon and [2s1p] on each hydrogen, with spherical d functions (5 per shell) and 3 functions per p shell. How many basis functions does benzene (C$_6$H$_6$) have in cc-pVDZ?",
+				"answer": 114,
+				"tolerance": 0.001,
+				"explanation": "Carbon: $3+2\\cdot3+5=14$; hydrogen: $2+3=5$. Total $6\\times14+6\\times5=114$. The next level (cc-pVTZ) already has 264 functions, and the number of two-electron integrals grows as $M^4$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does 'split-valence' (for example 6-31G) mean?",
+				"options": [
+					"Each core orbital is split into two functions, and valence orbitals are kept as a single contracted function",
+					"The basis is split into one half for electrons of spin up and another half for spin down",
+					"The core gets one contracted function, each valence orbital an inner and an outer one, so its size can adjust",
+					"The valence orbitals are split between the two atoms of each bond, one function per atom"
+				],
+				"answer": 2,
+				"explanation": "Core orbitals are nearly unchanged by bonding, so one function suffices; valence orbitals expand or contract with the bonding environment, which two functions of different radial extent can mimic. 'Double-zeta' means two functions per valence AO."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is special about the correlation-consistent basis sets cc-pVXZ (X = D, T, Q, 5)?",
+				"options": [
+					"Each step adds functions recovering similar correlation energy, giving smooth convergence",
+					"They add functions in order of increasing nuclear charge, so heavy atoms are treated at the same level as light ones",
+					"They are designed to be exact for the Hartree-Fock energy, so no extrapolation is needed for any method",
+					"They contain only diffuse functions, which are required for correlated wavefunctions"
+				],
+				"answer": 0,
+				"explanation": "Dunning's sets are designed around correlation energy, adding shells (d, f, g...) that contribute comparably at each X. The result is a hierarchy with predictable convergence, for example the $X^{-3}$ behavior of the correlation energy."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why do we contract Gaussian primitives into fixed combinations, and what is gained and lost compared with using all primitives as independent variational functions?",
+				"rubric": "Full credit requires: (1) contracted functions are fixed linear combinations (from atomic calculations), so the number of basis functions $M$ in the SCF is much smaller; (2) cost depends on $M^4$ (or higher), so contraction cuts cost a lot while keeping core regions accurate; (3) the loss: less variational flexibility (higher energy) especially for valence regions, which is why valence is split into several functions.",
+				"modelAnswer": "Contraction replaces many primitive Gaussians by a few fixed linear combinations taken from atomic calculations. The SCF cost grows steeply with the number of basis functions, so this saves a lot, and the core region is well described because it hardly changes. The cost is less variational freedom, so valence orbitals are given several contracted functions to keep flexibility."
+			}
+		],
+		"c1-l040-polarization-diffuse-basis-limit": [
+			{
+				"kind": "numeric",
+				"prompt": "Suppose the correlation energy of a molecule is $-0.2800\\,E_h$ in cc-pVTZ ($X=3$) and $-0.3000\\,E_h$ in cc-pVQZ ($X=4$). Using $E_c(X)=E_c^\\infty+AX^{-3}$, extrapolate to the complete-basis-set limit in $E_h$.",
+				"answer": -0.314595,
+				"tolerance": 0.02,
+				"unit": "E_h",
+				"explanation": "$E_c^\\infty=(4^3E_4-3^3E_3)/(4^3-3^3)=(-19.2+7.56)/37=-0.3146\\,E_h$. The extrapolated value is a further 0.015 $E_h$ (about 9 kcal/mol) below the QZ result, which shows how slowly dynamic correlation converges."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The water dimer binding energy computed in a modest basis set is too large in magnitude. What is the main reason and the standard cure?",
+				"options": [
+					"Zero-point energy error, cured by adding the harmonic frequencies of the dimer",
+					"BSSE: each monomer borrows the partner's functions; the cure is counterpoise correction",
+					"Spin contamination in the dimer wavefunction, cured by switching to ROHF",
+					"Size-inconsistency of the correlation treatment, cured by adding a Davidson correction"
+				],
+				"answer": 1,
+				"explanation": "In the dimer each monomer is variationally improved by the other's basis functions, an artificial stabilization absent in the isolated monomers. The counterpoise correction computes monomers in the full dimer basis (ghost atoms) to remove it."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which system most strongly requires diffuse (augmented) basis functions?",
+				"options": [
+					"The neon atom, whose electrons are tightly held in compact orbitals close to the nucleus",
+					"The C-C single bond in ethane, whose density is concentrated between two carbon nuclei",
+					"The fluoride anion F$^-$, whose loosely bound extra electron lives far from the nucleus",
+					"The ground state of the H$_2$ molecule at equilibrium, with both electrons in a compact $\\sigma$ orbital"
+				],
+				"answer": 2,
+				"explanation": "Diffuse functions (small exponents) describe the tail of the density. They are essential for anions, Rydberg states, polarizabilities, and weak interactions, where density far from the nuclei matters."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what polarization functions are and give a physical reason why a calculation of water without them gets the geometry wrong.",
+				"rubric": "Full credit requires: (1) polarization functions have higher angular momentum than occupied valence orbitals (d on O, p on H) and let the electron density shift off the nucleus and deform in the bond direction; (2) without them, s and p orbitals cannot represent the bent, directional bonding or the lone-pair polarization, so angles and bond lengths are wrong (e.g. HOH angle too wide, planar tendencies for NH$_3$); (3) they also help describe correlation, which needs high angular momentum functions.",
+				"modelAnswer": "Polarization functions have an angular momentum one higher than the occupied valence orbitals, such as d on oxygen. They let the electron density distort away from spherical or $p$-only shapes and shift toward the bonds and lone pairs. Without them the bonding and lone-pair density of water cannot deform properly, so the bond angle comes out too large and the molecule too flat. They also supply the high angular momentum components needed for correlation."
+			}
+		],
+		"c1-l041-what-is-electron-correlation": [
+			{
+				"kind": "numeric",
+				"prompt": "A two-state model has the HF determinant at $0$ and a doubly excited determinant at $2\\Delta$ with $\\Delta=0.50\\,E_h$, coupled by $K=0.20\\,E_h$. The lowest eigenvalue is $E_-=\\Delta-\\sqrt{\\Delta^2+K^2}$. What is this correlation energy in $E_h$?",
+				"answer": -0.0385165,
+				"tolerance": 0.02,
+				"unit": "E_h",
+				"explanation": "$0.50-\\sqrt{0.25+0.04}=-0.0385\\,E_h$ (about -24 kcal/mol), with the doubly excited determinant weighted by about 3.6%. When $\\Delta\\to0$ (near-degeneracy) the energy lowering approaches $-K$ and the weights become equal: static correlation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the difference between the Fermi hole and the Coulomb hole?",
+				"options": [
+					"The Fermi hole comes from electron repulsion and affects opposite-spin pairs; the Coulomb hole comes from antisymmetry",
+					"Both holes are included in Hartree-Fock because HF uses the exact electron-electron interaction",
+					"The Fermi hole is a feature of the nuclear framework and the Coulomb hole is a feature of the basis set",
+					"Fermi hole: from antisymmetry, same-spin pairs, included in HF; Coulomb hole: from $1/r_{12}$, all pairs, absent in HF"
+				],
+				"answer": 3,
+				"explanation": "A single determinant builds in the exchange (Fermi) hole around each electron for same-spin partners. The Coulomb hole, a depletion of the other electrons near each electron because of $1/r_{12}$, requires configurations beyond the determinant."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which situation is dominated by static (non-dynamical) correlation?",
+				"options": [
+					"Stretching the N$\\equiv$N triple bond, where many configurations become nearly degenerate",
+					"The ground state of the helium atom, where electrons simply avoid one another at short range",
+					"A methane molecule at its equilibrium geometry, where the HF determinant has 98% weight",
+					"The dispersion interaction between two argon atoms at 4 Å"
+				],
+				"answer": 0,
+				"explanation": "Static correlation arises when several determinants have comparable weight (bond breaking, diradicals, transition metals), so a single reference fails qualitatively. Dynamic correlation (helium, methane at equilibrium, dispersion) is a sum of many small contributions that can be treated by perturbation or coupled cluster on top of HF."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how a wavefunction with static correlation differs from one dominated by dynamic correlation, using H$_2$ near equilibrium versus stretched as examples.",
+				"rubric": "Full credit requires: (1) near equilibrium the HF determinant dominates ($c_0\\approx0.99$) and correlation consists of many small contributions from doubles (dynamic); (2) at stretched geometry $\\sigma_g^2$ and $\\sigma_u^2$ become nearly degenerate and have comparable weights, so the wavefunction needs at least two configurations (static); (3) consequence: single-reference methods (MP2, CCSD) work for the former and fail for the latter.",
+				"modelAnswer": "Near equilibrium H$_2$ is well described by the closed-shell determinant, and correlation adds many small admixtures of excited determinants (dynamic correlation). When the bond is stretched, $\\sigma_g^2$ and $\\sigma_u^2$ become nearly degenerate with comparable weights, so at least two configurations are essential from the start (static correlation). Single-reference methods like MP2 or CCSD handle the first kind but break down for the second."
+			}
+		],
+		"c1-l042-configuration-interaction": [
+			{
+				"kind": "numeric",
+				"prompt": "Water in the 6-31G basis has 13 basis functions and 10 electrons (5 $\\alpha$, 5 $\\beta$). The number of determinants in a full CI (ignoring symmetry and frozen core) is $\\binom{13}{5}^2$. How many?",
+				"answer": 1656369,
+				"tolerance": 0.001,
+				"explanation": "$\\binom{13}5=1287$ and $1287^2=1\\,656\\,369$ determinants even for this tiny basis. In cc-pVDZ (24 functions) the count rises to about $1.8\\times10^{9}$, which is why FCI is only a benchmark for the smallest systems."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Is a truncated CI energy (for example CISD) variational?",
+				"options": [
+					"No, because truncation breaks the Hermiticity of the CI matrix",
+					"Yes: it is the lowest eigenvalue of $\\hat H$ in a subspace, hence an upper bound",
+					"Only if the CI includes all singles, since singles make the matrix positive definite",
+					"No, because the CI coefficients are not normalized after truncation"
+				],
+				"answer": 1,
+				"explanation": "CI is the linear variation method with determinants as the basis, $\\mathbf H\\mathbf c=E\\mathbf c$. Any subset of determinants gives a Rayleigh-Ritz upper bound; the price is that truncated CI is not size-consistent."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do doubly excited determinants dominate the correlation energy in a CI built on a HF reference?",
+				"options": [
+					"Triple and quadruple excitations are forbidden by symmetry in all molecules, so only doubles can ever appear in a molecule of high symmetry",
+					"Doubles have the lowest energy of all excited determinants, so they dominate",
+					"The CI matrix is tridiagonal, so only determinants differing by two orbitals appear",
+					"Singles do not couple to the HF determinant (Brillouin); doubles do"
+				],
+				"answer": 3,
+				"explanation": "$\\langle\\Phi_0|\\hat H|\\Phi_{ij}^{ab}\\rangle=\\langle ij\\|ab\\rangle\\neq0$ drives the lowest-order correlation. Singles matter only through coupling to doubles; triples and quadruples appear at higher order (quadruples are important through products of doubles)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how the CI wavefunction builds in correlation, and why full CI is exact within the basis set but impractical.",
+				"rubric": "Full credit requires: (1) the wavefunction is a linear combination of the HF determinant and excited determinants whose coefficients are found by diagonalizing $\\mathbf H$ (linear variation), allowing electrons to avoid each other by mixing in configurations where they occupy different orbitals; (2) full CI includes all determinants, so it is the exact solution within the basis; (3) the number of determinants grows factorially (binomially) with electrons and orbitals, so only small systems are feasible and truncation is needed.",
+				"modelAnswer": "CI writes the wavefunction as the HF determinant plus a combination of excited determinants and finds the coefficients by diagonalizing the Hamiltonian in that space. Mixing in determinants where electrons occupy different orbitals lets them avoid each other, which is correlation. Including every determinant (full CI) gives the exact answer in the basis, but the count of determinants grows combinatorially with electrons and orbitals, so truncation is unavoidable for anything but small molecules."
+			}
+		],
+		"c1-l043-size-consistency-extensivity": [
+			{
+				"kind": "numeric",
+				"prompt": "Take $N=10$ identical non-interacting fragments, each with the two-state correlation model ($\\Delta=0.50$, $K=0.20\\,E_h$). The exact correlation energy is $N(\\Delta-\\sqrt{\\Delta^2+K^2})$, while a CI restricted to one double excitation at a time gives $\\Delta-\\sqrt{\\Delta^2+NK^2}$. What percentage of the exact correlation energy does the restricted CI recover?",
+				"answer": 79.5051,
+				"tolerance": 0.02,
+				"unit": "%",
+				"explanation": "Exact: $10\\times(-0.0385)=-0.385\\,E_h$. Restricted CI: $0.5-\\sqrt{0.25+0.4}=-0.306\\,E_h$, i.e. 79.5%. The fraction recovered shrinks as $N$ grows (like $1/\\sqrt N$), the failure of CI size-extensivity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement about size-extensivity is correct?",
+				"options": [
+					"CISD and MP2 are size-extensive, while coupled cluster methods are not, since they are non-variational",
+					"MP2, CCSD and FCI are size-extensive, while truncated CI methods such as CISD are not",
+					"All methods based on a single determinant are size-extensive, including CISD",
+					"Only variational methods can be size-extensive, so CISD is but MP2 is not"
+				],
+				"answer": 1,
+				"explanation": "Size-extensivity depends on linked-diagram structure. CISD lacks the products of doubles (disconnected quadruples) needed when fragments are non-interacting. Variational and size-extensive are independent properties: CI is variational but not extensive, CC is extensive but not variational."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Davidson correction $\\Delta E_Q=(1-c_0^2)\\Delta E_{CISD}$ is added to CISD energies. What is its purpose?",
+				"options": [
+					"It corrects for basis-set superposition error in the CISD energy",
+					"It restores the variational bound that is lost when the CI is truncated",
+					"It estimates the missing unlinked quadruples, reducing the size-consistency error",
+					"It adds relativistic effects that are absent from the non-relativistic Schrodinger equation used here"
+				],
+				"answer": 2,
+				"explanation": "In a product of $N$ fragments the exact wavefunction contains products of doubles that CISD omits. The Davidson correction estimates their energy contribution from the weight $1-c_0^2$ left outside the reference."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words what 'size-consistency' means and why a CISD calculation of two distant H$_2$ molecules is not equal to twice the CISD energy of one H$_2$.",
+				"rubric": "Full credit requires: (1) size-consistency: the energy of non-interacting fragments computed together equals the sum of the energies computed separately; (2) for two H$_2$, the exact wavefunction contains the simultaneous double excitation of both molecules, a quadruple excitation of the combined system; (3) CISD includes only singles and doubles, so it lacks this product term and recovers less correlation than the sum of separate CISD results.",
+				"modelAnswer": "Size-consistency means that two non-interacting systems calculated as one give the sum of their separate energies. For two distant H$_2$ molecules, correlating each molecule with a double excitation means exciting two electron pairs at once, which is a quadruple excitation of the whole system. CISD stops at doubles, so it cannot include this product, and the combined CISD energy is higher than twice the single-molecule value."
+			}
+		],
+		"c1-l044-mp2-perturbative-correlation": [
+			{
+				"kind": "numeric",
+				"prompt": "A single double excitation $ij\\to ab$ has $\\langle ij\\|ab\\rangle=0.05\\,E_h$ and orbital-energy denominator $\\varepsilon_i+\\varepsilon_j-\\varepsilon_a-\\varepsilon_b=-1.2\\,E_h$. Its MP2 contribution is $|\\langle ij\\|ab\\rangle|^2/(\\varepsilon_i+\\varepsilon_j-\\varepsilon_a-\\varepsilon_b)$. Give it in kcal/mol (1 $E_h$ = 627.5 kcal/mol).",
+				"answer": -1.30731,
+				"tolerance": 0.02,
+				"unit": "kcal/mol",
+				"explanation": "$-0.0025/1.2=-2.08\\times10^{-3}\\,E_h=-1.31$ kcal/mol. The full MP2 correlation energy is a sum over thousands of such terms; each is negative and grows when the denominator shrinks."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The MP2 correlation energy is always negative. Why?",
+				"options": [
+					"Each term is a squared matrix element divided by a negative denominator",
+					"MP2 is variational, so it can never go above the exact energy",
+					"The perturbation $\\hat V$ is always negative, because electron repulsion is an attractive correction in the Fock picture",
+					"Orbital energies of virtual orbitals are always lower than those of occupied orbitals"
+				],
+				"answer": 0,
+				"explanation": "Occupied orbitals lie below virtuals, so $\\varepsilon_i+\\varepsilon_j-\\varepsilon_a-\\varepsilon_b<0$, while $|\\langle ij\\|ab\\rangle|^2\\ge0$. Second-order perturbation theory always lowers the ground-state energy, though MP2 is not variational and can overshoot."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does MP2 fail badly when a bond is stretched?",
+				"options": [
+					"The two-electron integrals become infinite at long range",
+					"Small HOMO-LUMO gaps make the denominators vanish, so the series diverges",
+					"MP2 contains only singles excitations, which do not describe dissociation",
+					"The HF reference becomes an eigenfunction of $\\hat S^2$, which removes correlation"
+				],
+				"answer": 1,
+				"explanation": "Perturbation theory assumes a small $\\hat V$ relative to the gaps of $\\hat H_0$. For near-degenerate states (static correlation) the denominators vanish and the series is meaningless: use a multireference method or coupled cluster."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how Moller-Plesset theory partitions the Hamiltonian, and why the first-order energy gives back exactly the Hartree-Fock energy.",
+				"rubric": "Full credit requires: (1) $\\hat H_0=\\sum_i\\hat f(i)$ is the sum of Fock operators with the HF determinant as ground state and $\\hat V=\\hat H-\\hat H_0$ the fluctuation potential; (2) $E^{(0)}=\\sum\\varepsilon_a$ and $E^{(1)}=\\langle\\Phi_0|\\hat V|\\Phi_0\\rangle=-\\tfrac12\\sum(J-K)$, so $E^{(0)}+E^{(1)}=E_{HF}$; (3) correlation first enters at second order through double excitations (Brillouin eliminates singles).",
+				"modelAnswer": "The unperturbed Hamiltonian is the sum of Fock operators, whose ground state is the HF determinant, and the perturbation is the difference between the true electron repulsion and the mean field. The zeroth-order energy $\\sum\\varepsilon_a$ double counts the repulsion and the first-order term $\\langle\\Phi_0|V|\\Phi_0\\rangle=-\\tfrac12\\sum(J-K)$ removes the excess, so the sum is exactly $E_{HF}$. Correlation first appears at second order through double excitations."
+			}
+		],
+		"c1-l045-coupled-cluster": [
+			{
+				"kind": "numeric",
+				"prompt": "CCSD(T) scales as the seventh power of system size. If a calculation takes 1 hour for one molecule, how many hours would it take for a molecule with twice as many basis functions (and electrons)?",
+				"answer": 128,
+				"tolerance": 0.01,
+				"unit": "h",
+				"explanation": "$2^7=128$ hours. The steep scaling is why CCSD(T), the 'gold standard', is used for molecules of a few tens of atoms with local-correlation approximations or for small-model benchmarks."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the coupled-cluster wavefunction $e^{\\hat T}\\Phi_0$ size-extensive even when truncated at $\\hat T_1+\\hat T_2$?",
+				"options": [
+					"It is variational, so adding fragments can only lower the energy by an additive amount",
+					"The truncated $\\hat T$ only contains single excitations, so there are no cross terms between fragments",
+					"$e^{\\hat T}$ generates products of excitations such as $\\tfrac12\\hat T_2^2$, so independent fragments factorize",
+					"The cluster operators are defined to commute with the overall number of electrons, which forces additivity"
+				],
+				"answer": 2,
+				"explanation": "For non-interacting A and B, $\\hat T=\\hat T_A+\\hat T_B$ and $e^{\\hat T_A+\\hat T_B}=e^{\\hat T_A}e^{\\hat T_B}$, so the wavefunction factorizes. CISD, by contrast, is a linear combination $1+\\hat C_1+\\hat C_2$ without products."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The CC energy is computed as $E=\\langle\\Phi_0|e^{-\\hat T}\\hat He^{\\hat T}|\\Phi_0\\rangle$ with amplitudes found by projection. What follows?",
+				"options": [
+					"The CC energy is a strict upper bound to the exact energy for any truncation of the cluster operator, as in CI",
+					"The energy equals the Hartree-Fock energy because the projection kills all excitations",
+					"The wavefunction is not size-extensive because the projection breaks the factorization",
+					"It is not an expectation value of $\\hat H$, so CC energies are not variational and may undershoot"
+				],
+				"answer": 3,
+				"explanation": "Projecting the Schrodinger equation, instead of minimizing $\\langle\\Psi|\\hat H|\\Psi\\rangle$, makes CC cheap and size-extensive but gives up the variational bound. In practice CCSD(T) errors are usually well below 1 kcal/mol for single-reference molecules."
+			},
+			{
+				"kind": "short",
+				"prompt": "Contrast CISD and CCSD in terms of how the wavefunction is built, and say when you would not trust CCSD(T).",
+				"rubric": "Full credit requires: (1) CISD is linear: $(1+\\hat C_1+\\hat C_2)\\Phi_0$ with variational coefficients, while CCSD is $e^{\\hat T_1+\\hat T_2}\\Phi_0$ which includes products such as $\\tfrac12\\hat T_2^2$ (disconnected quadruples), with amplitudes found by projection; (2) CC is size-extensive, not variational, and CCSD(T) adds perturbative triples; (3) it should not be trusted where static correlation is large (bond breaking, diradicals, transition-metal complexes), indicated by large T1 amplitudes or diagnostics.",
+				"modelAnswer": "CISD is a linear combination of singles and doubles with variational coefficients; CCSD exponentiates the excitation operator, so it automatically contains products of doubles that account for simultaneous independent pair excitations, and the amplitudes come from projected equations. This makes CC size-extensive but not variational. CCSD(T) fails when the HF reference is poor, as in bond breaking, diradicals and many transition-metal complexes, which large T1 diagnostics warn about."
+			}
+		],
+		"c1-l046-hohenberg-kohn": [
+			{
+				"kind": "mc",
+				"prompt": "What does the first Hohenberg-Kohn theorem state?",
+				"options": [
+					"The density of any state, excited or ground, determines the wavefunction uniquely",
+					"$\\rho_0$ fixes the external potential (up to a constant), hence the Hamiltonian and all properties",
+					"The ground-state energy is a minimum with respect to variations of the wavefunction, so $E_0\\le\\langle\\Psi|\\hat H|\\Psi\\rangle$",
+					"The electron density can be written as a sum of squared orbitals of non-interacting electrons"
+				],
+				"answer": 1,
+				"explanation": "Two different external potentials (differing by more than a constant) cannot give the same ground-state density, since otherwise the variational principle would be violated (proof by contradiction). Hence $\\rho_0\\to v\\to\\hat H\\to\\Psi_0$ and every property is a functional of $\\rho_0$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Where can you read the nuclear positions and charges off the exact ground-state density?",
+				"options": [
+					"At the maxima of the density, which always lie midway between bonded atoms in every molecule",
+					"At the points where $\\rho$ vanishes, because nodes mark the position of each nucleus",
+					"At the nuclear cusps (slope $-2Z\\rho$, Kato), while $\\int\\rho$ gives the electron count",
+					"Nowhere: the density is smooth, so the nuclear framework must be supplied separately"
+				],
+				"answer": 2,
+				"explanation": "Kato's cusp condition says $\\partial_r\\rho|_{r\\to R_A}=-2Z_A\\rho(R_A)$, so positions and charges are encoded in the density. This is the physical content behind the HK theorem: $\\rho$ determines $N$ and $v$."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Hohenberg-Kohn theorems prove that an exact functional $E[\\rho]$ exists. Why is that not enough to solve chemistry, and how does Thomas-Fermi theory illustrate the difficulty?",
+				"rubric": "Full credit requires: (1) HK proves existence and a variational principle $E_0=\\min_\\rho E_v[\\rho]$ with a universal $F[\\rho]=T[\\rho]+V_{ee}[\\rho]$, but gives no explicit form; (2) the hard part is the kinetic energy and exchange-correlation, which are unknown functionals; (3) Thomas-Fermi theory approximates $T[\\rho]$ locally (uniform gas) and fails qualitatively: no shell structure and no molecular binding, showing that crude explicit functionals are inadequate.",
+				"modelAnswer": "The theorems say a universal functional $F[\\rho]=T[\\rho]+V_{ee}[\\rho]$ exists and that minimizing $E_v[\\rho]$ gives the ground state, but they do not tell us what $F$ is. Thomas-Fermi theory approximates the kinetic energy by the uniform-gas formula using only the local density, and the result has no atomic shell structure and predicts no chemical bonds. So the difficulty is finding good approximations to the unknown parts, which Kohn-Sham theory attacks by treating the kinetic energy with orbitals."
+			}
+		],
+		"c1-l047-kohn-sham": [
+			{
+				"kind": "numeric",
+				"prompt": "For a one-electron system the exact exchange-correlation energy must cancel the Hartree self-repulsion, $E_{xc}=-J[\\rho]$. The Hartree energy of the hydrogen 1s density is $J[\\rho]=5/16\\,E_h$. What is the magnitude of this self-interaction that the functional must remove, in kcal/mol? (1 $E_h$ = 627.5 kcal/mol)",
+				"answer": 196.097,
+				"tolerance": 0.02,
+				"unit": "kcal/mol",
+				"explanation": "$0.3125\\times627.5=196.1$ kcal/mol. Semilocal functionals remove most but not all of it, which is the self-interaction error; for hydrogen the LDA exchange is $-0.268\\,E_h$ instead of $-0.3125\\,E_h$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In Kohn-Sham theory, what is the Slater determinant built from the KS orbitals?",
+				"options": [
+					"The exact many-electron wavefunction, since the KS orbitals solve the exact Schrodinger equation",
+					"The Hartree-Fock determinant, since the KS and HF orbital equations are the same equations",
+					"An excited state of the real system, chosen to give the best match to the density and energy",
+					"The ground state of a fictitious non-interacting system with the same density; not the true $\\Psi$"
+				],
+				"answer": 3,
+				"explanation": "By construction $\\rho=\\sum_i|\\varphi_i|^2$ matches the exact density, and the energy functional is exact in principle; but the KS determinant has no direct claim to represent the true wavefunction. Its energy $T_s$ is only part of the kinetic energy, the remainder being folded into $E_{xc}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does the Kohn-Sham equation differ from the Hartree-Fock equation?",
+				"options": [
+					"KS includes the electron-electron Coulomb term through the Hartree potential, while HF leaves out all Coulomb terms",
+					"KS has a local $v_{xc}(\\mathbf r)$ with exchange and correlation; HF has non-local exchange, no correlation",
+					"KS orbitals are real while HF orbitals are complex, which changes the form of the kinetic energy",
+					"KS is variational while HF is not, so KS energies are always lower than HF energies for the same molecule"
+				],
+				"answer": 1,
+				"explanation": "$v_{eff}=v+v_H+v_{xc}$ is local, so KS costs about the same as HF (or less) but can include correlation in principle. Approximate $E_{xc}$ is the only approximation, and the quality of DFT depends entirely on it."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the Kohn-Sham decomposition of the energy and explain why $E_{xc}$ is called the 'exchange-correlation' functional even though it contains a kinetic piece.",
+				"rubric": "Full credit requires: (1) $E[\\rho]=T_s[\\rho]+\\int v\\rho+J[\\rho]+E_{xc}[\\rho]$ with $T_s$ the non-interacting kinetic energy and $J$ the classical Hartree repulsion; (2) $E_{xc}=(T-T_s)+(V_{ee}-J)$ collects exchange, correlation and the kinetic-energy difference; (3) that is why $E_{xc}$ is the only unknown piece, and approximating it is the whole of DFT practice.",
+				"modelAnswer": "The KS energy is $T_s$ (kinetic energy of the non-interacting reference), plus the external potential energy, plus the classical Hartree repulsion $J$, plus $E_{xc}$. Everything the first three terms get wrong is lumped into $E_{xc}$: the exchange and correlation parts of the electron-electron energy and the small difference between the true and non-interacting kinetic energies. Since the other terms are exact, approximating $E_{xc}$ is the whole of practical DFT."
+			}
+		],
+		"c1-l048-xc-functionals-ladder": [
+			{
+				"kind": "numeric",
+				"prompt": "The LDA exchange energy per electron of a uniform electron gas is $\\varepsilon_x=-\\tfrac34(3/\\pi)^{1/3}\\rho^{1/3}$ (atomic units). Evaluate it for a typical valence density $\\rho=0.1\\,a_0^{-3}$, in $E_h$ per electron.",
+				"answer": -0.342809,
+				"tolerance": 0.02,
+				"unit": "E_h",
+				"explanation": "$-0.7386\\times(0.1)^{1/3}=-0.7386\\times0.4642=-0.343\\,E_h$ per electron. GGAs then multiply this by an enhancement factor $F_x(s)$ that depends on the reduced gradient $s=|\\nabla\\rho|/(2k_F\\rho)$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How do LDA functionals typically perform for molecular thermochemistry?",
+				"options": [
+					"They underbind: molecules are predicted to be unstable relative to separated atoms",
+					"They are exact for molecules because the uniform gas is an exact limit of every density, including that of a molecule",
+					"They are accurate for energies but give very poor densities and geometries",
+					"They overbind: atomization energies far too large (tens of kcal/mol) and bonds slightly short"
+				],
+				"answer": 3,
+				"explanation": "The homogeneous-gas model overestimates exchange-correlation binding in inhomogeneous systems. GGA (adds $\\nabla\\rho$) cuts the error to about 10 kcal/mol, hybrids to a few kcal/mol; hence Jacob's ladder."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do hybrid functionals such as PBE0 and B3LYP mix in a fraction (about 20-25%) of exact Hartree-Fock exchange?",
+				"options": [
+					"Exact exchange is cheap to compute, so replacing as much of the functional as possible reduces the cost of every SCF iteration",
+					"Exact exchange cancels part of the self-interaction error of semilocal functionals; the adiabatic connection suggests about one quarter",
+					"Hartree-Fock exchange supplies the correlation energy that semilocal functionals lack",
+					"Full HF exchange pairs ideally with local correlation, but the fraction is lowered to prevent SCF divergence"
+				],
+				"answer": 1,
+				"explanation": "Semilocal exchange suffers from self-interaction error; HF exchange is free of it but is incompatible with semilocal correlation (no error cancellation). The adiabatic connection $E_{xc}=\\int_0^1W_\\lambda d\\lambda$ motivates the empirical mixing and typically yields 20-25%."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe Jacob's ladder of density functionals and what ingredient each rung adds.",
+				"rubric": "Full credit requires: (1) rung 1 LDA uses only $\\rho$ (uniform gas); rung 2 GGA adds $\\nabla\\rho$ (PBE, BLYP); rung 3 meta-GGA adds the kinetic-energy density or $\\nabla^2\\rho$; rung 4 hybrids add a fraction of exact exchange (occupied orbitals); rung 5 adds virtual orbitals (RPA, double hybrids); (2) accuracy generally improves up the ladder while cost increases (hybrids need HF exchange); (3) improvement is not guaranteed for every property.",
+				"modelAnswer": "The ladder starts with LDA, which uses only the local density, then GGAs add the density gradient, meta-GGAs add the kinetic-energy density, hybrids add a fraction of exact exchange from the occupied orbitals, and the top rung uses virtual orbitals as well (RPA, double hybrids). Each step typically improves accuracy (atomization energies, barriers) at higher cost, though not every property improves at every rung."
+			}
+		],
+		"c1-l049-where-dft-fails": [
+			{
+				"kind": "numeric",
+				"prompt": "The long-range dispersion energy of two argon atoms is $-C_6/R^6$ with $C_6=64.3$ atomic units. At $R=7.1\\,a_0$ (the Ar$_2$ equilibrium separation) what is its magnitude in kcal/mol? (1 $E_h$ = 627.5 kcal/mol)",
+				"answer": 0.314979,
+				"tolerance": 0.05,
+				"unit": "kcal/mol",
+				"explanation": "$64.3/7.1^6=5.0\\times10^{-4}\\,E_h=0.31$ kcal/mol, close to the experimental well depth of 0.28 kcal/mol. Common GGAs and hybrids have no such $R^{-6}$ term at all, so add-on corrections (D3, D4) or non-local functionals are needed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do approximate functionals dissociate stretched H$_2^+$ to two fractionally charged atoms with an energy that is too low?",
+				"options": [
+					"The nuclear repulsion is miscalculated at long range, which lowers the energy of the stretched molecule artificially",
+					"The Born-Oppenheimer approximation fails for H$_2^+$, so the electron cannot be localized on one proton",
+					"Delocalization error: $E(N)$ is convex instead of piecewise linear, favoring spread-out charge",
+					"The basis set is incomplete at large separation, so the electron is forced onto the wrong atom"
+				],
+				"answer": 2,
+				"explanation": "For the exact functional, $E(N)$ between integers is a straight line (derivative discontinuity). Semilocal functionals bow below the line, so fractional charges $\\mathrm{H}^{+1/2}\\cdots\\mathrm{H}^{+1/2}$ look favorable: this is the origin of errors in charge transfer, barrier heights and conjugated chains."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can't a semilocal functional (LDA, GGA) describe the van der Waals attraction between two argon atoms at 4 Å?",
+				"options": [
+					"Argon atoms are neutral and spherical, so they cannot interact in any model that treats electrons quantum mechanically",
+					"The attraction is a purely relativistic effect, which no non-relativistic functional can contain, so a relativistic correction is needed",
+					"DFT is a ground-state theory, so it cannot treat interactions between two separate atoms",
+					"A semilocal functional sees only local density and gradient, so it misses the dipole correlations behind $-C_6/R^6$"
+				],
+				"answer": 3,
+				"explanation": "Dispersion is a non-local correlation effect due to instantaneous dipole-dipole correlation between regions of non-overlapping densities. It is added through empirical pairwise terms (D3, D4) or non-local correlation (vdW-DF, VV10)."
+			},
+			{
+				"kind": "short",
+				"prompt": "What is self-interaction error and what are its consequences for chemistry? Mention one remedy.",
+				"rubric": "Full credit requires: (1) in an approximate functional the Hartree term $J[\\rho]$ includes the repulsion of each electron with itself, which is not exactly cancelled by $E_{xc}$ (it is for exact exchange); (2) consequences: delocalized charge, too-small barrier heights, too-high orbital energies, wrong charge-transfer states and dissociation of radical cations; (3) remedies: hybrid functionals (some exact exchange), range-separated hybrids, or self-interaction corrections.",
+				"modelAnswer": "In an approximate functional an electron still partly repels its own density through the Hartree term and the approximate exchange does not cancel it exactly. This makes electrons too delocalized: barriers come out too low, charge-transfer excitations and radical cations are described badly, and orbital energies are too high. Mixing in exact exchange (hybrids, especially range-separated ones) removes much of the error."
+			}
+		],
+		"c1-l050-what-computed-orbitals-energies-mean": [
+			{
+				"kind": "numeric",
+				"prompt": "A reaction's equilibrium constant changes by a factor of 10 for what change in $\\Delta G$ at 298.15 K? Use $\\Delta G=-RT\\ln K$ with $R=1.987\\times10^{-3}$ kcal/(mol K) and give the answer in kcal/mol.",
+				"answer": 1.36425,
+				"tolerance": 0.02,
+				"unit": "kcal/mol",
+				"explanation": "$RT\\ln10=1.987\\times10^{-3}\\times298.15\\times2.303=1.364$ kcal/mol. So an error of 1 kcal/mol (chemical accuracy) means a factor of 5.4 in $K$ or a rate, and typical DFT errors of several kcal/mol change selectivities by orders of magnitude."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which of these quantities from an electronic structure calculation corresponds to a true observable (in principle)?",
+				"options": [
+					"Each canonical molecular orbital, since a photoelectron spectrum measures them directly",
+					"The electron density $\\rho(\\mathbf r)$ and derived quantities such as the dipole moment, not canonical orbitals",
+					"The orbital energies of virtual orbitals, since they equal the electron affinities exactly",
+					"The signs of the orbital coefficients, since they fix the absolute phase of the wavefunction at every point"
+				],
+				"answer": 1,
+				"explanation": "The energy and density of a determinant are unchanged by a unitary rotation of the occupied orbitals, so there is no unique 'the orbital'. Canonical orbitals and isosurface pictures are useful interpretation tools, while photoelectron spectra relate to ionization energies, only approximately to orbital energies."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A computed electronic reaction energy is $\\Delta E_{el}=-52$ kJ/mol. What else is required before comparing it with an experimental enthalpy at 298 K?",
+				"options": [
+					"Only a conversion to kcal/mol, since electronic energy equals enthalpy at 298 K",
+					"A correction for the basis set only, because vibrational energy cancels in every reaction",
+					"The removal of the nuclear repulsion energy, which is not present in experiment",
+					"Zero-point and thermal corrections from vibrational frequencies, with consistent conformers"
+				],
+				"answer": 3,
+				"explanation": "Experimental enthalpies include the vibrational zero-point energy and thermal population of vibrational, rotational and translational levels. These require a frequency calculation at each stationary point, and $\\Delta H=\\Delta E_{el}+\\Delta ZPE+\\Delta E_{\\rm thermal}+\\Delta(pV)$."
+			},
+			{
+				"kind": "short",
+				"prompt": "A colleague shows an isosurface of the HOMO and says 'this is where the reactive electrons are'. In your own words, what can and can't you conclude from a computed orbital?",
+				"rubric": "Full credit requires: (1) the orbital is a mathematical construct of a model (HF or KS), not unique because rotations among occupied orbitals leave energy and density unchanged, and its shape depends on the method and basis; (2) it is a valid interpretive guide (frontier-orbital reasoning, nodal structure, symmetry), and the total density or Fukui functions give more rigorous reactivity information; (3) conclusions about reactivity must be checked against energies or relevant electron-density quantities.",
+				"modelAnswer": "A canonical orbital is a feature of the model: rotating the occupied orbitals among themselves leaves the energy and density unchanged, so the HOMO is only one of many equivalent pictures, and it depends on the method and basis. It is still a good guide to symmetry and nodes and underlies frontier-orbital arguments, but a claim about reactivity should be supported by energies or by density-based descriptors such as Fukui functions."
+			}
+		],
+		"c1-l051-doing-it-pyscf-psi4-workflow": [
+			{
+				"kind": "numeric",
+				"prompt": "How much memory (in GB, decimal) is needed to store all symmetry-unique two-electron integrals, about $M^4/8$ of them, in double precision (8 bytes each) for $M=300$ basis functions?",
+				"answer": 8.1,
+				"tolerance": 0.05,
+				"unit": "GB",
+				"explanation": "$300^4/8=1.0\\times10^9$ integrals, times 8 bytes, is 8.1 GB. A cc-pVQZ calculation on a medium organic molecule has 1000+ functions, so conventional storage is impossible and direct, density-fitted or Cholesky algorithms are used."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A geometry optimization of what should be a minimum returns a structure with one imaginary vibrational frequency. What does that mean and what should you do?",
+				"options": [
+					"A first-order saddle point or unconverged geometry: displace along the imaginary mode and re-optimize",
+					"The structure is a perfect minimum, since an imaginary frequency marks a bound state of the nuclei",
+					"The basis set is too large, so the calculation should be repeated with a smaller one to remove the artifact",
+					"The electronic state is an excited state, so the multiplicity should be changed"
+				],
+				"answer": 0,
+				"explanation": "A true minimum has all real frequencies. One imaginary frequency (negative Hessian eigenvalue) shows the optimizer stopped at a transition state or a symmetric saddle. Following the mode to lower symmetry usually finds the minimum."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Before trusting the energy of a UHF or DFT calculation on a radical, which check matters most?",
+				"options": [
+					"That the HOMO-LUMO gap is large, since a large gap guarantees a spin eigenfunction",
+					"That the SCF reached the intended state and $\\langle S^2\\rangle\\approx S(S+1)$, with a stability check if in doubt",
+					"That the number of basis functions equals the number of electrons",
+					"That the total energy is more negative than the closed-shell value, which proves the radical state is correct"
+				],
+				"answer": 1,
+				"explanation": "SCF can converge to excited or symmetry-broken solutions, and UHF mixes in higher multiplets. $\\langle S^2\\rangle$ (0.75 for a doublet) and a stability analysis are routine sanity checks, together with inspecting the spin density and orbital occupations."
+			},
+			{
+				"kind": "short",
+				"prompt": "You are asked to compute the C-H bond dissociation energy of methane in a PySCF- or Psi4-style workflow. Outline the steps and name two things that could invalidate the result.",
+				"rubric": "Full credit requires: (1) optimize CH$_4$ and the CH$_3$ radical (and use the H atom energy exactly), verify minima by frequencies (all real), use a doublet UHF/UKS or ROHF reference for the radical and the atom, pick a method (for example CCSD(T) or a hybrid DFT) and a sufficiently large basis, and include ZPE corrections for $D_0$; (2) steps in order: geometry, SCF, optimization, frequencies, single-point at a higher level, thermochemistry; (3) pitfalls: basis-set incompleteness (no extrapolation), spin contamination or wrong SCF state in the radical and atom, missing ZPE, functional self-interaction error.",
+				"modelAnswer": "Optimize the geometries of CH$_4$ and CH$_3$ (with an unrestricted or restricted-open-shell reference), confirm all frequencies are real, and compute the H atom energy in the same method and basis. Run higher-level single points (for example CCSD(T) in a large basis or CBS-extrapolated), and correct for zero-point energy to get $D_0$. Results can be spoiled by an incomplete basis set, by spin contamination or SCF convergence to the wrong state for the radical or atom, or by neglecting ZPE; in DFT, self-interaction error also matters."
+			}
+		]
+	}
+}

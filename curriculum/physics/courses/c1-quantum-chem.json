@@ -1,0 +1,2622 @@
+{
+	"id": "c1-quantum-chem",
+	"code": "C1",
+	"title": "Quantum Chemistry & Molecular Orbital Theory",
+	"track": "chemphys",
+	"depth": "core",
+	"hours": 50,
+	"prereqs": [
+		"p3-modern",
+		"m3-linear-algebra"
+	],
+	"coreqs": [
+		"p6-quantum"
+	],
+	"subject": "Chemical Physics",
+	"summary": "Fifty-one short lessons that turn the chemist's orbital pictures into physics: the molecular Hamiltonian and Born-Oppenheimer surfaces, the variational method as the generalized matrix eigenproblem Hc = ScE, group theory built from the great orthogonality theorem, H2+ and H2 from first principles (LCAO, MO versus valence bond), Huckel theory as tight-binding, SALC orbitals of H2O, NH3 and benzene, Walsh diagrams, frontier orbitals and Woodward-Hoffmann as symmetry conservation, then Slater determinants, Hartree-Fock (Fock operator, Roothaan-Hall, SCF, Koopmans), basis sets, electron correlation (CI, size-consistency, MP2, coupled cluster), density functional theory, and a final unit on what computed orbitals and energies mean with a PySCF/Psi4-style workflow. Concept and chemical interpretation first; calculation is a minority of the work.",
+	"books": [
+		{
+			"bookId": "szabo-ostlund",
+			"role": "primary"
+		},
+		{
+			"bookId": "levine-qc",
+			"role": "primary"
+		},
+		{
+			"bookId": "atkins-mqm",
+			"role": "secondary"
+		},
+		{
+			"bookId": "cotton-group",
+			"role": "secondary"
+		}
+	],
+	"units": [
+		{
+			"id": "c1-u01-many-electron-problem",
+			"title": "The Many-Electron Problem",
+			"summary": "Write down the molecular Hamiltonian in atomic units, separate nuclei from electrons with Born-Oppenheimer to get the potential energy surface chemists draw as reaction coordinates, and meet helium as the smallest system where electron-electron repulsion already forces approximation.",
+			"lessons": [
+				{
+					"id": "c1-l001-molecular-hamiltonian-atomic-units",
+					"title": "The Molecular Hamiltonian and Atomic Units",
+					"minutes": 40,
+					"objectives": [
+						"Write the non-relativistic molecular Hamiltonian for nuclei and electrons (two kinetic terms and three Coulomb terms) and count the interaction terms for a molecule such as water.",
+						"Convert between SI and atomic units ($\\hbar=m_e=e=4\\pi\\varepsilon_0=1$) and express the hartree and bohr in eV, kcal/mol and Å.",
+						"Explain which term makes the problem unsolvable beyond one electron and why the chemist's 'electrons in orbitals' picture is an approximation to it."
+					],
+					"keyEquations": [
+						"\\hat H=-\\sum_A\\frac{1}{2M_A}\\nabla_A^2-\\sum_i\\frac12\\nabla_i^2-\\sum_{A,i}\\frac{Z_A}{r_{iA}}+\\sum_{i<j}\\frac1{r_{ij}}+\\sum_{A<B}\\frac{Z_AZ_B}{R_{AB}}",
+						"E_h=\\frac{m_ee^4}{(4\\pi\\varepsilon_0)^2\\hbar^2}=27.211\\ \\mathrm{eV},\\quad a_0=\\frac{4\\pi\\varepsilon_0\\hbar^2}{m_ee^2}=0.529\\ \\text{\\AA}",
+						"1\\,E_h=627.5\\ \\mathrm{kcal/mol}=2625.5\\ \\mathrm{kJ/mol}"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "2.1",
+							"title": "The Electronic Problem"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 13",
+							"title": "Electronic Structure of Diatomic Molecules",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 4.2 - Atomic Units",
+							"url": "https://www.youtube.com/watch?v=vZc-PUS3ckg"
+						},
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "Intro to Electronic Structure Theory Part 1",
+							"url": "https://www.youtube.com/watch?v=srL6i7zwzu4"
+						}
+					],
+					"demoIdeas": [
+						"Atomic-unit converter: pick a quantity (energy, length, time, field) and see it in a.u., SI, eV, kcal/mol and cm^-1, with the hydrogen 1s energy -0.5 E_h shown in each unit system.",
+						"Term counter: choose a molecule (H2O, benzene, caffeine) and plot the number of electron-electron, electron-nucleus and nucleus-nucleus terms against atom count to show the N^2 growth of pair interactions."
+					]
+				},
+				{
+					"id": "c1-l002-born-oppenheimer",
+					"title": "The Born-Oppenheimer Approximation",
+					"minutes": 40,
+					"objectives": [
+						"Derive the Born-Oppenheimer separation by expanding the total wavefunction in electronic states $\\varphi_n(\\mathbf r;\\mathbf R)$ and dropping the derivative couplings, giving an electronic equation at fixed $\\mathbf R$ and a nuclear equation on the surface $U_n(\\mathbf R)$.",
+						"Estimate the size of the correction from the mass ratio $(m_e/M)^{1/4}$ and compare electronic and vibrational timescales.",
+						"State where the approximation breaks down (near-degenerate electronic states, conical intersections) and what the chemist's picture of molecular structure assumes."
+					],
+					"keyEquations": [
+						"\\hat H_{el}(\\mathbf r;\\mathbf R)\\varphi_n=E_n(\\mathbf R)\\varphi_n,\\quad \\hat H_{el}=\\hat T_e+\\hat V_{eN}+\\hat V_{ee}",
+						"\\left[\\hat T_N+U_n(\\mathbf R)\\right]\\chi=E\\chi,\\quad U_n=E_n(\\mathbf R)+V_{NN}(\\mathbf R)",
+						"\\kappa=\\left(\\frac{m_e}{M}\\right)^{1/4}"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "2.1",
+							"title": "The Electronic Problem"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 13",
+							"title": "Electronic Structure of Diatomic Molecules",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 10.2 - Born-Oppenheimer Approximation",
+							"url": "https://www.youtube.com/watch?v=UGB2psWD69s"
+						},
+						{
+							"source": "MIT OCW 8.06 (Zwiebach, Spring 2018)",
+							"title": "L18.1 Born-Oppenheimer approximation: Hamiltonian and electronic states",
+							"url": "https://www.youtube.com/watch?v=UOoKUdjVP78"
+						}
+					],
+					"demoIdeas": [
+						"Two-timescale animation: a fast-oscillating electron cloud tracks a slowly vibrating nuclear pair; slider for nuclear mass (H, D, C) shows the adiabaticity parameter and the growing nonadiabatic error.",
+						"1D double-well surface with nuclear wavefunctions: toggle H, D, T and watch zero-point energy and tunneling splitting change (isotope effect) on the same E_el(R)."
+					]
+				},
+				{
+					"id": "c1-l003-potential-energy-surfaces",
+					"title": "Potential Energy Surfaces, Stationary Points and Forces",
+					"minutes": 40,
+					"objectives": [
+						"Define the potential energy surface $U(\\mathbf R)=E_{el}+V_{NN}$, count its $3N-6$ internal coordinates, and classify stationary points (minimum, first-order saddle = transition state) by the Hessian eigenvalues.",
+						"Use the Hellmann-Feynman theorem to explain why the force on a nucleus is an electrostatic force from the electron density, and why analytic gradients make geometry optimization practical.",
+						"Relate surface curvature to harmonic frequencies and zero-point energy, and map this onto the chemist's reaction-coordinate diagram."
+					],
+					"keyEquations": [
+						"\\mathbf F_A=-\\nabla_AU=-\\left\\langle\\Psi\\middle|\\frac{\\partial\\hat H_{el}}{\\partial\\mathbf R_A}\\middle|\\Psi\\right\\rangle-\\nabla_AV_{NN}",
+						"H_{ij}=\\frac{\\partial^2U}{\\partial q_i\\,\\partial q_j},\\quad \\tilde\\nu=\\frac1{2\\pi c}\\sqrt{\\lambda_{\\mathrm{mw}}}",
+						"E_{ZPE}=\\tfrac12\\sum_k\\hbar\\omega_k"
+					],
+					"readings": [
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 14",
+							"title": "Theorems of Molecular Quantum Mechanics"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 8",
+							"title": "An Introduction to Molecular Structure",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 3.1 - Energy Gradient",
+							"url": "https://www.youtube.com/watch?v=BnT6Onll1eQ"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 3.2 - Energy Minimization",
+							"url": "https://www.youtube.com/watch?v=OCcxxddYrDg"
+						},
+						{
+							"source": "Open Yale Courses (J. M. McBride)",
+							"title": "37.  Potential Energy Surfaces, Transition State Theory and Reaction Mechanism",
+							"url": "https://www.youtube.com/watch?v=hpQnRwVjhDk"
+						}
+					],
+					"demoIdeas": [
+						"Draggable-geometry contour plot of a model two-coordinate surface (e.g., Muller-Brown or H + H2): place a point, see the gradient arrow and Hessian eigen-directions, run steepest descent or Newton to a minimum or saddle and read the signature.",
+						"Reaction-path viewer: trace the minimum-energy path between two minima through a saddle, with a vibrational-frequency table that flips one frequency to imaginary at the transition state and a ZPE-corrected barrier."
+					]
+				},
+				{
+					"id": "c1-l004-helium-electron-repulsion",
+					"title": "Helium: The First Electron-Repulsion Problem",
+					"minutes": 45,
+					"objectives": [
+						"Separate the electronic Hamiltonian into one-electron pieces $\\hat h(i)=-\\tfrac12\\nabla_i^2-\\sum_AZ_A/r_{iA}$ and the two-electron operator $1/r_{ij}$, and explain why the latter is the source of the correlation problem.",
+						"For helium compute the independent-electron energy ($-4\\,E_h$), the first-order perturbation estimate ($-2.75\\,E_h$) and the variational result with effective charge $\\zeta=Z-5/16$ ($-2.848\\,E_h$), and compare with the exact $-2.9037\\,E_h$.",
+						"Define the correlation energy and interpret the effective nuclear charge as screening (the chemist's Slater rules)."
+					],
+					"keyEquations": [
+						"\\hat H_{el}=\\sum_i\\hat h(i)+\\sum_{i<j}\\frac1{r_{ij}},\\quad \\hat h(i)=-\\tfrac12\\nabla_i^2-\\sum_A\\frac{Z_A}{r_{iA}}",
+						"\\left\\langle\\frac1{r_{12}}\\right\\rangle_{1s^2}=\\frac58\\zeta,\\quad E(\\zeta)=\\zeta^2-2Z\\zeta+\\tfrac58\\zeta,\\quad \\zeta^*=Z-\\tfrac5{16}",
+						"E_{corr}=E_{exact}-E_{HF}"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "2.1",
+							"title": "The Electronic Problem"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 11",
+							"title": "Many-Electron Atoms"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "22. Helium Atom",
+							"url": "https://www.youtube.com/watch?v=DpNZ70Uam0M"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 9.2 - Helium Atom Energy Approximations",
+							"url": "https://www.youtube.com/watch?v=tcfNNGGjS2o"
+						}
+					],
+					"demoIdeas": [
+						"Helium trial-function explorer: slider for the orbital exponent zeta; plot E(zeta) with horizontal lines for -4, -2.75, the variational minimum, the Hartree-Fock limit and the exact energy, beside the radial density of the trial 1s orbital.",
+						"Electron-pair snapshot: draw samples of (r1, r2) from the product 1s(zeta) density and from a correlated function, and histogram the distance r12 to show electrons avoiding each other."
+					]
+				}
+			]
+		},
+		{
+			"id": "c1-u02-variational-matrix-toolkit",
+			"title": "The Variational Toolkit: Matrices, Overlap and Basis Sets",
+			"summary": "The mathematics behind every orbital calculation: the variational principle, the linear variation method as a (generalized) matrix eigenproblem Hc = ScE, Lowdin orthogonalization, and what completeness of a basis really buys you.",
+			"lessons": [
+				{
+					"id": "c1-l005-variational-principle",
+					"title": "The Variational Principle",
+					"minutes": 40,
+					"objectives": [
+						"Prove that $E[\\psi]=\\langle\\psi|\\hat H|\\psi\\rangle/\\langle\\psi|\\psi\\rangle\\ge E_0$ by expanding the trial function in eigenstates, and state when equality holds.",
+						"Apply it to a trial function with a nonlinear parameter (a Gaussian for hydrogen) and show that the energy error is second order in the wavefunction error while other properties converge more slowly.",
+						"Explain why a lower variational energy means a better wavefunction, and why this guide fails for non-variational methods (MP2, coupled cluster)."
+					],
+					"keyEquations": [
+						"E[\\psi]=\\frac{\\langle\\psi|\\hat H|\\psi\\rangle}{\\langle\\psi|\\psi\\rangle}\\ge E_0",
+						"E[\\psi]-E_0=\\frac{\\sum_n|c_n|^2(E_n-E_0)}{\\sum_n|c_n|^2}",
+						"E_{\\mathrm{Gauss}}(\\alpha)=\\tfrac32\\alpha-2\\sqrt{2\\alpha/\\pi},\\quad E_{\\min}=-\\frac4{3\\pi}"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 1",
+							"title": "Mathematical Review"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 8",
+							"title": "The Variation Method"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 6",
+							"title": "Techniques of Approximation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 8.1 - Variational Principle",
+							"url": "https://www.youtube.com/watch?v=l7n8gQHHFyg"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 8.2 - Variational Principle Example",
+							"url": "https://www.youtube.com/watch?v=WJekoIaXrJI"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "24. Molecular Orbital Theory I; Variational Principle and Matrix Mechanics",
+							"url": "https://www.youtube.com/watch?v=IoED49Ha8-o"
+						}
+					],
+					"demoIdeas": [
+						"Variational explorer for hydrogen: pick a trial family (Gaussian, Slater, Slater with a node), drag its parameter, and see E(alpha) against the exact -0.5 line beside the trial and exact wavefunctions.",
+						"Quadratic-error demo: mix the exact eigenfunction with an orthogonal error function by a slider epsilon and plot the energy error and a dipole-like property error against epsilon on log-log axes."
+					]
+				},
+				{
+					"id": "c1-l006-linear-variation-matrix",
+					"title": "The Linear Variation Method as a Matrix Eigenproblem",
+					"minutes": 40,
+					"objectives": [
+						"Expand a trial function in an orthonormal basis, minimize the energy with respect to the coefficients, and derive the secular equation $\\det(\\mathbf H-E\\mathbf 1)=0$.",
+						"Solve the 2x2 case in closed form, interpret level repulsion and mixing coefficients, and recover second-order perturbation theory for weak coupling.",
+						"Interpret eigenvalues as variational upper bounds and eigenvectors as orbitals or mixed states."
+					],
+					"keyEquations": [
+						"E=\\frac{\\mathbf c^\\dagger\\mathbf H\\mathbf c}{\\mathbf c^\\dagger\\mathbf c},\\qquad \\mathbf H\\mathbf c=E\\mathbf c",
+						"E_\\pm=\\bar H\\pm\\sqrt{\\Delta^2+H_{12}^2},\\quad \\bar H=\\tfrac{H_{11}+H_{22}}2,\\ \\Delta=\\tfrac{H_{11}-H_{22}}2",
+						"\\tan2\\theta=\\frac{H_{12}}{\\Delta},\\quad \\Delta E\\approx\\frac{H_{12}^2}{H_{11}-H_{22}}"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 1",
+							"title": "Mathematical Review"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 8",
+							"title": "The Variation Method"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 6",
+							"title": "Techniques of Approximation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "13. From Hij Integrals to H Matrices I",
+							"url": "https://www.youtube.com/watch?v=zwz9M1XNn-c"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "14. From Hij Integrals to H Matrices II",
+							"url": "https://www.youtube.com/watch?v=zwH9MjZl3v4"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 8.3 - Linear Variational Method",
+							"url": "https://www.youtube.com/watch?v=LQmpuEm778E"
+						}
+					],
+					"demoIdeas": [
+						"Two-level mixing: sliders for H11, H22 and H12; plot E+- against detuning showing the avoided crossing, with bars for the two coefficients and the mixing angle.",
+						"Tridiagonal N-level chain: slider for coupling and N; show eigenvalue spectrum and eigenvectors and compare with sine-function particle-in-a-box results."
+					]
+				},
+				{
+					"id": "c1-l007-nonorthogonal-hc-sce",
+					"title": "Non-Orthogonal Bases: Hc = ScE",
+					"minutes": 40,
+					"objectives": [
+						"Derive the generalized eigenproblem $\\mathbf H\\mathbf c=E\\mathbf S\\mathbf c$ with overlap matrix $S_{ij}=\\langle\\varphi_i|\\varphi_j\\rangle$, and normalize eigenvectors with the S-metric ($\\mathbf c^\\dagger\\mathbf S\\mathbf c=1$).",
+						"Solve the two-AO homonuclear case, $E_\\pm=(\\alpha\\pm\\beta)/(1\\pm S)$, and explain the asymmetry of bonding and antibonding shifts.",
+						"Use the asymmetry to explain why a four-electron interaction is repulsive (He$_2$, steric repulsion) while a two-electron interaction binds."
+					],
+					"keyEquations": [
+						"\\mathbf H\\mathbf c=\\mathbf S\\mathbf c\\,E,\\quad \\det(\\mathbf H-E\\mathbf S)=0,\\quad \\mathbf c^\\dagger\\mathbf S\\mathbf c=1",
+						"E_\\pm=\\frac{\\alpha\\pm\\beta}{1\\pm S},\\qquad \\psi_\\pm=\\frac{\\varphi_A\\pm\\varphi_B}{\\sqrt{2(1\\pm S)}}",
+						"E_{4e}=2(E_++E_-)=\\frac{4(\\alpha-\\beta S)}{1-S^2}"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 1",
+							"title": "Mathematical Review"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 8",
+							"title": "An Introduction to Molecular Structure",
+							"optional": true
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 8",
+							"title": "The Variation Method"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "24. Molecular Orbital Theory I; Variational Principle and Matrix Mechanics",
+							"url": "https://www.youtube.com/watch?v=IoED49Ha8-o"
+						},
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.03.01 Foundations of Molecular Orbital Theory: LCAO Wave Functions",
+							"url": "https://www.youtube.com/watch?v=BGUtZsnPIGo"
+						}
+					],
+					"demoIdeas": [
+						"Generalized-eigenproblem playground: sliders for alpha, beta and S; plot E+- against S and compare with the orthogonal (S = 0) result, drawing the two orbitals as sums and differences of 1s functions.",
+						"Closed-shell repulsion meter: choose 2, 3 or 4 electrons in the two-orbital model and see the total energy relative to separated fragments as S varies."
+					]
+				},
+				{
+					"id": "c1-l008-lowdin-orthogonalization",
+					"title": "Lowdin Orthogonalization and Linear Dependence",
+					"minutes": 40,
+					"objectives": [
+						"Construct the symmetric orthogonalizer $\\mathbf X=\\mathbf S^{-1/2}$ from the eigendecomposition of $\\mathbf S$, transform $\\mathbf F'=\\mathbf X^\\dagger\\mathbf F\\mathbf X$, solve an ordinary eigenproblem and back-transform the coefficients.",
+						"Compare symmetric and canonical orthogonalization and explain why small overlap eigenvalues signal near linear dependence in large or diffuse basis sets.",
+						"Describe the Lowdin orbitals as the orthonormal set closest in the least-squares sense to the original AOs."
+					],
+					"keyEquations": [
+						"\\mathbf S=\\mathbf U\\mathbf s\\mathbf U^\\dagger,\\quad \\mathbf X_{\\rm sym}=\\mathbf S^{-1/2}=\\mathbf U\\mathbf s^{-1/2}\\mathbf U^\\dagger,\\quad \\mathbf X_{\\rm can}=\\mathbf U\\mathbf s^{-1/2}",
+						"\\mathbf F'=\\mathbf X^\\dagger\\mathbf F\\mathbf X,\\quad \\mathbf F'\\mathbf C'=\\mathbf C'\\boldsymbol\\varepsilon,\\quad \\mathbf C=\\mathbf X\\mathbf C'",
+						"\\kappa(\\mathbf S)=s_{\\max}/s_{\\min}"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.4",
+							"title": "Restricted Closed-Shell Hartree-Fock: The Roothaan Equations"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 1",
+							"title": "Mathematical Review",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL (IIT Bombay)",
+							"title": "Week 5 : Lecture 33 : Roothaan equation in orthonormalized basis",
+							"url": "https://www.youtube.com/watch?v=m-wZ1PWQyS4"
+						}
+					],
+					"demoIdeas": [
+						"Overlap-matrix lab: slide the distance between two Gaussian or Slater AOs and watch S, its eigenvalues, S^(-1/2), and the shapes of the Lowdin-orthogonalized orbitals compared with the originals, with a condition-number readout.",
+						"Redundant diffuse functions: add near-duplicate diffuse functions on a line, watch the smallest eigenvalue of S collapse, and toggle a canonical-orthogonalization threshold that drops functions."
+					]
+				},
+				{
+					"id": "c1-l009-basis-completeness",
+					"title": "Completeness, Convergence and the Complete-Basis-Set Limit",
+					"minutes": 40,
+					"objectives": [
+						"State what completeness of a basis means and show that Rayleigh-Ritz eigenvalues decrease monotonically as functions are added and interlace (Hylleraas-Undheim-MacDonald).",
+						"Demonstrate convergence on a particle in a box with a polynomial or sine basis, and explain why the electron-electron cusp makes correlated energies converge slowly.",
+						"Define the complete-basis-set limit as the operational target of computational chemistry and distinguish it from near linear dependence of an over-large basis."
+					],
+					"keyEquations": [
+						"\\sum_i|\\varphi_i\\rangle\\langle\\varphi_i|=\\hat 1\\ \\ \\text{(completeness)}",
+						"E_i^{(n+1)}\\le E_i^{(n)}\\le E_{i+1}^{(n+1)}\\quad\\text{(interlacing)}",
+						"E_c^{(X)}=E_c^{\\infty}+AX^{-3}"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 1",
+							"title": "Mathematical Review"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 8",
+							"title": "The Variation Method"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "14. From Hij Integrals to H Matrices II",
+							"url": "https://www.youtube.com/watch?v=zwH9MjZl3v4"
+						},
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "Basis Sets part 1",
+							"url": "https://www.youtube.com/watch?v=Hk4YRb4okC4"
+						}
+					],
+					"demoIdeas": [
+						"Basis-truncation viewer: expand a target function (hydrogen cusp, double-well ground state) in the first N Hermite, Gaussian or sine functions; slider for N shows the reconstruction and an eigenvalue-convergence plot.",
+						"Interlacing diagram: increase N one function at a time and watch the eigenvalues of the truncated Hamiltonian slide down and interlace with the previous set."
+					]
+				}
+			]
+		},
+		{
+			"id": "c1-u03-symmetry-group-theory",
+			"title": "Symmetry and Group Theory",
+			"summary": "Point groups, representations, characters, the great orthogonality theorem, projection operators and direct products, taught as the machinery that block-diagonalizes the Hamiltonian and decides which orbitals mix and which transitions are allowed - the hidden logic behind every orbital diagram a chemist draws.",
+			"lessons": [
+				{
+					"id": "c1-l010-symmetry-operations-point-groups",
+					"title": "Symmetry Operations, Elements and Point Groups",
+					"minutes": 40,
+					"objectives": [
+						"Identify the symmetry elements and operations of a molecule ($E$, $C_n$, $\\sigma$, $i$, $S_n$) and generate its full set of operations.",
+						"Assign the point group using the standard decision flow for molecules such as H$_2$O, NH$_3$, BF$_3$, CH$_4$, benzene and cis/trans-dichloroethene.",
+						"State what the point group implies: which orbital degeneracies can occur, and whether the molecule can be chiral or polar."
+					],
+					"keyEquations": [
+						"\\hat S_n=\\hat\\sigma_h\\hat C_n,\\qquad \\hat S_1=\\hat\\sigma,\\quad \\hat S_2=\\hat i",
+						"|G|:\\ C_{2v}=4,\\ C_{3v}=6,\\ T_d=24,\\ D_{6h}=24"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 3",
+							"title": "Molecular Symmetry and the Symmetry Groups"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 12",
+							"title": "Molecular Symmetry"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 5",
+							"title": "Group Theory",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 12.2 - Symmetry Operations",
+							"url": "https://www.youtube.com/watch?v=Wb8QYcxAqm8"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 12.7 - Determining Point Groups",
+							"url": "https://www.youtube.com/watch?v=KiQjvUcBVMw"
+						},
+						{
+							"source": "NPTEL (IIT Bombay)",
+							"title": "Lecture 11 : Point Groups",
+							"url": "https://www.youtube.com/watch?v=L5-nr00ot8w"
+						}
+					],
+					"demoIdeas": [
+						"3D molecule viewer (H2O, NH3, BF3, CH4, benzene, allene) with a toggle for each symmetry element and an animation that applies each operation, plus a point-group decision tree that lights up as questions are answered.",
+						"Point-group quiz: show a random molecule, learner clicks the elements they find and picks the group; feedback highlights missed elements."
+					]
+				},
+				{
+					"id": "c1-l011-groups-classes-multiplication",
+					"title": "Groups, Classes and Multiplication Tables",
+					"minutes": 40,
+					"objectives": [
+						"State the group axioms and build the multiplication tables of $C_{2v}$ and $C_{3v}$ by composing operations; show that $C_{3v}$ is non-Abelian.",
+						"Define conjugacy classes by $X^{-1}AX$, find the classes of $C_{3v}$ and relate the number of classes to the number of irreps.",
+						"State the order and subgroup theorems and the dimension relation $\\sum l_i^2=h$, and link non-Abelian groups to degenerate orbitals."
+					],
+					"keyEquations": [
+						"AB\\in G,\\quad (AB)C=A(BC),\\quad AE=A,\\quad AA^{-1}=E",
+						"B=X^{-1}AX\\ \\text{(same class)},\\qquad n_{\\rm irreps}=n_{\\rm classes}",
+						"\\sum_il_i^2=h"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 2",
+							"title": "Definitions and Theorems of Group Theory"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 5",
+							"title": "Group Theory",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 12.4 - Groups",
+							"url": "https://www.youtube.com/watch?v=JEuZCXnYeA4"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 12.3 - Symmetry Elements",
+							"url": "https://www.youtube.com/watch?v=uariSyfIfS8"
+						}
+					],
+					"demoIdeas": [
+						"Interactive C3v multiplication table: click two operations to compose them on an animated triangular molecule, fill the table cell by cell, colour the conjugacy classes and test commutation.",
+						"Subgroup finder: for C3v and D3h highlight every subgroup in the table and check that its order divides the group order."
+					]
+				},
+				{
+					"id": "c1-l012-representations-characters",
+					"title": "Matrix Representations and Characters",
+					"minutes": 40,
+					"objectives": [
+						"Construct the matrix representation of the operations of $C_{2v}$ and $C_{3v}$ in a chosen basis ($x,y,z$ or three H 1s orbitals) and verify that it preserves the multiplication table.",
+						"Define the character $\\chi(R)=\\mathrm{Tr}\\,D(R)$, show it is a class function invariant under basis change, and distinguish reducible from irreducible representations.",
+						"Explain how a block-diagonal basis corresponds to symmetry-adapted functions and why that block-diagonalizes the Hamiltonian."
+					],
+					"keyEquations": [
+						"D(AB)=D(A)D(B),\\qquad \\chi(R)=\\sum_iD_{ii}(R)",
+						"\\chi(X^{-1}RX)=\\chi(R),\\qquad \\chi_{(x,y,z)}(C_\\phi)=1+2\\cos\\phi",
+						"\\Gamma_{3\\,\\mathrm{H}\\,1s}(C_{3v}):\\ \\chi(E)=3,\\ \\chi(C_3)=0,\\ \\chi(\\sigma_v)=1"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 4",
+							"title": "Representations of Groups"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 12",
+							"title": "Molecular Symmetry"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 5",
+							"title": "Group Theory",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 12.9 - Symmetry Operator Matrices",
+							"url": "https://www.youtube.com/watch?v=QELTJrOFwK0"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 12.10 - Irreducible Representations",
+							"url": "https://www.youtube.com/watch?v=swtTrTey1oU"
+						},
+						{
+							"source": "NPTEL (IIT Bombay)",
+							"title": "Lecture 17 : Reducible and Irreducible Representation - I",
+							"url": "https://www.youtube.com/watch?v=XnXda_Tte_Q"
+						}
+					],
+					"demoIdeas": [
+						"Matrix-representation explorer: choose C3v and a basis (x,y,z / three H 1s / p orbitals), see each operation's matrix and trace, and rotate the basis with a slider to watch the matrices change while the characters stay fixed.",
+						"Block-diagonalizer: start from a full 3x3 representation, apply the SALC change of basis and watch the matrices split into 1x1 and 2x2 blocks."
+					]
+				},
+				{
+					"id": "c1-l013-great-orthogonality-theorem",
+					"title": "The Great Orthogonality Theorem",
+					"minutes": 45,
+					"objectives": [
+						"State the great orthogonality theorem for irrep matrix elements and sketch its proof with Schur's lemmas.",
+						"Derive its corollaries: $\\sum_il_i^2=h$, the number of irreps equals the number of classes, and rows and columns of the character table are orthogonal.",
+						"Use these rules to construct the character table of $C_{3v}$ from the class structure."
+					],
+					"keyEquations": [
+						"\\sum_RD^{(i)}_{mn}(R)^*D^{(j)}_{m'n'}(R)=\\frac h{l_i}\\,\\delta_{ij}\\delta_{mm'}\\delta_{nn'}",
+						"\\sum_cg_c\\chi_i(c)^*\\chi_j(c)=h\\,\\delta_{ij},\\qquad \\sum_il_i^2=h",
+						"C_{3v}:\\ A_1=(1,1,1),\\ A_2=(1,1,-1),\\ E=(2,-1,0)"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 4",
+							"title": "Representations of Groups"
+						},
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 2",
+							"title": "Definitions and Theorems of Group Theory",
+							"optional": true
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 5",
+							"title": "Group Theory",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL (IIT Bombay)",
+							"title": "Lecture 19 : Great Orthogonality Theorem and Character Table - I",
+							"url": "https://www.youtube.com/watch?v=txJE99xU5lA"
+						},
+						{
+							"source": "NPTEL (IIT Bombay)",
+							"title": "Lecture 20 : Great Orthogonality Theorem and Character Table - II",
+							"url": "https://www.youtube.com/watch?v=lHmBjyyDO3Y"
+						},
+						{
+							"source": "e-PG Pathshala (Vidya-mitra)",
+							"title": "Great Orthogonality Theorem and its applications: Part-1 (CHE 0",
+							"url": "https://www.youtube.com/watch?v=6R0-PPKXQnU"
+						}
+					],
+					"demoIdeas": [
+						"Character-table builder: pick C2v, C3v or C4v, enter class sizes and trial characters with sliders, and watch row and column orthogonality and the sum of l^2 turn green or red.",
+						"Orthogonality visualizer: plot irrep rows as vectors in class-weighted space (3 classes for C3v) and show that projecting a reducible set onto each row gives the multiplicities."
+					]
+				},
+				{
+					"id": "c1-l014-character-tables-reduction",
+					"title": "Character Tables and the Reduction Formula",
+					"minutes": 40,
+					"objectives": [
+						"Read a character table ($C_{2v}$, $C_{3v}$, $D_{3h}$, $T_d$): decode irrep labels (A, B, E, T; subscripts g/u, 1/2) and the basis functions listed beside each row, and use them to label atomic orbitals.",
+						"Apply $n_i=\\frac1h\\sum_R\\chi_{\\rm red}(R)\\chi_i(R)$ to decompose reducible representations such as three H 1s in NH$_3$ ($A_1+E$) and the 9 displacements of H$_2$O.",
+						"Use the decompositions to count vibrational modes and to predict which orbitals can interact."
+					],
+					"keyEquations": [
+						"n_i=\\frac1h\\sum_R\\chi_{\\rm red}(R)\\,\\chi_i(R)^*",
+						"\\Gamma_{3N}({\\rm H_2O})=3A_1+A_2+2B_1+3B_2,\\quad \\Gamma_{\\rm vib}=2A_1+B_2",
+						"\\Gamma_{3\\,\\mathrm{H}\\,1s}({\\rm NH_3})=A_1+E"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 4",
+							"title": "Representations of Groups"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 12",
+							"title": "Molecular Symmetry"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 5",
+							"title": "Group Theory",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 12.11 - Character Tables 1: Abelian",
+							"url": "https://www.youtube.com/watch?v=mRoAvOHcsmo"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 12.13 - Determining Irreps",
+							"url": "https://www.youtube.com/watch?v=wVFR4B0lhSE"
+						},
+						{
+							"source": "NPTEL (IIT Bombay)",
+							"title": "Lecture 18 : Reducible and Irreducible Representation - II",
+							"url": "https://www.youtube.com/watch?v=NOoj5PahO5E"
+						}
+					],
+					"demoIdeas": [
+						"Character-table reader: pick a point group; hovering over an irrep row highlights the s, p, d orbitals and x, y, z, R functions transforming as that irrep, with 3D lobes drawn.",
+						"Reduction calculator: choose a preset (3 H 1s in NH3, atomic displacements of H2O, pi orbitals of benzene) or type a reducible gamma and see the step-by-step dot products and resulting irreps."
+					]
+				},
+				{
+					"id": "c1-l015-projection-operators-salcs",
+					"title": "Projection Operators and Symmetry-Adapted Orbitals",
+					"minutes": 45,
+					"objectives": [
+						"Write the projection operator $\\hat P^{(i)}=\\frac{l_i}{h}\\sum_R\\chi_i(R)^*\\hat R$ and show it extracts the component of a function transforming as irrep $i$.",
+						"Build SALCs for three H 1s orbitals in NH$_3$ ($A_1$ and an $E$ pair) and for two in H$_2$O, including normalization and orthogonalization of degenerate partners.",
+						"Explain why a SALC basis block-diagonalizes $\\mathbf H$ and $\\mathbf S$, for example reducing the benzene $\\pi$ problem from 6x6 to blocks of size 1, 1, 2 and 2."
+					],
+					"keyEquations": [
+						"\\hat P^{(i)}=\\frac{l_i}{h}\\sum_R\\chi_i(R)^*\\hat R,\\quad \\hat P^{(i)}\\hat P^{(j)}=\\delta_{ij}\\hat P^{(i)},\\quad \\sum_i\\hat P^{(i)}=\\hat 1",
+						"A_1:\\ \\tfrac1{\\sqrt3}(s_1+s_2+s_3);\\quad E:\\ \\tfrac1{\\sqrt6}(2s_1-s_2-s_3),\\ \\tfrac1{\\sqrt2}(s_2-s_3)"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 6",
+							"title": "Symmetry-Adapted Linear Combinations"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 5",
+							"title": "Group Theory",
+							"optional": true
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 12",
+							"title": "Molecular Symmetry",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Physical Chemistry (PCHEM) at Sam",
+							"title": "Using the Projection Operator to generate Symmetry Adapted Linear Combinations of Atomic Orbitals",
+							"url": "https://www.youtube.com/watch?v=chee6RCWbqA"
+						},
+						{
+							"source": "Physical Chemistry (PCHEM) at Sam",
+							"title": "4448 22 L31 How to Make a Molecular Orbital Using the Projection Operator",
+							"url": "https://www.youtube.com/watch?v=93LaQxr_6yw"
+						},
+						{
+							"source": "NPTEL (IIT Bombay)",
+							"title": "Lecture 23 : Tensor Product and Projection Operator - I",
+							"url": "https://www.youtube.com/watch?v=_0Zx5kXMJ2I"
+						}
+					],
+					"demoIdeas": [
+						"Projection-operator stepper: pick a molecule (H2O, NH3, benzene) and an irrep; watch each operation applied to the seed orbital with animated phase-coloured lobes, summed with the character weights.",
+						"Block-diagonalization viewer: show the full Huckel or valence matrix for benzene pi before and after switching to the SALC basis, with the zero blocks greyed out."
+					]
+				},
+				{
+					"id": "c1-l016-direct-products-selection-rules",
+					"title": "Direct Products, Selection Rules and Symmetry Labels",
+					"minutes": 45,
+					"objectives": [
+						"Form direct products of irreps by multiplying characters, and decide whether an integral $\\int\\psi_a\\hat O\\psi_b\\,d\\tau$ can be nonzero (the integrand must contain $A_1$).",
+						"Apply this to Hamiltonian matrix elements (zero between different irreps) and to electric-dipole selection rules, for example the weak $n\\to\\pi^*$ band of formaldehyde ($B_2\\otimes B_1=A_2$).",
+						"Explain how $[\\hat H,\\hat R]=0$ produces symmetry labels and degeneracy equal to the irrep dimension."
+					],
+					"keyEquations": [
+						"\\chi_{a\\otimes b}(R)=\\chi_a(R)\\chi_b(R)",
+						"\\int\\psi_a\\hat O\\psi_b\\,d\\tau\\neq0\\ \\Rightarrow\\ \\Gamma_a\\otimes\\Gamma_O\\otimes\\Gamma_b\\ni A_1",
+						"[\\hat H,\\hat R]=0\\ \\Rightarrow\\ \\text{eigenstates carry irrep labels, degeneracy}=l_i"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 5",
+							"title": "Group Theory and Quantum Mechanics"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 5",
+							"title": "Group Theory",
+							"optional": true
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 12",
+							"title": "Molecular Symmetry",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Physical Chemistry (PCHEM) at Sam",
+							"title": "Using the Direct Product Table for Selection Rules 4448 2019 L09",
+							"url": "https://www.youtube.com/watch?v=pflJGgiiLIg"
+						},
+						{
+							"source": "Physical Chemistry (PCHEM) at Sam",
+							"title": "Using Symmetry to Determine Selection Rules L9 4448",
+							"url": "https://www.youtube.com/watch?v=aPZD0zSFoVA"
+						},
+						{
+							"source": "NPTEL (IIT Bombay)",
+							"title": "Lecture 22 : Tensor Product of Representation",
+							"url": "https://www.youtube.com/watch?v=OkqwbogJmh4"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 12.15 - Irrep Direct Products",
+							"url": "https://www.youtube.com/watch?v=1d6peheL0uc"
+						}
+					],
+					"demoIdeas": [
+						"Selection-rule calculator: pick a point group and the initial and final orbital irreps; the app multiplies the characters class by class, shows whether A1 appears and which of x, y, z polarizations are allowed.",
+						"Formaldehyde n-to-pi* viewer: draw the n (in-plane lone pair) and pi* orbital lobes with phases and show that the transition-dipole integral cancels by symmetry."
+					]
+				}
+			]
+		},
+		{
+			"id": "c1-u04-h2plus-h2-diatomics",
+			"title": "H2+, H2 and Diatomics from First Principles",
+			"summary": "Derive the chemical bond: solve H2+ in the LCAO approximation, see where bonding and antibonding energies come from, treat H2 with molecular orbitals and valence bond (Heitler-London) side by side, and extend to the MO diagrams of homonuclear and heteronuclear diatomics.",
+			"lessons": [
+				{
+					"id": "c1-l017-h2plus-lcao-setup",
+					"title": "H2+: The Electronic Problem and the LCAO Ansatz",
+					"minutes": 40,
+					"objectives": [
+						"Write the electronic Hamiltonian of H$_2^+$ at fixed $R$ in atomic units and state that it is exactly separable in prolate spheroidal coordinates ($R_e=2.00\\,a_0$, $D_e=2.79$ eV), so LCAO can be benchmarked.",
+						"Set up $\\psi=c_A1s_A+c_B1s_B$ and define the overlap $S(R)=e^{-R}(1+R+R^2/3)$ and the integrals $H_{AA}=\\alpha$ and $H_{AB}=\\beta$ in terms of Coulomb and exchange integrals.",
+						"Evaluate the integrals at a given $R$ and say what each represents physically."
+					],
+					"keyEquations": [
+						"\\hat H=-\\tfrac12\\nabla^2-\\frac1{r_A}-\\frac1{r_B}+\\frac1R,\\qquad S=e^{-R}\\left(1+R+\\tfrac{R^2}3\\right)",
+						"H_{AA}=-\\tfrac12-J+\\tfrac1R,\\quad J=\\tfrac1R-e^{-2R}\\left(1+\\tfrac1R\\right)",
+						"H_{AB}=-\\tfrac12S-K+\\tfrac SR,\\quad K=e^{-R}(1+R)"
+					],
+					"readings": [
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 13",
+							"title": "Electronic Structure of Diatomic Molecules"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 8",
+							"title": "An Introduction to Molecular Structure",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 10.3 - Hydrogen Molecule-Ion 1: Energy",
+							"url": "https://www.youtube.com/watch?v=cc4CZCjom6A"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 10.4 - Hydrogen Molecule-Ion 2: Orbitals",
+							"url": "https://www.youtube.com/watch?v=hr05jLHAaLg"
+						},
+						{
+							"source": "MIT OCW 8.06 (Zwiebach, Spring 2018)",
+							"title": "L18.3 Example: The hydrogen molecule ion",
+							"url": "https://www.youtube.com/watch?v=omqSBV--uQ4"
+						}
+					],
+					"demoIdeas": [
+						"H2+ LCAO viewer: slider for R; plot S(R), alpha(R), beta(R) and the two LCAO energy curves with the exact H2+ curve overlaid, plus a contour map of the bonding amplitude in the bond plane."
+					]
+				},
+				{
+					"id": "c1-l018-bonding-antibonding-origin",
+					"title": "Bonding and Antibonding: Where Does the Energy Come From?",
+					"minutes": 45,
+					"objectives": [
+						"Derive $E_\\pm(R)=(H_{AA}\\pm H_{AB})/(1\\pm S)$ and the normalized orbitals $\\psi_\\pm=(1s_A\\pm1s_B)/\\sqrt{2(1\\pm S)}$, locate the LCAO minimum ($R_e\\approx2.49\\,a_0$, $D_e\\approx1.76$ eV) and compare with the exact result.",
+						"Classify $\\psi_\\pm$ as $\\sigma_g$ and $\\sigma_u$ by inversion symmetry, describe the nodal plane of $\\sigma_u$, and show the antibonding curve is repulsive.",
+						"Interpret the energy lowering with the virial theorem and the kinetic-energy (Ruedenberg) analysis instead of the 'density between the nuclei' slogan."
+					],
+					"keyEquations": [
+						"E_\\pm(R)=\\frac{H_{AA}\\pm H_{AB}}{1\\pm S},\\qquad \\psi_\\pm=\\frac{1s_A\\pm1s_B}{\\sqrt{2(1\\pm S)}}",
+						"2\\langle T\\rangle+\\langle V\\rangle=-R\\frac{dE}{dR}\\ \\ (\\Rightarrow\\ \\langle V\\rangle=-2\\langle T\\rangle\\ \\text{at}\\ R_e)",
+						"D_e=E(\\infty)-E(R_e)"
+					],
+					"readings": [
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 13",
+							"title": "Electronic Structure of Diatomic Molecules"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 8",
+							"title": "An Introduction to Molecular Structure",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "25. Molecular Orbital Theory II; H2+, A2, AB Diatomics",
+							"url": "https://www.youtube.com/watch?v=mPSDaN4AJl8"
+						},
+						{
+							"source": "Open Yale Courses (J. M. McBride)",
+							"title": "7. Quantum Mechanical Kinetic Energy",
+							"url": "https://www.youtube.com/watch?v=B4VSqAB_JcU"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 10.6 - Molecular Orbital Inversion Symmetry",
+							"url": "https://www.youtube.com/watch?v=Q8ja0Xu8nWQ"
+						}
+					],
+					"demoIdeas": [
+						"Energy-decomposition plot for H2+: kinetic, electron-nuclear and nuclear-repulsion contributions of E+(R) relative to separated atoms, with an orbital-exponent slider that adds contraction and shows the change in T and V.",
+						"Density-difference map: contour plot of the bonding (or antibonding) density minus the superposition of two atom densities in the bond plane, toggled by sign."
+					]
+				},
+				{
+					"id": "c1-l019-h2-molecular-orbital",
+					"title": "H2 in Molecular Orbital Theory",
+					"minutes": 40,
+					"objectives": [
+						"Write the two-electron Hamiltonian of H$_2$ and the MO ground state $\\sigma_g(1)\\sigma_g(2)$ times the singlet spin function; explain the singlet requirement from antisymmetry.",
+						"Expand $\\sigma_g\\sigma_g$ in AOs and show it contains equal covalent and ionic parts; write the energy $E=2h_{gg}+J_{gg}+1/R$.",
+						"Compare with the exact result ($D_e$: HF 3.64 eV vs exact 4.75 eV at $R_e\\approx0.74$ Å) and quantify the correlation energy."
+					],
+					"keyEquations": [
+						"\\hat H=-\\tfrac12\\nabla_1^2-\\tfrac12\\nabla_2^2-\\sum_{i,A}\\frac1{r_{iA}}+\\frac1{r_{12}}+\\frac1R",
+						"\\Psi_{MO}=\\sigma_g(1)\\sigma_g(2)\\,\\tfrac1{\\sqrt2}[\\alpha(1)\\beta(2)-\\beta(1)\\alpha(2)]",
+						"E_{MO}=2h_{gg}+J_{gg}+\\tfrac1R"
+					],
+					"readings": [
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 13",
+							"title": "Electronic Structure of Diatomic Molecules"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "2.2",
+							"title": "Orbitals, Slater Determinants, and Basis Functions"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.5",
+							"title": "Model Calculations on H2 and HeH+",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 10.1 - Hydrogen Molecule Hamiltonian",
+							"url": "https://www.youtube.com/watch?v=BBoE6NRRZ8k"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 10.7 - Hydrogen Molecular Orbital Diagram",
+							"url": "https://www.youtube.com/watch?v=1-UIdbGY3nQ"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 10.8 - LCAO-MO Theory",
+							"url": "https://www.youtube.com/watch?v=7ItAyG_m7jA"
+						}
+					],
+					"demoIdeas": [
+						"H2 energy-curve plot: MO (sigma_g squared) energy against R with the exact curve overlaid and the HF dissociation limit marked; shade the correlation energy at R_e and read it off in kcal/mol."
+					]
+				},
+				{
+					"id": "c1-l020-valence-bond-vs-mo",
+					"title": "Valence Bond versus MO and the Dissociation Problem",
+					"minutes": 45,
+					"objectives": [
+						"Write the Heitler-London wavefunction for H$_2$, relate it to the MO wavefunction by $\\Psi_{MO}=\\Psi_{\\rm cov}+\\Psi_{\\rm ion}$, and compare their ionic weights.",
+						"Explain why the restricted MO function dissociates to 50% H$^+$ + H$^-$ with an error of several eV, and relate this to static correlation.",
+						"Show that the two-configuration CI $c_g\\sigma_g^2-c_u\\sigma_u^2$ interpolates between MO near $R_e$ and VB at large $R$ (Coulson-Fischer picture)."
+					],
+					"keyEquations": [
+						"\\Psi_{HL}=N\\left[1s_A(1)1s_B(2)+1s_B(1)1s_A(2)\\right]\\Theta_{\\rm singlet}",
+						"\\sigma_g^2\\ \\propto\\ \\underbrace{(A\\!\\cdot\\! B+B\\!\\cdot\\! A)}_{\\rm covalent}+\\underbrace{(A\\!\\cdot\\! A+B\\!\\cdot\\! B)}_{\\rm ionic}",
+						"\\Psi_{CI}=c_g\\sigma_g^2-c_u\\sigma_u^2"
+					],
+					"readings": [
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 13",
+							"title": "Electronic Structure of Diatomic Molecules"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.5",
+							"title": "Model Calculations on H2 and HeH+",
+							"optional": true
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 4",
+							"title": "Configuration Interaction",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "CompChem: Correlation: 8. Hartree Fock Dissociation Problem",
+							"url": "https://www.youtube.com/watch?v=e8WKkm-XKE4"
+						},
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "Non-Dynamical (Static) Electron Correlation: Bond Breaking in Quantum Chemistry",
+							"url": "https://www.youtube.com/watch?v=coGVX7HCCQE"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "25. Molecular Orbital Theory II; H2+, A2, AB Diatomics",
+							"url": "https://www.youtube.com/watch?v=mPSDaN4AJl8"
+						}
+					],
+					"demoIdeas": [
+						"H2 dissociation lab: slider for R; energy curves for RHF, Heitler-London and two-configuration CI, with a stacked bar of ionic versus covalent weight for each and the CI mixing angle changing with R.",
+						"Coulson-Fischer demo: switch from RHF to UHF and watch the alpha and beta orbitals localize on separate atoms beyond the critical distance."
+					]
+				},
+				{
+					"id": "c1-l021-diatomic-mo-diagrams",
+					"title": "Homonuclear and Heteronuclear Diatomics: MO Diagrams",
+					"minutes": 45,
+					"objectives": [
+						"Build valence MO diagrams for homonuclear diatomics (Li$_2$ to F$_2$), predict bond order and magnetism (O$_2$ triplet), and explain the switch of $\\sigma_g(2p)$ and $\\pi_u$ ordering by 2s-2p mixing.",
+						"For a heteronuclear diatomic solve the 2x2 problem to get the polarization of the bonding MO from $\\tan2\\theta=2\\beta/(\\alpha_A-\\alpha_B)$, and relate it to electronegativity and dipole moment.",
+						"Interpret the frontier orbitals of CO (5$\\sigma$ HOMO on C, 2$\\pi^*$ LUMO) and what this implies for metal carbonyl bonding."
+					],
+					"keyEquations": [
+						"\\tan2\\theta=\\frac{2\\beta}{\\alpha_A-\\alpha_B},\\qquad \\psi_b=\\cos\\theta\\,\\varphi_A+\\sin\\theta\\,\\varphi_B",
+						"\\text{bond order}=\\tfrac12\\,(n_{\\rm bonding}-n_{\\rm antibonding})",
+						"\\Delta E\\approx\\pm\\frac{\\beta^2}{|\\alpha_A-\\alpha_B|}\\ \\ (|\\Delta\\alpha|\\gg|\\beta|)"
+					],
+					"readings": [
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 13",
+							"title": "Electronic Structure of Diatomic Molecules"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 8",
+							"title": "An Introduction to Molecular Structure",
+							"optional": true
+						},
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 6",
+							"title": "Symmetry-Adapted Linear Combinations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "25. Molecular Orbital Theory II; H2+, A2, AB Diatomics",
+							"url": "https://www.youtube.com/watch?v=mPSDaN4AJl8"
+						},
+						{
+							"source": "Open Yale Courses (J. M. McBride)",
+							"title": "13. Overlap and Energy-Match",
+							"url": "https://www.youtube.com/watch?v=_d6pUM5j8AI"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 10.10 - Bond Order",
+							"url": "https://www.youtube.com/watch?v=Tx-aBZnsjZU"
+						}
+					],
+					"demoIdeas": [
+						"Diatomic MO builder: choose atoms A and B from Li to F (with tabulated valence orbital energies), toggle s-p mixing, and see the correlation diagram, electron filling, bond order and magnetism; a slider for the AO energy difference shows the coefficient bars shifting.",
+						"Dipole estimator: for a chosen heteronuclear pair, show the bonding-MO coefficients and the polarity from the mixing angle."
+					]
+				}
+			]
+		},
+		{
+			"id": "c1-u05-polyatomic-mo-huckel-fmo",
+			"title": "Polyatomic MOs: Huckel, Symmetry, Walsh and Frontier Orbitals",
+			"summary": "Huckel theory as tight-binding (and its connection to band structure), symmetry-adapted MOs of H2O, NH3 and CH4, Walsh diagrams, orbital-interaction rules from perturbation theory, and frontier orbitals plus Woodward-Hoffmann rules read as conservation of orbital symmetry along a reaction path.",
+			"lessons": [
+				{
+					"id": "c1-l022-huckel-theory",
+					"title": "Huckel Theory: pi Systems from a Secular Determinant",
+					"minutes": 45,
+					"objectives": [
+						"State the Huckel approximations and set up and solve the secular determinant for ethylene, allyl and butadiene using $x=(\\alpha-E)/\\beta$.",
+						"Compute $\\pi$ energies, delocalization energies, charge densities $q_i=\\sum_jn_jc_{ji}^2$ and bond orders $p_{ij}$ from the eigenvectors.",
+						"Interpret the allyl cation, radical and anion through the non-bonding MO, and connect the results to resonance and reactivity in organic chemistry."
+					],
+					"keyEquations": [
+						"\\begin{vmatrix}x&1&0\\\\1&x&1\\\\0&1&x\\end{vmatrix}=0,\\qquad x=\\frac{\\alpha-E}{\\beta}",
+						"E_k=\\alpha+2\\beta\\cos\\frac{k\\pi}{N+1}\\quad(k=1,\\dots,N\\ \\text{linear chain})",
+						"q_i=\\sum_jn_jc_{ji}^2,\\qquad p_{ij}=\\sum_jn_jc_{ji}c_{jj'}"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 7",
+							"title": "Molecular Orbital Theory and Its Applications in Organic Chemistry"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 17",
+							"title": "Semiempirical and Molecular-Mechanics Treatments of Molecules",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "26. Qualitative MO Theory: Hückel",
+							"url": "https://www.youtube.com/watch?v=sZlTriaYRM0"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 11.6 - Huckel Theory",
+							"url": "https://www.youtube.com/watch?v=YsRe2PMCbIw"
+						},
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.03.03 Foundations of Molecular Orbital Theory: Hückel Theory for the Allyl System",
+							"url": "https://www.youtube.com/watch?v=aaj_LEGwPwc"
+						},
+						{
+							"source": "T. Daniel Crawford (Virginia Tech)",
+							"title": "Hückel Theory",
+							"url": "https://www.youtube.com/watch?v=6VXPMjeVcVw"
+						}
+					],
+					"demoIdeas": [
+						"Huckel solver: draw a conjugated pi network by clicking atoms and bonds, set heteroatom alpha and beta values, and see the MO energy ladder, orbital coefficient pictures, pi charges, bond orders and total pi energy; presets include allyl, butadiene, benzene, naphthalene and pyridine.",
+						"Reactivity map: colour each carbon by its HOMO or LUMO coefficient squared and by pi charge, and compare predicted sites of electrophilic and nucleophilic attack with known regiochemistry."
+					]
+				},
+				{
+					"id": "c1-l023-rings-symmetry-aromaticity",
+					"title": "Rings, Symmetry and the 4n+2 Rule",
+					"minutes": 45,
+					"objectives": [
+						"Derive the Huckel energies of an $N$-membered ring from cyclic symmetry, $E_k=\\alpha+2\\beta\\cos(2\\pi k/N)$, and draw the Frost-Musulin circle.",
+						"Obtain benzene's $\\pi$ MOs and their $D_{6h}$ labels ($a_{2u},e_{1g},e_{2u},b_{2g}$), compute its resonance energy ($2|\\beta|$) and explain the $4n+2$ rule and antiaromatic $4n$ rings such as cyclobutadiene.",
+						"Connect the construction to projection operators for $C_N$ and to Bloch's theorem."
+					],
+					"keyEquations": [
+						"E_k=\\alpha+2\\beta\\cos\\frac{2\\pi k}{N},\\quad k=0,\\pm1,\\pm2,\\dots",
+						"|\\psi_k\\rangle=\\tfrac1{\\sqrt N}\\sum_je^{2\\pi ikj/N}|\\varphi_j\\rangle",
+						"E_\\pi(\\mathrm{C_6H_6})=6\\alpha+8\\beta,\\qquad E_{\\rm res}=2|\\beta|"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 7",
+							"title": "Molecular Orbital Theory and Its Applications in Organic Chemistry"
+						},
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 6",
+							"title": "Symmetry-Adapted Linear Combinations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 14.4 - Huckel's Rule",
+							"url": "https://www.youtube.com/watch?v=jTWN1Qm7UXw"
+						},
+						{
+							"source": "Open Yale Courses (CHEM 125b, J. M. McBride)",
+							"title": "18. Linear and Cyclic Conjugation Theory. 4n+2 Aromaticity",
+							"url": "https://www.youtube.com/watch?v=QF2UXd-uC1M"
+						}
+					],
+					"demoIdeas": [
+						"Frost circle: slider for ring size N; a regular N-gon inscribed in a circle gives the MO energies, fill electrons and see aromatic, antiaromatic or open-shell classification with the phase pattern of each orbital drawn on the ring.",
+						"Jahn-Teller toggle for cyclobutadiene and cyclooctatetraene: alternate the bond strengths beta1 and beta2 with a slider and watch degenerate levels split and the total pi energy change."
+					]
+				},
+				{
+					"id": "c1-l024-huckel-tight-binding-bands",
+					"title": "Huckel as Tight-Binding: From Molecules to Bands",
+					"minutes": 45,
+					"objectives": [
+						"Show that the infinite periodic chain gives the Bloch band $E(k)=\\alpha+2\\beta\\cos ka$ of width $4|\\beta|$ with van Hove singularities in the density of states, and that finite polyene levels sample the same band.",
+						"Compute how the HOMO-LUMO gap of a polyene scales with chain length, $4|\\beta|\\sin[\\pi/(2(N+1))]$, and explain the red shift of absorption with conjugation length.",
+						"Explain the Peierls distortion (bond alternation opens a gap) as the Jahn-Teller effect of an extended system, and name the corresponding result for graphene (Dirac points)."
+					],
+					"keyEquations": [
+						"E(k)=\\alpha+2\\beta\\cos ka,\\qquad \\text{bandwidth}=4|\\beta|",
+						"g(E)=\\frac N\\pi\\frac1{\\sqrt{4\\beta^2-(E-\\alpha)^2}}",
+						"\\Delta_N=4|\\beta|\\sin\\frac\\pi{2(N+1)}\\approx\\frac{2\\pi|\\beta|}{N+1}"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 7",
+							"title": "Molecular Orbital Theory and Its Applications in Organic Chemistry",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Materials Cloud (T. Paxton)",
+							"title": "Tony Paxton: Introduction to the tight binding approximation. Lecture 1, Theory",
+							"url": "https://www.youtube.com/watch?v=mE17ymjgMck"
+						},
+						{
+							"source": "Sergey Frolov (Univ. of Pittsburgh), Solid State Physics",
+							"title": "Introduction to Solid State Physics, Lecture 6: One-dimensional Tight Binding Model for Electrons",
+							"url": "https://www.youtube.com/watch?v=lGQnkSszcZQ"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "26. Qualitative MO Theory: Hückel",
+							"url": "https://www.youtube.com/watch?v=sZlTriaYRM0"
+						}
+					],
+					"demoIdeas": [
+						"Chain-to-band slider: set N from 2 to 200 and see the Huckel MO ladder fill into a cosine band with a density-of-states histogram, plus a plot of the HOMO-LUMO gap versus N; toggle ring versus chain boundary conditions.",
+						"Peierls toggle: slider for alternating hoppings beta1 and beta2 shows a gap opening at the Fermi level and the lowering of the occupied-level sum, while a polyacetylene-like length shows the energy gain."
+					]
+				},
+				{
+					"id": "c1-l025-water-symmetry-adapted-mos",
+					"title": "Symmetry-Adapted MOs of Water",
+					"minutes": 45,
+					"objectives": [
+						"Classify the O 2s, 2p and H SALC basis functions of H$_2$O in $C_{2v}$ and block the valence secular problem into $a_1$ (3x3), $b_2$ (2x2) and $b_1$ (1x1).",
+						"Build the qualitative MO diagram (1$a_1$, 2$a_1$, 1$b_2$, 3$a_1$, 1$b_1$ occupied; 4$a_1^*$, 2$b_2^*$ virtual) and assign the photoelectron bands (12.6, 14.7, 18.6, 32 eV).",
+						"Explain why the two 'lone pairs' are inequivalent in the canonical picture yet equivalent after a unitary rotation of the occupied orbitals."
+					],
+					"keyEquations": [
+						"\\Gamma_{\\rm H\\,1s}=A_1+B_2,\\qquad \\text{O: }2s\\,(a_1),\\ 2p_z\\,(a_1),\\ 2p_y\\,(b_2),\\ 2p_x\\,(b_1)",
+						"\\mathbf H=\\mathbf H_{a_1}\\oplus\\mathbf H_{b_2}\\oplus\\mathbf H_{b_1}",
+						"{\\rm IE}_i\\approx-\\varepsilon_i\\ \\ (\\text{Koopmans})"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 6",
+							"title": "Symmetry-Adapted Linear Combinations"
+						},
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 7",
+							"title": "Molecular Orbital Theory and Its Applications in Organic Chemistry",
+							"optional": true
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.7",
+							"title": "Some Illustrative Closed-Shell Calculations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Physical Chemistry (PCHEM) at Sam",
+							"title": "Introduction to Molecular Orbital Theory L26 4448",
+							"url": "https://www.youtube.com/watch?v=PpNQ1HHsSqM"
+						},
+						{
+							"source": "Physical Chemistry (PCHEM) at Sam",
+							"title": "Projection Operator to SALC-AO to MO Procedure 4448 2019 L7-4",
+							"url": "https://www.youtube.com/watch?v=YJmYBIGa2Gc"
+						}
+					],
+					"demoIdeas": [
+						"Water MO builder: sliders for the O 2s, O 2p and H 1s energies and the couplings; the app blocks the matrix by irrep, solves each block, draws the MO diagram with 3D lobes and compares the occupied-orbital energies with the photoelectron bands.",
+						"Localization slider: rotate the two occupied lone-pair orbitals into equivalent rabbit-ear hybrids and show the total density unchanged while the orbital energies are no longer defined."
+					]
+				},
+				{
+					"id": "c1-l026-ammonia-methane-hybridization",
+					"title": "Ammonia, Methane and the Hybridization Question",
+					"minutes": 45,
+					"objectives": [
+						"Construct the valence MOs of NH$_3$ ($C_{3v}$: 1$a_1$, 1$e$, 3$a_1$ lone pair) and CH$_4$ ($T_d$: 1$a_1$, 1$t_2$) from symmetry-adapted H SALCs ($A_1+E$, $A_1+T_2$).",
+						"Reconcile the two photoelectron bands of CH$_4$ with four equivalent C-H bonds by showing that localized bonds are a unitary mixture of the canonical occupied MOs.",
+						"State what hybridization is and is not: a basis choice for interpretation, not a physical step in bond formation."
+					],
+					"keyEquations": [
+						"\\Gamma_{3\\,\\rm H}({\\rm NH_3})=A_1+E,\\qquad \\Gamma_{4\\,\\rm H}({\\rm CH_4})=A_1+T_2",
+						"\\phi_i^{\\rm loc}=\\sum_jU_{ij}\\psi_j^{\\rm can},\\quad \\mathbf U^\\dagger\\mathbf U=\\mathbf 1\\ \\Rightarrow\\ \\rho(\\mathbf r)\\ \\text{unchanged}",
+						"{\\rm IE}\\ ({\\rm CH_4}):\\ 1t_2\\approx14\\ \\text{eV},\\ 2a_1\\approx23\\ \\text{eV}"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 6",
+							"title": "Symmetry-Adapted Linear Combinations"
+						},
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 7",
+							"title": "Molecular Orbital Theory and Its Applications in Organic Chemistry",
+							"optional": true
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.7",
+							"title": "Some Illustrative Closed-Shell Calculations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Physical Chemistry (PCHEM) at Sam",
+							"title": "L24 Projection Operator to SALC AOs",
+							"url": "https://www.youtube.com/watch?v=OAvHWkeAxzM"
+						},
+						{
+							"source": "Open Yale Courses (J. M. McBride)",
+							"title": "10. Reality and the Orbital Approximation",
+							"url": "https://www.youtube.com/watch?v=0bCbP7SFgJc"
+						}
+					],
+					"demoIdeas": [
+						"Orbital-transformation slider: rotate the canonical occupied MOs of CH4 (a1 and t2) into four localized bond orbitals with a unitary-mixing parameter; total density and energy stay fixed while the individual orbital pictures and orbital energies change.",
+						"NH3 inversion viewer: animate the umbrella flip and show how the lone-pair orbital changes from a1 (pyramidal) to pure p (planar) along the path."
+					]
+				},
+				{
+					"id": "c1-l027-walsh-diagrams",
+					"title": "Walsh Diagrams: Orbital Energies versus Geometry",
+					"minutes": 40,
+					"objectives": [
+						"Construct the Walsh diagram for AH$_2$ from the linear ($D_{\\infty h}$) to the bent ($C_{2v}$) structure and track the correlation of $2\\sigma_g\\to2a_1$, $1\\sigma_u\\to1b_2$, $1\\pi_u\\to3a_1+1b_1$.",
+						"Predict from electron count whether AH$_2$ is linear (4 valence electrons: BeH$_2$) or bent (5 to 8: BH$_2$, CH$_2$, NH$_2$, H$_2$O) and explain the role of s-p mixing.",
+						"Assess the limits of the argument: sum of orbital energies is not the total energy, so Walsh rules are qualitative."
+					],
+					"keyEquations": [
+						"d_{HH}=2r\\sin(\\theta/2)",
+						"E_{\\rm total}\\neq\\sum_i\\varepsilon_i\\quad (\\text{electron repulsion and }V_{NN}\\text{ are omitted})",
+						"\\theta_e:\\ \\mathrm{BeH_2}\\,180^\\circ,\\ \\mathrm{BH_2}\\approx131^\\circ,\\ \\mathrm{NH_2}\\approx103^\\circ,\\ \\mathrm{H_2O}\\,104.5^\\circ"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 7",
+							"title": "Molecular Orbital Theory and Its Applications in Organic Chemistry",
+							"optional": true
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 8",
+							"title": "An Introduction to Molecular Structure",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 11.5 - Walsh Diagrams",
+							"url": "https://www.youtube.com/watch?v=Y1k85O4r0A0"
+						}
+					],
+					"demoIdeas": [
+						"Walsh diagram generator: slider for the HAH angle from 180 to 90 degrees; show orbital energies from a simple extended-Huckel-like model with irrep labels, occupancies for a chosen electron count (4 to 10), the summed-orbital-energy curve with its minimum angle, and orbital pictures at the current angle.",
+						"Compare the Walsh minimum angle with a tabulated experimental angle for BeH2, BH2, CH2, NH2, H2O as the electron count changes."
+					]
+				},
+				{
+					"id": "c1-l028-orbital-interaction-perturbation",
+					"title": "Orbital Interaction Theory from Perturbation Theory",
+					"minutes": 40,
+					"objectives": [
+						"Derive from the 2x2 problem the second-order energy shifts $\\mp|H_{12}-E S|^2/(E_2-E_1)$ and the first-order mixing coefficients, and state the rules: stabilization grows with overlap$^2$ and shrinks with the energy gap.",
+						"Distinguish the two-electron stabilizing case (donor-acceptor) from the four-electron repulsive case and the zero-electron case, with examples (BH$_3$ + NH$_3$, He$\\cdots$He, Li-F).",
+						"Predict the direction of orbital polarization on interaction, as used in frontier-orbital reasoning."
+					],
+					"keyEquations": [
+						"\\Delta E_1\\approx-\\frac{|H_{12}-E_1S_{12}|^2}{E_2-E_1},\\qquad \\Delta E_2\\approx+\\frac{|H_{12}-E_2S_{12}|^2}{E_2-E_1}",
+						"\\psi_1'=\\psi_1+\\frac{H_{21}}{E_1-E_2}\\psi_2",
+						"E_{\\rm 4e}\\propto+S^2"
+					],
+					"readings": [
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 6",
+							"title": "Techniques of Approximation"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 9",
+							"title": "Perturbation Theory"
+						},
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 7",
+							"title": "Molecular Orbital Theory and Its Applications in Organic Chemistry",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Open Yale Courses (J. M. McBride)",
+							"title": "13. Overlap and Energy-Match",
+							"url": "https://www.youtube.com/watch?v=_d6pUM5j8AI"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "27. Non-Degenerate Perturbation Theory III",
+							"url": "https://www.youtube.com/watch?v=Z0ALwCckM24"
+						}
+					],
+					"demoIdeas": [
+						"Two-orbital interaction sandbox: sliders for the two orbital energies, their coupling and overlap, and the electron count (0 to 4); display exact and second-order level shifts, mixing coefficients and the net stabilization or repulsion as a bar.",
+						"Orbital polarization animation: show the donor orbital tilting toward the acceptor as the coupling is turned on."
+					]
+				},
+				{
+					"id": "c1-l029-frontier-orbitals-woodward-hoffmann",
+					"title": "Frontier Orbitals and Woodward-Hoffmann Rules as Symmetry Conservation",
+					"minutes": 45,
+					"objectives": [
+						"Use frontier-orbital phase matching (HOMO-LUMO) to explain why the thermal suprafacial [4+2] Diels-Alder reaction is allowed and the [2+2] is forbidden.",
+						"Build the orbital correlation diagram for the electrocyclic ring closure of butadiene to cyclobutene, conrotatory ($C_2$ conserved) versus disrotatory ($\\sigma$ conserved), and read off the thermal and photochemical rules ($4n$ vs $4n+2$).",
+						"Restate the Woodward-Hoffmann rules in group-theory language: symmetry preserved along the path plus the non-crossing rule for same-irrep levels."
+					],
+					"keyEquations": [
+						"\\Delta E\\approx-\\frac{|H_{\\rm HOMO,LUMO}|^2}{E_{\\rm LUMO}-E_{\\rm HOMO}}",
+						"\\text{thermal electrocyclic: }4n\\ \\to\\ \\text{con};\\quad 4n+2\\ \\to\\ \\text{dis}",
+						"[\\pi 4_s+\\pi 2_s]\\ \\text{allowed (6 e)};\\quad [\\pi2_s+\\pi2_s]\\ \\text{forbidden (4 e)}"
+					],
+					"readings": [
+						{
+							"bookId": "cotton-group",
+							"ref": "Ch. 7",
+							"title": "Molecular Orbital Theory and Its Applications in Organic Chemistry",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "e-PG Pathshala (Vidya-mitra)",
+							"title": "Woodward Hoffmann correlation diagrams (CHE)",
+							"url": "https://www.youtube.com/watch?v=QfIxKDz3P0s"
+						},
+						{
+							"source": "Open Yale Courses (CHEM 125b, J. M. McBride)",
+							"title": "19. Aromatic Transition States: Cycloaddition and Electrocyclic Reactions",
+							"url": "https://www.youtube.com/watch?v=0Qnjd--5N6U"
+						}
+					],
+					"demoIdeas": [
+						"Electrocyclic correlation-diagram viewer: choose butadiene to cyclobutene (or hexatriene to cyclohexadiene) with a conrotatory or disrotatory toggle; MO levels carry C2 or mirror symmetry labels and the lines connect same-symmetry orbitals, showing the avoided crossing and which electron configuration is ground state.",
+						"Diels-Alder versus [2+2] phase matcher: rotate and approach a diene and ethylene (or two ethylenes) with colour-coded p-orbital lobes and watch the signed overlap sum add up or cancel at the two bonding termini."
+					]
+				}
+			]
+		},
+		{
+			"id": "c1-u06-hartree-fock",
+			"title": "Spin, Antisymmetry and Hartree-Fock",
+			"summary": "Slater determinants, the Slater-Condon rules, derivation of the Hartree-Fock equations and the Fock operator, the Roothaan-Hall matrix equations, SCF convergence, and what orbital energies (Koopmans) and open-shell solutions (UHF) really mean - the mean-field engine behind nearly every molecular calculation.",
+			"lessons": [
+				{
+					"id": "c1-l030-spin-antisymmetry-slater-determinants",
+					"title": "Spin, Antisymmetry and Slater Determinants",
+					"minutes": 40,
+					"objectives": [
+						"Construct spin orbitals $\\chi(\\mathbf x)=\\phi(\\mathbf r)\\sigma(\\omega)$, explain why the $N$-electron wavefunction must be antisymmetric, and build the Slater determinant $\\Psi=(N!)^{-1/2}\\det[\\chi_j(\\mathbf x_i)]$.",
+						"Derive from determinant properties the Pauli principle (equal columns give zero) and invariance of the determinant to a unitary mixing of occupied spin orbitals.",
+						"Describe the Fermi (exchange) hole: same-spin electrons are correlated by antisymmetry alone, opposite-spin electrons are not."
+					],
+					"keyEquations": [
+						"\\Psi(\\mathbf x_1,\\dots,\\mathbf x_N)=\\frac1{\\sqrt{N!}}\\begin{vmatrix}\\chi_1(\\mathbf x_1)&\\cdots&\\chi_N(\\mathbf x_1)\\\\\\vdots&&\\vdots\\\\\\chi_1(\\mathbf x_N)&\\cdots&\\chi_N(\\mathbf x_N)\\end{vmatrix}",
+						"\\Psi(\\dots,\\mathbf x_i,\\dots,\\mathbf x_j,\\dots)=-\\Psi(\\dots,\\mathbf x_j,\\dots,\\mathbf x_i,\\dots)",
+						"\\chi_i'=\\sum_jU_{ij}\\chi_j\\ \\Rightarrow\\ \\Psi'=\\det(\\mathbf U)\\Psi"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "2.1",
+							"title": "The Electronic Problem"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "2.2",
+							"title": "Orbitals, Slater Determinants, and Basis Functions"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 10",
+							"title": "Electron Spin and the Spin-Statistics Theorem"
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 9.5 - Antisymmetry Principle",
+							"url": "https://www.youtube.com/watch?v=O62wmfcbL2Q"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 9.6 - Slater Determinants",
+							"url": "https://www.youtube.com/watch?v=ASPuNKrCzDE"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "23. Many-Electron Atoms",
+							"url": "https://www.youtube.com/watch?v=JzW4RYICOdA"
+						}
+					],
+					"demoIdeas": [
+						"Slater-determinant explorer: choose N spin orbitals (particle-in-a-box levels with alpha or beta spin), expand the determinant for N = 2 and 3, swap two particle labels to see the sign flip, and plot the two-electron probability density for same-spin versus opposite-spin pairs to show the Fermi hole.",
+						"Unitary-invariance check: mix two occupied spin orbitals by a rotation slider and show the determinant (and density) unchanged up to a phase."
+					]
+				},
+				{
+					"id": "c1-l031-slater-condon-rules",
+					"title": "The Slater-Condon Rules",
+					"minutes": 45,
+					"objectives": [
+						"State the Slater-Condon rules for one-electron and two-electron operators between determinants that are identical, differ by one spin orbital, or differ by two (and vanish for more than two).",
+						"Evaluate $\\langle\\Psi_0|\\hat H|\\Psi_0\\rangle=\\sum_ah_{aa}+\\tfrac12\\sum_{ab}(\\langle ab|ab\\rangle-\\langle ab|ba\\rangle)$ for a closed-shell determinant and identify Coulomb ($J$) and exchange ($K$) terms.",
+						"Explain why exchange exists only between parallel spins, and why it makes parallel-spin arrangements lower in energy (Hund's rule)."
+					],
+					"keyEquations": [
+						"\\langle\\Psi_0|\\hat H|\\Psi_0\\rangle=\\sum_ah_{aa}+\\tfrac12\\sum_{ab}\\left(\\langle ab|ab\\rangle-\\langle ab|ba\\rangle\\right)",
+						"\\langle ij|kl\\rangle=\\iint\\chi_i^*(1)\\chi_j^*(2)\\frac1{r_{12}}\\chi_k(1)\\chi_l(2)\\,d\\mathbf x_1d\\mathbf x_2",
+						"J_{ab}=\\langle ab|ab\\rangle,\\quad K_{ab}=\\langle ab|ba\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "2.3",
+							"title": "Operators and Matrix Elements"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "2.2",
+							"title": "Orbitals, Slater Determinants, and Basis Functions",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "CompChem: Correlation: 0. Slater Condon Rules",
+							"url": "https://www.youtube.com/watch?v=PWH_idTfH_c"
+						},
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "CompChem: Correlation: 6a. Slater Condon Rules for minimal basis set H2 molecule",
+							"url": "https://www.youtube.com/watch?v=uE6yHDZu8zY"
+						},
+						{
+							"source": "NPTEL (IIT Bombay)",
+							"title": "Week 2 : Lecture 14 : Slater rules for matrix elements",
+							"url": "https://www.youtube.com/watch?v=5TVWgZI8YEY"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 4.12 - Two-Electron Integrals",
+							"url": "https://www.youtube.com/watch?v=DGH5nfHHDgE"
+						}
+					],
+					"demoIdeas": [
+						"Slater-Condon calculator: choose N and name the occupied spin orbitals; pick two determinants (the HF determinant and an excitation) and the tool applies the rules, lists the nonzero h, J and K terms, and shows the spin-integration steps.",
+						"Helium by hand: enter h_1s and J_1s,1s and see E = 2h + J assembled, then add the singlet and triplet 1s2s excited states to show where the exchange splitting appears."
+					]
+				},
+				{
+					"id": "c1-l032-hartree-fock-equations-fock-operator",
+					"title": "Deriving the Hartree-Fock Equations and the Fock Operator",
+					"minutes": 45,
+					"objectives": [
+						"Define the Coulomb and exchange operators $\\hat J_b$, $\\hat K_b$ and the Fock operator $\\hat f=\\hat h+\\sum_b(\\hat J_b-\\hat K_b)$; note that $\\hat K_b$ is a non-local integral operator.",
+						"Derive the HF equations by minimizing the determinant energy with orthonormality constraints (Lagrange multipliers), reaching $\\hat f\\chi_a=\\varepsilon_a\\chi_a$ for canonical spin orbitals.",
+						"Explain why the equations are nonlinear and must be solved self-consistently, and what the HF energy is variationally."
+					],
+					"keyEquations": [
+						"\\hat f(1)=\\hat h(1)+\\sum_b\\left[\\hat J_b(1)-\\hat K_b(1)\\right]",
+						"\\hat K_b(1)\\chi_a(1)=\\left[\\int\\chi_b^*(2)\\,r_{12}^{-1}\\chi_a(2)\\,d\\mathbf x_2\\right]\\chi_b(1)",
+						"\\hat f\\chi_a=\\varepsilon_a\\chi_a,\\qquad \\delta\\Big[E_0-\\sum_{ab}\\varepsilon_{ba}(\\langle a|b\\rangle-\\delta_{ab})\\Big]=0"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.1",
+							"title": "The Hartree-Fock Equations"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.2",
+							"title": "Derivation of the Hartree-Fock Equations"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 11",
+							"title": "Many-Electron Atoms",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 4.16 - Coulomb and Exchange Operators",
+							"url": "https://www.youtube.com/watch?v=Wh9ci7sgKsU"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 4.17 - Fock Operator",
+							"url": "https://www.youtube.com/watch?v=3ph5XtkRVl0"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 4.20 - Canonical Hartree-Fock Equations",
+							"url": "https://www.youtube.com/watch?v=eaaQoLYk-So"
+						}
+					],
+					"demoIdeas": [
+						"Mean-field visualizer for a 1D two-electron model: iterate Hartree (no exchange) versus Hartree-Fock and show the effective potential on one electron from the other's density (J) and the exchange correction (K) as functions of position.",
+						"Self-consistency movie for helium: plot the 1s orbital and the Fock potential over SCF iterations."
+					]
+				},
+				{
+					"id": "c1-l033-interpreting-hartree-fock",
+					"title": "Interpreting Hartree-Fock: Mean Field, Self-Interaction and Orbital Energies",
+					"minutes": 40,
+					"objectives": [
+						"Show that $J_{aa}=K_{aa}$ so HF is free of self-interaction, and explain why one-electron systems are exact in HF.",
+						"Derive $E_0=\\sum_a\\varepsilon_a-\\tfrac12\\sum_{ab}(J_{ab}-K_{ab})$ and use it for helium to show why the sum of orbital energies double-counts the electron repulsion.",
+						"Describe what HF includes (exchange, Fermi hole) and what it misses (Coulomb hole), and define the correlation energy $E_c=E_{exact}-E_{HF}$."
+					],
+					"keyEquations": [
+						"J_{aa}=K_{aa}\\ \\Rightarrow\\ \\text{no self-interaction}",
+						"\\varepsilon_a=h_{aa}+\\sum_b\\left(J_{ab}-K_{ab}\\right)",
+						"E_0=\\sum_a\\varepsilon_a-\\tfrac12\\sum_{ab}(J_{ab}-K_{ab}),\\qquad E_c=E_{\\rm exact}-E_{\\rm HF}"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.3",
+							"title": "Interpretation of Solutions to the Hartree-Fock Equations"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 11",
+							"title": "Many-Electron Atoms"
+						}
+					],
+					"lectures": [
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "Introduction to Hartree-Fock Molecular Orbital Theory Part 3",
+							"url": "https://www.youtube.com/watch?v=Ky1Kc9Sb54M"
+						},
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "VK 20 Hartree-Fock 1: Overview of Hartree-Fock theory",
+							"url": "https://www.youtube.com/watch?v=tObcPniPRqA"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 9.8 - Hartree-Fock Operators",
+							"url": "https://www.youtube.com/watch?v=ZGb68b8wpEQ"
+						}
+					],
+					"demoIdeas": [
+						"Self-interaction toggle: for a one-electron system and a closed-shell two-electron system, switch between Hartree (J only) and Hartree-Fock (J - K) and show the energy error and the electron's effective potential.",
+						"Pair-density plot: conditional density of electron 2 given electron 1 for HF versus an exact-like correlated model, showing the Fermi hole present in both and the Coulomb hole only in the exact case."
+					]
+				},
+				{
+					"id": "c1-l034-roothaan-hall-equations",
+					"title": "The Roothaan-Hall Matrix Equations",
+					"minutes": 45,
+					"objectives": [
+						"Expand spatial orbitals in a basis, $\\psi_i=\\sum_\\mu C_{\\mu i}\\varphi_\\mu$, and derive $\\mathbf F\\mathbf C=\\mathbf S\\mathbf C\\boldsymbol\\varepsilon$ with $F_{\\mu\\nu}=H^{\\rm core}_{\\mu\\nu}+\\sum P_{\\lambda\\sigma}[(\\mu\\nu|\\sigma\\lambda)-\\tfrac12(\\mu\\lambda|\\sigma\\nu)]$ and the density matrix $\\mathbf P=2\\mathbf C_{occ}\\mathbf C_{occ}^\\dagger$.",
+						"Explain the closed-shell spin integration (factor 2 on Coulomb, $\\tfrac12$ on exchange), the energy expression $E=\\tfrac12\\sum P_{\\mu\\nu}(H^{\\rm core}_{\\mu\\nu}+F_{\\mu\\nu})+V_{NN}$, and the $M^4$ scaling of two-electron integrals.",
+						"Work a minimal-basis example (H$_2$ or HeH$^+$): identify $\\mathbf S$, $\\mathbf H^{\\rm core}$ and two-electron integrals, and perform one SCF cycle."
+					],
+					"keyEquations": [
+						"\\mathbf F\\mathbf C=\\mathbf S\\mathbf C\\boldsymbol\\varepsilon,\\quad F_{\\mu\\nu}=H^{\\rm core}_{\\mu\\nu}+\\sum_{\\lambda\\sigma}P_{\\lambda\\sigma}\\left[(\\mu\\nu|\\sigma\\lambda)-\\tfrac12(\\mu\\lambda|\\sigma\\nu)\\right]",
+						"P_{\\mu\\nu}=2\\sum_i^{\\rm occ}C_{\\mu i}C^*_{\\nu i},\\qquad E_0=\\tfrac12\\sum_{\\mu\\nu}P_{\\nu\\mu}\\left(H^{\\rm core}_{\\mu\\nu}+F_{\\mu\\nu}\\right)+V_{NN}",
+						"(\\mu\\nu|\\lambda\\sigma)=\\iint\\varphi_\\mu^*(1)\\varphi_\\nu(1)\\frac1{r_{12}}\\varphi_\\lambda^*(2)\\varphi_\\sigma(2)"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.4",
+							"title": "Restricted Closed-Shell Hartree-Fock: The Roothaan Equations"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.5",
+							"title": "Model Calculations on H2 and HeH+",
+							"optional": true
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 15",
+							"title": "Molecular Electronic Structure",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 4.23 - Hartree-Fock-Roothaan Equations",
+							"url": "https://www.youtube.com/watch?v=qQGkOgWXuws"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 4.24 - Density Matrix",
+							"url": "https://www.youtube.com/watch?v=KxUYUHMxKnA"
+						},
+						{
+							"source": "NPTEL (IIT Bombay)",
+							"title": "Week 4 : Lecture 28 : Hartree-Fock Rothaan Hall equation",
+							"url": "https://www.youtube.com/watch?v=YoPBFsgXpVI"
+						}
+					],
+					"demoIdeas": [
+						"Build-your-own SCF: for H2 or HeH+ in a two-function basis show the S, core-Hamiltonian and two-electron-integral tables, the current density matrix, the Fock matrix, and the eigen-solution step by step with a Next-iteration button and an energy-versus-iteration plot.",
+						"Integral-count calculator: slide the number of basis functions and compare M^4/8 unique integrals, memory, and time per SCF cycle."
+					]
+				},
+				{
+					"id": "c1-l035-scf-procedure-convergence",
+					"title": "The SCF Procedure and Its Convergence",
+					"minutes": 40,
+					"objectives": [
+						"Write the SCF loop (guess $\\mathbf P$, build $\\mathbf F$, solve $\\mathbf F\\mathbf C=\\mathbf S\\mathbf C\\boldsymbol\\varepsilon$, rebuild $\\mathbf P$) and its convergence criteria, including the commutator $\\mathbf e=\\mathbf F\\mathbf P\\mathbf S-\\mathbf S\\mathbf P\\mathbf F$.",
+						"Explain why plain iteration can oscillate and how damping, level shifting and DIIS (minimizing $\\|\\sum c_i\\mathbf e_i\\|$ subject to $\\sum c_i=1$) accelerate it.",
+						"Recognize failure modes: convergence to saddle points or the wrong state (RHF-UHF instability) and slow convergence for small HOMO-LUMO gaps."
+					],
+					"keyEquations": [
+						"\\mathbf e=\\mathbf F\\mathbf P\\mathbf S-\\mathbf S\\mathbf P\\mathbf F=0\\ \\text{at convergence}",
+						"\\mathbf F_{\\rm DIIS}=\\sum_ic_i\\mathbf F_i,\\quad \\min\\Big\\|\\sum_ic_i\\mathbf e_i\\Big\\|^2\\ \\text{s.t.}\\ \\sum_ic_i=1",
+						"\\text{level shift: }F_{vv}\\to F_{vv}+\\Delta"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.4",
+							"title": "Restricted Closed-Shell Hartree-Fock: The Roothaan Equations"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.5",
+							"title": "Model Calculations on H2 and HeH+",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "The Hartree-Fock Algorithm",
+							"url": "https://www.youtube.com/watch?v=WTz8nr1abwc"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 4.27 - Self-Consistent Field",
+							"url": "https://www.youtube.com/watch?v=x-O3_t4GVy8"
+						},
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "VK 20 Hartree Fock 11: SCF procedure",
+							"url": "https://www.youtube.com/watch?v=C9ywLwoV40E"
+						}
+					],
+					"demoIdeas": [
+						"SCF convergence lab on a small model (stretched H2 or a two-site problem): plot log error versus iteration for plain iteration, damping, level shift and DIIS with a subspace-size slider, and show oscillation at large separation.",
+						"Stability explorer: plot the energy against an orbital-rotation angle to show a minimum, a saddle and the symmetry-broken solution."
+					]
+				},
+				{
+					"id": "c1-l036-koopmans-brillouin",
+					"title": "Koopmans' Theorem, Brillouin's Theorem and Orbital Energies",
+					"minutes": 40,
+					"objectives": [
+						"Prove Koopmans' theorem ($\\mathrm{IE}_a\\approx-\\varepsilon_a$ with frozen orbitals) and apply it to a photoelectron spectrum (water, N$_2$).",
+						"Explain the error cancellation between orbital relaxation and correlation, why core ionization and electron affinities from virtual orbitals fail, and what $\\Delta$SCF does instead.",
+						"State Brillouin's theorem ($f_{ia}=0$) and its consequence for the HF density and for CI."
+					],
+					"keyEquations": [
+						"\\mathrm{IE}_a\\approx-\\varepsilon_a,\\qquad \\mathrm{EA}_r\\approx-\\varepsilon_r",
+						"\\langle\\Phi_0|\\hat H|\\Phi_i^a\\rangle=f_{ia}=0",
+						"\\mathrm{IE}_{\\Delta SCF}=E_{N-1}-E_N"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.3",
+							"title": "Interpretation of Solutions to the Hartree-Fock Equations"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 11",
+							"title": "Many-Electron Atoms",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 4.21 - Koopman's Theorem",
+							"url": "https://www.youtube.com/watch?v=bl8wek_jvRA"
+						},
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "VK 20 Hartree Fock 4: Brillouin theorem",
+							"url": "https://www.youtube.com/watch?v=-XAr1v6NoeY"
+						}
+					],
+					"demoIdeas": [
+						"Photoelectron-spectrum predictor: pick a molecule (H2O, N2, CH4, CO), plot Koopmans sticks from tabulated HF orbital energies against experimental IEs; a relaxation-correction slider shifts each stick, and N2 shows the ordering of 3sigma_g and 1pi_u flipping.",
+						"Relaxation visualizer: contour of the HOMO before and after removing an electron, with the energy gain shown."
+					]
+				},
+				{
+					"id": "c1-l037-open-shells-uhf-rohf",
+					"title": "Open Shells: UHF, ROHF and Spin Contamination",
+					"minutes": 45,
+					"objectives": [
+						"Define UHF (separate $\\alpha$ and $\\beta$ spatial orbitals, Pople-Nesbet equations) and ROHF, and state why UHF lowers the energy but is not an eigenfunction of $\\hat S^2$.",
+						"Compute and interpret $\\langle S^2\\rangle$ (spin contamination) and relate $\\langle S^2\\rangle=1$ for stretched H$_2$ to a 50/50 singlet-triplet mixture.",
+						"Explain symmetry breaking in stretched H$_2$ (Coulson-Fischer point) and spin polarization in radicals (negative spin density at carbons adjacent to the radical centre)."
+					],
+					"keyEquations": [
+						"\\mathbf F^\\alpha\\mathbf C^\\alpha=\\mathbf S\\mathbf C^\\alpha\\boldsymbol\\varepsilon^\\alpha,\\quad \\mathbf F^\\beta\\mathbf C^\\beta=\\mathbf S\\mathbf C^\\beta\\boldsymbol\\varepsilon^\\beta",
+						"\\langle S^2\\rangle_{\\rm UHF}=S_z(S_z+1)+N_\\beta-\\sum_{ij}\\left|\\langle\\psi_i^\\alpha|\\psi_j^\\beta\\rangle\\right|^2",
+						"S^2\\Phi=S(S+1)\\Phi:\\ \\text{doublet }0.75,\\ \\text{triplet }2,\\ \\text{quartet }3.75"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.8",
+							"title": "Unrestricted Open-Shell Hartree-Fock Calculations"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 15",
+							"title": "Molecular Electronic Structure",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.04.07 Unpaired Electrons: Restricted Open-shell vs Unrestricted Calculations",
+							"url": "https://www.youtube.com/watch?v=0n2Xy2uXXzI"
+						},
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "CompChem: Correlation: 22. UHF for H2 in a Minimal Basis Set",
+							"url": "https://www.youtube.com/watch?v=9Sf6rrmdmHU"
+						}
+					],
+					"demoIdeas": [
+						"Stretching H2 in RHF versus UHF: slider for R; energy curves with the Coulson-Fischer point marked, <S^2> plotted, and the alpha and beta orbitals localizing on separate atoms beyond the break.",
+						"Spin-density map of the allyl or methyl radical: toggle UHF and ROHF and see negative spin density on neighboring atoms and the predicted hyperfine couplings."
+					]
+				}
+			],
+			"grad": true
+		},
+		{
+			"id": "c1-u07-basis-sets-correlation",
+			"title": "Basis Sets and Electron Correlation",
+			"summary": "Gaussian versus Slater functions, contracted, polarization and diffuse basis sets, and the basis-set limit; then what Hartree-Fock misses (Fermi versus Coulomb holes, dynamic versus static correlation) and the hierarchy that recovers it: CI, size-consistency, MP2 and coupled cluster at a conceptual level.",
+			"lessons": [
+				{
+					"id": "c1-l038-sto-versus-gto",
+					"title": "STO versus GTO: Why Gaussians Win",
+					"minutes": 40,
+					"objectives": [
+						"Compare Slater-type and Gaussian-type orbitals: cusp at the nucleus (Kato condition), long-range decay, and number of functions needed.",
+						"State and apply the Gaussian product theorem, and explain why it makes multi-centre two-electron integrals tractable.",
+						"Describe STO-nG contractions as fits of one STO by $n$ Gaussians."
+					],
+					"keyEquations": [
+						"\\phi^{\\rm STO}=Nr^{n-1}e^{-\\zeta r}Y_{lm},\\qquad \\phi^{\\rm GTO}=Ne^{-\\alpha r^2}",
+						"e^{-\\alpha|\\mathbf r-\\mathbf A|^2}e^{-\\beta|\\mathbf r-\\mathbf B|^2}=e^{-\\frac{\\alpha\\beta}{\\alpha+\\beta}R_{AB}^2}\\,e^{-(\\alpha+\\beta)|\\mathbf r-\\mathbf P|^2},\\quad \\mathbf P=\\tfrac{\\alpha\\mathbf A+\\beta\\mathbf B}{\\alpha+\\beta}",
+						"\\left.\\frac{d\\psi}{dr}\\right|_{r=0}=-Z\\,\\psi(0)\\quad(\\text{Kato cusp})"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.6",
+							"title": "Polyatomic Basis Sets"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "App. A",
+							"title": "Integral Evaluation with Gaussian Basis Functions",
+							"optional": true
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 15",
+							"title": "Molecular Electronic Structure",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "28. Modern Electronic Structure Theory: Basis Sets",
+							"url": "https://www.youtube.com/watch?v=BOryXuUMjI0"
+						},
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "Basis Sets part 1",
+							"url": "https://www.youtube.com/watch?v=Hk4YRb4okC4"
+						}
+					],
+					"demoIdeas": [
+						"STO-nG fitting: overlay the hydrogen 1s Slater function with a sum of 1 to 4 Gaussians (auto-fit or sliders), on linear and log scales, with a cusp inset and the hydrogen energy error versus n.",
+						"Gaussian-product animator: drag two Gaussians on a line and see the product Gaussian, its centre and its prefactor update."
+					]
+				},
+				{
+					"id": "c1-l039-contracted-basis-sets",
+					"title": "Contracted Basis Sets: Minimal to Split-Valence to Correlation-Consistent",
+					"minutes": 45,
+					"objectives": [
+						"Distinguish primitive from contracted Gaussians, and classify minimal (STO-3G), split-valence (3-21G, 6-31G), double/triple-zeta, and correlation-consistent (cc-pVXZ) basis sets.",
+						"Count basis functions for a given molecule and basis (for example H$_2$O: 6-31G 13, cc-pVDZ 24, cc-pVTZ 58; benzene cc-pVDZ 114), and relate the count to cost.",
+						"Explain why core and valence are treated differently and what 'zeta' means."
+					],
+					"keyEquations": [
+						"\\phi_\\mu^{\\rm CGTO}=\\sum_kd_{k\\mu}\\,g_k(\\alpha_k),\\qquad g_k=N_ke^{-\\alpha_kr^2}Y_{lm}",
+						"\\mathrm{cc\\text{-}pV}X\\mathrm{Z}:\\ \\mathrm{C}:[3s2p1d],[4s3p2d1f],[5s4p3d2f1g]\\ (X=2,3,4)",
+						"N_{\\rm ERI}\\approx M^4/8"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.6",
+							"title": "Polyatomic Basis Sets"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 15",
+							"title": "Molecular Electronic Structure",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "Basis Sets part 2",
+							"url": "https://www.youtube.com/watch?v=irQ_c_fW5f8"
+						},
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.04.01 Ab Initio Hartree-Fock Theory: Basis Sets and LCAO Wave Functions",
+							"url": "https://www.youtube.com/watch?v=43Kd3yUG5io"
+						},
+						{
+							"source": "Physical Chemistry (PCHEM) at Sam",
+							"title": "Gaussian Comp Chem Theory and Basis Sets 4448 2021 Lecture",
+							"url": "https://www.youtube.com/watch?v=mfhjPlE5sm8"
+						}
+					],
+					"demoIdeas": [
+						"Basis-set cost calculator: choose a molecule and a basis (STO-3G, 6-31G, 6-31G*, cc-pVXZ, aug-) and read the number of basis functions, unique ERIs and rough memory and time scaling, beside a typical error in atomization energy.",
+						"Contraction visualizer: plot a contracted 1s function against its primitives, then split the valence function into inner and outer parts."
+					]
+				},
+				{
+					"id": "c1-l040-polarization-diffuse-basis-limit",
+					"title": "Polarization, Diffuse Functions and the Basis-Set Limit",
+					"minutes": 40,
+					"objectives": [
+						"Explain the role of polarization functions (higher $\\ell$: d on C/N/O, p on H) and diffuse functions (small exponents: 'aug-') and name the properties that need them (geometry, anions, Rydberg states, weak interactions).",
+						"Define basis-set superposition error and the counterpoise correction $\\Delta E^{CP}=E^{AB}_{AB}-E^{AB}_A-E^{AB}_B$ for an interaction energy.",
+						"Extrapolate to the basis-set limit using $E_c(X)=E_c^\\infty+AX^{-3}$ for correlation and an exponential form for Hartree-Fock."
+					],
+					"keyEquations": [
+						"E_c^{(X)}=E_c^{\\infty}+AX^{-3},\\qquad E_c^\\infty=\\frac{X^3E_X-Y^3E_Y}{X^3-Y^3}",
+						"E_{\\rm HF}^{(X)}=E_{\\rm HF}^\\infty+Be^{-\\gamma X}",
+						"\\Delta E_{\\rm int}^{CP}=E^{AB}_{AB}-E^{AB}_A-E^{AB}_B"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.6",
+							"title": "Polyatomic Basis Sets"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.7",
+							"title": "Some Illustrative Closed-Shell Calculations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Jack Simons (Univ. of Utah), Electronic Structure Theory",
+							"title": "Lecture 05-Jack Simons Electronic Structure Theory- Basis sets",
+							"url": "https://www.youtube.com/watch?v=q_tjk3YvvjE"
+						},
+						{
+							"source": "Psi4Education (psicode)",
+							"title": "Psi4Education: Analysis of Basis Sets in Quantum Chemistry Calculations",
+							"url": "https://www.youtube.com/watch?v=OEZdlfA-ZX0"
+						},
+						{
+							"source": "Physical Chemistry (PCHEM) at Sam",
+							"title": "Choosing a Basis Set in Gaussian and a look at Opt+Freq 5382 2021 Lecture",
+							"url": "https://www.youtube.com/watch?v=EJvUcfdnhpE"
+						}
+					],
+					"demoIdeas": [
+						"Basis-set convergence plotter: for H2O (precomputed values) plot HF and CCSD(T) energies versus the cardinal number X for cc-pVXZ and aug-cc-pVXZ, apply HF exponential and correlation X^-3 extrapolations with sliders, and read the CBS estimate.",
+						"BSSE demo for the water dimer: plot the raw and counterpoise-corrected interaction energy against basis size, converging from opposite sides."
+					]
+				},
+				{
+					"id": "c1-l041-what-is-electron-correlation",
+					"title": "What Is Electron Correlation?",
+					"minutes": 40,
+					"objectives": [
+						"Define the correlation energy $E_c=E_{exact}-E_{HF}$ at the complete-basis, nonrelativistic limit, and contrast the Fermi hole (in HF) with the Coulomb hole (not in HF).",
+						"Distinguish dynamic correlation (many small excitations, short-range cusp) from static or non-dynamical correlation (near-degeneracy: bond breaking, diradicals) and identify each in the expansion $\\Psi=c_0\\Phi_0+\\sum c_i^a\\Phi_i^a+\\sum c_{ij}^{ab}\\Phi_{ij}^{ab}+\\dots$.",
+						"Use a two-state model to show how the energy lowering and the weight of the excited determinant depend on the gap and coupling."
+					],
+					"keyEquations": [
+						"E_c=E_{\\rm exact}-E_{\\rm HF}<0",
+						"|\\Psi\\rangle=c_0|\\Phi_0\\rangle+\\sum c_i^a|\\Phi_i^a\\rangle+\\sum c_{ij}^{ab}|\\Phi_{ij}^{ab}\\rangle+\\cdots",
+						"E_-=\\Delta-\\sqrt{\\Delta^2+K^2},\\qquad \\tan2\\varphi=K/\\Delta"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 4",
+							"title": "Configuration Interaction"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 16",
+							"title": "Electron-Correlation Methods"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "CompChem: Correlation: 1. Two Ways To Improve on Hartree Fock",
+							"url": "https://www.youtube.com/watch?v=YDKp4A5vKDo"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "29. Modern Electronic Structure Theory: Electronic Correlation",
+							"url": "https://www.youtube.com/watch?v=6dJnvu3-LeU"
+						},
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "Non-Dynamical (Static) Electron Correlation: Bond Breaking in Quantum Chemistry",
+							"url": "https://www.youtube.com/watch?v=coGVX7HCCQE"
+						}
+					],
+					"demoIdeas": [
+						"Correlation-hole plot for helium: conditional probability of finding electron 2 at distance r12 from electron 1 for HF versus a correlated wavefunction, showing the Coulomb hole as a depletion at small r12.",
+						"Two-configuration model: sliders for the gap Delta and the coupling K output the correlation energy and the weights of the two determinants, and show the crossover from dynamic (large gap) to static (small gap)."
+					]
+				},
+				{
+					"id": "c1-l042-configuration-interaction",
+					"title": "Configuration Interaction",
+					"minutes": 45,
+					"objectives": [
+						"Write the CI expansion in a determinant basis and recognize it as the linear variation method $\\mathbf H\\mathbf c=E\\mathbf c$ with orthonormal determinants; state that truncated CI (CIS, CISD) is variational.",
+						"Use Brillouin's theorem and the Slater-Condon rules to show why doubles dominate, and count the size of a full CI space, $\\binom{M}{N_\\alpha}\\binom{M}{N_\\beta}$.",
+						"Describe CASSCF/MCSCF as selected CI for static correlation, and the cost scaling of CISD ($\\sim M^6$)."
+					],
+					"keyEquations": [
+						"|\\Psi_{CI}\\rangle=\\sum_Ic_I|\\Phi_I\\rangle,\\qquad \\mathbf H\\mathbf c=E\\mathbf c",
+						"\\dim_{\\rm FCI}=\\binom{M}{N_\\alpha}\\binom{M}{N_\\beta}",
+						"\\langle\\Phi_0|\\hat H|\\Phi_{ij}^{ab}\\rangle=\\langle ij\\|ab\\rangle,\\qquad \\langle\\Phi_0|\\hat H|\\Phi_i^a\\rangle=0"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 4",
+							"title": "Configuration Interaction"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 16",
+							"title": "Electron-Correlation Methods"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.04.02 Post-Hartree-Fock Theory: Electron Correlation and Configuration Interaction",
+							"url": "https://www.youtube.com/watch?v=5BZxa6fZHZU"
+						},
+						{
+							"source": "Sherrill Group Summer Lecture Series (Georgia Tech)",
+							"title": "[Sherrill Group] Summer Lecture Series in Theoretical Chemistry 2012: Configuration Interaction",
+							"url": "https://www.youtube.com/watch?v=2A3uoMds1mQ"
+						},
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "CompChem: Correlation: 12. Elements in the CI Hamiltonian Matrix",
+							"url": "https://www.youtube.com/watch?v=rlwuv1RrsHQ"
+						}
+					],
+					"demoIdeas": [
+						"Tiny-FCI explorer: H2 in a 2-, 4- or 6-orbital basis (or a Hubbard dimer): list the determinants, show the CI matrix colour-coded with the Brillouin zeros, the eigenvalues and ground-state weights, and toggle CIS, CISD and FCI truncation while plotting energy against R.",
+						"FCI-dimension counter: slider for electrons and orbitals shows the binomial growth against a computing budget."
+					]
+				},
+				{
+					"id": "c1-l043-size-consistency-extensivity",
+					"title": "Size-Consistency and Size-Extensivity",
+					"minutes": 40,
+					"objectives": [
+						"Define size-consistency ($E_{A\\cdots B}\\to E_A+E_B$) and size-extensivity (energy scales linearly with the number of non-interacting units), and show why truncated CI (CISD) violates both.",
+						"Use the solvable model $E_{CID}(N)=\\Delta-\\sqrt{\\Delta^2+NK^2}$ versus $E_{exact}(N)=N(\\Delta-\\sqrt{\\Delta^2+K^2})$ to quantify the loss for $N$ fragments.",
+						"Classify methods (FCI, MPn, CC, DFT: extensive; CISD: not) and explain the Davidson correction."
+					],
+					"keyEquations": [
+						"E_{CID}(N)=\\Delta-\\sqrt{\\Delta^2+NK^2},\\qquad E_{\\rm exact}(N)=N\\left(\\Delta-\\sqrt{\\Delta^2+K^2}\\right)",
+						"\\Delta E_Q=(1-c_0^2)\\,\\Delta E_{\\rm CISD}",
+						"E(A\\cdots B)\\to E(A)+E(B)\\quad(\\text{size-consistency})"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 4",
+							"title": "Configuration Interaction"
+						},
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 5",
+							"title": "Pair and Coupled-Pair Theories",
+							"optional": true
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 16",
+							"title": "Electron-Correlation Methods",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "CompChem: Correlation: 17. Size Consistency Problem in CISD",
+							"url": "https://www.youtube.com/watch?v=QWtDuv33hjM"
+						},
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "CompChem: Correlation: 16. Truncated CI Methods",
+							"url": "https://www.youtube.com/watch?v=xM2guL3djWE"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Quantum Chemistry 9.11 - Post Hartree-Fock Methods",
+							"url": "https://www.youtube.com/watch?v=oU1zO2bPPB4"
+						}
+					],
+					"demoIdeas": [
+						"Size-consistency tester: slider for the number N of non-interacting two-level (or H2) fragments; plot the per-fragment correlation energy of CID, CCD (exponential ansatz) and exact, and show CID's recovered fraction decaying as N grows.",
+						"Dissociation of two H2 molecules: compare the CISD energy of the supersystem at large separation with twice the monomer CISD energy."
+					]
+				},
+				{
+					"id": "c1-l044-mp2-perturbative-correlation",
+					"title": "Perturbative Correlation: Moller-Plesset and MP2",
+					"minutes": 45,
+					"objectives": [
+						"Set up Moller-Plesset perturbation theory with $\\hat H_0=\\sum_i\\hat f(i)$ and show $E^{(0)}+E^{(1)}=E_{HF}$.",
+						"Derive the MP2 energy from second-order Rayleigh-Schrodinger perturbation theory with double excitations, $E^{(2)}=\\sum_{i<j,a<b}|\\langle ij\\|ab\\rangle|^2/(\\varepsilon_i+\\varepsilon_j-\\varepsilon_a-\\varepsilon_b)$, and explain why it is negative and size-extensive but not variational.",
+						"State its cost ($M^5$), typical accuracy (about 80-90% of the correlation energy near equilibrium) and failure modes (small gaps, overbinding of stacked $\\pi$ systems, transition metals)."
+					],
+					"keyEquations": [
+						"\\hat H_0=\\sum_i\\hat f(i),\\quad \\hat V=\\hat H-\\hat H_0,\\quad E^{(0)}+E^{(1)}=E_{HF}",
+						"E^{(2)}=\\sum_{i<j}\\sum_{a<b}\\frac{|\\langle ij\\|ab\\rangle|^2}{\\varepsilon_i+\\varepsilon_j-\\varepsilon_a-\\varepsilon_b}",
+						"E_{\\rm MP2}=E_{HF}+E^{(2)}"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 6",
+							"title": "Many-Body Perturbation Theory"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 9",
+							"title": "Perturbation Theory"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 16",
+							"title": "Electron-Correlation Methods",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "VK 20 WF 3: Møller-Plesset perturbation theory",
+							"url": "https://www.youtube.com/watch?v=YI96YWtf3Ws"
+						},
+						{
+							"source": "Sherrill Group Summer Lecture Series (Georgia Tech)",
+							"title": "[Sherrill Group] Summer Lecture Series in Theoretical Chemistry 2010: Many-Body Perturbation Theory",
+							"url": "https://www.youtube.com/watch?v=IYDpLyIWy1c"
+						},
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.04.03 Post Hartree-Fock Theory: Perturbation and Coupled Cluster Theories",
+							"url": "https://www.youtube.com/watch?v=np81k16E4I0"
+						}
+					],
+					"demoIdeas": [
+						"MP2 amplitude viewer for a small molecule (H2O in a small basis, precomputed integrals): a table of double excitations ranked by contribution with the orbital-energy denominators; a slider scales the HOMO-LUMO gap and shows contributions blowing up as the gap closes.",
+						"Perturbation-order explorer on a two-level model: plot the MP series partial sums versus order for a small and a large coupling to show convergence and divergence."
+					]
+				},
+				{
+					"id": "c1-l045-coupled-cluster",
+					"title": "Coupled Cluster: The Exponential Ansatz",
+					"minutes": 45,
+					"objectives": [
+						"Write $|\\Psi_{CC}\\rangle=e^{\\hat T}|\\Phi_0\\rangle$ with $\\hat T=\\hat T_1+\\hat T_2+\\dots$ and show that the exponential produces products of excitations, giving size-extensivity for any truncation.",
+						"Explain the projected amplitude equations $\\langle\\Phi_\\mu|e^{-\\hat T}\\hat He^{\\hat T}|\\Phi_0\\rangle=0$, why CC energies are not variational, and the cost of CCSD ($M^6$) and CCSD(T) ($M^7$).",
+						"Place CC in the hierarchy HF, MP2, CCSD, CCSD(T) and state when it fails (large T1, static correlation)."
+					],
+					"keyEquations": [
+						"|\\Psi_{CC}\\rangle=e^{\\hat T}|\\Phi_0\\rangle,\\quad e^{\\hat T}=1+\\hat T_1+\\hat T_2+\\tfrac12\\hat T_1^2+\\hat T_1\\hat T_2+\\tfrac12\\hat T_2^2+\\cdots",
+						"E_{CC}=\\langle\\Phi_0|e^{-\\hat T}\\hat He^{\\hat T}|\\Phi_0\\rangle,\\qquad \\langle\\Phi_\\mu|e^{-\\hat T}\\hat He^{\\hat T}|\\Phi_0\\rangle=0",
+						"t\\propto M^6\\ (\\mathrm{CCSD}),\\quad M^7\\ (\\mathrm{CCSD(T)})"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "Ch. 5",
+							"title": "Pair and Coupled-Pair Theories"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 16",
+							"title": "Electron-Correlation Methods"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Sherrill Group Summer Lecture Series (Georgia Tech)",
+							"title": "[Sherrill Group] Summer Lecture Series in Theoretical Chemistry 2012: Coupled Cluster",
+							"url": "https://www.youtube.com/watch?v=PGPPxmeZ3MU"
+						},
+						{
+							"source": "Stephan P. A. Sauer (Univ. of Copenhagen), Computational Chemistry",
+							"title": "CompChem: Correlation: 36. CC: 2. CC versus CI Wavefunction",
+							"url": "https://www.youtube.com/watch?v=FLuKf2GbbWE"
+						},
+						{
+							"source": "Jack Simons (Univ. of Utah), Electronic Structure Theory",
+							"title": "Lecture 08 -Jack Simons Electronic Structure Theory- Coupled-cluster theory",
+							"url": "https://www.youtube.com/watch?v=HTDgXcPCqOE"
+						}
+					],
+					"demoIdeas": [
+						"Excitation-operator algebra: for a 4-electron, 8-spin-orbital toy system enumerate the determinants generated by 1 + T2 versus the exponential, showing the disconnected quadruples that CID lacks, with a slider for the amplitude size.",
+						"Method-ladder chart: plot error in atomization energy (precomputed benchmark data) against cost exponent for HF, MP2, CCSD and CCSD(T)."
+					]
+				}
+			],
+			"grad": true
+		},
+		{
+			"id": "c1-u08-dft-and-doing-it",
+			"title": "Density Functional Theory and Doing It",
+			"summary": "Hohenberg-Kohn and Kohn-Sham theory, the exchange-correlation functional problem and its hierarchy, where DFT fails, and a final applied lesson set: what a computed orbital or energy means and how to run, check and interpret a PySCF- or Psi4-style calculation.",
+			"lessons": [
+				{
+					"id": "c1-l046-hohenberg-kohn",
+					"title": "From Wavefunctions to Density: the Hohenberg-Kohn Theorems",
+					"minutes": 45,
+					"objectives": [
+						"Explain why the electron density $\\rho(\\mathbf r)$ (3 variables) could replace $\\Psi$ ($3N$ variables): it fixes $N$ by integration and the nuclear charges and positions through the Kato cusp condition.",
+						"State and prove the first Hohenberg-Kohn theorem (reductio ad absurdum with the variational principle) and the second (a variational principle for $E_v[\\rho]$ with universal $F[\\rho]=T[\\rho]+V_{ee}[\\rho]$).",
+						"Explain that HK is an existence theorem, not a recipe, and why the Thomas-Fermi functional fails."
+					],
+					"keyEquations": [
+						"E_v[\\rho]=F[\\rho]+\\int v(\\mathbf r)\\rho(\\mathbf r)\\,d\\mathbf r,\\qquad F[\\rho]=T[\\rho]+V_{ee}[\\rho]",
+						"E_0=\\min_{\\rho}E_v[\\rho],\\qquad \\rho_0\\ \\Rightarrow\\ v,\\ \\hat H,\\ \\Psi_0",
+						"\\left.\\frac{\\partial\\rho}{\\partial r}\\right|_{r\\to R_A}=-2Z_A\\,\\rho(R_A)"
+					],
+					"readings": [
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 16",
+							"title": "Electron-Correlation Methods",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.05.01 Density Functional Theory: Fundamentals",
+							"url": "https://www.youtube.com/watch?v=ofyr1GyEZsU"
+						},
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.05.03 Density Functional Theory: Hohenberg-Kohn Theorems",
+							"url": "https://www.youtube.com/watch?v=vvRS8SHjAFw"
+						},
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "Introduction to Density Functional Theory (DFT)",
+							"url": "https://www.youtube.com/watch?v=QGyfGCZT110"
+						}
+					],
+					"demoIdeas": [
+						"Thomas-Fermi versus exact densities: radial density of Ne or Ar from tabulated HF data against the Thomas-Fermi density, with a slider for Z, showing the missing shell structure.",
+						"Inverse-problem demo in 1D: pick a target density for a model electron, slide an external potential to match it, and see that only one potential (up to a constant) does."
+					]
+				},
+				{
+					"id": "c1-l047-kohn-sham",
+					"title": "Kohn-Sham: Non-Interacting Electrons with the Same Density",
+					"minutes": 45,
+					"objectives": [
+						"Derive the Kohn-Sham construction: $E[\\rho]=T_s+\\int v\\rho+J+E_{xc}$ and the equations $[-\\tfrac12\\nabla^2+v_{eff}]\\varphi_i=\\varepsilon_i\\varphi_i$ with $\\rho=\\sum|\\varphi_i|^2$ and $v_{xc}=\\delta E_{xc}/\\delta\\rho$.",
+						"Define $E_{xc}$ as the sum of exchange, correlation and the kinetic correction $T-T_s$, and compare KS with Hartree-Fock (local $v_{xc}$ with correlation versus non-local exchange without).",
+						"State the meaning of KS orbitals (auxiliary; the highest eigenvalue equals $-$IP for the exact functional) and the self-interaction requirement $E_{xc}[\\text{one electron}]=-J$."
+					],
+					"keyEquations": [
+						"E[\\rho]=T_s[\\rho]+\\int v\\rho\\,d\\mathbf r+J[\\rho]+E_{xc}[\\rho]",
+						"\\left[-\\tfrac12\\nabla^2+v_{\\rm eff}(\\mathbf r)\\right]\\varphi_i=\\varepsilon_i\\varphi_i,\\quad v_{\\rm eff}=v+\\int\\frac{\\rho(\\mathbf r')}{|\\mathbf r-\\mathbf r'|}d\\mathbf r'+v_{xc}",
+						"v_{xc}=\\frac{\\delta E_{xc}}{\\delta\\rho},\\qquad \\rho=\\sum_i^{\\rm occ}|\\varphi_i|^2"
+					],
+					"readings": [
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 16",
+							"title": "Electron-Correlation Methods",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.05.04 Kohn-Sham Density Functional Theory",
+							"url": "https://www.youtube.com/watch?v=jaRA8HnTRLw"
+						},
+						{
+							"source": "Sherrill Group Summer Lecture Series (Georgia Tech)",
+							"title": "[Sherrill Group] Summer Lecture Series in Theoretical Chemistry 2012: Density Functional Theory",
+							"url": "https://www.youtube.com/watch?v=5orzn-XA29M"
+						},
+						{
+							"source": "e-PG Pathshala (Vidya-mitra)",
+							"title": "Kohn-Sham equations and Exchange-correlation functional",
+							"url": "https://www.youtube.com/watch?v=9EhYz-lW17Y"
+						}
+					],
+					"demoIdeas": [
+						"KS self-consistency in 1D: soft-Coulomb two-electron atom; iterate density, then Hartree plus LDA potential, then KS orbitals, and compare density and energy to the exact numerical solution; a switch turns exchange off to show the self-interaction effect.",
+						"Orbital-versus-density comparison: plot the KS and HF HOMOs for a small molecule side by side with the total density."
+					]
+				},
+				{
+					"id": "c1-l048-xc-functionals-ladder",
+					"title": "The Exchange-Correlation Functional Zoo: LDA, GGA and Hybrids",
+					"minutes": 45,
+					"objectives": [
+						"Describe Jacob's ladder: LDA (uniform gas, $\\varepsilon_x\\propto\\rho^{1/3}$), GGA (PBE, BLYP; $\\nabla\\rho$), meta-GGA (kinetic energy density), hybrids (B3LYP, PBE0; exact exchange), and double hybrids.",
+						"Explain the adiabatic-connection argument for mixing about 25% exact exchange, $E_{xc}=\\int_0^1W_\\lambda\\,d\\lambda$, and write $E_{xc}^{\\rm PBE0}=0.25E_x^{HF}+0.75E_x^{PBE}+E_c^{PBE}$.",
+						"Summarize typical performance: LDA overbinds, GGA reduces the error, hybrids improve barriers and thermochemistry, all at rising cost."
+					],
+					"keyEquations": [
+						"E_x^{LDA}[\\rho]=-\\tfrac34\\left(\\tfrac3\\pi\\right)^{1/3}\\int\\rho^{4/3}\\,d\\mathbf r",
+						"E_x^{GGA}=\\int\\rho^{4/3}F_x(s)\\,d\\mathbf r,\\quad s=\\frac{|\\nabla\\rho|}{2k_F\\rho}",
+						"E_{xc}=\\int_0^1W_\\lambda\\,d\\lambda,\\qquad E_{xc}^{\\rm hyb}=aE_x^{HF}+(1-a)E_x^{GGA}+E_c^{GGA}"
+					],
+					"readings": [
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 16",
+							"title": "Electron-Correlation Methods",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.05.05 Density Functional Theory: Local Density Approximation",
+							"url": "https://www.youtube.com/watch?v=gk6HAl-7OmU"
+						},
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.05.06 Density Functional Theory: Generalized Gradient Approximation",
+							"url": "https://www.youtube.com/watch?v=VNoVpwhM-Yw"
+						},
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.05.07 Density Functional Theory: Adiabatic Connection and Hybrid Functionals",
+							"url": "https://www.youtube.com/watch?v=CzyR2lRgVtQ"
+						}
+					],
+					"demoIdeas": [
+						"Jacob's-ladder explorer: pick a benchmark set (atomization energies, barriers, noncovalent) from precomputed tables; bars show mean errors for LDA, PBE, B3LYP, PBE0 and wB97X-D together with a cost multiplier.",
+						"Enhancement-factor plot: F_x(s) for LDA, PBE and B88 against the reduced gradient s with sliders for the functional parameters."
+					]
+				},
+				{
+					"id": "c1-l049-where-dft-fails",
+					"title": "Where DFT Fails: Self-Interaction, Delocalization and Dispersion",
+					"minutes": 40,
+					"objectives": [
+						"Define self-interaction error ($J$ not exactly cancelled for one-electron densities) and delocalization error (convex $E(N)$ instead of piecewise linear), and give their symptoms: low barriers, stretched H$_2^+$ and charge-transfer errors.",
+						"Explain why semilocal functionals miss dispersion, $E_{\\rm disp}\\approx-C_6/R^6$, and how D3/D4 and non-local functionals repair it; estimate Ar$_2$.",
+						"Link to the exact-functional conditions (Koopmans-like HOMO eigenvalue equal to $-$IP, derivative discontinuity) and to remedies (range-separated hybrids)."
+					],
+					"keyEquations": [
+						"E(N)=(1-\\omega)E(N_0)+\\omega E(N_0+1),\\ \\ 0\\le\\omega\\le1\\ \\ (\\text{exact: piecewise linear})",
+						"E_{\\rm disp}\\approx-\\frac{C_6}{R^6}\\ \\ (\\text{damped at short range in D3})",
+						"-\\varepsilon_{\\rm HOMO}^{\\rm exact\\ KS}=\\mathrm{IP}"
+					],
+					"readings": [
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 16",
+							"title": "Electron-Correlation Methods",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.05.08 Density Functional Theory: Performance and Scope",
+							"url": "https://www.youtube.com/watch?v=bXLINpIChEw"
+						},
+						{
+							"source": "Chris Cramer (Univ. of Minnesota), Computational Chemistry",
+							"title": "CompChem.05.02 Density Functional Theory: Early Approximations",
+							"url": "https://www.youtube.com/watch?v=hrpfTvrI2s4"
+						}
+					],
+					"demoIdeas": [
+						"Fractional-charge curves: plot E(N) for a hydrogen-like system from 0 to 2 electrons for exact (piecewise linear), LDA and HF, with a slider for the percentage of exact exchange and a readout of the deviation from linearity.",
+						"Dispersion add-on: potential curves of the argon dimer or benzene dimer comparing a GGA alone, GGA + D3 with damping and the reference, with sliders for C6 and damping."
+					]
+				},
+				{
+					"id": "c1-l050-what-computed-orbitals-energies-mean",
+					"title": "What a Computed Orbital or Energy Actually Means",
+					"minutes": 40,
+					"objectives": [
+						"Distinguish observables (electron density, energy differences, dipole moment) from model constructs (canonical orbitals, orbital energies, Mulliken charges), and explain the non-uniqueness of occupied orbitals under unitary rotation.",
+						"Convert electronic energies into chemically meaningful quantities ($\\Delta E_{el}\\to\\Delta H,\\Delta G$ with ZPE and thermal corrections) and relate accuracy to equilibrium constants ($1.364$ kcal/mol per factor of 10).",
+						"Interpret common outputs critically: HOMO/LUMO as reactivity descriptors, natural orbital occupations as a multireference diagnostic, population analyses, spin contamination."
+					],
+					"keyEquations": [
+						"\\rho(\\mathbf r)=\\sum_in_i|\\phi_i(\\mathbf r)|^2,\\qquad \\phi_i'=\\sum_jU_{ij}\\phi_j\\ \\Rightarrow\\ \\rho,\\ E\\ \\text{unchanged}",
+						"\\Delta H\\approx\\Delta E_{el}+\\Delta E_{ZPE}+\\Delta E_{\\rm thermal}+\\Delta(pV),\\qquad \\Delta G=\\Delta H-T\\Delta S",
+						"\\Delta G=-RT\\ln K,\\qquad RT\\ln10=1.364\\ \\mathrm{kcal/mol}\\ (298\\ \\mathrm K)"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.4",
+							"title": "Restricted Closed-Shell Hartree-Fock: The Roothaan Equations"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 15",
+							"title": "Molecular Electronic Structure",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "Practical Advice for Quantum Chemistry Computations",
+							"url": "https://www.youtube.com/watch?v=mnWh2SFzk6g"
+						},
+						{
+							"source": "C. David Sherrill (Georgia Tech)",
+							"title": "Computing Thermodynamic Properties",
+							"url": "https://www.youtube.com/watch?v=HronzRpN7Ws"
+						},
+						{
+							"source": "TMP Chem",
+							"title": "Computational Chemistry 4.28 - Population Analysis",
+							"url": "https://www.youtube.com/watch?v=OYqotoTR59s"
+						}
+					],
+					"demoIdeas": [
+						"Orbital-rotation lab: take the canonical occupied orbitals of water on a grid, rotate with a unitary-mixing slider to localized orbitals, and show the total density isosurface unchanged while individual orbitals and orbital energies change; add natural-orbital occupations for stretched H2.",
+						"Energy-to-thermochemistry pipeline: enter electronic energies and frequencies for reactants and products, and watch DeltaE become DeltaH and DeltaG with ZPE and thermal corrections and the effect of a 1 kcal/mol error on K."
+					]
+				},
+				{
+					"id": "c1-l051-doing-it-pyscf-psi4-workflow",
+					"title": "Doing It: A PySCF/Psi4-Style Workflow",
+					"minutes": 45,
+					"objectives": [
+						"Lay out a calculation as a sequence: geometry and charge/multiplicity, method and basis choice, SCF (with convergence checks), geometry optimization on the PES, frequency analysis (minimum versus saddle) and thermochemistry.",
+						"Estimate cost and memory from the scaling laws (HF $M^{3-4}$, MP2 $M^5$, CCSD $M^6$, CCSD(T) $M^7$; ERIs $M^4/8$) and choose a method for a given problem.",
+						"Design a verification checklist: convergence to the intended state, $\\langle S^2\\rangle$, imaginary frequencies, basis-set sensitivity, method hierarchy, comparison with experiment."
+					],
+					"keyEquations": [
+						"N_{\\rm ERI}\\approx M^4/8,\\qquad \\text{memory}=8N_{\\rm ERI}\\ \\text{bytes}",
+						"t_{\\rm HF}\\sim M^{3\\text{-}4},\\ t_{\\rm MP2}\\sim M^5,\\ t_{\\rm CCSD}\\sim M^6,\\ t_{\\rm CCSD(T)}\\sim M^7",
+						"\\mathrm{BDE}\\ (D_0)=E_{\\rm CH_3}+E_{\\rm H}-E_{\\rm CH_4}+\\Delta ZPE"
+					],
+					"readings": [
+						{
+							"bookId": "szabo-ostlund",
+							"ref": "3.7",
+							"title": "Some Illustrative Closed-Shell Calculations"
+						},
+						{
+							"bookId": "levine-qc",
+							"ref": "Ch. 15",
+							"title": "Molecular Electronic Structure",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Psi4 project (psicode)",
+							"title": "Psi4 for beginners",
+							"url": "https://www.youtube.com/watch?v=Z0gmVDI5mkQ"
+						},
+						{
+							"source": "Psi4 project (psicode)",
+							"title": "Running Psi4",
+							"url": "https://www.youtube.com/watch?v=EiCdchhWlEI"
+						},
+						{
+							"source": "EvangelistaLab (Emory University), CHEM 371 Quantum Chemistry Lab",
+							"title": "CHEM371-LW Quantum Chemistry Lab | Fall 2020 | 02 Running Psi4 in Jupyter",
+							"url": "https://www.youtube.com/watch?v=HxbFvFrBpqw"
+						}
+					],
+					"demoIdeas": [
+						"Mini-workbench: choose a method and basis from dropdowns (precomputed water table: HF, B3LYP, MP2, CCSD(T) in STO-3G to cc-pVQZ) and see energy, bond length, angle, dipole, orbital ladder with irrep labels and a cost estimate; a convergence cockpit plots energy against basis and flags unconverged choices.",
+						"Input-file generator: a form (molecule, charge, multiplicity, method, basis, tasks) writes the equivalent PySCF and Psi4 input text and lists the expected steps (SCF, optimization, frequencies, thermochemistry) with cost warnings."
+					]
+				}
+			],
+			"grad": true
+		}
+	],
+	"exams": [
+		{
+			"id": "c1-midterm",
+			"kind": "midterm",
+			"title": "C1 Midterm: Variational Methods, Symmetry and the Chemical Bond",
+			"covers": [
+				"c1-u01-many-electron-problem",
+				"c1-u02-variational-matrix-toolkit",
+				"c1-u03-symmetry-group-theory",
+				"c1-u04-h2plus-h2-diatomics"
+			],
+			"minutes": 120,
+			"passMark": 0.7
+		},
+		{
+			"id": "c1-final",
+			"kind": "final",
+			"title": "C1 Final: From Molecular Orbitals to Hartree-Fock, Correlation and DFT",
+			"covers": [
+				"c1-u01-many-electron-problem",
+				"c1-u02-variational-matrix-toolkit",
+				"c1-u03-symmetry-group-theory",
+				"c1-u04-h2plus-h2-diatomics",
+				"c1-u05-polyatomic-mo-huckel-fmo",
+				"c1-u06-hartree-fock",
+				"c1-u07-basis-sets-correlation",
+				"c1-u08-dft-and-doing-it"
+			],
+			"minutes": 180,
+			"passMark": 0.7
+		}
+	]
+}

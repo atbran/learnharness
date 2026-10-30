@@ -113,7 +113,9 @@ export async function scanInbox(): Promise<{ file: string; bookId: string | null
 		const full = path.join(inbox, f);
 		const match = await matchCatalogBook(full).catch(() => null);
 		out.push({ file: f, bookId: match?.bookId ?? null });
-		if (match && ingests.get(match.bookId)?.status !== "running") startIngest(match.bookId, full, f);
+		// Already on the shelf from this same file: a rescan never re-indexes it.
+		const shelved = match && stores.bookshelfStore.getBook(match.bookId)?.sourceName === f;
+		if (match && !shelved && ingests.get(match.bookId)?.status !== "running") startIngest(match.bookId, full, f);
 	}
 	return out;
 }

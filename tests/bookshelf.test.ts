@@ -67,6 +67,20 @@ test("without an outline, the heading line in the page text resolves", () => {
 	assert.equal(r.start, 13);
 });
 
+test("without an outline, a wrapped or retitled heading still resolves; contents pages don't", () => {
+	const book = [
+		{ page: 1, label: "i", text: ["Contents", ...["2.1 Dark night sky", "2.2 Isotropy and homogeneity", "3.2 Describing curvature", "3.4 Proper distance", "4.1 Friedmann equation"].map((l) => `${l} . . . . . . . 7`)].join("\n") },
+		{ page: 5, label: "3", text: "2.2 On large scales, the universe is isotropic\nand homogeneous\nObservations show..." },
+		{ page: 9, label: "7", text: "3.2 Describing curvature\nIn two dimensions..." },
+		{ page: 12, label: "10", text: "3.4 Proper distance\nThe distance..." },
+	];
+	// Another edition's number (§2.2 → wrapped heading on p5).
+	assert.equal(resolveRef([], book, "§2.2", "On Large Scales, the Universe is Isotropic and Homogeneous")!.start, 5);
+	// Renumbered: the title outweighs a same-number heading about something else.
+	assert.equal(resolveRef([], book, "§3.4", "Describing Curvature")!.start, 9);
+	assert.equal(resolveRef([], book, "§5.1", "Nothing like this"), null);
+});
+
 test("ftsQuery quotes terms and keeps phrases", () => {
 	assert.equal(ftsQuery('the "electric flux" through surface'), '"electric flux" OR "through" OR "surface"');
 	assert.equal(ftsQuery("the of"), null);

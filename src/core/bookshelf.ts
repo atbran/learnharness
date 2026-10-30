@@ -135,21 +135,38 @@ export function resolveRef(spans: readonly SectionSpan[], pages: readonly PageTe
 	}
 	if (best && bestScore >= 0.6) return { start: best.start, end: best.end, matched: best.title, via: "outline-title" };
 
-	// No usable outline: find the heading line in the page text.
+	// No usable outline: find the heading line in the page text. An exact
+	// title wins; otherwise the number-led heading most like the title (a
+	// wrapped heading brings its next line), so another edition's numbering
+	// still lands on a retitled-alike section. Contents pages are skipped.
 	const words = normalizeWords(title).join(" ");
 	if (!words) return null;
+	const depth = parsed.kind === "chapter" ? 0 : 1;
+	const found = (page: number, line: string): ResolvedRef => ({
+		start: page,
+		end: findNextHeading(pages, page, depth) ?? Math.min(page + 9, pages.at(-1)?.page ?? page),
+		matched: line.trim(),
+		via: "text",
+	});
+	let near: { page: number; line: string; score: number } | null = null;
 	for (const p of pages) {
-		for (const line of p.text.split("\n")) {
+		const lines = p.text.split("\n");
+		const contents = lines.filter((l) => /(?:\.\s?){4}/.test(l)).length >= 5;
+		for (const [i, line] of lines.entries()) {
 			if (line.length > 140) continue;
 			const num = leadingNumber(line);
 			const lineWords = normalizeWords(line.replace(/^\s*[\d.§]+/, "")).join(" ");
-			if (lineWords === words && (!parsed.from || num === parsed.from || num === null)) {
-				const end = findNextHeading(pages, p.page, parsed.kind === "chapter" ? 0 : 1) ?? Math.min(p.page + 9, pages.at(-1)?.page ?? p.page);
-				return { start: p.page, end, matched: line.trim(), via: "text" };
-			}
+			if (lineWords === words && (!parsed.from || num === parsed.from || num === null)) return found(p.page, line);
+			if (contents || num === null || !/^\s*\d+(?:\.\d+)*\s+[A-Z]/.test(line)) continue;
+			const rest = line.replace(/^\s*[\d.]+/, "");
+			const next = lines[i + 1] ?? "";
+			const sim = Math.max(titleSimilarity(rest, title), next.length < 80 ? titleSimilarity(`${rest} ${next}`, title) : 0);
+			const ok = sim >= 0.5 || (num === parsed.from && sim >= 0.25);
+			const score = sim + (num === parsed.from ? 0.3 : 0);
+			if (ok && (!near || score > near.score)) near = { page: p.page, line, score };
 		}
 	}
-	return null;
+	return near ? found(near.page, near.line) : null;
 }
 
 /** The page before the next numbered heading at the given depth (0 =
