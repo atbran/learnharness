@@ -19,7 +19,10 @@
 				"prompt": "For $f(x)=x^2$ on $-\\pi<x<\\pi$ (extended with period $2\\pi$), the constant term of the Fourier series is $a_0/2$, the average of $f$ over a period. Find $a_0/2$ (dimensionless).",
 				"answer": 3.28987,
 				"tolerance": 0.02,
-				"explanation": "The constant term is the mean value: $\\frac1{2\\pi}\\int_{-\\pi}^{\\pi}x^2dx=\\pi^2/3\\approx3.290$. It comes from the $m=n=0$ orthogonality integral, which is the only one that does not vanish for the constant function."
+				"explanation": "The constant term is the mean value: $\\frac1{2\\pi}\\int_{-\\pi}^{\\pi}x^2dx=\\pi^2/3\\approx3.290$. It comes from the $m=n=0$ orthogonality integral, which is the only one that does not vanish for the constant function.",
+				"equations": [
+					"a_n=\\frac1\\pi\\int_{-\\pi}^{\\pi}f(x)\\cos nx\\,dx"
+				]
 			},
 			{
 				"kind": "mc",
@@ -46,14 +49,20 @@
 				"prompt": "A square wave has $f(x)=-1$ for $-\\pi<x<0$ and $f(x)=+1$ for $0<x<\\pi$, repeating with period $2\\pi$. Its Fourier series is $\\sum b_n\\sin nx$. Compute $b_3=\\frac1\\pi\\int_{-\\pi}^{\\pi}f(x)\\sin 3x\\,dx$ (dimensionless).",
 				"answer": 0.42441,
 				"tolerance": 0.02,
-				"explanation": "Odd extension gives $b_n=\\frac{2}{\\pi}\\int_0^\\pi \\sin nx\\,dx=\\frac{2}{n\\pi}(1-\\cos n\\pi)=\\frac{4}{n\\pi}$ for odd $n$, so $b_3=4/(3\\pi)\\approx0.424$."
+				"explanation": "Odd extension gives $b_n=\\frac{2}{\\pi}\\int_0^\\pi \\sin nx\\,dx=\\frac{2}{n\\pi}(1-\\cos n\\pi)=\\frac{4}{n\\pi}$ for odd $n$, so $b_3=4/(3\\pi)\\approx0.424$.",
+				"equations": [
+					"b_n=\\frac1\\pi\\int_{-\\pi}^{\\pi}f(x)\\sin nx\\,dx"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The sawtooth $f(x)=x$ on $-\\pi<x<\\pi$ (period $2\\pi$) has only sine terms. Compute $b_2=\\frac1\\pi\\int_{-\\pi}^{\\pi}x\\sin 2x\\,dx$ (dimensionless, include the sign).",
 				"answer": -1.0,
 				"tolerance": 0.02,
-				"explanation": "Integrating by parts, $b_n=2(-1)^{n+1}/n$, so $b_2=-1$. The $1/n$ decay is the signature of a jump discontinuity in the periodic extension."
+				"explanation": "Integrating by parts, $b_n=2(-1)^{n+1}/n$, so $b_2=-1$. The $1/n$ decay is the signature of a jump discontinuity in the periodic extension.",
+				"equations": [
+					"b_n=\\frac1\\pi\\int_{-\\pi}^{\\pi}f(x)\\sin nx\\,dx"
+				]
 			},
 			{
 				"kind": "mc",
@@ -144,7 +153,10 @@
 				"prompt": "Expand $f(x)=x$ on $0<x<3$ in a half-range sine series $\\sum b_n\\sin(n\\pi x/3)$ with $b_n=\\frac{2}{3}\\int_0^3 x\\sin(n\\pi x/3)\\,dx$. Find $b_2$ (dimensionless, include the sign).",
 				"answer": -0.95493,
 				"tolerance": 0.02,
-				"explanation": "Integration by parts gives $b_n=\\frac{2L}{n\\pi}(-1)^{n+1}$ with $L=3$, so $b_2=-\\frac{6}{2\\pi}=-3/\\pi\\approx-0.955$."
+				"explanation": "Integration by parts gives $b_n=\\frac{2L}{n\\pi}(-1)^{n+1}$ with $L=3$, so $b_2=-\\frac{6}{2\\pi}=-3/\\pi\\approx-0.955$.",
+				"equations": [
+					"b_n=\\frac{2}{L}\\int_0^Lf(x)\\sin\\frac{n\\pi x}{L}\\,dx"
+				]
 			},
 			{
 				"kind": "mc",
@@ -163,7 +175,10 @@
 				"prompt": "A real Fourier series has $a_3=4$ and $b_3=-6$ (same units). Using $c_n=\\tfrac12(a_n-ib_n)$, find the magnitude $|c_3|$.",
 				"answer": 3.6056,
 				"tolerance": 0.02,
-				"explanation": "$c_3=\\tfrac12(4+6i)=2+3i$, so $|c_3|=\\sqrt{13}\\approx3.606$. Note it equals $\\tfrac12\\sqrt{a_3^2+b_3^2}$, half the amplitude of the third harmonic."
+				"explanation": "$c_3=\\tfrac12(4+6i)=2+3i$, so $|c_3|=\\sqrt{13}\\approx3.606$. Note it equals $\\tfrac12\\sqrt{a_3^2+b_3^2}$, half the amplitude of the third harmonic.",
+				"equations": [
+					"c_n=\\tfrac12(a_n-ib_n)"
+				]
 			},
 			{
 				"kind": "short",
@@ -178,14 +193,21 @@
 				"prompt": "A unit square wave ($f=\\pm1$) has mean-square value $\\tfrac{1}{2\\pi}\\int f^2\\,dx=1$. Its series is $\\sum_{n\\ \\mathrm{odd}}\\frac{4}{n\\pi}\\sin nx$, and each sine harmonic carries power $b_n^2/2$. By Parseval's theorem, what fraction of the total power is in the fundamental ($n=1$)? Give a decimal fraction.",
 				"answer": 0.81057,
 				"tolerance": 0.02,
-				"explanation": "Power in the fundamental is $\\tfrac12(4/\\pi)^2=8/\\pi^2\\approx0.811$, so about 81% of the power sits in the first harmonic and the rest is spread over $n=3,5,\\dots$."
+				"explanation": "Power in the fundamental is $\\tfrac12(4/\\pi)^2=8/\\pi^2\\approx0.811$, so about 81% of the power sits in the first harmonic and the rest is spread over $n=3,5,\\dots$.",
+				"equations": [
+					"\\frac1{2L}\\int_{-L}^{L}|f|^2dx=\\sum_n|c_n|^2",
+					"P_n=\\tfrac12b_n^2"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Given $\\sum_{n=1}^{\\infty}1/n^2=\\pi^2/6$, find the sum over odd $n$ only, $\\sum_{n\\ \\mathrm{odd}}1/n^2=1+\\tfrac19+\\tfrac1{25}+\\cdots$.",
 				"answer": 1.2337,
 				"tolerance": 0.02,
-				"explanation": "The even terms are $\\sum 1/(2k)^2=\\tfrac14\\cdot\\pi^2/6$. Subtracting from the total leaves $\\tfrac34\\cdot\\pi^2/6=\\pi^2/8\\approx1.234$."
+				"explanation": "The even terms are $\\sum 1/(2k)^2=\\tfrac14\\cdot\\pi^2/6$. Subtracting from the total leaves $\\tfrac34\\cdot\\pi^2/6=\\pi^2/8\\approx1.234$.",
+				"equations": [
+					"\\sum_{n=1}^\\infty\\frac1{n^2}=\\frac{\\pi^2}6"
+				]
 			},
 			{
 				"kind": "short",
@@ -205,7 +227,10 @@
 					"The third harmonic ($3\\omega$)"
 				],
 				"answer": 3,
-				"explanation": "Each harmonic drives the oscillator independently (superposition). The response amplitude is the force amplitude times the oscillator's gain at that frequency; the third harmonic is weaker than the fundamental ($4/3\\pi$ vs $4/\\pi$) but is exactly resonant, so its gain is much larger. A square wave has only odd harmonics, so there is no second harmonic."
+				"explanation": "Each harmonic drives the oscillator independently (superposition). The response amplitude is the force amplitude times the oscillator's gain at that frequency; the third harmonic is weaker than the fundamental ($4/3\\pi$ vs $4/\\pi$) but is exactly resonant, so its gain is much larger. A square wave has only odd harmonics, so there is no second harmonic.",
+				"equations": [
+					"y_p=\\sum_n\\frac{c_n e^{in\\omega t}}{P(in\\omega)}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -224,7 +249,10 @@
 				"prompt": "An undamped oscillator obeys $\\ddot x+\\omega_0^2x=F(t)$ with unit mass, $\\omega_0^2=10\\,\\omega^2$, and is driven by a square wave of angular frequency $\\omega$ (odd harmonics with amplitudes $b_n=4/(n\\pi)$). A harmonic $n\\omega$ drives a response amplitude $b_n/|\\omega_0^2-n^2\\omega^2|$. Find the ratio of the response amplitude of the third harmonic to that of the fundamental (dimensionless).",
 				"answer": 3.0,
 				"tolerance": 0.02,
-				"explanation": "Response$_3$ $=\\frac{4/(3\\pi)}{|10-9|}\\omega^{-2}$ and Response$_1=\\frac{4/\\pi}{|10-1|}\\omega^{-2}$, so the ratio is $\\frac{1/3}{1}\\cdot 9=3$. The third harmonic is a third as strong in the force but sits close to resonance, so it dominates."
+				"explanation": "Response$_3$ $=\\frac{4/(3\\pi)}{|10-9|}\\omega^{-2}$ and Response$_1=\\frac{4/\\pi}{|10-1|}\\omega^{-2}$, so the ratio is $\\frac{1/3}{1}\\cdot 9=3$. The third harmonic is a third as strong in the force but sits close to resonance, so it dominates.",
+				"equations": [
+					"A_n=\\frac{b_n}{|\\omega_0^2-n^2\\omega^2|},\\quad b_n=\\frac{4}{n\\pi}"
+				]
 			},
 			{
 				"kind": "short",
@@ -239,7 +267,11 @@
 				"prompt": "A box function is $f(x)=1$ for $|x|<2$ and 0 otherwise. Its transform is $\\hat f(k)=\\int f e^{-ikx}dx=2\\sin(ka)/k$ with $a=2$. Evaluate $\\hat f$ at $k=0.5$ (in the same length units).",
 				"answer": 3.3659,
 				"tolerance": 0.02,
-				"explanation": "$\\hat f(0.5)=2\\sin(1)/0.5=4\\sin 1\\approx3.366$."
+				"explanation": "$\\hat f(0.5)=2\\sin(1)/0.5=4\\sin 1\\approx3.366$.",
+				"equations": [
+					"\\hat f(k)=\\int_{-\\infty}^\\infty f(x)e^{-ikx}\\,dx",
+					"\\hat f(k)=\\frac{2\\sin(ka)}{k}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -251,7 +283,10 @@
 					"The spectrum acquires an extra peak at $\\omega=t_0$"
 				],
 				"answer": 1,
-				"explanation": "Shifting $f(t)\\to f(t-t_0)$ multiplies $\\hat f$ by $e^{-i\\omega t_0}$, a pure phase. The set of frequencies present does not change when you merely delay a signal; modulation (multiplying by a cosine) is what shifts the spectrum."
+				"explanation": "Shifting $f(t)\\to f(t-t_0)$ multiplies $\\hat f$ by $e^{-i\\omega t_0}$, a pure phase. The set of frequencies present does not change when you merely delay a signal; modulation (multiplying by a cosine) is what shifts the spectrum.",
+				"equations": [
+					"\\hat f(k)=\\int_{-\\infty}^\\infty f(x)e^{-ikx}\\,dx"
+				]
 			},
 			{
 				"kind": "short",
@@ -271,7 +306,10 @@
 					"It becomes 16 times broader"
 				],
 				"answer": 2,
-				"explanation": "The transform of $e^{-x^2/2\\sigma^2}$ is proportional to $e^{-\\sigma^2k^2/2}$, whose width is $1/\\sigma$. Width in $x$ times width in $k$ is fixed (1/2 at the minimum), so shrinking one by 4 stretches the other by 4."
+				"explanation": "The transform of $e^{-x^2/2\\sigma^2}$ is proportional to $e^{-\\sigma^2k^2/2}$, whose width is $1/\\sigma$. Width in $x$ times width in $k$ is fixed (1/2 at the minimum), so shrinking one by 4 stretches the other by 4.",
+				"equations": [
+					"\\widehat{e^{-x^2/2\\sigma^2}}=\\sigma\\sqrt{2\\pi}\\,e^{-\\sigma^2k^2/2}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -279,7 +317,10 @@
 				"answer": 0.63662,
 				"tolerance": 0.02,
 				"unit": "Hz",
-				"explanation": "A decaying exponential in time transforms to a Lorentzian whose half-width in angular frequency is $1/T_2$, i.e. FWHM $=2/T_2$ rad/s $=1/(\\pi T_2)$ Hz $\\approx0.64$ Hz. Faster decay (shorter $T_2$) means broader lines."
+				"explanation": "A decaying exponential in time transforms to a Lorentzian whose half-width in angular frequency is $1/T_2$, i.e. FWHM $=2/T_2$ rad/s $=1/(\\pi T_2)$ Hz $\\approx0.64$ Hz. Faster decay (shorter $T_2$) means broader lines.",
+				"equations": [
+					"\\Delta\\nu=\\frac{1}{\\pi T_2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -306,7 +347,11 @@
 				"prompt": "Two independent Gaussian line-broadening mechanisms with standard deviations $\\sigma_1=3$ and $\\sigma_2=4$ (same units) convolve to give an observed line. Convolving two normalized Gaussians gives a Gaussian; what is its standard deviation?",
 				"answer": 5.0,
 				"tolerance": 0.02,
-				"explanation": "The transforms multiply: $e^{-\\sigma_1^2k^2/2}e^{-\\sigma_2^2k^2/2}=e^{-(\\sigma_1^2+\\sigma_2^2)k^2/2}$, so variances add: $\\sigma=\\sqrt{9+16}=5$."
+				"explanation": "The transforms multiply: $e^{-\\sigma_1^2k^2/2}e^{-\\sigma_2^2k^2/2}=e^{-(\\sigma_1^2+\\sigma_2^2)k^2/2}$, so variances add: $\\sigma=\\sqrt{9+16}=5$.",
+				"equations": [
+					"\\widehat{f*g}=\\hat f\\,\\hat g",
+					"\\widehat{e^{-x^2/2\\sigma^2}}=\\sigma\\sqrt{2\\pi}\\,e^{-\\sigma^2k^2/2}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -324,7 +369,10 @@
 				"kind": "short",
 				"prompt": "Explain why a convolution in real space becomes a simple product in Fourier space, and give one physical example of a convolution.",
 				"rubric": "Full credit requires: a convolution superposes shifted copies of one function weighted by the other, and sinusoids are eigenfunctions of shifts so each frequency is just multiplied; example such as blurring by a point-spread function or line broadening.",
-				"modelAnswer": "A convolution $(f*g)(x)=\\int f(y)g(x-y)dy$ replaces each point of $f$ by a shifted copy of $g$. Complex exponentials are unchanged in shape by a shift (they just pick up a phase), so each Fourier component of $f$ is merely multiplied by the corresponding component of $g$, giving $\\hat f\\hat g$. Examples: an image blurred by a point-spread function, or an NMR line broadened by an extra mechanism."
+				"modelAnswer": "A convolution $(f*g)(x)=\\int f(y)g(x-y)dy$ replaces each point of $f$ by a shifted copy of $g$. Complex exponentials are unchanged in shape by a shift (they just pick up a phase), so each Fourier component of $f$ is merely multiplied by the corresponding component of $g$, giving $\\hat f\\hat g$. Examples: an image blurred by a point-spread function, or an NMR line broadened by an extra mechanism.",
+				"equations": [
+					"(f*g)(x)=\\int f(y)g(x-y)\\,dy"
+				]
 			}
 		],
 		"m5-l011-sampling-aliasing": [
@@ -334,7 +382,10 @@
 				"answer": 300.0,
 				"tolerance": 0.02,
 				"unit": "Hz",
-				"explanation": "Frequencies above Nyquist fold back: $|700-1000|=300$ Hz. The tone is indistinguishable from a genuine 300 Hz tone."
+				"explanation": "Frequencies above Nyquist fold back: $|700-1000|=300$ Hz. The tone is indistinguishable from a genuine 300 Hz tone.",
+				"equations": [
+					"f_{\\text{app}}=|f-nf_s|\\ (n\\in\\mathbb Z,\\ f_{\\text{app}}\\le f_s/2)"
+				]
 			},
 			{
 				"kind": "short",
@@ -361,14 +412,22 @@
 				"prompt": "Evaluate $\\int_{-\\infty}^{\\infty}(x^2+1)\\,\\delta(2x-6)\\,dx$.",
 				"answer": 5.0,
 				"tolerance": 0.02,
-				"explanation": "$\\delta(2x-6)=\\tfrac12\\delta(x-3)$, so the integral is $\\tfrac12(3^2+1)=5$."
+				"explanation": "$\\delta(2x-6)=\\tfrac12\\delta(x-3)$, so the integral is $\\tfrac12(3^2+1)=5$.",
+				"equations": [
+					"\\int f(x)\\delta(x-a)\\,dx=f(a)",
+					"\\delta(g(x))=\\sum_i\\frac{\\delta(x-x_i)}{|g'(x_i)|}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Evaluate $\\int_{-\\infty}^{\\infty}e^{-x}\\,\\delta(x^2-4)\\,dx$.",
 				"answer": 1.8811,
 				"tolerance": 0.02,
-				"explanation": "The zeros of $g=x^2-4$ are $\\pm2$ with $|g'|=4$. The integral is $\\tfrac14(e^{-2}+e^{2})=\\tfrac12\\cosh2\\approx1.881$."
+				"explanation": "The zeros of $g=x^2-4$ are $\\pm2$ with $|g'|=4$. The integral is $\\tfrac14(e^{-2}+e^{2})=\\tfrac12\\cosh2\\approx1.881$.",
+				"equations": [
+					"\\int f(x)\\delta(x-a)\\,dx=f(a)",
+					"\\delta(g(x))=\\sum_i\\frac{\\delta(x-x_i)}{|g'(x_i)|}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -400,7 +459,10 @@
 					"$2\\delta(x)$"
 				],
 				"answer": 3,
-				"explanation": "$f'=\\mathrm{sgn}(x)$, which jumps by 2 at the origin. The derivative of a jump of height 2 is $2\\delta(x)$. The second derivative is zero away from the origin but concentrated at the kink."
+				"explanation": "$f'=\\mathrm{sgn}(x)$, which jumps by 2 at the origin. The derivative of a jump of height 2 is $2\\delta(x)$. The second derivative is zero away from the origin but concentrated at the kink.",
+				"equations": [
+					"\\theta'(x)=\\delta(x)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -440,7 +502,11 @@
 				"answer": 126.49,
 				"tolerance": 0.02,
 				"unit": "m/s",
-				"explanation": "$v=\\sqrt{64/0.004}=\\sqrt{16000}\\approx126.5$ m/s. Stiffer (higher tension) or lighter strings carry waves faster."
+				"explanation": "$v=\\sqrt{64/0.004}=\\sqrt{16000}\\approx126.5$ m/s. Stiffer (higher tension) or lighter strings carry waves faster.",
+				"equations": [
+					"\\partial_t^2u=v^2\\nabla^2u",
+					"v=\\sqrt{T/\\mu}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -504,21 +570,30 @@
 					"$\\sinh(n\\pi y/a)$, which vanishes at $y=0$ and grows exponentially"
 				],
 				"answer": 3,
-				"explanation": "$X''=-k^2X$ with $X(0)=X(a)=0$ forces $k=n\\pi/a$. Then $Y''=+k^2Y$ is exponential, and $Y(0)=0$ selects $\\sinh$. The separation constant has opposite signs in the two ODEs; oscillation in one direction means exponential behaviour in the other."
+				"explanation": "$X''=-k^2X$ with $X(0)=X(a)=0$ forces $k=n\\pi/a$. Then $Y''=+k^2Y$ is exponential, and $Y(0)=0$ selects $\\sinh$. The separation constant has opposite signs in the two ODEs; oscillation in one direction means exponential behaviour in the other.",
+				"equations": [
+					"u(x,y)=X(x)Y(y)\\Rightarrow\\frac{X''}X=-\\frac{Y''}Y=-k^2"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "A square plate with $a=b=1$ has $u=0$ on three sides and $u(x,1)=100\\sin(\\pi x)$ on the top. The solution is $u=100\\sin(\\pi x)\\,\\sinh(\\pi y)/\\sinh(\\pi)$. Find $u$ at the centre $(0.5,\\,0.5)$ in the same temperature units.",
 				"answer": 19.927,
 				"tolerance": 0.02,
-				"explanation": "$u=100\\cdot1\\cdot\\sinh(\\pi/2)/\\sinh\\pi\\approx100\\times0.1993=19.9$. Equivalently $1/(2\\cosh(\\pi/2))$ times 100. The temperature falls off rapidly into the plate away from the hot edge."
+				"explanation": "$u=100\\cdot1\\cdot\\sinh(\\pi/2)/\\sinh\\pi\\approx100\\times0.1993=19.9$. Equivalently $1/(2\\cosh(\\pi/2))$ times 100. The temperature falls off rapidly into the plate away from the hot edge.",
+				"equations": [
+					"u=100\\sin(\\pi x)\\,\\frac{\\sinh(\\pi y)}{\\sinh\\pi}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Same plate ($a=b=1$) but now the top edge is held at constant $u(x,1)=100$ (other sides 0). The series is $u=\\sum b_n\\sin(n\\pi x)\\sinh(n\\pi y)$ with $b_n\\sinh(n\\pi)=2\\int_0^1 100\\sin(n\\pi x)\\,dx$. Find $b_1$.",
 				"answer": 11.025,
 				"tolerance": 0.02,
-				"explanation": "$2\\int_0^1100\\sin\\pi x\\,dx=400/\\pi\\approx127.3$. Dividing by $\\sinh\\pi\\approx11.549$ gives $b_1\\approx11.02$."
+				"explanation": "$2\\int_0^1100\\sin\\pi x\\,dx=400/\\pi\\approx127.3$. Dividing by $\\sinh\\pi\\approx11.549$ gives $b_1\\approx11.02$.",
+				"equations": [
+					"b_n\\sinh\\frac{n\\pi b}a=\\frac2a\\int_0^af(x)\\sin\\frac{n\\pi x}a\\,dx"
+				]
 			},
 			{
 				"kind": "short",
@@ -551,7 +626,10 @@
 				"prompt": "A square plate has its four edges held at constant temperatures $100$ (top), $60$ (bottom), $20$ (left) and $0$ (right), in the same units. Using superposition, and the symmetry of the square, find the temperature at the centre.",
 				"answer": 45.0,
 				"tolerance": 0.02,
-				"explanation": "Split into four problems with one hot edge each. By symmetry each gives the centre a quarter of that edge's temperature, so $u=(100+60+20+0)/4=45$. This also equals the average of the boundary values, as the mean-value property requires."
+				"explanation": "Split into four problems with one hot edge each. By symmetry each gives the centre a quarter of that edge's temperature, so $u=(100+60+20+0)/4=45$. This also equals the average of the boundary values, as the mean-value property requires.",
+				"equations": [
+					"u=u_{\\text{top}}+u_{\\text{bottom}}+u_{\\text{left}}+u_{\\text{right}},\\quad\\nabla^2u_i=0"
+				]
 			}
 		],
 		"m5-l018-heat-separation-modes": [
@@ -573,7 +651,10 @@
 				"answer": 10.132,
 				"tolerance": 0.02,
 				"unit": "s",
-				"explanation": "$\\tau_1=\\dfrac{(0.1)^2}{10^{-4}\\pi^2}\\approx10.1$ s. Mode $n$ has time constant $\\tau_1/n^2$, so the $n=3$ mode is gone about nine times faster."
+				"explanation": "$\\tau_1=\\dfrac{(0.1)^2}{10^{-4}\\pi^2}\\approx10.1$ s. Mode $n$ has time constant $\\tau_1/n^2$, so the $n=3$ mode is gone about nine times faster.",
+				"equations": [
+					"\\tau_1=\\frac{L^2}{D\\pi^2}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -591,7 +672,10 @@
 				"kind": "short",
 				"prompt": "A rod has its ends held at different fixed temperatures. Explain how subtracting the steady-state solution lets you solve for the transient with the ordinary sine-series method.",
 				"rubric": "Full credit requires: the steady profile satisfies the inhomogeneous boundary conditions; the difference between the full solution and the steady profile satisfies homogeneous boundary conditions and the same heat equation; expand the difference's initial condition in sines.",
-				"modelAnswer": "The steady state $u_s(x)$ (linear between the end temperatures) satisfies the heat equation and the inhomogeneous boundary conditions. Then $v=u-u_s$ obeys the same equation with $v=0$ at both ends, so the separation-of-variables sine series applies, with $v(x,0)=u(x,0)-u_s(x)$ expanded in modes. The final answer is $u=u_s+v$."
+				"modelAnswer": "The steady state $u_s(x)$ (linear between the end temperatures) satisfies the heat equation and the inhomogeneous boundary conditions. Then $v=u-u_s$ obeys the same equation with $v=0$ at both ends, so the separation-of-variables sine series applies, with $v(x,0)=u(x,0)-u_s(x)$ expanded in modes. The final answer is $u=u_s+v$.",
+				"equations": [
+					"u_t=Du_{xx}"
+				]
 			}
 		],
 		"m5-l019-heat-kernel-diffusion": [
@@ -601,7 +685,10 @@
 				"answer": 500.0,
 				"tolerance": 0.02,
 				"unit": "s",
-				"explanation": "$t=x^2/(2D)=(10^{-3})^2/(2\\times10^{-9})=500$ s, about 8 minutes. Diffusion distance grows only as $\\sqrt t$, so doubling the distance costs four times the time; this is why diffusion works over cell scales but not over centimetres."
+				"explanation": "$t=x^2/(2D)=(10^{-3})^2/(2\\times10^{-9})=500$ s, about 8 minutes. Diffusion distance grows only as $\\sqrt t$, so doubling the distance costs four times the time; this is why diffusion works over cell scales but not over centimetres.",
+				"equations": [
+					"\\langle x^2\\rangle=2Dt"
+				]
 			},
 			{
 				"kind": "short",
@@ -629,7 +716,11 @@
 				"answer": 185.79,
 				"tolerance": 0.02,
 				"unit": "Hz",
-				"explanation": "$v=\\sqrt{70/0.0012}\\approx241.5$ m/s and $f_1=241.5/(2\\times0.65)\\approx186$ Hz (close to a low F$\\sharp$)."
+				"explanation": "$v=\\sqrt{70/0.0012}\\approx241.5$ m/s and $f_1=241.5/(2\\times0.65)\\approx186$ Hz (close to a low F$\\sharp$).",
+				"equations": [
+					"v=\\sqrt{T/\\mu}",
+					"f_1=\\frac{v}{2L}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -641,7 +732,10 @@
 					"All harmonics above the fundamental"
 				],
 				"answer": 2,
-				"explanation": "Mode $n$ has shape $\\sin(n\\pi x/L)$. At $x=L/2$ this vanishes for even $n$, so plucking (displacing) at the midpoint puts no amplitude in them; their Fourier coefficients vanish. Pluck near the end and many harmonics appear."
+				"explanation": "Mode $n$ has shape $\\sin(n\\pi x/L)$. At $x=L/2$ this vanishes for even $n$, so plucking (displacing) at the midpoint puts no amplitude in them; their Fourier coefficients vanish. Pluck near the end and many harmonics appear.",
+				"equations": [
+					"u=\\sum_n\\left(A_n\\cos\\omega_nt+B_n\\sin\\omega_nt\\right)\\sin\\frac{n\\pi x}L,\\ \\omega_n=\\frac{n\\pi v}L"
+				]
 			},
 			{
 				"kind": "short",
@@ -681,7 +775,10 @@
 				"answer": 4.0,
 				"tolerance": 0.02,
 				"unit": "m",
-				"explanation": "For a string released from rest, d'Alembert gives $u=\\tfrac12[f(x-vt)+f(x+vt)]$: two half-height copies moving apart at $\\pm v$. Their separation is $2vt=2(40)(0.05)=4.0$ m."
+				"explanation": "For a string released from rest, d'Alembert gives $u=\\tfrac12[f(x-vt)+f(x+vt)]$: two half-height copies moving apart at $\\pm v$. Their separation is $2vt=2(40)(0.05)=4.0$ m.",
+				"equations": [
+					"u=f(x-vt)+g(x+vt)"
+				]
 			},
 			{
 				"kind": "short",
@@ -696,20 +793,31 @@
 				"prompt": "Evaluate $\\Gamma(7/2)$ using $\\Gamma(z+1)=z\\Gamma(z)$ and $\\Gamma(1/2)=\\sqrt\\pi$.",
 				"answer": 3.3234,
 				"tolerance": 0.02,
-				"explanation": "$\\Gamma(7/2)=\\tfrac52\\cdot\\tfrac32\\cdot\\tfrac12\\,\\Gamma(\\tfrac12)=\\tfrac{15}{8}\\sqrt\\pi\\approx3.323$."
+				"explanation": "$\\Gamma(7/2)=\\tfrac52\\cdot\\tfrac32\\cdot\\tfrac12\\,\\Gamma(\\tfrac12)=\\tfrac{15}{8}\\sqrt\\pi\\approx3.323$.",
+				"equations": [
+					"\\Gamma(z+1)=z\\,\\Gamma(z)",
+					"\\Gamma(1/2)=\\sqrt\\pi"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Evaluate $\\int_0^\\infty x^4e^{-2x^2}\\,dx$. (Use $\\int_0^\\infty x^{2n}e^{-ax^2}dx=\\Gamma(n+\\tfrac12)/(2a^{n+1/2})$.)",
 				"answer": 0.1175,
 				"tolerance": 0.02,
-				"explanation": "With $n=2$, $a=2$: $\\Gamma(5/2)=\\tfrac34\\sqrt\\pi\\approx1.329$ and $2\\cdot2^{5/2}=11.31$, giving $\\approx0.1175$. (Equivalent to $\\tfrac{3\\sqrt\\pi}{32\\sqrt2}$.)"
+				"explanation": "With $n=2$, $a=2$: $\\Gamma(5/2)=\\tfrac34\\sqrt\\pi\\approx1.329$ and $2\\cdot2^{5/2}=11.31$, giving $\\approx0.1175$. (Equivalent to $\\tfrac{3\\sqrt\\pi}{32\\sqrt2}$.)",
+				"equations": [
+					"\\int_0^\\infty x^{2n}e^{-ax^2}dx=\\frac{\\Gamma(n+\\frac12)}{2a^{n+1/2}}",
+					"\\Gamma(z+1)=z\\,\\Gamma(z)"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Explain how the recursion $\\Gamma(z+1)=z\\Gamma(z)$ extends the factorial beyond the integers, and why $\\Gamma(1/2)=\\sqrt\\pi$ is connected to the Gaussian integral.",
 				"rubric": "Full credit requires: $\\Gamma(n+1)=n!$ and the integral definition makes sense for non-integer (and complex) $z$, with the recursion matching $n!=n(n-1)!$; $\\Gamma(1/2)=\\int_0^\\infty t^{-1/2}e^{-t}dt$ becomes $2\\int_0^\\infty e^{-u^2}du=\\sqrt\\pi$ on substituting $t=u^2$.",
-				"modelAnswer": "The integral $\\Gamma(z)=\\int_0^\\infty t^{z-1}e^{-t}dt$ satisfies $\\Gamma(z+1)=z\\Gamma(z)$ by integration by parts and equals $(n-1)!$ at integers, so it is a smooth interpolation of the factorial to real arguments. Setting $t=u^2$ in $\\Gamma(1/2)$ gives $2\\int_0^\\infty e^{-u^2}du=\\sqrt\\pi$, i.e. the Gaussian integral, which is why half-integer gamma functions carry $\\sqrt\\pi$."
+				"modelAnswer": "The integral $\\Gamma(z)=\\int_0^\\infty t^{z-1}e^{-t}dt$ satisfies $\\Gamma(z+1)=z\\Gamma(z)$ by integration by parts and equals $(n-1)!$ at integers, so it is a smooth interpolation of the factorial to real arguments. Setting $t=u^2$ in $\\Gamma(1/2)$ gives $2\\int_0^\\infty e^{-u^2}du=\\sqrt\\pi$, i.e. the Gaussian integral, which is why half-integer gamma functions carry $\\sqrt\\pi$.",
+				"equations": [
+					"\\Gamma(z)=\\int_0^\\infty t^{z-1}e^{-t}dt"
+				]
 			}
 		],
 		"m5-l023-beta-stirling": [
@@ -723,7 +831,11 @@
 					"$1/12$"
 				],
 				"answer": 2,
-				"explanation": "$\\int_0^1x^{p-1}(1-x)^{q-1}dx=B(p,q)$ with $p=3$, $q=4$: $B(3,4)=\\Gamma(3)\\Gamma(4)/\\Gamma(7)=2\\cdot6/720=1/60$. A common slip is to use $p!q!/(p+q)!$ instead of the shifted arguments."
+				"explanation": "$\\int_0^1x^{p-1}(1-x)^{q-1}dx=B(p,q)$ with $p=3$, $q=4$: $B(3,4)=\\Gamma(3)\\Gamma(4)/\\Gamma(7)=2\\cdot6/720=1/60$. A common slip is to use $p!q!/(p+q)!$ instead of the shifted arguments.",
+				"equations": [
+					"B(p,q)=\\int_0^1x^{p-1}(1-x)^{q-1}dx",
+					"B(p,q)=\\frac{\\Gamma(p)\\Gamma(q)}{\\Gamma(p+q)}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -742,7 +854,10 @@
 				"prompt": "Use Stirling's formula $n!\\approx\\sqrt{2\\pi n}\\,(n/e)^n$ to estimate $\\ln(50!)$ (natural logarithm, dimensionless).",
 				"answer": 148.4761,
 				"tolerance": 0.01,
-				"explanation": "$\\ln n!\\approx n\\ln n-n+\\tfrac12\\ln(2\\pi n)$. For $n=50$: $195.60-50+2.88\\approx148.48$, within 0.01% of the exact $\\ln 50!=148.478$. Dropping the last term (the form used in statistical mechanics) gives $145.6$, still within 2%."
+				"explanation": "$\\ln n!\\approx n\\ln n-n+\\tfrac12\\ln(2\\pi n)$. For $n=50$: $195.60-50+2.88\\approx148.48$, within 0.01% of the exact $\\ln 50!=148.478$. Dropping the last term (the form used in statistical mechanics) gives $145.6$, still within 2%.",
+				"equations": [
+					"n!\\approx\\sqrt{2\\pi n}\\,(n/e)^n"
+				]
 			},
 			{
 				"kind": "short",
@@ -769,7 +884,10 @@
 				"prompt": "Evaluate the Legendre polynomial $P_3(x)=\\tfrac12(5x^3-3x)$ at $x=0.5$.",
 				"answer": -0.4375,
 				"tolerance": 0.02,
-				"explanation": "$P_3(0.5)=\\tfrac12(5\\cdot0.125-1.5)=\\tfrac12(0.625-1.5)=-0.4375$."
+				"explanation": "$P_3(0.5)=\\tfrac12(5\\cdot0.125-1.5)=\\tfrac12(0.625-1.5)=-0.4375$.",
+				"equations": [
+					"P_3(x)=\\tfrac12(5x^3-3x)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -796,7 +914,11 @@
 				"prompt": "Expand $f(x)=x^2$ on $[-1,1]$ as $\\sum c_lP_l(x)$ with $c_l=\\frac{2l+1}{2}\\int_{-1}^1fP_l\\,dx$. Find $c_2$ (given $P_2=\\tfrac12(3x^2-1)$).",
 				"answer": 0.66667,
 				"tolerance": 0.02,
-				"explanation": "$c_2=\\tfrac52\\int_{-1}^1x^2\\cdot\\tfrac12(3x^2-1)dx=\\tfrac52\\cdot\\tfrac12(\\tfrac65-\\tfrac23)=\\tfrac23$. Indeed $x^2=\\tfrac13P_0+\\tfrac23P_2$."
+				"explanation": "$c_2=\\tfrac52\\int_{-1}^1x^2\\cdot\\tfrac12(3x^2-1)dx=\\tfrac52\\cdot\\tfrac12(\\tfrac65-\\tfrac23)=\\tfrac23$. Indeed $x^2=\\tfrac13P_0+\\tfrac23P_2$.",
+				"equations": [
+					"c_l=\\frac{2l+1}{2}\\int_{-1}^{1}f(x)P_l(x)\\,dx",
+					"P_2(x)=\\tfrac12(3x^2-1)"
+				]
 			},
 			{
 				"kind": "short",
@@ -835,7 +957,11 @@
 				"prompt": "Using $P_l^m(x)=(1-x^2)^{|m|/2}\\dfrac{d^{|m|}}{dx^{|m|}}P_l(x)$ with $P_2(x)=\\tfrac12(3x^2-1)$, evaluate $P_2^1(x)$ at $x=\\cos\\theta=0.5$ (dimensionless).",
 				"answer": 1.299,
 				"tolerance": 0.02,
-				"explanation": "$P_2'(x)=3x$, so $P_2^1(x)=3x\\sqrt{1-x^2}$. At $x=0.5$: $3(0.5)(0.8660)=1.299$."
+				"explanation": "$P_2'(x)=3x$, so $P_2^1(x)=3x\\sqrt{1-x^2}$. At $x=0.5$: $3(0.5)(0.8660)=1.299$.",
+				"equations": [
+					"P_l^m(x)=(1-x^2)^{|m|/2}\\frac{d^{|m|}}{dx^{|m|}}P_l(x)",
+					"P_2(x)=\\tfrac12(3x^2-1)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -862,7 +988,10 @@
 				"prompt": "Evaluate the spherical harmonic $Y_{20}(\\theta=0)=\\sqrt{\\frac{5}{4\\pi}}\\,P_2(1)$, with $P_2(1)=1$.",
 				"answer": 0.63078,
 				"tolerance": 0.02,
-				"explanation": "$Y_{20}(0)=\\sqrt{5/4\\pi}\\approx0.631$. Along the $z$-axis only $m=0$ harmonics are nonzero because $P_l^m(1)=0$ for $m\\ne0$."
+				"explanation": "$Y_{20}(0)=\\sqrt{5/4\\pi}\\approx0.631$. Along the $z$-axis only $m=0$ harmonics are nonzero because $P_l^m(1)=0$ for $m\\ne0$.",
+				"equations": [
+					"Y_{20}(\\theta)=\\sqrt{\\frac{5}{4\\pi}}\\,P_2(\\cos\\theta)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -901,14 +1030,20 @@
 				"prompt": "Given $J_0(2)=0.2239$ and $J_1(2)=0.5767$, use the recurrence $J_{n-1}(x)+J_{n+1}(x)=\\frac{2n}{x}J_n(x)$ with $n=1$, $x=2$ to find $J_2(2)$.",
 				"answer": 0.35283,
 				"tolerance": 0.02,
-				"explanation": "$J_0+J_2=\\tfrac{2}{2}J_1$, so $J_2(2)=J_1-J_0=0.5767-0.2239=0.3528$."
+				"explanation": "$J_0+J_2=\\tfrac{2}{2}J_1$, so $J_2(2)=J_1-J_0=0.5767-0.2239=0.3528$.",
+				"equations": [
+					"J_{n-1}(x)+J_{n+1}(x)=\\frac{2n}{x}J_n(x)"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Using the first three terms of the series $J_0(x)=\\sum_k\\frac{(-1)^k}{(k!)^2}\\left(\\frac x2\\right)^{2k}$, estimate $J_0(1)$ (dimensionless).",
 				"answer": 0.7656,
 				"tolerance": 0.01,
-				"explanation": "$J_0(1)\\approx1-\\tfrac14+\\tfrac1{64}=0.7656$; the exact value is $0.7652$. The series converges quickly for small $x$ because of the $(k!)^2$ in the denominator."
+				"explanation": "$J_0(1)\\approx1-\\tfrac14+\\tfrac1{64}=0.7656$; the exact value is $0.7652$. The series converges quickly for small $x$ because of the $(k!)^2$ in the denominator.",
+				"equations": [
+					"J_0(x)=\\sum_k\\frac{(-1)^k}{(k!)^2}\\left(\\frac x2\\right)^{2k}"
+				]
 			},
 			{
 				"kind": "short",
@@ -958,7 +1093,10 @@
 				"kind": "short",
 				"prompt": "Spherical Bessel functions such as $j_0(kr)=\\sin(kr)/(kr)$ solve the radial equation for a free particle in 3D. Explain what they represent physically and how they would give energy levels for a particle in a spherical box.",
 				"rubric": "Full credit requires: they are the radial standing waves of a free particle (regular at the origin, decaying like $1/r$ amplitude); imposing $\\psi=0$ at radius $a$ selects zeros of $j_l$, giving $k_{ln}a=$ zero values, so discrete energies $E=\\hbar^2k^2/2m$, with $l=0$ zeros at $n\\pi/a$.",
-				"modelAnswer": "$j_l(kr)$ is the radial part of a free-particle wavefunction: a standing spherical wave that is regular at the origin and whose amplitude falls like $1/r$ at large $r$. Putting the particle in a spherical box of radius $a$ requires the wavefunction to vanish at $r=a$, so $ka$ must be a zero of $j_l$, giving discrete $k$ and energies $E=\\hbar^2k^2/2m$. For $l=0$, $j_0=\\sin kr/kr$ vanishes at $ka=n\\pi$, like the 1D box."
+				"modelAnswer": "$j_l(kr)$ is the radial part of a free-particle wavefunction: a standing spherical wave that is regular at the origin and whose amplitude falls like $1/r$ at large $r$. Putting the particle in a spherical box of radius $a$ requires the wavefunction to vanish at $r=a$, so $ka$ must be a zero of $j_l$, giving discrete $k$ and energies $E=\\hbar^2k^2/2m$. For $l=0$, $j_0=\\sin kr/kr$ vanishes at $ka=n\\pi$, like the 1D box.",
+				"equations": [
+					"E=\\frac{\\hbar^2k^2}{2m}"
+				]
 			}
 		],
 		"m5-l030-hermite-oscillator": [
@@ -979,7 +1117,10 @@
 				"prompt": "Using $H_4(x)=16x^4-48x^2+12$, evaluate $H_4(1)$.",
 				"answer": -20.0,
 				"tolerance": 0.02,
-				"explanation": "$H_4(1)=16-48+12=-20$. (The oscillator state $\\psi_4\\propto H_4(x)e^{-x^2/2}$ has four nodes where $H_4$ crosses zero.)"
+				"explanation": "$H_4(1)=16-48+12=-20$. (The oscillator state $\\psi_4\\propto H_4(x)e^{-x^2/2}$ has four nodes where $H_4$ crosses zero.)",
+				"equations": [
+					"H_4(x)=16x^4-48x^2+12"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1043,7 +1184,10 @@
 					"Independent of $z$"
 				],
 				"answer": 0,
-				"explanation": "$J_0(\\alpha r/a)$ must vanish at $r=a$, which forces a positive separation constant and an oscillating radial function. Laplace's equation then demands $Z''=+(\\alpha/a)^2Z$: exponential growth or decay in $z$. The signs are chosen by the boundary conditions."
+				"explanation": "$J_0(\\alpha r/a)$ must vanish at $r=a$, which forces a positive separation constant and an oscillating radial function. Laplace's equation then demands $Z''=+(\\alpha/a)^2Z$: exponential growth or decay in $z$. The signs are chosen by the boundary conditions.",
+				"equations": [
+					"\\nabla^2u=u_{rr}+\\tfrac1ru_r+\\tfrac1{r^2}u_{\\phi\\phi}+u_{zz}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -1051,7 +1195,10 @@
 				"answer": 0.83166,
 				"tolerance": 0.02,
 				"unit": "cm",
-				"explanation": "$a/\\alpha_1=2.0/2.405\\approx0.83$ cm. Higher modes ($\\alpha_2=5.52$, ...) decay even faster, so far from the heated end only the lowest mode survives."
+				"explanation": "$a/\\alpha_1=2.0/2.405\\approx0.83$ cm. Higher modes ($\\alpha_2=5.52$, ...) decay even faster, so far from the heated end only the lowest mode survives.",
+				"equations": [
+					"L_{\\text{decay}}=\\frac{a}{\\alpha_1}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1069,7 +1216,10 @@
 				"kind": "short",
 				"prompt": "For Laplace's equation inside a finite cylinder with $u=0$ on the side, explain how the boundary conditions decide that the radial part is oscillatory ($J_0$) and the axial part is exponential or hyperbolic.",
 				"rubric": "Full credit requires: the homogeneous condition on the curved side forces $J_0(\\alpha r/a)$ with $\\alpha$ a zero of $J_0$, which fixes the separation constant; the axial equation then has the opposite sign, giving $\\sinh$ or $\\exp$ in $z$; regularity on the axis excludes $N_0$.",
-				"modelAnswer": "Requiring $u(a,z)=0$ for every $z$ makes the radial function vanish at $r=a$, so $R=J_0(\\alpha_nr/a)$ with $\\alpha_n$ a zero of $J_0$ (the regular solution on the axis). That fixes the separation constant, and Laplace's equation then gives $Z''=+(\\alpha_n/a)^2Z$, so $z$-dependence is hyperbolic or exponential, not oscillatory."
+				"modelAnswer": "Requiring $u(a,z)=0$ for every $z$ makes the radial function vanish at $r=a$, so $R=J_0(\\alpha_nr/a)$ with $\\alpha_n$ a zero of $J_0$ (the regular solution on the axis). That fixes the separation constant, and Laplace's equation then gives $Z''=+(\\alpha_n/a)^2Z$, so $z$-dependence is hyperbolic or exponential, not oscillatory.",
+				"equations": [
+					"\\nabla^2u=u_{rr}+\\tfrac1ru_r+\\tfrac1{r^2}u_{\\phi\\phi}+u_{zz}"
+				]
 			}
 		],
 		"m5-l033-cylinder-fourier-bessel": [
@@ -1078,7 +1228,10 @@
 				"prompt": "A cylinder of radius $a$ has its end cap held at constant $u=T_0$ (side at 0). The Fourier-Bessel coefficients are $A_n=\\dfrac{2T_0}{\\alpha_n J_1(\\alpha_n)}$, where $\\alpha_n$ are zeros of $J_0$. Find $A_1/T_0$ (using $\\alpha_1=2.4048$, $J_1(\\alpha_1)=0.5191$).",
 				"answer": 1.602,
 				"tolerance": 0.02,
-				"explanation": "$A_1/T_0=2/(2.4048\\times0.5191)\\approx1.602$. The coefficient exceeds 1 because the Bessel series for a constant needs alternating contributions of several modes to cancel at the edge."
+				"explanation": "$A_1/T_0=2/(2.4048\\times0.5191)\\approx1.602$. The coefficient exceeds 1 because the Bessel series for a constant needs alternating contributions of several modes to cancel at the edge.",
+				"equations": [
+					"A_n=\\frac{2T_0}{\\alpha_nJ_1(\\alpha_n)}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1105,7 +1258,10 @@
 				"prompt": "For a circular drum the mode frequencies are $\\omega_{mn}\\propto\\alpha_{mn}$ (zeros of $J_m$). Using $\\alpha_{01}=2.405$ and $\\alpha_{11}=3.832$, find the ratio $\\omega_{11}/\\omega_{01}$.",
 				"answer": 1.5933,
 				"tolerance": 0.02,
-				"explanation": "$3.832/2.405\\approx1.593$. A string's first overtone is exactly 2 times the fundamental; the drum's is not an integer multiple, so a drum sounds unpitched."
+				"explanation": "$3.832/2.405\\approx1.593$. A string's first overtone is exactly 2 times the fundamental; the drum's is not an integer multiple, so a drum sounds unpitched.",
+				"equations": [
+					"\\omega_{mn}=\\frac{v\\,\\alpha_{mn}}a"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -1113,7 +1269,10 @@
 				"answer": 153.1,
 				"tolerance": 0.02,
 				"unit": "Hz",
-				"explanation": "$f_{01}=100\\times2.405/(2\\pi\\times0.25)\\approx153$ Hz. Larger radius or slower waves give lower pitch, as for a string."
+				"explanation": "$f_{01}=100\\times2.405/(2\\pi\\times0.25)\\approx153$ Hz. Larger radius or slower waves give lower pitch, as for a string.",
+				"equations": [
+					"f_{01}=\\frac{v\\,\\alpha_{01}}{2\\pi a}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1158,7 +1317,10 @@
 				"prompt": "For a circular drum, $\\omega_{mn}\\propto\u0007lpha_{mn}$. Using $\u0007lpha_{01}=2.405$ and $\u0007lpha_{02}=5.520$, find the ratio $\\omega_{02}/\\omega_{01}$ of the first radial overtone to the fundamental (dimensionless). For a string it would be 2.",
 				"answer": 2.2952,
 				"tolerance": 0.02,
-				"explanation": "$\\omega_{02}/\\omega_{01}=5.520/2.405=2.295$. Because the Bessel zeros are not evenly spaced integers, drum overtones do not form a harmonic series, which is why a drum has a less definite pitch than a string."
+				"explanation": "$\\omega_{02}/\\omega_{01}=5.520/2.405=2.295$. Because the Bessel zeros are not evenly spaced integers, drum overtones do not form a harmonic series, which is why a drum has a less definite pitch than a string.",
+				"equations": [
+					"\\omega_{mn}=\\frac{v\\,\\alpha_{mn}}{a}"
+				]
 			}
 		],
 		"m5-l036-sphere-laplace-inside-outside": [
@@ -1180,7 +1342,10 @@
 				"answer": 1.25,
 				"tolerance": 0.02,
 				"unit": "V",
-				"explanation": "$V=10\\times\\tfrac14\\times\\cos60^\\circ=1.25$ V. A dipole ($l=1$) potential falls as $1/r^2$."
+				"explanation": "$V=10\\times\\tfrac14\\times\\cos60^\\circ=1.25$ V. A dipole ($l=1$) potential falls as $1/r^2$.",
+				"equations": [
+					"V(r,\\theta)=10\\left(\\frac ar\\right)^2\\cos\\theta"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -1188,13 +1353,19 @@
 				"answer": 12.0,
 				"tolerance": 0.02,
 				"unit": "V",
-				"explanation": "The average of $\\cos^2\\theta$ over a sphere is $1/3$, so the mean is $V_0(2+1)=3V_0=12$ V. This is the $l=0$ coefficient $A_0$: only the monopole part of the surface data matters at the centre."
+				"explanation": "The average of $\\cos^2\\theta$ over a sphere is $1/3$, so the mean is $V_0(2+1)=3V_0=12$ V. This is the $l=0$ coefficient $A_0$: only the monopole part of the surface data matters at the centre.",
+				"equations": [
+					"V_{\\text{centre}}=\\frac1{4\\pi}\\oint V\\,d\\Omega"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "A sphere has a specified potential $V(a,\\theta)$ on its surface. Explain step by step how Legendre-series matching at $r=a$ determines the potential everywhere inside and everywhere outside.",
 				"rubric": "Full credit requires: inside keep $r^l$ and outside keep $r^{-(l+1)}$ (regularity at the origin and at infinity); expand $V(a,\\theta)$ in $P_l(\\cos\\theta)$; match term by term, using orthogonality to extract the coefficients.",
-				"modelAnswer": "Inside, regularity at the origin allows only $A_lr^lP_l$; outside, vanishing at infinity allows only $B_lr^{-(l+1)}P_l$. Expand the surface data in Legendre polynomials, $V(a,\\theta)=\\sum c_lP_l(\\cos\\theta)$, then equate coefficients at $r=a$: $A_l=c_l/a^l$ inside and $B_l=c_la^{l+1}$ outside, with orthogonality used to compute each $c_l$."
+				"modelAnswer": "Inside, regularity at the origin allows only $A_lr^lP_l$; outside, vanishing at infinity allows only $B_lr^{-(l+1)}P_l$. Expand the surface data in Legendre polynomials, $V(a,\\theta)=\\sum c_lP_l(\\cos\\theta)$, then equate coefficients at $r=a$: $A_l=c_l/a^l$ inside and $B_l=c_la^{l+1}$ outside, with orthogonality used to compute each $c_l$.",
+				"equations": [
+					"u=\\sum_l\\left(A_lr^l+B_lr^{-l-1}\\right)P_l(\\cos\\theta)"
+				]
 			}
 		],
 		"m5-l037-poisson-sphere-multipoles": [
@@ -1234,7 +1405,10 @@
 				"answer": 0.2,
 				"tolerance": 0.02,
 				"unit": "V",
-				"explanation": "A dipole potential falls as $1/r^2$, so tripling the distance reduces it by a factor of 9: $1.8/9=0.2$ V. The monopole would fall only by a factor of 3."
+				"explanation": "A dipole potential falls as $1/r^2$, so tripling the distance reduces it by a factor of 9: $1.8/9=0.2$ V. The monopole would fall only by a factor of 3.",
+				"equations": [
+					"V(r,\\theta)=\\sum_l\\frac{B_l}{r^{l+1}}P_l(\\cos\\theta)"
+				]
 			}
 		],
 		"m5-l038-sturm-liouville-form-selfadjoint": [
@@ -1248,7 +1422,10 @@
 					"$w=e^{-x^2}$"
 				],
 				"answer": 3,
-				"explanation": "$e^{-x^2}(y''-2xy')=(e^{-x^2}y')'$, so the equation becomes $(e^{-x^2}y')'+2ne^{-x^2}y=0$ with $p=w=e^{-x^2}$. Eigenfunctions are orthogonal with that weight, as in $\\int H_mH_ne^{-x^2}dx=0$."
+				"explanation": "$e^{-x^2}(y''-2xy')=(e^{-x^2}y')'$, so the equation becomes $(e^{-x^2}y')'+2ne^{-x^2}y=0$ with $p=w=e^{-x^2}$. Eigenfunctions are orthogonal with that weight, as in $\\int H_mH_ne^{-x^2}dx=0$.",
+				"equations": [
+					"\\frac{d}{dx}\\!\\left(p\\frac{dy}{dx}\\right)+qy+\\lambda wy=0"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1275,7 +1452,10 @@
 				"prompt": "Eigenfunctions of $-y''=\\lambda y$ on $[0,\\pi]$ with $y(0)=y(\\pi)=0$ are $\\sin nx$ (weight 1). Expand $f(x)=x$ as $\\sum c_n\\sin nx$, with $c_n=\\frac{2}{\\pi}\\int_0^\\pi x\\sin nx\\,dx$. Find $c_3$.",
 				"answer": 0.66667,
 				"tolerance": 0.02,
-				"explanation": "$c_n=\\frac{2(-1)^{n+1}}{n}$, so $c_3=+2/3\\approx0.667$."
+				"explanation": "$c_n=\\frac{2(-1)^{n+1}}{n}$, so $c_3=+2/3\\approx0.667$.",
+				"equations": [
+					"c_n=\\frac2\\pi\\int_0^\\pi f(x)\\sin nx\\,dx"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1314,7 +1494,11 @@
 				"prompt": "For $-y''=f(x)$ on $[0,1]$ with $y(0)=y(1)=0$, the Green's function is $G(x,x')=x_<(1-x_>)$ (with $x_<=\\min(x,x')$, $x_>=\\max(x,x')$). For uniform $f=6$, evaluate $y(0.25)=\\int_0^1G(0.25,x')\\,f\\,dx'$.",
 				"answer": 0.5625,
 				"tolerance": 0.02,
-				"explanation": "The integral gives $y=3x(1-x)$, so $y(0.25)=3(0.25)(0.75)=0.5625$. (Check: $-y''=6$, $y(0)=y(1)=0$.)"
+				"explanation": "The integral gives $y=3x(1-x)$, so $y(0.25)=3(0.25)(0.75)=0.5625$. (Check: $-y''=6$, $y(0)=y(1)=0$.)",
+				"equations": [
+					"y(x)=\\int G(x,x')f(x')\\,dx'",
+					"G(x,x')=x_<(1-x_>)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1359,7 +1543,11 @@
 				"prompt": "For $-y''=f$ on $[0,\\pi]$ with $y(0)=y(\\pi)=0$, the eigenvalues are $\\lambda_n=n^2$ and $G=\\sum_n\\phi_n(x)\\phi_n(x')/\\lambda_n$. If a source overlaps modes $n=1$ and $n=3$ equally, what is the ratio of the response amplitude in mode 3 to that in mode 1 (dimensionless)?",
 				"answer": 0.1111,
 				"tolerance": 0.02,
-				"explanation": "Each mode responds with weight $1/\\lambda_n$ times its overlap. With equal overlaps the ratio is $\\lambda_1/\\lambda_3=1/9\\approx0.111$: low-$\\lambda$ modes dominate the response, and a mode with $\\lambda\\to0$ would blow up (resonance)."
+				"explanation": "Each mode responds with weight $1/\\lambda_n$ times its overlap. With equal overlaps the ratio is $\\lambda_1/\\lambda_3=1/9\\approx0.111$: low-$\\lambda$ modes dominate the response, and a mode with $\\lambda\\to0$ would blow up (resonance).",
+				"equations": [
+					"G(x,x')=\\sum_n\\frac{\\phi_n(x)\\phi_n(x')}{\\lambda_n}",
+					"\\lambda_n=n^2"
+				]
 			}
 		],
 		"m5-l042-freespace-green-multipole": [
@@ -1369,20 +1557,31 @@
 				"answer": 2.8799,
 				"tolerance": 0.02,
 				"unit": "V",
-				"explanation": "$e/(4\\pi\\varepsilon_0r)=1.44\\ \\mathrm{V\\,nm}/0.50\\ \\mathrm{nm}\\approx2.88$ V. (The handy number is $e^2/4\\pi\\varepsilon_0=1.44$ eV nm.)"
+				"explanation": "$e/(4\\pi\\varepsilon_0r)=1.44\\ \\mathrm{V\\,nm}/0.50\\ \\mathrm{nm}\\approx2.88$ V. (The handy number is $e^2/4\\pi\\varepsilon_0=1.44$ eV nm.)",
+				"equations": [
+					"G_0=-\\frac1{4\\pi|\\mathbf r-\\mathbf r'|}",
+					"\\varphi=-\\frac1{\\varepsilon_0}\\int G_0\\,\\rho\\,d^3r'",
+					"e=1.602\\times10^{-19}\\ \\text{C},\\ \\varepsilon_0=8.854\\times10^{-12}\\ \\text{F/m}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "For a charge at distance $r'=1$ from the origin on the $z$-axis, the potential at $r=3$ on the same axis is proportional to $1/|r-r'|=\\sum_l r'^l/r^{l+1}$ (since $P_l(1)=1$). Sum the first three terms ($l=0,1,2$) of the series (same units, dimensionless).",
 				"answer": 0.48148,
 				"tolerance": 0.01,
-				"explanation": "$\\tfrac13+\\tfrac19+\\tfrac1{27}=0.4815$, compared with the exact $1/(3-1)=0.5$. The terms fall by a factor $r'/r=1/3$ each, which is why a few multipoles suffice far from the source."
+				"explanation": "$\\tfrac13+\\tfrac19+\\tfrac1{27}=0.4815$, compared with the exact $1/(3-1)=0.5$. The terms fall by a factor $r'/r=1/3$ each, which is why a few multipoles suffice far from the source.",
+				"equations": [
+					"\\frac{1}{|\\mathbf r-\\mathbf r'|}=\\sum_l\\frac{r'^l}{r^{l+1}}P_l(\\cos\\gamma)"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Explain in words how the generating function of the Legendre polynomials gives the multipole expansion of the potential of a charge distribution, and which term dominates far away for a neutral molecule with a permanent dipole.",
 				"rubric": "Full credit requires: $1/|\\mathbf r-\\mathbf r'|=\\sum_l(r'^l/r^{l+1})P_l(\\cos\\gamma)$ for $r>r'$ is the generating function with $t=r'/r$; integrating over the charge distribution gives moments for each $l$; $l$-th term falls as $r^{-(l+1)}$; for a neutral molecule the monopole vanishes so the dipole ($1/r^2$) dominates.",
-				"modelAnswer": "Writing $t=r'/r$ in the generating function expands the Coulomb kernel $1/|\\mathbf r-\\mathbf r'|$ as a series in powers of $r'/r$ multiplying $P_l(\\cos\\gamma)$. Integrating against the charge density gives each multipole moment, with the $l$-th term falling as $r^{-(l+1)}$. A neutral molecule has no monopole term, so its permanent dipole ($1/r^2$) controls the far field."
+				"modelAnswer": "Writing $t=r'/r$ in the generating function expands the Coulomb kernel $1/|\\mathbf r-\\mathbf r'|$ as a series in powers of $r'/r$ multiplying $P_l(\\cos\\gamma)$. Integrating against the charge density gives each multipole moment, with the $l$-th term falling as $r^{-(l+1)}$. A neutral molecule has no monopole term, so its permanent dipole ($1/r^2$) controls the far field.",
+				"equations": [
+					"\\frac{1}{\\sqrt{1-2xt+t^2}}=\\sum_lP_l(x)t^l"
+				]
 			}
 		],
 		"m5-l043-images-greens-identity": [
@@ -1392,7 +1591,11 @@
 				"answer": 2.3071e-10,
 				"tolerance": 0.02,
 				"unit": "N",
-				"explanation": "The image is at distance $2d=1.0$ nm, so $F=e^2/[4\\pi\\varepsilon_0(2d)^2]=1.44\\ \\mathrm{eV\\,nm}/(1\\ \\mathrm{nm})^2=1.44$ eV/nm $\\approx2.3\\times10^{-10}$ N."
+				"explanation": "The image is at distance $2d=1.0$ nm, so $F=e^2/[4\\pi\\varepsilon_0(2d)^2]=1.44\\ \\mathrm{eV\\,nm}/(1\\ \\mathrm{nm})^2=1.44$ eV/nm $\\approx2.3\\times10^{-10}$ N.",
+				"equations": [
+					"F=\\frac{q_1q_2}{4\\pi\\varepsilon_0\\,r^2}",
+					"e=1.602\\times10^{-19}\\ \\text{C},\\ \\varepsilon_0=8.854\\times10^{-12}\\ \\text{F/m}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1443,7 +1646,10 @@
 				"prompt": "A unit amount of heat is released at $x=0$ on an infinite line, giving $u(x,t)=\\dfrac{1}{\\sqrt{4\\pi Dt}}e^{-x^2/4Dt}$. With $D=0.5$ and $t=2$ (consistent units), find $u(0,t)$.",
 				"answer": 0.28209,
 				"tolerance": 0.02,
-				"explanation": "$u(0,t)=1/\\sqrt{4\\pi\\cdot0.5\\cdot2}=1/\\sqrt{4\\pi}\\approx0.282$. The peak falls as $1/\\sqrt t$ while the width grows as $\\sqrt t$, keeping the area fixed."
+				"explanation": "$u(0,t)=1/\\sqrt{4\\pi\\cdot0.5\\cdot2}=1/\\sqrt{4\\pi}\\approx0.282$. The peak falls as $1/\\sqrt t$ while the width grows as $\\sqrt t$, keeping the area fixed.",
+				"equations": [
+					"u(x,t)=\\frac{1}{\\sqrt{4\\pi Dt}}\\,e^{-x^2/4Dt}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1502,7 +1708,10 @@
 				"prompt": "A cylinder of radius $R=1$ is cut along a vertical line and unrolled flat. Find the length of the shortest path on the surface from the point $(\\phi=0,z=0)$ to $(\\phi=\\pi,z=2)$, in the same length units.",
 				"answer": 3.7242,
 				"tolerance": 0.02,
-				"explanation": "Geodesics on a cylinder are straight lines on the unrolled sheet (a helix on the cylinder). The horizontal run is $\\pi R=\\pi$ and the vertical rise is 2, so the length is $\\sqrt{\\pi^2+4}\\approx3.723$."
+				"explanation": "Geodesics on a cylinder are straight lines on the unrolled sheet (a helix on the cylinder). The horizontal run is $\\pi R=\\pi$ and the vertical rise is 2, so the length is $\\sqrt{\\pi^2+4}\\approx3.723$.",
+				"equations": [
+					"s=\\sqrt{(R\\,\\Delta\\phi)^2+(\\Delta z)^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1518,7 +1727,11 @@
 				"answer": 0.18601,
 				"tolerance": 0.05,
 				"unit": "s",
-				"explanation": "Cycloid: $\\pi\\sqrt{1/9.81}\\approx1.003$ s. Straight ramp of length $\\sqrt{\\pi^2+4}=3.723$ m with constant acceleration $g\\sin\\alpha=g\\cdot2/3.723$: $t=\\sqrt{2L/a}\\approx1.189$ s. The straight line is about $0.186$ s slower: the shortest path is not the quickest."
+				"explanation": "Cycloid: $\\pi\\sqrt{1/9.81}\\approx1.003$ s. Straight ramp of length $\\sqrt{\\pi^2+4}=3.723$ m with constant acceleration $g\\sin\\alpha=g\\cdot2/3.723$: $t=\\sqrt{2L/a}\\approx1.189$ s. The straight line is about $0.186$ s slower: the shortest path is not the quickest.",
+				"equations": [
+					"v=\\sqrt{2g\\,y}",
+					"t=\\int\\frac{ds}{v}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1568,7 +1781,11 @@
 				"kind": "short",
 				"prompt": "In your own words, how does 'make the action stationary' lead to Newton's second law, and why is this formulation especially convenient for systems with constraints?",
 				"rubric": "Full credit requires: the action $S=\\int(T-V)dt$ is stationary for the true path; Euler-Lagrange equations from $\\partial L/\\partial q-\\frac{d}{dt}\\partial L/\\partial\\dot q=0$ reproduce $m\\ddot q=-\\partial V/\\partial q$ in Cartesian coordinates; the formulation uses scalar energies in any coordinates, so constraints are built into the choice of coordinates and constraint forces never appear.",
-				"modelAnswer": "Requiring $S=\\int(T-V)\\,dt$ to be stationary gives the Euler-Lagrange equations, which for Cartesian coordinates reduce to $m\\ddot x=-\\partial V/\\partial x$, Newton's second law. Because the equations hold in any coordinates and involve only scalar energies, we can pick coordinates that respect the constraints; the unknown constraint forces then never enter."
+				"modelAnswer": "Requiring $S=\\int(T-V)\\,dt$ to be stationary gives the Euler-Lagrange equations, which for Cartesian coordinates reduce to $m\\ddot x=-\\partial V/\\partial x$, Newton's second law. Because the equations hold in any coordinates and involve only scalar energies, we can pick coordinates that respect the constraints; the unknown constraint forces then never enter.",
+				"equations": [
+					"S=\\int L\\,dt",
+					"L=T-V"
+				]
 			}
 		],
 		"m5-l049-isoperimetric-multipliers": [
@@ -1578,7 +1795,11 @@
 				"answer": 31.831,
 				"tolerance": 0.02,
 				"unit": "cm^2",
-				"explanation": "A circle with circumference 20 has radius $20/(2\\pi)$, area $=P^2/(4\\pi)=400/(4\\pi)\\approx31.8$ cm$^2$. (The Lagrange multiplier turns out to be the radius.)"
+				"explanation": "A circle with circumference 20 has radius $20/(2\\pi)$, area $=P^2/(4\\pi)=400/(4\\pi)\\approx31.8$ cm$^2$. (The Lagrange multiplier turns out to be the radius.)",
+				"equations": [
+					"P=2\\pi r",
+					"A=\\pi r^2"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1622,13 +1843,20 @@
 					"$\\mathcal L=\\tfrac12\\rho u_t^2-\\tau u_x$"
 				],
 				"answer": 2,
-				"explanation": "Kinetic minus potential (stretching) energy density. The E-L equation $-\\partial_t(\\rho u_t)+\\partial_x(\\tau u_x)=0$ gives $\\rho u_{tt}=\\tau u_{xx}$. With a plus sign you would get $\\rho u_{tt}=-\\tau u_{xx}$, an elliptic (non-wave) equation."
+				"explanation": "Kinetic minus potential (stretching) energy density. The E-L equation $-\\partial_t(\\rho u_t)+\\partial_x(\\tau u_x)=0$ gives $\\rho u_{tt}=\\tau u_{xx}$. With a plus sign you would get $\\rho u_{tt}=-\\tau u_{xx}$, an elliptic (non-wave) equation.",
+				"equations": [
+					"\\frac{\\partial\\mathcal L}{\\partial u}-\\partial_t\\frac{\\partial\\mathcal L}{\\partial u_t}-\\partial_x\\frac{\\partial\\mathcal L}{\\partial u_x}=0"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Explain qualitatively how Fermat's principle of stationary travel time explains why light bends toward the normal when it enters a slower medium (use the lifeguard analogy if you like).",
 				"rubric": "Full credit requires: light takes the path of stationary (least) time; spending more of the path in the fast medium and less in the slow one reduces total time, so the ray bends at the interface toward the normal in the slow medium; this is Snell's law $n_1\\sin\\theta_1=n_2\\sin\\theta_2$.",
-				"modelAnswer": "The path of least time trades distance for speed: since light is slower in the denser medium, it is worth taking a longer route in the fast medium to shorten the distance travelled in the slow one. The optimum kinks at the interface so that the ray lies closer to the normal in the slow medium, which is exactly Snell's law $n_1\\sin\\theta_1=n_2\\sin\\theta_2$."
+				"modelAnswer": "The path of least time trades distance for speed: since light is slower in the denser medium, it is worth taking a longer route in the fast medium to shorten the distance travelled in the slow one. The optimum kinks at the interface so that the ray lies closer to the normal in the slow medium, which is exactly Snell's law $n_1\\sin\\theta_1=n_2\\sin\\theta_2$.",
+				"equations": [
+					"n=\\frac cv",
+					"t=\\int\\frac{ds}{v}"
+				]
 			}
 		],
 		"m5-l051-variational-principle-qm": [
@@ -1638,7 +1866,10 @@
 				"answer": -11.549,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$-4/(3\\pi)=-0.4244$ hartree $\\approx-11.55$ eV. The exact ground-state energy is $-13.6$ eV; the variational value lies above it, as it must."
+				"explanation": "$-4/(3\\pi)=-0.4244$ hartree $\\approx-11.55$ eV. The exact ground-state energy is $-13.6$ eV; the variational value lies above it, as it must.",
+				"equations": [
+					"1\\ \\text{hartree}=27.211\\ \\text{eV}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1656,7 +1887,10 @@
 				"kind": "short",
 				"prompt": "Explain why the Rayleigh-Ritz variational energy is always an upper bound to the true ground-state energy, and how this idea is used in Hartree-Fock theory.",
 				"rubric": "Full credit requires: expanding any trial state in energy eigenstates, $\\langle H\\rangle=\\sum|c_n|^2E_n\\ge E_0\\sum|c_n|^2$; so any trial function gives an energy at least $E_0$, with equality only for the ground state; one minimises over parameters to get the best approximation; Hartree-Fock minimises the energy over single-determinant trial wavefunctions.",
-				"modelAnswer": "Any trial state can be written as a superposition of true eigenstates, so its normalised energy $\\sum|c_n|^2E_n$ is a weighted average of energies none of which is below $E_0$, hence $\\ge E_0$. Lowering the energy by adjusting parameters therefore always moves us closer to the ground state. Hartree-Fock applies exactly this, minimising $\\langle H\\rangle$ over all single Slater-determinant wavefunctions."
+				"modelAnswer": "Any trial state can be written as a superposition of true eigenstates, so its normalised energy $\\sum|c_n|^2E_n$ is a weighted average of energies none of which is below $E_0$, hence $\\ge E_0$. Lowering the energy by adjusting parameters therefore always moves us closer to the ground state. Hartree-Fock applies exactly this, minimising $\\langle H\\rangle$ over all single Slater-determinant wavefunctions.",
+				"equations": [
+					"\\psi=\\sum_nc_n\\phi_n,\\quad H\\phi_n=E_n\\phi_n"
+				]
 			}
 		],
 		"m5-l052-summation-convention-delta-epsilon": [
@@ -1665,14 +1899,21 @@
 				"prompt": "Evaluate $\\epsilon_{ijk}\\epsilon_{ijk}$ in three dimensions (sum over all three indices).",
 				"answer": 6.0,
 				"tolerance": 0.02,
-				"explanation": "Using $\\epsilon_{ijk}\\epsilon_{ilm}=\\delta_{jl}\\delta_{km}-\\delta_{jm}\\delta_{kl}$, contracting gives $\\epsilon_{ijk}\\epsilon_{ijk}=\\delta_{jj}\\delta_{kk}-\\delta_{jk}\\delta_{kj}=9-3=6$ (the six permutations of 123, each contributing $(\\pm1)^2$)."
+				"explanation": "Using $\\epsilon_{ijk}\\epsilon_{ilm}=\\delta_{jl}\\delta_{km}-\\delta_{jm}\\delta_{kl}$, contracting gives $\\epsilon_{ijk}\\epsilon_{ijk}=\\delta_{jj}\\delta_{kk}-\\delta_{jk}\\delta_{kj}=9-3=6$ (the six permutations of 123, each contributing $(\\pm1)^2$).",
+				"equations": [
+					"\\epsilon_{ijk}\\epsilon_{ilm}=\\delta_{jl}\\delta_{km}-\\delta_{jm}\\delta_{kl}",
+					"\\delta_{ii}=3"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The determinant of a $3\\times3$ matrix is $\\det M=\\epsilon_{ijk}M_{1i}M_{2j}M_{3k}$. Compute it for the rows $(1,2,0)$, $(0,1,3)$, $(4,0,1)$.",
 				"answer": 25.0,
 				"tolerance": 0.02,
-				"explanation": "$\\det M=1(1\\cdot1-3\\cdot0)-2(0\\cdot1-3\\cdot4)+0=1+24=25$."
+				"explanation": "$\\det M=1(1\\cdot1-3\\cdot0)-2(0\\cdot1-3\\cdot4)+0=1+24=25$.",
+				"equations": [
+					"\\det M=\\epsilon_{ijk}M_{1i}M_{2j}M_{3k}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1711,7 +1952,10 @@
 				"prompt": "Using $\\mathbf A\\cdot(\\mathbf B\\times\\mathbf C)=\\epsilon_{ijk}A_iB_jC_k$ (the determinant of the rows), evaluate it for $\\mathbf A=(1,2,3)$, $\\mathbf B=(0,1,4)$, $\\mathbf C=(5,6,0)$ (dimensionless).",
 				"answer": 1.0,
 				"tolerance": 0.02,
-				"explanation": "The triple product is the determinant $\\begin{vmatrix}1&2&3\\\\0&1&4\\\\5&6&0\\end{vmatrix}=1(0-24)-2(0-20)+3(0-5)=1$, the signed volume of the parallelepiped."
+				"explanation": "The triple product is the determinant $\\begin{vmatrix}1&2&3\\\\0&1&4\\\\5&6&0\\end{vmatrix}=1(0-24)-2(0-20)+3(0-5)=1$, the signed volume of the parallelepiped.",
+				"equations": [
+					"\\mathbf A\\cdot(\\mathbf B\\times\\mathbf C)=\\epsilon_{ijk}A_iB_jC_k"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1723,7 +1967,10 @@
 					"$C_i(\\mathbf A\\cdot\\mathbf C)-B_i(\\mathbf A\\cdot\\mathbf B)$"
 				],
 				"answer": 1,
-				"explanation": "$\\epsilon_{kij}\\epsilon_{klm}=\\delta_{il}\\delta_{jm}-\\delta_{im}\\delta_{jl}$ gives $A_jB_iC_j-A_jB_jC_i$, which is $B_i(\\mathbf A\\cdot\\mathbf C)-C_i(\\mathbf A\\cdot\\mathbf B)$: the BAC-CAB rule."
+				"explanation": "$\\epsilon_{kij}\\epsilon_{klm}=\\delta_{il}\\delta_{jm}-\\delta_{im}\\delta_{jl}$ gives $A_jB_iC_j-A_jB_jC_i$, which is $B_i(\\mathbf A\\cdot\\mathbf C)-C_i(\\mathbf A\\cdot\\mathbf B)$: the BAC-CAB rule.",
+				"equations": [
+					"\\epsilon_{ijk}\\epsilon_{ilm}=\\delta_{jl}\\delta_{km}-\\delta_{jm}\\delta_{kl}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1750,7 +1997,11 @@
 				"prompt": "A rank-2 tensor has components $T=\\begin{pmatrix}5&1&0\\\\1&2&0\\\\0&0&1\\end{pmatrix}$ in the lab frame. The axes are rotated by $90^\\circ$ about $z$. Using $T'_{ij}=R_{ia}R_{jb}T_{ab}$, find the new component $T'_{xx}$ (same units).",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "A $90^\\circ$ rotation about $z$ maps the new $x'$ axis onto the old $\\pm y$ axis, so $T'_{xx}=R_{xa}R_{xb}T_{ab}=T_{yy}=2$. The sign of the axis cancels because it enters twice."
+				"explanation": "A $90^\\circ$ rotation about $z$ maps the new $x'$ axis onto the old $\\pm y$ axis, so $T'_{xx}=R_{xa}R_{xb}T_{ab}=T_{yy}=2$. The sign of the axis cancels because it enters twice.",
+				"equations": [
+					"T'_{ij}=R_{ia}R_{jb}T_{ab}",
+					"R_z(\\theta)=\\begin{pmatrix}\\cos\\theta&\\sin\\theta&0\\-\\sin\\theta&\\cos\\theta&0\\0&0&1\\end{pmatrix}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1762,7 +2013,10 @@
 					"The largest diagonal element"
 				],
 				"answer": 0,
-				"explanation": "Contracting the two indices with $\\delta_{ij}$ gives a scalar: $T'_{ii}=R_{ia}R_{ib}T_{ab}=\\delta_{ab}T_{ab}=T_{aa}$. Individual elements mix under rotation, which is why a diagonal element is frame-dependent."
+				"explanation": "Contracting the two indices with $\\delta_{ij}$ gives a scalar: $T'_{ii}=R_{ia}R_{ib}T_{ab}=\\delta_{ab}T_{ab}=T_{aa}$. Individual elements mix under rotation, which is why a diagonal element is frame-dependent.",
+				"equations": [
+					"T'_{ij}=R_{ia}R_{jb}T_{ab}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1790,7 +2044,10 @@
 				"answer": 7.0,
 				"tolerance": 0.02,
 				"unit": "A^3",
-				"explanation": "The $xy$ block has eigenvalues $\\frac{9\\pm\\sqrt{9+16}}{2}=7$ and $2$; the $z$ value is 4. Principal values: 2, 4, 7 Å$^3$. Along the principal axes the induced dipole is parallel to the field."
+				"explanation": "The $xy$ block has eigenvalues $\\frac{9\\pm\\sqrt{9+16}}{2}=7$ and $2$; the $z$ value is 4. Principal values: 2, 4, 7 Å$^3$. Along the principal axes the induced dipole is parallel to the field.",
+				"equations": [
+					"\\det(\\alpha-\\lambda I)=0"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1817,7 +2074,10 @@
 				"prompt": "In plane polar coordinates the line element is $ds^2=dr^2+r^2d\\phi^2$. A particle at $r=3$ moves by $dr=0.1$ and $d\\phi=0.2$ rad. Find the length $ds$ of the small displacement.",
 				"answer": 0.60828,
 				"tolerance": 0.02,
-				"explanation": "$ds=\\sqrt{0.01+9\\times0.04}=\\sqrt{0.37}\\approx0.608$. The metric component $g_{\\phi\\phi}=r^2$ converts angle to length."
+				"explanation": "$ds=\\sqrt{0.01+9\\times0.04}=\\sqrt{0.37}\\approx0.608$. The metric component $g_{\\phi\\phi}=r^2$ converts angle to length.",
+				"equations": [
+					"ds^2=dr^2+r^2d\\phi^2"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1836,7 +2096,10 @@
 				"prompt": "In spherical coordinates $ds^2=dr^2+r^2d\\theta^2+r^2\\sin^2\\theta\\,d\\phi^2$. At $r=2$, $\\theta=\\pi/6$, a particle moves by $dr=0$, $d\\theta=0.1$ rad and $d\\phi=0.1$ rad. Find the length $ds$ of the displacement.",
 				"answer": 0.22361,
 				"tolerance": 0.02,
-				"explanation": "$ds^2=(2)^2(0.1)^2+(2)^2(\\tfrac12)^2(0.1)^2=0.04+0.01=0.05$, so $ds=0.2236$. The metric components $g_{\\theta\\theta}=r^2$ and $g_{\\phi\\phi}=r^2\\sin^2\\theta$ convert coordinate changes into lengths."
+				"explanation": "$ds^2=(2)^2(0.1)^2+(2)^2(\\tfrac12)^2(0.1)^2=0.04+0.01=0.05$, so $ds=0.2236$. The metric components $g_{\\theta\\theta}=r^2$ and $g_{\\phi\\phi}=r^2\\sin^2\\theta$ convert coordinate changes into lengths.",
+				"equations": [
+					"ds^2=dr^2+r^2d\\theta^2+r^2\\sin^2\\theta\\,d\\phi^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -1851,7 +2114,10 @@
 				"prompt": "For polar coordinates the metric is $g=\\mathrm{diag}(1,r^2)$. Using $\\Gamma^k_{ij}=\\tfrac12g^{kl}(\\partial_ig_{jl}+\\partial_jg_{il}-\\partial_lg_{ij})$, evaluate $\\Gamma^r_{\\phi\\phi}$ at $r=2.5$.",
 				"answer": -2.5,
 				"tolerance": 0.02,
-				"explanation": "Only $l=r$ contributes: $\\Gamma^r_{\\phi\\phi}=-\\tfrac12g^{rr}\\partial_rg_{\\phi\\phi}=-\\tfrac12(1)(2r)=-r=-2.5$. (Also $\\Gamma^\\phi_{r\\phi}=1/r$.)"
+				"explanation": "Only $l=r$ contributes: $\\Gamma^r_{\\phi\\phi}=-\\tfrac12g^{rr}\\partial_rg_{\\phi\\phi}=-\\tfrac12(1)(2r)=-r=-2.5$. (Also $\\Gamma^\\phi_{r\\phi}=1/r$.)",
+				"equations": [
+					"\\Gamma^k_{ij}=\\tfrac12g^{kl}(\\partial_ig_{jl}+\\partial_jg_{il}-\\partial_lg_{ij})"
+				]
 			},
 			{
 				"kind": "mc",

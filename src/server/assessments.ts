@@ -30,8 +30,9 @@ export interface ProgramTask {
 	startedAt: string;
 }
 
-const g = globalThis as unknown as { __lhProgramTasks?: Map<string, ProgramTask> };
+const g = globalThis as unknown as { __lhProgramTasks?: Map<string, ProgramTask>; __lhProgramTaskRuns?: Map<string, Promise<void>> };
 const tasks = (g.__lhProgramTasks ??= new Map());
+const runs = (g.__lhProgramTaskRuns ??= new Map());
 
 export function programTasks(): ProgramTask[] {
 	return [...tasks.values()].filter((t) => t.status === "running" || Date.now() - Date.parse(t.startedAt) < 10 * 60_000);
@@ -41,13 +42,15 @@ export function taskStatus(id: string): ProgramTask | null {
 	return tasks.get(id) ?? null;
 }
 
-/** Run `fn` once per id (a second call while running joins the first). */
-export function runTask(id: string, label: string, fn: () => Promise<void>): void {
-	if (tasks.get(id)?.status === "running") return;
+/** Run `fn` once per id (a second call while running joins the first).
+ *  The promise settles when the task does and never rejects: the outcome
+ *  is on the task (taskStatus). */
+export function runTask(id: string, label: string, fn: () => Promise<void>): Promise<void> {
+	if (tasks.get(id)?.status === "running") return runs.get(id) ?? Promise.resolve();
 	const t: ProgramTask = { id, label, status: "running", startedAt: new Date().toISOString() };
 	tasks.set(id, t);
 	emit("curriculum-changed", {});
-	void fn()
+	const run = fn()
 		.then(() => {
 			t.status = "done";
 		})
@@ -55,7 +58,12 @@ export function runTask(id: string, label: string, fn: () => Promise<void>): voi
 			t.status = "error";
 			t.error = err instanceof Error ? err.message : String(err);
 		})
-		.finally(() => emit("curriculum-changed", {}));
+		.finally(() => {
+			runs.delete(id);
+			emit("curriculum-changed", {});
+		});
+	runs.set(id, run);
+	return run;
 }
 
 export function writerDeps(role: ModelRole, withBooks: boolean): WriterDeps {
@@ -76,10 +84,11 @@ function lessonContext(lesson: Lesson): string {
 // ─── Quick checks ───────────────────────────────────────────────────────────
 
 /** Public view: answers/rubrics stripped. */
-export type PublicCheckQuestion =
+export type PublicCheckQuestion = (
 	| { kind: "mc"; prompt: string; options: string[] }
 	| { kind: "numeric"; prompt: string; unit?: string }
-	| { kind: "short"; prompt: string };
+	| { kind: "short"; prompt: string }
+) & { equations?: string[] };
 
 /** The lesson's quick check: authored (shipped with the curriculum) first,
  *  else a generated one from the cache. */
@@ -89,14 +98,21 @@ function readQuickCheck(lessonId: string): QuickCheck | null {
 	return stores.curriculumStore.readCache<QuickCheck>("quizzes", lessonId);
 }
 
-export function quickCheckView(lessonId: string): { status: "ready"; questions: PublicCheckQuestion[] } | { status: "generating" | "missing" | "error"; error?: string } {
+export function quickCheckView(
+	lessonId: string,
+): { status: "ready"; questions: PublicCheckQuestion[]; sheet: string[] } | { status: "generating" | "missing" | "error"; error?: string } {
 	const cached = readQuickCheck(lessonId);
 	if (cached)
 		return {
 			status: "ready",
-			questions: cached.questions.map((q) =>
-				q.kind === "mc" ? { kind: "mc", prompt: q.prompt, options: q.options } : q.kind === "numeric" ? { kind: "numeric", prompt: q.prompt, unit: q.unit } : { kind: "short", prompt: q.prompt },
-			),
+			/** The lesson's key equations: the quiz's equation sheet. */
+			sheet: programIndex().lessons.get(lessonId)?.lesson.keyEquations ?? [],
+			questions: cached.questions.map((q): PublicCheckQuestion => {
+				const equations = q.equations?.length ? { equations: q.equations } : {};
+				if (q.kind === "mc") return { kind: "mc", prompt: q.prompt, options: q.options, ...equations };
+				if (q.kind === "numeric") return { kind: "numeric", prompt: q.prompt, unit: q.unit, ...equations };
+				return { kind: "short", prompt: q.prompt, ...equations };
+			}),
 		};
 	const t = taskStatus(`check:${lessonId}`);
 	if (t?.status === "running") return { status: "generating" };
@@ -351,10 +367,21 @@ function grade(id: string): void {
 }
 
 /** The learner's view: hides rubrics/solutions until graded. */
+/** The formula sheet for an assessment: each covered lesson's key equations. */
+function equationSheet(a: Assessment): { title: string; equations: string[] }[] {
+	const units = new Set(a.unitIds);
+	const index = programIndex();
+	return index.lessonOrder
+		.map((id) => index.lessons.get(id)!)
+		.filter((ref) => units.has(ref.unit.id) && ref.lesson.keyEquations.length > 0)
+		.map((ref) => ({ title: ref.lesson.title, equations: ref.lesson.keyEquations }));
+}
+
 export function assessmentView(a: Assessment) {
 	const graded = a.status === "graded";
 	return {
 		...a,
+		sheet: equationSheet(a),
 		problems: a.problems.map((p) => (graded ? p : { ...p, rubric: [], solution: "" })),
 		task: taskStatus(`assess:${a.id}`) ?? taskStatus(`grade:${a.id}`),
 	};

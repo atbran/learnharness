@@ -20,7 +20,11 @@
 				"answer": 0.0954,
 				"tolerance": 0.05,
 				"explanation": "n_total = P/kT = 101 325/(1.381e-23 × 7000) = 1.05×10^24 m^-3, so the fraction is 10^21/1.05×10^24 = 9.5×10^-4, i.e. 0.095 percent.",
-				"unit": "%"
+				"unit": "%",
+				"equations": [
+					"n_{gas}=P/(k_BT)",
+					"k_B=1.381\\times10^{-23}\\ \\text{J K}^{-1}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -48,14 +52,20 @@
 				"answer": 195,
 				"tolerance": 0.03,
 				"explanation": "λ_D = √(8.854e-12 × 1.381e-23 × 8000 /(1e21 × (1.602e-19)²)) = 1.95×10^-7 m ≈ 195 nm, tiny compared with a torch of ~18 mm.",
-				"unit": "nm"
+				"unit": "nm",
+				"equations": [
+					"\\lambda_D=\\sqrt{\\dfrac{\\varepsilon_0k_BT_e}{n_ee^2}}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "For the same plasma (λ_D = 195 nm, n_e = 10^21 m^-3), how many electrons lie in a Debye sphere, N_D = (4π/3) n λ_D³?",
 				"answer": 31.1,
 				"tolerance": 0.05,
-				"explanation": "N_D = 4.19 × 10^21 × (1.95×10^-7)³ ≈ 31. A few tens of particles is enough for collective screening, so the plasma is only weakly coupled."
+				"explanation": "N_D = 4.19 × 10^21 × (1.95×10^-7)³ ≈ 31. A few tens of particles is enough for collective screening, so the plasma is only weakly coupled.",
+				"equations": [
+					"N_D=\\tfrac43\\pi n\\lambda_D^3"
+				]
 			},
 			{
 				"kind": "mc",
@@ -83,7 +93,10 @@
 				"answer": 284,
 				"tolerance": 0.03,
 				"explanation": "f_p = 8.98 × √(10^21) = 8.98 × 3.16×10^10 = 2.84×10^11 Hz = 284 GHz.",
-				"unit": "GHz"
+				"unit": "GHz",
+				"equations": [
+					"f_p\\approx 8.98\\sqrt{n_e[\\mathrm{m^{-3}}]}\\ \\mathrm{Hz}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -123,14 +136,21 @@
 				"answer": 9.54,
 				"tolerance": 0.03,
 				"explanation": "λ = 1/(1.05×10^24 × 10^-19) = 9.5×10^-6 m, about 10 µm, a thousandth of the torch's diameter.",
-				"unit": "µm"
+				"unit": "µm",
+				"equations": [
+					"\\lambda_{mfp}=\\dfrac{1}{n_0\\sigma}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Electrons with mean speed 5.56×10^5 m/s and λ = 9.54 µm collide at ν = v/λ. How many collisions occur per cycle of the 27.12 MHz RF field?",
 				"answer": 2148,
 				"tolerance": 0.03,
-				"explanation": "ν = 5.56×10^5/9.54×10^-6 = 5.83×10^10 s^-1, and ν/f = 5.83×10^10/2.712×10^7 ≈ 2150 collisions per RF cycle."
+				"explanation": "ν = 5.56×10^5/9.54×10^-6 = 5.83×10^10 s^-1, and ν/f = 5.83×10^10/2.712×10^7 ≈ 2150 collisions per RF cycle.",
+				"equations": [
+					"\\nu=\\dfrac{\\bar v_e}{\\lambda_{mfp}}",
+					"N_{cycle}=\\nu/f_{RF}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -158,7 +178,10 @@
 				"answer": 29.3,
 				"tolerance": 0.05,
 				"explanation": "kT = 0.646 eV, so exp(-9.79/0.646) = 2.6×10^-7. Then r = 1.57×10^6 × 2.6×10^-7 = 0.414, and the ionised fraction r/(1+r) = 29 percent.",
-				"unit": "%"
+				"unit": "%",
+				"equations": [
+					"\\dfrac{n_i}{n_0}\\approx\\dfrac{1}{n_e}\\left(\\dfrac{2\\pi m_ek_BT}{h^2}\\right)^{3/2}e^{-E_i/k_BT}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -197,7 +220,10 @@
 				"prompt": "Two energy levels with equal statistical weights are 3.0 eV apart. At an excitation temperature of 7500 K (kT = 0.646 eV), what is N_upper/N_lower?",
 				"answer": 0.00964,
 				"tolerance": 0.03,
-				"explanation": "exp(-3.0/0.646) = exp(-4.64) = 9.6×10^-3: even at ICP temperatures only about 1 percent of atoms sit in a state 3 eV above the ground state."
+				"explanation": "exp(-3.0/0.646) = exp(-4.64) = 9.6×10^-3: even at ICP temperatures only about 1 percent of atoms sit in a state 3 eV above the ground state.",
+				"equations": [
+					"\\dfrac{N_2}{N_1}=\\dfrac{g_2}{g_1}e^{-\\Delta E/k_BT_{exc}}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -221,7 +247,10 @@
 					"The species concentration is too high, which always produces a curve in the plot of the line intensities"
 				],
 				"answer": 1,
-				"explanation": "A single temperature gives a straight line. Curvature signals over- or under-populated levels, i.e. non-LTE (or self-absorption/measurement problems)."
+				"explanation": "A single temperature gives a straight line. Curvature signals over- or under-populated levels, i.e. non-LTE (or self-absorption/measurement problems).",
+				"equations": [
+					"\\ln\\!\\left(\\dfrac{I\\lambda}{gA}\\right)=-\\dfrac{E_u}{k_BT_{exc}}+C"
+				]
 			},
 			{
 				"kind": "short",
@@ -237,7 +266,10 @@
 				"answer": 3.06,
 				"tolerance": 0.03,
 				"explanation": "π f μ0 σ = π × 27.12×10^6 × 1.2566×10^-6 × 1000 = 1.07×10^5, so δ = 1/327 m = 3.06 mm, a sizeable fraction of the torch radius.",
-				"unit": "mm"
+				"unit": "mm",
+				"equations": [
+					"\\delta=\\sqrt{\\dfrac{2}{\\omega\\mu_0\\sigma}}=\\dfrac{1}{\\sqrt{\\pi f\\mu_0\\sigma}}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -277,7 +309,10 @@
 				"answer": 20.1,
 				"tolerance": 0.03,
 				"explanation": "At constant pressure V ∝ T, so V = 1.0 × 6000/298 = 20.1 L/min. The gas speeds up about twentyfold, so residence time in the hot region is only milliseconds.",
-				"unit": "L/min"
+				"unit": "L/min",
+				"equations": [
+					"V_2/V_1=T_2/T_1\\ (\\text{constant }P)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -317,7 +352,11 @@
 				"answer": 3590000000.0,
 				"tolerance": 0.05,
 				"explanation": "Delivered liquid = 0.02 mL/min = 2×10^-5 L/min; Fe mass = 2×10^-5 µg/min = 3.3×10^-13 g/s; atoms = 3.3×10^-13/55.85 × 6.022×10^23 = 3.6×10^9 atoms/s.",
-				"unit": "atoms/s"
+				"unit": "atoms/s",
+				"equations": [
+					"\\dot N=\\dfrac{c\\,\\dot V_{up}\\,\\varepsilon}{M}N_A",
+					"N_A=6.022\\times10^{23}\\ \\text{mol}^{-1}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -357,7 +396,10 @@
 				"answer": 11.7,
 				"tolerance": 0.05,
 				"explanation": "√(760/2.5) = 17.4, so x_M = 0.67 × 1.0 × 17.4 = 11.7 mm. The skimmer tip sits a few mm from the sampler, well inside the zone of silence.",
-				"unit": "mm"
+				"unit": "mm",
+				"equations": [
+					"x_M\\approx 0.67\\,d\\sqrt{P_0/P_1}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -397,7 +439,11 @@
 				"answer": 1390,
 				"tolerance": 0.03,
 				"explanation": "c_s = √(0.8 × 1.602×10^-19/(39.95 × 1.661×10^-27)) = √(1.93×10^6) = 1390 m/s: ions enter the sheath at about a kilometre per second.",
-				"unit": "m/s"
+				"unit": "m/s",
+				"equations": [
+					"c_s=\\sqrt{k_BT_e/M}",
+					"1\\ \\text{u}=1.661\\times10^{-27}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -437,7 +483,10 @@
 				"answer": 50.0,
 				"tolerance": 0.02,
 				"explanation": "Corrected = raw / (fractional IS recovery) = 41.0 / 0.82 = 50.0 µg/L.",
-				"unit": "µg/L"
+				"unit": "µg/L",
+				"equations": [
+					"c_{corr}=c_{raw}\\,\\dfrac{I_{IS,cal}}{I_{IS,sample}}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -477,7 +526,11 @@
 				"answer": 582,
 				"tolerance": 0.03,
 				"explanation": "V = q m r0² Ω²/(4e) = 0.706 × 9.30×10^-26 kg × (4×10^-3)² × (1.885×10^7)²/(4 × 1.602×10^-19) = 582 V. The DC voltage at the apex is U ≈ 0.168 V ≈ 98 V.",
-				"unit": "V"
+				"unit": "V",
+				"equations": [
+					"a=\\dfrac{8eU}{mr_0^2\\Omega^2},\\quad q=\\dfrac{4eV}{mr_0^2\\Omega^2}",
+					"e=1.602\\times10^{-19}\\ \\text{C},\\quad 1\\ \\text{u}=1.661\\times10^{-27}\\ \\text{kg}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -516,14 +569,20 @@
 				"prompt": "Exact masses: 40Ar 39.96238, 16O 15.99491, 56Fe 55.93494 u. What resolving power R = m/Δm is needed to separate 56Fe+ from 40Ar16O+? (Give R to the nearest unit.)",
 				"answer": 2503,
 				"tolerance": 0.03,
-				"explanation": "m(ArO) = 55.95729, Δm = 0.02235 u, so R = 55.93494/0.02235 = 2503, far beyond a unit-resolution quadrupole (R of a few hundred) but within reach of a sector-field instrument."
+				"explanation": "m(ArO) = 55.95729, Δm = 0.02235 u, so R = 55.93494/0.02235 = 2503, far beyond a unit-resolution quadrupole (R of a few hundred) but within reach of a sector-field instrument.",
+				"equations": [
+					"R=\\dfrac{m}{\\Delta m}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Exact masses: 40Ar 39.96238, 35Cl 34.96885, 75As 74.92159 u. What resolving power is needed to separate 75As+ from 40Ar35Cl+?",
 				"answer": 7772,
 				"tolerance": 0.03,
-				"explanation": "m(ArCl) = 74.93123, Δm = 0.00964 u, so R = 74.92159/0.00964 = 7772, which is why As is classically hard in chloride matrices."
+				"explanation": "m(ArCl) = 74.93123, Δm = 0.00964 u, so R = 74.92159/0.00964 = 7772, which is why As is classically hard in chloride matrices.",
+				"equations": [
+					"R=\\dfrac{m}{\\Delta m}"
+				]
 			},
 			{
 				"kind": "mc",

@@ -32,7 +32,10 @@
 				"answer": 0.01866,
 				"tolerance": 0.02,
 				"explanation": "Charge Q = It = 0.250 A × 7200 s = 1800 C, and n = Q/F = 1800/96485 = 0.0187 mol of electrons. For a 2-electron process that would deposit about half this many moles of metal.",
-				"unit": "mol"
+				"unit": "mol",
+				"equations": [
+					"n_e=\\frac{It}{F},\\quad F=96485\\ \\mathrm{C\\,mol^{-1}}"
+				]
 			},
 			{
 				"kind": "short",
@@ -64,7 +67,10 @@
 					"0 W net: the current in and the chemical current out cancel, so no energy is exchanged while the battery is being charged"
 				],
 				"answer": 1,
-				"explanation": "With the passive sign convention, current entering the + terminal means the device absorbs P = IV = +24 W. The same battery supplies power when current leaves its + terminal. Charging stores this energy as chemical free energy."
+				"explanation": "With the passive sign convention, current entering the + terminal means the device absorbs P = IV = +24 W. The same battery supplies power when current leaves its + terminal. Charging stores this energy as chemical free energy.",
+				"equations": [
+					"P=IV"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -72,7 +78,11 @@
 				"answer": 13.5,
 				"tolerance": 0.02,
 				"explanation": "2.5 A h × 3600 s/h = 9000 C, and 9000 C × 1.5 J/C = 13500 J = 13.5 kJ. Note that mAh counts charge, so the voltage must be included to get energy.",
-				"unit": "kJ"
+				"unit": "kJ",
+				"equations": [
+					"P=IV",
+					"E=Pt"
+				]
 			},
 			{
 				"kind": "short",
@@ -112,7 +122,11 @@
 				"answer": 0.1711,
 				"tolerance": 0.03,
 				"explanation": "A = π(0.25 mm)² = 0.1963 mm² = 1.9635e-07 m², so R = ρL/A = 1.68×10⁻⁸ × 2.0 / 1.9635e-07 = 0.171 Ω. Doubling the diameter would cut it by a factor of four.",
-				"unit": "Ω"
+				"unit": "Ω",
+				"equations": [
+					"R=\\rho\\frac{L}{A}",
+					"A=\\frac{\\pi d^2}{4}"
+				]
 			},
 			{
 				"kind": "short",
@@ -144,7 +158,10 @@
 					"It dissipates 0.4 W, but ratings only apply to AC supplies, so on a steady DC supply it is safe"
 				],
 				"answer": 2,
-				"explanation": "P = V²/R = 400/1000 = 0.4 W, which exceeds 0.25 W. The rating limits power (heat) for AC and DC alike; the current alone says nothing about heating until you multiply by the voltage across the resistor."
+				"explanation": "P = V²/R = 400/1000 = 0.4 W, which exceeds 0.25 W. The rating limits power (heat) for AC and DC alike; the current alone says nothing about heating until you multiply by the voltage across the resistor.",
+				"equations": [
+					"P=I^2R=\\frac{V^2}{R}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -152,7 +169,10 @@
 				"answer": 58.8,
 				"tolerance": 0.02,
 				"explanation": "The nominal value is 56 × 10³ Ω = 56 kΩ. With ±5% the top of the range is 56 × 1.05 = 58.8 kΩ, and the bottom is 53.2 kΩ. Gold means ±5%, not a digit.",
-				"unit": "kΩ"
+				"unit": "kΩ",
+				"equations": [
+					"R=(10a+b)\\times10^{c}\\ \\Omega"
+				]
 			},
 			{
 				"kind": "short",
@@ -172,7 +192,10 @@
 					"decreases, because each new branch is an extra path for the current, so conductance increases"
 				],
 				"answer": 3,
-				"explanation": "Parallel branches add conductance (G = 1/R), so adding any branch, even a huge resistor, lowers the total resistance slightly. Total resistance of a parallel group is always less than its smallest member."
+				"explanation": "Parallel branches add conductance (G = 1/R), so adding any branch, even a huge resistor, lowers the total resistance slightly. Total resistance of a parallel group is always less than its smallest member.",
+				"equations": [
+					"\\frac{1}{R_p}=\\sum_i\\frac{1}{R_i}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -192,7 +215,11 @@
 				"answer": 220.0,
 				"tolerance": 0.02,
 				"explanation": "200 ‖ 300 = 200×300/500 = 120 Ω. In series with 100 Ω this gives 220 Ω.",
-				"unit": "Ω"
+				"unit": "Ω",
+				"equations": [
+					"R_s=\\sum_i R_i",
+					"R_p=\\frac{R_1R_2}{R_1+R_2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -212,7 +239,11 @@
 					"2.5 V, because the load now forms a third equal share and the supply is divided equally among all three resistors in the chain"
 				],
 				"answer": 2,
-				"explanation": "The lower leg becomes 10k ‖ 10k = 5 kΩ, so V_out = 10 × 5/(10+5) = 3.33 V. A divider is accurate only when the load is much larger than the resistor it sits across."
+				"explanation": "The lower leg becomes 10k ‖ 10k = 5 kΩ, so V_out = 10 × 5/(10+5) = 3.33 V. A divider is accurate only when the load is much larger than the resistor it sits across.",
+				"equations": [
+					"V_{out}=V_{in}\\frac{R_2}{R_1+R_2}",
+					"R_p=\\frac{R_1R_2}{R_1+R_2}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -224,7 +255,10 @@
 					"The load resistance does not matter if both divider resistors are made large, since a divider is a passive part"
 				],
 				"answer": 0,
-				"explanation": "The load shunts the lower resistor, lowering it by a fraction of order R_2/R_L. Keeping R_L ≥ 100 R_2 keeps that error near 1% or less (and the Thevenin view makes the same point)."
+				"explanation": "The load shunts the lower resistor, lowering it by a fraction of order R_2/R_L. Keeping R_L ≥ 100 R_2 keeps that error near 1% or less (and the Thevenin view makes the same point).",
+				"equations": [
+					"V_{out}=V_{in}\\frac{R_2\\parallel R_L}{R_1+R_2\\parallel R_L}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -232,7 +266,10 @@
 				"answer": 2.0,
 				"tolerance": 0.02,
 				"explanation": "I₁ = I × R₂/(R₁+R₂) = 3.0 × 2.0/3.0 = 2.0 mA. Check: the 2 kΩ branch gets 1.0 mA, and the voltage across both is 2 V.",
-				"unit": "mA"
+				"unit": "mA",
+				"equations": [
+					"I_1=I\\frac{R_2}{R_1+R_2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -272,7 +309,11 @@
 				"answer": 6.092,
 				"tolerance": 0.02,
 				"explanation": "Series loop: I = 12/(100+220+330) = 18.46 mA. Then V = IR = 18.46 mA × 330 Ω = 6.09 V. The three drops sum to 12 V, as KVL requires.",
-				"unit": "V"
+				"unit": "V",
+				"equations": [
+					"\\sum_{loop}V=0",
+					"V=IR"
+				]
 			},
 			{
 				"kind": "short",
@@ -312,7 +353,10 @@
 				"answer": 2.0,
 				"tolerance": 0.02,
 				"explanation": "KCL gives (1/1k + 1/2k)V₁ − (1/2k)V₂ = 5 mA and −(1/2k)V₁ + (1/2k + 1/2k)V₂ = 0. The second gives V₂ = V₁/2, then 1.25 mS × V₁ = 5 mA, so V₁ = 4.0 V and V₂ = 2.0 V.",
-				"unit": "V"
+				"unit": "V",
+				"equations": [
+					"\\sum_j G_{ij}(V_i-V_j)=I_i"
+				]
 			},
 			{
 				"kind": "short",
@@ -352,7 +396,11 @@
 				"answer": 4.667,
 				"tolerance": 0.02,
 				"explanation": "10 V alone: the other two resistors in parallel (0.5 kΩ) divide it, V = 10 × 0.5/1.5 = 3.333 V. 4 V alone: 1.333 V. The sum is 4.667 V.",
-				"unit": "V"
+				"unit": "V",
+				"equations": [
+					"V=\\sum_k V^{(k)},\\quad P\\ne\\sum_k P^{(k)}",
+					"V_{out}=V_{in}\\frac{R_2}{R_1+R_2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -372,7 +420,10 @@
 					"The battery behaves as an ideal current source, so its terminal voltage depends only on what the load happens to be"
 				],
 				"answer": 0,
-				"explanation": "V_L = V_th R_L/(R_th + R_L), which is below V_th by the drop I·R_th across the internal resistance. The open-circuit voltage is V_th; heavier load (larger I) means a larger sag."
+				"explanation": "V_L = V_th R_L/(R_th + R_L), which is below V_th by the drop I·R_th across the internal resistance. The open-circuit voltage is V_th; heavier load (larger I) means a larger sag.",
+				"equations": [
+					"V_L=V_{th}\\frac{R_L}{R_{th}+R_L}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -392,7 +443,12 @@
 				"answer": 6.0,
 				"tolerance": 0.02,
 				"explanation": "V_th = 12 × 4/6 = 8.0 V and R_th = 2k ‖ 4k = 1.333 kΩ. The load divides V_th: V_L = 8.0 × 4/(1.333+4) = 6.00 V.",
-				"unit": "V"
+				"unit": "V",
+				"equations": [
+					"V_{out}=V_{in}\\frac{R_2}{R_1+R_2}",
+					"R_p=\\frac{R_1R_2}{R_1+R_2}",
+					"V_L=V_{th}\\frac{R_L}{R_{th}+R_L}"
+				]
 			},
 			{
 				"kind": "short",
@@ -412,7 +468,10 @@
 					"50%, because the same current flows through the load and through the equal internal resistance"
 				],
 				"answer": 3,
-				"explanation": "With R_L = R_th the current is the same through both and the two voltage drops are equal, so half the power is lost inside the source. Maximum power and maximum efficiency are different goals."
+				"explanation": "With R_L = R_th the current is the same through both and the two voltage drops are equal, so half the power is lost inside the source. Maximum power and maximum efficiency are different goals.",
+				"equations": [
+					"\\eta=\\frac{R_L}{R_{th}+R_L}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -431,13 +490,20 @@
 				"prompt": "A source with Thevenin resistance R_th drives a load R_L = 2 R_th. What fraction of the maximum available power does the load receive? (Give a number between 0 and 1.)",
 				"answer": 0.8889,
 				"tolerance": 0.02,
-				"explanation": "P_L = V²R_L/(R_th+R_L)² = V²(2R_th)/(3R_th)² = (2/9)V²/R_th, and P_max = V²/(4R_th) = 0.25 V²/R_th. The ratio is 0.889. The peak is broad: a factor-of-2 mismatch costs only 11%."
+				"explanation": "P_L = V²R_L/(R_th+R_L)² = V²(2R_th)/(3R_th)² = (2/9)V²/R_th, and P_max = V²/(4R_th) = 0.25 V²/R_th. The ratio is 0.889. The peak is broad: a factor-of-2 mismatch costs only 11%.",
+				"equations": [
+					"P_L=\\frac{V_{th}^2R_L}{(R_{th}+R_L)^2}",
+					"P_{max}=\\frac{V_{th}^2}{4R_{th}}"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Show, using only algebra, why the load power is largest when R_L = R_th.",
 				"rubric": "Full credit: (1) writes P_L = V_th^2 R_L/(R_th+R_L)^2; (2) uses (R_th+R_L)^2 = (R_th-R_L)^2 + 4R_thR_L ≥ 4R_thR_L, with equality only at R_L = R_th; (3) concludes P_L ≤ V_th^2/(4R_th).",
-				"modelAnswer": "P_L = V_th² R_L/(R_th + R_L)². Expand the denominator as (R_th − R_L)² + 4R_th R_L. The first term is never negative, so the denominator is at least 4R_th R_L, which gives P_L ≤ V_th²/(4R_th). Equality holds only when R_th − R_L = 0, so the maximum is at R_L = R_th."
+				"modelAnswer": "P_L = V_th² R_L/(R_th + R_L)². Expand the denominator as (R_th − R_L)² + 4R_th R_L. The first term is never negative, so the denominator is at least 4R_th R_L, which gives P_L ≤ V_th²/(4R_th). Equality holds only when R_th − R_L = 0, so the maximum is at R_L = R_th.",
+				"equations": [
+					"P_L=\\frac{V_{th}^2R_L}{(R_{th}+R_L)^2}"
+				]
 			}
 		],
 		"e0-l012-meters-loading-internal-resistance": [
@@ -463,7 +529,10 @@
 					"The reading is correct only for a very short time, and the electrode's voltage then drifts as it is loaded by the meter"
 				],
 				"answer": 0,
-				"explanation": "The meter and the electrode's 100 MΩ form a divider: V_read = V×10/(100+10) = 9.1% of V. pH meters use input amplifiers with >10¹² Ω input resistance so this error is negligible."
+				"explanation": "The meter and the electrode's 100 MΩ form a divider: V_read = V×10/(100+10) = 9.1% of V. pH meters use input amplifiers with >10¹² Ω input resistance so this error is negligible.",
+				"equations": [
+					"V_{read}=V_{th}\\frac{R_{in}}{R_{th}+R_{in}}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -471,7 +540,11 @@
 				"answer": 4.762,
 				"tolerance": 0.01,
 				"explanation": "The lower leg becomes 1M ‖ 10M = 0.909 MΩ, so V = 10 × 0.909/(1 + 0.909) = 4.762 V instead of the true 5.000 V, an error of about 5%.",
-				"unit": "V"
+				"unit": "V",
+				"equations": [
+					"V_{out}=V_{in}\\frac{R_2}{R_1+R_2}",
+					"R_p=\\frac{R_1R_2}{R_1+R_2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -511,7 +584,10 @@
 				"answer": 80.0,
 				"tolerance": 0.02,
 				"explanation": "I = V/R = 120/1500 = 80 mA. That is far above the ~10–20 mA let-go threshold and into the range where fibrillation is a risk, which is why dry hands, one-hand probing and GFCI protection matter.",
-				"unit": "mA"
+				"unit": "mA",
+				"equations": [
+					"I_{body}=\\frac{V}{R_{body}}"
+				]
 			},
 			{
 				"kind": "short",
@@ -551,7 +627,10 @@
 				"answer": 1.249,
 				"tolerance": 0.02,
 				"explanation": "V_out ≈ V_s ΔR/(4R) = 5.0 × 0.35/1400 = 1.250 mV; the exact formula gives 1.249 mV. A 0.1% change in R produces only about a quarter of a millivolt per volt of excitation, so the signal is small.",
-				"unit": "mV"
+				"unit": "mV",
+				"equations": [
+					"V_{out}\\approx V_s\\frac{\\Delta R}{4R}"
+				]
 			},
 			{
 				"kind": "short",
@@ -571,7 +650,11 @@
 					"C rises four-fold and the voltage across the plates also rises four-fold, so the stored energy rises sixteen-fold"
 				],
 				"answer": 1,
-				"explanation": "With V fixed by the battery, C → ε_r C means Q = CV rises ε_r-fold, and U = ½CV² rises ε_r-fold. The dielectric's induced dipoles cancel part of the field so the plates can hold more charge at the same voltage."
+				"explanation": "With V fixed by the battery, C → ε_r C means Q = CV rises ε_r-fold, and U = ½CV² rises ε_r-fold. The dielectric's induced dipoles cancel part of the field so the plates can hold more charge at the same voltage.",
+				"equations": [
+					"C=\\frac{Q}{V}",
+					"C=\\frac{\\varepsilon_0\\varepsilon_rA}{d}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -591,7 +674,10 @@
 				"answer": 7.2,
 				"tolerance": 0.02,
 				"explanation": "U = ½CV² = 0.5 × 100×10⁻⁶ × 144 = 0.0072 J = 7.2 mJ.",
-				"unit": "mJ"
+				"unit": "mJ",
+				"equations": [
+					"U=\\tfrac12CV^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -631,7 +717,12 @@
 				"answer": 1.974,
 				"tolerance": 0.03,
 				"explanation": "A = π(0.010)² = 3.14×10⁻⁴ m², so L = 4π×10⁻⁷ × 500² × 3.14×10⁻⁴ / 0.050 = 1.97 mH. L grows as N², so doubling the turns quadruples it.",
-				"unit": "mH"
+				"unit": "mH",
+				"equations": [
+					"L=\\frac{\\mu_0N^2A}{\\ell}",
+					"A=\\pi r^2",
+					"\\mu_0=4\\pi\\times10^{-7}\\ \\mathrm{H\\,m^{-1}}"
+				]
 			},
 			{
 				"kind": "short",
@@ -671,7 +762,11 @@
 				"answer": 46.05,
 				"tolerance": 0.02,
 				"explanation": "τ = RC = 10 ms. From 1 − e^(−t/τ) = 0.99, e^(−t/τ) = 0.01 and t = τ ln 100 = 46.1 ms, about 4.6τ.",
-				"unit": "ms"
+				"unit": "ms",
+				"equations": [
+					"\\tau=RC",
+					"V_C(t)=V_s\\left(1-e^{-t/\\tau}\\right)"
+				]
 			},
 			{
 				"kind": "short",
@@ -711,7 +806,10 @@
 				"answer": 339.4,
 				"tolerance": 0.02,
 				"explanation": "V_p = 120√2 = 169.7 V, so the peak-to-peak value is 2V_p = 339 V. This is why insulation and capacitor voltage ratings must be chosen for the peak, not the rms value.",
-				"unit": "V"
+				"unit": "V",
+				"equations": [
+					"V_{rms}=\\frac{V_p}{\\sqrt2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -743,7 +841,10 @@
 					"It converts the phasor into a real number, which is why j never appears in measured quantities"
 				],
 				"answer": 0,
-				"explanation": "j = e^{jπ/2}, so multiplying by j adds 90° to the angle and leaves the magnitude alone. In a capacitor or inductor, I ∝ jωCV or V ∝ jωLI is exactly this 90° shift (calculus later shows it comes from a derivative)."
+				"explanation": "j = e^{jπ/2}, so multiplying by j adds 90° to the angle and leaves the magnitude alone. In a capacitor or inductor, I ∝ jωCV or V ∝ jωLI is exactly this 90° shift (calculus later shows it comes from a derivative).",
+				"equations": [
+					"e^{j\\theta}=\\cos\\theta+j\\sin\\theta"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -751,7 +852,11 @@
 				"answer": 10.0,
 				"tolerance": 0.02,
 				"explanation": "As phasors: 6 + j8, whose magnitude is √(36+64) = 10 V. Adding amplitudes (6 + 8 = 14 V) would be wrong: the two waves peak at different times.",
-				"unit": "V"
+				"unit": "V",
+				"equations": [
+					"\\tilde V=V_pe^{j\\phi}",
+					"|a+jb|=\\sqrt{a^2+b^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -771,7 +876,11 @@
 					"The current leads the voltage by 90°: it is largest when the voltage is changing fastest, which is at the zero crossings"
 				],
 				"answer": 3,
-				"explanation": "I = CΔV/Δt: current is biggest where V changes fastest (zero crossings) and zero at the peaks, so it leads by 90°. For an inductor the roles reverse and the current lags."
+				"explanation": "I = CΔV/Δt: current is biggest where V changes fastest (zero crossings) and zero at the peaks, so it leads by 90°. For an inductor the roles reverse and the current lags.",
+				"equations": [
+					"Z_C=\\frac{1}{j\\omega C}",
+					"\\tilde V=\\tilde I\\,Z"
+				]
 			},
 			{
 				"kind": "mc",
@@ -791,7 +900,11 @@
 				"answer": 1880.0,
 				"tolerance": 0.02,
 				"explanation": "X_C = 1/(2π f C) = 1/(2π × 1000 × 10⁻⁷) = 1592 Ω. Then |Z| = √(R² + X_C²) = √(1000² + 1592²) = 1880 Ω. The reactance adds at right angles to R, not directly.",
-				"unit": "Ω"
+				"unit": "Ω",
+				"equations": [
+					"Z_C=\\frac{1}{j\\omega C}",
+					"|Z|=\\sqrt{R^2+X^2},\\ \\ \\phi=\\arctan\\frac{X}{R}"
+				]
 			},
 			{
 				"kind": "short",
@@ -811,7 +924,11 @@
 					"It cuts it to about 71% of its amplitude, since this is the gain that the filter has at every frequency"
 				],
 				"answer": 1,
-				"explanation": "|H| = 1/√(1+(f/f_c)²) = 1/√101 = 0.100, or −20 dB. The filter is a divider whose lower leg, the capacitor, has smaller impedance at higher frequency. At f_c exactly the gain is 0.707 (−3 dB)."
+				"explanation": "|H| = 1/√(1+(f/f_c)²) = 1/√101 = 0.100, or −20 dB. The filter is a divider whose lower leg, the capacitor, has smaller impedance at higher frequency. At f_c exactly the gain is 0.707 (−3 dB).",
+				"equations": [
+					"H_{LP}(f)=\\frac{1}{1+j\\,f/f_c}",
+					"|H|_{dB}=20\\log_{10}|H|"
+				]
 			},
 			{
 				"kind": "mc",
@@ -831,7 +948,10 @@
 				"answer": 153.9,
 				"tolerance": 0.02,
 				"explanation": "f_c = 1/(2πRC) = 1/(2π × 4700 × 0.22×10⁻⁶) = 153.9 Hz, equivalent to τ = 1.03 ms.",
-				"unit": "Hz"
+				"unit": "Hz",
+				"equations": [
+					"f_c=\\frac{1}{2\\pi RC}"
+				]
 			},
 			{
 				"kind": "short",
@@ -871,7 +991,10 @@
 				"answer": 5.033,
 				"tolerance": 0.02,
 				"explanation": "f₀ = 1/(2π√(LC)) = 1/(2π√(10⁻⁵ × 10⁻¹⁰)) = 5.03 MHz. Tuning such a circuit to a Larmor frequency (e.g. several hundred MHz in a high-field NMR probe) is done with small variable capacitors.",
-				"unit": "MHz"
+				"unit": "MHz",
+				"equations": [
+					"f_0=\\frac{1}{2\\pi\\sqrt{LC}}"
+				]
 			},
 			{
 				"kind": "short",
@@ -911,7 +1034,10 @@
 				"answer": 300.0,
 				"tolerance": 0.02,
 				"explanation": "R = (V_s − V_f)/I = (5.0 − 2.0)/0.010 = 300 Ω. The resistor dissipates 30 mW, well within a ¼ W part.",
-				"unit": "Ω"
+				"unit": "Ω",
+				"equations": [
+					"R=\\frac{V_s-V_f}{I}"
+				]
 			},
 			{
 				"kind": "short",
@@ -950,7 +1076,11 @@
 				"prompt": "A transistor stage has I_E = 1.0 mA and R_C = 4.7 kΩ. Using r_e ≈ 25 mV/I_E, what is the magnitude of the small-signal voltage gain? (Give a number.)",
 				"answer": 188.0,
 				"tolerance": 0.05,
-				"explanation": "r_e = 25 mV/1 mA = 25 Ω, so |A_v| = R_C/r_e = 4700/25 = 188. The gain is large but depends on temperature and I_E, which is why op-amps with feedback are preferred for precision."
+				"explanation": "r_e = 25 mV/1 mA = 25 Ω, so |A_v| = R_C/r_e = 4700/25 = 188. The gain is large but depends on temperature and I_E, which is why op-amps with feedback are preferred for precision.",
+				"equations": [
+					"r_e\\approx\\frac{25\\ \\mathrm{mV}}{I_E}",
+					"A_v\\approx-\\frac{R_C}{r_e}"
+				]
 			},
 			{
 				"kind": "short",
@@ -990,7 +1120,10 @@
 				"answer": -0.94,
 				"tolerance": 0.02,
 				"explanation": "G = −R_f/R_in = −4.7, so V_out = −4.7 × 0.20 = -0.94 V. The input current is 20 µA, and it all flows through R_f.",
-				"unit": "V"
+				"unit": "V",
+				"equations": [
+					"G=-\\frac{R_f}{R_{in}}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1022,7 +1155,10 @@
 					"It stays at 0 V, because the input is too large for the op-amp, which switches itself off"
 				],
 				"answer": 1,
-				"explanation": "The golden rules assume the output is in its linear range. An op-amp cannot output more than (roughly) its supply voltage, so with 10 V demanded from a ±5 V supply the output clips near +5 V and V_- no longer follows V_+."
+				"explanation": "The golden rules assume the output is in its linear range. An op-amp cannot output more than (roughly) its supply voltage, so with 10 V demanded from a ±5 V supply the output clips near +5 V and V_- no longer follows V_+.",
+				"equations": [
+					"G=1+\\frac{R_f}{R_g}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -1030,7 +1166,11 @@
 				"answer": 200.0,
 				"tolerance": 0.02,
 				"explanation": "The gain is 1 + 90/10 = 10, so the bandwidth is GBW/G = 2000 kHz/10 = 200 kHz. Trading gain for bandwidth is why a high-gain stage is often split into two lower-gain ones.",
-				"unit": "kHz"
+				"unit": "kHz",
+				"equations": [
+					"G=1+\\frac{R_f}{R_g}",
+					"f_{-3\\mathrm{dB}}\\approx\\frac{GBW}{G}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1070,7 +1210,10 @@
 				"answer": 200.0,
 				"tolerance": 0.02,
 				"explanation": "|V_out| = I R_f, so R_f = 1.0 V / 5.0×10⁻⁹ A = 2.0e+08 Ω = 200 MΩ. Such large values need low-leakage layout and a small C_f to keep the bandwidth up.",
-				"unit": "MΩ"
+				"unit": "MΩ",
+				"equations": [
+					"V_{out}=-I_{in}R_f"
+				]
 			},
 			{
 				"kind": "short",
@@ -1110,7 +1253,10 @@
 				"answer": 152.6,
 				"tolerance": 0.02,
 				"explanation": "LSB = V_FS/2^N = 10 V/65536 = 152.6 µV. The ideal rms quantisation noise is LSB/√12 = 44.0 µV.",
-				"unit": "µV"
+				"unit": "µV",
+				"equations": [
+					"\\mathrm{LSB}=\\frac{V_{FS}}{2^N}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1150,7 +1296,10 @@
 				"answer": 12.87,
 				"tolerance": 0.02,
 				"explanation": "v_n = √(4 × 1.381×10⁻²³ × 300 × 10⁶ × 10⁴) = 12.9 µV. A 1 MΩ sensor therefore cannot resolve signals much below ~10 µV in that bandwidth, unless the bandwidth is narrowed.",
-				"unit": "µV"
+				"unit": "µV",
+				"equations": [
+					"v_n=\\sqrt{4k_BTR\\,\\Delta f}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1190,7 +1339,10 @@
 				"answer": 25.0,
 				"tolerance": 0.02,
 				"explanation": "ΔE = iR_u = 50×10⁻⁶ A × 500 Ω = 25 mV. This is why peaks shift and broaden at high currents, and why potentiostats offer iR compensation.",
-				"unit": "mV"
+				"unit": "mV",
+				"equations": [
+					"E_{true}=E_{applied}-iR_u"
+				]
 			},
 			{
 				"kind": "short",
@@ -1229,7 +1381,10 @@
 				"prompt": "A receiver has a preamplifier with noise factor F₁ = 1.26 (1 dB) and gain G₁ = 100 (20 dB), followed by a second stage with F₂ = 10. What is the total noise factor of the chain? (Use F = F₁ + (F₂−1)/G₁; give a number.)",
 				"answer": 1.35,
 				"tolerance": 0.02,
-				"explanation": "F = 1.26 + (10 − 1)/100 = 1.35, about 1.30 dB. The poor second stage adds only 0.3 dB because the preamplifier's gain hides it."
+				"explanation": "F = 1.26 + (10 − 1)/100 = 1.35, about 1.30 dB. The poor second stage adds only 0.3 dB because the preamplifier's gain hides it.",
+				"equations": [
+					"F=F_1+\\frac{F_2-1}{G_1}+\\frac{F_3-1}{G_1G_2}+\\cdots"
+				]
 			},
 			{
 				"kind": "short",

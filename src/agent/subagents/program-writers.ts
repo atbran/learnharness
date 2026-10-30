@@ -58,6 +58,14 @@ function lessonBlock(l: Pick<Lesson, "id" | "title" | "objectives" | "keyEquatio
 
 // ─── Quick checks ───────────────────────────────────────────────────────────
 
+const equationsField = Type.Optional(
+	Type.Array(Type.String(), {
+		maxItems: 4,
+		description:
+			"LaTeX (no $) of the equations this question/problem needs, shown to the learner with it. Omit any equation that is, or trivially gives, the answer (e.g. when the question asks to state/derive/choose it).",
+	}),
+);
+
 const checkSchema = Type.Object({
 	questions: Type.Array(
 		Type.Union([
@@ -67,6 +75,7 @@ const checkSchema = Type.Object({
 				options: Type.Array(Type.String(), { minItems: 3, maxItems: 5 }),
 				answer: Type.Integer({ minimum: 0, description: "0-based index of the correct option" }),
 				explanation: Type.String(),
+				equations: equationsField,
 			}),
 			Type.Object({
 				kind: Type.Literal("numeric"),
@@ -75,12 +84,14 @@ const checkSchema = Type.Object({
 				tolerance: Type.Number({ minimum: 0.001, maximum: 0.2, description: "Relative tolerance, e.g. 0.02" }),
 				unit: Type.Optional(Type.String()),
 				explanation: Type.String(),
+				equations: equationsField,
 			}),
 			Type.Object({
 				kind: Type.Literal("short"),
 				prompt: Type.String(),
 				rubric: Type.String({ description: "What a full-credit answer must contain." }),
 				modelAnswer: Type.String(),
+				equations: equationsField,
 			}),
 		]),
 		{ minItems: 4, maxItems: 6 },
@@ -100,7 +111,8 @@ export async function writeQuickCheck(lesson: Lesson, context: string, track: st
 			"Write exactly 5 questions that together test every objective of the lesson: at least 2 conceptual multiple-choice (plausible distractors built from real misconceptions), " +
 			"1–2 numeric (a quick, physically meaningful calculation or estimate, single-number answer, units stated in the prompt), and 1 short-answer (explain why something happens, in the learner's own words). " +
 			"Questions test understanding, not trivia or recall of notation. Each explanation teaches the key idea in 1–3 sentences. " +
-			"Double-check every answer and numeric value before submitting.",
+			"For each question, list in `equations` the equation(s) the learner needs (prefer the lesson's key equations verbatim); leave it out when the equation would give the answer away. " +
+				"Double-check every answer and numeric value before submitting.",
 		prompt: `${context}\n\n${lessonBlock(lesson)}\n\nWrite the quick check and call submit_check.`,
 		engine: deps.engine,
 		signal: deps.signal,
@@ -153,6 +165,7 @@ const problemsSchema = Type.Object({
 			unitId: Type.String(),
 			lessonIds: Type.Array(Type.String(), { minItems: 1 }),
 			prompt: Type.String({ description: "Self-contained statement; markdown + $math$. Include given data and what to find." }),
+			equations: equationsField,
 			points: Type.Integer({ minimum: 2, maximum: 20 }),
 			rubric: Type.Array(Type.String(), { minItems: 1, description: 'Point-bearing criteria, e.g. "3 pts: correct boundary conditions at r = R"' }),
 			solution: Type.String({ description: "Complete worked solution with every step." }),
@@ -194,6 +207,7 @@ export async function writeAssessment(spec: AssessmentSpec, deps: WriterDeps): P
 			"- Every problem tags its unitId and the lessonIds it assesses (ids from the brief only).\n" +
 			"- Prefer real textbook exercises: use book_search / book_lookup / book_read (when available) to find end-of-chapter problems for these sections, then adapt them (change numbers or ask a twist) and cite the source. Read only what you need.\n" +
 			"- Problems must be solvable with the lesson content; state all given data; no ambiguity.\n" +
+			"- Every problem lists in `equations` the equation(s) it needs (the learner sees them with the problem); leave out any equation the problem asks the learner to derive or state.\n" +
 			"- Rubrics are point-bearing and sum to the problem's points; they reward correct setup and method, not just the final number.\n" +
 			"- Solutions are complete and correct — verify each one (dimensions, limits, signs) before submitting.",
 		prompt:

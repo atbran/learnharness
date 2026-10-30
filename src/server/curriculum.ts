@@ -118,7 +118,7 @@ export function lessonBrief(lessonId: string, mode: "teach" | "practice"): { con
 	lines.push(
 		"",
 		mode === "practice"
-			? "This is a PRACTICE session for this lesson: problems at the level of the objectives, prefer the cited textbook exercises."
+			? "This is a PRACTICE session for this lesson: problems at the level of the objectives, prefer the cited textbook exercises. With every problem, state the equation(s) it needs in display math (unless the problem asks the learner to derive or recall that equation)."
 			: "Keep the probe short (the curriculum already places the learner): check the prerequisites this lesson leans on, then teach toward the objectives.",
 		"The learner's goal is genuine understanding — why things are true and how they explain the real world (tie to everyday phenomena and chemistry) — with fluent use of the equations and calculations, not problem drilling.",
 	);

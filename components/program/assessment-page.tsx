@@ -10,11 +10,12 @@ import { useServerEvent } from "@/components/server-events";
 import { cn } from "@/lib/utils";
 import type { Assessment } from "@/src/core";
 import { ProgressRing } from "./charts";
+import { EquationSheet, QuestionEquations, type EquationGroup } from "./equations";
 import { InkPad } from "./ink-pad";
 import { pct } from "./status";
 import { useStudyHeartbeat } from "./use-program";
 
-type View = Assessment & { task?: { status: string; error?: string } | null };
+type View = Assessment & { task?: { status: string; error?: string } | null; sheet?: EquationGroup[] };
 
 const KIND_LABEL: Record<Assessment["kind"], string> = { pset: "Problem set", midterm: "Midterm", final: "Final exam", placement: "Placement test" };
 
@@ -136,6 +137,7 @@ export function AssessmentPage({ initial, course }: { initial: View; course: { i
 					)}
 					{a.error && a.status === "in-progress" && <div className="text-sm text-destructive">Grading failed: {a.error} — submit again.</div>}
 
+					{(a.status === "in-progress" || a.status === "grading" || a.status === "graded") && <EquationSheet groups={a.sheet ?? []} />}
 					{(a.status === "in-progress" || a.status === "grading" || a.status === "graded") &&
 						a.problems.map((p, i) => <ProblemCard key={p.id} a={a} index={i} onChanged={refresh} />)}
 
@@ -212,6 +214,7 @@ function ProblemCard({ a, index, onChanged }: { a: View; index: number; onChange
 			<div className="lh-prose">
 				<MessageResponse>{p.prompt}</MessageResponse>
 			</div>
+			<QuestionEquations equations={p.equations} />
 
 			{editable ? (
 				<textarea

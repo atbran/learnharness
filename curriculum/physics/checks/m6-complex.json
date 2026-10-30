@@ -12,14 +12,22 @@
 					"Shifts it by 1 unit to the right and 1 unit up."
 				],
 				"answer": 1,
-				"explanation": "In polar form $1+i=\\sqrt2\\,e^{i\\pi/4}$, and multiplication multiplies moduli and adds arguments. Addition (not multiplication) is the translation."
+				"explanation": "In polar form $1+i=\\sqrt2\\,e^{i\\pi/4}$, and multiplication multiplies moduli and adds arguments. Addition (not multiplication) is the translation.",
+				"equations": [
+					"z=x+iy=re^{i\\theta}",
+					"|z_1z_2|=|z_1||z_2|"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Find $\\left|\\dfrac{3+4i}{1-2i}\\right|$.",
 				"answer": 2.236068,
 				"tolerance": 0.02,
-				"explanation": "Moduli multiply and divide: $|3+4i|/|1-2i|=5/\\sqrt5=\\sqrt5\\approx2.236$."
+				"explanation": "Moduli multiply and divide: $|3+4i|/|1-2i|=5/\\sqrt5=\\sqrt5\\approx2.236$.",
+				"equations": [
+					"\\left|\\frac{z_1}{z_2}\\right|=\\frac{|z_1|}{|z_2|}",
+					"|x+iy|=\\sqrt{x^2+y^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -46,14 +54,22 @@
 				"prompt": "Compute the imaginary part of $(1+i)^{10}$ using de Moivre's theorem.",
 				"answer": 32.0,
 				"tolerance": 0.02,
-				"explanation": "$(1+i)^{10}=(\\sqrt2)^{10}e^{i10\\pi/4}=32e^{i5\\pi/2}=32i$, so the imaginary part is 32."
+				"explanation": "$(1+i)^{10}=(\\sqrt2)^{10}e^{i10\\pi/4}=32e^{i5\\pi/2}=32i$, so the imaginary part is 32.",
+				"equations": [
+					"z=x+iy=re^{i\\theta}",
+					"(re^{i\\theta})^n=r^ne^{in\\theta}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Expanding $(\\cos\\theta+i\\sin\\theta)^3=\\cos3\\theta+i\\sin3\\theta$ and taking real parts gives a cubic identity for $\\cos3\\theta$ in terms of $\\cos\\theta$. If $\\cos\\theta=0.6$, find $\\cos3\\theta$.",
 				"answer": -0.936,
 				"tolerance": 0.02,
-				"explanation": "The real part of the binomial expansion is $\\cos^3\\theta-3\\cos\\theta\\sin^2\\theta=4\\cos^3\\theta-3\\cos\\theta$. With $\\cos\\theta=0.6$ this is $4(0.216)-1.8=-0.936$."
+				"explanation": "The real part of the binomial expansion is $\\cos^3\\theta-3\\cos\\theta\\sin^2\\theta=4\\cos^3\\theta-3\\cos\\theta$. With $\\cos\\theta=0.6$ this is $4(0.216)-1.8=-0.936$.",
+				"equations": [
+					"(\\cos\\theta+i\\sin\\theta)^n=\\cos n\\theta+i\\sin n\\theta",
+					"\\cos^2\\theta+\\sin^2\\theta=1"
+				]
 			},
 			{
 				"kind": "short",
@@ -80,7 +96,10 @@
 				"prompt": "Evaluate $\\cos(2i)$, the cosine of a purely imaginary argument. The result is a real number; give its value.",
 				"answer": 3.762196,
 				"tolerance": 0.02,
-				"explanation": "From the exponential definition $\\cos(ix)=\\cosh x$, so $\\cos(2i)=\\cosh2\\approx3.762$. Complex cosines are not bounded by 1."
+				"explanation": "From the exponential definition $\\cos(ix)=\\cosh x$, so $\\cos(2i)=\\cosh2\\approx3.762$. Complex cosines are not bounded by 1.",
+				"equations": [
+					"\\cos z=\\frac{e^{iz}+e^{-iz}}{2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -100,21 +119,31 @@
 					"$\\sqrt z$ changes sign, but $\\ln z$ is unchanged by the circuit."
 				],
 				"answer": 2,
-				"explanation": "The argument increases by $2\\pi$: $\\sqrt z$ gets a factor $e^{i\\pi}=-1$ and $\\ln z$ gets $+2\\pi i$. A branch cut is a barrier you must not cross to keep the function single-valued."
+				"explanation": "The argument increases by $2\\pi$: $\\sqrt z$ gets a factor $e^{i\\pi}=-1$ and $\\ln z$ gets $+2\\pi i$. A branch cut is a barrier you must not cross to keep the function single-valued.",
+				"equations": [
+					"z^a=e^{a\\ln z}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Evaluate $|i^i|$, where $i^i=\\exp(i\\ln i)$ with the principal value $\\ln i=i\\pi/2$. Give the value (it is real).",
 				"answer": 0.20788,
 				"tolerance": 0.02,
-				"explanation": "$i^i=e^{i\\cdot i\\pi/2}=e^{-\\pi/2}\\approx0.2079$. (Other branches give $e^{-\\pi/2-2\\pi k}$.)"
+				"explanation": "$i^i=e^{i\\cdot i\\pi/2}=e^{-\\pi/2}\\approx0.2079$. (Other branches give $e^{-\\pi/2-2\\pi k}$.)",
+				"equations": [
+					"z^a=e^{a\\ln z}",
+					"|e^w|=e^{\\operatorname{Re}w}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "$\\arcsin2$ has no real value; the principal value is $\\pi/2\\pm ib$ with $b>0$. Find $b$.",
 				"answer": 1.316958,
 				"tolerance": 0.02,
-				"explanation": "Solving $\\sin w=2$: $e^{iw}=i(2\\pm\\sqrt3)$ gives $b=\\ln(2+\\sqrt3)\\approx1.317$. Unlike the real sine, the complex sine is unbounded."
+				"explanation": "Solving $\\sin w=2$: $e^{iw}=i(2\\pm\\sqrt3)$ gives $b=\\ln(2+\\sqrt3)\\approx1.317$. Unlike the real sine, the complex sine is unbounded.",
+				"equations": [
+					"\\arcsin z=-i\\ln\\left(iz+\\sqrt{1-z^2}\\right)"
+				]
 			},
 			{
 				"kind": "short",
@@ -134,14 +163,21 @@
 					"Real $x$ beyond 1 gives values too small for a power series to follow."
 				],
 				"answer": 2,
-				"explanation": "The radius of convergence equals the distance to the nearest singularity in the complex plane, even if it is off the real axis. The series diverges for $|x|>1$ because of the hidden poles at $\\pm i$."
+				"explanation": "The radius of convergence equals the distance to the nearest singularity in the complex plane, even if it is off the real axis. The series diverges for $|x|>1$ because of the hidden poles at $\\pm i$.",
+				"equations": [
+					"\\sum_{n=0}^\\infty z^n=\\frac1{1-z},\\ |z|<1"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Sum the geometric series $\\sum_{n=0}^\\infty(\\tfrac12)^n\\cos n\\theta$ at $\\theta=\\pi/3$ by taking the real part of $\\sum(\\tfrac12e^{i\\theta})^n$.",
 				"answer": 1.0,
 				"tolerance": 0.02,
-				"explanation": "Writing $q=\\tfrac12e^{i\\theta}$, $\\text{Re}\\,\\dfrac1{1-q}=\\dfrac{1-\\frac12\\cos\\theta}{1-\\cos\\theta+\\frac14}$. At $\\theta=\\pi/3$ the numerator is $0.75$ and the denominator is $1-0.5+0.25=0.75$, so the sum equals $1.0$."
+				"explanation": "Writing $q=\\tfrac12e^{i\\theta}$, $\\text{Re}\\,\\dfrac1{1-q}=\\dfrac{1-\\frac12\\cos\\theta}{1-\\cos\\theta+\\frac14}$. At $\\theta=\\pi/3$ the numerator is $0.75$ and the denominator is $1-0.5+0.25=0.75$, so the sum equals $1.0$.",
+				"equations": [
+					"\\sum_{n=0}^\\infty z^n=\\frac1{1-z},\\ |z|<1",
+					"e^{i\\theta}=\\cos\\theta+i\\sin\\theta"
+				]
 			},
 			{
 				"kind": "short",
@@ -169,7 +205,11 @@
 				"answer": 490.306027,
 				"tolerance": 0.02,
 				"unit": "ohm",
-				"explanation": "$\\omega L=20\\ \\Omega$, $1/\\omega C=500\\ \\Omega$, so $X=-480\\ \\Omega$ and $|Z|=\\sqrt{100^2+480^2}\\approx490\\ \\Omega$ (capacitive, since $X<0$)."
+				"explanation": "$\\omega L=20\\ \\Omega$, $1/\\omega C=500\\ \\Omega$, so $X=-480\\ \\Omega$ and $|Z|=\\sqrt{100^2+480^2}\\approx490\\ \\Omega$ (capacitive, since $X<0$).",
+				"equations": [
+					"Z=R+i\\omega L+\\frac1{i\\omega C}",
+					"|a+ib|=\\sqrt{a^2+b^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -189,7 +229,10 @@
 					"Conjugation is not additive, so the difference quotient fails."
 				],
 				"answer": 1,
-				"explanation": "Complex differentiability demands that $\\lim_{h\\to0}[f(z+h)-f(z)]/h$ is the same from every direction; this single requirement is equivalent to the Cauchy-Riemann equations $u_x=v_y$, $u_y=-v_x$. $\\bar z$ is continuous, but fails this test."
+				"explanation": "Complex differentiability demands that $\\lim_{h\\to0}[f(z+h)-f(z)]/h$ is the same from every direction; this single requirement is equivalent to the Cauchy-Riemann equations $u_x=v_y$, $u_y=-v_x$. $\\bar z$ is continuous, but fails this test.",
+				"equations": [
+					"f'(z)=\\lim_{h\\to0}\\frac{f(z+h)-f(z)}h"
+				]
 			},
 			{
 				"kind": "mc",
@@ -201,14 +244,20 @@
 					"The unit disk, since squaring pulls every point toward the origin."
 				],
 				"answer": 2,
-				"explanation": "In polar form $w=r^2e^{2i\\theta}$, so the argument doubles: $\\theta\\in(0,\\pi/2)$ becomes $2\\theta\\in(0,\\pi)$, which is the upper half-plane. Squaring doubles angles at the origin."
+				"explanation": "In polar form $w=r^2e^{2i\\theta}$, so the argument doubles: $\\theta\\in(0,\\pi/2)$ becomes $2\\theta\\in(0,\\pi)$, which is the upper half-plane. Squaring doubles angles at the origin.",
+				"equations": [
+					"z=re^{i\\theta}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "At a point, an analytic function $f=u+iv$ has $u_x=3$ and $v_x=-4$. Find $|f'|$ there.",
 				"answer": 5.0,
 				"tolerance": 0.02,
-				"explanation": "$f'=u_x+iv_x=3-4i$, so $|f'|=\\sqrt{9+16}=5$. The Cauchy-Riemann equations then fix $u_y=4$ and $v_y=3$."
+				"explanation": "$f'=u_x+iv_x=3-4i$, so $|f'|=\\sqrt{9+16}=5$. The Cauchy-Riemann equations then fix $u_y=4$ and $v_y=3$.",
+				"equations": [
+					"f'=u_x+iv_x"
+				]
 			},
 			{
 				"kind": "short",
@@ -228,21 +277,30 @@
 					"$e^z$."
 				],
 				"answer": 3,
-				"explanation": "$e^z=e^x(\\cos y+i\\sin y)$ satisfies the Cauchy-Riemann equations everywhere. The others depend on $\\bar z$ and fail them: $\\bar z$ has $u_x=1$ but $v_y=-1$."
+				"explanation": "$e^z=e^x(\\cos y+i\\sin y)$ satisfies the Cauchy-Riemann equations everywhere. The others depend on $\\bar z$ and fail them: $\\bar z$ has $u_x=1$ but $v_y=-1$.",
+				"equations": [
+					"u_x=v_y,\\ u_y=-v_x"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The harmonic function $u=x^2-y^2$ is the real part of an analytic $f=u+iv$ with $v(0,0)=0$. Find $v(1,2)$.",
 				"answer": 4.0,
 				"tolerance": 0.02,
-				"explanation": "Cauchy-Riemann gives $v_y=u_x=2x$ and $v_x=-u_y=2y$, so $v=2xy$ (this is $f=z^2$). Then $v(1,2)=4$."
+				"explanation": "Cauchy-Riemann gives $v_y=u_x=2x$ and $v_x=-u_y=2y$, so $v=2xy$ (this is $f=z^2$). Then $v(1,2)=4$.",
+				"equations": [
+					"u_x=v_y,\\ u_y=-v_x"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "For $f(z)=e^z$, find $|f'(z)|$ at $z=1+i\\pi/2$.",
 				"answer": 2.718282,
 				"tolerance": 0.02,
-				"explanation": "$f'=e^z$ and $|e^{1+i\\pi/2}|=e^1\\approx2.718$. The local magnification of the map is $|f'|$."
+				"explanation": "$f'=e^z$ and $|e^{1+i\\pi/2}|=e^1\\approx2.718$. The local magnification of the map is $|f'|$.",
+				"equations": [
+					"e^{x+iy}=e^x(\\cos y+i\\sin y)"
+				]
 			},
 			{
 				"kind": "short",
@@ -274,14 +332,20 @@
 					"A single point."
 				],
 				"answer": 2,
-				"explanation": "Mobius maps send circles and lines to circles and lines; a line is a circle through $\\infty$, and $1/z$ sends $\\infty$ to $0$. This is the tool for mapping complicated regions to half-planes or disks."
+				"explanation": "Mobius maps send circles and lines to circles and lines; a line is a circle through $\\infty$, and $1/z$ sends $\\infty$ to $0$. This is the tool for mapping complicated regions to half-planes or disks.",
+				"equations": [
+					"w=\\frac{az+b}{cz+d}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "For the conformal map $f(z)=z^2$, by what factor are small lengths magnified at $z=3+4i$?",
 				"answer": 10.0,
 				"tolerance": 0.02,
-				"explanation": "The local scale factor is $|f'(z)|=|2z|=2\\cdot5=10$."
+				"explanation": "The local scale factor is $|f'(z)|=|2z|=2\\cdot5=10$.",
+				"equations": [
+					"\\text{local magnification}=|f'(z_0)|"
+				]
 			},
 			{
 				"kind": "short",
@@ -296,7 +360,10 @@
 				"prompt": "The map $w=(z-i)/(z+i)$ takes the upper half-plane to the unit disk. Find $|w|$ at $z=1+i$.",
 				"answer": 0.447214,
 				"tolerance": 0.02,
-				"explanation": "$w=\\dfrac{1}{1+2i}$, so $|w|=1/\\sqrt5\\approx0.447<1$, consistent with the point being inside the disk. For real $z$, $|w|=1$ exactly."
+				"explanation": "$w=\\dfrac{1}{1+2i}$, so $|w|=1/\\sqrt5\\approx0.447<1$, consistent with the point being inside the disk. For real $z$, $|w|=1$ exactly.",
+				"equations": [
+					"\\left|\\frac{z_1}{z_2}\\right|=\\frac{|z_1|}{|z_2|}"
+				]
 			},
 			{
 				"kind": "short",
@@ -328,21 +395,31 @@
 					"$\\pi i$, which is half of the residue at the origin."
 				],
 				"answer": 1,
-				"explanation": "Parametrise $z=e^{i\\theta}$: $\\oint\\bar z\\,dz=\\int_0^{2\\pi}e^{-i\\theta}ie^{i\\theta}d\\theta=2\\pi i$. Cauchy's theorem requires analyticity inside; $\\bar z$ fails the Cauchy-Riemann equations."
+				"explanation": "Parametrise $z=e^{i\\theta}$: $\\oint\\bar z\\,dz=\\int_0^{2\\pi}e^{-i\\theta}ie^{i\\theta}d\\theta=2\\pi i$. Cauchy's theorem requires analyticity inside; $\\bar z$ fails the Cauchy-Riemann equations.",
+				"equations": [
+					"\\int_Cf(z)\\,dz=\\int_a^bf(z(t))z'(t)\\,dt",
+					"z=e^{it},\\ 0\\le t\\le2\\pi"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Evaluate $\\int_C z^2\\,dz$ along the straight line from $0$ to $1+i$. Give the real part of the result.",
 				"answer": -0.666667,
 				"tolerance": 0.02,
-				"explanation": "$z^2$ is analytic with antiderivative $z^3/3$, so the integral is $(1+i)^3/3=(-2+2i)/3$ with real part $-2/3\\approx-0.667$; the path doesn't matter."
+				"explanation": "$z^2$ is analytic with antiderivative $z^3/3$, so the integral is $(1+i)^3/3=(-2+2i)/3$ with real part $-2/3\\approx-0.667$; the path doesn't matter.",
+				"equations": [
+					"\\int_Cf(z)\\,dz=\\int_a^bf(z(t))z'(t)\\,dt"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Use the ML inequality to bound $\\left|\\oint_{|z|=3}\\dfrac{dz}{z^2+1}\\right|$: on the circle $|z^2+1|\\ge8$ and the length is $6\\pi$. Give the upper bound $ML$.",
 				"answer": 2.356194,
 				"tolerance": 0.02,
-				"explanation": "$M=1/8$ and $L=6\\pi$, so $|I|\\le6\\pi/8=3\\pi/4\\approx2.356$. (The exact value is 0, since the residues at $\\pm i$ cancel.)"
+				"explanation": "$M=1/8$ and $L=6\\pi$, so $|I|\\le6\\pi/8=3\\pi/4\\approx2.356$. (The exact value is 0, since the residues at $\\pm i$ cancel.)",
+				"equations": [
+					"\\left|\\int_Cf\\,dz\\right|\\le ML"
+				]
 			},
 			{
 				"kind": "short",
@@ -394,14 +471,20 @@
 					"$2\\pi i/e$, since the formula divides by $f(a)$."
 				],
 				"answer": 1,
-				"explanation": "$f(a)=\\frac{1}{2\\pi i}\\oint\\frac{f(z)}{z-a}dz$, so the integral is $2\\pi i\\,f(1)=2\\pi ie$. The numerator is analytic, but the denominator creates the pole that gives the nonzero value."
+				"explanation": "$f(a)=\\frac{1}{2\\pi i}\\oint\\frac{f(z)}{z-a}dz$, so the integral is $2\\pi i\\,f(1)=2\\pi ie$. The numerator is analytic, but the denominator creates the pole that gives the nonzero value.",
+				"equations": [
+					"f(a)=\\frac1{2\\pi i}\\oint\\frac{f(z)}{z-a}dz"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Evaluate the magnitude of $\\oint_{|z|=2}\\dfrac{e^z}{(z-1)^3}\\,dz$ using $f^{(n)}(a)=\\dfrac{n!}{2\\pi i}\\oint\\dfrac{f(z)}{(z-a)^{n+1}}dz$.",
 				"answer": 8.539734,
 				"tolerance": 0.02,
-				"explanation": "With $n=2$, $\\oint=\\dfrac{2\\pi i}{2!}f''(1)=\\pi i\\,e$, whose magnitude is $\\pi e\\approx8.54$."
+				"explanation": "With $n=2$, $\\oint=\\dfrac{2\\pi i}{2!}f''(1)=\\pi i\\,e$, whose magnitude is $\\pi e\\approx8.54$.",
+				"equations": [
+					"f^{(n)}(a)=\\frac{n!}{2\\pi i}\\oint\\frac{f(z)}{(z-a)^{n+1}}dz"
+				]
 			},
 			{
 				"kind": "short",
@@ -428,7 +511,10 @@
 				"prompt": "The mean-value property says $f(a)$ equals the average of $f$ over a circle around $a$. What is the average of $f(z)=z^3$ over the circle $|z-2|=1$?",
 				"answer": 8.0,
 				"tolerance": 0.02,
-				"explanation": "Cauchy's formula gives $f(a)=\\frac1{2\\pi}\\int f(a+re^{i\\theta})d\\theta$, so the average is $f(2)=8$, regardless of the radius."
+				"explanation": "Cauchy's formula gives $f(a)=\\frac1{2\\pi}\\int f(a+re^{i\\theta})d\\theta$, so the average is $f(2)=8$, regardless of the radius.",
+				"equations": [
+					"f(a)=\\frac1{2\\pi i}\\oint\\frac{f(z)}{z-a}dz"
+				]
 			},
 			{
 				"kind": "short",
@@ -455,14 +541,21 @@
 				"prompt": "What is the radius of convergence of the Taylor series about $z=0$ of $f(z)=\\dfrac{1}{z^2-2z+5}$?",
 				"answer": 2.236068,
 				"tolerance": 0.02,
-				"explanation": "The poles are at $z=1\\pm2i$, both at distance $\\sqrt5\\approx2.236$ from the origin, so the series converges for $|z|<\\sqrt5$."
+				"explanation": "The poles are at $z=1\\pm2i$, both at distance $\\sqrt5\\approx2.236$ from the origin, so the series converges for $|z|<\\sqrt5$.",
+				"equations": [
+					"x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The function $f(z)=\\dfrac{1}{(z-1)(z-2)}$ has a Laurent series in the annulus $1<|z|<2$. Find the coefficient of $z^2$ in that series.",
 				"answer": -0.125,
 				"tolerance": 0.02,
-				"explanation": "Partial fractions: $f=\\frac1{z-2}-\\frac1{z-1}$. For $|z|<2$, $\\frac1{z-2}=-\\frac12\\sum(z/2)^n$; for $|z|>1$, $-\\frac1{z-1}=-\\sum z^{-n-1}$. The coefficient of $z^n$ ($n\\ge0$) is $-2^{-(n+1)}$, so for $n=2$ it is $-1/8$."
+				"explanation": "Partial fractions: $f=\\frac1{z-2}-\\frac1{z-1}$. For $|z|<2$, $\\frac1{z-2}=-\\frac12\\sum(z/2)^n$; for $|z|>1$, $-\\frac1{z-1}=-\\sum z^{-n-1}$. The coefficient of $z^n$ ($n\\ge0$) is $-2^{-(n+1)}$, so for $n=2$ it is $-1/8$.",
+				"equations": [
+					"f(z)=\\sum_{n=-\\infty}^\\infty a_n(z-a)^n",
+					"\\sum_{n=0}^\\infty z^n=\\frac1{1-z},\\ |z|<1"
+				]
 			},
 			{
 				"kind": "short",
@@ -489,7 +582,10 @@
 				"prompt": "Find the residue (coefficient of $1/z$) of $\\cos z/z^3$ at $z=0$.",
 				"answer": -0.5,
 				"tolerance": 0.02,
-				"explanation": "$\\cos z/z^3=z^{-3}(1-z^2/2+\\cdots)=z^{-3}-\\tfrac12z^{-1}+\\cdots$. The residue is $-\\tfrac12$; the pole has order 3."
+				"explanation": "$\\cos z/z^3=z^{-3}(1-z^2/2+\\cdots)=z^{-3}-\\tfrac12z^{-1}+\\cdots$. The residue is $-\\tfrac12$; the pole has order 3.",
+				"equations": [
+					"\\cos z=\\sum_{n=0}^\\infty\\frac{(-1)^nz^{2n}}{(2n)!}"
+				]
 			},
 			{
 				"kind": "short",
@@ -509,7 +605,10 @@
 					"$\\dfrac12$, from $1/q'$ with the factor of $i$ dropped."
 				],
 				"answer": 2,
-				"explanation": "For $f=p/q$ with a simple zero of $q$ at $a$, $\\text{Res}=p(a)/q'(a)$. Here $q'=2z$, giving $1/(2i)=-i/2$. The residue at $-i$ is $+i/2$, so they sum to zero, as expected for a function decaying like $1/z^2$."
+				"explanation": "For $f=p/q$ with a simple zero of $q$ at $a$, $\\text{Res}=p(a)/q'(a)$. Here $q'=2z$, giving $1/(2i)=-i/2$. The residue at $-i$ is $+i/2$, so they sum to zero, as expected for a function decaying like $1/z^2$.",
+				"equations": [
+					"\\operatorname{Res}_{z=a}f=\\lim_{z\\to a}(z-a)f(z)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -536,14 +635,21 @@
 				"prompt": "Use the residue theorem to compute $\\oint_{|z|=2}\\dfrac{e^z}{z^2+1}\\,dz$. Give the real value.",
 				"answer": 5.287118,
 				"tolerance": 0.02,
-				"explanation": "Residues: $e^i/(2i)$ at $i$ and $e^{-i}/(-2i)$ at $-i$. Sum $=\\sin(1)$, so the integral is $2\\pi\\sin1\\approx5.288$."
+				"explanation": "Residues: $e^i/(2i)$ at $i$ and $e^{-i}/(-2i)$ at $-i$. Sum $=\\sin(1)$, so the integral is $2\\pi\\sin1\\approx5.288$.",
+				"equations": [
+					"\\oint_Cf\\,dz=2\\pi i\\sum_k\\operatorname{Res}(f,a_k)",
+					"\\operatorname{Res}_{z=a}\\frac pq=\\frac{p(a)}{q'(a)}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Find the residue of $\\dfrac{e^z}{(z-1)^2}$ at the double pole $z=1$ using $\\text{Res}=\\dfrac{1}{(m-1)!}\\dfrac{d^{m-1}}{dz^{m-1}}\\left[(z-a)^mf\\right]$.",
 				"answer": 2.718282,
 				"tolerance": 0.02,
-				"explanation": "With $m=2$: $\\frac{d}{dz}e^z=e^z$, evaluated at $z=1$ gives $e\\approx2.718$."
+				"explanation": "With $m=2$: $\\frac{d}{dz}e^z=e^z$, evaluated at $z=1$ gives $e\\approx2.718$.",
+				"equations": [
+					"\\operatorname{Res}=\\frac1{(m-1)!}\\lim_{z\\to a}\\frac{d^{m-1}}{dz^{m-1}}\\left[(z-a)^mf\\right]"
+				]
 			},
 			{
 				"kind": "mc",
@@ -555,7 +661,10 @@
 					"$0$, because the residue of a double pole always vanishes."
 				],
 				"answer": 1,
-				"explanation": "For a pole of order $m=2$, $\\operatorname{Res}=\\frac1{1!}\\frac{d}{dz}\\big[z^2f\\big]_{z=0}=\\frac{d}{dz}\\frac1{z-2}\\Big|_0=-\\frac1{(z-2)^2}\\Big|_0=-\\frac14$."
+				"explanation": "For a pole of order $m=2$, $\\operatorname{Res}=\\frac1{1!}\\frac{d}{dz}\\big[z^2f\\big]_{z=0}=\\frac{d}{dz}\\frac1{z-2}\\Big|_0=-\\frac1{(z-2)^2}\\Big|_0=-\\frac14$.",
+				"equations": [
+					"\\operatorname{Res}=\\frac1{(m-1)!}\\lim_{z\\to a}\\frac{d^{m-1}}{dz^{m-1}}\\left[(z-a)^mf\\right]"
+				]
 			},
 			{
 				"kind": "short",
@@ -570,7 +679,12 @@
 				"prompt": "Evaluate $\\int_0^{2\\pi}\\dfrac{d\\theta}{2+\\cos\\theta}$ by substituting $z=e^{i\\theta}$.",
 				"answer": 3.627599,
 				"tolerance": 0.02,
-				"explanation": "The integral becomes $\\oint\\frac{2\\,dz}{i(z^2+4z+1)}$ with one pole inside the unit circle at $z=-2+\\sqrt3$. The residue gives $2\\pi/\\sqrt3\\approx3.628$."
+				"explanation": "The integral becomes $\\oint\\frac{2\\,dz}{i(z^2+4z+1)}$ with one pole inside the unit circle at $z=-2+\\sqrt3$. The residue gives $2\\pi/\\sqrt3\\approx3.628$.",
+				"equations": [
+					"\\int_0^{2\\pi}R(\\cos\\theta,\\sin\\theta)\\,d\\theta=\\oint R\\,\\frac{dz}{iz}",
+					"\\cos\\theta=\\frac{z+z^{-1}}{2}",
+					"\\oint_Cf\\,dz=2\\pi i\\sum_k\\operatorname{Res}(f,a_k)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -589,7 +703,11 @@
 				"prompt": "Evaluate $\\int_{-\\infty}^{\\infty}\\dfrac{dx}{x^4+1}$ by closing in the upper half-plane (two poles lie there).",
 				"answer": 2.221441,
 				"tolerance": 0.02,
-				"explanation": "The poles in the upper half-plane are $e^{i\\pi/4}$ and $e^{3i\\pi/4}$ with residues $1/(4z^3)$. Summing and multiplying by $2\\pi i$ gives $\\pi/\\sqrt2\\approx2.221$."
+				"explanation": "The poles in the upper half-plane are $e^{i\\pi/4}$ and $e^{3i\\pi/4}$ with residues $1/(4z^3)$. Summing and multiplying by $2\\pi i$ gives $\\pi/\\sqrt2\\approx2.221$.",
+				"equations": [
+					"\\oint_Cf\\,dz=2\\pi i\\sum_k\\operatorname{Res}(f,a_k)",
+					"\\operatorname{Res}_{z=a}\\frac pq=\\frac{p(a)}{q'(a)}"
+				]
 			},
 			{
 				"kind": "short",
@@ -616,7 +734,11 @@
 				"prompt": "Evaluate $\\int_{-\\infty}^\\infty\\dfrac{\\cos x}{x^2+4}dx$ by residues (closing in the upper half-plane). Use $\\int\\frac{e^{ikx}}{x^2+a^2}dx=\\frac{\\pi}{a}e^{-ka}$.",
 				"answer": 0.212584,
 				"tolerance": 0.02,
-				"explanation": "With $a=2$, $k=1$: $\\frac{\\pi}{2}e^{-2}\\approx0.2126$."
+				"explanation": "With $a=2$, $k=1$: $\\frac{\\pi}{2}e^{-2}\\approx0.2126$.",
+				"equations": [
+					"\\int_{-\\infty}^{\\infty}\\frac{e^{ikx}}{x^2+a^2}dx=\\frac\\pi ae^{-a|k|}",
+					"\\cos x=\\operatorname{Re}e^{ix}"
+				]
 			},
 			{
 				"kind": "short",
@@ -643,7 +765,10 @@
 				"prompt": "The principal value $\\mathrm{P}\\!\\int_{-\\infty}^{\\infty}\\dfrac{e^{ix}}{x^2-1}\\,dx$ is found by closing in the upper half-plane, with each pole on the real axis contributing $i\\pi\\,\\mathrm{Res}$. Give its real part, which equals $\\mathrm P\\!\\int\\frac{\\cos x}{x^2-1}\\,dx$.",
 				"answer": -2.643559,
 				"tolerance": 0.02,
-				"explanation": "The residues of $e^{iz}/(z^2-1)$ are $e^{i}/2$ at $z=1$ and $-e^{-i}/2$ at $z=-1$. The sum times $i\\pi$ is $i\\pi\\,(e^i-e^{-i})/2=i\\pi\\cdot i\\sin1=-\\pi\\sin1\\approx-2.644$, which is real."
+				"explanation": "The residues of $e^{iz}/(z^2-1)$ are $e^{i}/2$ at $z=1$ and $-e^{-i}/2$ at $z=-1$. The sum times $i\\pi$ is $i\\pi\\,(e^i-e^{-i})/2=i\\pi\\cdot i\\sin1=-\\pi\\sin1\\approx-2.644$, which is real.",
+				"equations": [
+					"\\operatorname{Res}_{z=a}\\frac pq=\\frac{p(a)}{q'(a)}"
+				]
 			},
 			{
 				"kind": "short",
@@ -670,14 +795,21 @@
 				"prompt": "Evaluate $\\int_0^\\infty\\dfrac{x^{a-1}}{1+x}dx$ at $a=1/3$ using the keyhole result $\\pi/\\sin\\pi a$.",
 				"answer": 3.627599,
 				"tolerance": 0.02,
-				"explanation": "$\\pi/\\sin(\\pi/3)=\\pi/0.8660=3.628$ (equal to $2\\pi/\\sqrt3$)."
+				"explanation": "$\\pi/\\sin(\\pi/3)=\\pi/0.8660=3.628$ (equal to $2\\pi/\\sqrt3$).",
+				"equations": [
+					"\\int_0^\\infty\\frac{x^{a-1}}{1+x}dx=\\frac\\pi{\\sin\\pi a}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Use the substitution $u=x^3$ and the keyhole result to evaluate $\\int_0^\\infty\\dfrac{dx}{1+x^3}$.",
 				"answer": 1.2092,
 				"tolerance": 0.02,
-				"explanation": "$u=x^3$ gives $\\frac13\\int_0^\\infty\\frac{u^{-2/3}}{1+u}du$ with $a=1/3$, i.e. $\\frac13\\cdot\\frac{\\pi}{\\sin(\\pi/3)}=\\frac{2\\pi}{3\\sqrt3}\\approx1.209$."
+				"explanation": "$u=x^3$ gives $\\frac13\\int_0^\\infty\\frac{u^{-2/3}}{1+u}du$ with $a=1/3$, i.e. $\\frac13\\cdot\\frac{\\pi}{\\sin(\\pi/3)}=\\frac{2\\pi}{3\\sqrt3}\\approx1.209$.",
+				"equations": [
+					"\\int_0^\\infty\\frac{x^{a-1}}{1+x}dx=\\frac\\pi{\\sin\\pi a}",
+					"u=x^3,\\ dx=\\tfrac13u^{-2/3}du"
+				]
 			},
 			{
 				"kind": "short",
@@ -704,7 +836,11 @@
 				"prompt": "For $\\epsilon\\to0^+$, evaluate $\\displaystyle\\int_{-\\infty}^{\\infty}\\frac{dx}{(1+x^2)(x+i\\epsilon)}$ using $\\frac{1}{x+i\\epsilon}=\\mathrm P\\frac1x-i\\pi\\delta(x)$. The result is purely imaginary; give its imaginary part.",
 				"answer": -3.141593,
 				"tolerance": 0.02,
-				"explanation": "The principal-value part vanishes because $1/[x(1+x^2)]$ is odd. The delta function picks out $-i\\pi f(0)$ with $f(x)=1/(1+x^2)$, giving $-i\\pi$."
+				"explanation": "The principal-value part vanishes because $1/[x(1+x^2)]$ is odd. The delta function picks out $-i\\pi f(0)$ with $f(x)=1/(1+x^2)$, giving $-i\\pi$.",
+				"equations": [
+					"\\frac1{x\\pm i\\varepsilon}=\\mathrm P\\frac1x\\mp i\\pi\\delta(x)",
+					"\\int\\delta(x)f(x)\\,dx=f(0)"
+				]
 			},
 			{
 				"kind": "short",
@@ -719,7 +855,11 @@
 				"prompt": "Using the residue at infinity (or the sum of finite residues), evaluate the magnitude of $\\oint_{|z|=5}\\dfrac{z^3}{z^4-1}dz$.",
 				"answer": 6.283185,
 				"tolerance": 0.02,
-				"explanation": "All four poles ($z^4=1$) are inside the contour, each with residue $z^3/4z^3=1/4$, so the sum is 1 and the integral is $2\\pi i$, magnitude $6.283$. Equivalently, $f\\sim1/z$ at infinity, so the residue at infinity is $-1$."
+				"explanation": "All four poles ($z^4=1$) are inside the contour, each with residue $z^3/4z^3=1/4$, so the sum is 1 and the integral is $2\\pi i$, magnitude $6.283$. Equivalently, $f\\sim1/z$ at infinity, so the residue at infinity is $-1$.",
+				"equations": [
+					"\\operatorname{Res}_\\infty f=-\\operatorname{Res}_{w=0}\\tfrac1{w^2}f(1/w)",
+					"\\oint_Cf\\,dz=2\\pi i\\sum_k\\operatorname{Res}(f,a_k)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -770,7 +910,10 @@
 				"prompt": "How many zeros does $s^3+2s^2+3s+10$ have in the right half-plane $\\text{Re}\\,s>0$? (Check with the argument principle or numerically.)",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "The roots are $-2.45$ and $0.22\\pm2.01i$, so two lie in the right half-plane: a system with this characteristic polynomial is unstable. (Routh-Hurwitz: $2\\cdot3=6<10$ already signals instability.)"
+				"explanation": "The roots are $-2.45$ and $0.22\\pm2.01i$, so two lie in the right half-plane: a system with this characteristic polynomial is unstable. (Routh-Hurwitz: $2\\cdot3=6<10$ already signals instability.)",
+				"equations": [
+					"\\frac1{2\\pi i}\\oint\\frac{f'}{f}dz=N_0-N_p"
+				]
 			},
 			{
 				"kind": "short",
@@ -786,14 +929,21 @@
 				"answer": 0.5,
 				"tolerance": 0.02,
 				"unit": "ns",
-				"explanation": "$\\tau=1/(2.0\\times10^9\\ \\text{s}^{-1})=0.5$ ns. The real part of the pole position gives the resonance frequency and the imaginary part sets the linewidth (the lifetime)."
+				"explanation": "$\\tau=1/(2.0\\times10^9\\ \\text{s}^{-1})=0.5$ ns. The real part of the pole position gives the resonance frequency and the imaginary part sets the linewidth (the lifetime).",
+				"equations": [
+					"\\tau=1/\\Delta\\omega"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Invert $F(s)=\\dfrac{1}{(s+1)(s+3)}$ using the Bromwich integral (sum of residues of $F(s)e^{st}$ at the poles) and evaluate $f(t)$ at $t=1$.",
 				"answer": 0.159046,
 				"tolerance": 0.02,
-				"explanation": "Residues: $e^{-t}/2$ at $s=-1$ and $e^{-3t}/(-2)$ at $s=-3$, so $f(t)=\\tfrac12(e^{-t}-e^{-3t})$ and $f(1)=\\tfrac12(0.3679-0.0498)\\approx0.159$."
+				"explanation": "Residues: $e^{-t}/2$ at $s=-1$ and $e^{-3t}/(-2)$ at $s=-3$, so $f(t)=\\tfrac12(e^{-t}-e^{-3t})$ and $f(1)=\\tfrac12(0.3679-0.0498)\\approx0.159$.",
+				"equations": [
+					"f(t)=\\frac1{2\\pi i}\\int_{c-i\\infty}^{c+i\\infty}F(s)e^{st}ds",
+					"\\operatorname{Res}_{z=a}\\frac pq=\\frac{p(a)}{q'(a)}"
+				]
 			},
 			{
 				"kind": "short",
@@ -852,7 +1002,11 @@
 				"prompt": "Evaluate $\\Gamma(-\\tfrac12)$ using the analytic continuation $\\Gamma(z)=\\Gamma(z+1)/z$.",
 				"answer": -3.544908,
 				"tolerance": 0.02,
-				"explanation": "$\\Gamma(-\\tfrac12)=\\Gamma(\\tfrac12)/(-\\tfrac12)=-2\\sqrt\\pi\\approx-3.545$. The integral definition fails for negative arguments; the continuation does not."
+				"explanation": "$\\Gamma(-\\tfrac12)=\\Gamma(\\tfrac12)/(-\\tfrac12)=-2\\sqrt\\pi\\approx-3.545$. The integral definition fails for negative arguments; the continuation does not.",
+				"equations": [
+					"\\Gamma(z)=\\frac{\\Gamma(z+1)}{z}",
+					"\\Gamma(\\tfrac12)=\\sqrt\\pi"
+				]
 			},
 			{
 				"kind": "short",
@@ -879,7 +1033,10 @@
 				"prompt": "Estimate $10!$ with Stirling's formula $n!\\approx\\sqrt{2\\pi n}\\,(n/e)^n$.",
 				"answer": 3598695.618741,
 				"tolerance": 0.02,
-				"explanation": "$\\sqrt{20\\pi}\\,(10/e)^{10}\\approx3.599\\times10^6$, within 1% of the exact $3{,}628{,}800$. The relative error is about $1/(12n)$."
+				"explanation": "$\\sqrt{20\\pi}\\,(10/e)^{10}\\approx3.599\\times10^6$, within 1% of the exact $3{,}628{,}800$. The relative error is about $1/(12n)$.",
+				"equations": [
+					"n!\\approx\\sqrt{2\\pi n}\\,(n/e)^n"
+				]
 			},
 			{
 				"kind": "short",

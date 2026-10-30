@@ -44,7 +44,10 @@
 					"$1/c^2$ against $t$, with slope $k$."
 				],
 				"answer": 1,
-				"explanation": "Separating gives $-dc/c^2=k\\,dt$, so $1/c=1/c_0+kt$. A straight $\\ln c$ plot signals first order, and a straight $c$ plot signals zero order, so linearity of the right transformed plot reveals the order."
+				"explanation": "Separating gives $-dc/c^2=k\\,dt$, so $1/c=1/c_0+kt$. A straight $\\ln c$ plot signals first order, and a straight $c$ plot signals zero order, so linearity of the right transformed plot reveals the order.",
+				"equations": [
+					"\\frac{dy}{dx}=g(x)h(y)\\Rightarrow\\int\\frac{dy}{h(y)}=\\int g(x)\\,dx"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -52,7 +55,10 @@
 				"answer": 15.003186,
 				"tolerance": 0.02,
 				"unit": "min",
-				"explanation": "$t_{1/2}=\\ln2/k=0.693/0.0462\\approx15.0$ min, independent of the starting concentration."
+				"explanation": "$t_{1/2}=\\ln2/k=0.693/0.0462\\approx15.0$ min, independent of the starting concentration.",
+				"equations": [
+					"\\frac{dc}{dt}=-kc\\Rightarrow c=c_0e^{-kt}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -60,7 +66,10 @@
 				"answer": 0.166667,
 				"tolerance": 0.02,
 				"unit": "M",
-				"explanation": "$1/c=2+0.20\\cdot20=6$ M$^{-1}$, so $c=0.167$ M. The half-life $1/(kc_0)=10$ s lengthens as the reaction proceeds."
+				"explanation": "$1/c=2+0.20\\cdot20=6$ M$^{-1}$, so $c=0.167$ M. The half-life $1/(kc_0)=10$ s lengthens as the reaction proceeds.",
+				"equations": [
+					"\\frac1c=\\frac1{c_0}+kt"
+				]
 			},
 			{
 				"kind": "short",
@@ -80,7 +89,12 @@
 					"The solution depends on the initial condition forever, since $C$ is fixed."
 				],
 				"answer": 2,
-				"explanation": "The general solution is $y=3+Ce^{-2t}$: a steady-state part set by the forcing, plus a transient fixed by the initial data that dies out on the time scale $1/2$."
+				"explanation": "The general solution is $y=3+Ce^{-2t}$: a steady-state part set by the forcing, plus a transient fixed by the initial data that dies out on the time scale $1/2$.",
+				"equations": [
+					"y'+p(x)y=q(x)",
+					"\\mu(x)=e^{\\int p\\,dx}",
+					"(\\mu y)'=\\mu q"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -88,7 +102,12 @@
 				"answer": 1.264241,
 				"tolerance": 0.02,
 				"unit": "g/L",
-				"explanation": "With $\\tau=V/Q=20$ min, $c=2(1-e^{-t/\\tau})$, so $c(20)=2(1-e^{-1})\\approx1.26$ g/L. The same equation describes a CSTR approaching steady state."
+				"explanation": "With $\\tau=V/Q=20$ min, $c=2(1-e^{-t/\\tau})$, so $c(20)=2(1-e^{-1})\\approx1.26$ g/L. The same equation describes a CSTR approaching steady state.",
+				"equations": [
+					"y'+p(x)y=q(x)",
+					"\\mu(x)=e^{\\int p\\,dx}",
+					"(\\mu y)'=\\mu q"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -96,7 +115,10 @@
 				"answer": 46.051702,
 				"tolerance": 0.02,
 				"unit": "min",
-				"explanation": "$1-e^{-t/\\tau}=0.9$ gives $t=\\tau\\ln10\\approx46$ min, about 2.3 time constants."
+				"explanation": "$1-e^{-t/\\tau}=0.9$ gives $t=\\tau\\ln10\\approx46$ min, about 2.3 time constants.",
+				"equations": [
+					"c(t)=c_\\infty\\left(1-e^{-t/\\tau}\\right)"
+				]
 			},
 			{
 				"kind": "short",
@@ -148,14 +170,21 @@
 					"Both are unstable, because the population grows between them."
 				],
 				"answer": 2,
-				"explanation": "Near $y^*$, $\\delta'\\approx f'(y^*)\\delta$, so a positive slope makes small deviations grow and a negative one makes them shrink. Populations near zero grow away from extinction and level off at the carrying capacity."
+				"explanation": "Near $y^*$, $\\delta'\\approx f'(y^*)\\delta$, so a positive slope makes small deviations grow and a negative one makes them shrink. Populations near zero grow away from extinction and level off at the carrying capacity.",
+				"equations": [
+					"y'=f(y),\\ f(y^*)=0",
+					"f'(y^*)<0\\Rightarrow\\text{stable}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The harvested logistic equation $y'=y(1-y)-0.2$ has two equilibria. Give the larger one, which is the stable one.",
 				"answer": 0.723607,
 				"tolerance": 0.02,
-				"explanation": "Setting $y^2-y+0.2=0$ gives $y=(1\\pm\\sqrt{0.2})/2\\approx0.724,\\ 0.276$. Since $f'(y)=1-2y$ is negative at $0.724$ and positive at $0.276$, the larger one is stable."
+				"explanation": "Setting $y^2-y+0.2=0$ gives $y=(1\\pm\\sqrt{0.2})/2\\approx0.724,\\ 0.276$. Since $f'(y)=1-2y$ is negative at $0.724$ and positive at $0.276$, the larger one is stable.",
+				"equations": [
+					"y'=f(y),\\ f(y^*)=0"
+				]
 			},
 			{
 				"kind": "short",
@@ -175,21 +204,30 @@
 					"It sticks at zero, because the step overshoots exactly to the origin."
 				],
 				"answer": 0,
-				"explanation": "Each Euler step multiplies $y$ by $(1-hk)$. For $hk>2$, $|1-hk|>1$ and the sign alternates, so the numerical solution blows up even though the true solution decays."
+				"explanation": "Each Euler step multiplies $y$ by $(1-hk)$. For $hk>2$, $|1-hk|>1$ and the sign alternates, so the numerical solution blows up even though the true solution decays.",
+				"equations": [
+					"y_{n+1}=y_n+h f(x_n,y_n)"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Apply Euler's method to $y'=-2y$, $y(0)=1$ with $h=0.1$ for three steps. What is the numerical $y(0.3)$?",
 				"answer": 0.512,
 				"tolerance": 0.02,
-				"explanation": "Each step multiplies by $1-0.2=0.8$, so $y=0.8^3=0.512$. The exact value $e^{-0.6}=0.549$ shows the first-order error."
+				"explanation": "Each step multiplies by $1-0.2=0.8$, so $y=0.8^3=0.512$. The exact value $e^{-0.6}=0.549$ shows the first-order error.",
+				"equations": [
+					"y_{n+1}=y_n+h f(x_n,y_n)"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Euler's method has global error $O(h)$. If the error at $t=1$ is $0.020$ with $h=0.1$, what is the expected error with $h=0.025$?",
 				"answer": 0.005,
 				"tolerance": 0.1,
-				"explanation": "First-order accuracy means the error scales linearly with $h$: reducing $h$ by a factor of 4 reduces the error by about 4, giving $\\approx0.005$. (Local error per step is $O(h^2)$, but the errors accumulate over $1/h$ steps.)"
+				"explanation": "First-order accuracy means the error scales linearly with $h$: reducing $h$ by a factor of 4 reduces the error by about 4, giving $\\approx0.005$. (Local error per step is $O(h^2)$, but the errors accumulate over $1/h$ steps.)",
+				"equations": [
+					"E\\approx Ch^{p}"
+				]
 			},
 			{
 				"kind": "short",
@@ -204,7 +242,10 @@
 				"prompt": "Write $2\\cos t+3\\sin t$ as $R\\cos(t-\\phi)$. Give the amplitude $R$.",
 				"answer": 3.605551,
 				"tolerance": 0.02,
-				"explanation": "$R=\\sqrt{A^2+B^2}=\\sqrt{4+9}=\\sqrt{13}\\approx3.606$ and $\\phi=\\arctan(3/2)\\approx56.3^\\circ$."
+				"explanation": "$R=\\sqrt{A^2+B^2}=\\sqrt{4+9}=\\sqrt{13}\\approx3.606$ and $\\phi=\\arctan(3/2)\\approx56.3^\\circ$.",
+				"equations": [
+					"A\\cos\\omega t+B\\sin\\omega t=R\\cos(\\omega t-\\phi)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -216,7 +257,10 @@
 					"$\\tfrac12\\left(e^{i\\omega t}+e^{-i\\omega t}\\right)$"
 				],
 				"answer": 3,
-				"explanation": "Adding $e^{i\\theta}=\\cos\\theta+i\\sin\\theta$ and $e^{-i\\theta}=\\cos\\theta-i\\sin\\theta$ gives $2\\cos\\theta$. The first option is $\\sin\\theta$, and the third forgets the factor $\\tfrac12$."
+				"explanation": "Adding $e^{i\\theta}=\\cos\\theta+i\\sin\\theta$ and $e^{-i\\theta}=\\cos\\theta-i\\sin\\theta$ gives $2\\cos\\theta$. The first option is $\\sin\\theta$, and the third forgets the factor $\\tfrac12$.",
+				"equations": [
+					"e^{i\\theta}=\\cos\\theta+i\\sin\\theta"
+				]
 			},
 			{
 				"kind": "short",
@@ -236,7 +280,10 @@
 					"The gain falls like $1/\\omega$ and the lag tends to $90^\\circ$."
 				],
 				"answer": 3,
-				"explanation": "The complex amplitude is $1/(k+i\\omega)$, with magnitude $1/\\sqrt{k^2+\\omega^2}$ and phase lag $\\arctan(\\omega/k)$. When $\\omega\\gg k$ the system cannot follow the fast driving: the response is small and lags by almost a quarter cycle."
+				"explanation": "The complex amplitude is $1/(k+i\\omega)$, with magnitude $1/\\sqrt{k^2+\\omega^2}$ and phase lag $\\arctan(\\omega/k)$. When $\\omega\\gg k$ the system cannot follow the fast driving: the response is small and lags by almost a quarter cycle.",
+				"equations": [
+					"y_p=\\operatorname{Re}\\frac{e^{i\\omega t}}{k+i\\omega}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -255,7 +302,10 @@
 				"prompt": "A first-order system $y'+2y=\\cos3t$ is driven in steady state. Find the gain, i.e. the amplitude of the steady-state response.",
 				"answer": 0.27735,
 				"tolerance": 0.02,
-				"explanation": "$|1/(2+3i)|=1/\\sqrt{13}\\approx0.277$, and the response lags by $\\arctan(3/2)\\approx56^\\circ$."
+				"explanation": "$|1/(2+3i)|=1/\\sqrt{13}\\approx0.277$, and the response lags by $\\arctan(3/2)\\approx56^\\circ$.",
+				"equations": [
+					"y_p=\\operatorname{Re}\\frac{e^{i\\omega t}}{k+i\\omega}"
+				]
 			},
 			{
 				"kind": "short",
@@ -275,14 +325,22 @@
 					"$y=Ae^{-2t}+Be^{-3t}$."
 				],
 				"answer": 0,
-				"explanation": "The characteristic equation $r^2+4r+13=0$ has roots $r=-2\\pm3i$. The real part gives the decay rate and the imaginary part the oscillation frequency."
+				"explanation": "The characteristic equation $r^2+4r+13=0$ has roots $r=-2\\pm3i$. The real part gives the decay rate and the imaginary part the oscillation frequency.",
+				"equations": [
+					"r^2 + \\tfrac{b}{a}r+\\tfrac{c}{a}=0",
+					"r=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Solve $y''+6y'+9y=0$ with $y(0)=1$, $y'(0)=0$ (repeated root). Give $y(1)$.",
 				"answer": 0.199148,
 				"tolerance": 0.02,
-				"explanation": "The repeated root $-3$ gives $y=(A+Bt)e^{-3t}$. $A=1$ and $-3A+B=0\\Rightarrow B=3$, so $y(1)=4e^{-3}\\approx0.199$."
+				"explanation": "The repeated root $-3$ gives $y=(A+Bt)e^{-3t}$. $A=1$ and $-3A+B=0\\Rightarrow B=3$, so $y(1)=4e^{-3}\\approx0.199$.",
+				"equations": [
+					"r^2 + \\tfrac{b}{a}r+\\tfrac{c}{a}=0",
+					"y=(A+Bt)e^{rt}"
+				]
 			},
 			{
 				"kind": "short",
@@ -302,14 +360,21 @@
 					"Both must be the zero solution, since the Wronskian vanishes there."
 				],
 				"answer": 2,
-				"explanation": "For solutions of the same linear ODE, $W(t)=W(t_0)e^{-\\int p}$ never vanishes unless it is zero everywhere, which happens exactly when the solutions are proportional. So one point suffices to test independence."
+				"explanation": "For solutions of the same linear ODE, $W(t)=W(t_0)e^{-\\int p}$ never vanishes unless it is zero everywhere, which happens exactly when the solutions are proportional. So one point suffices to test independence.",
+				"equations": [
+					"W(y_1,y_2)=y_1y_2'-y_1'y_2"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Solve $y''+2y'+5y=0$ with $y(0)=1$, $y'(0)=0$. Give $y(0.5)$.",
 				"answer": 0.582899,
 				"tolerance": 0.02,
-				"explanation": "Roots $-1\\pm2i$ give $y=e^{-t}(A\\cos2t+B\\sin2t)$ with $A=1$ and $-A+2B=0\\Rightarrow B=\\tfrac12$. So $y(0.5)=e^{-0.5}(\\cos1+\\tfrac12\\sin1)\\approx0.5829$."
+				"explanation": "Roots $-1\\pm2i$ give $y=e^{-t}(A\\cos2t+B\\sin2t)$ with $A=1$ and $-A+2B=0\\Rightarrow B=\\tfrac12$. So $y(0.5)=e^{-0.5}(\\cos1+\\tfrac12\\sin1)\\approx0.5829$.",
+				"equations": [
+					"r^2 + \\tfrac{b}{a}r+\\tfrac{c}{a}=0",
+					"y=e^{\\alpha t}(A\\cos\\beta t+B\\sin\\beta t)"
+				]
 			},
 			{
 				"kind": "short",
@@ -336,7 +401,10 @@
 				"prompt": "Find the damping ratio $\\zeta$ of $\\ddot x+4\\dot x+9x=0$, where $\\ddot x+2\\zeta\\omega_0\\dot x+\\omega_0^2x=0$.",
 				"answer": 0.666667,
 				"tolerance": 0.02,
-				"explanation": "Comparing coefficients, $\\omega_0^2=9$ so $\\omega_0=3$, and $2\\zeta\\omega_0=4$ gives $\\zeta=4/6=2/3$. Since $\\zeta<1$ the system is underdamped."
+				"explanation": "Comparing coefficients, $\\omega_0^2=9$ so $\\omega_0=3$, and $2\\zeta\\omega_0=4$ gives $\\zeta=4/6=2/3$. Since $\\zeta<1$ the system is underdamped.",
+				"equations": [
+					"\\ddot x+2\\zeta\\omega_0\\dot x+\\omega_0^2x=0"
+				]
 			},
 			{
 				"kind": "short",
@@ -363,7 +431,10 @@
 				"prompt": "A mass-spring-dashpot has $m=0.2$ kg, $k=80$ N/m and $c=0.4$ kg/s. Find the quality factor $Q=\\sqrt{mk}/c$.",
 				"answer": 10.0,
 				"tolerance": 0.02,
-				"explanation": "$\\omega_0=\\sqrt{k/m}=20$ rad/s and $\\gamma=c/2m=1$ s$^{-1}$, so $Q=\\omega_0/2\\gamma=\\sqrt{mk}/c=4/0.4=10$. High $Q$ means many oscillations before the energy decays."
+				"explanation": "$\\omega_0=\\sqrt{k/m}=20$ rad/s and $\\gamma=c/2m=1$ s$^{-1}$, so $Q=\\omega_0/2\\gamma=\\sqrt{mk}/c=4/0.4=10$. High $Q$ means many oscillations before the energy decays.",
+				"equations": [
+					"Q=\\sqrt{mk}/c"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -371,7 +442,12 @@
 				"answer": 19.974984,
 				"tolerance": 0.02,
 				"unit": "rad/s",
-				"explanation": "$\\omega_d=\\sqrt{400-1}\\approx19.97$ rad/s. For high $Q$ the damped frequency is almost the natural frequency."
+				"explanation": "$\\omega_d=\\sqrt{400-1}\\approx19.97$ rad/s. For high $Q$ the damped frequency is almost the natural frequency.",
+				"equations": [
+					"\\omega_d=\\sqrt{\\omega_0^2-\\gamma^2}",
+					"\\omega_0=\\sqrt{k/m}",
+					"\\gamma=\\frac{c}{2m}"
+				]
 			},
 			{
 				"kind": "short",
@@ -398,7 +474,10 @@
 				"prompt": "For $y''+4y=8\\cos t$, the steady particular solution is $y_p=C\\cos t$. Find $C$.",
 				"answer": 2.666667,
 				"tolerance": 0.02,
-				"explanation": "Substituting $y_p=C\\cos t$: $(-1+4)C=8$, so $C=8/3\\approx2.667$. (The complex-replacement answer: $8/P(i)=8/3$.)"
+				"explanation": "Substituting $y_p=C\\cos t$: $(-1+4)C=8$, so $C=8/3\\approx2.667$. (The complex-replacement answer: $8/P(i)=8/3$.)",
+				"equations": [
+					"P(D)y=f(t)"
+				]
 			},
 			{
 				"kind": "short",
@@ -418,14 +497,20 @@
 					"$e^{2t}$ is already a homogeneous solution, so use $Ate^{2t}$."
 				],
 				"answer": 3,
-				"explanation": "$P(s)=s^2-3s+2$ has $P(2)=0$, so $1/P(2)$ is infinite: this is the resonance case. Multiplying by $t$ restores a particular solution, $y_p=te^{2t}/P'(2)$."
+				"explanation": "$P(s)=s^2-3s+2$ has $P(2)=0$, so $1/P(2)$ is infinite: this is the resonance case. Multiplying by $t$ restores a particular solution, $y_p=te^{2t}/P'(2)$.",
+				"equations": [
+					"y_p=\\frac{e^{st}}{P(s)},\\ P(s)\\neq0"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Use the exponential-response formula $y_p=e^{st}/P(s)$ for $y''+3y'+2y=10e^{t}$. What is the coefficient of $e^t$ in $y_p$?",
 				"answer": 1.666667,
 				"tolerance": 0.02,
-				"explanation": "$P(1)=1+3+2=6$, so $y_p=(10/6)e^t\\approx1.667e^t$."
+				"explanation": "$P(1)=1+3+2=6$, so $y_p=(10/6)e^t\\approx1.667e^t$.",
+				"equations": [
+					"y_p=\\frac{e^{st}}{P(s)},\\ P(s)\\neq0"
+				]
 			},
 			{
 				"kind": "short",
@@ -440,7 +525,10 @@
 				"prompt": "For $\\ddot x+2\\gamma\\dot x+\\omega_0^2x=3\\cos\\omega t$ with $\\gamma=0.05$ s$^{-1}$ and $\\omega_0=10$ rad/s, find the steady-state amplitude at $\\omega=9$ rad/s.",
 				"answer": 0.157718,
 				"tolerance": 0.02,
-				"explanation": "Amplitude $=3/\\sqrt{(100-81)^2+4(0.0025)(81)}=3/\\sqrt{361.8}\\approx0.158$. On resonance ($\\omega=10$) it would be $3/(2\\gamma\\omega_0)=3$, nearly 20 times larger."
+				"explanation": "Amplitude $=3/\\sqrt{(100-81)^2+4(0.0025)(81)}=3/\\sqrt{361.8}\\approx0.158$. On resonance ($\\omega=10$) it would be $3/(2\\gamma\\omega_0)=3$, nearly 20 times larger.",
+				"equations": [
+					"A(\\omega)=\\frac{F_0}{\\sqrt{(\\omega_0^2-\\omega^2)^2+4\\gamma^2\\omega^2}}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -472,7 +560,10 @@
 					"At $\\omega=0$, where the response to a static force is largest."
 				],
 				"answer": 0,
-				"explanation": "Amplitude is $f/\\sqrt{(\\omega_0^2-\\omega^2)^2+4\\gamma^2\\omega^2}$; minimising the denominator gives $\\omega^2=\\omega_0^2-2\\gamma^2$. For light damping the shift is negligible."
+				"explanation": "Amplitude is $f/\\sqrt{(\\omega_0^2-\\omega^2)^2+4\\gamma^2\\omega^2}$; minimising the denominator gives $\\omega^2=\\omega_0^2-2\\gamma^2$. For light damping the shift is negligible.",
+				"equations": [
+					"A(\\omega)=\\frac{1}{\\sqrt{(\\omega_0^2-\\omega^2)^2+4\\zeta^2\\omega_0^2\\omega^2}}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -491,7 +582,10 @@
 				"prompt": "For the same oscillator, find the quality factor $Q=\\omega_0/2\\gamma$.",
 				"answer": 100.0,
 				"tolerance": 0.02,
-				"explanation": "$Q=10/(2\\cdot0.05)=100$, so the resonance has width about $\\omega_0/Q=0.1$ rad/s."
+				"explanation": "$Q=10/(2\\cdot0.05)=100$, so the resonance has width about $\\omega_0/Q=0.1$ rad/s.",
+				"equations": [
+					"Q=\\frac{\\omega_0}{2\\gamma}"
+				]
 			},
 			{
 				"kind": "short",
@@ -506,7 +600,11 @@
 				"prompt": "Compute $\\mathcal{L}\\{e^{-2t}\\sin3t\\}$ evaluated at $s=1$.",
 				"answer": 0.166667,
 				"tolerance": 0.02,
-				"explanation": "The shift theorem gives $\\dfrac{3}{(s+2)^2+9}$; at $s=1$ this is $3/18=1/6\\approx0.167$."
+				"explanation": "The shift theorem gives $\\dfrac{3}{(s+2)^2+9}$; at $s=1$ this is $3/18=1/6\\approx0.167$.",
+				"equations": [
+					"\\mathcal L\\{e^{at}f\\}=F(s-a)",
+					"\\mathcal L\\{\\sin\\omega t\\}=\\frac{\\omega}{s^2+\\omega^2}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -518,7 +616,10 @@
 					"$e^{-3t}$, from combining the poles into a single exponential."
 				],
 				"answer": 2,
-				"explanation": "Partial fractions give $\\frac1{(s+1)(s+2)}=\\frac1{s+1}-\\frac1{s+2}$, and each term inverts to an exponential. Check: the result vanishes at $t=0$, as $F(s)\\sim1/s^2$ requires."
+				"explanation": "Partial fractions give $\\frac1{(s+1)(s+2)}=\\frac1{s+1}-\\frac1{s+2}$, and each term inverts to an exponential. Check: the result vanishes at $t=0$, as $F(s)\\sim1/s^2$ requires.",
+				"equations": [
+					"\\mathcal L\\{e^{at}\\}=\\frac1{s-a}"
+				]
 			},
 			{
 				"kind": "short",
@@ -538,7 +639,10 @@
 					"$s^2Y(s)+s\\,y(0)+y'(0)$."
 				],
 				"answer": 2,
-				"explanation": "Applying $\\mathcal{L}\\{f'\\}=sF-f(0)$ twice gives $s(sY-y(0))-y'(0)$. The initial conditions enter automatically, which is why Laplace transforms solve initial-value problems directly."
+				"explanation": "Applying $\\mathcal{L}\\{f'\\}=sF-f(0)$ twice gives $s(sY-y(0))-y'(0)$. The initial conditions enter automatically, which is why Laplace transforms solve initial-value problems directly.",
+				"equations": [
+					"\\mathcal L\\{f'\\}=sF(s)-f(0)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -557,7 +661,11 @@
 				"prompt": "Solve $y'+2y=e^{-t}$ with $y(0)=0$ using Laplace transforms and give $y(1)$.",
 				"answer": 0.232544,
 				"tolerance": 0.02,
-				"explanation": "$(s+2)Y=1/(s+1)$ so $Y=\\dfrac{1}{(s+1)(s+2)}=\\dfrac1{s+1}-\\dfrac1{s+2}$, giving $y=e^{-t}-e^{-2t}$ and $y(1)\\approx0.2325$."
+				"explanation": "$(s+2)Y=1/(s+1)$ so $Y=\\dfrac{1}{(s+1)(s+2)}=\\dfrac1{s+1}-\\dfrac1{s+2}$, giving $y=e^{-t}-e^{-2t}$ and $y(1)\\approx0.2325$.",
+				"equations": [
+					"\\mathcal L\\{f'\\}=sF(s)-f(0)",
+					"\\mathcal L\\{e^{at}\\}=\\frac1{s-a}"
+				]
 			},
 			{
 				"kind": "short",
@@ -650,7 +758,11 @@
 				"prompt": "Compute $(t*e^{-t})(t)=\\int_0^t\\tau\\,e^{-(t-\\tau)}d\\tau$ at $t=2$.",
 				"answer": 1.135335,
 				"tolerance": 0.02,
-				"explanation": "Via Laplace: $\\mathcal{L}=\\frac1{s^2}\\cdot\\frac1{s+1}$, whose inverse is $t-1+e^{-t}$. At $t=2$: $1+e^{-2}\\approx1.135$."
+				"explanation": "Via Laplace: $\\mathcal{L}=\\frac1{s^2}\\cdot\\frac1{s+1}$, whose inverse is $t-1+e^{-t}$. At $t=2$: $1+e^{-2}\\approx1.135$.",
+				"equations": [
+					"(f*g)(t)=\\int_0^tf(\\tau)g(t-\\tau)\\,d\\tau",
+					"\\mathcal L\\{f*g\\}=F(s)G(s)"
+				]
 			},
 			{
 				"kind": "short",
@@ -677,7 +789,11 @@
 				"prompt": "For $y''+2y'+5y=f(t)$ driven sinusoidally at $\\omega=2$, find the magnitude of the transfer function $|1/P(i\\omega)|$ with $P(s)=s^2+2s+5$.",
 				"answer": 0.242536,
 				"tolerance": 0.02,
-				"explanation": "$P(2i)=-4+4i+5=1+4i$, so $|1/P|=1/\\sqrt{17}\\approx0.243$: the steady-state gain at that frequency."
+				"explanation": "$P(2i)=-4+4i+5=1+4i$, so $|1/P|=1/\\sqrt{17}\\approx0.243$: the steady-state gain at that frequency.",
+				"equations": [
+					"H(s)=\\frac{1}{P(s)}",
+					"|H(i\\omega)|=\\frac{1}{|P(i\\omega)|}"
+				]
 			},
 			{
 				"kind": "short",
@@ -704,7 +820,11 @@
 				"prompt": "Solve $u'=\\begin{pmatrix}-2&1\\\\1&-2\\end{pmatrix}u$ with $u(0)=(2,0)$ (e.g. exchange between two sites). Give $u_1(1)$.",
 				"answer": 0.417667,
 				"tolerance": 0.02,
-				"explanation": "Eigenvalues $-1$ (vector $(1,1)$) and $-3$ (vector $(1,-1)$), $u(0)=(1,1)+(1,-1)$, so $u_1=e^{-t}+e^{-3t}$ and $u_1(1)\\approx0.4177$."
+				"explanation": "Eigenvalues $-1$ (vector $(1,1)$) and $-3$ (vector $(1,-1)$), $u(0)=(1,1)+(1,-1)$, so $u_1=e^{-t}+e^{-3t}$ and $u_1(1)\\approx0.4177$.",
+				"equations": [
+					"\\mathbf u=\\sum_ic_ie^{\\lambda_it}\\mathbf v_i",
+					"A\\mathbf v=\\lambda\\mathbf v"
+				]
 			},
 			{
 				"kind": "short",
@@ -732,7 +852,10 @@
 				"answer": 2.44949,
 				"tolerance": 0.02,
 				"unit": "rad/s",
-				"explanation": "$\\omega^2=(4+2)/1=6$, so $\\omega=\\sqrt6\\approx2.449$ rad/s, versus $\\omega=\\sqrt{k/m}=2$ rad/s for the in-phase mode. The coupling spring only works in the out-of-phase mode."
+				"explanation": "$\\omega^2=(4+2)/1=6$, so $\\omega=\\sqrt6\\approx2.449$ rad/s, versus $\\omega=\\sqrt{k/m}=2$ rad/s for the in-phase mode. The coupling spring only works in the out-of-phase mode.",
+				"equations": [
+					"\\omega^2=\\frac{k+2k_c}{m}"
+				]
 			},
 			{
 				"kind": "short",
@@ -748,7 +871,11 @@
 				"answer": 1.732051,
 				"tolerance": 0.02,
 				"unit": "rad/s",
-				"explanation": "$\\lambda^2+2\\lambda+4=0$ gives $\\lambda=-1\\pm i\\sqrt3$, so $\\omega=\\sqrt3\\approx1.732$. Trace $-2<0$, det $4>0$ and $\\tau^2-4\\Delta=-12<0$: a spiral sink."
+				"explanation": "$\\lambda^2+2\\lambda+4=0$ gives $\\lambda=-1\\pm i\\sqrt3$, so $\\omega=\\sqrt3\\approx1.732$. Trace $-2<0$, det $4>0$ and $\\tau^2-4\\Delta=-12<0$: a spiral sink.",
+				"equations": [
+					"\\det(A-\\lambda I)=0",
+					"\\lambda=\\alpha\\pm i\\beta"
+				]
 			},
 			{
 				"kind": "mc",
@@ -780,7 +907,11 @@
 					"A centre, since the trace of the matrix is non-zero."
 				],
 				"answer": 1,
-				"explanation": "$\\det<0$ always gives a saddle (eigenvalues $4$ and $-1$ here): trajectories approach along the stable eigendirection and are flung away along the unstable one. The trace-determinant plane classifies the origin without finding eigenvalues."
+				"explanation": "$\\det<0$ always gives a saddle (eigenvalues $4$ and $-1$ here): trajectories approach along the stable eigendirection and are flung away along the unstable one. The trace-determinant plane classifies the origin without finding eigenvalues.",
+				"equations": [
+					"\\lambda^2-\\tau\\lambda+\\Delta=0",
+					"\\tau=\\operatorname{tr}A,\\ \\Delta=\\det A"
+				]
 			},
 			{
 				"kind": "mc",
@@ -799,7 +930,11 @@
 				"prompt": "For $u'=\\begin{pmatrix}0&1\\\\-1&-b\\end{pmatrix}u$ (a damped oscillator with $b>0$), the origin is a spiral for small $b$ and a node for large $b$. At what value of $b$ does the transition occur?",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "Trace $=-b$, det $=1$; the discriminant $\\tau^2-4\\Delta=b^2-4$ changes sign at $b=2$ (critical damping). Below it, the eigenvalues are complex."
+				"explanation": "Trace $=-b$, det $=1$; the discriminant $\\tau^2-4\\Delta=b^2-4$ changes sign at $b=2$ (critical damping). Below it, the eigenvalues are complex.",
+				"equations": [
+					"\\lambda^2-\\tau\\lambda+\\Delta=0",
+					"\\tau=\\operatorname{tr}A,\\ \\Delta=\\det A"
+				]
 			},
 			{
 				"kind": "short",
@@ -832,7 +967,10 @@
 				"prompt": "For $A=\\begin{pmatrix}1&2\\\\2&1\\end{pmatrix}$ (eigenvalues $3$ and $-1$, eigenvectors $(1,1)$ and $(1,-1)$), find the $(1,1)$ entry of $e^{At}$ at $t=0.5$.",
 				"answer": 2.54411,
 				"tolerance": 0.02,
-				"explanation": "$e^{At}=S\\,\\mathrm{diag}(e^{3t},e^{-t})S^{-1}$, and its $(1,1)$ entry is $\\tfrac12(e^{3t}+e^{-t})$. At $t=0.5$ this is $\\tfrac12(4.4817+0.6065)\\approx2.544$."
+				"explanation": "$e^{At}=S\\,\\mathrm{diag}(e^{3t},e^{-t})S^{-1}$, and its $(1,1)$ entry is $\\tfrac12(e^{3t}+e^{-t})$. At $t=0.5$ this is $\\tfrac12(4.4817+0.6065)\\approx2.544$.",
+				"equations": [
+					"e^{At}=Se^{\\Lambda t}S^{-1}"
+				]
 			}
 		],
 		"m4-l028-inhomogeneous-systems-kinetic-networks": [
@@ -865,7 +1003,10 @@
 				"prompt": "For $\\text{A}\\rightleftharpoons\\text{B}$ with $k_f=2\\ \\text{s}^{-1}$ and $k_r=3\\ \\text{s}^{-1}$, what fraction of the material is B at equilibrium?",
 				"answer": 0.4,
 				"tolerance": 0.02,
-				"explanation": "At equilibrium $k_f[\\text{A}]=k_r[\\text{B}]$, so $[\\text{B}]/([\\text{A}]+[\\text{B}])=k_f/(k_f+k_r)=0.4$. This is the null eigenvector $(3,2)/5$."
+				"explanation": "At equilibrium $k_f[\\text{A}]=k_r[\\text{B}]$, so $[\\text{B}]/([\\text{A}]+[\\text{B}])=k_f/(k_f+k_r)=0.4$. This is the null eigenvector $(3,2)/5$.",
+				"equations": [
+					"k_f[\\mathrm A]_{eq}=k_r[\\mathrm B]_{eq}"
+				]
 			},
 			{
 				"kind": "short",
@@ -885,14 +1026,20 @@
 					"A centre, because the pendulum swings back and forth about it."
 				],
 				"answer": 0,
-				"explanation": "$\\cos\\pi=-1$ flips the sign of the restoring term, making $\\det J<0$. Friction cannot stabilise the inverted pendulum: small deviations grow along the unstable eigendirection."
+				"explanation": "$\\cos\\pi=-1$ flips the sign of the restoring term, making $\\det J<0$. Friction cannot stabilise the inverted pendulum: small deviations grow along the unstable eigendirection.",
+				"equations": [
+					"\\tau=\\operatorname{tr}A,\\ \\Delta=\\det A"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The competition model $x'=x(3-x-2y)$, $y'=y(2-y-x)$ has a critical point at $(1,1)$ with Jacobian $\\begin{pmatrix}-1&-2\\\\-1&-1\\end{pmatrix}$. Find the positive eigenvalue.",
 				"answer": 0.414214,
 				"tolerance": 0.02,
-				"explanation": "$\\lambda^2+2\\lambda-1=0$ gives $\\lambda=-1\\pm\\sqrt2$, i.e. $0.414$ and $-2.414$. One positive eigenvalue makes $(1,1)$ a saddle: coexistence is unstable."
+				"explanation": "$\\lambda^2+2\\lambda-1=0$ gives $\\lambda=-1\\pm\\sqrt2$, i.e. $0.414$ and $-2.414$. One positive eigenvalue makes $(1,1)$ a saddle: coexistence is unstable.",
+				"equations": [
+					"\\det(J-\\lambda I)=0"
+				]
 			},
 			{
 				"kind": "short",
@@ -920,7 +1067,10 @@
 				"answer": 5.130199,
 				"tolerance": 0.02,
 				"unit": "yr",
-				"explanation": "The Jacobian has eigenvalues $\\pm i\\sqrt{ac}$, so $\\omega=\\sqrt{1.5}=1.225\\ \\text{yr}^{-1}$ and the period is $2\\pi/\\omega\\approx5.13$ years."
+				"explanation": "The Jacobian has eigenvalues $\\pm i\\sqrt{ac}$, so $\\omega=\\sqrt{1.5}=1.225\\ \\text{yr}^{-1}$ and the period is $2\\pi/\\omega\\approx5.13$ years.",
+				"equations": [
+					"T=\\frac{2\\pi}{\\omega}"
+				]
 			},
 			{
 				"kind": "short",
@@ -948,7 +1098,10 @@
 				"answer": 6.283185,
 				"tolerance": 0.05,
 				"unit": "s",
-				"explanation": "For $\\varepsilon\\to0$ the limit cycle is nearly a circle of radius 2 traversed at $\\omega=1$, so $T\\approx2\\pi\\approx6.28$ s. Unlike a centre, the amplitude is fixed by the nonlinearity, not by the initial condition."
+				"explanation": "For $\\varepsilon\\to0$ the limit cycle is nearly a circle of radius 2 traversed at $\\omega=1$, so $T\\approx2\\pi\\approx6.28$ s. Unlike a centre, the amplitude is fixed by the nonlinearity, not by the initial condition.",
+				"equations": [
+					"T=\\frac{2\\pi}{\\omega}"
+				]
 			},
 			{
 				"kind": "short",
@@ -975,7 +1128,10 @@
 				"prompt": "Near a supercritical Hopf bifurcation the amplitude obeys $r'=\\mu r-r^3$. For $\\mu=0.25$, what is the radius of the stable limit cycle?",
 				"answer": 0.5,
 				"tolerance": 0.02,
-				"explanation": "Setting $r'=0$ with $r\\ne0$: $r^2=\\mu$, so $r=\\sqrt{0.25}=0.5$. The amplitude grows as $\\sqrt\\mu$ past the bifurcation."
+				"explanation": "Setting $r'=0$ with $r\\ne0$: $r^2=\\mu$, so $r=\\sqrt{0.25}=0.5$. The amplitude grows as $\\sqrt\\mu$ past the bifurcation.",
+				"equations": [
+					"r'=\\mu r-r^3"
+				]
 			},
 			{
 				"kind": "short",
@@ -995,7 +1151,10 @@
 					"$C$ alone, independent of $x$."
 				],
 				"answer": 2,
-				"explanation": "$W'=-pW$ with $p=2/x$ gives $W=Cx^{-2}$. The Wronskian is determined by $p$ alone, so you can test independence of two solutions without knowing $q$."
+				"explanation": "$W'=-pW$ with $p=2/x$ gives $W=Cx^{-2}$. The Wronskian is determined by $p$ alone, so you can test independence of two solutions without knowing $q$.",
+				"equations": [
+					"W'=-pW"
+				]
 			},
 			{
 				"kind": "short",
@@ -1008,7 +1167,10 @@
 				"prompt": "Two solutions of $y''+\\dfrac3xy'+y=0$ have Wronskian $W(1)=2$. Use Abel's formula $W'=-pW$ to find $W(2)$.",
 				"answer": 0.25,
 				"tolerance": 0.02,
-				"explanation": "Here $p=3/x$, so $W'=-(3/x)W$ gives $W=Cx^{-3}$. With $W(1)=2$, $C=2$ and $W(2)=2/8=0.25$."
+				"explanation": "Here $p=3/x$, so $W'=-(3/x)W$ gives $W=Cx^{-3}$. With $W(1)=2$, $C=2$ and $W(2)=2/8=0.25$.",
+				"equations": [
+					"W'=-pW"
+				]
 			}
 		],
 		"m4-l034-cauchy-euler-radial-equations": [
@@ -1022,21 +1184,30 @@
 					"$y=c_1x^{-1}+c_2x^{2}$."
 				],
 				"answer": 0,
-				"explanation": "Trying $y=x^r$ gives the indicial equation $r(r-1)+4r+2=0$ with roots $-1,-2$. Equidimensional equations have power-law solutions because the equation is invariant under $x\\to cx$."
+				"explanation": "Trying $y=x^r$ gives the indicial equation $r(r-1)+4r+2=0$ with roots $-1,-2$. Equidimensional equations have power-law solutions because the equation is invariant under $x\\to cx$.",
+				"equations": [
+					"x^2y''+axy'+by=0\\Rightarrow r(r-1)+ar+b=0"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The radial Laplace equation in three dimensions is $R''+\\dfrac2rR'-\\dfrac{l(l+1)}{r^2}R=0$. For $l=2$ the two solutions are $r^a$ and $r^b$. Give the negative exponent $b$.",
 				"answer": -3.0,
 				"tolerance": 0.02,
-				"explanation": "Trying $R=r^s$: $s(s-1)+2s-6=s^2+s-6=0$ gives $s=2,-3$. In general $r^l$ (regular at the origin) and $r^{-(l+1)}$ (decaying), the origin of multipole fields falling as $1/r^{l+1}$."
+				"explanation": "Trying $R=r^s$: $s(s-1)+2s-6=s^2+s-6=0$ gives $s=2,-3$. In general $r^l$ (regular at the origin) and $r^{-(l+1)}$ (decaying), the origin of multipole fields falling as $1/r^{l+1}$.",
+				"equations": [
+					"x^2y''+axy'+by=0\\Rightarrow r(r-1)+ar+b=0"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Solve $x^2y''-3xy'+4y=0$ with $y(1)=1$, $y'(1)=0$ (repeated root $r=2$, so $y=x^2(A+B\\ln x)$). Give $y(e)$.",
 				"answer": -7.389056,
 				"tolerance": 0.02,
-				"explanation": "$A=1$; $y'(1)=2A+B=0\\Rightarrow B=-2$. So $y=x^2(1-2\\ln x)$ and $y(e)=e^2(1-2)=-e^2\\approx-7.389$."
+				"explanation": "$A=1$; $y'(1)=2A+B=0\\Rightarrow B=-2$. So $y=x^2(1-2\\ln x)$ and $y(e)=e^2(1-2)=-e^2\\approx-7.389$.",
+				"equations": [
+					"x^2y''+axy'+by=0\\Rightarrow r(r-1)+ar+b=0"
+				]
 			},
 			{
 				"kind": "short",
@@ -1063,7 +1234,10 @@
 				"prompt": "Substitute $y=\\sum a_nx^n$ into $y''+y=0$ to get $a_{n+2}=-\\dfrac{a_n}{(n+2)(n+1)}$. With $a_0=1$, what is $a_4$?",
 				"answer": 0.041667,
 				"tolerance": 0.02,
-				"explanation": "$a_2=-1/2$ and $a_4=-a_2/12=1/24$, the coefficient of $x^4$ in $\\cos x$."
+				"explanation": "$a_2=-1/2$ and $a_4=-a_2/12=1/24$, the coefficient of $x^4$ in $\\cos x$.",
+				"equations": [
+					"a_{n+2}=-\\frac{a_n}{(n+2)(n+1)}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1123,7 +1297,11 @@
 				"prompt": "The equation $2x^2y''-xy'+(1+x)y=0$ has a regular singular point at $x=0$. Find the larger root of its indicial equation.",
 				"answer": 1.0,
 				"tolerance": 0.02,
-				"explanation": "Dividing by $2x^2$ gives $p_0=-\\tfrac12$ and $q_0=\\tfrac12$, so the indicial equation is $r(r-1)-\\tfrac12r+\\tfrac12=r^2-\\tfrac32r+\\tfrac12=0$, with roots $r=1$ and $r=\\tfrac12$."
+				"explanation": "Dividing by $2x^2$ gives $p_0=-\\tfrac12$ and $q_0=\\tfrac12$, so the indicial equation is $r(r-1)-\\tfrac12r+\\tfrac12=r^2-\\tfrac32r+\\tfrac12=0$, with roots $r=1$ and $r=\\tfrac12$.",
+				"equations": [
+					"x^2y''+xp(x)y'+q(x)y=0",
+					"r(r-1)+p_0r+q_0=0"
+				]
 			}
 		],
 		"m4-l038-bessel-functions-vibrating-drum": [
@@ -1144,14 +1322,20 @@
 				"prompt": "The frequencies of a circular drum are proportional to the zeros $j_{m,n}$ of $J_m$. Find the ratio of the frequency of the $(m=1,n=1)$ mode to the fundamental $(m=0,n=1)$, i.e. $j_{1,1}/j_{0,1}$.",
 				"answer": 1.593341,
 				"tolerance": 0.02,
-				"explanation": "$j_{0,1}\\approx2.405$ and $j_{1,1}\\approx3.832$, so the ratio is $1.593$. Unlike a string, the overtones of a drum are not integer multiples, which is why drums sound unpitched."
+				"explanation": "$j_{0,1}\\approx2.405$ and $j_{1,1}\\approx3.832$, so the ratio is $1.593$. Unlike a string, the overtones of a drum are not integer multiples, which is why drums sound unpitched.",
+				"equations": [
+					"J_\\nu(x)=\\sum_{k}\\frac{(-1)^k}{k!\\,\\Gamma(k+\\nu+1)}\\left(\\frac x2\\right)^{2k+\\nu}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The Frobenius series $J_0(x)=1-\\dfrac{x^2}{4}+\\dfrac{x^4}{64}-\\dfrac{x^6}{2304}+\\cdots$ solves Bessel's equation of order 0. Evaluate $J_0(1)$.",
 				"answer": 0.765198,
 				"tolerance": 0.02,
-				"explanation": "$1-0.25+0.015625-0.000434\\approx0.7652$. Near the origin $J_0\\approx1$; the function then oscillates with slowly decaying amplitude."
+				"explanation": "$1-0.25+0.015625-0.000434\\approx0.7652$. Near the origin $J_0\\approx1$; the function then oscillates with slowly decaying amplitude.",
+				"equations": [
+					"J_\\nu(x)=\\sum_{k}\\frac{(-1)^k}{k!\\,\\Gamma(k+\\nu+1)}\\left(\\frac x2\\right)^{2k+\\nu}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1166,14 +1350,22 @@
 				"prompt": "A method has global error $O(h^4)$ (RK4). By what factor does the error decrease when the step size is halved?",
 				"answer": 16.0,
 				"tolerance": 0.02,
-				"explanation": "Error $\\propto h^4$, so halving $h$ divides the error by $2^4=16$. For forward Euler the factor is 2, and for midpoint 4: the slope of a log-log error plot gives the order."
+				"explanation": "Error $\\propto h^4$, so halving $h$ divides the error by $2^4=16$. For forward Euler the factor is 2, and for midpoint 4: the slope of a log-log error plot gives the order.",
+				"equations": [
+					"E\\approx Ch^{p}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Take one RK4 step of size $h=0.5$ for $y'=-y$, $y(0)=1$. What is $y_1$?",
 				"answer": 0.606771,
 				"tolerance": 0.02,
-				"explanation": "RK4 for this equation gives $1-h+h^2/2-h^3/6+h^4/24=0.6068$, versus the exact $e^{-0.5}=0.6065$. One Euler step would give $0.5$."
+				"explanation": "RK4 for this equation gives $1-h+h^2/2-h^3/6+h^4/24=0.6068$, versus the exact $e^{-0.5}=0.6065$. One Euler step would give $0.5$.",
+				"equations": [
+					"k_1=f(t_n,y_n),\\ k_2=f(t_n+\\tfrac h2,y_n+\\tfrac h2k_1)",
+					"k_3=f(t_n+\\tfrac h2,y_n+\\tfrac h2k_2),\\ k_4=f(t_n+h,y_n+hk_3)",
+					"y_{n+1}=y_n+\\tfrac h6(k_1+2k_2+2k_3+k_4)"
+				]
 			},
 			{
 				"kind": "short",

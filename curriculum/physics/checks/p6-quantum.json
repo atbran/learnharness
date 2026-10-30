@@ -63,7 +63,10 @@
 				"prompt": "A particle has $|\\Psi(x)|^2=\\dfrac{1}{\\sqrt{\\pi}\\,\\sigma}\\,e^{-x^2/\\sigma^2}$ with $\\sigma=0.10$ nm. Find the probability (a number between 0 and 1) of finding the particle within $|x|\\le\\sigma$. (Hint: $\\int_{-\\sigma}^{\\sigma}$ of this Gaussian is $\\mathrm{erf}(1)$.)",
 				"answer": 0.8427,
 				"tolerance": 0.02,
-				"explanation": "$P=\\mathrm{erf}(1)\\approx 0.8427$. The probability depends only on the ratio $x/\\sigma$, and about 84% of the probability lies within one $\\sigma$ (in this convention) of the centre; the rest is in the tails, which is why a wave function has no sharp edge."
+				"explanation": "$P=\\mathrm{erf}(1)\\approx 0.8427$. The probability depends only on the ratio $x/\\sigma$, and about 84% of the probability lies within one $\\sigma$ (in this convention) of the centre; the rest is in the tails, which is why a wave function has no sharp edge.",
+				"equations": [
+					"P(a\\le x\\le b)=\\int_a^b|\\Psi(x,t)|^2\\,dx"
+				]
 			},
 			{
 				"kind": "short",
@@ -91,7 +94,11 @@
 				"answer": 0.3536,
 				"tolerance": 0.02,
 				"unit": "nm",
-				"explanation": "Normalization gives $A^2\\lambda=1$. Then $\\langle x^2\\rangle=\\lambda^2/2$, so $\\sigma_x=\\lambda/\\sqrt2\\approx0.3536$ nm."
+				"explanation": "Normalization gives $A^2\\lambda=1$. Then $\\langle x^2\\rangle=\\lambda^2/2$, so $\\sigma_x=\\lambda/\\sqrt2\\approx0.3536$ nm.",
+				"equations": [
+					"\\int|\\Psi|^2dx=1",
+					"\\langle x^2\\rangle=\\int\\Psi^*x^2\\Psi\\,dx"
+				]
 			},
 			{
 				"kind": "mc",
@@ -143,7 +150,10 @@
 				"answer": 5.477,
 				"tolerance": 0.02,
 				"unit": "nm^-5/2",
-				"explanation": "$\\int_0^ax^2(a-x)^2dx=a^5/30$, so $A=\\sqrt{30/a^5}=\\sqrt{30}\\ \\mathrm{nm^{-5/2}}$ for $a=1$ nm."
+				"explanation": "$\\int_0^ax^2(a-x)^2dx=a^5/30$, so $A=\\sqrt{30/a^5}=\\sqrt{30}\\ \\mathrm{nm^{-5/2}}$ for $a=1$ nm.",
+				"equations": [
+					"\\int_{-\\infty}^{\\infty}|\\Psi|^2dx=1"
+				]
 			},
 			{
 				"kind": "short",
@@ -171,7 +181,11 @@
 				"answer": 3.313,
 				"tolerance": 0.02,
 				"unit": "1e-24 kg m/s",
-				"explanation": "$\\langle p\\rangle=\\hbar k_0=h/\\lambda=(6.626\\times10^{-34})/(0.20\\times10^{-9})\\approx3.31\\times10^{-24}$ kg m/s; the envelope only broadens the distribution of momenta around $\\hbar k_0$."
+				"explanation": "$\\langle p\\rangle=\\hbar k_0=h/\\lambda=(6.626\\times10^{-34})/(0.20\\times10^{-9})\\approx3.31\\times10^{-24}$ kg m/s; the envelope only broadens the distribution of momenta around $\\hbar k_0$.",
+				"equations": [
+					"p=\\hbar k_0=h/\\lambda",
+					"h=6.626\\times10^{-34}\\ \\text{J s}"
+				]
 			},
 			{
 				"kind": "short",
@@ -231,7 +245,12 @@
 				"answer": 3.81,
 				"tolerance": 0.05,
 				"unit": "eV",
-				"explanation": "$\\sigma_p=\\hbar/(2\\sigma_x)=1.055e-24$ kg m/s, giving $E\\approx\\sigma_p^2/2m\\approx3.81$ eV. This is the right order of magnitude for atomic electrons (Rydberg-scale energies): confinement forces kinetic energy, which balances the Coulomb attraction."
+				"explanation": "$\\sigma_p=\\hbar/(2\\sigma_x)=1.055e-24$ kg m/s, giving $E\\approx\\sigma_p^2/2m\\approx3.81$ eV. This is the right order of magnitude for atomic electrons (Rydberg-scale energies): confinement forces kinetic energy, which balances the Coulomb attraction.",
+				"equations": [
+					"\\sigma_x\\sigma_p=\\hbar/2",
+					"E\\approx\\sigma_p^2/2m",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -271,7 +290,12 @@
 				"answer": 296500000000000.0,
 				"tolerance": 0.03,
 				"unit": "s^-1",
-				"explanation": "$v=\\sqrt{2E/m}\\approx5.931e+06$ m/s, so $J=v\\rho\\approx2.965e+14\\ \\mathrm{s^{-1}}$. The current is just velocity times density."
+				"explanation": "$v=\\sqrt{2E/m}\\approx5.931e+06$ m/s, so $J=v\\rho\\approx2.965e+14\\ \\mathrm{s^{-1}}$. The current is just velocity times density.",
+				"equations": [
+					"J=\\frac{\\hbar k}{m}|A|^2",
+					"E=\\frac{\\hbar^2k^2}{2m}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -363,7 +387,12 @@
 				"answer": 0.7821,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$E_1=0.3760$ eV and $E_2=4E_1=1.5041$ eV, so $\\langle H\\rangle=0.64E_1+0.36E_2\\approx0.782$ eV. No single measurement returns this value; it is the average."
+				"explanation": "$E_1=0.3760$ eV and $E_2=4E_1=1.5041$ eV, so $\\langle H\\rangle=0.64E_1+0.36E_2\\approx0.782$ eV. No single measurement returns this value; it is the average.",
+				"equations": [
+					"\\langle H\\rangle=\\sum_n|c_n|^2E_n",
+					"E_n=\\frac{n^2h^2}{8mL^2}",
+					"h=6.626\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -415,7 +444,10 @@
 				"answer": 0.5679,
 				"tolerance": 0.02,
 				"unit": "hbar",
-				"explanation": "$\\sigma_x\\sigma_p=\\hbar\\sqrt{\\pi^2/12-1/2}\\approx0.568\\,\\hbar$, just above the Heisenberg bound $\\hbar/2$."
+				"explanation": "$\\sigma_x\\sigma_p=\\hbar\\sqrt{\\pi^2/12-1/2}\\approx0.568\\,\\hbar$, just above the Heisenberg bound $\\hbar/2$.",
+				"equations": [
+					"\\sigma_x=a\\sqrt{\\tfrac1{12}-\\tfrac1{2\\pi^2}},\\quad \\sigma_p=\\pi\\hbar/a"
+				]
 			},
 			{
 				"kind": "short",
@@ -443,7 +475,11 @@
 				"answer": 5.372,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$h^2/(8mL^2)=0.7674$ eV, so $\\Delta E=7\\times0.7674\\approx5.37$ eV, corresponding to a wavelength near 231 nm (UV). The model is crude but captures the trend with chain length."
+				"explanation": "$h^2/(8mL^2)=0.7674$ eV, so $\\Delta E=7\\times0.7674\\approx5.37$ eV, corresponding to a wavelength near 231 nm (UV). The model is crude but captures the trend with chain length.",
+				"equations": [
+					"E_n=\\frac{n^2h^2}{8mL^2}",
+					"h=6.626\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -455,7 +491,10 @@
 					"All levels except $n=1$, because the bump looks like the ground state and has no other components"
 				],
 				"answer": 2,
-				"explanation": "$c_n=\\int\\psi_n\\Psi(x,0)dx$ vanishes when the integrand is odd about $a/2$. The bump is even about the centre; $\\psi_n$ is even about the centre for odd $n$ and odd for even $n$, so only odd $n$ appear."
+				"explanation": "$c_n=\\int\\psi_n\\Psi(x,0)dx$ vanishes when the integrand is odd about $a/2$. The bump is even about the centre; $\\psi_n$ is even about the centre for odd $n$ and odd for even $n$, so only odd $n$ appear.",
+				"equations": [
+					"c_n=\\sqrt{\\tfrac{2}{a}}\\int_0^a\\sin\\left(\\tfrac{n\\pi x}{a}\\right)\\Psi(x,0)\\,dx"
+				]
 			},
 			{
 				"kind": "short",
@@ -515,7 +554,12 @@
 				"answer": 3.387,
 				"tolerance": 0.03,
 				"unit": "pm",
-				"explanation": "$\\omega=2\\pi c\\tilde\\nu=4.04\\times10^{14}$ s$^{-1}$ and $\\mu=6.857$ u, so $\\sigma_x=\\sqrt{\\hbar/2\\mu\\omega}\\approx3.4$ pm: the bond length fluctuates by only a few percent of its 113 pm length even in the ground state."
+				"explanation": "$\\omega=2\\pi c\\tilde\\nu=4.04\\times10^{14}$ s$^{-1}$ and $\\mu=6.857$ u, so $\\sigma_x=\\sqrt{\\hbar/2\\mu\\omega}\\approx3.4$ pm: the bond length fluctuates by only a few percent of its 113 pm length even in the ground state.",
+				"equations": [
+					"\\sigma_x=\\sqrt{\\hbar/2\\mu\\omega}",
+					"\\omega=2\\pi c\\tilde\\nu",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad c=2.998\\times10^{10}\\ \\text{cm/s},\\quad 1\\ \\text{u}=1.661\\times10^{-27}\\ \\text{kg}"
+				]
 			},
 			{
 				"kind": "short",
@@ -555,7 +599,11 @@
 				"answer": 12.82,
 				"tolerance": 0.02,
 				"unit": "kJ/mol",
-				"explanation": "$E_0=\\tfrac12hc\\tilde\\nu=\\tfrac12(2143\\ \\mathrm{cm^{-1}})\\times0.011963\\ \\mathrm{kJ/mol}\\approx12.82$ kJ/mol: even at 0 K the bond holds this much vibrational energy."
+				"explanation": "$E_0=\\tfrac12hc\\tilde\\nu=\\tfrac12(2143\\ \\mathrm{cm^{-1}})\\times0.011963\\ \\mathrm{kJ/mol}\\approx12.82$ kJ/mol: even at 0 K the bond holds this much vibrational energy.",
+				"equations": [
+					"E_0=\\tfrac12hc\\tilde\\nu",
+					"h=6.626\\times10^{-34}\\ \\text{J s},\\quad c=2.998\\times10^{10}\\ \\text{cm/s},\\quad N_A=6.022\\times10^{23}\\ \\text{mol}^{-1}"
+				]
 			},
 			{
 				"kind": "short",
@@ -627,7 +675,11 @@
 				"answer": 5665.0,
 				"tolerance": 0.02,
 				"unit": "cm^-1",
-				"explanation": "$\\tilde\\nu_{0\\to2}=2\\omega_e-6\\omega_ex_e=5665.0\\ \\mathrm{cm^{-1}}$, which is lower than $2\\times$ the fundamental ($2\\times2885.3=5770.6$); the harmonic model would predict $2\\omega_e=5981.8$."
+				"explanation": "$\\tilde\\nu_{0\\to2}=2\\omega_e-6\\omega_ex_e=5665.0\\ \\mathrm{cm^{-1}}$, which is lower than $2\\times$ the fundamental ($2\\times2885.3=5770.6$); the harmonic model would predict $2\\omega_e=5981.8$.",
+				"equations": [
+					"\\frac{E_v}{hc}=\\omega_e\\left(v+\\tfrac12\\right)-\\omega_ex_e\\left(v+\\tfrac12\\right)^2",
+					"\\tilde\\nu_{0\\to2}=\\frac{E_2-E_0}{hc}"
+				]
 			},
 			{
 				"kind": "short",
@@ -687,7 +739,11 @@
 				"answer": 0.2992,
 				"tolerance": 0.03,
 				"unit": "fs",
-				"explanation": "Doubling requires $\\hbar t/(2m\\sigma_0^2)=\\sqrt3$, so $t=2\\sqrt3\\,m\\sigma_0^2/\\hbar\\approx0.30$ fs: an atomic-scale electron packet spreads essentially instantly, which is why electrons aren't thought of as tiny compact blobs."
+				"explanation": "Doubling requires $\\hbar t/(2m\\sigma_0^2)=\\sqrt3$, so $t=2\\sqrt3\\,m\\sigma_0^2/\\hbar\\approx0.30$ fs: an atomic-scale electron packet spreads essentially instantly, which is why electrons aren't thought of as tiny compact blobs.",
+				"equations": [
+					"\\sigma(t)=\\sigma_0\\sqrt{1+\\left(\\frac{\\hbar t}{2m\\sigma_0^2}\\right)^2}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg}"
+				]
 			},
 			{
 				"kind": "short",
@@ -727,7 +783,11 @@
 				"answer": 6.562,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$|E|=m\\alpha^2/(2\\hbar^2)\\approx6.56$ eV, and the state decays as $e^{-\\kappa|x|}$ with $\\kappa=m\\alpha/\\hbar^2$."
+				"explanation": "$|E|=m\\alpha^2/(2\\hbar^2)\\approx6.56$ eV, and the state decays as $e^{-\\kappa|x|}$ with $\\kappa=m\\alpha/\\hbar^2$.",
+				"equations": [
+					"|E|=\\frac{m\\alpha^2}{2\\hbar^2}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -754,7 +814,11 @@
 				"prompt": "An electron with $E=5.0$ eV meets the attractive delta well $V=-\\alpha\\delta(x)$ with $\\alpha=1.0$ eV nm. Using $T=1/(1+m\\alpha^2/2\\hbar^2E)$, find the transmission probability.",
 				"answer": 0.4325,
 				"tolerance": 0.02,
-				"explanation": "$m\\alpha^2/2\\hbar^2=6.56$ eV for $\\alpha=1$ eV nm, so $T=1/(1+6.56/5.0)\\approx0.43$; the rest, $R\\approx0.57$, is reflected, even though the well is attractive."
+				"explanation": "$m\\alpha^2/2\\hbar^2=6.56$ eV for $\\alpha=1$ eV nm, so $T=1/(1+6.56/5.0)\\approx0.43$; the rest, $R\\approx0.57$, is reflected, even though the well is attractive.",
+				"equations": [
+					"T=\\frac{1}{1+\\frac{m\\alpha^2}{2\\hbar^2E}}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -769,7 +833,11 @@
 				"prompt": "An electron is in a finite square well of full width $2a=1.0$ nm and depth $V_0=5.0$ eV. Compute the dimensionless strength $z_0=(a/\\hbar)\\sqrt{2mV_0}$ (the number of bound states is the smallest integer $N$ with $z_0\\le N\\pi/2$).",
 				"answer": 5.728,
 				"tolerance": 0.02,
-				"explanation": "$z_0=5.728$, which lies between $3\\pi/2=4.71$ and $2\\pi=6.28$, so the well supports $N=4$ bound states."
+				"explanation": "$z_0=5.728$, which lies between $3\\pi/2=4.71$ and $2\\pi=6.28$, so the well supports $N=4$ bound states.",
+				"equations": [
+					"z_0=\\frac{a}{\\hbar}\\sqrt{2mV_0}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -852,7 +920,11 @@
 				"prompt": "A particle with energy $E=2V_0$ approaches a potential step of height $V_0$. Using $R=\\left(\\frac{k_1-k_2}{k_1+k_2}\\right)^2$ with $k_1\\propto\\sqrt{E}$ and $k_2\\propto\\sqrt{E-V_0}$, find the reflection probability.",
 				"answer": 0.02944,
 				"tolerance": 0.02,
-				"explanation": "$k_2/k_1=\\sqrt{(E-V_0)/E}=\\sqrt{1/2}=0.707$, so $R=(0.293/1.707)^2\\approx0.029$: even above the step about 3% of the wave is reflected, which a classical particle never does."
+				"explanation": "$k_2/k_1=\\sqrt{(E-V_0)/E}=\\sqrt{1/2}=0.707$, so $R=(0.293/1.707)^2\\approx0.029$: even above the step about 3% of the wave is reflected, which a classical particle never does.",
+				"equations": [
+					"R=\\left(\\frac{k_1-k_2}{k_1+k_2}\\right)^2",
+					"k_1=\\frac{\\sqrt{2mE}}{\\hbar},\\quad k_2=\\frac{\\sqrt{2m(E-V_0)}}{\\hbar}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -903,7 +975,11 @@
 				"prompt": "An electron with $E=1.0$ eV meets a rectangular barrier $V_0=4.0$ eV, thickness $L=0.50$ nm. Estimate the transmission probability using $T\\approx e^{-2\\kappa L}$ with $\\kappa=\\sqrt{2m(V_0-E)}/\\hbar$.",
 				"answer": 0.00014,
 				"tolerance": 0.1,
-				"explanation": "$\\kappa=8.874e+09\\ \\mathrm{m^{-1}}$ (about 8.87 nm$^{-1}$), so $2\\kappa L=8.87$ and $T\\approx1.40e-04$. Small, but nowhere near zero; this is tunneling."
+				"explanation": "$\\kappa=8.874e+09\\ \\mathrm{m^{-1}}$ (about 8.87 nm$^{-1}$), so $2\\kappa L=8.87$ and $T\\approx1.40e-04$. Small, but nowhere near zero; this is tunneling.",
+				"equations": [
+					"T\\approx e^{-2\\kappa L},\\ \\kappa=\\frac{\\sqrt{2m(V_0-E)}}{\\hbar}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -943,7 +1019,12 @@
 				"answer": 30.0,
 				"tolerance": 0.02,
 				"unit": "degrees",
-				"explanation": "$\\langle f|g\\rangle=1/2$, $\\|f\\|=1$, $\\|g\\|=1/\\sqrt3$, so $\\cos\\theta=\\sqrt3/2$ and $\\theta=30.0^\\circ$. The Schwarz inequality is simply $|\\cos\\theta|\\le1$ for function-vectors."
+				"explanation": "$\\langle f|g\\rangle=1/2$, $\\|f\\|=1$, $\\|g\\|=1/\\sqrt3$, so $\\cos\\theta=\\sqrt3/2$ and $\\theta=30.0^\\circ$. The Schwarz inequality is simply $|\\cos\\theta|\\le1$ for function-vectors.",
+				"equations": [
+					"\\langle f|g\\rangle=\\int f^*g\\,dx",
+					"\\|f\\|=\\sqrt{\\langle f|f\\rangle}",
+					"\\cos\\theta=\\frac{\\langle f|g\\rangle}{\\|f\\|\\|g\\|}"
+				]
 			},
 			{
 				"kind": "short",
@@ -963,7 +1044,10 @@
 					"$[\\hat x^2,\\hat p]=2i\\hbar$, and non-zero commutators mean the measurements disturb each other classically."
 				],
 				"answer": 1,
-				"explanation": "Use $[A,BC]=[A,B]C+B[A,C]$ to get $[x^2,p]=x[x,p]+[x,p]x=2i\\hbar x$. Non-commutation is the root of the uncertainty principle."
+				"explanation": "Use $[A,BC]=[A,B]C+B[A,C]$ to get $[x^2,p]=x[x,p]+[x,p]x=2i\\hbar x$. Non-commutation is the root of the uncertainty principle.",
+				"equations": [
+					"[AB,C]=A[B,C]+[A,C]B"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1015,7 +1099,10 @@
 				"answer": 5.2,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$|c_1|^2=0.36$, $|c_2|^2=0.64$, so $\\langle Q\\rangle=\\sum|c_n|^2q_n=5.20$ eV. A single measurement gives 2.0 or 7.0 eV, never 5.2."
+				"explanation": "$|c_1|^2=0.36$, $|c_2|^2=0.64$, so $\\langle Q\\rangle=\\sum|c_n|^2q_n=5.20$ eV. A single measurement gives 2.0 or 7.0 eV, never 5.2.",
+				"equations": [
+					"\\langle Q\\rangle=\\sum_nq_n|c_n|^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -1119,7 +1206,12 @@
 				"answer": 578800.0,
 				"tolerance": 0.03,
 				"unit": "m/s",
-				"explanation": "$\\sigma_p=\\hbar/2\\sigma_x=5.273e-25$ kg m/s, so $\\sigma_v=5.788e+05$ m/s: hundreds of km/s, i.e. a sizable fraction of an atomic electron's speed. The momentum-space distribution $|\\Phi(p)|^2$ is the Gaussian with this width."
+				"explanation": "$\\sigma_p=\\hbar/2\\sigma_x=5.273e-25$ kg m/s, so $\\sigma_v=5.788e+05$ m/s: hundreds of km/s, i.e. a sizable fraction of an atomic electron's speed. The momentum-space distribution $|\\Phi(p)|^2$ is the Gaussian with this width.",
+				"equations": [
+					"\\sigma_p=\\frac{\\hbar}{2\\sigma_x}",
+					"\\sigma_v=\\sigma_p/m",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1151,7 +1243,10 @@
 					"$\\hbar^2$, because the commutator $i\\hbar L_z$ has magnitude $\\hbar\\cdot\\hbar$, with no factor of one half"
 				],
 				"answer": 2,
-				"explanation": "The bound is $\\sigma_A\\sigma_B\\ge\\tfrac12|\\langle[A,B]\\rangle|=\\tfrac12\\hbar|\\langle L_z\\rangle|=\\hbar^2/2$. A sharp $L_z$ forces $L_x$ and $L_y$ to be uncertain, because $L_z$ does not commute with them."
+				"explanation": "The bound is $\\sigma_A\\sigma_B\\ge\\tfrac12|\\langle[A,B]\\rangle|=\\tfrac12\\hbar|\\langle L_z\\rangle|=\\hbar^2/2$. A sharp $L_z$ forces $L_x$ and $L_y$ to be uncertain, because $L_z$ does not commute with them.",
+				"equations": [
+					"\\sigma_A^2\\sigma_B^2\\ge\\left(\\frac{1}{2i}\\langle[\\hat A,\\hat B]\\rangle\\right)^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -1191,7 +1286,10 @@
 				"answer": 99.47,
 				"tolerance": 0.03,
 				"unit": "MHz",
-				"explanation": "$\\Delta\\nu=1/(2\\pi\\tau)\\approx99.5$ MHz, compared with the optical frequency $\\sim10^{15}$ Hz. Lifetime broadening is tiny but real; a state that lives forever would have a perfectly sharp energy."
+				"explanation": "$\\Delta\\nu=1/(2\\pi\\tau)\\approx99.5$ MHz, compared with the optical frequency $\\sim10^{15}$ Hz. Lifetime broadening is tiny but real; a state that lives forever would have a perfectly sharp energy.",
+				"equations": [
+					"\\Delta\\nu\\approx\\frac{1}{2\\pi\\tau}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1230,7 +1328,10 @@
 				"prompt": "A Hermitian operator has the matrix $A=\\begin{pmatrix}2&1-i\\\\1+i&0\\end{pmatrix}$ in an orthonormal basis. Find its larger eigenvalue.",
 				"answer": 2.732,
 				"tolerance": 0.02,
-				"explanation": "The trace is 2 and the determinant is $0-|1-i|^2=-2$, so $\\lambda^2-2\\lambda-2=0$ and $\\lambda=1\\pm\\sqrt3$. The larger one is $1+\\sqrt3\\approx2.73$ (both are real, as they must be for a Hermitian matrix)."
+				"explanation": "The trace is 2 and the determinant is $0-|1-i|^2=-2$, so $\\lambda^2-2\\lambda-2=0$ and $\\lambda=1\\pm\\sqrt3$. The larger one is $1+\\sqrt3\\approx2.73$ (both are real, as they must be for a Hermitian matrix).",
+				"equations": [
+					"\\det(A-\\lambda I)=0"
+				]
 			},
 			{
 				"kind": "short",
@@ -1258,7 +1359,10 @@
 				"answer": -3.118,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$E=\\tfrac{-1-3}{2}\\pm\\sqrt{1^2+0.5^2}=-2\\pm1.118$, so $E_\\text{low}=-3.118$ eV and $E_\\text{high}=-0.882$ eV. The off-diagonal coupling pushes the levels apart (level repulsion)."
+				"explanation": "$E=\\tfrac{-1-3}{2}\\pm\\sqrt{1^2+0.5^2}=-2\\pm1.118$, so $E_\\text{low}=-3.118$ eV and $E_\\text{high}=-0.882$ eV. The off-diagonal coupling pushes the levels apart (level repulsion).",
+				"equations": [
+					"\\det(A-\\lambda I)=0"
+				]
 			},
 			{
 				"kind": "short",
@@ -1317,7 +1421,11 @@
 				"prompt": "A two-level system is in $|\\psi\\rangle=\\tfrac15(3|1\\rangle+4i|2\\rangle)$ and an observable $\\hat A=|1\\rangle\\langle1|-|2\\rangle\\langle2|$ (eigenvalues $+1,-1$). Compute the variance $\\sigma_A^2=\\langle A^2\\rangle-\\langle A\\rangle^2$.",
 				"answer": 0.9216,
 				"tolerance": 0.02,
-				"explanation": "$\\langle A\\rangle=\\tfrac{9}{25}-\\tfrac{16}{25}=-0.28$ and $\\hat A^2=1$, so $\\sigma_A^2=1-0.0784=0.9216$. The $i$ in the amplitude does not affect probabilities here."
+				"explanation": "$\\langle A\\rangle=\\tfrac{9}{25}-\\tfrac{16}{25}=-0.28$ and $\\hat A^2=1$, so $\\sigma_A^2=1-0.0784=0.9216$. The $i$ in the amplitude does not affect probabilities here.",
+				"equations": [
+					"\\langle A\\rangle=\\langle\\Psi|\\hat A|\\Psi\\rangle",
+					"\\sigma_A^2=\\langle A^2\\rangle-\\langle A\\rangle^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -1389,7 +1497,11 @@
 				"answer": 22.86,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$\\hbar^2/(2mr^2)=3.81$ eV at $r=1$ Å, so with $l(l+1)=6$ you get $22.9$ eV, comparable to a Coulomb attraction $-e^2/4\\pi\\epsilon_0r=-14.4$ eV at that radius, which is why d electrons stay away from the nucleus."
+				"explanation": "$\\hbar^2/(2mr^2)=3.81$ eV at $r=1$ Å, so with $l(l+1)=6$ you get $22.9$ eV, comparable to a Coulomb attraction $-e^2/4\\pi\\epsilon_0r=-14.4$ eV at that radius, which is why d electrons stay away from the nucleus.",
+				"equations": [
+					"\\frac{\\hbar^2l(l+1)}{2mr^2}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1429,7 +1541,10 @@
 				"answer": 0.1194,
 				"tolerance": 0.02,
 				"unit": "sr^-1",
-				"explanation": "$|Y_1^1|^2=\\frac{3}{8\\pi}\\sin^2\\theta$, which is maximal at $\\theta=90^\\circ$: $3/8\\pi\\approx0.119$ sr$^{-1}$. The density vanishes at the poles, consistent with a $p_{x}/p_y$ lobe lying around the equator."
+				"explanation": "$|Y_1^1|^2=\\frac{3}{8\\pi}\\sin^2\\theta$, which is maximal at $\\theta=90^\\circ$: $3/8\\pi\\approx0.119$ sr$^{-1}$. The density vanishes at the poles, consistent with a $p_{x}/p_y$ lobe lying around the equator.",
+				"equations": [
+					"Y_1^{\\pm1}=\\mp\\sqrt{\\tfrac{3}{8\\pi}}\\sin\\theta\\,e^{\\pm i\\phi}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1468,7 +1583,11 @@
 				"prompt": "Compute the overlap integral $\\langle Y_1^0|\\cos\\theta|Y_0^0\\rangle=\\int Y_1^{0*}\\cos\\theta\\,Y_0^0\\,d\\Omega$, where $Y_0^0=1/\\sqrt{4\\pi}$ and $Y_1^0=\\sqrt{3/4\\pi}\\cos\\theta$.",
 				"answer": 0.5774,
 				"tolerance": 0.02,
-				"explanation": "$\\int=\\frac{\\sqrt3}{4\\pi}\\cdot2\\pi\\int_0^\\pi\\cos^2\\theta\\sin\\theta\\,d\\theta=\\frac{\\sqrt3}{4\\pi}\\cdot2\\pi\\cdot\\frac23=\\frac1{\\sqrt3}=0.5774$."
+				"explanation": "$\\int=\\frac{\\sqrt3}{4\\pi}\\cdot2\\pi\\int_0^\\pi\\cos^2\\theta\\sin\\theta\\,d\\theta=\\frac{\\sqrt3}{4\\pi}\\cdot2\\pi\\cdot\\frac23=\\frac1{\\sqrt3}=0.5774$.",
+				"equations": [
+					"\\int Y_1^{0*}\\cos\\theta\\,Y_0^0\\,d\\Omega",
+					"d\\Omega=\\sin\\theta\\,d\\theta\\,d\\phi"
+				]
 			},
 			{
 				"kind": "short",
@@ -1528,7 +1647,11 @@
 				"answer": 1.504,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$E=\\pi^2\\hbar^2/(2ma^2)=1.504$ eV: 'quantum dot' energies of order an eV for nm-scale confinement, which is why nanocrystal colours depend on size."
+				"explanation": "$E=\\pi^2\\hbar^2/(2ma^2)=1.504$ eV: 'quantum dot' energies of order an eV for nm-scale confinement, which is why nanocrystal colours depend on size.",
+				"equations": [
+					"E=\\frac{\\pi^2\\hbar^2}{2ma^2}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1556,7 +1679,11 @@
 				"answer": 13.61,
 				"tolerance": 0.01,
 				"unit": "eV",
-				"explanation": "$E_1=me^4/[2(4\\pi\\epsilon_0)^2\\hbar^2]\\approx2.18\\times10^{-18}$ J $=13.6$ eV; with the Bohr radius $a=4\\pi\\epsilon_0\\hbar^2/me^2$ it can be written $E_1=\\hbar^2/2ma^2$."
+				"explanation": "$E_1=me^4/[2(4\\pi\\epsilon_0)^2\\hbar^2]\\approx2.18\\times10^{-18}$ J $=13.6$ eV; with the Bohr radius $a=4\\pi\\epsilon_0\\hbar^2/me^2$ it can be written $E_1=\\hbar^2/2ma^2$.",
+				"equations": [
+					"E_1=\\frac{me^4}{2(4\\pi\\epsilon_0)^2\\hbar^2}",
+					"m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad e=1.602\\times10^{-19}\\ \\text{C},\\quad \\epsilon_0=8.854\\times10^{-12}\\ \\text{C}^2/(\\text{N m}^2),\\quad \\hbar=1.055\\times10^{-34}\\ \\text{J s}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1607,7 +1734,10 @@
 				"prompt": "What is the probability that a hydrogen 1s electron is found at a distance greater than the Bohr radius $a_0$ from the nucleus? Use $P(r>R)=e^{-2R/a}\\left[1+2R/a+2R^2/a^2\\right]$ with $R=a_0$.",
 				"answer": 0.6767,
 				"tolerance": 0.02,
-				"explanation": "$P=e^{-2}(1+2+2)=5e^{-2}=0.6767$: about two-thirds of the density is beyond the Bohr radius, even though that radius is the peak of the radial distribution."
+				"explanation": "$P=e^{-2}(1+2+2)=5e^{-2}=0.6767$: about two-thirds of the density is beyond the Bohr radius, even though that radius is the peak of the radial distribution.",
+				"equations": [
+					"P(r>R)=e^{-2R/a}\\left[1+2R/a+2R^2/a^2\\right]"
+				]
 			},
 			{
 				"kind": "short",
@@ -1623,7 +1753,10 @@
 				"answer": 656.5,
 				"tolerance": 0.01,
 				"unit": "nm",
-				"explanation": "$1/\\lambda=R_H(1/4-1/9)=R_H\\cdot5/36$, so $\\lambda\\approx656.5$ nm, a red line. Lyman lines ($n_1=1$) are in the UV and Paschen ($n_1=3$) in the IR."
+				"explanation": "$1/\\lambda=R_H(1/4-1/9)=R_H\\cdot5/36$, so $\\lambda\\approx656.5$ nm, a red line. Lyman lines ($n_1=1$) are in the UV and Paschen ($n_1=3$) in the IR.",
+				"equations": [
+					"\\frac{1}{\\lambda}=R\\left(\\frac{1}{n_1^2}-\\frac{1}{n_2^2}\\right)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1719,7 +1852,10 @@
 				"answer": 35.26,
 				"tolerance": 0.02,
 				"unit": "degrees",
-				"explanation": "$\\cos\\theta=2/\\sqrt6=0.8165$, giving $\\theta=35.3^\\circ$. It is never $0^\\circ$, even for the highest $m$."
+				"explanation": "$\\cos\\theta=2/\\sqrt6=0.8165$, giving $\\theta=35.3^\\circ$. It is never $0^\\circ$, even for the highest $m$.",
+				"equations": [
+					"\\cos\\theta=\\frac{m}{\\sqrt{l(l+1)}}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1746,7 +1882,10 @@
 				"prompt": "Using $L_\\pm|l\\,m\\rangle=\\hbar\\sqrt{l(l+1)-m(m\\pm1)}\\,|l\\,m\\pm1\\rangle$, find the coefficient $c$ in $L_-|3\\,0\\rangle=c\\,\\hbar\\,|3\\,{-1}\\rangle$.",
 				"answer": 3.464,
 				"tolerance": 0.02,
-				"explanation": "For $L_-$ the factor is $\\sqrt{l(l+1)-m(m-1)}=\\sqrt{12-0}=2\\sqrt3\\approx3.46$."
+				"explanation": "For $L_-$ the factor is $\\sqrt{l(l+1)-m(m-1)}=\\sqrt{12-0}=2\\sqrt3\\approx3.46$.",
+				"equations": [
+					"L_\\pm|l\\,m\\rangle=\\hbar\\sqrt{l(l+1)-m(m\\pm1)}\\,|l\\,m\\pm1\\rangle"
+				]
 			},
 			{
 				"kind": "short",
@@ -1805,7 +1944,11 @@
 				"prompt": "A spin-1/2 is prepared up along an axis tilted by $\\theta=60^\\circ$ from $z$: $|{+\\hat n}\\rangle=\\cos\\tfrac\\theta2|\\uparrow\\rangle+e^{i\\phi}\\sin\\tfrac\\theta2|\\downarrow\\rangle$. What is the probability that a $S_z$ measurement finds spin up?",
 				"answer": 0.75,
 				"tolerance": 0.02,
-				"explanation": "$P=\\cos^2(\\theta/2)=\\cos^2 30^\\circ=0.750$. At $\\theta=0$ it's 1, at $90^\\circ$ it's 1/2, and at $180^\\circ$ it's 0."
+				"explanation": "$P=\\cos^2(\\theta/2)=\\cos^2 30^\\circ=0.750$. At $\\theta=0$ it's 1, at $90^\\circ$ it's 1/2, and at $180^\\circ$ it's 0.",
+				"equations": [
+					"|+\\hat n\\rangle=\\cos\\tfrac\\theta2|\\uparrow\\rangle+e^{i\\phi}\\sin\\tfrac\\theta2|\\downarrow\\rangle",
+					"P=|\\langle\\uparrow|\\psi\\rangle|^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -1832,7 +1975,10 @@
 				"prompt": "Spin-1/2 atoms pass a filter selecting spin up along $z$, then one selecting up along an axis at $60^\\circ$ from $z$, then one selecting up along an axis at $120^\\circ$ from $z$ (all axes in one plane). What fraction of the atoms leaving the first filter emerge from the third?",
 				"answer": 0.5625,
 				"tolerance": 0.02,
-				"explanation": "The first transition (angle $60^\\circ$) passes $\\cos^2 30^\\circ=0.75$; the second (the axes differ by $60^\\circ$) passes another $0.75$. The product is $0.5625$."
+				"explanation": "The first transition (angle $60^\\circ$) passes $\\cos^2 30^\\circ=0.75$; the second (the axes differ by $60^\\circ$) passes another $0.75$. The product is $0.5625$.",
+				"equations": [
+					"P(+\\hat m\\to+\\hat n)=\\cos^2\\frac{\\theta_{mn}}{2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1860,7 +2006,11 @@
 				"answer": 400.2,
 				"tolerance": 0.01,
 				"unit": "MHz",
-				"explanation": "$\\nu_L=(\\gamma/2\\pi)B_0=400.2$ MHz (a '400 MHz' spectrometer). The Zeeman gap $h\\nu$ is $\\ll k_BT$, so at 298 K the population excess in the lower level is only $\\tanh(h\\nu/2k_BT)\\approx3.2e-05$, which is why NMR is insensitive."
+				"explanation": "$\\nu_L=(\\gamma/2\\pi)B_0=400.2$ MHz (a '400 MHz' spectrometer). The Zeeman gap $h\\nu$ is $\\ll k_BT$, so at 298 K the population excess in the lower level is only $\\tanh(h\\nu/2k_BT)\\approx3.2e-05$, which is why NMR is insensitive.",
+				"equations": [
+					"\\omega_L=\\gamma B_0",
+					"f_L=\\omega_L/2\\pi"
+				]
 			},
 			{
 				"kind": "short",
@@ -1951,7 +2101,10 @@
 				"prompt": "An electron with orbital angular momentum $l=2$ (a d electron) also has spin $s=1/2$. The coupled levels are $j=l\\pm\\tfrac12$. How many states $(2j+1)$ belong to the higher level, $j=\\tfrac52$?",
 				"answer": 6.0,
 				"tolerance": 0.02,
-				"explanation": "$2(5/2)+1=6$ states for $j=5/2$ and $2(3/2)+1=4$ for $j=3/2$; total $6+4=10=(2l+1)(2s+1)$, which verifies the counting rule."
+				"explanation": "$2(5/2)+1=6$ states for $j=5/2$ and $2(3/2)+1=4$ for $j=3/2$; total $6+4=10=(2l+1)(2s+1)$, which verifies the counting rule.",
+				"equations": [
+					"N_j=2j+1"
+				]
 			},
 			{
 				"kind": "mc",
@@ -2035,7 +2188,11 @@
 				"answer": 1.519,
 				"tolerance": 0.02,
 				"unit": "rad",
-				"explanation": "$\\Delta\\varphi=e\\Phi/\\hbar=1.519$ rad. A full fringe shift ($2\\pi$) needs the flux quantum $h/e=4.14\\times10^{-15}$ Wb, so this flux shifts the pattern by about 0.24 fringe."
+				"explanation": "$\\Delta\\varphi=e\\Phi/\\hbar=1.519$ rad. A full fringe shift ($2\\pi$) needs the flux quantum $h/e=4.14\\times10^{-15}$ Wb, so this flux shifts the pattern by about 0.24 fringe.",
+				"equations": [
+					"\\Delta\\varphi=\\frac{q\\Phi}{\\hbar}",
+					"e=1.602\\times10^{-19}\\ \\text{C},\\quad \\hbar=1.055\\times10^{-34}\\ \\text{J s}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2107,7 +2264,12 @@
 				"answer": 0.1682,
 				"tolerance": 0.02,
 				"unit": "a^2",
-				"explanation": "Numerically integrating gives 0.1682$a^2$ for the antisymmetric combination and 0.0384$a^2$ for the symmetric one. The difference is $4|\\langle x\\rangle_{12}|^2=4(16a/9\\pi^2)^2$: fermions are on average farther apart, bosons closer."
+				"explanation": "Numerically integrating gives 0.1682$a^2$ for the antisymmetric combination and 0.0384$a^2$ for the symmetric one. The difference is $4|\\langle x\\rangle_{12}|^2=4(16a/9\\pi^2)^2$: fermions are on average farther apart, bosons closer.",
+				"equations": [
+					"\\langle(x_1-x_2)^2\\rangle_\\pm=\\langle(x_1-x_2)^2\\rangle_d\\mp2|\\langle x\\rangle_{ab}|^2",
+					"\\langle(x_1-x_2)^2\\rangle_d=\\langle x^2\\rangle_a+\\langle x^2\\rangle_b-2\\langle x\\rangle_a\\langle x\\rangle_b",
+					"\\psi_n(x)=\\sqrt{2/a}\\,\\sin(n\\pi x/a)"
+				]
 			},
 			{
 				"kind": "short",
@@ -2147,7 +2309,10 @@
 				"answer": -108.8,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$2\\times(-4\\times13.606)=-108.8$ eV, about 30 eV too low: the repulsion between the electrons, roughly $+30$ eV, is far from negligible."
+				"explanation": "$2\\times(-4\\times13.606)=-108.8$ eV, about 30 eV too low: the repulsion between the electrons, roughly $+30$ eV, is far from negligible.",
+				"equations": [
+					"E_{1s}=-Z^2\\,(13.606\\ \\text{eV})"
+				]
 			},
 			{
 				"kind": "short",
@@ -2163,7 +2328,10 @@
 				"answer": 5.573,
 				"tolerance": 0.05,
 				"unit": "eV",
-				"explanation": "$\\mathrm{IE}\\approx13.606\\times1.28^2/4\\approx5.57$ eV, close to the measured 5.39 eV. With no screening ($Z=3$) the formula would give 30.6 eV, far too large: the core screens $\\approx$ 1.7 of the 3 units of charge."
+				"explanation": "$\\mathrm{IE}\\approx13.606\\times1.28^2/4\\approx5.57$ eV, close to the measured 5.39 eV. With no screening ($Z=3$) the formula would give 30.6 eV, far too large: the core screens $\\approx$ 1.7 of the 3 units of charge.",
+				"equations": [
+					"\\mathrm{IE}\\approx13.606\\ \\text{eV}\\,\\frac{Z_{\\rm eff}^2}{n^2}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -2235,7 +2403,11 @@
 				"answer": 7.033,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$E_F\\approx7.03$ eV, about 300 times $k_BT$ at room temperature (0.025 eV), so the electrons are highly degenerate: only the thin layer within $\\sim k_BT$ of $E_F$ is thermally active."
+				"explanation": "$E_F\\approx7.03$ eV, about 300 times $k_BT$ at room temperature (0.025 eV), so the electrons are highly degenerate: only the thin layer within $\\sim k_BT$ of $E_F$ is thermally active.",
+				"equations": [
+					"E_F=\\frac{\\hbar^2}{2m}(3\\pi^2\\rho)^{2/3}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2318,7 +2490,11 @@
 				"prompt": "In a metal at $T=300$ K, an electron level lies 0.100 eV above the chemical potential $\\mu$. What is its Fermi-Dirac occupation probability $1/(e^{(\\epsilon-\\mu)/k_BT}+1)$?",
 				"answer": 0.02047,
 				"tolerance": 0.02,
-				"explanation": "$(\\epsilon-\\mu)/k_BT=3.87$, so $n=0.0205$. It's about 2%, and the Boltzmann factor alone ($e^{-3.87}=0.021$) is already close since the exponent is large."
+				"explanation": "$(\\epsilon-\\mu)/k_BT=3.87$, so $n=0.0205$. It's about 2%, and the Boltzmann factor alone ($e^{-3.87}=0.021$) is already close since the exponent is large.",
+				"equations": [
+					"f(\\epsilon)=\\frac{1}{e^{(\\epsilon-\\mu)/k_BT}+1}",
+					"k_B=8.617\\times10^{-5}\\ \\text{eV K}^{-1}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2346,7 +2522,10 @@
 				"answer": 9.659,
 				"tolerance": 0.02,
 				"unit": "um",
-				"explanation": "$\\lambda_\\text{max}=2.898\\times10^{-3}/300=9.66\\ \\mu$m, in the mid-infrared: which is why thermal cameras and IR spectrometers work at room temperature."
+				"explanation": "$\\lambda_\\text{max}=2.898\\times10^{-3}/300=9.66\\ \\mu$m, in the mid-infrared: which is why thermal cameras and IR spectrometers work at room temperature.",
+				"equations": [
+					"\\lambda_{\\max}T=2.898\\times10^{-3}\\ \\text{m K}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2362,7 +2541,11 @@
 				"answer": 0.2,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$E_1^{(1)}=\\langle\\psi_1|H'|\\psi_1\\rangle=\\alpha\\,\\psi_1^2(a/2)=2\\alpha/a=0.20$ eV: the first-order shift is the average of the perturbation in the unperturbed state."
+				"explanation": "$E_1^{(1)}=\\langle\\psi_1|H'|\\psi_1\\rangle=\\alpha\\,\\psi_1^2(a/2)=2\\alpha/a=0.20$ eV: the first-order shift is the average of the perturbation in the unperturbed state.",
+				"equations": [
+					"E_n^1=\\langle\\psi_n^0|H'|\\psi_n^0\\rangle",
+					"\\int f(x)\\,\\delta(x-x_0)\\,dx=f(x_0)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -2374,7 +2557,10 @@
 					"The odd-$n$ states, because the bump is symmetric about the centre and so is orthogonal to them"
 				],
 				"answer": 0,
-				"explanation": "$E_n^{(1)}=\\alpha\\psi_n^2(a/2)$ vanishes when $\\psi_n$ has a node at $a/2$, which happens for all even $n$."
+				"explanation": "$E_n^{(1)}=\\alpha\\psi_n^2(a/2)$ vanishes when $\\psi_n$ has a node at $a/2$, which happens for all even $n$.",
+				"equations": [
+					"E_n^1=\\langle\\psi_n^0|H'|\\psi_n^0\\rangle"
+				]
 			},
 			{
 				"kind": "short",
@@ -2414,7 +2600,10 @@
 				"answer": -0.02,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "$E^{(2)}=|H'_{12}|^2/(E_1^0-E_2^0)=0.04/(-2.0)=-0.020$ eV: the coupling pushes the lower level down, away from the level above it."
+				"explanation": "$E^{(2)}=|H'_{12}|^2/(E_1^0-E_2^0)=0.04/(-2.0)=-0.020$ eV: the coupling pushes the lower level down, away from the level above it.",
+				"equations": [
+					"E_n^2=\\sum_{m\\ne n}\\frac{|\\langle\\psi_m^0|H'|\\psi_n^0\\rangle|^2}{E_n^0-E_m^0}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2442,7 +2631,10 @@
 				"answer": 0.4158,
 				"tolerance": 0.05,
 				"unit": "%",
-				"explanation": "Exact: $0.5\\sqrt{1.2}=0.54772\\hbar\\omega$; first order: $0.55\\hbar\\omega$. Error $0.42\\%$, from the neglected $-\\epsilon^2\\hbar\\omega/16$ term (second order). Good agreement because $\\epsilon=0.2$ is small."
+				"explanation": "Exact: $0.5\\sqrt{1.2}=0.54772\\hbar\\omega$; first order: $0.55\\hbar\\omega$. Error $0.42\\%$, from the neglected $-\\epsilon^2\\hbar\\omega/16$ term (second order). Good agreement because $\\epsilon=0.2$ is small.",
+				"equations": [
+					"\\text{error}\\ (\\%)=\\left|\\frac{E_{\\rm approx}-E_{\\rm exact}}{E_{\\rm exact}}\\right|\\times100"
+				]
 			},
 			{
 				"kind": "mc",
@@ -2454,7 +2646,10 @@
 					"All levels equally, because $x^4$ is not small compared with the unperturbed Hamiltonian"
 				],
 				"answer": 2,
-				"explanation": "$x\\propto a_++a_-$, so $x^4$ contains products with equal numbers of $a_\\pm$ or two or four net raisings or lowerings: $\\Delta n=0,\\pm2,\\pm4$."
+				"explanation": "$x\\propto a_++a_-$, so $x^4$ contains products with equal numbers of $a_\\pm$ or two or four net raisings or lowerings: $\\Delta n=0,\\pm2,\\pm4$.",
+				"equations": [
+					"\\langle n|x|m\\rangle=\\sqrt{\\tfrac{\\hbar}{2m\\omega}}\\left(\\sqrt{n}\\,\\delta_{m,n-1}+\\sqrt{n+1}\\,\\delta_{m,n+1}\\right)"
+				]
 			},
 			{
 				"kind": "short",
@@ -2526,7 +2721,11 @@
 				"answer": 158.8,
 				"tolerance": 0.02,
 				"unit": "μeV",
-				"explanation": "$3ea_0E_\\text{ext}=3\\times(0.529\\times10^{-10}\\ \\mathrm{m})(10^6\\ \\mathrm{V/m})\\,e=158.8\\ \\mu$eV, so the splitting between the pair is twice that. It's tiny next to the 10.2 eV $n=1\\to2$ gap, so perturbation theory is excellent."
+				"explanation": "$3ea_0E_\\text{ext}=3\\times(0.529\\times10^{-10}\\ \\mathrm{m})(10^6\\ \\mathrm{V/m})\\,e=158.8\\ \\mu$eV, so the splitting between the pair is twice that. It's tiny next to the 10.2 eV $n=1\\to2$ gap, so perturbation theory is excellent.",
+				"equations": [
+					"\\Delta E=3ea_0E_{\\rm ext}",
+					"a_0=5.292\\times10^{-11}\\ \\text{m}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2554,7 +2753,10 @@
 				"answer": 724.5,
 				"tolerance": 0.02,
 				"unit": "ueV",
-				"explanation": "$\\alpha^2=5.325\\times10^{-5}$, so $\\alpha^2|E_1|\\approx7.2\\times10^{-4}$ eV $=724\\ \\mu$eV: tiny compared with the 13.6 eV Bohr energy, hence 'fine' structure."
+				"explanation": "$\\alpha^2=5.325\\times10^{-5}$, so $\\alpha^2|E_1|\\approx7.2\\times10^{-4}$ eV $=724\\ \\mu$eV: tiny compared with the 13.6 eV Bohr energy, hence 'fine' structure.",
+				"equations": [
+					"\\Delta E_{\\rm fs}\\sim\\alpha^2|E_1|"
+				]
 			},
 			{
 				"kind": "mc",
@@ -2626,7 +2828,11 @@
 				"answer": 45.28,
 				"tolerance": 0.02,
 				"unit": "μeV",
-				"explanation": "The $j$-dependent part gives $\\Delta E=\\frac{13.606}{4}\\cdot\\frac{\\alpha^2}{4}\\cdot\\left(\\frac{2}{1}-\\frac{2}{2}\\right)=45.3\\ \\mu$eV (about 10.9 GHz): a fraction $10^{-5}$ of the Bohr energy."
+				"explanation": "The $j$-dependent part gives $\\Delta E=\\frac{13.606}{4}\\cdot\\frac{\\alpha^2}{4}\\cdot\\left(\\frac{2}{1}-\\frac{2}{2}\\right)=45.3\\ \\mu$eV (about 10.9 GHz): a fraction $10^{-5}$ of the Bohr energy.",
+				"equations": [
+					"E_{nj}=-\\frac{13.6\\ \\text{eV}}{n^2}\\left[1+\\frac{\\alpha^2}{n^2}\\left(\\frac{n}{j+1/2}-\\frac34\\right)\\right]",
+					"\\alpha=1/137.036"
+				]
 			},
 			{
 				"kind": "short",
@@ -2654,7 +2860,10 @@
 				"answer": 115.8,
 				"tolerance": 0.02,
 				"unit": "μeV",
-				"explanation": "$g_J=1+\\frac{3.75+0.75-2}{7.5}=\\frac43$, so the shift is $\\frac43\\cdot\\frac32\\cdot57.88\\ \\mu\\text{eV}=2\\mu_BB=115.8$ $\\mu$eV."
+				"explanation": "$g_J=1+\\frac{3.75+0.75-2}{7.5}=\\frac43$, so the shift is $\\frac43\\cdot\\frac32\\cdot57.88\\ \\mu\\text{eV}=2\\mu_BB=115.8$ $\\mu$eV.",
+				"equations": [
+					"E_Z^1=\\mu_Bg_JBm_j,\\ g_J=1+\\frac{j(j+1)+s(s+1)-l(l+1)}{2j(j+1)}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2726,7 +2935,10 @@
 				"answer": 2150.0,
 				"tolerance": 0.02,
 				"unit": "nm^-3",
-				"explanation": "$|\\psi(0)|^2=1/(\\pi a_0^3)=1/(\\pi\\times1.48\\times10^{-4}\\ \\mathrm{nm^3})\\approx2.15\\times10^3$ nm$^{-3}$. Only $s$ electrons are non-zero at the nucleus, so only they contribute to the contact interaction."
+				"explanation": "$|\\psi(0)|^2=1/(\\pi a_0^3)=1/(\\pi\\times1.48\\times10^{-4}\\ \\mathrm{nm^3})\\approx2.15\\times10^3$ nm$^{-3}$. Only $s$ electrons are non-zero at the nucleus, so only they contribute to the contact interaction.",
+				"equations": [
+					"|\\psi(0)|^2=\\frac{1}{\\pi a_0^3}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2766,7 +2978,11 @@
 				"answer": 5.874,
 				"tolerance": 0.01,
 				"unit": "μeV",
-				"explanation": "$\\Delta E=h\\nu=(4.1357\\times10^{-15}\\ \\mathrm{eV\\,s})(1.4204\\times10^9\\ \\mathrm{Hz})\\approx5.87\\ \\mu$eV, roughly $10^6$ times smaller than the 10.2 eV $n=1\\to2$ energy."
+				"explanation": "$\\Delta E=h\\nu=(4.1357\\times10^{-15}\\ \\mathrm{eV\\,s})(1.4204\\times10^9\\ \\mathrm{Hz})\\approx5.87\\ \\mu$eV, roughly $10^6$ times smaller than the 10.2 eV $n=1\\to2$ energy.",
+				"equations": [
+					"\\Delta E=h\\nu",
+					"h=4.136\\times10^{-15}\\ \\text{eV s}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2793,7 +3009,10 @@
 				"prompt": "A Gaussian trial function applied to the attractive delta well $-\\alpha\\delta(x)$ gives the minimized $\\langle H\\rangle=-m\\alpha^2/(\\pi\\hbar^2)$, while the exact ground-state energy is $-m\\alpha^2/(2\\hbar^2)$. Find the ratio $\\langle H\\rangle_\\text{min}/E_\\text{exact}$.",
 				"answer": 0.6366,
 				"tolerance": 0.02,
-				"explanation": "The ratio is $2/\\pi\\approx0.64$. The variational energy is higher (less bound) than the exact $E_\\text{gs}$, as the theorem requires, and captures about 64% of the binding."
+				"explanation": "The ratio is $2/\\pi\\approx0.64$. The variational energy is higher (less bound) than the exact $E_\\text{gs}$, as the theorem requires, and captures about 64% of the binding.",
+				"equations": [
+					"\\langle H\\rangle_{\\min}=-\\frac{m\\alpha^2}{\\pi\\hbar^2},\\quad E_{\\rm exact}=-\\frac{m\\alpha^2}{2\\hbar^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2833,7 +3052,11 @@
 				"answer": -77.49,
 				"tolerance": 0.02,
 				"unit": "eV",
-				"explanation": "At $Z_\\text{eff}=27/16$: $-2Z^2+\\tfrac{27}{4}Z=5.695$, so $\\langle H\\rangle=-77.5$ eV, within 2% of experiment ($-78.98$ eV) and above it, as the variational theorem requires."
+				"explanation": "At $Z_\\text{eff}=27/16$: $-2Z^2+\\tfrac{27}{4}Z=5.695$, so $\\langle H\\rangle=-77.5$ eV, within 2% of experiment ($-78.98$ eV) and above it, as the variational theorem requires.",
+				"equations": [
+					"\\langle H\\rangle(Z)=\\left(-2Z^2+\\tfrac{27}{4}Z\\right)E_1",
+					"E_1=-13.606\\ \\text{eV}"
+				]
 			},
 			{
 				"kind": "short",
@@ -2848,7 +3071,10 @@
 				"prompt": "In the LCAO treatment of H$_2^+$, the overlap integral between two 1s orbitals separated by $R$ is $I=e^{-x}(1+x+x^2/3)$ with $x=R/a_0$. Find $I$ at $R=2.5\\,a_0$ (about the equilibrium separation).",
 				"answer": 0.4583,
 				"tolerance": 0.02,
-				"explanation": "$I=e^{-2.5}(1+2.5+2.083)=0.4583$. A large overlap (nearly half) means strong mixing of the two atomic orbitals. The normalization of the bonding state is then $A^2=1/[2(1+I)]$."
+				"explanation": "$I=e^{-2.5}(1+2.5+2.083)=0.4583$. A large overlap (nearly half) means strong mixing of the two atomic orbitals. The normalization of the bonding state is then $A^2=1/[2(1+I)]$.",
+				"equations": [
+					"I=e^{-x}\\left(1+x+\\tfrac{x^2}{3}\\right)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -2984,7 +3210,11 @@
 				"answer": 1.396,
 				"tolerance": 0.03,
 				"unit": "peV",
-				"explanation": "$E_1^\\text{WKB}=1.396$ peV compared with the exact Airy-function value 1.407 peV: 0.8% error even for the ground state. These levels (classical bounce height about 14 $\\mu$m) have been observed with ultracold neutrons."
+				"explanation": "$E_1^\\text{WKB}=1.396$ peV compared with the exact Airy-function value 1.407 peV: 0.8% error even for the ground state. These levels (classical bounce height about 14 $\\mu$m) have been observed with ultracold neutrons.",
+				"equations": [
+					"E_n=\\left[\\tfrac{3\\pi}{2}\\left(n-\\tfrac14\\right)\\hbar g\\sqrt{m/2}\\right]^{2/3}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -3023,7 +3253,10 @@
 				"prompt": "A proton faces a barrier with $V-E=0.30$ eV over a width of $L=0.050$ nm (treat as rectangular). Use $T\\approx e^{-2\\gamma}$ with $\\gamma=\\sqrt{2m(V-E)}L/\\hbar$ to find the ratio $T_H/T_D$, taking the deuteron mass to be exactly twice the proton's.",
 				"answer": 145.6,
 				"tolerance": 0.1,
-				"explanation": "$\\gamma_H=6.01$ and $\\gamma_D=\\sqrt2\\gamma_H=8.50$, so $T_H/T_D=e^{2(\\gamma_D-\\gamma_H)}\\approx146$. A factor of about 100 for tunneling-dominated steps is far larger than the ~7 typical of zero-point-energy KIEs, and it's used as a diagnostic of tunneling."
+				"explanation": "$\\gamma_H=6.01$ and $\\gamma_D=\\sqrt2\\gamma_H=8.50$, so $T_H/T_D=e^{2(\\gamma_D-\\gamma_H)}\\approx146$. A factor of about 100 for tunneling-dominated steps is far larger than the ~7 typical of zero-point-energy KIEs, and it's used as a diagnostic of tunneling.",
+				"equations": [
+					"T\\approx e^{-2\\gamma},\\quad \\gamma=\\frac{\\sqrt{2m(V-E)}\\,L}{\\hbar}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3094,7 +3327,11 @@
 				"prompt": "A two-level system has degenerate levels ($\\omega_0=0$) and a constant coupling $V=1.0$ meV is switched on for $\\tau=100$ fs. In first order $P=(V\\tau/\\hbar)^2$. Compute $P$.",
 				"answer": 0.02308,
 				"tolerance": 0.02,
-				"explanation": "$V\\tau/\\hbar=(10^{-3}\\ \\mathrm{eV})(10^{-13}\\ \\mathrm{s})/(6.58\\times10^{-16}\\ \\mathrm{eV\\,s})=0.152$, so $P\\approx0.023$: small, so first-order theory is self-consistent."
+				"explanation": "$V\\tau/\\hbar=(10^{-3}\\ \\mathrm{eV})(10^{-13}\\ \\mathrm{s})/(6.58\\times10^{-16}\\ \\mathrm{eV\\,s})=0.152$, so $P\\approx0.023$: small, so first-order theory is self-consistent.",
+				"equations": [
+					"P=(V\\tau/\\hbar)^2",
+					"\\hbar=6.582\\times10^{-16}\\ \\text{eV s}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3133,7 +3370,10 @@
 				"prompt": "A two-level system has gap $\\hbar\\omega_0=0.50$ eV and a constant coupling $V=0.010$ eV is switched on. Compute the maximum first-order transition probability $4|V|^2/(\\hbar\\omega_0)^2$.",
 				"answer": 0.0016,
 				"tolerance": 0.02,
-				"explanation": "$P_\\max=4(0.010)^2/(0.50)^2=0.0016$, safely $\\ll1$, so first-order theory is justified. For comparison, a coupling comparable to the gap would give $P\\sim1$ and need the full two-level solution."
+				"explanation": "$P_\\max=4(0.010)^2/(0.50)^2=0.0016$, safely $\\ll1$, so first-order theory is justified. For comparison, a coupling comparable to the gap would give $P\\sim1$ and need the full two-level solution.",
+				"equations": [
+					"P_{\\max}=\\frac{4|V|^2}{(\\hbar\\omega_0)^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3173,7 +3413,11 @@
 				"answer": 10.0,
 				"tolerance": 0.02,
 				"unit": "μs",
-				"explanation": "$t=(\\pi/2)/\\Omega=1/(4\\times25\\ \\mathrm{kHz})=10.0\\ \\mu$s. A 180° pulse (full population inversion, $P=1$) takes twice as long."
+				"explanation": "$t=(\\pi/2)/\\Omega=1/(4\\times25\\ \\mathrm{kHz})=10.0\\ \\mu$s. A 180° pulse (full population inversion, $P=1$) takes twice as long.",
+				"equations": [
+					"P=\\sin^2(\\Omega t/2)",
+					"\\Omega=2\\pi f_\\Omega"
+				]
 			},
 			{
 				"kind": "short",
@@ -3201,7 +3445,11 @@
 				"answer": 190900000.0,
 				"tolerance": 0.02,
 				"unit": "s^-1",
-				"explanation": "$\\Gamma=2\\pi(10^{-8}\\ \\mathrm{eV^2})(2.0\\ \\mathrm{eV^{-1}})/(6.58\\times10^{-16}\\ \\mathrm{eV\\,s})\\approx1.9\\times10^{8}$ s$^{-1}$, a lifetime of about 5 ns."
+				"explanation": "$\\Gamma=2\\pi(10^{-8}\\ \\mathrm{eV^2})(2.0\\ \\mathrm{eV^{-1}})/(6.58\\times10^{-16}\\ \\mathrm{eV\\,s})\\approx1.9\\times10^{8}$ s$^{-1}$, a lifetime of about 5 ns.",
+				"equations": [
+					"\\Gamma_{i\\to f}=\\frac{2\\pi}{\\hbar}|\\langle f|H'|i\\rangle|^2\\rho(E_f)",
+					"\\hbar=6.582\\times10^{-16}\\ \\text{eV s}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -3241,7 +3489,12 @@
 				"answer": 35.12,
 				"tolerance": 0.03,
 				"unit": "GHz",
-				"explanation": "$E_0=2.74e+06$ V/m and $\\Omega=\\wp E_0/\\hbar=2.21e+11$ rad/s, so $\\Omega/2\\pi\\approx35.1$ GHz: a $\\pi$ pulse needs only about 14 ps. The perturbation is weak compared with the optical frequency, so the rotating-wave approximation holds."
+				"explanation": "$E_0=2.74e+06$ V/m and $\\Omega=\\wp E_0/\\hbar=2.21e+11$ rad/s, so $\\Omega/2\\pi\\approx35.1$ GHz: a $\\pi$ pulse needs only about 14 ps. The perturbation is weak compared with the optical frequency, so the rotating-wave approximation holds.",
+				"equations": [
+					"E_0=\\sqrt{2I/c\\epsilon_0}",
+					"\\Omega=\\wp E_0/\\hbar",
+					"e=1.602\\times10^{-19}\\ \\text{C},\\quad a_0=5.292\\times10^{-11}\\ \\text{m},\\quad \\epsilon_0=8.854\\times10^{-12}\\ \\text{C}^2/(\\text{N m}^2),\\quad \\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad c=2.998\\times10^8\\ \\text{m/s}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3281,7 +3534,12 @@
 				"answer": 7.645,
 				"tolerance": 0.03,
 				"unit": "1e20 m^3 J^-1 s^-2",
-				"explanation": "$\\wp=ea_0=8.48\\times10^{-30}$ C m, so $B=\\pi\\wp^2/(3\\epsilon_0\\hbar^2)\\approx7.6\\times10^{20}$ m$^3$J$^{-1}$s$^{-2}$. The rate is $B\\rho(\\omega_0)$."
+				"explanation": "$\\wp=ea_0=8.48\\times10^{-30}$ C m, so $B=\\pi\\wp^2/(3\\epsilon_0\\hbar^2)\\approx7.6\\times10^{20}$ m$^3$J$^{-1}$s$^{-2}$. The rate is $B\\rho(\\omega_0)$.",
+				"equations": [
+					"B=\\frac{\\pi|\\wp|^2}{3\\epsilon_0\\hbar^2}",
+					"\\wp=ea_0",
+					"e=1.602\\times10^{-19}\\ \\text{C},\\quad a_0=5.292\\times10^{-11}\\ \\text{m},\\quad \\epsilon_0=8.854\\times10^{-12}\\ \\text{C}^2/(\\text{N m}^2),\\quad \\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad c=2.998\\times10^8\\ \\text{m/s}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3321,7 +3579,12 @@
 				"answer": 1.596,
 				"tolerance": 0.03,
 				"unit": "ns",
-				"explanation": "$\\omega_0=1.550e+16$ rad/s gives $A\\approx6.27e+08\\ \\mathrm{s^{-1}}$ and $\\tau\\approx1.60$ ns, the well-known 1.6 ns lifetime of hydrogen 2p. The linewidth is $\\Delta\\nu\\sim1/2\\pi\\tau\\approx100$ MHz."
+				"explanation": "$\\omega_0=1.550e+16$ rad/s gives $A\\approx6.27e+08\\ \\mathrm{s^{-1}}$ and $\\tau\\approx1.60$ ns, the well-known 1.6 ns lifetime of hydrogen 2p. The linewidth is $\\Delta\\nu\\sim1/2\\pi\\tau\\approx100$ MHz.",
+				"equations": [
+					"A=\\frac{\\omega_0^3e^2|\\langle\\mathbf r\\rangle|^2}{3\\pi\\epsilon_0\\hbar c^3}",
+					"\\tau=\\frac1A",
+					"e=1.602\\times10^{-19}\\ \\text{C},\\quad a_0=5.292\\times10^{-11}\\ \\text{m},\\quad \\epsilon_0=8.854\\times10^{-12}\\ \\text{C}^2/(\\text{N m}^2),\\quad \\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad c=2.998\\times10^8\\ \\text{m/s}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3413,7 +3676,11 @@
 				"answer": 1.571,
 				"tolerance": 0.02,
 				"unit": "rad",
-				"explanation": "$\\Omega=2\\pi(1-0.5)=\\pi$ sr, so $|\\gamma|=\\pi/2=1.5708$ rad. For a full hemisphere ($\\theta=90^\\circ$) the phase would be $\\pi$, and it vanishes for $\\theta\\to0$."
+				"explanation": "$\\Omega=2\\pi(1-0.5)=\\pi$ sr, so $|\\gamma|=\\pi/2=1.5708$ rad. For a full hemisphere ($\\theta=90^\\circ$) the phase would be $\\pi$, and it vanishes for $\\theta\\to0$.",
+				"equations": [
+					"\\Omega=2\\pi(1-\\cos\\theta)",
+					"\\gamma=-\\Omega/2"
+				]
 			},
 			{
 				"kind": "short",
@@ -3453,7 +3720,11 @@
 				"answer": 50000000.0,
 				"tolerance": 0.02,
 				"unit": "s^-1",
-				"explanation": "$d\\sigma/d\\Omega=|f|^2=0.25$ nm$^2$/sr, so rate $=10^{10}\\times0.25\\times0.020=5.0\\times10^{7}$ s$^{-1}$."
+				"explanation": "$d\\sigma/d\\Omega=|f|^2=0.25$ nm$^2$/sr, so rate $=10^{10}\\times0.25\\times0.020=5.0\\times10^{7}$ s$^{-1}$.",
+				"equations": [
+					"\\frac{d\\sigma}{d\\Omega}=|f(\\theta)|^2",
+					"\\text{rate}=\\text{flux}\\times|f|^2\\times\\Delta\\Omega"
+				]
 			},
 			{
 				"kind": "short",
@@ -3493,7 +3764,12 @@
 				"answer": 0.4788,
 				"tolerance": 0.03,
 				"unit": "nm^2",
-				"explanation": "$k=\\sqrt{2mE}/\\hbar=5.123e+09\\ \\mathrm{m^{-1}}$, so $4\\pi/k^2=0.479$ nm$^2$. No s-wave scattering can exceed this, which sets the scale of low-energy electron-atom cross sections (the Ramsauer minimum occurs when $\\delta_0=\\pi$)."
+				"explanation": "$k=\\sqrt{2mE}/\\hbar=5.123e+09\\ \\mathrm{m^{-1}}$, so $4\\pi/k^2=0.479$ nm$^2$. No s-wave scattering can exceed this, which sets the scale of low-energy electron-atom cross sections (the Ramsauer minimum occurs when $\\delta_0=\\pi$).",
+				"equations": [
+					"\\sigma_{\\max}=\\frac{4\\pi}{k^2}",
+					"k=\\frac{\\sqrt{2mE}}{\\hbar}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3533,7 +3809,10 @@
 				"answer": 0.1257,
 				"tolerance": 0.02,
 				"unit": "nm^2",
-				"explanation": "$\\sigma=4\\pi a^2=4\\pi(0.10)^2\\approx0.126$ nm$^2$, four times the geometric cross section $\\pi a^2$, because waves diffract around the whole sphere."
+				"explanation": "$\\sigma=4\\pi a^2=4\\pi(0.10)^2\\approx0.126$ nm$^2$, four times the geometric cross section $\\pi a^2$, because waves diffract around the whole sphere.",
+				"equations": [
+					"\\sigma=4\\pi a^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -3561,7 +3840,12 @@
 				"answer": 7.245,
 				"tolerance": 0.02,
 				"unit": "Å^-1",
-				"explanation": "$k=5.123$ Å$^{-1}$ and $q=2k\\sin45^\\circ=7.245$ Å$^{-1}$, so the resolution is $2\\pi/q\\approx0.87$ Å, comparable to bond lengths; this is why electron diffraction determines molecular structure."
+				"explanation": "$k=5.123$ Å$^{-1}$ and $q=2k\\sin45^\\circ=7.245$ Å$^{-1}$, so the resolution is $2\\pi/q\\approx0.87$ Å, comparable to bond lengths; this is why electron diffraction determines molecular structure.",
+				"equations": [
+					"q=2k\\sin(\\theta/2)",
+					"k=\\frac{\\sqrt{2mE}}{\\hbar}",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3600,7 +3884,10 @@
 				"prompt": "For Rutherford scattering (Born, $\\mu\\to0$) $d\\sigma/d\\Omega\\propto1/\\sin^4(\\theta/2)$. Find the ratio $\\dfrac{d\\sigma/d\\Omega\\,(60^\\circ)}{d\\sigma/d\\Omega\\,(120^\\circ)}$.",
 				"answer": 9.0,
 				"tolerance": 0.02,
-				"explanation": "$\\sin30^\\circ=0.5$ and $\\sin60^\\circ=0.866$, so the ratio is $(0.866/0.5)^4=9.0$: the Coulomb tail makes forward scattering dominate."
+				"explanation": "$\\sin30^\\circ=0.5$ and $\\sin60^\\circ=0.866$, so the ratio is $(0.866/0.5)^4=9.0$: the Coulomb tail makes forward scattering dominate.",
+				"equations": [
+					"\\frac{d\\sigma}{d\\Omega}\\propto\\frac{1}{\\sin^4(\\theta/2)}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3627,7 +3914,10 @@
 				"prompt": "A beam of spin-1/2 atoms passes a $z$ analyzer (selecting $+$), then an analyzer along an axis $\\hat n$ in the $xz$ plane at $45^\\circ$ to $z$ (selecting $+$), then a $z$ analyzer selecting $-$. Of the atoms leaving the first analyzer, what fraction emerges from the last? (Use $P=\\cos^2(\\theta/2)$ for $+\\to+$ and $\\sin^2(\\theta/2)$ for $+\\to-$.)",
 				"answer": 0.125,
 				"tolerance": 0.02,
-				"explanation": "$P=\\cos^2(22.5^\\circ)\\sin^2(22.5^\\circ)=\\sin^2(45^\\circ)/4=0.125$. Without the middle analyzer the answer would be 0: inserting a measurement can create outcomes that were impossible."
+				"explanation": "$P=\\cos^2(22.5^\\circ)\\sin^2(22.5^\\circ)=\\sin^2(45^\\circ)/4=0.125$. Without the middle analyzer the answer would be 0: inserting a measurement can create outcomes that were impossible.",
+				"equations": [
+					"P(+\\to+)=\\cos^2(\\theta/2),\\quad P(+\\to-)=\\sin^2(\\theta/2)"
+				]
 			},
 			{
 				"kind": "short",
@@ -3730,7 +4020,11 @@
 				"prompt": "A Hermitian operator has matrix $A=\\begin{pmatrix}1&1+i\\\\1-i&2\\end{pmatrix}$ in some orthonormal basis. Using $\\mathrm{tr}A=\\lambda_1+\\lambda_2$ and $\\det A=\\lambda_1\\lambda_2$, find the larger eigenvalue.",
 				"answer": 3.0,
 				"tolerance": 0.02,
-				"explanation": "$\\mathrm{tr}A=3$ and $\\det A=2-(1+i)(1-i)=0$, so the eigenvalues are 0 and 3. The larger is 3.0. These invariants are the same in any orthonormal basis."
+				"explanation": "$\\mathrm{tr}A=3$ and $\\det A=2-(1+i)(1-i)=0$, so the eigenvalues are 0 and 3. The larger is 3.0. These invariants are the same in any orthonormal basis.",
+				"equations": [
+					"\\mathrm{tr}A=\\lambda_1+\\lambda_2",
+					"\\det A=\\lambda_1\\lambda_2"
+				]
 			},
 			{
 				"kind": "mc",
@@ -3770,7 +4064,11 @@
 				"answer": 15.69,
 				"tolerance": 0.02,
 				"unit": "rad",
-				"explanation": "$\\lambda=h/\\sqrt{2mE}=0.1001$ nm, so $ka=2\\pi a/\\lambda=15.69$ rad (about 2.50 wavelengths). Momentum eigenstates are eigenstates of translation with eigenvalue $e^{-ipa/\\hbar}$."
+				"explanation": "$\\lambda=h/\\sqrt{2mE}=0.1001$ nm, so $ka=2\\pi a/\\lambda=15.69$ rad (about 2.50 wavelengths). Momentum eigenstates are eigenstates of translation with eigenvalue $e^{-ipa/\\hbar}$.",
+				"equations": [
+					"k=\\sqrt{2mE}/\\hbar",
+					"\\hbar=1.055\\times10^{-34}\\ \\text{J s},\\quad m_e=9.109\\times10^{-31}\\ \\text{kg},\\quad 1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3854,7 +4152,11 @@
 				"answer": 3.039,
 				"tolerance": 0.02,
 				"unit": "rad",
-				"explanation": "$\\Delta Et/\\hbar=(2.0\\ \\mathrm{eV})(10^{-15}\\ \\mathrm{s})/(6.58\\times10^{-16}\\ \\mathrm{eV\\,s})\\approx3.04$ rad: about half an oscillation of the electronic beat in one femtosecond."
+				"explanation": "$\\Delta Et/\\hbar=(2.0\\ \\mathrm{eV})(10^{-15}\\ \\mathrm{s})/(6.58\\times10^{-16}\\ \\mathrm{eV\\,s})\\approx3.04$ rad: about half an oscillation of the electronic beat in one femtosecond.",
+				"equations": [
+					"\\Delta\\phi=\\Delta E\\,t/\\hbar",
+					"\\hbar=6.582\\times10^{-16}\\ \\text{eV s}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3894,7 +4196,11 @@
 				"answer": 25.49,
 				"tolerance": 0.02,
 				"unit": "ps",
-				"explanation": "$\\omega=6.163\\times10^{10}$ rad/s (a frequency $\\omega/2\\pi=9.81$ GHz), so $t=25.5$ ps. The Heisenberg equations $\\dot S_x=\\gamma(\\mathbf S\\times\\mathbf B)_x$ give exactly this precession for the operators."
+				"explanation": "$\\omega=6.163\\times10^{10}$ rad/s (a frequency $\\omega/2\\pi=9.81$ GHz), so $t=25.5$ ps. The Heisenberg equations $\\dot S_x=\\gamma(\\mathbf S\\times\\mathbf B)_x$ give exactly this precession for the operators.",
+				"equations": [
+					"\\omega=\\gamma_eB",
+					"t=\\frac{\\pi/2}{\\omega}"
+				]
 			},
 			{
 				"kind": "short",
@@ -3933,7 +4239,10 @@
 				"prompt": "A coherent state has $\\langle n\\rangle=|\\lambda|^2=2.0$ (a Poisson distribution, $P(n)=e^{-|\\lambda|^2}|\\lambda|^{2n}/n!$). What is the probability of finding exactly $n=2$ quanta?",
 				"answer": 0.2707,
 				"tolerance": 0.02,
-				"explanation": "$P(2)=e^{-2}\\cdot2^2/2!=0.2707$. Also $P(0)=0.135$, $P(1)=0.271$; the number uncertainty is $\\sigma_n=|\\lambda|=\\sqrt2$."
+				"explanation": "$P(2)=e^{-2}\\cdot2^2/2!=0.2707$. Also $P(0)=0.135$, $P(1)=0.271$; the number uncertainty is $\\sigma_n=|\\lambda|=\\sqrt2$.",
+				"equations": [
+					"P(n)=e^{-|\\lambda|^2}\\frac{|\\lambda|^{2n}}{n!}"
+				]
 			},
 			{
 				"kind": "short",
@@ -4024,7 +4333,10 @@
 				"prompt": "A two-level system is driven with Rabi frequency $\\Omega_0/2\\pi=10$ kHz at a detuning $\\Delta/2\\pi=5$ kHz from resonance. The maximum excited-state probability is $P_\\max=\\Omega_0^2/(\\Omega_0^2+\\Delta^2)$. Compute it.",
 				"answer": 0.8,
 				"tolerance": 0.02,
-				"explanation": "$P_\\max=100/(100+25)=0.80$, and the oscillation frequency is $\\Omega=\\sqrt{\\Omega_0^2+\\Delta^2}$, i.e. $2\\pi\\times11.2$ kHz. Detuning reduces the contrast and speeds up the oscillation."
+				"explanation": "$P_\\max=100/(100+25)=0.80$, and the oscillation frequency is $\\Omega=\\sqrt{\\Omega_0^2+\\Delta^2}$, i.e. $2\\pi\\times11.2$ kHz. Detuning reduces the contrast and speeds up the oscillation.",
+				"equations": [
+					"P_{\\max}=\\frac{\\Omega_0^2}{\\Omega_0^2+\\Delta^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -4084,7 +4396,11 @@
 				"answer": 6.858,
 				"tolerance": 0.02,
 				"unit": "μs",
-				"explanation": "$t=2\\pi/(\\gamma_nB)=6.86\\ \\mu$s. After this the spin state is multiplied by $-1$; to see the full period one must go to $4\\pi$ (13.7 $\\mu$s)."
+				"explanation": "$t=2\\pi/(\\gamma_nB)=6.86\\ \\mu$s. After this the spin state is multiplied by $-1$; to see the full period one must go to $4\\pi$ (13.7 $\\mu$s).",
+				"equations": [
+					"\\omega=\\gamma_nB",
+					"t=2\\pi/\\omega"
+				]
 			},
 			{
 				"kind": "mc",
@@ -4123,7 +4439,10 @@
 				"prompt": "For $j=\\tfrac32$, find the coefficient $c$ in $J_-|\\tfrac32,\\tfrac32\\rangle=c\\,\\hbar\\,|\\tfrac32,\\tfrac12\\rangle$, using $c=\\sqrt{(j+m)(j-m+1)}$.",
 				"answer": 1.732,
 				"tolerance": 0.02,
-				"explanation": "$c=\\sqrt{(3/2+3/2)(3/2-3/2+1)}=\\sqrt{3\\cdot1}=\\sqrt3\\approx1.73$."
+				"explanation": "$c=\\sqrt{(3/2+3/2)(3/2-3/2+1)}=\\sqrt{3\\cdot1}=\\sqrt3\\approx1.73$.",
+				"equations": [
+					"c=\\sqrt{(j+m)(j-m+1)}"
+				]
 			},
 			{
 				"kind": "short",
@@ -4155,14 +4474,20 @@
 					"$1$"
 				],
 				"answer": 0,
-				"explanation": "Rotation by $\\beta$ mixes the $m$ components; the probability to remain in $m=0$ is $|d^1_{00}|^2=\\cos^2\\beta$. At $90^\\circ$ a $m=0$ state has zero probability of remaining $m=0$."
+				"explanation": "Rotation by $\\beta$ mixes the $m$ components; the probability to remain in $m=0$ is $|d^1_{00}|^2=\\cos^2\\beta$. At $90^\\circ$ a $m=0$ state has zero probability of remaining $m=0$.",
+				"equations": [
+					"P=|d^j_{m'm}(\\beta)|^2"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "A spin-1 particle in $|1,+1\\rangle$ (along $z$) is rotated by $\\beta=60^\\circ$ about $y$. Find the probability of then measuring $m=0$, $|d^1_{01}(\\beta)|^2=\\tfrac12\\sin^2\\beta$.",
 				"answer": 0.375,
 				"tolerance": 0.02,
-				"explanation": "$\\tfrac12\\sin^260^\\circ=0.375$ (numerical matrix exponential gives 0.375). The other outcomes: $m=+1$ with $\\cos^4(\\beta/2)=0.5625$ and $m=-1$ with $\\sin^4(\\beta/2)=0.0625$; they sum to 1."
+				"explanation": "$\\tfrac12\\sin^260^\\circ=0.375$ (numerical matrix exponential gives 0.375). The other outcomes: $m=+1$ with $\\cos^4(\\beta/2)=0.5625$ and $m=-1$ with $\\sin^4(\\beta/2)=0.0625$; they sum to 1.",
+				"equations": [
+					"|d^1_{01}(\\beta)|^2=\\tfrac12\\sin^2\\beta"
+				]
 			},
 			{
 				"kind": "short",
@@ -4221,7 +4546,10 @@
 				"prompt": "For $l=1$ coupled with $s=\\tfrac12$, the state $|j=\\tfrac32,m_j=\\tfrac12\\rangle=\\sqrt{\\tfrac23}\\,|m_l=0,\\uparrow\\rangle+\\sqrt{\\tfrac13}\\,|m_l=1,\\downarrow\\rangle$. If you measure the electron spin along $z$ in this state, what is the probability of finding spin down?",
 				"answer": 0.3333,
 				"tolerance": 0.02,
-				"explanation": "The squared CG coefficient of the $|{\\downarrow}\\rangle$ term is $1/3=0.333$. The up probability is $2/3$."
+				"explanation": "The squared CG coefficient of the $|{\\downarrow}\\rangle$ term is $1/3=0.333$. The up probability is $2/3$.",
+				"equations": [
+					"P(m_s)=\\sum_{m_l}\\left|\\langle m_l,m_s|\\psi\\rangle\\right|^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -4292,7 +4620,10 @@
 				"prompt": "A rank-1 operator $T^{(1)}_{+1}$ connects $j=\\tfrac12$ to $j'=\\tfrac32$. Using Clebsch-Gordan coefficients $\\langle\\tfrac12\\,\\tfrac12;1\\,1|\\tfrac32\\,\\tfrac32\\rangle=1$ and $\\langle\\tfrac12\\,{-\\tfrac12};1\\,1|\\tfrac32\\,\\tfrac12\\rangle=\\tfrac1{\\sqrt3}$, find the ratio of intensities (squared matrix elements) $I(m=+\\tfrac12\\to\\tfrac32)\\,/\\,I(m=-\\tfrac12\\to\\tfrac12)$.",
 				"answer": 3.0,
 				"tolerance": 0.02,
-				"explanation": "Intensities go as the squares of CG coefficients: $1^2/(1/\\sqrt3)^2=3$. The reduced matrix element cancels, which is the content of the theorem."
+				"explanation": "Intensities go as the squares of CG coefficients: $1^2/(1/\\sqrt3)^2=3$. The reduced matrix element cancels, which is the content of the theorem.",
+				"equations": [
+					"I\\propto|\\langle jm;kq|j'm'\\rangle|^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -4332,7 +4663,11 @@
 				"answer": 98.37,
 				"tolerance": 0.01,
 				"unit": "μeV",
-				"explanation": "$\\Delta E=h\\nu=98.4\\ \\mu$eV $\\approx0.1$ meV (0.79 cm$^{-1}$): the tunneling splitting through the barrier between the two N-position wells. This line was used in the first maser."
+				"explanation": "$\\Delta E=h\\nu=98.4\\ \\mu$eV $\\approx0.1$ meV (0.79 cm$^{-1}$): the tunneling splitting through the barrier between the two N-position wells. This line was used in the first maser.",
+				"equations": [
+					"\\Delta E=h\\nu",
+					"h=4.136\\times10^{-15}\\ \\text{eV s}"
+				]
 			},
 			{
 				"kind": "short",
@@ -4404,7 +4739,11 @@
 				"answer": 32.01,
 				"tolerance": 0.03,
 				"unit": "ppm",
-				"explanation": "$h\\nu/2k_BT=(6.626\\times10^{-34})(4.002\\times10^{8})/(2\\times1.381\\times10^{-23}\\times300)\\approx3.2\\times10^{-5}$, so $P\\approx32$ ppm: NMR works with a tiny excess of spins in the lower level, the diagonal of a nearly maximally mixed $\\rho$."
+				"explanation": "$h\\nu/2k_BT=(6.626\\times10^{-34})(4.002\\times10^{8})/(2\\times1.381\\times10^{-23}\\times300)\\approx3.2\\times10^{-5}$, so $P\\approx32$ ppm: NMR works with a tiny excess of spins in the lower level, the diagonal of a nearly maximally mixed $\\rho$.",
+				"equations": [
+					"P=\\tanh\\left(\\frac{h\\nu}{2k_BT}\\right)",
+					"h=4.136\\times10^{-15}\\ \\text{eV s},\\quad k_B=8.617\\times10^{-5}\\ \\text{eV K}^{-1}"
+				]
 			},
 			{
 				"kind": "short",
@@ -4431,7 +4770,10 @@
 				"prompt": "Two qubits are in the entangled state $|\\Psi\\rangle=0.8|\\uparrow\\downarrow\\rangle+0.6|\\downarrow\\uparrow\\rangle$. The reduced density matrix of qubit A is diagonal with entries $0.64$ and $0.36$. Compute its purity $\\mathrm{Tr}\\rho_A^2$ (1 for a product state, 0.5 for maximal entanglement).",
 				"answer": 0.5392,
 				"tolerance": 0.02,
-				"explanation": "$\\mathrm{Tr}\\rho_A^2=0.64^2+0.36^2=0.5392$, between 0.5 (maximally entangled singlet-like state) and 1 (product state): partial entanglement. Its Schmidt coefficients are 0.8 and 0.6."
+				"explanation": "$\\mathrm{Tr}\\rho_A^2=0.64^2+0.36^2=0.5392$, between 0.5 (maximally entangled singlet-like state) and 1 (product state): partial entanglement. Its Schmidt coefficients are 0.8 and 0.6.",
+				"equations": [
+					"\\mathrm{Tr}\\,\\rho_A^2=\\sum_i\\lambda_i^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -4502,7 +4844,11 @@
 				"prompt": "For the spin singlet, quantum mechanics predicts the correlation $E(\\hat a,\\hat b)=-\\hat a\\cdot\\hat b=-\\cos\\theta_{ab}$. Take measurement directions in a plane at angles $a=0^\\circ$, $a'=90^\\circ$, $b=45^\\circ$, $b'=135^\\circ$. Compute $|S|$ where $S=E(a,b)-E(a,b')+E(a',b)+E(a',b')$.",
 				"answer": 2.828,
 				"tolerance": 0.02,
-				"explanation": "$E(a,b)=-0.707$, $E(a,b')=+0.707$, $E(a',b)=-0.707$, $E(a',b')=-0.707$, so $S=-4/\\sqrt2=-2\\sqrt2$ and $|S|=2.828$, above the local bound of 2."
+				"explanation": "$E(a,b)=-0.707$, $E(a,b')=+0.707$, $E(a',b)=-0.707$, $E(a',b')=-0.707$, so $S=-4/\\sqrt2=-2\\sqrt2$ and $|S|=2.828$, above the local bound of 2.",
+				"equations": [
+					"E(\\hat a,\\hat b)=-\\hat a\\cdot\\hat b",
+					"S=E(a,b)-E(a,b')+E(a',b)+E(a',b')"
+				]
 			},
 			{
 				"kind": "short",

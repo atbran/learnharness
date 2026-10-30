@@ -6,6 +6,7 @@ import { AwardIcon, CalendarClockIcon, FlameIcon, LibraryIcon, MapIcon, RadarIco
 import { TopBar } from "@/components/top-bar";
 import { cn } from "@/lib/utils";
 import { MasteryRadar, ProgressRing, ScoreTrends, StudyHeatmap } from "./charts";
+import { DemoPrebuildCard } from "./demo-prebuild-card";
 import { ProgramMap } from "./program-map";
 import { Timeline } from "./timeline";
 import { STATUS_COLOR, STATUS_LABEL, TRACK_COLOR, fmtDate, pct } from "./status";
@@ -150,6 +151,8 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 							)}
 						</div>
 					</section>
+
+					<DemoPrebuildCard />
 
 					{/* Views */}
 					<section>

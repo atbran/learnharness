@@ -61,3 +61,4 @@ export * from "./audio.ts";
 
 // iPad access (Tailscale serve for the launcher's port).
 export { ipadStatus, setIpadAccess, type IpadStatus, type IpadChange } from "./ipad-access.ts";
+export { demoPrebuildStatus, setDemoPrebuild, type DemoPrebuildStatus } from "./demo-prebuild.ts";

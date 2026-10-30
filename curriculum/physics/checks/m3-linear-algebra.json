@@ -20,13 +20,19 @@
 				"answer": 42.833428,
 				"tolerance": 0.02,
 				"unit": "degrees",
-				"explanation": "$\\cos\\theta = \\dfrac{u\\cdot v}{|u||v|} = \\dfrac{11}{3\\cdot 5}=\\dfrac{11}{15}$, so $\\theta \\approx 42.8^\\circ$. Cauchy-Schwarz guarantees this ratio is between $-1$ and $1$."
+				"explanation": "$\\cos\\theta = \\dfrac{u\\cdot v}{|u||v|} = \\dfrac{11}{3\\cdot 5}=\\dfrac{11}{15}$, so $\\theta \\approx 42.8^\\circ$. Cauchy-Schwarz guarantees this ratio is between $-1$ and $1$.",
+				"equations": [
+					"v\\cdot w = \\|v\\|\\|w\\|\\cos\\theta"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "In your own words, what is the span of a set of vectors, and why does the Cauchy-Schwarz inequality $|v\\cdot w|\\le\\|v\\|\\|w\\|$ hold? Use the angle between $v$ and $w$.",
 				"rubric": "Full credit requires: (1) the span is the set of all linear combinations $c_1v_1+\\dots+c_kv_k$ (a line, plane, or all of the space, always through the origin); (2) $v\\cdot w=\\|v\\|\\|w\\|\\cos\\theta$; (3) since $|\\cos\\theta|\\le1$, the dot product cannot exceed the product of the lengths, with equality only when the vectors are parallel.",
-				"modelAnswer": "The span of $v_1,\\dots,v_k$ is every linear combination $c_1v_1+\\dots+c_kv_k$: a line, a plane, or more, but always passing through the origin. Because $v\\cdot w=\\|v\\|\\|w\\|\\cos\\theta$ and $|\\cos\\theta|\\le1$, we get $|v\\cdot w|\\le\\|v\\|\\|w\\|$, with equality exactly when $v$ and $w$ are parallel."
+				"modelAnswer": "The span of $v_1,\\dots,v_k$ is every linear combination $c_1v_1+\\dots+c_kv_k$: a line, a plane, or more, but always passing through the origin. Because $v\\cdot w=\\|v\\|\\|w\\|\\cos\\theta$ and $|\\cos\\theta|\\le1$, we get $|v\\cdot w|\\le\\|v\\|\\|w\\|$, with equality exactly when $v$ and $w$ are parallel.",
+				"equations": [
+					"v\\cdot w = \\|v\\|\\|w\\|\\cos\\theta"
+				]
 			}
 		],
 		"m3-l002-matrix-times-vector-column-picture": [
@@ -47,7 +53,10 @@
 				"prompt": "Let $A=\\begin{pmatrix}2&1\\\\1&3\\\\0&4\\end{pmatrix}$ and $x=(3,-1)$. Compute $Ax$ as $3\\,\\text{col}_1 - 1\\,\\text{col}_2$ and give its third component.",
 				"answer": -4.0,
 				"tolerance": 0.02,
-				"explanation": "$Ax = 3(2,1,0) - (1,3,4) = (5,0,-4)$. The third component is $-4$: the column view builds $Ax$ one column at a time."
+				"explanation": "$Ax = 3(2,1,0) - (1,3,4) = (5,0,-4)$. The third component is $-4$: the column view builds $Ax$ one column at a time.",
+				"equations": [
+					"A x = x_1 a_1 + x_2 a_2 + \\dots + x_n a_n"
+				]
 			},
 			{
 				"kind": "short",
@@ -74,14 +83,20 @@
 				"prompt": "Eliminate on $A=\\begin{pmatrix}2&1&1\\\\4&-6&0\\\\-2&7&2\\end{pmatrix}$ (no row exchanges). What is the third pivot?",
 				"answer": 1.0,
 				"tolerance": 0.02,
-				"explanation": "Subtract 2 times row 1 from row 2 (multiplier 2) and $-1$ times row 1 from row 3. Then row 3 minus $(-1)$ times row 2 gives the pivot $1$. The pivots are $2,-8,1$."
+				"explanation": "Subtract 2 times row 1 from row 2 (multiplier 2) and $-1$ times row 1 from row 3. Then row 3 minus $(-1)$ times row 2 gives the pivot $1$. The pivots are $2,-8,1$.",
+				"equations": [
+					"\\ell_{ij} = \\frac{a_{ij}}{a_{jj}}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "For the same matrix $A=\\begin{pmatrix}2&1&1\\\\4&-6&0\\\\-2&7&2\\end{pmatrix}$, what is the multiplier $\\ell_{32}$ used to clear the $(3,2)$ position after the first column is cleared?",
 				"answer": -1.0,
 				"tolerance": 0.02,
-				"explanation": "After step one, rows 2 and 3 are $(0,-8,-2)$ and $(0,8,3)$, so $\\ell_{32} = 8/(-8) = -1$. Each multiplier becomes an entry of $E_{32}$ (and later of $L$)."
+				"explanation": "After step one, rows 2 and 3 are $(0,-8,-2)$ and $(0,8,3)$, so $\\ell_{32} = 8/(-8) = -1$. Each multiplier becomes an entry of $E_{32}$ (and later of $L$).",
+				"equations": [
+					"\\ell_{ij} = \\frac{a_{ij}}{a_{jj}}"
+				]
 			},
 			{
 				"kind": "short",
@@ -119,7 +134,10 @@
 				"kind": "short",
 				"prompt": "Explain how a $2\\times 2$ system looks in the row picture and in the column picture, and how elimination (done as multiplication by elementary matrices $E_{ij}$) tells you which of the three outcomes occurs.",
 				"rubric": "Full credit requires: row picture = two lines meeting (or not); column picture = combining column vectors to reach the right-hand side; elimination step = left-multiplication by $E_{ij}$ with the multiplier; pivots decide outcome: full pivots -> unique, missing pivot with inconsistent row -> none, missing pivot with consistent row -> infinitely many.",
-				"modelAnswer": "In the row picture each equation is a line and the solution is where they cross; in the column picture the two columns are vectors and we ask what mix of them reaches the right side. Each elimination step subtracts a multiple of one row from another, which is multiplication by an elementary matrix $E_{ij}$ holding that multiplier. If we get a full set of pivots the solution is unique; if a pivot is missing we either hit a contradiction like $0=1$ (no solution, parallel lines) or $0=0$ (a free variable, infinitely many solutions)."
+				"modelAnswer": "In the row picture each equation is a line and the solution is where they cross; in the column picture the two columns are vectors and we ask what mix of them reaches the right side. Each elimination step subtracts a multiple of one row from another, which is multiplication by an elementary matrix $E_{ij}$ holding that multiplier. If we get a full set of pivots the solution is unique; if a pivot is missing we either hit a contradiction like $0=1$ (no solution, parallel lines) or $0=0$ (a free variable, infinitely many solutions).",
+				"equations": [
+					"E_{21} A = U"
+				]
 			}
 		],
 		"m3-l005-matrix-multiplication-four-views": [
@@ -140,7 +158,10 @@
 				"prompt": "Let $A=\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}$ and $B=\\begin{pmatrix}0&1\\\\1&2\\end{pmatrix}$. Find the $(2,2)$ entry of $AB$.",
 				"answer": 11.0,
 				"tolerance": 0.02,
-				"explanation": "Row 2 of $A$ times column 2 of $B$: $3\\cdot1 + 4\\cdot2 = 11$. Equivalently $AB=\\sum_k(\\text{col}_k A)(\\text{row}_k B)$, whose $(2,2)$ entry is $3\\cdot1+4\\cdot2$."
+				"explanation": "Row 2 of $A$ times column 2 of $B$: $3\\cdot1 + 4\\cdot2 = 11$. Equivalently $AB=\\sum_k(\\text{col}_k A)(\\text{row}_k B)$, whose $(2,2)$ entry is $3\\cdot1+4\\cdot2$.",
+				"equations": [
+					"(AB)_{ij} = \\sum_k a_{ik}b_{kj}"
+				]
 			},
 			{
 				"kind": "short",
@@ -167,7 +188,10 @@
 				"prompt": "Using Gauss-Jordan elimination (or the $2\\times2$ formula), find the $(2,1)$ entry of $A^{-1}$ for $A=\\begin{pmatrix}4&2\\\\7&6\\end{pmatrix}$.",
 				"answer": -0.7,
 				"tolerance": 0.02,
-				"explanation": "$\\det A = 24-14 = 10$ and $A^{-1}=\\frac{1}{10}\\begin{pmatrix}6&-2\\\\-7&4\\end{pmatrix}$, so the $(2,1)$ entry is $-0.7$."
+				"explanation": "$\\det A = 24-14 = 10$ and $A^{-1}=\\frac{1}{10}\\begin{pmatrix}6&-2\\\\-7&4\\end{pmatrix}$, so the $(2,1)$ entry is $-0.7$.",
+				"equations": [
+					"A^{-1}=\\frac{1}{ad-bc}\\begin{pmatrix}d&-b\\-c&a\\end{pmatrix}"
+				]
 			},
 			{
 				"kind": "short",
@@ -206,7 +230,11 @@
 				"prompt": "Use $A=LU$ to solve $Ax=b$ for $A=\\begin{pmatrix}2&1&1\\\\4&-6&0\\\\-2&7&2\\end{pmatrix}$ and $b=(5,-2,9)$. Give $x_3$.",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "Forward substitution $Lc=b$ gives $c=(5,-12,2)$, then back substitution $Ux=c$ gives $x=(1,1,2)$, so $x_3=2$."
+				"explanation": "Forward substitution $Lc=b$ gives $c=(5,-12,2)$, then back substitution $Ux=c$ gives $x=(1,1,2)$, so $x_3=2$.",
+				"equations": [
+					"A = LU",
+					"Lc=b,\\quad Ux=c"
+				]
 			},
 			{
 				"kind": "short",
@@ -239,7 +267,10 @@
 				"prompt": "Let $A=\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}$ and $B=\\begin{pmatrix}0&1\\\\1&2\\end{pmatrix}$. Find the $(1,2)$ entry of $(AB)^T$.",
 				"answer": 4.0,
 				"tolerance": 0.02,
-				"explanation": "$AB=\\begin{pmatrix}2&5\\\\4&11\\end{pmatrix}$, so $(AB)^T=\\begin{pmatrix}2&4\\\\5&11\\end{pmatrix}$ and its $(1,2)$ entry is $4$. Equivalently $(AB)^T=B^TA^T$."
+				"explanation": "$AB=\\begin{pmatrix}2&5\\\\4&11\\end{pmatrix}$, so $(AB)^T=\\begin{pmatrix}2&4\\\\5&11\\end{pmatrix}$ and its $(1,2)$ entry is $4$. Equivalently $(AB)^T=B^TA^T$.",
+				"equations": [
+					"(AB)^T = B^T A^T"
+				]
 			}
 		],
 		"m3-l009-subspaces-column-space": [
@@ -265,14 +296,20 @@
 					"$b=(3,2,1)$, since its entries sum to 6, like the first column's entries."
 				],
 				"answer": 2,
-				"explanation": "Both columns are multiples of $(1,2,3)$, so $C(A)$ is that line only. $(2,4,6)=2(1,2,3)$ is on it; the other vectors are not."
+				"explanation": "Both columns are multiples of $(1,2,3)$, so $C(A)$ is that line only. $(2,4,6)=2(1,2,3)$ is on it; the other vectors are not.",
+				"equations": [
+					"C(A)=\\{Ax\\}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The vector $b=(1,2,c)$ lies in the column space of $A=\\begin{pmatrix}1&0&1\\\\0&1&1\\\\1&1&2\\end{pmatrix}$ for exactly one value of $c$. Find $c$.",
 				"answer": 3.0,
 				"tolerance": 0.02,
-				"explanation": "The third column is the sum of the first two, so $C(A)$ is the plane of vectors $(x,y,x+y)$. For $b=(1,2,c)$ we need $c=1+2=3$."
+				"explanation": "The third column is the sum of the first two, so $C(A)$ is the plane of vectors $(x,y,x+y)$. For $b=(1,2,c)$ we need $c=1+2=3$.",
+				"equations": [
+					"C(A)=\\{Ax\\}"
+				]
 			},
 			{
 				"kind": "short",
@@ -287,14 +324,20 @@
 				"prompt": "Find the dimension of the nullspace of $A=\\begin{pmatrix}1&2&3&4\\\\2&4&6&8\\\\1&0&1&0\\end{pmatrix}$.",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "Row 2 is twice row 1, so the rank is 2 and there are $4-2=2$ free variables, so $\\dim N(A)=2$."
+				"explanation": "Row 2 is twice row 1, so the rank is 2 and there are $4-2=2$ free variables, so $\\dim N(A)=2$.",
+				"equations": [
+					"\\dim N(A)=n-r"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The reduced row echelon form of $A$ is $R=\\begin{pmatrix}1&3&0&2\\\\0&0&1&4\\end{pmatrix}$. The special solution with free variables $x_2=0$, $x_4=1$ has what value of $x_3$?",
 				"answer": -4.0,
 				"tolerance": 0.02,
-				"explanation": "Set the free variables, then read off the pivot variables from $R$: $x_3=-4x_4=-4$ and $x_1=-3x_2-2x_4=-2$. So the special solution is $(-2,0,-4,1)$."
+				"explanation": "Set the free variables, then read off the pivot variables from $R$: $x_3=-4x_4=-4$ and $x_1=-3x_2-2x_4=-2$. So the special solution is $(-2,0,-4,1)$.",
+				"equations": [
+					"Rx=0"
+				]
 			},
 			{
 				"kind": "short",
@@ -321,7 +364,10 @@
 				"prompt": "Solve $Ax=b$ for $A=\\begin{pmatrix}1&3&1&2\\\\0&0&1&4\\end{pmatrix}$, $b=(1,6)$, with the free variables $x_2=x_4=0$ (a particular solution). Give $x_1$.",
 				"answer": -5.0,
 				"tolerance": 0.02,
-				"explanation": "With $x_2=x_4=0$: $x_3=6$ from row 2, then $x_1+x_3=1$ gives $x_1=-5$. Adding any nullspace vector gives the complete solution."
+				"explanation": "With $x_2=x_4=0$: $x_3=6$ from row 2, then $x_1+x_3=1$ gives $x_1=-5$. Adding any nullspace vector gives the complete solution.",
+				"equations": [
+					"Ax_p=b,\\quad x_2=x_4=0"
+				]
 			},
 			{
 				"kind": "short",
@@ -360,7 +406,10 @@
 				"prompt": "Balance $\\text{C}_2\\text{H}_6+a\\,\\text{O}_2\\to 2\\,\\text{CO}_2+3\\,\\text{H}_2\\text{O}$. How many moles of $\\text{O}_2$ per mole of ethane ($a$)?",
 				"answer": 3.5,
 				"tolerance": 0.02,
-				"explanation": "Oxygen atoms: $2a = 2\\cdot2+3 = 7$, so $a=3.5$. This is the nullspace vector $(1,3.5,2,3)$ of the balance matrix, scaled so ethane has coefficient 1."
+				"explanation": "Oxygen atoms: $2a = 2\\cdot2+3 = 7$, so $a=3.5$. This is the nullspace vector $(1,3.5,2,3)$ of the balance matrix, scaled so ethane has coefficient 1.",
+				"equations": [
+					"A\\mathbf x=\\mathbf 0\\ (\\text{element-balance matrix})"
+				]
 			},
 			{
 				"kind": "short",
@@ -387,7 +436,10 @@
 				"prompt": "Find the dimension of the span of $(1,0,1)$, $(1,1,2)$ and $(0,1,1)$ in $\\mathbb{R}^3$.",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "The third vector equals the second minus the first, so only two are independent: rank 2, a plane."
+				"explanation": "The third vector equals the second minus the first, so only two are independent: rank 2, a plane.",
+				"equations": [
+					"\\dim C(A) = \\operatorname{rank}(A) = r"
+				]
 			},
 			{
 				"kind": "short",
@@ -414,7 +466,10 @@
 				"prompt": "A $3\\times5$ matrix $A=\\begin{pmatrix}1&2&0&1&3\\\\0&0&1&2&1\\\\1&2&1&3&4\\end{pmatrix}$ has row 3 = row 1 + row 2. What is the dimension of its nullspace?",
 				"answer": 3.0,
 				"tolerance": 0.02,
-				"explanation": "Rank is 2, so $\\dim N(A)=5-2=3$. The row space and column space both have dimension 2."
+				"explanation": "Rank is 2, so $\\dim N(A)=5-2=3$. The row space and column space both have dimension 2.",
+				"equations": [
+					"\\dim N(A) = n - r"
+				]
 			},
 			{
 				"kind": "short",
@@ -441,7 +496,10 @@
 				"prompt": "A $5\\times8$ matrix has rank 3. What is the dimension of its left nullspace $N(A^T)$?",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "$\\dim N(A^T)=m-r=5-3=2$. Together: $\\dim C(A)=3$, $\\dim N(A)=5$, $\\dim C(A^T)=3$, $\\dim N(A^T)=2$."
+				"explanation": "$\\dim N(A^T)=m-r=5-3=2$. Together: $\\dim C(A)=3$, $\\dim N(A)=5$, $\\dim C(A^T)=3$, $\\dim N(A^T)=2$.",
+				"equations": [
+					"\\dim C(A^T)=r,\\ \\dim N(A^T)=m-r"
+				]
 			},
 			{
 				"kind": "short",
@@ -468,7 +526,10 @@
 				"prompt": "A $100\\times100$ matrix of rank 2 can be written as a sum of two rank-one pieces (column times row). How many numbers must you store for this representation?",
 				"answer": 400.0,
 				"tolerance": 0.02,
-				"explanation": "Each rank-1 piece $uv^T$ needs $100+100=200$ numbers, so two pieces need 400 instead of 10,000 for the full matrix. This is the idea behind low-rank compression."
+				"explanation": "Each rank-1 piece $uv^T$ needs $100+100=200$ numbers, so two pieces need 400 instead of 10,000 for the full matrix. This is the idea behind low-rank compression.",
+				"equations": [
+					"A=u_1v_1^T+u_2v_2^T"
+				]
 			},
 			{
 				"kind": "short",
@@ -495,7 +556,10 @@
 				"prompt": "A subspace $V$ of $\\mathbb R^6$ has dimension 2. What is the dimension of its orthogonal complement $V^\\perp$?",
 				"answer": 4.0,
 				"tolerance": 0.02,
-				"explanation": "The dimensions of a subspace and its orthogonal complement add up to the dimension of the whole space: $\\dim V+\\dim V^\\perp=6$, so $\\dim V^\\perp=4$."
+				"explanation": "The dimensions of a subspace and its orthogonal complement add up to the dimension of the whole space: $\\dim V+\\dim V^\\perp=6$, so $\\dim V^\\perp=4$.",
+				"equations": [
+					"\\dim V+\\dim V^\\perp=n"
+				]
 			},
 			{
 				"kind": "short",
@@ -522,7 +586,11 @@
 				"prompt": "Take $A=\\begin{pmatrix}1&1\\end{pmatrix}$ and $x=(3,1)$. Split $x=x_r+x_n$ (row-space part plus nullspace part). Give the length $|x_n|$ of the nullspace component.",
 				"answer": 1.414214,
 				"tolerance": 0.02,
-				"explanation": "The row space is the line through $(1,1)$: $x_r=(2,2)$. The remainder $x_n=(1,-1)$ satisfies $Ax_n=0$, with length $\\sqrt2\\approx1.414$. $A$ sends $x$ to $Ax=4=Ax_r$; the nullspace part is invisible to $A$."
+				"explanation": "The row space is the line through $(1,1)$: $x_r=(2,2)$. The remainder $x_n=(1,-1)$ satisfies $Ax_n=0$, with length $\\sqrt2\\approx1.414$. $A$ sends $x$ to $Ax=4=Ax_r$; the nullspace part is invisible to $A$.",
+				"equations": [
+					"x_r=\\frac{a^Tx}{a^Ta}\\,a",
+					"x_n=x-x_r"
+				]
 			},
 			{
 				"kind": "short",
@@ -549,13 +617,20 @@
 				"prompt": "Project $b=(1,2,3)$ onto the line through $a=(2,1,2)$. Give the second component of the projection $p$.",
 				"answer": 1.111111,
 				"tolerance": 0.02,
-				"explanation": "$p=\\dfrac{a^Tb}{a^Ta}a=\\dfrac{2+2+6}{9}(2,1,2)=\\dfrac{10}{9}(2,1,2)$, whose second component is $10/9\\approx1.111$."
+				"explanation": "$p=\\dfrac{a^Tb}{a^Ta}a=\\dfrac{2+2+6}{9}(2,1,2)=\\dfrac{10}{9}(2,1,2)$, whose second component is $10/9\\approx1.111$.",
+				"equations": [
+					"p=\\frac{a^Tb}{a^Ta}\\,a"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Using a picture, explain why the projection of $b$ onto the line through $a$ is $\\dfrac{a^Tb}{a^Ta}\\,a$, and what the leftover vector $b-p$ looks like.",
 				"rubric": "Full credit requires: (1) $p=\\hat x a$ is the point on the line closest to $b$; (2) the error $e=b-\\hat xa$ must be perpendicular to $a$, so $a^T(b-\\hat xa)=0$; (3) solving gives $\\hat x=a^Tb/a^Ta$, so $p=(a^Tb/a^Ta)a$ and $e\\perp a$.",
-				"modelAnswer": "The closest point on the line to $b$ is $p=\\hat xa$, and the error $e=b-\\hat xa$ must be perpendicular to $a$, otherwise one could move along the line to get closer. Setting $a^T(b-\\hat xa)=0$ gives $\\hat x=a^Tb/a^Ta$, so $p=\\dfrac{a^Tb}{a^Ta}a$, and $e$ is perpendicular to the line."
+				"modelAnswer": "The closest point on the line to $b$ is $p=\\hat xa$, and the error $e=b-\\hat xa$ must be perpendicular to $a$, otherwise one could move along the line to get closer. Setting $a^T(b-\\hat xa)=0$ gives $\\hat x=a^Tb/a^Ta$, so $p=\\dfrac{a^Tb}{a^Ta}a$, and $e$ is perpendicular to the line.",
+				"equations": [
+					"p=\\hat x\\,a",
+					"a^T(b-p)=0"
+				]
 			}
 		],
 		"m3-l020-normal-equations-geometry": [
@@ -582,7 +657,10 @@
 				"prompt": "For $A=\\begin{pmatrix}1&1\\\\1&2\\\\1&3\\end{pmatrix}$ (the matrix for fitting a line $C+Dt$ at $t=1,2,3$), give the $(2,2)$ entry of $A^TA$.",
 				"answer": 14.0,
 				"tolerance": 0.02,
-				"explanation": "The $(2,2)$ entry of $A^TA$ is the dot product of the second column with itself: $1^2+2^2+3^2=14$."
+				"explanation": "The $(2,2)$ entry of $A^TA$ is the dot product of the second column with itself: $1^2+2^2+3^2=14$.",
+				"equations": [
+					"(A^TA)_{ij}=a_i^Ta_j"
+				]
 			}
 		],
 		"m3-l021-line-parabola-fitting-calibration": [
@@ -591,7 +669,10 @@
 				"prompt": "Fit a line $y=C+Dt$ by least squares to the points $(1,1),(2,2),(3,2),(4,4)$. Give the slope $D$.",
 				"answer": 0.9,
 				"tolerance": 0.02,
-				"explanation": "Solving $A^TA\\hat x=A^Ty$ for $A=[1\\;t]$ gives $C=0$, $D=0.9$ (the line passes through the origin). The residual vector is perpendicular to both the column of ones and the column $t$."
+				"explanation": "Solving $A^TA\\hat x=A^Ty$ for $A=[1\\;t]$ gives $C=0$, $D=0.9$ (the line passes through the origin). The residual vector is perpendicular to both the column of ones and the column $t$.",
+				"equations": [
+					"A^TA\\hat x = A^T b"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -599,7 +680,10 @@
 				"answer": 1.190476,
 				"tolerance": 0.02,
 				"unit": "mM^-1",
-				"explanation": "The projection onto a single column gives $\\hat x=\\dfrac{c\\cdot A_{\\rm bs}}{c\\cdot c}=\\dfrac{0.250}{0.21}\\approx 1.190$ mM$^{-1}$. Calibration slopes are projections."
+				"explanation": "The projection onto a single column gives $\\hat x=\\dfrac{c\\cdot A_{\\rm bs}}{c\\cdot c}=\\dfrac{0.250}{0.21}\\approx 1.190$ mM$^{-1}$. Calibration slopes are projections.",
+				"equations": [
+					"A^TA\\hat x = A^T b"
+				]
 			},
 			{
 				"kind": "mc",
@@ -638,7 +722,10 @@
 				"prompt": "With orthonormal columns, least squares is simply $\\hat x=Q^Tb$. For $q_1=(1,1,0)/\\sqrt2$ and $b=(2,4,6)$, give $\\hat x_1=q_1\\cdot b$.",
 				"answer": 4.242641,
 				"tolerance": 0.02,
-				"explanation": "$\\hat x_1=(2+4)/\\sqrt2=6/\\sqrt2\\approx4.243$. With orthonormal columns each coefficient is found independently, with no system to solve."
+				"explanation": "$\\hat x_1=(2+4)/\\sqrt2=6/\\sqrt2\\approx4.243$. With orthonormal columns each coefficient is found independently, with no system to solve.",
+				"equations": [
+					"\\hat x=Q^Tb"
+				]
 			},
 			{
 				"kind": "short",
@@ -665,7 +752,10 @@
 				"prompt": "Apply Gram-Schmidt to $a_1=(1,1,0)$, $a_2=(1,0,1)$. In $A=QR$, what is $r_{22}$ (the length of the part of $a_2$ left after removing the $q_1$ component)?",
 				"answer": 1.224745,
 				"tolerance": 0.02,
-				"explanation": "$q_1=(1,1,0)/\\sqrt2$, $r_{12}=q_1\\cdot a_2=1/\\sqrt2$, and $a_2-r_{12}q_1=(0.5,-0.5,1)$ has length $\\sqrt{1.5}\\approx1.2247$."
+				"explanation": "$q_1=(1,1,0)/\\sqrt2$, $r_{12}=q_1\\cdot a_2=1/\\sqrt2$, and $a_2-r_{12}q_1=(0.5,-0.5,1)$ has length $\\sqrt{1.5}\\approx1.2247$.",
+				"equations": [
+					"q_k = \\frac{a_k - \\sum_{j<k}(q_j^Ta_k)q_j}{\\|\\cdot\\|}"
+				]
 			},
 			{
 				"kind": "short",
@@ -704,7 +794,11 @@
 				"prompt": "If $\\det A=-16$ and $\\det B=12$ for $3\\times3$ matrices, what is $\\det(A^{-1}B)$?",
 				"answer": -0.75,
 				"tolerance": 0.02,
-				"explanation": "$\\det(A^{-1}B)=\\det(A^{-1})\\det B=\\dfrac{12}{-16}=-0.75$, using $\\det(AB)=\\det A\\det B$ and $\\det A^{-1}=1/\\det A$."
+				"explanation": "$\\det(A^{-1}B)=\\det(A^{-1})\\det B=\\dfrac{12}{-16}=-0.75$, using $\\det(AB)=\\det A\\det B$ and $\\det A^{-1}=1/\\det A$.",
+				"equations": [
+					"\\det(AB)=\\det A\\det B",
+					"\\det A^{-1}=\\frac{1}{\\det A}"
+				]
 			},
 			{
 				"kind": "short",
@@ -719,7 +813,10 @@
 				"prompt": "Compute $\\det A$ for $A=\\begin{pmatrix}2&1&1\\\\4&-6&0\\\\-2&7&2\\end{pmatrix}$ (product of pivots $2,-8,1$).",
 				"answer": -16.0,
 				"tolerance": 0.02,
-				"explanation": "The pivots are $2,-8,1$, with no row exchanges, so $\\det A=2\\cdot(-8)\\cdot1=-16$."
+				"explanation": "The pivots are $2,-8,1$, with no row exchanges, so $\\det A=2\\cdot(-8)\\cdot1=-16$.",
+				"equations": [
+					"\\det A=\\pm(\\text{product of pivots})"
+				]
 			},
 			{
 				"kind": "mc",
@@ -758,7 +855,10 @@
 				"prompt": "Solve $3x+2y=7$, $x-y=1$ with Cramer's rule. Give $x$.",
 				"answer": 1.8,
 				"tolerance": 0.02,
-				"explanation": "$x=\\dfrac{\\det\\begin{pmatrix}7&2\\\\1&-1\\end{pmatrix}}{\\det\\begin{pmatrix}3&2\\\\1&-1\\end{pmatrix}}=\\dfrac{-9}{-5}=1.8$ (and $y=0.8$)."
+				"explanation": "$x=\\dfrac{\\det\\begin{pmatrix}7&2\\\\1&-1\\end{pmatrix}}{\\det\\begin{pmatrix}3&2\\\\1&-1\\end{pmatrix}}=\\dfrac{-9}{-5}=1.8$ (and $y=0.8$).",
+				"equations": [
+					"x_j = \\frac{\\det B_j}{\\det A}"
+				]
 			},
 			{
 				"kind": "short",
@@ -785,7 +885,10 @@
 				"prompt": "Find the volume of the parallelepiped whose edges are the rows $(1,2,0)$, $(0,1,3)$, $(2,0,1)$.",
 				"answer": 13.0,
 				"tolerance": 0.02,
-				"explanation": "$|\\det|=|1(1\\cdot1-3\\cdot0)-2(0\\cdot1-3\\cdot2)+0|=|1+12|=13$."
+				"explanation": "$|\\det|=|1(1\\cdot1-3\\cdot0)-2(0\\cdot1-3\\cdot2)+0|=|1+12|=13$.",
+				"equations": [
+					"\\text{Vol} = |\\det A|"
+				]
 			},
 			{
 				"kind": "short",
@@ -800,7 +903,10 @@
 				"prompt": "Find the larger eigenvalue of $A=\\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}$.",
 				"answer": 5.0,
 				"tolerance": 0.02,
-				"explanation": "$\\lambda^2-7\\lambda+10=0$ gives $\\lambda=5,2$. Check: trace $=7=5+2$ and $\\det=10=5\\cdot2$."
+				"explanation": "$\\lambda^2-7\\lambda+10=0$ gives $\\lambda=5,2$. Check: trace $=7=5+2$ and $\\det=10=5\\cdot2$.",
+				"equations": [
+					"\\det(A-\\lambda I)=0"
+				]
 			},
 			{
 				"kind": "mc",
@@ -832,7 +938,10 @@
 					"$1$ twice, since a rotation preserves the length of every vector."
 				],
 				"answer": 0,
-				"explanation": "$\\det(A-\\lambda I)=\\lambda^2+1=0$. There is no real vector with $Ax=\\lambda x$ because $A$ rotates every direction; the complex eigenvalues $\\pm i$ encode the rotation. Length preservation shows $|\\lambda|=1$, not $\\lambda=1$."
+				"explanation": "$\\det(A-\\lambda I)=\\lambda^2+1=0$. There is no real vector with $Ax=\\lambda x$ because $A$ rotates every direction; the complex eigenvalues $\\pm i$ encode the rotation. Length preservation shows $|\\lambda|=1$, not $\\lambda=1$.",
+				"equations": [
+					"\\det(A-\\lambda I)=0"
+				]
 			},
 			{
 				"kind": "mc",
@@ -851,7 +960,11 @@
 				"prompt": "A $3\\times3$ matrix has eigenvalues $2$ and $3$ and its trace is $10$. What is its determinant?",
 				"answer": 30.0,
 				"tolerance": 0.02,
-				"explanation": "The trace equals the sum of eigenvalues, so the third is $10-2-3=5$. The determinant is the product: $2\\cdot3\\cdot5=30$."
+				"explanation": "The trace equals the sum of eigenvalues, so the third is $10-2-3=5$. The determinant is the product: $2\\cdot3\\cdot5=30$.",
+				"equations": [
+					"\\operatorname{tr}A=\\sum\\lambda_i",
+					"\\det A=\\prod\\lambda_i"
+				]
 			},
 			{
 				"kind": "short",
@@ -878,13 +991,19 @@
 				"prompt": "Using $A=S\\Lambda S^{-1}$ for the Fibonacci matrix, $F_k=(\\varphi^k-\\psi^k)/\\sqrt5$. Estimate $F_{30}$ (use $\\varphi^{30}/\\sqrt5$, rounded).",
 				"answer": 832040.0,
 				"tolerance": 0.02,
-				"explanation": "$\\varphi=(1+\\sqrt5)/2\\approx1.618$ is the dominant eigenvalue, and $\\varphi^{30}/\\sqrt5\\approx832{,}040$ (the $\\psi^k$ term is negligible). Growth rate is set by the largest eigenvalue."
+				"explanation": "$\\varphi=(1+\\sqrt5)/2\\approx1.618$ is the dominant eigenvalue, and $\\varphi^{30}/\\sqrt5\\approx832{,}040$ (the $\\psi^k$ term is negligible). Growth rate is set by the largest eigenvalue.",
+				"equations": [
+					"F_k=\\frac{\\varphi^k-\\psi^k}{\\sqrt5},\\quad\\varphi=\\frac{1+\\sqrt5}{2}"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Explain why $A^k=S\\Lambda^kS^{-1}$ makes powers of $A$ easy, and what goes wrong if $A$ does not have $n$ independent eigenvectors.",
 				"rubric": "Full credit requires: (1) $A^k=(S\\Lambda S^{-1})^k=S\\Lambda^kS^{-1}$ because the inner $S^{-1}S$ factors cancel; (2) $\\Lambda^k$ just raises each diagonal entry to the $k$-th power; (3) without a full set of independent eigenvectors $S$ is not invertible, so $A$ cannot be diagonalised (e.g. a Jordan block).",
-				"modelAnswer": "In $(S\\Lambda S^{-1})^k$ every inner $S^{-1}S$ cancels, leaving $S\\Lambda^kS^{-1}$, and $\\Lambda^k$ is just the diagonal of $\\lambda_i^k$: no repeated matrix multiplication. This needs $n$ independent eigenvectors so that $S$ is invertible; a defective matrix such as $\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}$ has too few and cannot be diagonalised."
+				"modelAnswer": "In $(S\\Lambda S^{-1})^k$ every inner $S^{-1}S$ cancels, leaving $S\\Lambda^kS^{-1}$, and $\\Lambda^k$ is just the diagonal of $\\lambda_i^k$: no repeated matrix multiplication. This needs $n$ independent eigenvectors so that $S$ is invertible; a defective matrix such as $\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}$ has too few and cannot be diagonalised.",
+				"equations": [
+					"A=S\\Lambda S^{-1}"
+				]
 			}
 		],
 		"m3-l031-convergence-markov-matrices": [
@@ -905,7 +1024,10 @@
 				"prompt": "A two-state system hops with transition matrix $A=\\begin{pmatrix}0.9&0.2\\\\0.1&0.8\\end{pmatrix}$ (columns sum to 1). In the long-time steady state, what fraction of the population is in state 1?",
 				"answer": 0.666667,
 				"tolerance": 0.02,
-				"explanation": "The eigenvalue-1 eigenvector satisfies $0.1x_1=0.2x_2$, so $x=(2,1)$ normalised to sum 1 is $(2/3,1/3)$. The fraction is $0.667$."
+				"explanation": "The eigenvalue-1 eigenvector satisfies $0.1x_1=0.2x_2$, so $x=(2,1)$ normalised to sum 1 is $(2/3,1/3)$. The fraction is $0.667$.",
+				"equations": [
+					"Au_\\infty=u_\\infty,\\quad \\sum_iu_i=1"
+				]
 			},
 			{
 				"kind": "short",
@@ -925,14 +1047,21 @@
 					"They spiral into the origin, decaying like $e^{-t}$ while oscillating."
 				],
 				"answer": 3,
-				"explanation": "$e^{(-1\\pm2i)t}=e^{-t}(\\cos2t\\pm i\\sin2t)$: the imaginary part gives oscillation and the real part gives the decay. Stability depends on the real parts of the eigenvalues."
+				"explanation": "$e^{(-1\\pm2i)t}=e^{-t}(\\cos2t\\pm i\\sin2t)$: the imaginary part gives oscillation and the real part gives the decay. Stability depends on the real parts of the eigenvalues.",
+				"equations": [
+					"u(t)=\\sum_ic_ie^{\\lambda_it}x_i"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Solve $\\dot u=\\begin{pmatrix}1&2\\\\2&1\\end{pmatrix}u$ with $u(0)=(1,0)$. Give $u_1(1)$.",
 				"answer": 10.226708,
 				"tolerance": 0.02,
-				"explanation": "Eigenvalues $3,-1$ with eigenvectors $(1,1),(1,-1)$; $u(0)=\\tfrac12(1,1)+\\tfrac12(1,-1)$, so $u_1(t)=\\tfrac12e^{3t}+\\tfrac12e^{-t}$ and $u_1(1)\\approx10.23$."
+				"explanation": "Eigenvalues $3,-1$ with eigenvectors $(1,1),(1,-1)$; $u(0)=\\tfrac12(1,1)+\\tfrac12(1,-1)$, so $u_1(t)=\\tfrac12e^{3t}+\\tfrac12e^{-t}$ and $u_1(1)\\approx10.23$.",
+				"equations": [
+					"\\dot u = Au",
+					"u(t)=\\sum_ic_ie^{\\lambda_it}x_i"
+				]
 			},
 			{
 				"kind": "short",
@@ -959,7 +1088,11 @@
 				"prompt": "Turn $y''+3y'+2y=0$, $y(0)=1$, $y'(0)=0$ into a first-order system with $u=(y,y')$ and find $y(1)$.",
 				"answer": 0.600424,
 				"tolerance": 0.02,
-				"explanation": "$u'=\\begin{pmatrix}0&1\\\\-2&-3\\end{pmatrix}u$ has eigenvalues $-1,-2$, giving $y=2e^{-t}-e^{-2t}$ and $y(1)\\approx0.600$."
+				"explanation": "$u'=\\begin{pmatrix}0&1\\\\-2&-3\\end{pmatrix}u$ has eigenvalues $-1,-2$, giving $y=2e^{-t}-e^{-2t}$ and $y(1)\\approx0.600$.",
+				"equations": [
+					"u(t)=e^{At}u(0)",
+					"e^{At}=Se^{\\Lambda t}S^{-1}"
+				]
 			},
 			{
 				"kind": "short",
@@ -979,7 +1112,10 @@
 					"A circle, since $S$ is symmetric and so has no preferred directions."
 				],
 				"answer": 2,
-				"explanation": "In the eigenbasis, $\\lambda_1y_1^2+\\lambda_2y_2^2=1$ has semi-axes $1/\\sqrt{\\lambda_i}$: a larger eigenvalue gives a shorter axis. Both eigenvalues positive gives an ellipse."
+				"explanation": "In the eigenbasis, $\\lambda_1y_1^2+\\lambda_2y_2^2=1$ has semi-axes $1/\\sqrt{\\lambda_i}$: a larger eigenvalue gives a shorter axis. Both eigenvalues positive gives an ellipse.",
+				"equations": [
+					"x^TSx=\\sum\\lambda_i y_i^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -992,7 +1128,10 @@
 				"prompt": "A symmetric matrix has eigenvalues $3$ and $1$ with orthonormal eigenvectors $q_1=(1,1)/\\sqrt2$ and $q_2=(1,-1)/\\sqrt2$. Using $S=3q_1q_1^T+1\\,q_2q_2^T$, find the $(1,2)$ entry of $S$.",
 				"answer": 1.0,
 				"tolerance": 0.02,
-				"explanation": "$q_1q_1^T=\\tfrac12\\begin{pmatrix}1&1\\\\1&1\\end{pmatrix}$ and $q_2q_2^T=\\tfrac12\\begin{pmatrix}1&-1\\\\-1&1\\end{pmatrix}$, so the $(1,2)$ entry is $3\\cdot\\tfrac12+1\\cdot(-\\tfrac12)=1$, giving $S=\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}$."
+				"explanation": "$q_1q_1^T=\\tfrac12\\begin{pmatrix}1&1\\\\1&1\\end{pmatrix}$ and $q_2q_2^T=\\tfrac12\\begin{pmatrix}1&-1\\\\-1&1\\end{pmatrix}$, so the $(1,2)$ entry is $3\\cdot\\tfrac12+1\\cdot(-\\tfrac12)=1$, giving $S=\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}$.",
+				"equations": [
+					"S=\\sum_i\\lambda_i q_iq_i^T"
+				]
 			}
 		],
 		"m3-l035-normal-modes-huckel-spectral": [
@@ -1014,14 +1153,20 @@
 				"answer": 24.494897,
 				"tolerance": 0.02,
 				"unit": "rad/s",
-				"explanation": "The eigenvalue is $3k=300$ N/m, so $\\omega=\\sqrt{300/0.5}=\\sqrt{600}\\approx24.5$ rad/s. (The in-phase mode has $\\omega=\\sqrt{200}\\approx14.1$ rad/s.)"
+				"explanation": "The eigenvalue is $3k=300$ N/m, so $\\omega=\\sqrt{300/0.5}=\\sqrt{600}\\approx24.5$ rad/s. (The in-phase mode has $\\omega=\\sqrt{200}\\approx14.1$ rad/s.)",
+				"equations": [
+					"\\det(K-m\\omega^2I)=0"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The Hückel matrix for the allyl system is $\\begin{pmatrix}0&1&0\\\\1&0&1\\\\0&1&0\\end{pmatrix}$ (in units of $\\beta$). Give the largest eigenvalue.",
 				"answer": 1.414214,
 				"tolerance": 0.02,
-				"explanation": "The eigenvalues are $\\sqrt2,0,-\\sqrt2$, giving orbital energies $\\alpha+\\sqrt2\\beta$, $\\alpha$, $\\alpha-\\sqrt2\\beta$. The largest eigenvalue is $\\sqrt2\\approx1.414$ (the bonding orbital, since $\\beta<0$)."
+				"explanation": "The eigenvalues are $\\sqrt2,0,-\\sqrt2$, giving orbital energies $\\alpha+\\sqrt2\\beta$, $\\alpha$, $\\alpha-\\sqrt2\\beta$. The largest eigenvalue is $\\sqrt2\\approx1.414$ (the bonding orbital, since $\\beta<0$).",
+				"equations": [
+					"\\det(H-EI)=0"
+				]
 			},
 			{
 				"kind": "short",
@@ -1041,14 +1186,20 @@
 					"$\\begin{pmatrix}-1&0\\\\0&-2\\end{pmatrix}$, since its determinant $2$ is positive."
 				],
 				"answer": 1,
-				"explanation": "Positive entries are not enough: the second and third matrices have determinants $-3$ and $-1$ (a negative eigenvalue). The last has $\\det>0$ but both eigenvalues negative. Positive definite needs all eigenvalues (or pivots) positive."
+				"explanation": "Positive entries are not enough: the second and third matrices have determinants $-3$ and $-1$ (a negative eigenvalue). The last has $\\det>0$ but both eigenvalues negative. Positive definite needs all eigenvalues (or pivots) positive.",
+				"equations": [
+					"x^TSx>0\\ \\forall x\\ne0"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "For the symmetric matrix $\\begin{pmatrix}2&-1&0\\\\-1&2&-1\\\\0&-1&2\\end{pmatrix}$, elimination gives pivots $2,\\ 3/2,\\ ?$. What is the third pivot?",
 				"answer": 1.333333,
 				"tolerance": 0.02,
-				"explanation": "The pivots are $2,\\tfrac32,\\tfrac43$, all positive, so the matrix is positive definite. The product $2\\cdot\\tfrac32\\cdot\\tfrac43=4=\\det$."
+				"explanation": "The pivots are $2,\\tfrac32,\\tfrac43$, all positive, so the matrix is positive definite. The product $2\\cdot\\tfrac32\\cdot\\tfrac43=4=\\det$.",
+				"equations": [
+					"\\text{pivot}_k=\\frac{\\det S_k}{\\det S_{k-1}}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1075,7 +1226,11 @@
 				"prompt": "The quadratic form $f=x^2+4xy+c\\,y^2$ has a minimum at the origin only if $c$ exceeds a threshold. What is that value of $c$?",
 				"answer": 4.0,
 				"tolerance": 0.02,
-				"explanation": "$S=\\begin{pmatrix}1&2\\\\2&c\\end{pmatrix}$ has $\\det=c-4$, which must be positive (with $S_{11}=1>0$), so $c>4$. At $c=4$ the form is only semidefinite."
+				"explanation": "$S=\\begin{pmatrix}1&2\\\\2&c\\end{pmatrix}$ has $\\det=c-4$, which must be positive (with $S_{11}=1>0$), so $c>4$. At $c=4$ the form is only semidefinite.",
+				"equations": [
+					"H_{ij}=\\partial_i\\partial_jf",
+					"f\\approx f_0+\\tfrac12 x^THx"
+				]
 			},
 			{
 				"kind": "short",
@@ -1102,14 +1257,20 @@
 				"prompt": "Compute $|z^Hw|$ for $z=(1+i,\\,2)$ and $w=(3,\\,1-i)$.",
 				"answer": 7.071068,
 				"tolerance": 0.02,
-				"explanation": "$z^Hw=(1-i)\\cdot3+2(1-i)=5-5i$, with magnitude $5\\sqrt2\\approx7.071$."
+				"explanation": "$z^Hw=(1-i)\\cdot3+2(1-i)=5-5i$, with magnitude $5\\sqrt2\\approx7.071$.",
+				"equations": [
+					"\\langle z,w\\rangle=z^Hw=\\bar z^Tw"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Find the length $\\|z\\|$ of $z=(1+2i,\\;2-i,\\;2)$.",
 				"answer": 3.741657,
 				"tolerance": 0.02,
-				"explanation": "$\\|z\\|^2=|1+2i|^2+|2-i|^2+2^2=5+5+4=14$, so $\\|z\\|=\\sqrt{14}\\approx3.742$."
+				"explanation": "$\\|z\\|^2=|1+2i|^2+|2-i|^2+2^2=5+5+4=14$, so $\\|z\\|=\\sqrt{14}\\approx3.742$.",
+				"equations": [
+					"\\|z\\|^2=z^Hz"
+				]
 			},
 			{
 				"kind": "short",
@@ -1142,7 +1303,11 @@
 				"prompt": "In bra-ket notation let $|\\psi\\rangle=\\tfrac1{\\sqrt2}(1,\\,i)^T$ and $|\\phi\\rangle=\\tfrac1{\\sqrt2}(1,\\,1)^T$. Find the probability $|\\langle\\psi|\\phi\\rangle|^2$.",
 				"answer": 0.5,
 				"tolerance": 0.02,
-				"explanation": "$\\langle\\psi|\\phi\\rangle=\\psi^H\\phi=\\tfrac12(1\\cdot1+(-i)\\cdot1)=\\tfrac{1-i}{2}$, and its squared modulus is $\\tfrac14(1+1)=\\tfrac12$."
+				"explanation": "$\\langle\\psi|\\phi\\rangle=\\psi^H\\phi=\\tfrac12(1\\cdot1+(-i)\\cdot1)=\\tfrac{1-i}{2}$, and its squared modulus is $\\tfrac14(1+1)=\\tfrac12$.",
+				"equations": [
+					"\\langle\\psi|\\phi\\rangle=\\psi^H\\phi",
+					"P=|\\langle\\psi|\\phi\\rangle|^2"
+				]
 			}
 		],
 		"m3-l040-hermitian-matrices-observables": [
@@ -1151,7 +1316,10 @@
 				"prompt": "Find the larger eigenvalue of the Hermitian matrix $H=\\begin{pmatrix}1&1-i\\\\1+i&2\\end{pmatrix}$.",
 				"answer": 3.0,
 				"tolerance": 0.02,
-				"explanation": "Trace $=3$ and $\\det=2-|1-i|^2=2-2=0$, so the eigenvalues are $0$ and $3$ (real, as Hermitian demands)."
+				"explanation": "Trace $=3$ and $\\det=2-|1-i|^2=2-2=0$, so the eigenvalues are $0$ and $3$ (real, as Hermitian demands).",
+				"equations": [
+					"\\det(H-\\lambda I)=0"
+				]
 			},
 			{
 				"kind": "short",
@@ -1190,7 +1358,11 @@
 				"prompt": "A spin starts in $|0\\rangle$ and evolves under the unitary $U=e^{i\\theta\\sigma_x}=\\cos\\theta\\,I+i\\sin\\theta\\,\\sigma_x$ with $\\theta=\\pi/6$. What is the probability to find it in $|1\\rangle$?",
 				"answer": 0.25,
 				"tolerance": 0.02,
-				"explanation": "$U|0\\rangle=\\cos\\theta|0\\rangle+i\\sin\\theta|1\\rangle$, so $P(1)=\\sin^2(\\pi/6)=0.25$. Probabilities still add to 1 because $U$ is unitary."
+				"explanation": "$U|0\\rangle=\\cos\\theta|0\\rangle+i\\sin\\theta|1\\rangle$, so $P(1)=\\sin^2(\\pi/6)=0.25$. Probabilities still add to 1 because $U$ is unitary.",
+				"equations": [
+					"U=\\cos\\theta\\,I+i\\sin\\theta\\,\\sigma_x",
+					"P=|\\langle1|\\psi\\rangle|^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -1218,7 +1390,10 @@
 				"answer": 400.195104,
 				"tolerance": 0.02,
 				"unit": "MHz",
-				"explanation": "The eigenvalues of $\\tfrac12\\hbar\\gamma B\\sigma_z$ are $\\pm\\tfrac12\\hbar\\gamma B$, so the splitting is $\\hbar\\gamma B=h\\nu$ with $\\nu=\\gamma B/2\\pi=2.675\\times10^8\\times9.4/(2\\pi)\\approx4.0\\times10^8$ Hz $=400$ MHz: the '400 MHz' NMR spectrometer."
+				"explanation": "The eigenvalues of $\\tfrac12\\hbar\\gamma B\\sigma_z$ are $\\pm\\tfrac12\\hbar\\gamma B$, so the splitting is $\\hbar\\gamma B=h\\nu$ with $\\nu=\\gamma B/2\\pi=2.675\\times10^8\\times9.4/(2\\pi)\\approx4.0\\times10^8$ Hz $=400$ MHz: the '400 MHz' NMR spectrometer.",
+				"equations": [
+					"\\nu=\\frac{\\gamma B}{2\\pi}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1245,7 +1420,10 @@
 				"prompt": "A signal $x_j=\\cos(2\\pi\\cdot2\\,j/8)$, $j=0..7$, is Fourier transformed with an 8-point DFT. What is the magnitude of the coefficient at frequency index $k=2$?",
 				"answer": 4.0,
 				"tolerance": 0.02,
-				"explanation": "$\\cos$ is half of $e^{2\\pi i2j/8}$ plus half of its conjugate; the DFT sums 8 terms of size $1/2$ aligned in phase, giving magnitude $8/2=4$ at $k=2$ (and $k=6$)."
+				"explanation": "$\\cos$ is half of $e^{2\\pi i2j/8}$ plus half of its conjugate; the DFT sums 8 terms of size $1/2$ aligned in phase, giving magnitude $8/2=4$ at $k=2$ (and $k=6$).",
+				"equations": [
+					"X_k=\\sum_{j=0}^{n-1}x_je^{-2\\pi ijk/n}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1272,7 +1450,10 @@
 				"prompt": "Compare the cost of a direct DFT ($n^2$) with an FFT ($n\\log_2n$) for $n=1024$. By what factor is the FFT faster?",
 				"answer": 102.4,
 				"tolerance": 0.02,
-				"explanation": "$n^2/(n\\log_2n)=n/\\log_2n=1024/10=102.4$. For $n=10^6$ the factor is about $5\\times10^4$."
+				"explanation": "$n^2/(n\\log_2n)=n/\\log_2n=1024/10=102.4$. For $n=10^6$ the factor is about $5\\times10^4$.",
+				"equations": [
+					"\\text{speed-up}=\\frac{n^2}{n\\log_2n}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1319,14 +1500,20 @@
 				"prompt": "Find the largest singular value of $A=\\begin{pmatrix}3&0\\\\4&5\\end{pmatrix}$.",
 				"answer": 6.708204,
 				"tolerance": 0.02,
-				"explanation": "$A^TA=\\begin{pmatrix}25&20\\\\20&25\\end{pmatrix}$ has eigenvalues $45$ and $5$, so $\\sigma=\\sqrt{45}\\approx6.708$ and $\\sqrt5$. Note $\\sigma_1\\sigma_2=15=|\\det A|$."
+				"explanation": "$A^TA=\\begin{pmatrix}25&20\\\\20&25\\end{pmatrix}$ has eigenvalues $45$ and $5$, so $\\sigma=\\sqrt{45}\\approx6.708$ and $\\sqrt5$. Note $\\sigma_1\\sigma_2=15=|\\det A|$.",
+				"equations": [
+					"A^TA=V\\Sigma^2V^T"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The rank-one matrix $A=\\begin{pmatrix}1&2\\\\2&4\\end{pmatrix}$ has one nonzero singular value. What is it?",
 				"answer": 5.0,
 				"tolerance": 0.02,
-				"explanation": "$A^TA=\\begin{pmatrix}5&10\\\\10&20\\end{pmatrix}$ has eigenvalues $25$ and $0$, so $\\sigma_1=5$. (Since $A=uv^T$ with $u=v=(1,2)$, $\\sigma_1=|u||v|=5$.)"
+				"explanation": "$A^TA=\\begin{pmatrix}5&10\\\\10&20\\end{pmatrix}$ has eigenvalues $25$ and $0$, so $\\sigma_1=5$. (Since $A=uv^T$ with $u=v=(1,2)$, $\\sigma_1=|u||v|=5$.)",
+				"equations": [
+					"A^TA=V\\Sigma^2V^T"
+				]
 			},
 			{
 				"kind": "short",
@@ -1354,7 +1541,10 @@
 				"answer": 73.469388,
 				"tolerance": 0.02,
 				"unit": "%",
-				"explanation": "Variance scales as $\\sigma^2$: $36/(36+9+4)=36/49\\approx73.5\\%$. Two components capture $45/49\\approx92\\%$."
+				"explanation": "Variance scales as $\\sigma^2$: $36/(36+9+4)=36/49\\approx73.5\\%$. Two components capture $45/49\\approx92\\%$.",
+				"equations": [
+					"\\text{fraction}_i=\\frac{\\sigma_i^2}{\\sum_j\\sigma_j^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1381,7 +1571,11 @@
 				"prompt": "Compute the condition number $\\sigma_{\\max}/\\sigma_{\\min}$ of $A=\\begin{pmatrix}1&2\\\\2&4.01\\end{pmatrix}$ (nearly singular). Give the value to a few significant figures.",
 				"answer": 2508.009601,
 				"tolerance": 0.05,
-				"explanation": "The singular values are about $5.01$ and $0.002$, so the condition number is roughly $2.5\\times10^3$. Nearly dependent columns make solving $Ax=b$ very sensitive."
+				"explanation": "The singular values are about $5.01$ and $0.002$, so the condition number is roughly $2.5\\times10^3$. Nearly dependent columns make solving $Ax=b$ very sensitive.",
+				"equations": [
+					"\\kappa=\\sigma_{\\max}/\\sigma_{\\min}",
+					"\\sigma_i^2=\\lambda_i(A^TA)"
+				]
 			},
 			{
 				"kind": "short",
@@ -1408,7 +1602,10 @@
 				"prompt": "Let $D=d/dx$ act on polynomials of degree $\\le2$ with basis $\\{1,x,x^2\\}$. The matrix of $D$ has columns $D(1),D(x),D(x^2)$ written in the basis. Give the entry in row 2, column 3.",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "$D(x^2)=2x=0\\cdot1+2\\cdot x+0\\cdot x^2$, so column 3 is $(0,2,0)^T$ and the $(2,3)$ entry is 2. The matrix $\\begin{pmatrix}0&1&0\\\\0&0&2\\\\0&0&0\\end{pmatrix}$ has nullspace spanned by the constant."
+				"explanation": "$D(x^2)=2x=0\\cdot1+2\\cdot x+0\\cdot x^2$, so column 3 is $(0,2,0)^T$ and the $(2,3)$ entry is 2. The matrix $\\begin{pmatrix}0&1&0\\\\0&0&2\\\\0&0&0\\end{pmatrix}$ has nullspace spanned by the constant.",
+				"equations": [
+					"[T]_{\\mathcal B}\\;\\text{columns}=[T(v_j)]_{\\mathcal B}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1435,7 +1632,10 @@
 				"prompt": "What is the dimension of the kernel of $d^2/dx^2$ acting on polynomials of degree $\\le4$?",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "$p''=0$ gives $p=a+bx$, a 2-dimensional kernel. The range is the polynomials of degree $\\le2$ (dimension 3); $2+3=5=\\dim$ of the input space."
+				"explanation": "$p''=0$ gives $p=a+bx$, a 2-dimensional kernel. The range is the polynomials of degree $\\le2$ (dimension 3); $2+3=5=\\dim$ of the input space.",
+				"equations": [
+					"\\dim\\ker T+\\dim\\operatorname{range}T=\\dim V"
+				]
 			},
 			{
 				"kind": "short",
@@ -1462,14 +1662,20 @@
 				"prompt": "Express $v=(3,1)$ in the basis $b_1=(1,1)$, $b_2=(1,-1)$, i.e. find $c_1,c_2$ with $v=c_1b_1+c_2b_2$. Give $c_1$.",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "Solve $c_1+c_2=3$, $c_1-c_2=1$: $c_1=2$, $c_2=1$. In general the coordinates are $M^{-1}v$ where $M$ has the basis vectors as columns."
+				"explanation": "Solve $c_1+c_2=3$, $c_1-c_2=1$: $c_1=2$, $c_2=1$. In general the coordinates are $M^{-1}v$ where $M$ has the basis vectors as columns.",
+				"equations": [
+					"x=Mx'"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Let $A=\\begin{pmatrix}1&2\\\\0&3\\end{pmatrix}$ and $M=\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}$. Find the $(2,2)$ entry of $B=M^{-1}AM$.",
 				"answer": 3.0,
 				"tolerance": 0.02,
-				"explanation": "$AM=\\begin{pmatrix}1&3\\\\0&3\\end{pmatrix}$, $M^{-1}=\\begin{pmatrix}1&-1\\\\0&1\\end{pmatrix}$, so $B=\\begin{pmatrix}1&0\\\\0&3\\end{pmatrix}$ (diagonal: the columns of $M$ are the eigenvectors). The $(2,2)$ entry is $3$."
+				"explanation": "$AM=\\begin{pmatrix}1&3\\\\0&3\\end{pmatrix}$, $M^{-1}=\\begin{pmatrix}1&-1\\\\0&1\\end{pmatrix}$, so $B=\\begin{pmatrix}1&0\\\\0&3\\end{pmatrix}$ (diagonal: the columns of $M$ are the eigenvectors). The $(2,2)$ entry is $3$.",
+				"equations": [
+					"B=M^{-1}AM"
+				]
 			},
 			{
 				"kind": "short",
@@ -1502,7 +1708,11 @@
 				"prompt": "The Jordan block $A=\\begin{pmatrix}3&1\\\\0&3\\end{pmatrix}$ cannot be diagonalised. Compute the $(1,2)$ entry of $A^5$.",
 				"answer": 405.0,
 				"tolerance": 0.02,
-				"explanation": "For a Jordan block $J^n=\\begin{pmatrix}\\lambda^n&n\\lambda^{n-1}\\\\0&\\lambda^n\\end{pmatrix}$, so the $(1,2)$ entry of $A^5$ is $5\\cdot3^4=405$. The extra factor $n$ is the signature of a defective matrix (compare $te^{\\lambda t}$ for ODEs)."
+				"explanation": "For a Jordan block $J^n=\\begin{pmatrix}\\lambda^n&n\\lambda^{n-1}\\\\0&\\lambda^n\\end{pmatrix}$, so the $(1,2)$ entry of $A^5$ is $5\\cdot3^4=405$. The extra factor $n$ is the signature of a defective matrix (compare $te^{\\lambda t}$ for ODEs).",
+				"equations": [
+					"J=\\begin{pmatrix}\\lambda&1\\\\0&\\lambda\\end{pmatrix}",
+					"(X+Y)^k=\\sum_j\\binom kjX^{k-j}Y^j\\ \\ (XY=YX)"
+				]
 			}
 		],
 		"m3-l053-abstract-vector-spaces-function-inner-products": [
@@ -1523,7 +1733,10 @@
 				"prompt": "Project $f=x^3$ onto $x$ in this function space: find $\\langle x^3,x\\rangle/\\langle x,x\\rangle$ on $[-1,1]$.",
 				"answer": 0.6,
 				"tolerance": 0.02,
-				"explanation": "$\\int x^4dx=2/5$ and $\\int x^2dx=2/3$, so the coefficient is $(2/5)/(2/3)=3/5=0.6$. The remainder $x^3-\\tfrac35x$ is orthogonal to $x$ (it is proportional to $P_3$)."
+				"explanation": "$\\int x^4dx=2/5$ and $\\int x^2dx=2/3$, so the coefficient is $(2/5)/(2/3)=3/5=0.6$. The remainder $x^3-\\tfrac35x$ is orthogonal to $x$ (it is proportional to $P_3$).",
+				"equations": [
+					"\\langle f,g\\rangle=\\int_a^b \\bar f(x)g(x)\\,w(x)\\,dx"
+				]
 			},
 			{
 				"kind": "short",
@@ -1550,7 +1763,11 @@
 				"prompt": "Run Gram-Schmidt on $\\{1,x,x^2\\}$ on $[-1,1]$ with weight 1. The second orthogonal polynomial is $x^2-c$. What is $c$?",
 				"answer": 0.333333,
 				"tolerance": 0.02,
-				"explanation": "$c=\\langle x^2,1\\rangle/\\langle1,1\\rangle=(2/3)/2=1/3$, giving $x^2-\\tfrac13\\propto P_2(x)$ (with $x$ already orthogonal to both by parity)."
+				"explanation": "$c=\\langle x^2,1\\rangle/\\langle1,1\\rangle=(2/3)/2=1/3$, giving $x^2-\\tfrac13\\propto P_2(x)$ (with $x$ already orthogonal to both by parity).",
+				"equations": [
+					"q_k=a_k-\\sum_{j<k}\\frac{\\langle q_j,a_k\\rangle}{\\langle q_j,q_j\\rangle}\\,q_j",
+					"\\langle f,g\\rangle=\\int_{-1}^{1}f(x)g(x)\\,dx"
+				]
 			},
 			{
 				"kind": "short",
@@ -1589,7 +1806,10 @@
 				"prompt": "Compute the commutator $[A,B]=AB-BA$ for $A=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$ and $B=\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}$ and give its $(1,2)$ entry.",
 				"answer": -2.0,
 				"tolerance": 0.02,
-				"explanation": "$AB=\\begin{pmatrix}0&-1\\\\1&0\\end{pmatrix}$ and $BA=\\begin{pmatrix}0&1\\\\-1&0\\end{pmatrix}$, so $[A,B]=\\begin{pmatrix}0&-2\\\\2&0\\end{pmatrix}$. This is $-2i\\sigma_y$, consistent with $[\\sigma_x,\\sigma_z]=-2i\\sigma_y$."
+				"explanation": "$AB=\\begin{pmatrix}0&-1\\\\1&0\\end{pmatrix}$ and $BA=\\begin{pmatrix}0&1\\\\-1&0\\end{pmatrix}$, so $[A,B]=\\begin{pmatrix}0&-2\\\\2&0\\end{pmatrix}$. This is $-2i\\sigma_y$, consistent with $[\\sigma_x,\\sigma_z]=-2i\\sigma_y$.",
+				"equations": [
+					"[A,B]=AB-BA"
+				]
 			},
 			{
 				"kind": "short",
@@ -1616,14 +1836,20 @@
 				"prompt": "A molecule has 5 coupled spin-1/2 nuclei. What is the dimension of its spin Hilbert space (the Kronecker product of five $2\\times2$ spaces)?",
 				"answer": 32.0,
 				"tolerance": 0.02,
-				"explanation": "Dimensions multiply: $2^5=32$. The spin Hamiltonian is a $32\\times32$ Hermitian matrix built from Kronecker products, which is why simulating NMR of large spin systems grows costly."
+				"explanation": "Dimensions multiply: $2^5=32$. The spin Hamiltonian is a $32\\times32$ Hermitian matrix built from Kronecker products, which is why simulating NMR of large spin systems grows costly.",
+				"equations": [
+					"\\dim(V_1\\otimes V_2)=\\dim V_1\\cdot\\dim V_2"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "For $A=\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}$ and $B=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$, find the $(1,4)$ entry of the Kronecker product $A\\otimes B$.",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "$A\\otimes B=\\begin{pmatrix}a_{11}B&a_{12}B\\\\a_{21}B&a_{22}B\\end{pmatrix}$. The $(1,4)$ entry lies in the top-right block $a_{12}B=2B$, in position $(1,2)$ of that block: $2\\cdot1=2$."
+				"explanation": "$A\\otimes B=\\begin{pmatrix}a_{11}B&a_{12}B\\\\a_{21}B&a_{22}B\\end{pmatrix}$. The $(1,4)$ entry lies in the top-right block $a_{12}B=2B$, in position $(1,2)$ of that block: $2\\cdot1=2$.",
+				"equations": [
+					"A\\otimes B=\\begin{pmatrix}a_{11}B&a_{12}B\\a_{21}B&a_{22}B\\end{pmatrix}"
+				]
 			},
 			{
 				"kind": "short",

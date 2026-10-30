@@ -17,7 +17,7 @@ export async function POST(req: Request, { params }: Params) {
 	const { lessonId, i } = await params;
 	const body = (await req.json().catch(() => ({}))) as { fresh?: boolean; kind?: string };
 	try {
-		(body.kind === "explainer" ? ensureLessonExplainer : ensureLessonDemo)(lessonId, Number(i), { fresh: !!body.fresh });
+		void (body.kind === "explainer" ? ensureLessonExplainer : ensureLessonDemo)(lessonId, Number(i), { fresh: !!body.fresh });
 		return Response.json(demoView(lessonId, Number(i)));
 	} catch (err) {
 		return Response.json({ error: err instanceof Error ? err.message : String(err) }, { status: 400 });

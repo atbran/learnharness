@@ -8,11 +8,12 @@ import { MessageResponse } from "@/components/ai-elements/message";
 import { useServerEvent } from "@/components/server-events";
 import { cn } from "@/lib/utils";
 import { ProgressRing } from "./charts";
+import { EquationSheet, QuestionEquations } from "./equations";
 import { pct } from "./status";
 import { useStudyHeartbeat } from "./use-program";
 
-type PublicQ = { kind: "mc"; prompt: string; options: string[] } | { kind: "numeric"; prompt: string; unit?: string } | { kind: "short"; prompt: string };
-type CheckState = { status: "ready"; questions: PublicQ[] } | { status: "generating" | "missing" | "error"; error?: string };
+type PublicQ = ({ kind: "mc"; prompt: string; options: string[] } | { kind: "numeric"; prompt: string; unit?: string } | { kind: "short"; prompt: string }) & { equations?: string[] };
+type CheckState = { status: "ready"; questions: PublicQ[]; sheet?: string[] } | { status: "generating" | "missing" | "error"; error?: string };
 interface Result {
 	score: number;
 	perQuestion: { correct: boolean; credit: number; feedback: string }[];
@@ -96,6 +97,7 @@ export function QuickCheck({ lessonId, review, only, onDone }: { lessonId: strin
 	const qs = indexes.map((i) => state.questions[i]).filter((q): q is PublicQ => !!q);
 	return (
 		<div className="space-y-4">
+			<EquationSheet groups={[{ title: "This lesson", equations: state.sheet ?? [] }]} />
 			{result && (
 				<div className="flex items-center gap-4 rounded-xl border p-4" style={{ borderColor: result.score >= 0.8 ? "var(--st-mastered)" : "var(--st-progress)" }}>
 					<ProgressRing value={result.score} size={64} color={result.score >= 0.8 ? "var(--st-mastered)" : "var(--st-progress)"}>
@@ -124,6 +126,7 @@ export function QuickCheck({ lessonId, review, only, onDone }: { lessonId: strin
 						<div className="lh-prose">
 							<MessageResponse>{q.prompt}</MessageResponse>
 						</div>
+						<QuestionEquations equations={q.equations} />
 						{q.kind === "mc" && (
 							<div className="mt-3 space-y-2">
 								{q.options.map((o, oi) => (

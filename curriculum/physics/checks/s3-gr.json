@@ -52,7 +52,11 @@
 				"answer": 45.72,
 				"tolerance": 0.05,
 				"unit": "μs/day",
-				"explanation": "$\\Delta\\tau/\\tau = (GM/c^2)(1/R - 1/r) \\approx 5.29e-10$, which over 86,400 s is about 45.7 $\\mu$s. Orbital speed contributes about $-7\\ \\mu$s/day, so the net is roughly $+38\\ \\mu$s/day, which must be corrected for or positions drift by about 10 km per day."
+				"explanation": "$\\Delta\\tau/\\tau = (GM/c^2)(1/R - 1/r) \\approx 5.29e-10$, which over 86,400 s is about 45.7 $\\mu$s. Orbital speed contributes about $-7\\ \\mu$s/day, so the net is roughly $+38\\ \\mu$s/day, which must be corrected for or positions drift by about 10 km per day.",
+				"equations": [
+					"\\frac{\\Delta\\tau}{\\tau}=\\frac{\\Delta\\Phi}{c^2}",
+					"\\Phi=-\\frac{GM}{r}"
+				]
 			},
 			{
 				"kind": "short",
@@ -68,7 +72,11 @@
 				"answer": 4.0,
 				"tolerance": 0.02,
 				"unit": "s",
-				"explanation": "$\\Delta s^2 = -c^2\\Delta t^2 + \\Delta x^2 = -(25-9)$ in light-second units, so $c\\,\\Delta\\tau = \\sqrt{16} = 4$ s. A frame moving at $v = 3c/5$ sees both events at the same place, where the elapsed time is 4 s."
+				"explanation": "$\\Delta s^2 = -c^2\\Delta t^2 + \\Delta x^2 = -(25-9)$ in light-second units, so $c\\,\\Delta\\tau = \\sqrt{16} = 4$ s. A frame moving at $v = 3c/5$ sees both events at the same place, where the elapsed time is 4 s.",
+				"equations": [
+					"ds^2 = -c^2dt^2 + dx^2+dy^2+dz^2 = \\eta_{\\mu\\nu}dx^\\mu dx^\\nu",
+					"c^2\\Delta\\tau^2=c^2\\Delta t^2-\\Delta x^2"
+				]
 			},
 			{
 				"kind": "mc",
@@ -112,7 +120,10 @@
 					"The traveller ages less: the inertial straight worldline has the longest proper time of all timelike paths."
 				],
 				"answer": 3,
-				"explanation": "Proper time is the 'length' of a worldline in a Lorentzian geometry, where the straight line maximises it. The situation is not symmetric because only the stay-at-home twin is inertial between the two events; the traveller's worldline changes frames."
+				"explanation": "Proper time is the 'length' of a worldline in a Lorentzian geometry, where the straight line maximises it. The situation is not symmetric because only the stay-at-home twin is inertial between the two events; the traveller's worldline changes frames.",
+				"equations": [
+					"\\tau = \\frac1c\\int\\sqrt{-\\eta_{\\mu\\nu}dx^\\mu dx^\\nu}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -120,7 +131,10 @@
 				"answer": -16.0,
 				"tolerance": 0.02,
 				"unit": "ls^2",
-				"explanation": "$x^\\mu x_\\mu=-(ct)^2+x^2=-25+9=-16$. The negative sign means the event is timelike separated from the origin."
+				"explanation": "$x^\\mu x_\\mu=-(ct)^2+x^2=-25+9=-16$. The negative sign means the event is timelike separated from the origin.",
+				"equations": [
+					"x^\\mu x_\\mu=-(ct)^2+x^2+y^2+z^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -135,7 +149,10 @@
 				"prompt": "On a sphere of radius $R$ with $ds^2 = R^2(d\\theta^2 + \\sin^2\\theta\\, d\\phi^2)$, draw the circle of all points at surface distance $r = \\pi R/2$ from the north pole (that is, the equator). What is the ratio (circumference)/(radius), with both measured along the surface? (A flat plane would give $2\\pi \\approx 6.28$.)",
 				"answer": 4.0,
 				"tolerance": 0.02,
-				"explanation": "The circumference is $\\oint R\\sin\\theta\\,d\\phi = 2\\pi R\\sin(\\pi/2) = 2\\pi R$ and the radius (measured along the surface) is $\\pi R/2$, so the ratio is $4$. Being smaller than $2\\pi$ is an intrinsic signal of positive curvature, with no reference to any embedding in 3D."
+				"explanation": "The circumference is $\\oint R\\sin\\theta\\,d\\phi = 2\\pi R\\sin(\\pi/2) = 2\\pi R$ and the radius (measured along the surface) is $\\pi R/2$, so the ratio is $4$. Being smaller than $2\\pi$ is an intrinsic signal of positive curvature, with no reference to any embedding in 3D.",
+				"equations": [
+					"ds^2 = R^2\\left(d\\theta^2+\\sin^2\\theta\\,d\\phi^2\\right)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -155,7 +172,10 @@
 				"answer": 25.1327,
 				"tolerance": 0.02,
 				"unit": "m^2",
-				"explanation": "$A=R^2\\int_0^{\\pi/2}\\sin\\theta\\,d\\theta\\int_0^{2\\pi}d\\phi=2\\pi R^2=2\\pi(4)\\approx25.13$ m$^2$."
+				"explanation": "$A=R^2\\int_0^{\\pi/2}\\sin\\theta\\,d\\theta\\int_0^{2\\pi}d\\phi=2\\pi R^2=2\\pi(4)\\approx25.13$ m$^2$.",
+				"equations": [
+					"dA=R^2\\sin\\theta\\,d\\theta\\,d\\phi"
+				]
 			},
 			{
 				"kind": "short",
@@ -214,7 +234,10 @@
 				"prompt": "For the 2-sphere $ds^2=R^2(d\\theta^2+\\sin^2\\theta\\,d\\phi^2)$ the Euler-Lagrange equation for $\\theta$ reads $\\ddot\\theta-\\sin\\theta\\cos\\theta\\,\\dot\\phi^2=0$, so $\\Gamma^\\theta{}_{\\phi\\phi}=-\\sin\\theta\\cos\\theta$. Evaluate $\\Gamma^\\theta{}_{\\phi\\phi}$ at $\\theta=\\pi/3$ (dimensionless).",
 				"answer": -0.433013,
 				"tolerance": 0.02,
-				"explanation": "$-\\sin60^\\circ\\cos60^\\circ=-(0.866)(0.5)\\approx-0.433$."
+				"explanation": "$-\\sin60^\\circ\\cos60^\\circ=-(0.866)(0.5)\\approx-0.433$.",
+				"equations": [
+					"\\frac{d^2x^\\mu}{d\\tau^2} + \\Gamma^\\mu{}_{\\alpha\\beta}\\frac{dx^\\alpha}{d\\tau}\\frac{dx^\\beta}{d\\tau} = 0"
+				]
 			},
 			{
 				"kind": "short",
@@ -254,7 +277,10 @@
 				"answer": 1.392,
 				"tolerance": 0.02,
 				"unit": "×10⁻⁹",
-				"explanation": "$2GM/(Rc^2) = 1.392e-09$, about one part in a billion: gravity on Earth is an extremely weak perturbation of flat spacetime, which is why Newtonian physics works so well."
+				"explanation": "$2GM/(Rc^2) = 1.392e-09$, about one part in a billion: gravity on Earth is an extremely weak perturbation of flat spacetime, which is why Newtonian physics works so well.",
+				"equations": [
+					"\\left|g_{00}+1\\right|=\\frac{2GM}{Rc^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -270,7 +296,10 @@
 				"answer": 8.87,
 				"tolerance": 0.02,
 				"unit": "mm",
-				"explanation": "$r_s = 2GM/c^2 = 8.87$ mm. Squeezing the entire Earth into a marble-sized sphere would be needed to form a black hole; the Sun's value is about 2.95 km."
+				"explanation": "$r_s = 2GM/c^2 = 8.87$ mm. Squeezing the entire Earth into a marble-sized sphere would be needed to form a black hole; the Sun's value is about 2.95 km.",
+				"equations": [
+					"r_s=\\frac{2GM}{c^2}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -290,7 +319,12 @@
 				"answer": 2.123,
 				"tolerance": 0.03,
 				"unit": "×10⁻⁶",
-				"explanation": "$r_s/R_\\odot = 4.245e-06$, so $z \\approx r_s/(2R_\\odot) = 2.12\\times10^-6$, equivalent to a Doppler speed of about 640 m/s. It is real but small, and is confounded with convective Doppler shifts."
+				"explanation": "$r_s/R_\\odot = 4.245e-06$, so $z \\approx r_s/(2R_\\odot) = 2.12\\times10^-6$, equivalent to a Doppler speed of about 640 m/s. It is real but small, and is confounded with convective Doppler shifts.",
+				"equations": [
+					"\\frac{\\nu_{\\rm obs}}{\\nu_{\\rm em}}=\\sqrt{1-\\frac{r_s}{R_\\odot}}",
+					"r_s=\\frac{2GM}{c^2}",
+					"z=\\frac{\\nu_{\\rm em}}{\\nu_{\\rm obs}}-1"
+				]
 			},
 			{
 				"kind": "short",
@@ -329,7 +363,11 @@
 				"prompt": "Take $V_{\\rm eff}(r)=(1-r_s/r)\\,(1+\\ell^2 r_s^2/r^2)$ with $\\ell=L/(mc\\,r_s)=2$. Evaluate $V_{\\rm eff}$ at $r=10\\,r_s$ (dimensionless).",
 				"answer": 0.936,
 				"tolerance": 0.02,
-				"explanation": "$V_{\\rm eff}=(1-0.1)(1+4/100)=0.9\\times1.04=0.936$, slightly below 1, so a particle with $E^2$ just under 1 would be bound there."
+				"explanation": "$V_{\\rm eff}=(1-0.1)(1+4/100)=0.9\\times1.04=0.936$, slightly below 1, so a particle with $E^2$ just under 1 would be bound there.",
+				"equations": [
+					"V_{\\rm eff}(r) = \\left(1-\\frac{r_s}{r}\\right)\\left(1+\\frac{L^2}{m^2c^2r^2}\\right)",
+					"\\ell=\\frac{L}{mc\\,r_s}"
+				]
 			},
 			{
 				"kind": "short",
@@ -375,7 +413,10 @@
 				"answer": 88.596,
 				"tolerance": 0.02,
 				"unit": "km",
-				"explanation": "$r_{\\rm ISCO}=6\\times10\\times1.4766\\ \\mathrm{km}\\approx88.6$ km, three times the Schwarzschild radius ($r_s=29.5$ km)."
+				"explanation": "$r_{\\rm ISCO}=6\\times10\\times1.4766\\ \\mathrm{km}\\approx88.6$ km, three times the Schwarzschild radius ($r_s=29.5$ km).",
+				"equations": [
+					"r_{\\rm ISCO} = \\frac{6GM}{c^2}"
+				]
 			}
 		],
 		"s3-l012-perihelion-precession-mercury": [
@@ -397,7 +438,12 @@
 				"answer": 42.98,
 				"tolerance": 0.03,
 				"unit": "arcsec/century",
-				"explanation": "Per orbit $\\Delta\\varphi = 5.019e-07$ rad; there are about 415.2 orbits per century, giving 43.0'' per century, matching the observed anomaly."
+				"explanation": "Per orbit $\\Delta\\varphi = 5.019e-07$ rad; there are about 415.2 orbits per century, giving 43.0'' per century, matching the observed anomaly.",
+				"equations": [
+					"\\Delta\\varphi = \\frac{6\\pi GM}{c^2a(1-e^2)}",
+					"N=\\frac{100\\times365.25\\ \\mathrm{d}}{P}",
+					"1\\ \\mathrm{rad}=206265''"
+				]
 			},
 			{
 				"kind": "mc",
@@ -425,7 +471,10 @@
 				"answer": 1.751,
 				"tolerance": 0.02,
 				"unit": "arcsec",
-				"explanation": "$4GM/(c^2R_\\odot) = 8.490e-06$ rad $= 1.75''$. This is twice the value from treating light as Newtonian corpuscles; Eddington's 1919 eclipse expedition provided the first confirmation."
+				"explanation": "$4GM/(c^2R_\\odot) = 8.490e-06$ rad $= 1.75''$. This is twice the value from treating light as Newtonian corpuscles; Eddington's 1919 eclipse expedition provided the first confirmation.",
+				"equations": [
+					"\\Delta\\phi = \\frac{4GM}{c^2b}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -445,7 +494,10 @@
 				"answer": 232.521,
 				"tolerance": 0.03,
 				"unit": "us",
-				"explanation": "$4GM_\\odot/c^3=1.97\\times10^{-5}$ s and $\\ln(4r_Er_V/b^2)\\approx11.8$, giving $\\Delta t\\approx2.3\\times10^{2}\\ \\mu$s, the size of the delay actually measured."
+				"explanation": "$4GM_\\odot/c^3=1.97\\times10^{-5}$ s and $\\ln(4r_Er_V/b^2)\\approx11.8$, giving $\\Delta t\\approx2.3\\times10^{2}\\ \\mu$s, the size of the delay actually measured.",
+				"equations": [
+					"\\Delta t\\approx\\frac{4GM}{c^3}\\ln\\frac{4r_Er_V}{b^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -473,7 +525,11 @@
 				"answer": 1.009,
 				"tolerance": 0.04,
 				"unit": "mas",
-				"explanation": "$\\theta_E = 4.892e-09$ rad $= 1.01$ mas, too small to resolve in typical microlensing; instead one sees the source's brightness rise and fall as the lens passes in front."
+				"explanation": "$\\theta_E = 4.892e-09$ rad $= 1.01$ mas, too small to resolve in typical microlensing; instead one sees the source's brightness rise and fall as the lens passes in front.",
+				"equations": [
+					"\\theta_E = \\sqrt{\\frac{4GM}{c^2}\\frac{D_{LS}}{D_LD_S}}",
+					"1\\ \\mathrm{rad}=2.06265\\times10^{8}\\ \\mathrm{mas}"
+				]
 			},
 			{
 				"kind": "short",
@@ -545,7 +601,11 @@
 				"answer": 206100000.0,
 				"tolerance": 0.04,
 				"unit": "m/s²",
-				"explanation": "$r_s \\approx 29.5$ km and $\\Delta a = 2.06e+08\\ \\mathrm{m/s^2} \\approx 2.1e+07\\,g$: fatal, which is 'spaghettification'. Since $\\Delta a \\propto M/r_s^3 \\propto 1/M^2$, a supermassive hole has gentle tides at the horizon."
+				"explanation": "$r_s \\approx 29.5$ km and $\\Delta a = 2.06e+08\\ \\mathrm{m/s^2} \\approx 2.1e+07\\,g$: fatal, which is 'spaghettification'. Since $\\Delta a \\propto M/r_s^3 \\propto 1/M^2$, a supermassive hole has gentle tides at the horizon.",
+				"equations": [
+					"\\Delta a \\approx \\frac{2GM\\,L}{r^3}",
+					"r_s=\\frac{2GM}{c^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -573,7 +633,10 @@
 				"answer": 61.7,
 				"tolerance": 0.02,
 				"unit": "nK",
-				"explanation": "$T_H = 61.7$ nK. That is far below the 2.7 K cosmic microwave background, so a solar-mass hole currently absorbs more energy than it emits and grows."
+				"explanation": "$T_H = 61.7$ nK. That is far below the 2.7 K cosmic microwave background, so a solar-mass hole currently absorbs more energy than it emits and grows.",
+				"equations": [
+					"T_H = \\frac{\\hbar c^3}{8\\pi G M k_B}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -597,7 +660,10 @@
 					"It absorbs CMB photons faster than it emits Hawking radiation ($T_H$ is only tens of nK), so it grows."
 				],
 				"answer": 3,
-				"explanation": "$T_H \\propto 1/M$, so large black holes are colder than the CMB and are net absorbers. Because black holes have negative heat capacity, equilibrium with a bath is unstable. Only when the CMB cools well below $T_H$ (or for tiny primordial holes) would they lose mass."
+				"explanation": "$T_H \\propto 1/M$, so large black holes are colder than the CMB and are net absorbers. Because black holes have negative heat capacity, equilibrium with a bath is unstable. Only when the CMB cools well below $T_H$ (or for tiny primordial holes) would they lose mass.",
+				"equations": [
+					"T_H = \\frac{\\hbar c^3}{8\\pi G M k_B}"
+				]
 			},
 			{
 				"kind": "short",
@@ -623,7 +689,12 @@
 				"kind": "short",
 				"prompt": "Argue why the evaporation time of a black hole scales as $M^3$, and what this implies for tiny versus stellar-mass black holes.",
 				"rubric": "Full credit: (1) Hawking radiation power from a blackbody of temperature $T_H\\propto 1/M$ and area $A\\propto M^2$: $P\\propto A T^4\\propto 1/M^2$; (2) $dM/dt \\propto -1/M^2$ integrates to $t \\propto M^3$; (3) consequence: stellar-mass holes (and anything above ~$10^{11}$ kg) take vastly longer than the age of the universe (~$10^{67}$ yr for a solar mass), whereas very small ones evaporate quickly and end in a burst.",
-				"modelAnswer": "The hole radiates like a blackbody with temperature $T_H \\propto 1/M$ from an area $A \\propto M^2$, so the power is $P \\propto A T^4 \\propto M^2/M^4 = 1/M^2$. Then $dM/dt \\propto -1/M^2$, which integrates to $t_{\\rm evap} \\propto M^3$. For a solar-mass hole this is about $10^{67}$ years, absurdly long, while a mountain-mass primordial hole (about $2\\times10^{11}$ kg) would be finishing its evaporation now; smaller holes get hotter and brighter and end in a burst."
+				"modelAnswer": "The hole radiates like a blackbody with temperature $T_H \\propto 1/M$ from an area $A \\propto M^2$, so the power is $P \\propto A T^4 \\propto M^2/M^4 = 1/M^2$. Then $dM/dt \\propto -1/M^2$, which integrates to $t_{\\rm evap} \\propto M^3$. For a solar-mass hole this is about $10^{67}$ years, absurdly long, while a mountain-mass primordial hole (about $2\\times10^{11}$ kg) would be finishing its evaporation now; smaller holes get hotter and brighter and end in a burst.",
+				"equations": [
+					"P=\\sigma T^4A",
+					"T_H=\\frac{\\hbar c^3}{8\\pi GMk_B}",
+					"E=Mc^2"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -631,7 +702,10 @@
 				"answer": 1.04941,
 				"tolerance": 0.03,
 				"unit": "1e77",
-				"explanation": "$S/k_B=4\\pi GM^2/(\\hbar c)\\approx1.05\\times10^{77}$, vastly larger than the entropy of the star that collapsed to form it."
+				"explanation": "$S/k_B=4\\pi GM^2/(\\hbar c)\\approx1.05\\times10^{77}$, vastly larger than the entropy of the star that collapsed to form it.",
+				"equations": [
+					"\\frac{S_{BH}}{k_B}=\\frac{4\\pi GM^2}{\\hbar c}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -665,7 +739,10 @@
 				"answer": 1.436,
 				"tolerance": 0.02,
 				"unit": "GM/c²",
-				"explanation": "$r_+ = 1 + \\sqrt{1 - 0.81} = 1.436\\,GM/c^2$, compared with $2\\,GM/c^2$ for a nonrotating hole. For $a_*>1$ there would be no real horizon: a naked singularity, which is why cosmic censorship matters."
+				"explanation": "$r_+ = 1 + \\sqrt{1 - 0.81} = 1.436\\,GM/c^2$, compared with $2\\,GM/c^2$ for a nonrotating hole. For $a_*>1$ there would be no real horizon: a naked singularity, which is why cosmic censorship matters.",
+				"equations": [
+					"r_\\pm = \\frac{GM}{c^2}\\left(1\\pm\\sqrt{1-a_*^2}\\right),\\quad a_*=\\frac{cJ}{GM^2}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -723,7 +800,11 @@
 				"answer": 29.2893,
 				"tolerance": 0.02,
 				"unit": "%",
-				"explanation": "$1-1/\\sqrt2\\approx0.293$, so at most about 29% of the hole's mass-energy is extractable; the irreducible mass can never be reduced."
+				"explanation": "$1-1/\\sqrt2\\approx0.293$, so at most about 29% of the hole's mass-energy is extractable; the irreducible mass can never be reduced.",
+				"equations": [
+					"E_{\\rm ext}=(M-M_{\\rm irr})c^2",
+					"M_{\\rm irr}=\\frac{M}{\\sqrt2}"
+				]
 			}
 		],
 		"s3-l021-linearized-waves-polarizations-speed": [
@@ -777,7 +858,10 @@
 				"answer": 1.922e-13,
 				"tolerance": 0.02,
 				"unit": "m",
-				"explanation": "$\\delta L = \\tfrac12 (10^{-21})(3.844\\times10^8) = 1.92e-13$ m, only about 0.2 picometres even over the Earth-Moon distance, which is why detecting waves took a century. The effect grows with the baseline."
+				"explanation": "$\\delta L = \\tfrac12 (10^{-21})(3.844\\times10^8) = 1.92e-13$ m, only about 0.2 picometres even over the Earth-Moon distance, which is why detecting waves took a century. The effect grows with the baseline.",
+				"equations": [
+					"\\frac{\\delta L}{L} = \\tfrac12 h"
+				]
 			},
 			{
 				"kind": "short",
@@ -793,7 +877,10 @@
 				"answer": 2e-18,
 				"tolerance": 0.03,
 				"unit": "m",
-				"explanation": "$\\delta L = \\tfrac12 (10^{-21})(4000) = 2.0e-18$ m; the arm-length difference seen by the interferometer is $hL = 4e-18$ m, a few hundred times smaller than a proton. The Michelson layout subtracts the arms, so a common-mode noise cancels while the signal doubles."
+				"explanation": "$\\delta L = \\tfrac12 (10^{-21})(4000) = 2.0e-18$ m; the arm-length difference seen by the interferometer is $hL = 4e-18$ m, a few hundred times smaller than a proton. The Michelson layout subtracts the arms, so a common-mode noise cancels while the signal doubles.",
+				"equations": [
+					"\\frac{\\delta L}{L}=\\tfrac12 h"
+				]
 			},
 			{
 				"kind": "mc",
@@ -805,7 +892,10 @@
 					"Unchanged, because $F\\propto f^2h^2$ and $(\\tfrac12)^2\\cdot2^2=1$."
 				],
 				"answer": 3,
-				"explanation": "The flux depends on the time derivative of $h$, so $F\\propto (2\\pi f h)^2$. High-frequency waves of tiny amplitude carry as much energy as low-frequency waves of large amplitude. Waves from a merger carry energy of order $M_\\odot c^2$, yet reach Earth with a power of only about milliwatts per square metre."
+				"explanation": "The flux depends on the time derivative of $h$, so $F\\propto (2\\pi f h)^2$. High-frequency waves of tiny amplitude carry as much energy as low-frequency waves of large amplitude. Waves from a merger carry energy of order $M_\\odot c^2$, yet reach Earth with a power of only about milliwatts per square metre.",
+				"equations": [
+					"F = \\frac{c^3}{32\\pi G}\\left\\langle\\dot h_{ij}\\dot h_{ij}\\right\\rangle"
+				]
 			},
 			{
 				"kind": "mc",
@@ -833,7 +923,10 @@
 				"answer": 30.01,
 				"tolerance": 0.04,
 				"unit": "M☉",
-				"explanation": "Solving for the chirp mass gives $\\mathcal M \\approx 30.0\\,M_\\odot$ (the inspiral phase depends on the masses mainly through this single combination). For comparison, GW150914 had $\\mathcal M \\approx 28\\,M_\\odot$."
+				"explanation": "Solving for the chirp mass gives $\\mathcal M \\approx 30.0\\,M_\\odot$ (the inspiral phase depends on the masses mainly through this single combination). For comparison, GW150914 had $\\mathcal M \\approx 28\\,M_\\odot$.",
+				"equations": [
+					"\\dot f = \\frac{96}{5}\\pi^{8/3}\\left(\\frac{G\\mathcal M}{c^3}\\right)^{5/3}f^{11/3}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -904,7 +997,10 @@
 				"prompt": "In plane polar coordinates $(r,\\theta)$ the metric is $g = \\mathrm{diag}(1, r^2)$. At $r = 2$ a vector has components $V^r = 3$ and $V^\\theta = 0.5$ (in whatever units $r$ and $\\theta$ use). What is its squared length $g_{\\mu\\nu}V^\\mu V^\\nu$?",
 				"answer": 10.0,
 				"tolerance": 0.02,
-				"explanation": "$g_{\\mu\\nu}V^\\mu V^\\nu = 1\\cdot 3^2 + r^2 (0.5)^2 = 9 + 4(0.25) = 10$. The $\\theta$-component has physical length $r V^\\theta$, which is why the metric is needed. In Cartesian components this vector is the same arrow, with the same squared length."
+				"explanation": "$g_{\\mu\\nu}V^\\mu V^\\nu = 1\\cdot 3^2 + r^2 (0.5)^2 = 9 + 4(0.25) = 10$. The $\\theta$-component has physical length $r V^\\theta$, which is why the metric is needed. In Cartesian components this vector is the same arrow, with the same squared length.",
+				"equations": [
+					"|V|^2=g_{\\mu\\nu}V^\\mu V^\\nu"
+				]
 			},
 			{
 				"kind": "mc",
@@ -949,7 +1045,10 @@
 				"prompt": "In flat polar coordinates the Christoffel symbols include $\\Gamma^\\theta{}_{\\theta r}=\\Gamma^\\theta{}_{r\\theta}=1/r$. Take the vector field with components $V^r=1$, $V^\\theta=0$. Evaluate $\\nabla_\\theta V^\\theta=\\partial_\\theta V^\\theta+\\Gamma^\\theta{}_{\\theta\\lambda}V^\\lambda$ at $r=2$.",
 				"answer": 0.5,
 				"tolerance": 0.02,
-				"explanation": "$\\nabla_\\theta V^\\theta=0+\\Gamma^\\theta{}_{\\theta r}V^r=1/r=0.5$. The field $V=\\hat r$ really does change direction as $\\theta$ changes, and the Christoffel term records that."
+				"explanation": "$\\nabla_\\theta V^\\theta=0+\\Gamma^\\theta{}_{\\theta r}V^r=1/r=0.5$. The field $V=\\hat r$ really does change direction as $\\theta$ changes, and the Christoffel term records that.",
+				"equations": [
+					"\\nabla_\\mu V^\\nu = \\partial_\\mu V^\\nu + \\Gamma^\\nu{}_{\\mu\\lambda}V^\\lambda"
+				]
 			},
 			{
 				"kind": "mc",
@@ -983,7 +1082,10 @@
 				"answer": 60.0,
 				"tolerance": 0.02,
 				"unit": "degrees",
-				"explanation": "The rotation angle in radians is (enclosed area)/$R^2$ $= \\Delta\\phi\\,(1-\\cos\\theta_{\\max}) = (\\pi/3)(1 - 0) = 1.0472$, i.e. 60 degrees. (The loop's three corners have angles $90^\\circ, 90^\\circ, 60^\\circ$, an angle excess of $60^\\circ$.)"
+				"explanation": "The rotation angle in radians is (enclosed area)/$R^2$ $= \\Delta\\phi\\,(1-\\cos\\theta_{\\max}) = (\\pi/3)(1 - 0) = 1.0472$, i.e. 60 degrees. (The loop's three corners have angles $90^\\circ, 90^\\circ, 60^\\circ$, an angle excess of $60^\\circ$.)",
+				"equations": [
+					"\\Delta\\alpha=\\frac{A_{\\rm enclosed}}{R^2}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1023,7 +1125,10 @@
 				"answer": 5.549,
 				"tolerance": 0.03,
 				"unit": "μm/s²",
-				"explanation": "$2GML/R^3 = 5.55\\ \\mu\\mathrm{m/s^2}$, about $5\\times10^{-7}\\,g$: undetectable by the person, which is why free fall locally feels like zero gravity. The Moon's tidal field on the oceans is the same effect accumulated over a planet-size scale."
+				"explanation": "$2GML/R^3 = 5.55\\ \\mu\\mathrm{m/s^2}$, about $5\\times10^{-7}\\,g$: undetectable by the person, which is why free fall locally feels like zero gravity. The Moon's tidal field on the oceans is the same effect accumulated over a planet-size scale.",
+				"equations": [
+					"\\Delta a=\\frac{2GML}{r^3}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1050,7 +1155,10 @@
 				"prompt": "A generic Riemann tensor in $n$ dimensions has $n^2(n^2-1)/12$ independent components after using its symmetries (this gives 20 for spacetime, $n=4$). How many does it have in $n = 3$ dimensions?",
 				"answer": 6.0,
 				"tolerance": 0.001,
-				"explanation": "$n^2(n^2-1)/12 = 9\\cdot8/12 = 6$. In $n=2$ the formula gives 1: the single Gaussian curvature $K = 1/R^2$ for a sphere. In 3D the Ricci tensor (also 6 components) carries all the curvature information; in 4D there are 10 more (Weyl) components that can exist in vacuum."
+				"explanation": "$n^2(n^2-1)/12 = 9\\cdot8/12 = 6$. In $n=2$ the formula gives 1: the single Gaussian curvature $K = 1/R^2$ for a sphere. In 3D the Ricci tensor (also 6 components) carries all the curvature information; in 4D there are 10 more (Weyl) components that can exist in vacuum.",
+				"equations": [
+					"N=\\frac{n^2(n^2-1)}{12}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1078,7 +1186,10 @@
 				"answer": 0.5,
 				"tolerance": 0.02,
 				"unit": "m⁻²",
-				"explanation": "$\\mathcal R = 2/R^2 = 2/4 = 0.5\\ \\mathrm{m^{-2}}$. It is positive for a sphere, and zero for a plane (or a cylinder): the Ricci scalar is the intrinsic curvature, independent of embedding."
+				"explanation": "$\\mathcal R = 2/R^2 = 2/4 = 0.5\\ \\mathrm{m^{-2}}$. It is positive for a sphere, and zero for a plane (or a cylinder): the Ricci scalar is the intrinsic curvature, independent of embedding.",
+				"equations": [
+					"\\mathcal R=\\frac{2}{R^2}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1157,7 +1268,11 @@
 				"answer": 140400000000000.0,
 				"tolerance": 0.02,
 				"unit": "J/m³",
-				"explanation": "$T^{00} = \\gamma^2\\rho c^2$ with $\\gamma = 1.250$, giving 1.404e+14 J/m³, a factor of $\\gamma^2 = 1.562$ larger than the rest-frame $\\rho c^2$ because one $\\gamma$ comes from the energy per particle and one from length contraction of the volume."
+				"explanation": "$T^{00} = \\gamma^2\\rho c^2$ with $\\gamma = 1.250$, giving 1.404e+14 J/m³, a factor of $\\gamma^2 = 1.562$ larger than the rest-frame $\\rho c^2$ because one $\\gamma$ comes from the energy per particle and one from length contraction of the volume.",
+				"equations": [
+					"T^{\\mu\\nu} = \\left(\\rho+\\frac{p}{c^2}\\right)u^\\mu u^\\nu + p\\,g^{\\mu\\nu}",
+					"\\gamma=\\frac{1}{\\sqrt{1-v^2/c^2}}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1215,7 +1330,10 @@
 				"answer": 4.62532,
 				"tolerance": 0.02,
 				"unit": "1e-6 s^-2",
-				"explanation": "$4\\pi G\\rho=4\\pi(6.674\\times10^{-11})(5515)\\approx4.63\\times10^{-6}\\ \\mathrm{s^{-2}}$, which is also the trace of the tidal tensor inside the Earth."
+				"explanation": "$4\\pi G\\rho=4\\pi(6.674\\times10^{-11})(5515)\\approx4.63\\times10^{-6}\\ \\mathrm{s^{-2}}$, which is also the trace of the tidal tensor inside the Earth.",
+				"equations": [
+					"\\nabla^2\\Phi=4\\pi G\\rho"
+				]
 			}
 		],
 		"s3-l035-schwarzschild-from-field-equations-birkhoff": [
@@ -1269,7 +1387,10 @@
 				"answer": 4.651,
 				"tolerance": 0.02,
 				"unit": "km",
-				"explanation": "$R_{\\min} = (9/4)(1.4)(1.477\\ \\mathrm{km}) = 4.65$ km, only 12.5% bigger than the Schwarzschild radius (4.13 km). Actual neutron stars have $R\\approx 11$-$13$ km, a factor 2.5 or so above the bound."
+				"explanation": "$R_{\\min} = (9/4)(1.4)(1.477\\ \\mathrm{km}) = 4.65$ km, only 12.5% bigger than the Schwarzschild radius (4.13 km). Actual neutron stars have $R\\approx 11$-$13$ km, a factor 2.5 or so above the bound.",
+				"equations": [
+					"R_{\\min}=\\frac{9GM}{4c^2}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1349,7 +1470,10 @@
 				"answer": 1689000000.0,
 				"tolerance": 0.05,
 				"unit": "years",
-				"explanation": "$t_{\\rm coal} = 5.33e+16$ s $\\approx 1.69e+09$ yr, about 1.7 billion years for a circular orbit (the real PSR B1913+16 is eccentric, $e\\approx0.62$, which speeds the merger up to about 300 Myr). Since $t\\propto a^4$, halving the separation shortens the time by a factor of 16."
+				"explanation": "$t_{\\rm coal} = 5.33e+16$ s $\\approx 1.69e+09$ yr, about 1.7 billion years for a circular orbit (the real PSR B1913+16 is eccentric, $e\\approx0.62$, which speeds the merger up to about 300 Myr). Since $t\\propto a^4$, halving the separation shortens the time by a factor of 16.",
+				"equations": [
+					"t_{\\rm coal}=\\frac{5}{256}\\frac{c^5a^4}{G^3m_1m_2(m_1+m_2)}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -1357,7 +1481,11 @@
 				"answer": 7.16846,
 				"tolerance": 0.02,
 				"unit": "1e-5 Hz",
-				"explanation": "$f_{\\rm GW}=2/P=2/(7.75\\times3600\\ \\mathrm{s})\\approx7.17\\times10^{-5}$ Hz, far below LIGO's band; it will sweep upward only in the last minutes before merger."
+				"explanation": "$f_{\\rm GW}=2/P=2/(7.75\\times3600\\ \\mathrm{s})\\approx7.17\\times10^{-5}$ Hz, far below LIGO's band; it will sweep upward only in the last minutes before merger.",
+				"equations": [
+					"f_{\\rm GW}=2f_{\\rm orb}",
+					"f_{\\rm orb}=\\frac1P"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1417,7 +1545,10 @@
 				"answer": 9.312,
 				"tolerance": 0.02,
 				"unit": "Gyr",
-				"explanation": "$H_0 = 2.269e-18\\ \\mathrm{s^{-1}}$, so $t_0 = 2/(3H_0) = 9.31$ Gyr. This is shorter than the age of the oldest stars and the ΛCDM value ($\\approx 13.8$ Gyr), one of the early arguments for a cosmological constant."
+				"explanation": "$H_0 = 2.269e-18\\ \\mathrm{s^{-1}}$, so $t_0 = 2/(3H_0) = 9.31$ Gyr. This is shorter than the age of the oldest stars and the ΛCDM value ($\\approx 13.8$ Gyr), one of the early arguments for a cosmological constant.",
+				"equations": [
+					"t_0=\\frac{2}{3H_0}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1481,7 +1612,11 @@
 				"answer": 3304.0,
 				"tolerance": 0.02,
 				"unit": "Mpc",
-				"explanation": "Numerical integration gives $\\chi = 3304$ Mpc (about 10.8 billion light-years). The integrand falls as $H$ grows, so the distance is less than the naive $cz/H_0 = 4283$ Mpc."
+				"explanation": "Numerical integration gives $\\chi = 3304$ Mpc (about 10.8 billion light-years). The integrand falls as $H$ grows, so the distance is less than the naive $cz/H_0 = 4283$ Mpc.",
+				"equations": [
+					"\\chi(z) = \\int_0^z\\frac{c\\,dz'}{H(z')}",
+					"H(z)=H_0\\sqrt{0.3(1+z)^3+0.7}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1527,7 +1662,10 @@
 				"answer": 9.20236,
 				"tolerance": 0.02,
 				"unit": "1e-27 kg/m^3",
-				"explanation": "$\\rho_c=3H_0^2/8\\pi G\\approx9.2\\times10^{-27}$ kg/m$^3$, about five hydrogen atoms per cubic metre."
+				"explanation": "$\\rho_c=3H_0^2/8\\pi G\\approx9.2\\times10^{-27}$ kg/m$^3$, about five hydrogen atoms per cubic metre.",
+				"equations": [
+					"\\rho_c=\\frac{3H_0^2}{8\\pi G}"
+				]
 			}
 		]
 	}

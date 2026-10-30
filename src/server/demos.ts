@@ -79,6 +79,35 @@ export function demoTitle(idea: string): string {
 	return `${cut.slice(0, cut.lastIndexOf(" ") > 30 ? cut.lastIndexOf(" ") : 60)}…`;
 }
 
+/** The house style for lesson demos (the user's reference: QNova's NMR
+ *  teaching demos): one card, guided by "Try this", few controls up front,
+ *  live sentences with the numbers, the formula named, check questions. */
+const LESSON_DEMO_STYLE = [
+	"House style (follow it exactly — the learner compares every demo against it):",
+	"- One card, top to bottom: the title; a \"Try this:\" line of 1–3 concrete steps the learner can do exactly as written",
+	"  (e.g. \"Set the mass to 2 kg, then double the spring constant and watch the period.\"); the controls; the drawing;",
+	"  the live readout; a status line; a \"Calculated with: …\" line; then 1–3 check questions.",
+	"- Controls: show only the 1–3 that matter by default (Simple). An \"Advanced\" toggle reveals the rest. Toggling",
+	"  never changes a value; when an Advanced value differs from its default while Simple is shown, say",
+	"  \"N advanced settings active\" with a Reset button. Every control has a label, its current value and unit, and",
+	"  physically sensible defaults and ranges. A Reset button restores the defaults.",
+	"- Drawing: Canvas or SVG with real axes — ticks, gridlines, axis labels with units — and labelled curves/vectors",
+	"  (arrows for vectors). Let the learner drag things that are naturally draggable. Animate with requestAnimationFrame,",
+	"  pause when not visible, and honour prefers-reduced-motion.",
+	"- Readout: plain-language sentences with the live numbers and units, updating as controls move, e.g.",
+	"  \"A 2.0 kg mass on a 50 N/m spring oscillates with period 1.26 s (0.80 swings per second).\" Use sensible",
+	"  significant figures.",
+	"- Status line: green for a notable success state, amber for a caution, red for a physically important",
+	"  \"nothing happens\" case (e.g. \"No net force, so no acceleration\").",
+	"- \"Calculated with:\" names the formula or method actually used (e.g. \"T = 2π√(m/k)\" or \"RK4 integration, Δt = 1 ms\").",
+	"  Every number must come from it; never fake or hard-code results. No NaN/Infinity at the ends of any range.",
+	"- Check questions: multiple choice, 1–3, about what the learner just saw. Check is disabled until a choice is",
+	"  made; wrong → \"Not quite.\" in amber with a one-line explanation; right → \"Right.\" in green with the reason.",
+	"- Input: pointer events so touch, Apple Pencil and mouse all work; controls at least 44 px tall on touch; fits",
+	"  360–1100 px wide (stack on narrow screens).",
+	"",
+];
+
 /** The builder's brief: who it's for, what the lesson teaches, what to build. */
 export function demoBrief(
 	ctx: { lesson: Pick<Lesson, "title" | "objectives" | "keyEquations">; course: { code: string; title: string }; unit: { title: string } },
@@ -91,6 +120,7 @@ export function demoBrief(
 		"Display: give every canvas an explicit CSS width and height (e.g. width:100%; height:300px) and size its backing",
 		"store from those times devicePixelRatio. The learner's screen may be HiDPI, and a canvas without a CSS size grows on each redraw.",
 		"",
+		...LESSON_DEMO_STYLE,
 		`Lesson: ${course.code} ${course.title} · ${unit.title} · ${lesson.title}`,
 		"",
 		"Lesson objectives:",
@@ -111,6 +141,19 @@ function lookup(lessonId: string, i: number) {
 const readDemo = (lessonId: string, i: number) => stores.curriculumStore.readCache<LessonDemo>("demos", cacheId(lessonId, i));
 const readExplainer = (lessonId: string, i: number) => stores.curriculumStore.readCache<LessonExplainer>("demos", explainerId(lessonId, i));
 const videoFile = (lessonId: string, i: number) => path.join(PATHS.curriculum, "demos", `${explainerId(lessonId, i)}.mp4`);
+
+export const lessonDemoBuilt = (lessonId: string, i: number): boolean => readDemo(lessonId, i) !== null;
+
+/** Which demos are built, by one directory listing (no parsing): test
+ *  with `builtDemos().has(demoCacheId(lessonId, i))`. */
+export const builtDemos = (): Set<string> => new Set(stores.curriculumStore.listCache("demos"));
+export const demoCacheId = cacheId;
+
+/** The last build's error for this demo, if its last build failed. */
+export function demoBuildError(lessonId: string, i: number): string | null {
+	const t = taskStatus(taskId(lessonId, i));
+	return t?.status === "error" ? (t.error ?? "the demo build failed") : null;
+}
 
 function buildState(id: string): BuildState {
 	const t = taskStatus(id);
@@ -158,13 +201,14 @@ export function demoView(lessonId: string, i: number): DemoView | null {
 }
 
 /** Build the demo in the background unless it is cached (`fresh` rebuilds;
- *  the old demo stays until a new one passes). */
-export function ensureLessonDemo(lessonId: string, i: number, opts: { fresh?: boolean } = {}): void {
+ *  the old demo stays until a new one passes). Settles when the build does;
+ *  a failure is on the task (demoBuildError), not a rejection. */
+export function ensureLessonDemo(lessonId: string, i: number, opts: { fresh?: boolean } = {}): Promise<void> {
 	const ref = lookup(lessonId, i);
 	if (!ref) throw new Error(`unknown demo ${lessonId}/${i}`);
-	if (!opts.fresh && readDemo(lessonId, i)) return;
+	if (!opts.fresh && readDemo(lessonId, i)) return Promise.resolve();
 	const id = taskId(lessonId, i);
-	runTask(id, `Building demo · ${ref.lesson.title}`, async () => {
+	return runTask(id, `Building demo · ${ref.lesson.title}`, async () => {
 		activity.set(id, "starting");
 		try {
 			const result = await runDemoBuilder(

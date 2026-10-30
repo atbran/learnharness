@@ -20,7 +20,11 @@
 				"answer": 2.048,
 				"tolerance": 0.02,
 				"explanation": "Dwell = 1/8000 = 125 µs, and 16 384 × 125 µs = 2.048 s. The record length sets the best possible resolution (about 1/T = 0.5 Hz).",
-				"unit": "s"
+				"unit": "s",
+				"equations": [
+					"f_s=1/T_s",
+					"T_{acq}=N\\,T_s"
+				]
 			},
 			{
 				"kind": "mc",
@@ -60,7 +64,11 @@
 				"answer": 20,
 				"tolerance": 0.02,
 				"explanation": "f_s = 1/25 µs = 40 kHz, so f_N = f_s/2 = 20 kHz. Components above that fold back into the recorded band.",
-				"unit": "kHz"
+				"unit": "kHz",
+				"equations": [
+					"f_N=f_s/2",
+					"f_s=1/T_s"
+				]
 			},
 			{
 				"kind": "mc",
@@ -78,7 +86,10 @@
 				"kind": "short",
 				"prompt": "Explain, using the idea that sampling makes the spectrum repeat every f_s, why a signal with energy above f_s/2 cannot be recovered from its samples.",
 				"rubric": "Full credit: (1) sampling in time replicates the spectrum at multiples of f_s; (2) if the signal extends beyond f_s/2 the copies overlap; (3) overlapping frequencies add and cannot be separated afterwards.",
-				"modelAnswer": "Sampling in time copies the whole spectrum to every multiple of f_s. If the signal has content above f_s/2, the copy from one side overlaps the original from the other. Once added together, the overlapping parts cannot be separated, so the original cannot be recovered."
+				"modelAnswer": "Sampling in time copies the whole spectrum to every multiple of f_s. If the signal has content above f_s/2, the copy from one side overlaps the original from the other. Once added together, the overlapping parts cannot be separated, so the original cannot be recovered.",
+				"equations": [
+					"X_s(f)=\\sum_{k}X(f-kf_s)"
+				]
 			}
 		],
 		"e1-l003-aliasing-antialias": [
@@ -88,7 +99,10 @@
 				"answer": 3,
 				"tolerance": 0.02,
 				"explanation": "The nearest multiple of f_s is 10 kHz, so f_app = |7 - 10| = 3 kHz. It is indistinguishable from a genuine 3 kHz tone.",
-				"unit": "kHz"
+				"unit": "kHz",
+				"equations": [
+					"f_{app}=\\left|f-f_s\\,\\mathrm{round}(f/f_s)\\right|"
+				]
 			},
 			{
 				"kind": "mc",
@@ -118,7 +132,10 @@
 				"kind": "short",
 				"prompt": "A 50 Hz mains hum is recorded with a 60 Hz sampling rate and shows up as a 10 Hz oscillation. Explain why, and what should have been done.",
 				"rubric": "Full credit: (1) 50 Hz exceeds f_s/2 = 30 Hz; (2) it folds to |50-60| = 10 Hz; (3) fix is an analogue anti-alias filter or higher f_s before digitising, not digital cleaning afterwards.",
-				"modelAnswer": "50 Hz is above the Nyquist frequency of 30 Hz, so it folds back to |50 - 60| = 10 Hz and looks like a real 10 Hz signal. The fix is to filter before the ADC or sample faster so that 50 Hz is below f_s/2, then remove it digitally as a known 50 Hz line."
+				"modelAnswer": "50 Hz is above the Nyquist frequency of 30 Hz, so it folds back to |50 - 60| = 10 Hz and looks like a real 10 Hz signal. The fix is to filter before the ADC or sample faster so that 50 Hz is below f_s/2, then remove it digitally as a known 50 Hz line.",
+				"equations": [
+					"f_{app}=\\left|f-f_s\\,\\mathrm{round}(f/f_s)\\right|"
+				]
 			}
 		],
 		"e1-l004-quantisation-adc-bit-depth": [
@@ -140,7 +157,11 @@
 				"answer": 44.05,
 				"tolerance": 0.02,
 				"explanation": "Δ = 10 V / 65 536 = 152.6 µV, and Δ/√12 = 44.05 µV. This is the floor from rounding alone.",
-				"unit": "µV"
+				"unit": "µV",
+				"equations": [
+					"\\Delta=V_{FS}/2^{N}",
+					"\\sigma_q=\\Delta/\\sqrt{12}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -152,13 +173,19 @@
 					"Digitisers cannot represent two different amplitudes in the same record at the same time"
 				],
 				"answer": 2,
-				"explanation": "Full scale must fit the largest signal. The step size Δ then fixes the smallest resolvable amplitude, so dynamic range and bit depth decide what weak features survive."
+				"explanation": "Full scale must fit the largest signal. The step size Δ then fixes the smallest resolvable amplitude, so dynamic range and bit depth decide what weak features survive.",
+				"equations": [
+					"\\Delta=V_{FS}/2^{N}"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Explain why rounding to the nearest ADC level behaves like added noise of RMS Δ/√12, and why that noise falls by 6 dB per bit.",
 				"rubric": "Full credit: (1) rounding error is roughly uniform in ±Δ/2; (2) uniform distribution has RMS Δ/√12; (3) each extra bit halves Δ, so noise halves = 6 dB.",
-				"modelAnswer": "The rounding error for a busy signal is effectively random and uniformly spread between -Δ/2 and +Δ/2, which gives RMS Δ/√12. Adding one bit halves the step Δ, so the noise amplitude halves, which is about 6 dB lower."
+				"modelAnswer": "The rounding error for a busy signal is effectively random and uniformly spread between -Δ/2 and +Δ/2, which gives RMS Δ/√12. Adding one bit halves the step Δ, so the noise amplitude halves, which is about 6 dB lower.",
+				"equations": [
+					"\\Delta=V_{FS}/2^{N}"
+				]
 			}
 		],
 		"e1-l005-lti-impulse-response": [
@@ -179,7 +206,11 @@
 				"prompt": "A detector has impulse response $h[n]=0.5^n$ for $n\\ge 0$ (zero before). Its response to a unit step applied at $n=0$ is the running sum of $h$. What is the step response at $n=4$?",
 				"answer": 1.9375,
 				"tolerance": 0.02,
-				"explanation": "The step is a sum of impulses, so $y[4]=\\sum_{k=0}^{4}0.5^k=1.9375$ (heading to 2 as n grows)."
+				"explanation": "The step is a sum of impulses, so $y[4]=\\sum_{k=0}^{4}0.5^k=1.9375$ (heading to 2 as n grows).",
+				"equations": [
+					"s[n]=\\sum_{k=0}^{n}h[k]",
+					"\\sum_{k=0}^{n}r^k=\\frac{1-r^{n+1}}{1-r}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -207,7 +238,10 @@
 				"answer": 5.0,
 				"tolerance": 0.02,
 				"explanation": "Gaussian variances add, and FWHM is proportional to σ, so the FWHMs add in quadrature: √(4² + 3²) = 5.0 Hz.",
-				"unit": "Hz"
+				"unit": "Hz",
+				"equations": [
+					"\\sigma_{tot}^2=\\sigma_1^2+\\sigma_2^2\\ \\text{(Gaussians)}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -231,13 +265,19 @@
 					"[1, 3, 6, 3]"
 				],
 				"answer": 0,
-				"explanation": "Output = 1·[1,2,3] shifted 0 plus 1·[1,2,3] shifted 1 = [1, 2+1, 3+2, 3] = [1, 3, 5, 3]. The output is longer by one sample."
+				"explanation": "Output = 1·[1,2,3] shifted 0 plus 1·[1,2,3] shifted 1 = [1, 2+1, 3+2, 3] = [1, 3, 5, 3]. The output is longer by one sample.",
+				"equations": [
+					"y[n]=\\sum_k x[k]\\,h[n-k]"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Explain convolution as 'superposing scaled and shifted copies of the impulse response' using a spectrum of sharp lines and a broad instrument function.",
 				"rubric": "Full credit: (1) each input spike produces a copy of h scaled by its height and shifted to its position; (2) output is the sum of these copies; (3) sharp lines become copies of the instrument function; closely spaced lines overlap.",
-				"modelAnswer": "Each sharp line in the true spectrum acts as a spike. The instrument turns every spike into a copy of its response function, scaled by the line's height and placed at the line's position. The recorded spectrum is the sum of all those copies, so lines become instrument-shaped peaks and nearby ones can overlap and blur together."
+				"modelAnswer": "Each sharp line in the true spectrum acts as a spike. The instrument turns every spike into a copy of its response function, scaled by the line's height and placed at the line's position. The recorded spectrum is the sum of all those copies, so lines become instrument-shaped peaks and nearby ones can overlap and blur together.",
+				"equations": [
+					"y[n]=\\sum_k x[k]\\,h[n-k]"
+				]
 			}
 		],
 		"e1-l007-dft-frequency-bins": [
@@ -247,7 +287,10 @@
 				"answer": 1200,
 				"tolerance": 0.02,
 				"explanation": "Bin spacing is f_s/N = 4 Hz, so f_300 = 300 × 4 = 1200 Hz.",
-				"unit": "Hz"
+				"unit": "Hz",
+				"equations": [
+					"f_k=k\\,f_s/N"
+				]
 			},
 			{
 				"kind": "mc",
@@ -291,7 +334,10 @@
 					"About 5 × 10^4 times fewer, with an identical result"
 				],
 				"answer": 3,
-				"explanation": "Direct DFT ~ N² while the FFT ~ N log2 N, a ratio of N / log2 N = 2^20/20 ≈ 52 000. The FFT is exact, not an approximation."
+				"explanation": "Direct DFT ~ N² while the FFT ~ N log2 N, a ratio of N / log2 N = 2^20/20 ≈ 52 000. The FFT is exact, not an approximation.",
+				"equations": [
+					"N^2\\ \\text{vs}\\ N\\log_2N"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -299,7 +345,10 @@
 				"answer": 0.1221,
 				"tolerance": 0.02,
 				"explanation": "Δf = f_s/N = 2000/16384 = 0.1221 Hz, equal to 1/T for T = 8.19 s.",
-				"unit": "Hz"
+				"unit": "Hz",
+				"equations": [
+					"\\Delta f=f_s/N=1/T_{acq}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -339,7 +388,11 @@
 				"answer": 0.375,
 				"tolerance": 0.02,
 				"explanation": "ENBW = 1.5 × 0.25 Hz = 0.375 Hz. Windows with low side lobes always pay with a wider effective bandwidth.",
-				"unit": "Hz"
+				"unit": "Hz",
+				"equations": [
+					"\\mathrm{ENBW}=N\\sum w^2\\big/\\big(\\sum w\\big)^2\\ \\text{bins}",
+					"\\mathrm{ENBW_{Hz}}=\\mathrm{ENBW_{bins}}\\times\\Delta f"
+				]
 			},
 			{
 				"kind": "mc",
@@ -378,7 +431,10 @@
 				"prompt": "In a deconvolution the instrument response has |H| = 0.02 at some frequency. By what factor is noise at that frequency amplified by simple division Y/H?",
 				"answer": 50,
 				"tolerance": 0.02,
-				"explanation": "Dividing by 0.02 multiplies the noise component by 1/0.02 = 50. Wherever |H| is tiny, noise dominates the naive result."
+				"explanation": "Dividing by 0.02 multiplies the noise component by 1/0.02 = 50. Wherever |H| is tiny, noise dominates the naive result.",
+				"equations": [
+					"\\hat X=Y/H"
+				]
 			},
 			{
 				"kind": "mc",
@@ -418,7 +474,10 @@
 				"answer": 100,
 				"tolerance": 0.02,
 				"explanation": "The first null is at f_s/M = 1000/10 = 100 Hz. Frequencies at multiples of this are removed completely.",
-				"unit": "Hz"
+				"unit": "Hz",
+				"equations": [
+					"|H(f)|=\\left|\\frac{\\sin(\\pi f M/f_s)}{M\\sin(\\pi f/f_s)}\\right|"
+				]
 			},
 			{
 				"kind": "mc",
@@ -445,7 +504,11 @@
 				"prompt": "Five data points are 2, 3, 7, 3, 2. Apply the 5-point quadratic Savitzky–Golay coefficients (-3, 12, 17, 12, -3)/35 to find the smoothed value at the centre.",
 				"answer": 5.114,
 				"tolerance": 0.02,
-				"explanation": "(-3·2 + 12·3 + 17·7 + 12·3 - 3·2)/35 = 179/35 = 5.114. A 5-point moving average would give 3.4, so the peak is flattened much more."
+				"explanation": "(-3·2 + 12·3 + 17·7 + 12·3 - 3·2)/35 = 179/35 = 5.114. A 5-point moving average would give 3.4, so the peak is flattened much more.",
+				"equations": [
+					"y[n]=\\sum_{j=-m}^{m}c_j\\,x[n+j]",
+					"c=\\tfrac1{35}(-3,\\,12,\\,17,\\,12,\\,-3)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -484,7 +547,10 @@
 				"prompt": "A recursive low-pass emulates an RC filter with τ = 0.2 s. It is run at 100 Hz (T_s = 0.01 s). What is α = 1 - exp(-T_s/τ)?",
 				"answer": 0.04877,
 				"tolerance": 0.02,
-				"explanation": "α = 1 - e^{-0.05} = 0.0488: each new sample contributes about 5 percent and the rest comes from the previous output, i.e. a long memory (20 samples)."
+				"explanation": "α = 1 - e^{-0.05} = 0.0488: each new sample contributes about 5 percent and the rest comes from the previous output, i.e. a long memory (20 samples).",
+				"equations": [
+					"\\alpha=1-e^{-T_s/\\tau}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -535,7 +601,10 @@
 				"prompt": "For H(z) = 1/(1 - 0.8 z^-1), what is the gain at DC (z = 1)?",
 				"answer": 5,
 				"tolerance": 0.02,
-				"explanation": "H(1) = 1/(1 - 0.8) = 5. A pole near the unit circle at the DC point produces a strong low-frequency boost."
+				"explanation": "H(1) = 1/(1 - 0.8) = 5. A pole near the unit circle at the DC point produces a strong low-frequency boost.",
+				"equations": [
+					"H(z)=\\frac{1}{1-a\\,z^{-1}}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -543,7 +612,10 @@
 				"answer": 0.3142,
 				"tolerance": 0.02,
 				"explanation": "ω0 = 2π f/f_s = 2π·50/1000 = 0.3142 rad. Zeros at e^{±iω0} make H vanish exactly at 50 Hz.",
-				"unit": "rad"
+				"unit": "rad",
+				"equations": [
+					"H(e^{i\\omega}),\\ \\omega=2\\pi f/f_s"
+				]
 			},
 			{
 				"kind": "short",
@@ -558,7 +630,11 @@
 				"prompt": "An ICP-MS isotope is counted over a long enough time to collect N ions, and counting (shot) noise dominates. How many ions are needed for a relative standard deviation of 1 percent?",
 				"answer": 10000,
 				"tolerance": 0.02,
-				"explanation": "RSD = σ/μ = √N/N = 1/√N. For 1 percent, N = (1/0.01)² = 10 000 counts."
+				"explanation": "RSD = σ/μ = √N/N = 1/√N. For 1 percent, N = (1/0.01)² = 10 000 counts.",
+				"equations": [
+					"\\sigma_{shot}=\\sqrt{N}",
+					"\\mathrm{RSD}=\\sigma/\\mu"
+				]
 			},
 			{
 				"kind": "mc",
@@ -588,7 +664,10 @@
 				"kind": "short",
 				"prompt": "Explain the origin of shot noise in counting experiments and why SNR grows only as √N, giving one consequence for measuring a trace element by ICP-MS.",
 				"rubric": "Full credit: (1) discrete random arrivals follow Poisson statistics; (2) σ = √N so SNR = N/√N = √N; (3) consequence: low counts mean poor precision, need longer integration or more signal.",
-				"modelAnswer": "Ions arrive at random, so the number counted in a fixed time is Poisson distributed with standard deviation √N. The SNR is therefore N/√N = √N. For a trace element producing few counts, precision is poor unless you integrate longer or increase sensitivity, and quadrupling the counting time only doubles the SNR."
+				"modelAnswer": "Ions arrive at random, so the number counted in a fixed time is Poisson distributed with standard deviation √N. The SNR is therefore N/√N = √N. For a trace element producing few counts, precision is poor unless you integrate longer or increase sensitivity, and quadrupling the counting time only doubles the SNR.",
+				"equations": [
+					"\\mathrm{SNR}=\\mu/\\sigma"
+				]
 			}
 		],
 		"e1-l016-signal-averaging": [
@@ -597,7 +676,10 @@
 				"prompt": "A single NMR scan has SNR = 4. How many scans must be coherently averaged to reach SNR = 20?",
 				"answer": 25,
 				"tolerance": 0.02,
-				"explanation": "SNR grows as √N, so N = (20/4)² = 25 scans. Ten times the SNR would need 100 times the scans."
+				"explanation": "SNR grows as √N, so N = (20/4)² = 25 scans. Ten times the SNR would need 100 times the scans.",
+				"equations": [
+					"N=(\\mathrm{SNR}_{target}/\\mathrm{SNR}_1)^2"
+				]
 			},
 			{
 				"kind": "mc",
@@ -621,7 +703,10 @@
 					"The detector has a limited dynamic range, which is exhausted at 100 accumulated scans"
 				],
 				"answer": 0,
-				"explanation": "√N applies to independent noise. Drifts, interference and instability are correlated across scans and set a floor."
+				"explanation": "√N applies to independent noise. Drifts, interference and instability are correlated across scans and set a floor.",
+				"equations": [
+					"\\mathrm{SNR}_N=\\sqrt{N}\\,\\mathrm{SNR}_1"
+				]
 			},
 			{
 				"kind": "short",
@@ -648,7 +733,11 @@
 				"prompt": "A measurement bandwidth of 10 kHz is reduced to the lock-in ENBW = 1/(4τ) with τ = 1 s. By what factor does the RMS white noise fall? (Take noise ∝ √bandwidth.)",
 				"answer": 200,
 				"tolerance": 0.02,
-				"explanation": "ENBW = 1/(4·1 s) = 0.25 Hz, and the noise falls by √(10 000/0.25) = 200."
+				"explanation": "ENBW = 1/(4·1 s) = 0.25 Hz, and the noise falls by √(10 000/0.25) = 200.",
+				"equations": [
+					"\\Delta f_{ENBW}=\\frac{1}{4\\tau}\\ \\text{(single pole)}",
+					"\\sigma_{\\text{noise}}\\propto\\sqrt{\\Delta f}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -688,7 +777,11 @@
 				"answer": 3.273,
 				"tolerance": 0.02,
 				"explanation": "Natural FWHM = 1/(π·0.25) = 1.273 Hz. Exponential multiplication adds a Lorentzian of 2.0 Hz, and Lorentzian widths add: 3.273 Hz.",
-				"unit": "Hz"
+				"unit": "Hz",
+				"equations": [
+					"\\Delta\\nu_{1/2}=\\frac{1}{\\pi T_2^*}",
+					"\\Gamma_{tot}=\\Gamma_1+\\Gamma_2\\ \\text{(Lorentzians)}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -716,7 +809,10 @@
 				"answer": 0.25,
 				"tolerance": 0.02,
 				"explanation": "δ_max = 1/Δν̃ = 1/4 cm^-1 = 0.25 cm. Better resolution means a longer mirror travel.",
-				"unit": "cm"
+				"unit": "cm",
+				"equations": [
+					"\\Delta\\tilde\\nu\\approx 1/\\delta_{max}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -724,7 +820,10 @@
 				"answer": 7901,
 				"tolerance": 0.02,
 				"explanation": "Step Δδ = 632.8 nm = 6.328×10^-5 cm, so ν̃_N = 1/(2Δδ) = 7901 cm^-1, enough to cover the mid-IR without aliasing.",
-				"unit": "cm^-1"
+				"unit": "cm^-1",
+				"equations": [
+					"\\tilde\\nu_{N}=\\frac{1}{2\\Delta\\delta}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -752,7 +851,10 @@
 				"answer": 0.0075,
 				"tolerance": 0.02,
 				"explanation": "LOD = 3 × 2.5 / 1000 = 0.0075 µg/L (7.5 ng/L). The same 3σ rule underlies S/N ≥ 3 for picking peaks.",
-				"unit": "µg/L"
+				"unit": "µg/L",
+				"equations": [
+					"\\mathrm{LOD}=3\\sigma_{blank}/S"
+				]
 			},
 			{
 				"kind": "mc",

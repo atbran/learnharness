@@ -165,10 +165,12 @@ export type LessonStatus = "locked" | "available" | "in-progress" | "mastered" |
 
 /** A quick-check question. mc/numeric grade deterministically; short
  *  answers are judged against the rubric by the cheap model. */
+/** `equations`: the LaTeX the question needs, shown under its prompt
+ *  (never one that is itself the answer). */
 export type CheckQuestion =
-	| { kind: "mc"; prompt: string; options: string[]; answer: number; explanation: string }
-	| { kind: "numeric"; prompt: string; answer: number; tolerance: number; unit?: string; explanation: string }
-	| { kind: "short"; prompt: string; rubric: string; modelAnswer: string };
+	| { kind: "mc"; prompt: string; options: string[]; answer: number; explanation: string; equations?: string[] }
+	| { kind: "numeric"; prompt: string; answer: number; tolerance: number; unit?: string; explanation: string; equations?: string[] }
+	| { kind: "short"; prompt: string; rubric: string; modelAnswer: string; equations?: string[] };
 
 export interface QuickCheck {
 	lessonId: string;
@@ -191,6 +193,8 @@ export interface AssessmentProblem {
 	lessonIds: string[];
 	/** Markdown with $…$ / $$…$$ math. */
 	prompt: string;
+	/** LaTeX of the equations the problem needs, shown with it. */
+	equations?: string[];
 	points: number;
 	/** Point-bearing criteria, e.g. "2 pts: sets up Gauss's law with a spherical surface". */
 	rubric: string[];
@@ -246,6 +250,8 @@ export interface Assessment {
 
 // ─── Authored quick checks (curriculum/physics/checks/<courseId>.json) ──────
 
+const equations = z.array(z.string().min(1)).max(4).optional();
+
 export const checkQuestionSchema = z.discriminatedUnion("kind", [
 	z.object({
 		kind: z.literal("mc"),
@@ -253,6 +259,7 @@ export const checkQuestionSchema = z.discriminatedUnion("kind", [
 		options: z.array(z.string().min(1)).min(3).max(5),
 		answer: z.number().int().min(0),
 		explanation: z.string().min(1),
+		equations,
 	}),
 	z.object({
 		kind: z.literal("numeric"),
@@ -261,8 +268,9 @@ export const checkQuestionSchema = z.discriminatedUnion("kind", [
 		tolerance: z.number().min(0.001).max(0.2),
 		unit: z.string().optional(),
 		explanation: z.string().min(1),
+		equations,
 	}),
-	z.object({ kind: z.literal("short"), prompt: z.string().min(1), rubric: z.string().min(1), modelAnswer: z.string().min(1) }),
+	z.object({ kind: z.literal("short"), prompt: z.string().min(1), rubric: z.string().min(1), modelAnswer: z.string().min(1), equations }),
 ]);
 
 /** One course's authored quick checks: lessonId → its questions. Shipped

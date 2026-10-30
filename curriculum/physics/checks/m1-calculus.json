@@ -7,7 +7,10 @@
 				"prompt": "Estimate $\\displaystyle\\lim_{x\\to0}\\frac{\\sin 3x}{x}$ (with $x$ in radians) by evaluating the expression at small values such as $x=0.01$ and $x=0.001$. Give the number the values approach.",
 				"answer": 3.0,
 				"tolerance": 0.02,
-				"explanation": "At $x=0.01$: $\\sin(0.03)/0.01\\approx2.9996$; at $x=0.001$ it is $\\approx3.0000$. In fact $\\sin(3x)\\approx3x$ for small $x$, so the limit is $3$."
+				"explanation": "At $x=0.01$: $\\sin(0.03)/0.01\\approx2.9996$; at $x=0.001$ it is $\\approx3.0000$. In fact $\\sin(3x)\\approx3x$ for small $x$, so the limit is $3$.",
+				"equations": [
+					"\\lim_{x\\to a}f(x)=L"
+				]
 			},
 			{
 				"kind": "mc",
@@ -71,14 +74,20 @@
 					"$1$"
 				],
 				"answer": 1,
-				"explanation": "Write $\\frac{\\sin5x}{2x}=\\frac52\\cdot\\frac{\\sin5x}{5x}$. With $u=5x\\to0$, $\\frac{\\sin u}{u}\\to1$, so the limit is $\\frac52$. The basic limit needs the argument of the sine to match the denominator."
+				"explanation": "Write $\\frac{\\sin5x}{2x}=\\frac52\\cdot\\frac{\\sin5x}{5x}$. With $u=5x\\to0$, $\\frac{\\sin u}{u}\\to1$, so the limit is $\\frac52$. The basic limit needs the argument of the sine to match the denominator.",
+				"equations": [
+					"\\lim_{x\\to0}\\frac{\\sin x}{x}=1"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Evaluate $\\displaystyle\\lim_{x\\to0}\\frac{\\sin4x}{\\sin2x}$.",
 				"answer": 2.0,
 				"tolerance": 0.02,
-				"explanation": "Divide top and bottom by $x$: $\\frac{\\sin4x}{x}\\to4$ and $\\frac{\\sin2x}{x}\\to2$ (from $\\frac{\\sin u}{u}\\to1$), so the quotient tends to $4/2=2$ by the quotient limit law (the denominator limit is nonzero)."
+				"explanation": "Divide top and bottom by $x$: $\\frac{\\sin4x}{x}\\to4$ and $\\frac{\\sin2x}{x}\\to2$ (from $\\frac{\\sin u}{u}\\to1$), so the quotient tends to $4/2=2$ by the quotient limit law (the denominator limit is nonzero).",
+				"equations": [
+					"\\lim_{x\\to0}\\frac{\\sin x}{x}=1"
+				]
 			},
 			{
 				"kind": "short",
@@ -157,7 +166,10 @@
 				"prompt": "Let $f(x)=3x-1$, so $\\lim_{x\\to2}f(x)=5$. For $\\varepsilon=0.06$, what is the LARGEST $\\delta$ that guarantees $|f(x)-5|<\\varepsilon$ whenever $0<|x-2|<\\delta$?",
 				"answer": 0.02,
 				"tolerance": 0.02,
-				"explanation": "$|f(x)-5|=|3x-6|=3|x-2|<0.06$ exactly when $|x-2|<0.02$. So $\\delta=\\varepsilon/3=0.02$; any smaller $\\delta$ also works."
+				"explanation": "$|f(x)-5|=|3x-6|=3|x-2|<0.06$ exactly when $|x-2|<0.02$. So $\\delta=\\varepsilon/3=0.02$; any smaller $\\delta$ also works.",
+				"equations": [
+					"\\forall\\varepsilon>0\\ \\exists\\delta>0:\\ 0<|x-a|<\\delta\\Rightarrow|f(x)-L|<\\varepsilon"
+				]
 			},
 			{
 				"kind": "mc",
@@ -175,7 +187,10 @@
 				"kind": "short",
 				"prompt": "Write a short $\\varepsilon$-$\\delta$ proof that $\\lim_{x\\to1}(2x+3)=5$, explaining where the choice of $\\delta$ comes from.",
 				"rubric": "Full credit: scratch work |(2x+3)-5| = 2|x-1| < eps iff |x-1| < eps/2, so choose delta = eps/2; proof: given eps>0 let delta=eps/2; if 0<|x-1|<delta then |f(x)-5| = 2|x-1| < 2 delta = eps. Must state the choice of delta in terms of eps and verify the implication.",
-				"modelAnswer": "Scratch work: $|(2x+3)-5|=2|x-1|$, which is less than $\\varepsilon$ when $|x-1|<\\varepsilon/2$. Proof: let $\\varepsilon>0$ and choose $\\delta=\\varepsilon/2$. If $0<|x-1|<\\delta$ then $|(2x+3)-5|=2|x-1|<2\\delta=\\varepsilon$. Hence the limit is $5$. The key is that $\\delta$ is found by working backwards from the target inequality, then the proof runs forwards."
+				"modelAnswer": "Scratch work: $|(2x+3)-5|=2|x-1|$, which is less than $\\varepsilon$ when $|x-1|<\\varepsilon/2$. Proof: let $\\varepsilon>0$ and choose $\\delta=\\varepsilon/2$. If $0<|x-1|<\\delta$ then $|(2x+3)-5|=2|x-1|<2\\delta=\\varepsilon$. Hence the limit is $5$. The key is that $\\delta$ is found by working backwards from the target inequality, then the proof runs forwards.",
+				"equations": [
+					"\\forall\\varepsilon>0\\ \\exists\\delta>0:\\ 0<|x-a|<\\delta\\Rightarrow|f(x)-L|<\\varepsilon"
+				]
 			}
 		],
 		"m1-l007-derivative-definition-tangent": [
@@ -196,7 +211,11 @@
 				"prompt": "Find the equation of the tangent line to $y=\\sqrt x$ at $x=4$, then use it to estimate $\\sqrt{4.2}$. Give the estimate.",
 				"answer": 2.05,
 				"tolerance": 0.02,
-				"explanation": "$f'(x)=\\frac{1}{2\\sqrt x}$, so $f'(4)=\\frac14$ and the tangent is $y=2+\\tfrac14(x-4)$. At $x=4.2$: $y=2.05$ (exact $\\sqrt{4.2}=2.0494$)."
+				"explanation": "$f'(x)=\\frac{1}{2\\sqrt x}$, so $f'(4)=\\frac14$ and the tangent is $y=2+\\tfrac14(x-4)$. At $x=4.2$: $y=2.05$ (exact $\\sqrt{4.2}=2.0494$).",
+				"equations": [
+					"y-f(a)=f'(a)(x-a)",
+					"\\frac{d}{dx}\\sqrt x=\\frac{1}{2\\sqrt x}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -260,7 +279,12 @@
 					"$x^2e^x$"
 				],
 				"answer": 0,
-				"explanation": "Product rule: $(x^2)'e^x+x^2(e^x)'=2xe^x+x^2e^x$. Multiplying the derivatives, $(fg)'=f'g'$, would give $2xe^x$, which is the classic wrong answer."
+				"explanation": "Product rule: $(x^2)'e^x+x^2(e^x)'=2xe^x+x^2e^x$. Multiplying the derivatives, $(fg)'=f'g'$, would give $2xe^x$, which is the classic wrong answer.",
+				"equations": [
+					"(fg)'=f'g+fg'",
+					"\\frac{d}{dx}x^n=nx^{n-1}",
+					"\\frac{d}{dx}e^x=e^x"
+				]
 			},
 			{
 				"kind": "mc",
@@ -272,7 +296,11 @@
 					"$\\dfrac{2x(x-1)+(x^2+1)}{(x-1)^2}$"
 				],
 				"answer": 2,
-				"explanation": "Quotient rule: $\\frac{f'g-fg'}{g^2}=\\frac{2x(x-1)-(x^2+1)}{(x-1)^2}=\\frac{x^2-2x-1}{(x-1)^2}$. The numerator is 'low d-high minus high d-low', and the order and sign matter."
+				"explanation": "Quotient rule: $\\frac{f'g-fg'}{g^2}=\\frac{2x(x-1)-(x^2+1)}{(x-1)^2}=\\frac{x^2-2x-1}{(x-1)^2}$. The numerator is 'low d-high minus high d-low', and the order and sign matter.",
+				"equations": [
+					"\\left(\\frac fg\\right)'=\\frac{f'g-fg'}{g^2}",
+					"\\frac{d}{dx}x^n=nx^{n-1}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -284,7 +312,10 @@
 					"$\\sqrt{x}\\,-\\,2x$"
 				],
 				"answer": 1,
-				"explanation": "Rewrite as $x^{1/2}+x^{-2}$ and apply the power rule: $\\tfrac12x^{-1/2}-2x^{-3}$. The power rule works for any exponent once the expression is written as a power."
+				"explanation": "Rewrite as $x^{1/2}+x^{-2}$ and apply the power rule: $\\tfrac12x^{-1/2}-2x^{-3}$. The power rule works for any exponent once the expression is written as a power.",
+				"equations": [
+					"\\frac{d}{dx}x^n=nx^{n-1}"
+				]
 			},
 			{
 				"kind": "short",
@@ -300,7 +331,11 @@
 				"answer": 12.0,
 				"tolerance": 0.02,
 				"unit": "m/s^2",
-				"explanation": "$v=x'=3t^2-12t$ and $a=v'=6t-12$, so $a(4)=12$ m/s$^2$. The second derivative is the rate of change of the rate of change."
+				"explanation": "$v=x'=3t^2-12t$ and $a=v'=6t-12$, so $a(4)=12$ m/s$^2$. The second derivative is the rate of change of the rate of change.",
+				"equations": [
+					"f''(x)=\\frac{d}{dx}f'(x)=\\frac{d^2f}{dx^2}",
+					"v=\\frac{dx}{dt},\\quad a=\\frac{dv}{dt}"
+				]
 			},
 			{
 				"kind": "short",
@@ -318,7 +353,10 @@
 					"Backward and slowing down, since $a<0$ here"
 				],
 				"answer": 2,
-				"explanation": "$v=3t^2-12t=-9$ m/s and $a=6t-12=-6$ m/s$^2$ at $t=1$. When velocity and acceleration have the same sign the speed increases; here both are negative, so the particle moves backward and speeds up."
+				"explanation": "$v=3t^2-12t=-9$ m/s and $a=6t-12=-6$ m/s$^2$ at $t=1$. When velocity and acceleration have the same sign the speed increases; here both are negative, so the particle moves backward and speeds up.",
+				"equations": [
+					"v=\\frac{dx}{dt},\\quad a=\\frac{dv}{dt}"
+				]
 			}
 		],
 		"m1-l011-trig-derivatives-from-limits": [
@@ -332,7 +370,12 @@
 					"$\\dfrac{d}{dx}\\tan x=\\sec^2x,\\quad \\dfrac{d}{dx}\\sec x=-\\sec x\\tan x$"
 				],
 				"answer": 1,
-				"explanation": "$\\left(\\frac{\\sin}{\\cos}\\right)'=\\frac{\\cos^2+\\sin^2}{\\cos^2}=\\sec^2$ and $(\\cos^{-1})'=\\sin/\\cos^2=\\sec\\tan$. Signs go negative only for the 'co' functions $\\cot$ and $\\csc$."
+				"explanation": "$\\left(\\frac{\\sin}{\\cos}\\right)'=\\frac{\\cos^2+\\sin^2}{\\cos^2}=\\sec^2$ and $(\\cos^{-1})'=\\sin/\\cos^2=\\sec\\tan$. Signs go negative only for the 'co' functions $\\cot$ and $\\csc$.",
+				"equations": [
+					"\\left(\\frac fg\\right)'=\\frac{f'g-fg'}{g^2}",
+					"\\frac{d}{dx}\\sin x=\\cos x",
+					"\\frac{d}{dx}\\cos x=-\\sin x"
+				]
 			},
 			{
 				"kind": "mc",
@@ -364,7 +407,11 @@
 					"$2x\\cos(x^2)$"
 				],
 				"answer": 3,
-				"explanation": "Chain rule: derivative of the outer function evaluated at the inner function, times the derivative of the inner function: $\\cos(x^2)\\cdot2x$. Dropping the inner derivative is the most common slip."
+				"explanation": "Chain rule: derivative of the outer function evaluated at the inner function, times the derivative of the inner function: $\\cos(x^2)\\cdot2x$. Dropping the inner derivative is the most common slip.",
+				"equations": [
+					"\\frac{d}{dx}f(g(x))=f'(g(x))\\,g'(x)",
+					"\\frac{d}{dx}\\sin x=\\cos x"
+				]
 			},
 			{
 				"kind": "mc",
@@ -376,7 +423,11 @@
 					"$21(3x+1)^6$"
 				],
 				"answer": 3,
-				"explanation": "Outer: $7u^6$; inner derivative: $3$. Product: $21(3x+1)^6$. The exponent drops by one, and the inner factor $3$ must be included."
+				"explanation": "Outer: $7u^6$; inner derivative: $3$. Product: $21(3x+1)^6$. The exponent drops by one, and the inner factor $3$ must be included.",
+				"equations": [
+					"\\frac{d}{dx}f(g(x))=f'(g(x))\\,g'(x)",
+					"\\frac{d}{dx}x^n=nx^{n-1}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -384,7 +435,10 @@
 				"answer": 20.0,
 				"tolerance": 0.02,
 				"unit": "m/s^2",
-				"explanation": "$x'=-0.050(20)\\sin(20t+0.3)$ and $x''=-0.050(20)^2\\cos(20t+0.3)=-\\omega^2x$. The maximum magnitude is $A\\omega^2=0.050\\times400=20$ m/s$^2$."
+				"explanation": "$x'=-0.050(20)\\sin(20t+0.3)$ and $x''=-0.050(20)^2\\cos(20t+0.3)=-\\omega^2x$. The maximum magnitude is $A\\omega^2=0.050\\times400=20$ m/s$^2$.",
+				"equations": [
+					"x(t)=A\\cos(\\omega t+\\phi)\\ \\Rightarrow\\ \\ddot x=-\\omega^2x"
+				]
 			},
 			{
 				"kind": "short",
@@ -404,7 +458,10 @@
 					"$\\dfrac43$"
 				],
 				"answer": 2,
-				"explanation": "Differentiate both sides: $2x+2y\\,y'=0\\Rightarrow y'=-x/y=-3/4$. The tangent at $(3,4)$ is perpendicular to the radius, whose slope is $4/3$."
+				"explanation": "Differentiate both sides: $2x+2y\\,y'=0\\Rightarrow y'=-x/y=-3/4$. The tangent at $(3,4)$ is perpendicular to the radius, whose slope is $4/3$.",
+				"equations": [
+					"\\frac{d}{dx}f(y)=f'(y)\\,\\frac{dy}{dx}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -416,14 +473,20 @@
 					"$e^x$"
 				],
 				"answer": 0,
-				"explanation": "With $f^{-1}(x)=\\ln x$ and $f'=e^{(\\cdot)}$: $(\\ln)'(x)=\\frac1{e^{\\ln x}}=\\frac1x$. The slope of the inverse at a point is the reciprocal of the slope of the original at the matching point."
+				"explanation": "With $f^{-1}(x)=\\ln x$ and $f'=e^{(\\cdot)}$: $(\\ln)'(x)=\\frac1{e^{\\ln x}}=\\frac1x$. The slope of the inverse at a point is the reciprocal of the slope of the original at the matching point.",
+				"equations": [
+					"(f^{-1})'(b)=\\frac1{f'(f^{-1}(b))}"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Let $f(x)=x^3+x$. Using the inverse-function derivative formula, compute $(f^{-1})'(2)$.",
 				"answer": 0.25,
 				"tolerance": 0.02,
-				"explanation": "First find $f^{-1}(2)$: $f(1)=1+1=2$, so $a=1$. Then $f'(x)=3x^2+1$ gives $f'(1)=4$ and $(f^{-1})'(2)=1/4$."
+				"explanation": "First find $f^{-1}(2)$: $f(1)=1+1=2$, so $a=1$. Then $f'(x)=3x^2+1$ gives $f'(1)=4$ and $(f^{-1})'(2)=1/4$.",
+				"equations": [
+					"(f^{-1})'(b)=\\frac1{f'(f^{-1}(b))}"
+				]
 			},
 			{
 				"kind": "short",
@@ -443,7 +506,11 @@
 					"$x^{x}\\,x$"
 				],
 				"answer": 2,
-				"explanation": "Take logs first: $\\ln y=x\\ln x\\Rightarrow y'/y=\\ln x+1$. The power rule ($nx^{n-1}$) fails because the exponent isn't constant; the exponential rule ($b^x\\ln b$) fails because the base isn't constant."
+				"explanation": "Take logs first: $\\ln y=x\\ln x\\Rightarrow y'/y=\\ln x+1$. The power rule ($nx^{n-1}$) fails because the exponent isn't constant; the exponential rule ($b^x\\ln b$) fails because the base isn't constant.",
+				"equations": [
+					"(fg)'=f'g+fg'",
+					"\\frac{d}{dx}\\ln x=\\frac1x"
+				]
 			},
 			{
 				"kind": "short",
@@ -475,7 +542,10 @@
 					"Moving in the negative direction and speeding up"
 				],
 				"answer": 0,
-				"explanation": "Speeding up means velocity and acceleration have the same sign; slowing down means opposite signs. Here $v>0$ and $a<0$, so it is moving forward but decelerating. Negative acceleration doesn't automatically mean slowing down."
+				"explanation": "Speeding up means velocity and acceleration have the same sign; slowing down means opposite signs. Here $v>0$ and $a<0$, so it is moving forward but decelerating. Negative acceleration doesn't automatically mean slowing down.",
+				"equations": [
+					"v=\\frac{dx}{dt},\\quad a=\\frac{dv}{dt}=\\frac{d^2x}{dt^2}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -503,7 +573,10 @@
 				"answer": 0.375,
 				"tolerance": 0.02,
 				"unit": "m/s",
-				"explanation": "$x^2+y^2=25\\Rightarrow x\\dot x+y\\dot y=0\\Rightarrow\\dot y=-\\frac{x}{y}\\dot x=-\\frac34(0.50)=-0.375$ m/s. The top moves down at about $0.375$ m/s."
+				"explanation": "$x^2+y^2=25\\Rightarrow x\\dot x+y\\dot y=0\\Rightarrow\\dot y=-\\frac{x}{y}\\dot x=-\\frac34(0.50)=-0.375$ m/s. The top moves down at about $0.375$ m/s.",
+				"equations": [
+					"x^2+y^2=L^2"
+				]
 			},
 			{
 				"kind": "mc",
@@ -515,7 +588,10 @@
 					"It is four times smaller"
 				],
 				"answer": 3,
-				"explanation": "$\\frac{dV}{dt}=4\\pi r^2\\frac{dr}{dt}$, so $\\frac{dr}{dt}=\\frac{dV/dt}{4\\pi r^2}$. Doubling $r$ quadruples $r^2$, so $dr/dt$ falls to a quarter: a larger surface needs more added volume for the same increase in radius."
+				"explanation": "$\\frac{dV}{dt}=4\\pi r^2\\frac{dr}{dt}$, so $\\frac{dr}{dt}=\\frac{dV/dt}{4\\pi r^2}$. Doubling $r$ quadruples $r^2$, so $dr/dt$ falls to a quarter: a larger surface needs more added volume for the same increase in radius.",
+				"equations": [
+					"\\frac{d}{dt}\\left(\\tfrac43\\pi r^3\\right)=4\\pi r^2\\frac{dr}{dt}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -523,7 +599,10 @@
 				"answer": 2.045,
 				"tolerance": 0.02,
 				"unit": "10^-4 mol/s",
-				"explanation": "$\\frac{dn}{dt}=\\frac{P}{RT}\\frac{dV}{dt}=\\frac{1.00}{(0.082057)(298)}(0.0050\\text{ L/s})\\approx2.05\\times10^{-4}$ mol/s."
+				"explanation": "$\\frac{dn}{dt}=\\frac{P}{RT}\\frac{dV}{dt}=\\frac{1.00}{(0.082057)(298)}(0.0050\\text{ L/s})\\approx2.05\\times10^{-4}$ mol/s.",
+				"equations": [
+					"n=\\frac{PV}{RT}"
+				]
 			},
 			{
 				"kind": "short",
@@ -538,7 +617,10 @@
 				"prompt": "Use the linearisation of $f(x)=\\sqrt x$ at $a=4$ to estimate $\\sqrt{4.1}$.",
 				"answer": 2.025,
 				"tolerance": 0.02,
-				"explanation": "$L(x)=2+\\tfrac14(x-4)$, so $L(4.1)=2.025$. The exact value is $2.02485$; the linear estimate is excellent because $0.1$ is small."
+				"explanation": "$L(x)=2+\\tfrac14(x-4)$, so $L(4.1)=2.025$. The exact value is $2.02485$; the linear estimate is excellent because $0.1$ is small.",
+				"equations": [
+					"L(x)=f(a)+f'(a)(x-a)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -558,7 +640,11 @@
 				"answer": 15.71,
 				"tolerance": 0.02,
 				"unit": "cm^3",
-				"explanation": "$dV=4\\pi(5.00)^2(0.05)\\approx15.7$ cm$^3$. Since $V\\approx524$ cm$^3$, that is $3\\%$, three times the $1\\%$ relative error in $r$ ($\\Delta V/V\\approx3\\Delta r/r$)."
+				"explanation": "$dV=4\\pi(5.00)^2(0.05)\\approx15.7$ cm$^3$. Since $V\\approx524$ cm$^3$, that is $3\\%$, three times the $1\\%$ relative error in $r$ ($\\Delta V/V\\approx3\\Delta r/r$).",
+				"equations": [
+					"dy=f'(x)\\,dx",
+					"V=\\tfrac43\\pi r^3"
+				]
 			},
 			{
 				"kind": "short",
@@ -578,14 +664,20 @@
 					"$1+px+\\dfrac{p(p-1)}{2}x^2$"
 				],
 				"answer": 3,
-				"explanation": "With $f(x)=(1+x)^p$: $f(0)=1$, $f'(0)=p$, $f''(0)=p(p-1)$, so $f\\approx1+px+\\tfrac12p(p-1)x^2$. For $p=\\tfrac12$ the quadratic term is $-x^2/8$."
+				"explanation": "With $f(x)=(1+x)^p$: $f(0)=1$, $f'(0)=p$, $f''(0)=p(p-1)$, so $f\\approx1+px+\\tfrac12p(p-1)x^2$. For $p=\\tfrac12$ the quadratic term is $-x^2/8$.",
+				"equations": [
+					"f(a+h)\\approx f(a)+f'(a)h+\\tfrac12f''(a)h^2"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Use the second-order approximation $e^x\\approx1+x+\\tfrac12x^2$ to estimate $e^{0.3}$.",
 				"answer": 1.345,
 				"tolerance": 0.01,
-				"explanation": "$1+0.3+0.045=1.345$, close to the exact $e^{0.3}=1.34986$. The linear estimate $1.3$ is off by $0.05$; the quadratic term removes most of that error."
+				"explanation": "$1+0.3+0.045=1.345$, close to the exact $e^{0.3}=1.34986$. The linear estimate $1.3$ is off by $0.05$; the quadratic term removes most of that error.",
+				"equations": [
+					"e^x\\approx1+x+\\tfrac12x^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -613,7 +705,10 @@
 				"answer": 1.122,
 				"tolerance": 0.02,
 				"unit": "sigma",
-				"explanation": "$V'=0\\Rightarrow-12\\sigma^{12}r^{-13}+6\\sigma^6r^{-7}=0\\Rightarrow r^6=2\\sigma^6$, so $r=2^{1/6}\\sigma\\approx1.122\\sigma$. At this point $V=-\\varepsilon$, the well depth."
+				"explanation": "$V'=0\\Rightarrow-12\\sigma^{12}r^{-13}+6\\sigma^6r^{-7}=0\\Rightarrow r^6=2\\sigma^6$, so $r=2^{1/6}\\sigma\\approx1.122\\sigma$. At this point $V=-\\varepsilon$, the well depth.",
+				"equations": [
+					"f'(c)=0,\\ f''(c)>0\\Rightarrow\\text{local minimum}"
+				]
 			},
 			{
 				"kind": "short",
@@ -633,7 +728,10 @@
 					"Local max at $x=-1$, local min at $x=1$, and no inflection point since $f''$ never vanishes"
 				],
 				"answer": 2,
-				"explanation": "$f'=3x^2-3=0$ at $x=\\pm1$. $f''=6x$ is negative at $-1$ (max) and positive at $1$ (min) and changes sign at $0$, so $x=0$ is an inflection point."
+				"explanation": "$f'=3x^2-3=0$ at $x=\\pm1$. $f''=6x$ is negative at $-1$ (max) and positive at $1$ (min) and changes sign at $0$, so $x=0$ is an inflection point.",
+				"equations": [
+					"U'(x_0)=0,\\ U''(x_0)>0\\ \\Rightarrow\\ \\text{stable equilibrium}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -665,7 +763,10 @@
 					"$\\infty$"
 				],
 				"answer": 1,
-				"explanation": "Divide numerator and denominator by the highest power, $x^2$: $\\frac{3+1/x}{2-5/x^2}\\to\\frac32$. Equal degrees give the ratio of leading coefficients, a horizontal asymptote $y=3/2$."
+				"explanation": "Divide numerator and denominator by the highest power, $x^2$: $\\frac{3+1/x}{2-5/x^2}\\to\\frac32$. Equal degrees give the ratio of leading coefficients, a horizontal asymptote $y=3/2$.",
+				"equations": [
+					"\\lim_{x\\to\\infty}\\frac{ax^n+\\dots}{bx^n+\\dots}=\\frac ab"
+				]
 			},
 			{
 				"kind": "mc",
@@ -693,20 +794,29 @@
 				"answer": 1250.0,
 				"tolerance": 0.02,
 				"unit": "m^2",
-				"explanation": "With width $w$ perpendicular to the river and length $100-2w$: $A=w(100-2w)$, $A'=100-4w=0\\Rightarrow w=25$, $A=25\\times50=1250$ m$^2$. $A''<0$ and the endpoints give $A=0$, so it is the maximum."
+				"explanation": "With width $w$ perpendicular to the river and length $100-2w$: $A=w(100-2w)$, $A'=100-4w=0\\Rightarrow w=25$, $A=25\\times50=1250$ m$^2$. $A''<0$ and the endpoints give $A=0$, so it is the maximum.",
+				"equations": [
+					"f'(x)=0"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "The Planck-type function $f(x)=x^3/(e^x-1)$ has a single maximum for $x>0$. Setting $f'(x)=0$ leads to $x=3(1-e^{-x})$. Solve this numerically and give the position of the maximum.",
 				"answer": 2.821,
 				"tolerance": 0.02,
-				"explanation": "Iterating $x\\leftarrow3(1-e^{-x})$ from $x=3$ converges to $x\\approx2.821$. This is the origin of Wien's displacement law ($h\\nu_{\\max}\\approx2.82\\,k_BT$)."
+				"explanation": "Iterating $x\\leftarrow3(1-e^{-x})$ from $x=3$ converges to $x\\approx2.821$. This is the origin of Wien's displacement law ($h\\nu_{\\max}\\approx2.82\\,k_BT$).",
+				"equations": [
+					"f'(x)=0"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "A Boltzmann-weighted population has the form $N(E)\\propto\\sqrt E\\,e^{-E/k_BT}$. Explain physically why this has a peak rather than just decreasing or increasing, and find where the peak is.",
 				"rubric": "Full credit: sqrt(E) (growing number of available states) competes with e^{-E/kT} (decreasing Boltzmann probability per state): at low E the density of states factor dominates and N rises, at high E the exponential dominates and N falls; setting derivative to zero: 1/(2E) - 1/(kT) = 0 -> E = kT/2.",
-				"modelAnswer": "Two factors compete: the number of available states grows with energy (the $\\sqrt E$), while the probability of each state falls exponentially with $e^{-E/k_BT}$. At low energy the growing factor wins, so $N$ rises; at high energy the exponential wins, so $N$ falls; hence a maximum. Setting $\\frac{d}{dE}\\ln N=\\frac1{2E}-\\frac1{k_BT}=0$ gives $E=k_BT/2$."
+				"modelAnswer": "Two factors compete: the number of available states grows with energy (the $\\sqrt E$), while the probability of each state falls exponentially with $e^{-E/k_BT}$. At low energy the growing factor wins, so $N$ rises; at high energy the exponential wins, so $N$ falls; hence a maximum. Setting $\\frac{d}{dE}\\ln N=\\frac1{2E}-\\frac1{k_BT}=0$ gives $E=k_BT/2$.",
+				"equations": [
+					"f'(x)=0"
+				]
 			}
 		],
 		"m1-l023-indeterminate-forms-lhopital": [
@@ -720,7 +830,10 @@
 					"$1$, since top and bottom both grow without bound"
 				],
 				"answer": 1,
-				"explanation": "This is $\\infty/\\infty$. Each application of L'Hopital lowers the power by one ($100x^{99}/e^x$, then $100\\cdot99x^{98}/e^x$, ...) until a constant is left over $e^x\\to\\infty$. Exponentials beat powers, which beat logarithms."
+				"explanation": "This is $\\infty/\\infty$. Each application of L'Hopital lowers the power by one ($100x^{99}/e^x$, then $100\\cdot99x^{98}/e^x$, ...) until a constant is left over $e^x\\to\\infty$. Exponentials beat powers, which beat logarithms.",
+				"equations": [
+					"\\lim\\frac{f}{g}=\\lim\\frac{f'}{g'}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -738,7 +851,10 @@
 				"kind": "short",
 				"prompt": "Explain why $\\lim_{x\\to0^+}x\\ln x$ is an indeterminate form, how to rewrite it so that L'Hopital's rule applies, and which hypothesis you must check before differentiating.",
 				"rubric": "Full credit requires: (1) it has the form $0\\cdot(-\\infty)$, which does not determine the limit; (2) rewrite as $\\frac{\\ln x}{1/x}$ to get $-\\infty/\\infty$; (3) check the quotient is $0/0$ or $\\infty/\\infty$ and that the limit of the derivative quotient exists; (4) $\\frac{1/x}{-1/x^2}=-x\\to0$.",
-				"modelAnswer": "As $x\\to0^+$, $x\\to0$ and $\\ln x\\to-\\infty$, so the product is the indeterminate form $0\\cdot\\infty$. Rewriting it as $\\ln x/(1/x)$ gives $-\\infty/\\infty$, which meets the hypothesis for L'Hopital (and the derivative quotient must have a limit). Then $\\frac{1/x}{-1/x^2}=-x\\to0$."
+				"modelAnswer": "As $x\\to0^+$, $x\\to0$ and $\\ln x\\to-\\infty$, so the product is the indeterminate form $0\\cdot\\infty$. Rewriting it as $\\ln x/(1/x)$ gives $-\\infty/\\infty$, which meets the hypothesis for L'Hopital (and the derivative quotient must have a limit). Then $\\frac{1/x}{-1/x^2}=-x\\to0$.",
+				"equations": [
+					"\\lim\\frac{f}{g}=\\lim\\frac{f'}{g'}"
+				]
 			}
 		],
 		"m1-l024-newtons-method": [
@@ -747,7 +863,10 @@
 				"prompt": "Wien's displacement law leads to $x=5(1-e^{-x})$. Apply ONE step of Newton's method to $g(x)=x-5(1-e^{-x})$ starting from $x_0=5$. Give $x_1$.",
 				"answer": 4.965,
 				"tolerance": 0.02,
-				"explanation": "$g(5)=5e^{-5}\\approx0.03369$ and $g'(x)=1-5e^{-x}$ gives $g'(5)\\approx0.96631$. So $x_1=5-0.03369/0.96631\\approx4.9651$. (The solution is $4.9651$: Newton converged almost immediately.)"
+				"explanation": "$g(5)=5e^{-5}\\approx0.03369$ and $g'(x)=1-5e^{-x}$ gives $g'(5)\\approx0.96631$. So $x_1=5-0.03369/0.96631\\approx4.9651$. (The solution is $4.9651$: Newton converged almost immediately.)",
+				"equations": [
+					"x_{n+1}=x_n-\\frac{f(x_n)}{f'(x_n)}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -765,7 +884,10 @@
 				"kind": "short",
 				"prompt": "Derive Newton's method from the tangent line to $f$ at $x_n$, and explain why it converges extremely quickly near a simple root.",
 				"rubric": "Full credit: tangent line y = f(x_n) + f'(x_n)(x - x_n); set y=0 and solve: x_{n+1} = x_n - f(x_n)/f'(x_n), i.e. replace f by its tangent line and take the tangent's root; near a simple root the tangent approximates f very well (error second order), so the error is roughly squared at each step (digits of accuracy roughly double).",
-				"modelAnswer": "The tangent line at $x_n$ is $y=f(x_n)+f'(x_n)(x-x_n)$. Setting $y=0$ and solving for $x$ gives $x_{n+1}=x_n-f(x_n)/f'(x_n)$: replace $f$ by its tangent line and use the tangent's root as the next guess. Near a simple root the tangent line is an excellent approximation (it differs from $f$ only at second order), so the error shrinks roughly as its square each step, and the number of correct digits roughly doubles."
+				"modelAnswer": "The tangent line at $x_n$ is $y=f(x_n)+f'(x_n)(x-x_n)$. Setting $y=0$ and solving for $x$ gives $x_{n+1}=x_n-f(x_n)/f'(x_n)$: replace $f$ by its tangent line and use the tangent's root as the next guess. Near a simple root the tangent line is an excellent approximation (it differs from $f$ only at second order), so the error shrinks roughly as its square each step, and the number of correct digits roughly doubles.",
+				"equations": [
+					"y-f(x_n)=f'(x_n)(x-x_n)"
+				]
 			}
 		],
 		"m1-l025-antiderivatives-initial-value": [
@@ -779,7 +901,11 @@
 					"$x^3+\\sin x$"
 				],
 				"answer": 1,
-				"explanation": "Reverse each derivative: $\\frac{d}{dx}x^3=3x^2$ and $\\frac{d}{dx}\\sin x=\\cos x$. Always add $C$, because differentiation kills constants, and verify by differentiating."
+				"explanation": "Reverse each derivative: $\\frac{d}{dx}x^3=3x^2$ and $\\frac{d}{dx}\\sin x=\\cos x$. Always add $C$, because differentiation kills constants, and verify by differentiating.",
+				"equations": [
+					"\\int x^n\\,dx=\\frac{x^{n+1}}{n+1}+C",
+					"\\int\\cos x\\,dx=\\sin x+C"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -787,7 +913,11 @@
 				"answer": 50.1,
 				"tolerance": 0.02,
 				"unit": "m",
-				"explanation": "Integrate: $x(t)=4.9t^2+2t+C$ and $x(0)=0$ gives $C=0$. So $x(3)=4.9(9)+6=50.1$ m."
+				"explanation": "Integrate: $x(t)=4.9t^2+2t+C$ and $x(0)=0$ gives $C=0$. So $x(3)=4.9(9)+6=50.1$ m.",
+				"equations": [
+					"x(t)=x(0)+\\int_0^tv(t')\\,dt'",
+					"\\int x^n\\,dx=\\frac{x^{n+1}}{n+1}+C"
+				]
 			},
 			{
 				"kind": "short",
@@ -802,7 +932,12 @@
 				"prompt": "Approximate $\\displaystyle\\int_0^2x^2\\,dx$ with a midpoint Riemann sum using $n=4$ rectangles.",
 				"answer": 2.625,
 				"tolerance": 0.02,
-				"explanation": "$\\Delta x=0.5$ and the midpoints are $0.25,0.75,1.25,1.75$: $0.5(0.0625+0.5625+1.5625+3.0625)=2.625$. The exact integral is $8/3\\approx2.667$."
+				"explanation": "$\\Delta x=0.5$ and the midpoints are $0.25,0.75,1.25,1.75$: $0.5(0.0625+0.5625+1.5625+3.0625)=2.625$. The exact integral is $8/3\\approx2.667$.",
+				"equations": [
+					"\\sum_{i=1}^n f(x_i^*)\\Delta x",
+					"\\Delta x=\\frac{b-a}{n}",
+					"x_i^*=\\tfrac12(x_{i-1}+x_i)"
+				]
 			},
 			{
 				"kind": "mc",
@@ -820,7 +955,10 @@
 				"kind": "short",
 				"prompt": "Explain how a Riemann sum becomes the definite integral as $n\\to\\infty$, and why the left and right sums bracket the true area for a function that is increasing on the interval.",
 				"rubric": "Full credit requires: (1) $\\sum f(x_i^*)\\Delta x$ with $\\Delta x=(b-a)/n\\to0$ as $n\\to\\infty$ gives the limit that defines $\\int_a^bf\\,dx$; (2) for an increasing function the left endpoints give the lowest rectangle heights (underestimate) and the right endpoints the highest (overestimate); (3) the true area lies between them and the gap shrinks as $n$ grows.",
-				"modelAnswer": "Each rectangle approximates the area under the curve over a strip of width $\\Delta x=(b-a)/n$; as $n\\to\\infty$ the strips become infinitely thin and the sum approaches the definite integral. For an increasing function the left-endpoint rectangles lie below the curve and the right-endpoint ones above it, so the true area is bracketed, and the difference, about $[f(b)-f(a)]\\Delta x$, shrinks as $n$ grows."
+				"modelAnswer": "Each rectangle approximates the area under the curve over a strip of width $\\Delta x=(b-a)/n$; as $n\\to\\infty$ the strips become infinitely thin and the sum approaches the definite integral. For an increasing function the left-endpoint rectangles lie below the curve and the right-endpoint ones above it, so the true area is bracketed, and the difference, about $[f(b)-f(a)]\\Delta x$, shrinks as $n$ grows.",
+				"equations": [
+					"\\sum_{i=1}^n f(x_i^*)\\Delta x"
+				]
 			}
 		],
 		"m1-l027-definite-integral-properties-signed-area": [
@@ -829,7 +967,11 @@
 				"prompt": "Evaluate $\\displaystyle\\int_0^2(3x^2-2x)\\,dx$.",
 				"answer": 4.0,
 				"tolerance": 0.02,
-				"explanation": "An antiderivative is $x^3-x^2$, so $F(2)-F(0)=(8-4)-0=4$."
+				"explanation": "An antiderivative is $x^3-x^2$, so $F(2)-F(0)=(8-4)-0=4$.",
+				"equations": [
+					"\\int_a^bf(x)\\,dx=F(b)-F(a)",
+					"\\int x^n\\,dx=\\frac{x^{n+1}}{n+1}+C"
+				]
 			},
 			{
 				"kind": "mc",
@@ -873,7 +1015,11 @@
 					"$2x\\,e^{-x^2}$"
 				],
 				"answer": 2,
-				"explanation": "FTC part 1 gives $e^{-u^2}$ evaluated at the upper limit $u=x^2$, and the chain rule multiplies by $du/dx=2x$: $e^{-(x^2)^2}\\cdot2x=2xe^{-x^4}$. No antiderivative is needed."
+				"explanation": "FTC part 1 gives $e^{-u^2}$ evaluated at the upper limit $u=x^2$, and the chain rule multiplies by $du/dx=2x$: $e^{-(x^2)^2}\\cdot2x=2xe^{-x^4}$. No antiderivative is needed.",
+				"equations": [
+					"\\frac{d}{dx}\\int_a^xf(t)\\,dt=f(x)",
+					"\\frac{d}{dx}f(g(x))=f'(g(x))\\,g'(x)"
+				]
 			},
 			{
 				"kind": "short",
@@ -891,7 +1037,10 @@
 					"$\\int_1^2\\sqrt{1+t^4}\\,dt$"
 				],
 				"answer": 2,
-				"explanation": "By the fundamental theorem, $F'(x)=\\sqrt{1+x^4}$, so $F'(2)=\\sqrt{17}$. The lower limit does not matter, no chain-rule factor arises because the upper limit is just $x$, and $F'$ is a function value, not an integral."
+				"explanation": "By the fundamental theorem, $F'(x)=\\sqrt{1+x^4}$, so $F'(2)=\\sqrt{17}$. The lower limit does not matter, no chain-rule factor arises because the upper limit is just $x$, and $F'$ is a function value, not an integral.",
+				"equations": [
+					"\\frac{d}{dx}\\int_a^xf(t)\\,dt=f(x)"
+				]
 			}
 		],
 		"m1-l029-net-change-and-work": [
@@ -901,7 +1050,10 @@
 				"answer": 4.0,
 				"tolerance": 0.02,
 				"unit": "m",
-				"explanation": "$v=(t-1)(t-3)$ changes sign at $t=1$ and $t=3$. $\\int_0^1v=\\tfrac43$, $\\int_1^3v=-\\tfrac43$, $\\int_3^4v=\\tfrac43$. The displacement is $\\tfrac43$ m, but the distance is $\\tfrac43+\\tfrac43+\\tfrac43=4$ m."
+				"explanation": "$v=(t-1)(t-3)$ changes sign at $t=1$ and $t=3$. $\\int_0^1v=\\tfrac43$, $\\int_1^3v=-\\tfrac43$, $\\int_3^4v=\\tfrac43$. The displacement is $\\tfrac43$ m, but the distance is $\\tfrac43+\\tfrac43+\\tfrac43=4$ m.",
+				"equations": [
+					"\\int_a^bf'(x)\\,dx=f(b)-f(a)"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -909,7 +1061,11 @@
 				"answer": 8.0,
 				"tolerance": 0.02,
 				"unit": "J",
-				"explanation": "$W=\\int_{0.10}^{0.30}kx\\,dx=\\tfrac12k(0.30^2-0.10^2)=100(0.08)=8.0$ J. The force grows linearly, so the work is the area of a trapezoid under $F(x)$."
+				"explanation": "$W=\\int_{0.10}^{0.30}kx\\,dx=\\tfrac12k(0.30^2-0.10^2)=100(0.08)=8.0$ J. The force grows linearly, so the work is the area of a trapezoid under $F(x)$.",
+				"equations": [
+					"W=\\int_{x_1}^{x_2}F\\,dx",
+					"F=kx"
+				]
 			},
 			{
 				"kind": "short",
@@ -929,7 +1085,10 @@
 					"$\\dfrac{e^4}{2}$"
 				],
 				"answer": 2,
-				"explanation": "Let $u=x^2$, $du=2x\\,dx$, so $x\\,dx=\\tfrac12du$, and the limits become $u=0$ to $u=4$: $\\tfrac12\\int_0^4e^u\\,du=\\tfrac12(e^4-1)$. Forgetting the $\\tfrac12$ or leaving the old limits are the standard slips."
+				"explanation": "Let $u=x^2$, $du=2x\\,dx$, so $x\\,dx=\\tfrac12du$, and the limits become $u=0$ to $u=4$: $\\tfrac12\\int_0^4e^u\\,du=\\tfrac12(e^4-1)$. Forgetting the $\\tfrac12$ or leaving the old limits are the standard slips.",
+				"equations": [
+					"\\int f(g(x))g'(x)\\,dx=\\int f(u)\\,du"
+				]
 			},
 			{
 				"kind": "mc",
@@ -961,7 +1120,10 @@
 					"$\\dfrac{2^x}{\\ln2}+C$"
 				],
 				"answer": 3,
-				"explanation": "Since $\\frac{d}{dx}2^x=2^x\\ln2$, dividing by $\\ln 2$ gives the antiderivative. The power rule does not apply to a variable exponent."
+				"explanation": "Since $\\frac{d}{dx}2^x=2^x\\ln2$, dividing by $\\ln 2$ gives the antiderivative. The power rule does not apply to a variable exponent.",
+				"equations": [
+					"b^x=e^{x\\ln b}"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -969,7 +1131,11 @@
 				"answer": 5.705,
 				"tolerance": 0.02,
 				"unit": "kJ",
-				"explanation": "With $P=nRT/V$: $\\int P\\,dV=nRT\\ln(V_2/V_1)=(8.314)(298)\\ln10\\approx5705$ J $=5.71$ kJ. The sign convention $W=-nRT\\ln(V_2/V_1)$ gives the work done on the gas."
+				"explanation": "With $P=nRT/V$: $\\int P\\,dV=nRT\\ln(V_2/V_1)=(8.314)(298)\\ln10\\approx5705$ J $=5.71$ kJ. The sign convention $W=-nRT\\ln(V_2/V_1)$ gives the work done on the gas.",
+				"equations": [
+					"P=\\frac{nRT}{V}",
+					"\\int\\frac1x\\,dx=\\ln|x|+C"
+				]
 			},
 			{
 				"kind": "mc",
@@ -987,7 +1153,10 @@
 				"kind": "short",
 				"prompt": "Explain why the isothermal work of an ideal gas depends only on the volume RATIO $V_2/V_1$, and what the sign of the work tells you for expansion versus compression.",
 				"rubric": "Full credit: integral of dV/V = ln(V2/V1) so only the ratio matters (scale invariance: doubling volume from 1 to 2 L does the same work as from 10 to 20 L at the same T since P halves each time); expansion: V2>V1, ln>0, gas does positive work on surroundings (work done on gas negative); compression: opposite sign.",
-				"modelAnswer": "Since $P=nRT/V$, $W=\\int P\\,dV=nRT\\int\\frac{dV}{V}=nRT\\ln\\frac{V_2}{V_1}$. Only the ratio matters because $\\int dV/V$ is scale-invariant: doubling the volume from $1$ to $2$ L costs the same as from $10$ to $20$ L, as the pressure halves in the same proportion. For expansion ($V_2>V_1$) the logarithm is positive: the gas does positive work on its surroundings (work done on the gas is negative). For compression the signs reverse."
+				"modelAnswer": "Since $P=nRT/V$, $W=\\int P\\,dV=nRT\\int\\frac{dV}{V}=nRT\\ln\\frac{V_2}{V_1}$. Only the ratio matters because $\\int dV/V$ is scale-invariant: doubling the volume from $1$ to $2$ L costs the same as from $10$ to $20$ L, as the pressure halves in the same proportion. For expansion ($V_2>V_1$) the logarithm is positive: the gas does positive work on its surroundings (work done on the gas is negative). For compression the signs reverse.",
+				"equations": [
+					"P=\\frac{nRT}{V}"
+				]
 			}
 		],
 		"m1-l032-inverse-trig-integral-forms": [
@@ -1028,7 +1197,10 @@
 				"prompt": "Find the area enclosed between the curves $y=x$ and $y=x^2$.",
 				"answer": 0.1667,
 				"tolerance": 0.02,
-				"explanation": "They intersect at $x=0$ and $1$, with $y=x$ on top: $\\int_0^1(x-x^2)\\,dx=\\tfrac12-\\tfrac13=\\tfrac16\\approx0.167$."
+				"explanation": "They intersect at $x=0$ and $1$, with $y=x$ on top: $\\int_0^1(x-x^2)\\,dx=\\tfrac12-\\tfrac13=\\tfrac16\\approx0.167$.",
+				"equations": [
+					"A=\\int_a^b[f(x)-g(x)]\\,dx"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1040,7 +1212,10 @@
 					"$16\\pi$"
 				],
 				"answer": 2,
-				"explanation": "Disks of radius $\\sqrt x$: $V=\\pi\\int_0^4(\\sqrt x)^2dx=\\pi\\int_0^4x\\,dx=8\\pi$. Forgetting to square the radius gives the wrong value $16\\pi/3$."
+				"explanation": "Disks of radius $\\sqrt x$: $V=\\pi\\int_0^4(\\sqrt x)^2dx=\\pi\\int_0^4x\\,dx=8\\pi$. Forgetting to square the radius gives the wrong value $16\\pi/3$.",
+				"equations": [
+					"V=\\int_a^b\\pi[R(x)^2-r(x)^2]\\,dx"
+				]
 			},
 			{
 				"kind": "short",
@@ -1055,7 +1230,10 @@
 				"prompt": "Find the average value of $f(x)=x^2$ on the interval $[0,3]$.",
 				"answer": 3.0,
 				"tolerance": 0.02,
-				"explanation": "$\\bar f=\\frac1{3-0}\\int_0^3x^2\\,dx=\\frac13\\cdot9=3$. Note this is not $f$ at the midpoint ($2.25$); the average of a curved function differs from its value at the midpoint."
+				"explanation": "$\\bar f=\\frac1{3-0}\\int_0^3x^2\\,dx=\\frac13\\cdot9=3$. Note this is not $f$ at the midpoint ($2.25$); the average of a curved function differs from its value at the midpoint.",
+				"equations": [
+					"\\bar f=\\frac1{b-a}\\int_a^bf(x)\\,dx"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1067,7 +1245,10 @@
 					"$x=\\dfrac{3L}{4}$"
 				],
 				"answer": 0,
-				"explanation": "$M=\\int_0^L\\rho_0\\frac xL\\,dx=\\rho_0L/2$ and $\\int_0^Lx\\rho\\,dx=\\rho_0L^2/3$, so $x_{cm}=\\frac{L^2/3}{L/2}=\\frac{2L}3$, beyond the midpoint toward the heavy end."
+				"explanation": "$M=\\int_0^L\\rho_0\\frac xL\\,dx=\\rho_0L/2$ and $\\int_0^Lx\\rho\\,dx=\\rho_0L^2/3$, so $x_{cm}=\\frac{L^2/3}{L/2}=\\frac{2L}3$, beyond the midpoint toward the heavy end.",
+				"equations": [
+					"x_{cm}=\\frac{\\int x\\rho(x)\\,dx}{\\int\\rho(x)\\,dx}"
+				]
 			},
 			{
 				"kind": "short",
@@ -1087,7 +1268,10 @@
 					"$\\left(x-\\dfrac12\\right)e^{2x}+C$"
 				],
 				"answer": 2,
-				"explanation": "Take $u=x$, $dv=e^{2x}dx$, so $v=\\tfrac12e^{2x}$: $\\tfrac x2e^{2x}-\\tfrac12\\int e^{2x}dx=\\tfrac x2e^{2x}-\\tfrac14e^{2x}$. Differentiating the result returns $xe^{2x}$."
+				"explanation": "Take $u=x$, $dv=e^{2x}dx$, so $v=\\tfrac12e^{2x}$: $\\tfrac x2e^{2x}-\\tfrac12\\int e^{2x}dx=\\tfrac x2e^{2x}-\\tfrac14e^{2x}$. Differentiating the result returns $xe^{2x}$.",
+				"equations": [
+					"\\int u\\,dv=uv-\\int v\\,du"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1105,7 +1289,10 @@
 				"kind": "short",
 				"prompt": "Derive the integration-by-parts formula from the product rule, and explain the idea behind choosing $u$ and $dv$.",
 				"rubric": "Full credit: (uv)' = u'v + uv' -> integrate both sides: uv = integral v du + integral u dv -> integral u dv = uv - integral v du; strategy: trade a hard integral for an easier one by choosing u to simplify when differentiated (polynomials, logs, inverse trig) and dv to be something that can be integrated (exponentials, trig); LIATE heuristic.",
-				"modelAnswer": "From $(uv)'=u'v+uv'$, integrating both sides gives $uv=\\int v\\,du+\\int u\\,dv$, so $\\int u\\,dv=uv-\\int v\\,du$. It's useful when the new integral $\\int v\\,du$ is simpler than the original. So choose $u$ to be something that gets simpler when differentiated (polynomials, logarithms, inverse trig) and $dv$ to be something you can integrate easily (exponentials, sines and cosines): the LIATE ordering of preferences."
+				"modelAnswer": "From $(uv)'=u'v+uv'$, integrating both sides gives $uv=\\int v\\,du+\\int u\\,dv$, so $\\int u\\,dv=uv-\\int v\\,du$. It's useful when the new integral $\\int v\\,du$ is simpler than the original. So choose $u$ to be something that gets simpler when differentiated (polynomials, logarithms, inverse trig) and $dv$ to be something you can integrate easily (exponentials, sines and cosines): the LIATE ordering of preferences.",
+				"equations": [
+					"(uv)'=u'v+uv'"
+				]
 			}
 		],
 		"m1-l036-parts-repeated-definite": [
@@ -1114,7 +1301,10 @@
 				"prompt": "Evaluate $\\displaystyle\\int_0^{\\pi}x\\sin x\\,dx$.",
 				"answer": 3.142,
 				"tolerance": 0.02,
-				"explanation": "With $u=x$, $dv=\\sin x\\,dx$: $[-x\\cos x]_0^\\pi+\\int_0^\\pi\\cos x\\,dx=\\pi+0=\\pi\\approx3.1416$. The boundary term $uv$ must be evaluated at the limits."
+				"explanation": "With $u=x$, $dv=\\sin x\\,dx$: $[-x\\cos x]_0^\\pi+\\int_0^\\pi\\cos x\\,dx=\\pi+0=\\pi\\approx3.1416$. The boundary term $uv$ must be evaluated at the limits.",
+				"equations": [
+					"\\int_a^bu\\,dv=\\left[uv\\right]_a^b-\\int_a^bv\\,du"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1146,14 +1336,20 @@
 					"$-\\dfrac{\\cos^3x}{3}+C$"
 				],
 				"answer": 2,
-				"explanation": "The power of sine is odd, so peel off one $\\sin x$ and write $\\sin^2=1-\\cos^2$: $\\int(1-u^2)u^2(-du)$ with $u=\\cos x$, which gives $-\\frac{u^3}3+\\frac{u^5}5$. Check by differentiating."
+				"explanation": "The power of sine is odd, so peel off one $\\sin x$ and write $\\sin^2=1-\\cos^2$: $\\int(1-u^2)u^2(-du)$ with $u=\\cos x$, which gives $-\\frac{u^3}3+\\frac{u^5}5$. Check by differentiating.",
+				"equations": [
+					"\\sin^2x+\\cos^2x=1"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Evaluate $\\displaystyle\\int_0^\\pi\\sin^2x\\,dx$.",
 				"answer": 1.571,
 				"tolerance": 0.02,
-				"explanation": "Both powers even, so use $\\sin^2x=\\tfrac12(1-\\cos2x)$: $\\left[\\tfrac x2-\\tfrac{\\sin2x}{4}\\right]_0^\\pi=\\tfrac\\pi2\\approx1.571$. This is also $\\pi\\times$ (average of $\\sin^2$) $=\\pi\\times\\tfrac12$."
+				"explanation": "Both powers even, so use $\\sin^2x=\\tfrac12(1-\\cos2x)$: $\\left[\\tfrac x2-\\tfrac{\\sin2x}{4}\\right]_0^\\pi=\\tfrac\\pi2\\approx1.571$. This is also $\\pi\\times$ (average of $\\sin^2$) $=\\pi\\times\\tfrac12$.",
+				"equations": [
+					"\\int\\sin^2x\\,dx=\\frac x2-\\frac{\\sin2x}{4}+C"
+				]
 			},
 			{
 				"kind": "short",
@@ -1212,7 +1408,10 @@
 				"prompt": "Evaluate $\\displaystyle\\int_3^5\\frac{10}{(x-2)(x+3)}\\,dx$ by partial fractions.",
 				"answer": 1.622,
 				"tolerance": 0.02,
-				"explanation": "$\\frac{10}{(x-2)(x+3)}=\\frac{2}{x-2}-\\frac{2}{x+3}$ (cover-up). Integrating: $2\\ln\\frac{x-2}{x+3}\\Big|_3^5=2\\left(\\ln\\frac38-\\ln\\frac16\\right)=2\\ln\\frac94\\approx1.622$."
+				"explanation": "$\\frac{10}{(x-2)(x+3)}=\\frac{2}{x-2}-\\frac{2}{x+3}$ (cover-up). Integrating: $2\\ln\\frac{x-2}{x+3}\\Big|_3^5=2\\left(\\ln\\frac38-\\ln\\frac16\\right)=2\\ln\\frac94\\approx1.622$.",
+				"equations": [
+					"\\frac{P(x)}{(x-a)(x-b)}=\\frac{A}{x-a}+\\frac{B}{x-b}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1283,7 +1482,10 @@
 				"prompt": "Evaluate $\\displaystyle\\int_0^\\infty x^3e^{-2x}\\,dx$.",
 				"answer": 0.375,
 				"tolerance": 0.02,
-				"explanation": "Substitute $u=2x$: $\\int_0^\\infty\\frac{u^3}{8}e^{-u}\\frac{du}{2}=\\frac{3!}{16}=\\frac{6}{16}=0.375$. In general $\\int_0^\\infty x^ne^{-ax}dx=n!/a^{n+1}$."
+				"explanation": "Substitute $u=2x$: $\\int_0^\\infty\\frac{u^3}{8}e^{-u}\\frac{du}{2}=\\frac{3!}{16}=\\frac{6}{16}=0.375$. In general $\\int_0^\\infty x^ne^{-ax}dx=n!/a^{n+1}$.",
+				"equations": [
+					"\\int_0^\\infty x^ne^{-x}\\,dx=n!"
+				]
 			},
 			{
 				"kind": "short",
@@ -1303,7 +1505,10 @@
 					"$3\\sqrt\\pi$"
 				],
 				"answer": 2,
-				"explanation": "Let $u=\\sqrt3\\,x$, so $dx=du/\\sqrt3$: the integral is $\\frac1{\\sqrt3}\\sqrt\\pi=\\sqrt{\\pi/3}$. A broader Gaussian (smaller coefficient) has a larger area; a narrower one (larger coefficient) has a smaller one."
+				"explanation": "Let $u=\\sqrt3\\,x$, so $dx=du/\\sqrt3$: the integral is $\\frac1{\\sqrt3}\\sqrt\\pi=\\sqrt{\\pi/3}$. A broader Gaussian (smaller coefficient) has a larger area; a narrower one (larger coefficient) has a smaller one.",
+				"equations": [
+					"\\int_{-\\infty}^{\\infty}e^{-x^2}\\,dx=\\sqrt\\pi"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1342,7 +1547,10 @@
 				"prompt": "Find the sum of the telescoping series $\\displaystyle\\sum_{n=1}^\\infty\\frac{1}{n(n+2)}$.",
 				"answer": 0.75,
 				"tolerance": 0.02,
-				"explanation": "$\\frac1{n(n+2)}=\\frac12\\left(\\frac1n-\\frac1{n+2}\\right)$. In the partial sums all terms cancel except $\\tfrac12\\left(1+\\tfrac12-\\tfrac1{N+1}-\\tfrac1{N+2}\\right)\\to\\tfrac12\\cdot\\tfrac32=\\tfrac34$."
+				"explanation": "$\\frac1{n(n+2)}=\\frac12\\left(\\frac1n-\\frac1{n+2}\\right)$. In the partial sums all terms cancel except $\\tfrac12\\left(1+\\tfrac12-\\tfrac1{N+1}-\\tfrac1{N+2}\\right)\\to\\tfrac12\\cdot\\tfrac32=\\tfrac34$.",
+				"equations": [
+					"S=\\lim_{N\\to\\infty}S_N,\\quad S_N=\\sum_{n=1}^Na_n"
+				]
 			},
 			{
 				"kind": "short",
@@ -1394,7 +1602,10 @@
 					"The test cannot be applied because the terms contain a factorial"
 				],
 				"answer": 0,
-				"explanation": "The factorial in the denominator makes the ratio shrink to $0$, so the series converges, and in fact to $e^5$. The ratio test is the natural tool for factorials and exponentials."
+				"explanation": "The factorial in the denominator makes the ratio shrink to $0$, so the series converges, and in fact to $e^5$. The ratio test is the natural tool for factorials and exponentials.",
+				"equations": [
+					"L=\\lim_{n\\to\\infty}\\left|\\frac{a_{n+1}}{a_n}\\right|<1\\Rightarrow\\text{converges absolutely}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1421,7 +1632,10 @@
 				"prompt": "The alternating series $\\displaystyle\\sum_{n=1}^\\infty\\frac{(-1)^{n+1}}{n^2}$ is summed using only its first $4$ terms. What is the largest possible size of the truncation error (the bound from the first omitted term)?",
 				"answer": 0.04,
 				"tolerance": 0.02,
-				"explanation": "For an alternating series with decreasing terms, the error is at most the first omitted term: $a_5=1/5^2=0.04$. (The sum is $\\pi^2/12\\approx0.8225$ and $S_4=0.7986$, within the bound.)"
+				"explanation": "For an alternating series with decreasing terms, the error is at most the first omitted term: $a_5=1/5^2=0.04$. (The sum is $\\pi^2/12\\approx0.8225$ and $S_4=0.7986$, within the bound.)",
+				"equations": [
+					"|R_N|\\le a_{N+1}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1453,14 +1667,20 @@
 					"$[-2,\\,2)$"
 				],
 				"answer": 3,
-				"explanation": "The ratio test gives $R=2$. At $x=2$ the series is the harmonic series (diverges); at $x=-2$ it is the alternating harmonic series (converges). Endpoints must be tested separately."
+				"explanation": "The ratio test gives $R=2$. At $x=2$ the series is the harmonic series (diverges); at $x=-2$ it is the alternating harmonic series (converges). Endpoints must be tested separately.",
+				"equations": [
+					"R=\\lim_{n\\to\\infty}\\left|\\frac{c_n}{c_{n+1}}\\right|"
+				]
 			},
 			{
 				"kind": "numeric",
 				"prompt": "Multiply the series $e^x=1+x+\\tfrac12x^2+\\cdots$ and $\\dfrac1{1-2x}=1+2x+4x^2+\\cdots$. What is the coefficient of $x^2$ in the product?",
 				"answer": 6.5,
 				"tolerance": 0.01,
-				"explanation": "The $x^2$ terms come from $1\\cdot4x^2+x\\cdot2x+\\tfrac12x^2\\cdot1=(4+2+\\tfrac12)x^2=6.5x^2$."
+				"explanation": "The $x^2$ terms come from $1\\cdot4x^2+x\\cdot2x+\\tfrac12x^2\\cdot1=(4+2+\\tfrac12)x^2=6.5x^2$.",
+				"equations": [
+					"\\Big(\\sum_na_nx^n\\Big)\\Big(\\sum_nb_nx^n\\Big)=\\sum_n\\Big(\\sum_{k=0}^na_kb_{n-k}\\Big)x^n"
+				]
 			},
 			{
 				"kind": "short",
@@ -1487,7 +1707,10 @@
 				"prompt": "Use the series $\\arctan x=x-\\frac{x^3}{3}+\\frac{x^5}{5}-\\frac{x^7}{7}+\\cdots$ at $x=1$ ($\\arctan 1=\\pi/4$) with the first $4$ terms to estimate $\\pi$.",
 				"answer": 2.895,
 				"tolerance": 0.02,
-				"explanation": "$4\\left(1-\\tfrac13+\\tfrac15-\\tfrac17\\right)=2.895$. The true value is $3.1416$, so the series converges very slowly at the endpoint $x=1$: the error (here $0.25$) is within the bound set by the first omitted term times $4$ ($4/9\\approx0.44$)."
+				"explanation": "$4\\left(1-\\tfrac13+\\tfrac15-\\tfrac17\\right)=2.895$. The true value is $3.1416$, so the series converges very slowly at the endpoint $x=1$: the error (here $0.25$) is within the bound set by the first omitted term times $4$ ($4/9\\approx0.44$).",
+				"equations": [
+					"\\arctan x=\\sum_{n=0}^\\infty\\frac{(-1)^nx^{2n+1}}{2n+1}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1505,7 +1728,11 @@
 				"kind": "short",
 				"prompt": "Explain how to obtain the power series of $\\arctan x$ starting from the geometric series, and why integrating term by term is legitimate there.",
 				"rubric": "Full credit requires: (1) replace $x$ by $-x^2$ in $\\frac1{1-x}=\\sum x^n$ to get $\\frac1{1+x^2}=\\sum(-1)^nx^{2n}$ for $|x|<1$; (2) integrate term by term from $0$ to $x$ to get $\\arctan x=\\sum\\frac{(-1)^nx^{2n+1}}{2n+1}$; (3) term-by-term integration is valid inside the radius of convergence ($|x|<1$); at endpoints convergence must be checked separately.",
-				"modelAnswer": "Substituting $-x^2$ into the geometric series gives $\\frac1{1+x^2}=1-x^2+x^4-\\cdots$ for $|x|<1$. Since $\\arctan x=\\int_0^x\\frac{dt}{1+t^2}$, integrating term by term gives $x-\\frac{x^3}{3}+\\frac{x^5}{5}-\\cdots$. Differentiating or integrating a power series term by term is valid inside its radius of convergence, and the endpoints must be checked separately."
+				"modelAnswer": "Substituting $-x^2$ into the geometric series gives $\\frac1{1+x^2}=1-x^2+x^4-\\cdots$ for $|x|<1$. Since $\\arctan x=\\int_0^x\\frac{dt}{1+t^2}$, integrating term by term gives $x-\\frac{x^3}{3}+\\frac{x^5}{5}-\\cdots$. Differentiating or integrating a power series term by term is valid inside its radius of convergence, and the endpoints must be checked separately.",
+				"equations": [
+					"\\frac1{1-x}=\\sum_{n=0}^\\infty x^n,\\ |x|<1",
+					"\\frac{d}{dx}\\arctan x=\\frac1{1+x^2}"
+				]
 			}
 		],
 		"m1-l049-taylor-coefficients-polynomials": [
@@ -1514,7 +1741,10 @@
 				"prompt": "Use the degree-$2$ Taylor polynomial of $\\ln x$ about $a=1$, $T_2(x)=(x-1)-\\tfrac12(x-1)^2$, to estimate $\\ln1.2$.",
 				"answer": 0.18,
 				"tolerance": 0.02,
-				"explanation": "$T_2(1.2)=0.2-\\tfrac12(0.04)=0.18$. The exact value is $0.18232$, so the quadratic term improves a lot on the linear estimate $0.2$."
+				"explanation": "$T_2(1.2)=0.2-\\tfrac12(0.04)=0.18$. The exact value is $0.18232$, so the quadratic term improves a lot on the linear estimate $0.2$.",
+				"equations": [
+					"T_2(x)=(x-1)-\\tfrac12(x-1)^2"
+				]
 			},
 			{
 				"kind": "short",
@@ -1532,7 +1762,10 @@
 					"$6$"
 				],
 				"answer": 3,
-				"explanation": "The coefficient is $f''(2)/2!=12/2=6$. Forgetting the $1/2!$ gives $12$; $8$ is $f(2)$ and is the constant term; $3$ is half of $f'''$ and belongs to no coefficient here."
+				"explanation": "The coefficient is $f''(2)/2!=12/2=6$. Forgetting the $1/2!$ gives $12$; $8$ is $f(2)$ and is the constant term; $3$ is half of $f'''$ and belongs to no coefficient here.",
+				"equations": [
+					"f(x)=\\sum_{n=0}^\\infty\\frac{f^{(n)}(a)}{n!}(x-a)^n"
+				]
 			}
 		],
 		"m1-l050-standard-maclaurin-series-euler": [
@@ -1576,7 +1809,12 @@
 				"kind": "short",
 				"prompt": "Using the Maclaurin series of $e^x$, $\\cos x$ and $\\sin x$, show that $e^{ix}=\\cos x+i\\sin x$, and explain what it gives for $e^{i\\pi}$.",
 				"rubric": "Full credit requires: (1) substitute $ix$ into $e^x=\\sum x^n/n!$ and use $i^2=-1$, $i^3=-i$, $i^4=1$; (2) the even-power terms form $1-\\frac{x^2}{2!}+\\cdots=\\cos x$ and the odd-power terms form $i(x-\\frac{x^3}{3!}+\\cdots)=i\\sin x$; (3) at $x=\\pi$, $e^{i\\pi}=\\cos\\pi+i\\sin\\pi=-1$.",
-				"modelAnswer": "Putting $ix$ into the series for $e^x$, the powers of $i$ cycle through $1,i,-1,-i$. The real terms $1-\\frac{x^2}{2!}+\\frac{x^4}{4!}-\\cdots$ are $\\cos x$ and the imaginary terms $i\\left(x-\\frac{x^3}{3!}+\\cdots\\right)$ are $i\\sin x$, so $e^{ix}=\\cos x+i\\sin x$. At $x=\\pi$ this gives $e^{i\\pi}=-1$."
+				"modelAnswer": "Putting $ix$ into the series for $e^x$, the powers of $i$ cycle through $1,i,-1,-i$. The real terms $1-\\frac{x^2}{2!}+\\frac{x^4}{4!}-\\cdots$ are $\\cos x$ and the imaginary terms $i\\left(x-\\frac{x^3}{3!}+\\cdots\\right)$ are $i\\sin x$, so $e^{ix}=\\cos x+i\\sin x$. At $x=\\pi$ this gives $e^{i\\pi}=-1$.",
+				"equations": [
+					"e^x=\\sum_{n=0}^\\infty\\frac{x^n}{n!}",
+					"\\sin x=x-\\frac{x^3}{3!}+\\frac{x^5}{5!}-\\cdots",
+					"\\cos x=1-\\frac{x^2}{2!}+\\frac{x^4}{4!}-\\cdots"
+				]
 			}
 		],
 		"m1-l051-taylor-error-bounds-limits": [
@@ -1586,7 +1824,11 @@
 				"answer": 2.604,
 				"tolerance": 0.02,
 				"unit": "10^-4",
-				"explanation": "The next term is $\\frac{0.5^5}{5!}=\\frac{0.03125}{120}\\approx2.6\\times10^{-4}$. The actual error is $\\sin0.5-0.47917=2.6\\times10^{-4}$, so the bound is tight here."
+				"explanation": "The next term is $\\frac{0.5^5}{5!}=\\frac{0.03125}{120}\\approx2.6\\times10^{-4}$. The actual error is $\\sin0.5-0.47917=2.6\\times10^{-4}$, so the bound is tight here.",
+				"equations": [
+					"\\sin x=x-\\frac{x^3}{3!}+\\frac{x^5}{5!}-\\cdots",
+					"|R|\\le|\\text{first omitted term}|"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1598,13 +1840,19 @@
 					"$-\\dfrac13$"
 				],
 				"answer": 0,
-				"explanation": "$\\sin x-x=-\\frac{x^3}{6}+\\frac{x^5}{120}-\\cdots$, so dividing by $x^3$ gives $-\\frac16+\\frac{x^2}{120}\\to-\\frac16$. The series makes the cancellation of the leading terms transparent."
+				"explanation": "$\\sin x-x=-\\frac{x^3}{6}+\\frac{x^5}{120}-\\cdots$, so dividing by $x^3$ gives $-\\frac16+\\frac{x^2}{120}\\to-\\frac16$. The series makes the cancellation of the leading terms transparent.",
+				"equations": [
+					"\\sin x=x-\\frac{x^3}{3!}+\\frac{x^5}{5!}-\\cdots"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Explain why a Taylor expansion is only useful when the expansion variable is small, and how an error bound lets you decide how many terms to keep.",
 				"rubric": "Full credit requires: (1) the terms behave like $x^n/n!$ times derivatives, so only for small $|x-a|$ do successive terms shrink; (2) the remainder bound $\\frac{M}{(n+1)!}|x-a|^{n+1}$ (or the first omitted term for alternating series) gives a guaranteed error; (3) choose $n$ so that the bound is smaller than the accuracy you need, while far from $a$ the series needs many terms or fails to converge.",
-				"modelAnswer": "The $n$th term scales as $(x-a)^n$, so the series is efficient only when $|x-a|$ is small. Taylor's remainder bound, $\\frac{M}{(n+1)!}|x-a|^{n+1}$, or for alternating series the first omitted term, tells you how large the error can be, so you keep terms until that bound drops below the accuracy you need. Far from the expansion point the bound stays large and the approximation is poor."
+				"modelAnswer": "The $n$th term scales as $(x-a)^n$, so the series is efficient only when $|x-a|$ is small. Taylor's remainder bound, $\\frac{M}{(n+1)!}|x-a|^{n+1}$, or for alternating series the first omitted term, tells you how large the error can be, so you keep terms until that bound drops below the accuracy you need. Far from the expansion point the bound stays large and the approximation is poor.",
+				"equations": [
+					"|R_n(x)|\\le\\frac{M}{(n+1)!}|x-a|^{n+1}"
+				]
 			}
 		],
 		"m1-l052-physics-expansions-harmonic-approximation": [
@@ -1626,13 +1874,20 @@
 				"answer": 572.8,
 				"tolerance": 0.02,
 				"unit": "N/m",
-				"explanation": "$k=2Da^2=2(7.61\\times10^{-19}\\text{ J})(3.76\\times10^{20}\\text{ m}^{-2})\\approx573$ N/m, close to the measured force constant of H$_2$ ($\\approx575$ N/m). Then $\\omega=\\sqrt{k/\\mu}$ gives the vibrational frequency."
+				"explanation": "$k=2Da^2=2(7.61\\times10^{-19}\\text{ J})(3.76\\times10^{20}\\text{ m}^{-2})\\approx573$ N/m, close to the measured force constant of H$_2$ ($\\approx575$ N/m). Then $\\omega=\\sqrt{k/\\mu}$ gives the vibrational frequency.",
+				"equations": [
+					"k=V''(r_e)=2Da^2",
+					"1\\ \\text{eV}=1.602\\times10^{-19}\\ \\text{J}"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Explain why expanding a molecular potential $V(r)$ about its minimum $r_e$ gives a harmonic oscillator, why there is no linear term, and under what conditions this approximation is valid.",
 				"rubric": "Full credit: Taylor expand V(r) = V(r_e) + V'(r_e) x + (1/2) V''(r_e) x^2 + ...; V'(r_e)=0 at a minimum (no net force) so the linear term vanishes; the constant just sets the zero of energy; leading term (1/2) k x^2 with k = V''(r_e) gives SHM with omega = sqrt(k/mu); valid when displacements are small compared to the scale over which V curves (cubic terms negligible), i.e. low vibrational energy compared with the well depth.",
-				"modelAnswer": "Write $V(r_e+x)=V(r_e)+V'(r_e)x+\\tfrac12V''(r_e)x^2+\\cdots$. At the minimum $V'(r_e)=0$ (no net force), so there is no linear term, and the constant merely shifts the energy zero. What remains is $\\tfrac12kx^2$ with $k=V''(r_e)$, a harmonic oscillator with $\\omega=\\sqrt{k/\\mu}$. It is valid when $|x|$ is small enough that cubic and higher terms are negligible, i.e. for low-lying vibrational levels well below the dissociation energy."
+				"modelAnswer": "Write $V(r_e+x)=V(r_e)+V'(r_e)x+\\tfrac12V''(r_e)x^2+\\cdots$. At the minimum $V'(r_e)=0$ (no net force), so there is no linear term, and the constant merely shifts the energy zero. What remains is $\\tfrac12kx^2$ with $k=V''(r_e)$, a harmonic oscillator with $\\omega=\\sqrt{k/\\mu}$. It is valid when $|x|$ is small enough that cubic and higher terms are negligible, i.e. for low-lying vibrational levels well below the dissociation energy.",
+				"equations": [
+					"V(r)\\approx V(r_e)+\\tfrac12V''(r_e)(r-r_e)^2"
+				]
 			}
 		],
 		"m1-l053-verifying-separable-direction-fields": [
@@ -1642,7 +1897,10 @@
 				"answer": 0.25,
 				"tolerance": 0.02,
 				"unit": "M",
-				"explanation": "$1/[A]=2.0+(0.20)(10)=4.0$ M$^{-1}$, so $[A]=0.25$ M."
+				"explanation": "$1/[A]=2.0+(0.20)(10)=4.0$ M$^{-1}$, so $[A]=0.25$ M.",
+				"equations": [
+					"\\frac1{[A]}=\\frac1{[A]_0}+kt"
+				]
 			},
 			{
 				"kind": "short",
@@ -1674,7 +1932,10 @@
 					"$y=e^{-x}+C$"
 				],
 				"answer": 1,
-				"explanation": "The integrating factor is $\\mu=e^{2x}$, so $(e^{2x}y)'=e^{x}$, giving $e^{2x}y=e^x+C$ and $y=e^{-x}+Ce^{-2x}$. Check: for $y=e^{-x}$, $y'+2y=-e^{-x}+2e^{-x}=e^{-x}$; the term $Ce^{-2x}$ solves the homogeneous equation."
+				"explanation": "The integrating factor is $\\mu=e^{2x}$, so $(e^{2x}y)'=e^{x}$, giving $e^{2x}y=e^x+C$ and $y=e^{-x}+Ce^{-2x}$. Check: for $y=e^{-x}$, $y'+2y=-e^{-x}+2e^{-x}=e^{-x}$; the term $Ce^{-2x}$ solves the homogeneous equation.",
+				"equations": [
+					"\\mu(x)=e^{\\int p(x)\\,dx}"
+				]
 			},
 			{
 				"kind": "mc",
@@ -1686,7 +1947,11 @@
 					"First-order: unchanged. Second-order: doubled"
 				],
 				"answer": 3,
-				"explanation": "First order: $t_{1/2}=\\ln2/k$ has no concentration dependence. Second order: $t_{1/2}=1/(k[A]_0)$, so halving $[A]_0$ doubles it (reactions slow down as molecules become scarcer and meet less often). For zero order, $t_{1/2}=[A]_0/2k$ would halve."
+				"explanation": "First order: $t_{1/2}=\\ln2/k$ has no concentration dependence. Second order: $t_{1/2}=1/(k[A]_0)$, so halving $[A]_0$ doubles it (reactions slow down as molecules become scarcer and meet less often). For zero order, $t_{1/2}=[A]_0/2k$ would halve.",
+				"equations": [
+					"\\frac{d[A]}{dt}=-k[A]\\Rightarrow[A]=[A]_0e^{-kt}",
+					"\\frac1{[A]}=\\frac1{[A]_0}+kt"
+				]
 			},
 			{
 				"kind": "numeric",
@@ -1694,13 +1959,19 @@
 				"answer": 42.86,
 				"tolerance": 0.02,
 				"unit": "°C",
-				"explanation": "At $10$ min, $e^{-10k}=\\frac{60-20}{90-20}=\\frac47$. After $20$ min the excess is $70\\left(\\frac47\\right)^2\\approx22.9$ K, so $T\\approx42.9\\,^\\circ$C. The excess temperature falls by the same factor in every equal time interval."
+				"explanation": "At $10$ min, $e^{-10k}=\\frac{60-20}{90-20}=\\frac47$. After $20$ min the excess is $70\\left(\\frac47\\right)^2\\approx22.9$ K, so $T\\approx42.9\\,^\\circ$C. The excess temperature falls by the same factor in every equal time interval.",
+				"equations": [
+					"T=T_{env}+(T_0-T_{env})e^{-kt}"
+				]
 			},
 			{
 				"kind": "short",
 				"prompt": "Newton's law of cooling is $\\frac{dT}{dt}=-k(T-T_{env})$. Explain how to solve it, what the solution does at long times, and what changes if the room is warmer than the object.",
 				"rubric": "Full credit requires: (1) let $\\theta=T-T_{env}$ so $\\frac{d\\theta}{dt}=-k\\theta$ and $\\theta=\\theta_0e^{-kt}$ (separation of variables); (2) $T\\to T_{env}$ as $t\\to\\infty$ exponentially; (3) if the room is warmer, $\\theta_0<0$ and the object warms toward $T_{env}$ by the same formula.",
-				"modelAnswer": "Define $\\theta=T-T_{env}$; then $\\theta'=-k\\theta$, which separates to $\\theta=\\theta_0e^{-kt}$, so $T=T_{env}+(T_0-T_{env})e^{-kt}$. At long times $T\\to T_{env}$ exponentially fast. If the room is warmer, $\\theta_0$ is negative and the same formula describes the object warming up toward the room temperature."
+				"modelAnswer": "Define $\\theta=T-T_{env}$; then $\\theta'=-k\\theta$, which separates to $\\theta=\\theta_0e^{-kt}$, so $T=T_{env}+(T_0-T_{env})e^{-kt}$. At long times $T\\to T_{env}$ exponentially fast. If the room is warmer, $\\theta_0$ is negative and the same formula describes the object warming up toward the room temperature.",
+				"equations": [
+					"\\mu(x)=e^{\\int p(x)\\,dx}"
+				]
 			}
 		]
 	}
