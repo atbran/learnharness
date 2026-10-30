@@ -1,0 +1,651 @@
+{
+	"courseId": "m6-complex",
+	"checks": {
+		"m6-l001-complex-algebra-euler": [
+			{
+				"kind": "mc",
+				"prompt": "Multiplying a complex number by $1+i$ does what geometrically?",
+				"options": [
+					"Rotates it by $90^\\circ$ and leaves its length unchanged.",
+					"Rotates it by $45^\\circ$ and scales its length by $\\sqrt2$.",
+					"Rotates it by $45^\\circ$ and scales its length by $2$.",
+					"Shifts it by 1 unit to the right and 1 unit up."
+				],
+				"answer": 1,
+				"explanation": "In polar form $1+i=\\sqrt2\\,e^{i\\pi/4}$, and multiplication multiplies moduli and adds arguments. Addition (not multiplication) is the translation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What do the $n$-th roots of $z=re^{i\\theta}$ look like in the complex plane?",
+				"options": [
+					"$n$ points evenly spaced on a circle of the same radius $r$ as the original number.",
+					"One point only, at angle $\\theta/n$ and radius $r^{1/n}$, the principal root alone.",
+					"$n$ points along a straight line through the origin.",
+					"$n$ points spaced $2\\pi/n$ apart on a circle of radius $r^{1/n}$."
+				],
+				"answer": 3,
+				"explanation": "$z^{1/n}=r^{1/n}e^{i(\\theta+2\\pi k)/n}$ for $k=0,\\dots,n-1$. Different $k$ give $n$ distinct values; for $z=1$ these are the roots of unity that appear in the discrete Fourier transform."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Find $\\left|\\dfrac{3+4i}{1-2i}\\right|$.",
+				"answer": 2.236068,
+				"tolerance": 0.02,
+				"explanation": "Moduli multiply and divide: $|3+4i|/|1-2i|=5/\\sqrt5=\\sqrt5\\approx2.236$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute the imaginary part of $(1+i)^{10}$ using de Moivre's theorem.",
+				"answer": 32.0,
+				"tolerance": 0.02,
+				"explanation": "$(1+i)^{10}=(\\sqrt2)^{10}e^{i10\\pi/4}=32e^{i5\\pi/2}=32i$, so the imaginary part is 32."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how Euler's formula $e^{i\\theta}=\\cos\\theta+i\\sin\\theta$ follows from power series and how it gives de Moivre's theorem and trigonometric identities.",
+				"rubric": "Full credit requires: series of $e^{i\\theta}$ splits into real part (cos series) and imaginary part (sin series) since $i^2=-1$ etc.; $(e^{i\\theta})^n=e^{in\\theta}$ gives $(\\cos\\theta+i\\sin\\theta)^n=\\cos n\\theta+i\\sin n\\theta$; equate real/imaginary parts of the expanded binomial to get multiple-angle formulas; product of exponentials gives angle-addition.",
+				"modelAnswer": "Insert $i\\theta$ into $e^x=\\sum x^k/k!$: the even powers are real, $(i\\theta)^{2m}=(-1)^m\\theta^{2m}$, and sum to the cosine series; the odd powers are $i$ times the sine series. Because $e^{in\\theta}=(e^{i\\theta})^n$, we get de Moivre: $(\\cos\\theta+i\\sin\\theta)^n=\\cos n\\theta+i\\sin n\\theta$. Expanding the left side with the binomial theorem and comparing real and imaginary parts gives multiple-angle identities, and $e^{i(a+b)}=e^{ia}e^{ib}$ gives the angle-addition formulas."
+			}
+		],
+		"m6-l002-elementary-functions-logs": [
+			{
+				"kind": "mc",
+				"prompt": "What are the values of $\\ln(-1)$ in the complex plane?",
+				"options": [
+					"$i\\pi(2k+1)$ for any integer $k$; the principal value is $i\\pi$.",
+					"It is undefined, since the logarithm of a negative number does not exist.",
+					"$i\\pi$ only, with no other values.",
+					"$i\\pi k$ for any integer $k$, including $0$."
+				],
+				"answer": 0,
+				"explanation": "$\\ln z=\\ln r+i(\\theta+2\\pi k)$, and $-1$ has $r=1$, $\\theta=\\pi$. The multivaluedness arises because $e^{i2\\pi}=1$: adding $2\\pi i$ to the logarithm does not change the number."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What happens to $\\sqrt z$ and $\\ln z$ if you follow $z$ once around a circle centred on the origin?",
+				"options": [
+					"Both return to their starting values after one complete circuit.",
+					"$\\sqrt z$ returns, but $\\ln z$ gains $2\\pi i$ around the circuit.",
+					"$\\sqrt z$ changes sign and $\\ln z$ gains $2\\pi i$: a branch point.",
+					"$\\sqrt z$ changes sign, but $\\ln z$ is unchanged by the circuit."
+				],
+				"answer": 2,
+				"explanation": "The argument increases by $2\\pi$: $\\sqrt z$ gets a factor $e^{i\\pi}=-1$ and $\\ln z$ gets $+2\\pi i$. A branch cut is a barrier you must not cross to keep the function single-valued."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $|i^i|$, where $i^i=\\exp(i\\ln i)$ with the principal value $\\ln i=i\\pi/2$. Give the value (it is real).",
+				"answer": 0.20788,
+				"tolerance": 0.02,
+				"explanation": "$i^i=e^{i\\cdot i\\pi/2}=e^{-\\pi/2}\\approx0.2079$. (Other branches give $e^{-\\pi/2-2\\pi k}$.)"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "$\\arcsin2$ has no real value; the principal value is $\\pi/2\\pm ib$ with $b>0$. Find $b$.",
+				"answer": 1.316958,
+				"tolerance": 0.02,
+				"explanation": "Solving $\\sin w=2$: $e^{iw}=i(2\\pm\\sqrt3)$ gives $b=\\ln(2+\\sqrt3)\\approx1.317$. Unlike the real sine, the complex sine is unbounded."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the complex logarithm is multivalued, and what 'walking once around a branch point' shows.",
+				"rubric": "Full credit requires: $e^w=z$ has solutions $w$ differing by $2\\pi i$ since $e^{2\\pi i}=1$; $\\ln z=\\ln r+i(\\theta+2\\pi k)$; circling the origin increases $\\theta$ by $2\\pi$ so the function does not return to its starting value (monodromy); a cut makes it single-valued by forbidding the circuit.",
+				"modelAnswer": "The argument of a complex number is only defined up to multiples of $2\\pi$, because $e^{i2\\pi}=1$; so $\\ln z=\\ln r+i(\\theta+2\\pi k)$ has infinitely many values. If we follow $z$ continuously once around the origin, $\\theta$ increases by $2\\pi$, and the logarithm ends up on a different value: it does not return to where it began. That failure to return is what defines a branch point, and a branch cut is a line we agree not to cross so that the function becomes single-valued."
+			}
+		],
+		"m6-l003-series-applications": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the Taylor series of $1/(1+x^2)$ about $x=0$ have radius of convergence 1, even though the function is perfectly smooth on the whole real line?",
+				"options": [
+					"The function has a zero at $x=\\pm1$, which ends the series there.",
+					"The series has only even powers, so it converges only for $|x|<1$.",
+					"The poles at $z=\\pm i$ lie at distance $1$ from the origin.",
+					"Real $x$ beyond 1 gives values too small for a power series to follow."
+				],
+				"answer": 2,
+				"explanation": "The radius of convergence equals the distance to the nearest singularity in the complex plane, even if it is off the real axis. The series diverges for $|x|>1$ because of the hidden poles at $\\pm i$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a series RLC circuit driven at $\\omega$, $Z=R+i(\\omega L-1/\\omega C)$. What happens at $\\omega_0=1/\\sqrt{LC}$?",
+				"options": [
+					"The reactances cancel, so $Z=R$ and $|Z|$ is at a minimum.",
+					"The impedance is infinite, so no current flows through the circuit.",
+					"The impedance is zero, because the resistor drops out of the sum.",
+					"The current lags the voltage by $90^\\circ$ at this frequency."
+				],
+				"answer": 0,
+				"explanation": "At $\\omega_0$, $\\omega L=1/\\omega C$ and the imaginary part vanishes. This is the same resonance as the driven damped oscillator, with $R$ playing the role of the dashpot."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A series RLC circuit has $R=100\\ \\Omega$, $L=10$ mH and $C=1\\ \\mu$F. Find the magnitude of the impedance $|Z|$ at $\\omega=2000$ rad/s in ohms.",
+				"answer": 490.306027,
+				"tolerance": 0.02,
+				"unit": "ohm",
+				"explanation": "$\\omega L=20\\ \\Omega$, $1/\\omega C=500\\ \\Omega$, so $X=-480\\ \\Omega$ and $|Z|=\\sqrt{100^2+480^2}\\approx490\\ \\Omega$ (capacitive, since $X<0$)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Sum the geometric series $\\sum_{n=0}^\\infty(\\tfrac12)^n\\cos n\\theta$ at $\\theta=\\pi/3$ by taking the real part of $\\sum(\\tfrac12e^{i\\theta})^n$.",
+				"answer": 1.0,
+				"tolerance": 0.02,
+				"explanation": "Writing $q=\\tfrac12e^{i\\theta}$, $\\text{Re}\\,\\dfrac1{1-q}=\\dfrac{1-\\frac12\\cos\\theta}{1-\\cos\\theta+\\frac14}$. At $\\theta=\\pi/3$ the numerator is $0.75$ and the denominator is $1-0.5+0.25=0.75$, so the sum equals $1.0$."
+			},
+			{
+				"kind": "short",
+				"prompt": "What does the complex impedance $Z$ represent, and what does a Nyquist plot in electrochemical impedance spectroscopy show?",
+				"rubric": "Full credit requires: $Z=V/I$ as a complex number: modulus = amplitude ratio, argument = phase shift between voltage and current; real part = resistive (dissipative), imaginary part = reactive (energy storage); Nyquist plot = $-\\text{Im}\\,Z$ against $\\text{Re}\\,Z$ as frequency is swept; e.g. semicircle for parallel R-C (charge-transfer resistance and double-layer capacitance).",
+				"modelAnswer": "For sinusoidal driving, $V=ZI$ with the complex number $Z$ encoding both the ratio of amplitudes ($|Z|$) and the phase shift ($\\arg Z$). Resistors give a real contribution (energy dissipated), inductors and capacitors give imaginary ones ($i\\omega L$, $1/i\\omega C$) that store and return energy. A Nyquist plot sweeps frequency and plots $-\\text{Im}\\,Z$ versus $\\text{Re}\\,Z$ in the complex plane; a parallel RC element (like a charge-transfer resistance and double-layer capacitance) traces a semicircle whose diameter is $R$ and whose peak frequency is $1/RC$."
+			}
+		],
+		"m6-l004-analytic-cauchy-riemann": [
+			{
+				"kind": "mc",
+				"prompt": "Which of these functions is analytic everywhere in the complex plane?",
+				"options": [
+					"$\\bar z$.",
+					"$|z|^2$.",
+					"$\\text{Re}\\,z$.",
+					"$e^z$."
+				],
+				"answer": 3,
+				"explanation": "$e^z=e^x(\\cos y+i\\sin y)$ satisfies the Cauchy-Riemann equations everywhere. The others depend on $\\bar z$ and fail them: $\\bar z$ has $u_x=1$ but $v_y=-1$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is $f(z)=\\bar z$ not complex-differentiable anywhere?",
+				"options": [
+					"It is discontinuous at every point of the complex plane.",
+					"$\\bar h/h$ is $1$ for real $h$ but $-1$ for imaginary $h$.",
+					"Its derivative would be infinite, so the limit does not exist.",
+					"Conjugation is not additive, so the difference quotient fails."
+				],
+				"answer": 1,
+				"explanation": "Complex differentiability demands that $\\lim_{h\\to0}[f(z+h)-f(z)]/h$ is the same from every direction; this single requirement is equivalent to the Cauchy-Riemann equations $u_x=v_y$, $u_y=-v_x$. $\\bar z$ is continuous, but fails this test."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The harmonic function $u=x^2-y^2$ is the real part of an analytic $f=u+iv$ with $v(0,0)=0$. Find $v(1,2)$.",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"explanation": "Cauchy-Riemann gives $v_y=u_x=2x$ and $v_x=-u_y=2y$, so $v=2xy$ (this is $f=z^2$). Then $v(1,2)=4$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $f(z)=e^z$, find $|f'(z)|$ at $z=1+i\\pi/2$.",
+				"answer": 2.718282,
+				"tolerance": 0.02,
+				"explanation": "$f'=e^z$ and $|e^{1+i\\pi/2}|=e^1\\approx2.718$. The local magnification of the map is $|f'|$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the real and imaginary parts of an analytic function satisfy Laplace's equation, and what this means for level curves of $u$ and $v$.",
+				"rubric": "Full credit requires: from $u_x=v_y$, $u_y=-v_x$ derive $u_{xx}=v_{yx}=-u_{yy}$ (needs smoothness, guaranteed for analytic functions); same for v; contours $u=$ const and $v=$ const are orthogonal because their gradients are perpendicular (dot product $u_xv_x+u_yv_y=0$); applications: 2D electrostatics (equipotentials and field lines) and ideal fluid flow.",
+				"modelAnswer": "Differentiating, $u_{xx}=\\partial_x v_y$ and $u_{yy}=-\\partial_y v_x$, and mixed partials commute, so $u_{xx}+u_{yy}=0$; likewise for $v$. So $u$ and $v$ are harmonic. Their gradients are perpendicular ($\\nabla u\\cdot\\nabla v=u_xv_x+u_yv_y=-u_xu_y+u_yu_x=0$), so the curves $u=$ const and $v=$ const cross at right angles: in electrostatics they are equipotentials and field lines, in ideal flow streamlines and potential lines."
+			}
+		],
+		"m6-l005-conformal-mapping": [
+			{
+				"kind": "mc",
+				"prompt": "The map $w=z^2$ doubles the angle between curves meeting at $z=0$. Why does this not contradict conformality?",
+				"options": [
+					"Because $f'(0)=0$, so conformality fails at the origin only.",
+					"Because $z^2$ is not an analytic function anywhere in the plane.",
+					"Because conformal maps are allowed to double angles near branch points.",
+					"Because conformal maps preserve areas rather than angles."
+				],
+				"answer": 0,
+				"explanation": "A map with $f'(z_0)\\ne0$ acts locally like multiplication by the complex number $f'(z_0)$, a rotation by $\\arg f'$ and scaling by $|f'|$, which preserves angles. At a critical point $f'=0$ the local picture is $(z-z_0)^n$ and angles multiply by $n$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Under $w=1/z$, to what is a straight line not passing through the origin mapped?",
+				"options": [
+					"Another straight line not through the origin.",
+					"A straight line through the origin.",
+					"A circle passing through the origin.",
+					"A single point."
+				],
+				"answer": 2,
+				"explanation": "Mobius maps send circles and lines to circles and lines; a line is a circle through $\\infty$, and $1/z$ sends $\\infty$ to $0$. This is the tool for mapping complicated regions to half-planes or disks."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The map $w=(z-i)/(z+i)$ takes the upper half-plane to the unit disk. Find $|w|$ at $z=1+i$.",
+				"answer": 0.447214,
+				"tolerance": 0.02,
+				"explanation": "$w=\\dfrac{1}{1+2i}$, so $|w|=1/\\sqrt5\\approx0.447<1$, consistent with the point being inside the disk. For real $z$, $|w|=1$ exactly."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the conformal map $f(z)=z^2$, by what factor are small lengths magnified at $z=3+4i$?",
+				"answer": 10.0,
+				"tolerance": 0.02,
+				"explanation": "The local scale factor is $|f'(z)|=|2z|=2\\cdot5=10$."
+			},
+			{
+				"kind": "short",
+				"prompt": "How is an analytic function used as a complex potential for 2D electrostatics or fluid flow, and why does conformal mapping help solve Laplace problems?",
+				"rubric": "Full credit requires: $\\Phi=\\text{Re}\\,w(z)$ is harmonic (the potential) and Im part is conjugate (stream/field-line function), orthogonal families; conformal maps preserve Laplace's equation (harmonic functions remain harmonic) and angle relations, so a hard boundary can be mapped to an easy one, solved there, and mapped back.",
+				"modelAnswer": "If $w(z)=\\phi+i\\psi$ is analytic then $\\phi$ and $\\psi$ are both harmonic and their level curves are orthogonal: $\\phi=$ const are equipotentials and $\\psi=$ const are field lines or streamlines. An analytic change of variables keeps harmonic functions harmonic (and boundary conditions on curves map to boundary conditions on the image curves), so we can map an awkward region to a half-plane or disk where the solution is known, then map the solution back."
+			}
+		],
+		"m6-l006-contour-integrals-cauchy": [
+			{
+				"kind": "mc",
+				"prompt": "On the unit circle, $\\bar z=1/z$. What is $\\oint_{|z|=1}\\bar z\\,dz$?",
+				"options": [
+					"$0$, by Cauchy's theorem, since the integrand is continuous and smooth, and bounded on the circle.",
+					"$2\\pi i$, since $\\bar z=1/z$ on the circle and $\\bar z$ is not analytic.",
+					"$2\\pi$, which is simply the circumference of the unit circle of the circle.",
+					"$\\pi i$, which is half of the residue at the origin."
+				],
+				"answer": 1,
+				"explanation": "Parametrise $z=e^{i\\theta}$: $\\oint\\bar z\\,dz=\\int_0^{2\\pi}e^{-i\\theta}ie^{i\\theta}d\\theta=2\\pi i$. Cauchy's theorem requires analyticity inside; $\\bar z$ fails the Cauchy-Riemann equations."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is $\\oint_{|z|=1}\\dfrac{dz}{z-3}$?",
+				"options": [
+					"$2\\pi i$, since $1/(z-a)$ always integrates to $2\\pi i$.",
+					"$2\\pi i/3$, since the pole sits a distance 3 from the origin.",
+					"$-2\\pi i$, since the contour is traversed around the origin.",
+					"$0$, since the pole at $z=3$ lies outside the contour."
+				],
+				"answer": 3,
+				"explanation": "Only poles enclosed by the contour contribute (by Cauchy's theorem the contour can be shrunk to nothing otherwise). The value $2\\pi i$ for $\\oint dz/(z-a)$ requires $a$ inside the loop."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\int_C z^2\\,dz$ along the straight line from $0$ to $1+i$. Give the real part of the result.",
+				"answer": -0.666667,
+				"tolerance": 0.02,
+				"explanation": "$z^2$ is analytic with antiderivative $z^3/3$, so the integral is $(1+i)^3/3=(-2+2i)/3$ with real part $-2/3\\approx-0.667$; the path doesn't matter."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Use the ML inequality to bound $\\left|\\oint_{|z|=3}\\dfrac{dz}{z^2+1}\\right|$: on the circle $|z^2+1|\\ge8$ and the length is $6\\pi$. Give the upper bound $ML$.",
+				"answer": 2.356194,
+				"tolerance": 0.02,
+				"explanation": "$M=1/8$ and $L=6\\pi$, so $|I|\\le6\\pi/8=3\\pi/4\\approx2.356$. (The exact value is 0, since the residues at $\\pm i$ cancel.)"
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does $\\oint z^n\\,dz$ over a circle around the origin vanish for every integer $n\\ne-1$ but equal $2\\pi i$ for $n=-1$, and what does this say about poles?",
+				"rubric": "Full credit requires: $\\int_0^{2\\pi}e^{i(n+1)\\theta}i\\,d\\theta$ is zero unless $n+1=0$ (for $n\\ne-1$, $z^n$ has a single-valued antiderivative $z^{n+1}/(n+1)$; for $n=-1$ the antiderivative $\\ln z$ is multivalued by $2\\pi i$); only the $1/z$ term survives, hence the 'residue' picks out the coefficient of $1/z$; poles are the source of nonzero loop integrals.",
+				"modelAnswer": "With $z=e^{i\\theta}$, $\\oint z^ndz=i\\int_0^{2\\pi}e^{i(n+1)\\theta}d\\theta$, which is zero unless $n+1=0$ (then it is $2\\pi i$). Equivalently, $z^n$ with $n\\ne-1$ has a single-valued antiderivative $z^{n+1}/(n+1)$, so integrating around a loop returns to the start, but the antiderivative of $1/z$ is $\\ln z$, which changes by $2\\pi i$ around the origin. Thus only the $1/z$ part of a function contributes to loop integrals around a singularity, which is why poles are the source of nonzero values."
+			}
+		],
+		"m6-l007-cauchy-integral-formula": [
+			{
+				"kind": "mc",
+				"prompt": "What is $\\oint_{|z|=2}\\dfrac{e^z}{z-1}\\,dz$?",
+				"options": [
+					"$0$, since $e^z$ is analytic everywhere inside the contour.",
+					"$2\\pi i\\,e$, from $f(a)$ with $f=e^z$ and $a=1$.",
+					"$2\\pi i$, since the residue of $1/(z-1)$ is one.",
+					"$2\\pi i/e$, since the formula divides by $f(a)$."
+				],
+				"answer": 1,
+				"explanation": "$f(a)=\\frac{1}{2\\pi i}\\oint\\frac{f(z)}{z-a}dz$, so the integral is $2\\pi i\\,f(1)=2\\pi ie$. The numerator is analytic, but the denominator creates the pole that gives the nonzero value."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why must every non-constant polynomial $p(z)$ have a complex root?",
+				"options": [
+					"A polynomial's degree always equals the number of its real roots.",
+					"Complex numbers are defined so as to contain every possible root.",
+					"A continuous polynomial must cross zero somewhere on the real line.",
+					"$1/p$ would be bounded and entire, so constant by Liouville."
+				],
+				"answer": 3,
+				"explanation": "If $p$ had no zero, $1/p$ would be analytic everywhere and bounded, so it would be constant, so $p$ would be constant. This is the fundamental theorem of algebra, proved from Cauchy's formula."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate the magnitude of $\\oint_{|z|=2}\\dfrac{e^z}{(z-1)^3}\\,dz$ using $f^{(n)}(a)=\\dfrac{n!}{2\\pi i}\\oint\\dfrac{f(z)}{(z-a)^{n+1}}dz$.",
+				"answer": 8.539734,
+				"tolerance": 0.02,
+				"explanation": "With $n=2$, $\\oint=\\dfrac{2\\pi i}{2!}f''(1)=\\pi i\\,e$, whose magnitude is $\\pi e\\approx8.54$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The mean-value property says $f(a)$ equals the average of $f$ over a circle around $a$. What is the average of $f(z)=z^3$ over the circle $|z-2|=1$?",
+				"answer": 8.0,
+				"tolerance": 0.02,
+				"explanation": "Cauchy's formula gives $f(a)=\\frac1{2\\pi}\\int f(a+re^{i\\theta})d\\theta$, so the average is $f(2)=8$, regardless of the radius."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how Cauchy's integral formula shows that an analytic function has derivatives of all orders and is locally a power series.",
+				"rubric": "Full credit requires: values inside are determined by values on the boundary; differentiate under the integral sign wrt a (denominator $(z-a)^{-1}$ differentiable infinitely often), giving formulas for all derivatives; expand $1/(z-a)$ as a geometric series (valid for $|a-a_0|<|z-a_0|$) and integrate term by term to get a Taylor series.",
+				"modelAnswer": "The formula $f(a)=\\frac1{2\\pi i}\\oint\\frac{f(z)}{z-a}dz$ expresses $f$ inside by its boundary values. The only dependence on $a$ is in the kernel $1/(z-a)$, which can be differentiated as many times as we like, giving $f^{(n)}(a)=\\frac{n!}{2\\pi i}\\oint\\frac{f(z)}{(z-a)^{n+1}}dz$. Expanding $1/(z-a)$ in a geometric series and integrating term by term gives a convergent power series around any point, with radius reaching the nearest singularity."
+			}
+		],
+		"m6-l008-laurent-singularities": [
+			{
+				"kind": "mc",
+				"prompt": "Classify the singularity of $e^{1/z}$ at $z=0$.",
+				"options": [
+					"An essential singularity: infinitely many negative powers.",
+					"A removable singularity, since $e^w$ is entire in $w=1/z$.",
+					"A simple pole, since only the $1/z$ term dominates.",
+					"A branch point, because $1/z$ is multivalued near the origin."
+				],
+				"answer": 0,
+				"explanation": "$e^{1/z}=\\sum z^{-n}/n!$ has infinitely many negative terms, so no finite order pole fits. Near an essential singularity the function takes nearly every complex value."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The function $1/(z(z-1))$ has different Laurent expansions about $z=0$ in $0<|z|<1$ and in $|z|>1$. Why?",
+				"options": [
+					"The function is not analytic at $z=0$, so no expansion exists there.",
+					"A Laurent series is not unique even within one fixed annulus.",
+					"Each annulus is free of poles, and the pole at $z=1$ separates them.",
+					"The two expansions are secretly identical once rearranged."
+				],
+				"answer": 2,
+				"explanation": "In $0<|z|<1$: $-\\frac1z(1+z+z^2+\\cdots)$; in $|z|>1$: $\\frac1{z^2}(1+\\frac1z+\\cdots)$. The coefficient of $1/z$ (the residue at $0$) is $-1$ in the first, but the second expansion has no $1/z$ term because it encloses both poles whose residues cancel."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "What is the radius of convergence of the Taylor series about $z=0$ of $f(z)=\\dfrac{1}{z^2-2z+5}$?",
+				"answer": 2.236068,
+				"tolerance": 0.02,
+				"explanation": "The poles are at $z=1\\pm2i$, both at distance $\\sqrt5\\approx2.236$ from the origin, so the series converges for $|z|<\\sqrt5$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Find the residue (coefficient of $1/z$) of $\\cos z/z^3$ at $z=0$.",
+				"answer": -0.5,
+				"tolerance": 0.02,
+				"explanation": "$\\cos z/z^3=z^{-3}(1-z^2/2+\\cdots)=z^{-3}-\\tfrac12z^{-1}+\\cdots$. The residue is $-\\tfrac12$; the pole has order 3."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is the coefficient of $1/(z-a)$ in the Laurent series called the residue?",
+				"rubric": "Full credit requires: integrate the Laurent series term by term around a small circle about $a$: every $(z-a)^n$ integrates to zero except $n=-1$, which gives $2\\pi i\\,c_{-1}$; so what 'remains' of the loop integral is $2\\pi i$ times that coefficient.",
+				"modelAnswer": "Integrate the Laurent series $\\sum c_n(z-a)^n$ term by term around a small circle centred on $a$. Each power $(z-a)^n$ with $n\\ne-1$ integrates to zero, and the $n=-1$ term gives $2\\pi i\\,c_{-1}$. So the entire value of the loop integral is carried by the coefficient $c_{-1}$, which is what is 'left over' (the residue) after everything else cancels."
+			}
+		],
+		"m6-l009-residue-theorem": [
+			{
+				"kind": "mc",
+				"prompt": "What is the residue of $f(z)=\\dfrac{1}{z^2+1}$ at $z=i$?",
+				"options": [
+					"$\\dfrac{i}{2}$, from $1/q'(-i)$ at the other pole.",
+					"$2i$, from $q'(i)$ rather than $1/q'(i)$.",
+					"$-\\dfrac{i}{2}$, from $1/q'(i)=1/(2i)$.",
+					"$\\dfrac12$, from $1/q'$ with the factor of $i$ dropped."
+				],
+				"answer": 2,
+				"explanation": "For $f=p/q$ with a simple zero of $q$ at $a$, $\\text{Res}=p(a)/q'(a)$. Here $q'=2z$, giving $1/(2i)=-i/2$. The residue at $-i$ is $+i/2$, so they sum to zero, as expected for a function decaying like $1/z^2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How is the residue theorem $\\oint f\\,dz=2\\pi i\\sum\\text{Res}$ derived from Cauchy's theorem?",
+				"options": [
+					"Shrink to small circles round the poles, each giving $2\\pi i\\,c_{-1}$.",
+					"Assume the function is analytic everywhere inside the big contour.",
+					"Apply the ML inequality and let the length of the contour shrink.",
+					"Differentiate Cauchy's integral formula once with respect to $a$."
+				],
+				"answer": 0,
+				"explanation": "The region between the big loop and the small circles contains no singularities, so Cauchy's theorem lets the loop integral equal the sum of the small-circle integrals; each of those is evaluated with the Laurent series."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Use the residue theorem to compute $\\oint_{|z|=2}\\dfrac{e^z}{z^2+1}\\,dz$. Give the real value.",
+				"answer": 5.287118,
+				"tolerance": 0.02,
+				"explanation": "Residues: $e^i/(2i)$ at $i$ and $e^{-i}/(-2i)$ at $-i$. Sum $=\\sin(1)$, so the integral is $2\\pi\\sin1\\approx5.288$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Find the residue of $\\dfrac{e^z}{(z-1)^2}$ at the double pole $z=1$ using $\\text{Res}=\\dfrac{1}{(m-1)!}\\dfrac{d^{m-1}}{dz^{m-1}}\\left[(z-a)^mf\\right]$.",
+				"answer": 2.718282,
+				"tolerance": 0.02,
+				"explanation": "With $m=2$: $\\frac{d}{dz}e^z=e^z$, evaluated at $z=1$ gives $e\\approx2.718$."
+			},
+			{
+				"kind": "short",
+				"prompt": "What does the residue of a function at a pole measure, and why are only the poles inside a contour counted?",
+				"rubric": "Full credit requires: residue = coefficient $c_{-1}$ of $1/(z-a)$ in the Laurent series = the 'strength' of the pole = the only part of the singular behaviour that contributes a net circulation ($\\oint=2\\pi ic_{-1}$); poles outside the contour don't matter because the function is analytic inside and Cauchy's theorem gives zero for those; the contour can be deformed freely until it hits a pole.",
+				"modelAnswer": "The residue is the coefficient of $1/(z-a)$ in the Laurent expansion, the part of the function that does not integrate to zero around a small loop: $\\oint=2\\pi i\\,\\text{Res}$. A pole outside the contour has no effect, because deforming the contour to nothing sweeps through only analytic territory, where Cauchy's theorem gives zero. So the loop integral just adds up the strengths of the poles it encloses."
+			}
+		],
+		"m6-l010-real-integrals": [
+			{
+				"kind": "mc",
+				"prompt": "To evaluate $\\int_{-\\infty}^{\\infty}\\dfrac{e^{ikx}}{x^2+1}dx$, in which half-plane do you close the contour?",
+				"options": [
+					"Always the upper half-plane, since the pole $z=i$ lies there.",
+					"Upper for $k<0$ and lower for $k>0$, so the pole is enclosed.",
+					"Either one works, since the arc vanishes whichever way we close.",
+					"Upper for $k>0$, lower for $k<0$, so that $e^{ikz}$ decays."
+				],
+				"answer": 3,
+				"explanation": "$|e^{ikz}|=e^{-k\\,\\text{Im}z}$, which decays for $\\text{Im}z>0$ if $k>0$ and for $\\text{Im}z<0$ if $k<0$. Closing the wrong way makes the arc blow up. The result $\\pi e^{-|k|}$ is the Fourier transform of a Lorentzian."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The integral $\\int_{-\\infty}^\\infty\\dfrac{\\sin x}{x}dx=\\pi$ can be found from $\\int\\dfrac{e^{ix}}{x}dx$. How is the pole at $x=0$ on the contour handled?",
+				"options": [
+					"Ignore the pole, since $\\sin x/x$ is finite at the origin, since nothing is singular there.",
+					"Indent with a small semicircle, which contributes half of $2\\pi i\\,\\text{Res}$.",
+					"Close in the lower half-plane, which avoids the pole entirely altogether.",
+					"Treat $\\int e^{ix}/x\\,dx$ as divergent, so the method cannot be used."
+				],
+				"answer": 1,
+				"explanation": "The small upper semicircle around the pole (traversed clockwise) contributes $-i\\pi\\,\\text{Res}=-i\\pi$ (half of $2\\pi i$); the large arc vanishes by Jordan's lemma and no poles are enclosed, so $\\text{PV}\\int e^{ix}/x\\,dx-i\\pi=0$, i.e. $\\text{PV}\\int e^{ix}/x\\,dx=i\\pi$. Its real part is $\\int\\cos x/x=0$ (odd) and its imaginary part gives $\\int\\sin x/x=\\pi$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\int_0^{2\\pi}\\dfrac{d\\theta}{2+\\cos\\theta}$ by substituting $z=e^{i\\theta}$.",
+				"answer": 3.627599,
+				"tolerance": 0.02,
+				"explanation": "The integral becomes $\\oint\\frac{2\\,dz}{i(z^2+4z+1)}$ with one pole inside the unit circle at $z=-2+\\sqrt3$. The residue gives $2\\pi/\\sqrt3\\approx3.628$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\int_{-\\infty}^\\infty\\dfrac{\\cos x}{x^2+4}dx$ by residues (closing in the upper half-plane). Use $\\int\\frac{e^{ikx}}{x^2+a^2}dx=\\frac{\\pi}{a}e^{-ka}$.",
+				"answer": 0.212584,
+				"tolerance": 0.02,
+				"explanation": "With $a=2$, $k=1$: $\\frac{\\pi}{2}e^{-2}\\approx0.2126$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does the large semicircular arc contribute nothing when closing a contour for a rational function like $1/(x^2+1)$, and why does the Fourier transform of a Lorentzian turn out to be an exponential?",
+				"rubric": "Full credit requires: ML inequality: arc length $\\pi R$ times integrand size $\\sim1/R^2$ gives $\\sim1/R\\to0$; Jordan's lemma for $e^{ikz}$ allows a weaker decay; residue at the pole $z=ia$ gives $\\pi e^{-ka}/a$, so the Fourier transform of a Lorentzian is an exponential decay in $k$ (and conversely an exponential decay in time gives a Lorentzian line shape).",
+				"modelAnswer": "On the arc $|z|=R$, the integrand is bounded by about $1/R^2$ and the length is $\\pi R$, so by the ML inequality the contribution is at most $\\sim\\pi/R\\to0$; for $e^{ikz}$ factors Jordan's lemma shows the arc still vanishes if we close in the half-plane where $e^{ikz}$ decays. Then only the pole at $z=ia$ remains, giving $\\pi e^{-|k|a}/a$: the Fourier transform of a Lorentzian is an exponential. Physically, an exponentially decaying signal in time has a Lorentzian spectrum, with the width set by the decay rate."
+			}
+		],
+		"m6-l011-branch-cuts-keyhole": [
+			{
+				"kind": "mc",
+				"prompt": "The keyhole-contour result is $\\int_0^\\infty\\dfrac{x^{a-1}}{1+x}dx=\\dfrac{\\pi}{\\sin\\pi a}$ for $0<a<1$. What is the value at $a=\\tfrac12$, i.e. $\\int_0^\\infty\\dfrac{dx}{\\sqrt x(1+x)}$?",
+				"options": [
+					"$\\pi$.",
+					"$\\pi/2$.",
+					"$2\\pi$.",
+					"$1$."
+				],
+				"answer": 0,
+				"explanation": "$\\sin(\\pi/2)=1$, so the integral is $\\pi$ (also found by $x=u^2$ giving $2\\int_0^\\infty du/(1+u^2)=\\pi$). The condition $0<a<1$ ensures convergence at 0 and at infinity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the Sokhotski-Plemelj formula $\\dfrac{1}{x-a\\pm i\\epsilon}=\\text{P}\\dfrac{1}{x-a}\\mp i\\pi\\delta(x-a)$ say, and why does it matter in physics?",
+				"options": [
+					"It says $1/x$ is meaningless at $x=0$ and should be set to zero.",
+					"It says the delta function is equal to the principal value.",
+					"A principal-value part plus a delta function: the $i\\epsilon$ encodes causality.",
+					"It says the pole moves off the axis whenever $\\epsilon$ is large."
+				],
+				"answer": 2,
+				"explanation": "The $\\pm i\\epsilon$ tells you which side of the pole the contour passes. The delta-function term is why Fermi's golden rule has $\\delta(E_f-E_i-\\hbar\\omega)$ and why a Green's function has an imaginary part exactly at resonance."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\int_0^\\infty\\dfrac{x^{a-1}}{1+x}dx$ at $a=1/3$ using the keyhole result $\\pi/\\sin\\pi a$.",
+				"answer": 3.627599,
+				"tolerance": 0.02,
+				"explanation": "$\\pi/\\sin(\\pi/3)=\\pi/0.8660=3.628$ (equal to $2\\pi/\\sqrt3$)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Use the substitution $u=x^3$ and the keyhole result to evaluate $\\int_0^\\infty\\dfrac{dx}{1+x^3}$.",
+				"answer": 1.2092,
+				"tolerance": 0.02,
+				"explanation": "$u=x^3$ gives $\\frac13\\int_0^\\infty\\frac{u^{-2/3}}{1+u}du$ with $a=1/3$, i.e. $\\frac13\\cdot\\frac{\\pi}{\\sin(\\pi/3)}=\\frac{2\\pi}{3\\sqrt3}\\approx1.209$."
+			},
+			{
+				"kind": "short",
+				"prompt": "In a keyhole contour for $\\int_0^\\infty x^{a-1}/(1+x)\\,dx$, why do the two sides of the cut give different contributions, and how does the pole at $z=-1$ then determine the answer?",
+				"rubric": "Full credit requires: with the cut along the positive real axis, the argument is 0 on the upper lip and $2\\pi$ on the lower, so $z^{a-1}$ differs by the factor $e^{2\\pi i(a-1)}=e^{2\\pi ia}$; the lip integrals combine to $(1-e^{2\\pi ia})I$; the circular arcs vanish; the residue at $z=-1=e^{i\\pi}$ is $e^{i\\pi(a-1)}$; equating gives $I=\\pi/\\sin\\pi a$.",
+				"modelAnswer": "Going once around the origin changes the argument by $2\\pi$, so on the lower lip of the cut $z^{a-1}$ is $e^{2\\pi i(a-1)}=e^{2\\pi ia}$ times its value on the upper lip. The integrals along the two lips therefore do not cancel but combine to $(1-e^{2\\pi ia})I$. The big and small circles vanish as radius goes to infinity and zero, and the closed contour encloses the pole at $z=-1=e^{i\\pi}$ with residue $e^{i\\pi(a-1)}$. Equating $2\\pi i\\,\\text{Res}$ to $(1-e^{2\\pi ia})I$ gives $I=\\pi/\\sin\\pi a$."
+			}
+		],
+		"m6-l012-infinity-argument": [
+			{
+				"kind": "mc",
+				"prompt": "A function $f$ is analytic except for 1 pole and has 3 zeros inside a closed contour $C$ (none on it). By how many times does the image curve $f(C)$ wind around the origin?",
+				"options": [
+					"4 times, since zeros and poles both add to the winding.",
+					"2 times, since zeros minus poles is $3-1=2$.",
+					"3 times, since only the zeros inside the contour count.",
+					"$-2$ times, since poles reverse the sense of winding but zeros do not."
+				],
+				"answer": 1,
+				"explanation": "The argument principle: $\\frac1{2\\pi i}\\oint f'/f\\,dz=N_{\\rm zeros}-N_{\\rm poles}$ (counted with multiplicity), which is the winding of $f(C)$ around 0."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does counting the zeros of a characteristic polynomial in the right half-plane test the stability of a linear system?",
+				"options": [
+					"Such roots make the polynomial vanish at $t=0$, which is unphysical, which is unphysical for any system.",
+					"The right half-plane is where the Laplace transform converges.",
+					"Roots on the imaginary axis are always unstable and must be counted in the same way.",
+					"A root with $\\text{Re}\\,s>0$ gives a growing $e^{st}$, and winding counts them."
+				],
+				"answer": 3,
+				"explanation": "The winding number of $p(s)$ along the imaginary axis (plus a large semicircle) counts the zeros in the right half-plane. That is the Nyquist criterion for feedback stability. Roots exactly on the imaginary axis give oscillations that neither grow nor decay."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using the residue at infinity (or the sum of finite residues), evaluate the magnitude of $\\oint_{|z|=5}\\dfrac{z^3}{z^4-1}dz$.",
+				"answer": 6.283185,
+				"tolerance": 0.02,
+				"explanation": "All four poles ($z^4=1$) are inside the contour, each with residue $z^3/4z^3=1/4$, so the sum is 1 and the integral is $2\\pi i$, magnitude $6.283$. Equivalently, $f\\sim1/z$ at infinity, so the residue at infinity is $-1$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "How many zeros does $s^3+2s^2+3s+10$ have in the right half-plane $\\text{Re}\\,s>0$? (Check with the argument principle or numerically.)",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "The roots are $-2.45$ and $0.22\\pm2.01i$, so two lie in the right half-plane: a system with this characteristic polynomial is unstable. (Routh-Hurwitz: $2\\cdot3=6<10$ already signals instability.)"
+			},
+			{
+				"kind": "short",
+				"prompt": "State the argument principle and explain, in your own words, why it counts zeros minus poles.",
+				"rubric": "Full credit requires: $\\frac{1}{2\\pi i}\\oint f'/f\\,dz=Z-P$; near a zero of order m, $f'/f\\approx m/(z-a)$ with residue m; near a pole of order m, residue $-m$; so the integral picks up these residues; equivalently $f'/f=d\\ln f/dz$ so the integral is the change in $\\arg f$ over $2\\pi$: the winding of $f(C)$ about the origin.",
+				"modelAnswer": "The logarithmic derivative $f'/f$ has simple poles at every zero and pole of $f$: near a zero of order $m$, $f\\approx c(z-a)^m$ so $f'/f\\approx m/(z-a)$, residue $m$; near a pole of order $m$ the residue is $-m$. By the residue theorem $\\frac1{2\\pi i}\\oint f'/f\\,dz=Z-P$. Since $f'/f\\,dz=d\\ln f$, the integral is also the total change of $\\arg f$ divided by $2\\pi$, the number of times the image curve $f(C)$ winds around the origin."
+			}
+		],
+		"m6-l013-transforms-causality-kk": [
+			{
+				"kind": "mc",
+				"prompt": "Why must a causal response function $\\chi(t)$ (zero for $t<0$) have a transform $\\chi(\\omega)=\\int_0^\\infty\\chi(t)e^{i\\omega t}dt$ that is analytic in the upper half of the complex $\\omega$-plane?",
+				"options": [
+					"$\\chi(t)=0$ for $t<0$ means $\\chi(\\omega)$ vanishes for negative frequencies.",
+					"For $\\text{Im}\\,\\omega>0$ the factor $e^{i\\omega t}$ decays, so the integral converges.",
+					"The Fourier transform of any real function is analytic everywhere.",
+					"Stable systems must have all of their poles in the upper half-plane."
+				],
+				"answer": 1,
+				"explanation": "Convergence for $\\text{Im}\\,\\omega>0$ follows from the decaying exponential. Causality in time is equivalent to analyticity in the upper half-plane in frequency. (Poles of a stable system lie in the lower half-plane.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A sharp absorption line in a medium must be accompanied by dispersion (a frequency-dependent refractive index) around it. Why?",
+				"options": [
+					"Absorbed light is converted into a slower speed of light in the medium.",
+					"The refractive index is defined as the derivative of the absorption.",
+					"Each absorption line must be paired with an emission line nearby.",
+					"Absorption and refractive index are Kramers-Kronig pairs, both from causality."
+				],
+				"answer": 3,
+				"explanation": "Since $\\chi(\\omega)$ is analytic in the upper half-plane and decays at infinity, Cauchy's formula gives $\\text{Re}\\chi(\\omega)=\\frac1\\pi\\text{P}\\int\\frac{\\text{Im}\\chi(\\omega')}{\\omega'-\\omega}d\\omega'$ and vice versa. You cannot change one without the other."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A spectral line has Lorentzian full width at half maximum $\\Delta\\omega=2.0\\times10^9\\ \\text{s}^{-1}$, corresponding to a pole at $\\omega_0-i\\Delta\\omega/2$. The excited-state population decays at rate $\\Delta\\omega$. What is the lifetime $\\tau=1/\\Delta\\omega$ in nanoseconds?",
+				"answer": 0.5,
+				"tolerance": 0.02,
+				"unit": "ns",
+				"explanation": "$\\tau=1/(2.0\\times10^9\\ \\text{s}^{-1})=0.5$ ns. The real part of the pole position gives the resonance frequency and the imaginary part sets the linewidth (the lifetime)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Invert $F(s)=\\dfrac{1}{(s+1)(s+3)}$ using the Bromwich integral (sum of residues of $F(s)e^{st}$ at the poles) and evaluate $f(t)$ at $t=1$.",
+				"answer": 0.159046,
+				"tolerance": 0.02,
+				"explanation": "Residues: $e^{-t}/2$ at $s=-1$ and $e^{-3t}/(-2)$ at $s=-3$, so $f(t)=\\tfrac12(e^{-t}-e^{-3t})$ and $f(1)=\\tfrac12(0.3679-0.0498)\\approx0.159$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the idea of the Kramers-Kronig relations from Cauchy's integral formula and say why they matter experimentally.",
+				"rubric": "Full credit requires: causal $\\chi(\\omega)$ analytic in the upper half-plane and tends to zero at infinity; apply Cauchy's formula for a point on the real axis (closing with a large semicircle, indentation giving principal value and $i\\pi$ times the value); separating real and imaginary parts gives $\\text{Re}\\chi$ as a principal-value integral of $\\text{Im}\\chi$ and vice versa; experimental: measure absorption over a wide range and infer the refractive index (or reflectivity phase), or check data consistency.",
+				"modelAnswer": "Because $\\chi(\\omega)$ is analytic in the upper half-plane and decays at infinity, Cauchy's formula for a point $\\omega$ on the real axis (with a small indentation around it, giving $\\tfrac12$ of the usual $2\\pi i$) gives $\\chi(\\omega)=\\frac{1}{i\\pi}\\text{P}\\!\\int\\frac{\\chi(\\omega')}{\\omega'-\\omega}d\\omega'$. Taking real and imaginary parts, the real part of $\\chi$ at one frequency is a principal-value integral of the imaginary part over all frequencies, and vice versa. Experimentally this means that a measured absorption spectrum determines the dispersion, and data from both can be tested for consistency."
+			}
+		],
+		"m6-l014-gamma-saddle": [
+			{
+				"kind": "mc",
+				"prompt": "The Gamma function has simple poles at $z=0,-1,-2,\\dots$ with residue $(-1)^n/n!$ at $z=-n$. What is the residue at $z=-2$?",
+				"options": [
+					"$\\tfrac12$.",
+					"$-\\tfrac12$.",
+					"$2$.",
+					"$-2$."
+				],
+				"answer": 0,
+				"explanation": "$\\Gamma(z)=\\Gamma(z+n+1)/[z(z+1)\\cdots(z+n)]$ continues the function to the left. At $z=-n$ the only vanishing factor is $(z+n)$, leaving residue $\\Gamma(1)/[(-n)(-n+1)\\cdots(-1)]=(-1)^n/n!$, and $(-1)^2/2!=\\tfrac12$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the saddle-point (steepest-descent) method for $\\int e^{nh(z)}dz$ with large $n$, why is the integral dominated by a small neighbourhood of the saddle?",
+				"options": [
+					"The integrand is exactly zero everywhere except at the saddle point.",
+					"$h(z)$ is constant along the chosen contour, so only one point matters.",
+					"The integrand is sharply peaked there, with width $\\sim1/\\sqrt n$.",
+					"Contributions from different regions of the path cancel exactly."
+				],
+				"answer": 2,
+				"explanation": "Expanding $h\\approx h(z_0)+\\tfrac12h''(z_0)(z-z_0)^2$ gives a Gaussian integral $e^{nh(z_0)}\\sqrt{2\\pi/(-nh'')}$. The same logic underlies Stirling's formula and the thermodynamic limit in statistical mechanics."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\Gamma(-\\tfrac12)$ using the analytic continuation $\\Gamma(z)=\\Gamma(z+1)/z$.",
+				"answer": -3.544908,
+				"tolerance": 0.02,
+				"explanation": "$\\Gamma(-\\tfrac12)=\\Gamma(\\tfrac12)/(-\\tfrac12)=-2\\sqrt\\pi\\approx-3.545$. The integral definition fails for negative arguments; the continuation does not."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate $10!$ with Stirling's formula $n!\\approx\\sqrt{2\\pi n}\\,(n/e)^n$.",
+				"answer": 3598695.618741,
+				"tolerance": 0.02,
+				"explanation": "$\\sqrt{20\\pi}\\,(10/e)^{10}\\approx3.599\\times10^6$, within 1% of the exact $3{,}628{,}800$. The relative error is about $1/(12n)$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is an analytic continuation unique, and how does the saddle-point idea connect to the thermodynamic limit and to transition states in chemistry?",
+				"rubric": "Full credit requires: two analytic functions agreeing on a set with a limit point (e.g. a small arc) agree everywhere in the connected domain (identity theorem), so the continuation is forced; saddle-point: for $N\\to\\infty$ a sum/integral like the partition function $\\int e^{-N f}$ is dominated by the extremum (saddle) of the exponent, giving thermodynamics with sharply peaked fluctuations; a chemical transition state is a saddle of the potential energy surface: minimum along all directions except the reaction coordinate.",
+				"modelAnswer": "If two analytic functions agree on a small arc or open set, their difference is analytic with a zero set that has a limit point, so by the identity theorem it vanishes identically; the continuation is therefore forced, e.g. $\\Gamma(z)$ off the positive axis. In the saddle-point method, a large-$N$ integral like a partition function or number of states, $\\int e^{Nh}$, is dominated by the neighbourhood of the extremum of the exponent, with relative fluctuations of order $1/\\sqrt N$: that is why thermodynamics becomes sharp for macroscopic systems. A chemical transition state is likewise a saddle on the potential energy surface: a maximum along the reaction coordinate and a minimum along all other directions, and rate theory integrates the Boltzmann weight about this saddle."
+			}
+		]
+	}
+}

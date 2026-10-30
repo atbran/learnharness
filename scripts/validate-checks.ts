@@ -51,9 +51,27 @@ for (const f of fs.readdirSync(path.join(ROOT, "courses")).filter((n) => n.endsW
 			}
 		});
 		const calc = qs.filter((q) => q.kind === "numeric").length;
-		if (course.track !== "math" && calc > 2) console.log(`warning  ${lessonId}: ${calc} numeric questions (physics checks are understanding-first: ≤ 2)`);
+		if (course.track !== "math" && calc > Math.floor(qs.length / 2)) console.log(`warning  ${lessonId}: ${calc} numeric questions (physics checks are understanding-first: ≤ 2)`);
 		total += qs.length;
 	}
+	// Answer-length bias: a test-wise learner picks the longest option. Flag
+	// questions whose key is much longer than its distractors, and courses
+	// where the key is the longest option far more often than chance.
+	let mcCount = 0;
+	let keyLongest = 0;
+	for (const [lessonId, qs] of Object.entries(checks))
+		qs.forEach((q, i) => {
+			if (q.kind !== "mc") return;
+			mcCount++;
+			const lens = q.options.map((o) => o.length);
+			const key = lens[q.answer] ?? 0;
+			const others = lens.filter((_, k) => k !== q.answer);
+			if (key === Math.max(...lens) && lens.filter((l) => l === key).length === 1) keyLongest++;
+			const mean = others.reduce((a, b) => a + b, 0) / Math.max(1, others.length);
+			if (key > 1.4 * mean && key - mean > 25) console.log(`bias     ${lessonId} q${i + 1}: key ${key} chars vs distractors ~${Math.round(mean)}`);
+		});
+	if (mcCount && keyLongest / mcCount > 0.35)
+		console.log(`warning  ${course.id}: the key is the longest option in ${Math.round((keyLongest / mcCount) * 100)}% of mc questions (chance ≈ ${Math.round(100 / 4)}%; keep ≤ 35%)`);
 	const covered = lessons.filter((l) => checks[l]).length;
 	lessonsCovered += covered;
 	const missing = lessons.filter((l) => !checks[l]);

@@ -17,8 +17,8 @@ objectives so precise that a tutor knows exactly what "mastered" means.
 - **Ids**: lowercase kebab-case, globally unique, prefixed with the course code, e.g. course `p5-em`,
   units `p5-u01-electrostatics`, lessons `p5-l001-coulomb-superposition`, exams `p5-midterm`, `p5-final`, `p5-placement`.
 - **Size**: the sum of lesson `minutes` must be 60–75% of the course `hours` (the rest is problem sets and exams).
-  Lessons are 60–120 min (reading + tutor session + quick check), average ≈ 90.
-- **Lessons**: 3–6 `objectives` each, phrased as observable skills ("Derive …", "Compute …", "Explain why …").
+  Lessons are SHORT: 30–45 min each (reading + tutor session + the 3–4 question quick check; a longer lecture video is fine, its overflow doesn't count). One lesson = one idea, 2–3 objectives.
+- **Lessons**: 2–3 `objectives` each (one coherent idea per lesson), phrased as observable skills ("Derive …", "Compute …", "Explain why …").
   Include `keyEquations` as LaTeX without `$`. Add `demoIdeas` (1–2 one-line ideas for an interactive browser
   simulation/visualisation) wherever a concept is dynamic or geometric. Add `practice` pointers to real
   end-of-chapter exercises of the primary book ("Griffiths EM Problem 2.15") only when you are confident they exist

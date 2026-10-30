@@ -56,8 +56,22 @@ export function MasteryRadar({ subjects }: { subjects: ProgressSnapshot["subject
 		return [cx + Math.cos(a) * R * v, cy + Math.sin(a) * R * v] as const;
 	};
 	const poly = subjects.map((s, i) => pt(i, Math.max(0.02, s.mastery)).join(",")).join(" ");
+	// Room for labels on every side: names wrap onto two lines at a word
+	// boundary, and the hover readout lives below the chart, not in a label.
+	const padX = 110;
+	const padY = 34;
+	const lines = (name: string): string[] => {
+		if (name.length <= 12) return [name];
+		const words = name.split(" ");
+		let best = 1;
+		for (let k = 1; k < words.length; k++)
+			if (Math.abs(words.slice(0, k).join(" ").length - name.length / 2) < Math.abs(words.slice(0, best).join(" ").length - name.length / 2)) best = k;
+		return [words.slice(0, best).join(" "), words.slice(best).join(" ")];
+	};
+	const active = hover !== null ? subjects[hover] : undefined;
 	return (
-		<svg viewBox={`0 0 ${size} ${size}`} className="h-auto w-full max-w-[420px]" role="img" aria-label="Mastery by subject">
+		<div className="w-full max-w-[560px]">
+		<svg viewBox={`${-padX} ${-padY} ${size + 2 * padX} ${size + 2 * padY}`} className="h-auto w-full" role="img" aria-label="Mastery by subject">
 			{[0.25, 0.5, 0.75, 1].map((ring) => (
 				<polygon
 					key={ring}
@@ -74,25 +88,33 @@ export function MasteryRadar({ subjects }: { subjects: ProgressSnapshot["subject
 			<polygon points={poly} fill="var(--st-mastered)" fillOpacity={0.22} stroke="var(--st-mastered)" strokeWidth={2} style={{ transition: "all 600ms ease" }} />
 			{subjects.map((s, i) => {
 				const [x, y] = pt(i, Math.max(0.02, s.mastery));
-				const [lx, ly] = pt(i, 1.17);
+				const [lx, ly] = pt(i, 1.12);
+				const label = lines(s.subject);
 				return (
 					<g key={s.subject} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} className="cursor-default">
 						<circle cx={x} cy={y} r={hover === i ? 5 : 3.5} fill="var(--st-mastered)" />
 						<text
 							x={lx}
-							y={ly}
+							y={ly - ((label.length - 1) * 12) / 2}
 							textAnchor={Math.abs(lx - cx) < 8 ? "middle" : lx > cx ? "start" : "end"}
 							dominantBaseline="middle"
-							fontSize={10.5}
+							fontSize={11}
 							fill={hover === i ? "var(--foreground)" : "var(--muted-foreground)"}
 						>
-							{s.subject}
-							{hover === i ? ` · ${pct(s.mastery)} · ${Math.round(s.hours)} h` : ""}
+							{label.map((line, li) => (
+								<tspan key={li} x={lx} dy={li === 0 ? 0 : 12}>
+									{line}
+								</tspan>
+							))}
 						</text>
 					</g>
 				);
 			})}
 		</svg>
+		<div className="h-5 text-center text-xs text-muted-foreground">
+			{active ? `${active.subject}: ${pct(active.mastery)} mastered · ${Math.round(active.hours)} h of lessons` : "Hover a subject for detail"}
+		</div>
+		</div>
 	);
 }
 

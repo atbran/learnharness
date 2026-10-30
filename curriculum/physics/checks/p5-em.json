@@ -1,0 +1,2545 @@
+{
+	"courseId": "p5-em",
+	"checks": {
+		"p5-l001-vector-algebra-differential-calculus": [
+			{
+				"kind": "mc",
+				"prompt": "A scalar field $T(x,y,z)$ (say, temperature) has gradient $\\nabla T$ at a point. Which statement is correct?",
+				"options": [
+					"$\\nabla T$ points along the level surface (the isotherm) through the point, since that is where $T$ is defined.",
+					"$\\nabla T$ points toward the nearest minimum of $T$, and its magnitude equals the value of $T$ there, so it is largest where $T$ is largest.",
+					"$\\nabla T$ points in the direction of steepest increase of $T$, and its magnitude is the maximum rate of change of $T$ per unit length.",
+					"$\\nabla T$ points in the direction in which $T$ does not change, and its magnitude is the average of $T$ nearby."
+				],
+				"answer": 2,
+				"explanation": "Since $dT=\\nabla T\\cdot d\\mathbf l$, the change is largest when $d\\mathbf l$ is parallel to $\\nabla T$ and zero along level surfaces, so the gradient is perpendicular to isotherms and points uphill."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A rigidly rotating fluid has velocity field $\\mathbf v=-y\\,\\hat x+x\\,\\hat y$. A tiny paddle wheel placed in the flow and a tiny cube of the fluid are examined. What do divergence and curl say?",
+				"options": [
+					"$\\nabla\\cdot\\mathbf v=0$ and $\\nabla\\times\\mathbf v=2\\hat z\\neq 0$.",
+					"$\\nabla\\cdot\\mathbf v\\neq0$ and $\\nabla\\times\\mathbf v=0$: the flow spreads out from the origin but the paddle wheel does not spin.",
+					"Both vanish, because the speed $|\\mathbf v|=r$ does not change with time at any point.",
+					"Both are nonzero, since the flow both circulates and carries fluid away from each point."
+				],
+				"answer": 0,
+				"explanation": "$\\partial_xv_x+\\partial_yv_y=0+0$ and $(\\nabla\\times\\mathbf v)_z=\\partial_xv_y-\\partial_yv_x=1-(-1)=2$. Divergence measures net outflow (spreading), curl measures local circulation (paddle-wheel spin)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The identity $\\nabla\\cdot(\\nabla\\times\\mathbf A)=0$ holds for any smooth $\\mathbf A$. What does it tell you about a field that is a curl, like $\\mathbf B=\\nabla\\times\\mathbf A$?",
+				"options": [
+					"Its field lines must be closed circles around the origin and can never be straight.",
+					"It must be curl-free as well, so it can also be written as a gradient.",
+					"It must be constant in space, since its divergence has no spatially varying part.",
+					"Its field lines never begin or end (no sources or sinks)."
+				],
+				"answer": 3,
+				"explanation": "Zero divergence means no sources, so lines can only form closed loops or run off to infinity. It does not force the lines to be circles, and a nonzero curl is exactly what makes it a curl field."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A charge sits at a source point $\\mathbf r'=(1,1,0)$ m and you measure the field at $\\mathbf r=(4,5,12)$ m. Compute the magnitude of the separation vector $\\boldsymbol{\\imath}=\\mathbf r-\\mathbf r'$ in metres.",
+				"answer": 13.0,
+				"tolerance": 0.02,
+				"unit": "m",
+				"explanation": "$\\boldsymbol\\imath=(3,4,12)$ m, so $\\imath=\\sqrt{9+16+144}=13$ m. The Coulomb and Biot-Savart laws always use this source-to-field vector, with primed coordinates labelling the source."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why $\\nabla\\times(\\nabla T)=0$ for any scalar function $T$. Use the meaning of the gradient and of the curl.",
+				"rubric": "Full credit requires: gradient line integral between two points equals T(b)-T(a), so it depends only on endpoints (path independent); hence the closed-loop integral is zero; curl measures circulation per area (by Stokes), so it is zero; or equivalent equality of mixed partial derivatives, with the physical interpretation.",
+				"modelAnswer": "The line integral of $\\nabla T$ along any path just gives $T(b)-T(a)$, so around a closed loop it is zero. Since the curl at a point is the circulation per unit area of a small loop, a field whose circulation is always zero has zero curl. A gradient field 'only goes uphill or downhill' and can never swirl."
+			}
+		],
+		"p5-l002-integral-calculus-curvilinear": [
+			{
+				"kind": "mc",
+				"prompt": "Stokes' theorem says $\\oint_C\\mathbf A\\cdot d\\mathbf l=\\int_S(\\nabla\\times\\mathbf A)\\cdot d\\mathbf a$ for any surface $S$ bounded by $C$. Why is the answer the same for a flat disc and for a bulging, bag-shaped surface with the same rim?",
+				"options": [
+					"Because the curl is always uniform in space, so the surface integral depends only on the rim length and not on the surface's shape.",
+					"The two surfaces together form a closed surface, and the net flux of a curl through any closed surface is zero ($\\nabla\\cdot(\\nabla\\times\\mathbf A)=0$).",
+					"Because the bag-shaped surface can always be flattened onto the disc without changing its area, so the two integrals are trivially equal.",
+					"It is only true for flat surfaces; for curved surfaces the theorem acquires correction terms proportional to the surface's curvature, so a bulging surface gives a different answer."
+				],
+				"answer": 1,
+				"explanation": "Flip the orientation of one surface and the two form a closed surface. The divergence theorem plus $\\nabla\\cdot(\\nabla\\times\\mathbf A)=0$ makes the combined flux zero, so the two surface integrals are equal."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You must find the electric field of a very long, uniformly charged straight wire. Which coordinate system best exploits its symmetry, and why?",
+				"options": [
+					"Spherical, because every charge element creates a spherically symmetric Coulomb field.",
+					"Cylindrical: by symmetry the field depends only on the distance $s$ from the wire and points radially.",
+					"Cartesian, because a straight wire is a straight line and the field must be a straight-line function of position.",
+					"Any system works equally well because the physics is coordinate-independent, so the effort is identical."
+				],
+				"answer": 1,
+				"explanation": "The physics is coordinate-independent, but the work is not. Picking coordinates that match the symmetry removes dependence on the other coordinates, reducing a 3D problem to a 1D one."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In spherical coordinates the volume element is $d\\tau=r^2\\sin\\theta\\,dr\\,d\\theta\\,d\\phi$. Why do the factors $r^2\\sin\\theta$ appear?",
+				"options": [
+					"They come from the Jacobian of Cartesian-to-spherical conversion and have no geometric meaning.",
+					"They compensate for the fact that charge density in spherical shells is usually proportional to $r^2$.",
+					"They exist only so that the total solid angle $4\\pi$ comes out right; the volume element itself is $dr\\,d\\theta\\,d\\phi$.",
+					"The angular steps $d\\theta$ and $d\\phi$ sweep arcs of length $r\\,d\\theta$ and $r\\sin\\theta\\,d\\phi$."
+				],
+				"answer": 3,
+				"explanation": "Angles are dimensionless; to get lengths you must multiply by the radius of the arc: $r\\,d\\theta$ along a meridian and $r\\sin\\theta\\,d\\phi$ along a parallel. Together with $dr$ they give the volume."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A sphere of radius $R=0.5$ m carries a non-uniform charge density $\\rho=k r$ with $k=2$ C/m$^4$. Compute its total charge in coulombs.",
+				"answer": 0.3927,
+				"tolerance": 0.02,
+				"unit": "C",
+				"explanation": "$Q=\\int_0^R(kr)(4\\pi r^2)\\,dr=\\pi kR^4=\\pi(2)(0.5)^4\\approx0.393$ C. The spherical shell volume $4\\pi r^2dr$ is the key step."
+			},
+			{
+				"kind": "short",
+				"prompt": "The fundamental theorem for gradients, Stokes' theorem and the divergence theorem all have the same structure. State that common structure in your own words and say what it implies for how the integrals are computed.",
+				"rubric": "Full credit requires: an integral of a derivative (grad, curl, div) over a region equals the field's value (or flux/circulation) on the region's boundary; mention that this lets one convert a hard integral into an easier one on the boundary or vice-versa; boundary of boundary is empty/closed surface reasoning optional.",
+				"modelAnswer": "In each case the integral of a derivative of a field over a region equals an integral of the field itself over the boundary of that region: endpoints for a line, rim for a surface, closed surface for a volume. This means a volume integral of a divergence can be traded for a flux through the surface, a surface integral of a curl for a line integral around the rim, and so on, whichever is easier."
+			}
+		],
+		"p5-l003-dirac-delta-vector-field-theory": [
+			{
+				"kind": "mc",
+				"prompt": "The field $\\hat{\\mathbf r}/r^2$ has zero divergence everywhere except possibly at the origin, yet its flux through any sphere around the origin is $4\\pi$. How is this paradox resolved?",
+				"options": [
+					"The divergence is concentrated at the origin as $4\\pi\\delta^3(\\mathbf r)$, so the divergence theorem still holds.",
+					"The divergence theorem fails for fields that blow up anywhere in the region.",
+					"The flux through the sphere is really zero, and the value $4\\pi$ is an artifact of choosing a sphere.",
+					"The field is not defined at the origin, so one must simply exclude that point; the theorem then holds only for regions that do not contain the origin, and the flux is not conserved."
+				],
+				"answer": 0,
+				"explanation": "The delta function carries the 'hidden' source at the origin: $\\int\\nabla\\cdot(\\hat r/r^2)\\,d\\tau=4\\pi$ matches the flux. This identity is the mathematical origin of Gauss's law for a point charge."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Helmholtz's theorem says that the divergence and curl of a field fix the field, provided it falls off at infinity. Why is the falloff condition needed?",
+				"options": [
+					"Because the divergence and curl are only defined for fields that vanish at infinity.",
+					"Because without it the field would be discontinuous at the origin.",
+					"Two fields with the same divergence and curl differ by a field that is both curl-free and divergence-free.",
+					"Because fields that do not fall off at infinity necessarily carry infinite charge, which has no divergence."
+				],
+				"answer": 2,
+				"explanation": "A uniform field has zero div and zero curl, so adding it to any solution changes nothing in the differential equations. Boundary behaviour at infinity removes this ambiguity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A vector field $\\mathbf F$ has $\\nabla\\times\\mathbf F=0$ throughout all of space. Which conclusion is justified?",
+				"options": [
+					"$\\mathbf F$ must also have zero divergence, so it is a constant field.",
+					"$\\mathbf F=\\nabla\\times\\mathbf A$ for some vector potential, because a curl-free field has no sources and so must itself be a curl.",
+					"$\\mathbf F$ must vanish everywhere, since a field with no curl has nothing to drive it and so cannot carry a line integral between any two points.",
+					"$\\mathbf F=-\\nabla V$ for some scalar potential $V$, and line integrals of $\\mathbf F$ do not depend on the path."
+				],
+				"answer": 3,
+				"explanation": "Zero curl means every closed-loop integral vanishes (Stokes), so $\\int\\mathbf F\\cdot d\\mathbf l$ defines a potential. Zero divergence (the other half) gives instead $\\mathbf F=\\nabla\\times\\mathbf A$. For $\\mathbf E$ and $\\mathbf B$ these two facts set up $V$ and $\\mathbf A$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\int_{-\\infty}^{\\infty}(x^3+2)\\,\\delta(2x-6)\\,dx$. Give the numerical value.",
+				"answer": 14.5,
+				"tolerance": 0.02,
+				"explanation": "$\\delta(2x-6)=\\tfrac12\\delta(x-3)$, so the integral is $\\tfrac12(3^3+2)=14.5$. A scaled argument contributes a factor $1/|\\text{slope}|$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the Dirac delta lets a point charge be described by a charge density $\\rho(\\mathbf r)=q\\,\\delta^3(\\mathbf r-\\mathbf r_0)$, and why this makes the differential form of Gauss's law $\\nabla\\cdot\\mathbf E=\\rho/\\epsilon_0$ consistent with Coulomb's field.",
+				"rubric": "Full credit requires: delta is zero except at a point and integrates to one, so integrating rho gives total q; divergence of Coulomb field is zero away from the charge but its flux 4 pi is captured as 4 pi delta; hence div E = q delta/eps0, consistent with Gauss.",
+				"modelAnswer": "The delta function is zero everywhere except at $\\mathbf r_0$ and integrates to 1, so $\\rho=q\\delta^3(\\mathbf r-\\mathbf r_0)$ is zero away from the charge and integrates to $q$. The Coulomb field has zero divergence away from the charge but a finite flux through any enclosing sphere, which is only possible if $\\nabla\\cdot(\\hat r/r^2)=4\\pi\\delta^3$; that gives $\\nabla\\cdot\\mathbf E=q\\delta^3/\\epsilon_0=\\rho/\\epsilon_0$."
+			}
+		],
+		"p5-l004-coulomb-superposition-field": [
+			{
+				"kind": "mc",
+				"prompt": "Charge $Q$ feels a force from charge $q_1$. A second charge $q_2$ is placed nearby. What does the superposition principle say about the total force on $Q$?",
+				"options": [
+					"It is reduced because $q_2$ partly screens the field of $q_1$ at the position of $Q$.",
+					"It is the vector sum of the forces $q_1$ and $q_2$ would each exert alone.",
+					"It is the sum of the force magnitudes, since forces from different sources just add up.",
+					"It is the force of a single charge $q_1+q_2$ placed at the midpoint between them."
+				],
+				"answer": 1,
+				"explanation": "Electrostatic forces are linear: each source acts independently, and forces add as vectors (so they can partially cancel). Screening only appears in matter, where mobile charges respond."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A ring of total charge $Q$ and radius $R$ has on-axis field $E(z)$. What must $E(z)$ reduce to for $z\\gg R$, and why is that a useful check?",
+				"options": [
+					"The field of a point charge $Q$ at the centre, $Q/(4\\pi\\epsilon_0z^2)$.",
+					"Zero, because opposite sides of the ring cancel each other's field, just as they do at the centre of the ring.",
+					"A $1/z^3$ field, because the ring is neutral overall and so looks like a dipole from far away.",
+					"A $1/z$ field, because a ring is a one-dimensional object like a line charge."
+				],
+				"answer": 0,
+				"explanation": "Far from any compact charge distribution the leading behaviour is that of a point charge with the same total charge. A formula that fails this test must contain an algebra error."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The field of an infinitely long line charge falls as $1/s$, but a point charge's field falls as $1/r^2$. What is the physical reason?",
+				"options": [
+					"A line has a smaller surface area than a point, so the field cannot spread as much.",
+					"Field lines of a line charge are pulled together by magnetic attraction along the wire.",
+					"As you move away, a longer stretch of the line is at comparable distance, so more charge contributes.",
+					"The factor $1/s$ appears only because the charge per length $\\lambda$ has units of C/m rather than C, so the units of the field change."
+				],
+				"answer": 2,
+				"explanation": "Integrating $1/\\imath^2$ along an infinite line gives $\\lambda/(2\\pi\\epsilon_0s)$: the contributing length scales like $s$, which trades one power of $1/s$ for it."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A ring of radius $R=0.10$ m carries a uniform total charge $Q=5.0$ nC. Compute the electric field magnitude on its axis at distance $z=0.10$ m from its centre, in V/m.",
+				"answer": 1589.0,
+				"tolerance": 0.02,
+				"unit": "V/m",
+				"explanation": "$E_z=\\dfrac{1}{4\\pi\\epsilon_0}\\dfrac{Qz}{(R^2+z^2)^{3/2}}\\approx 1.59\\times10^{3}$ V/m. Only the axial components survive; the perpendicular ones cancel by symmetry."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how you turn a continuous charge distribution (a line, a surface or a volume) into a field calculation, and name two ways you would sanity-check the result.",
+				"rubric": "Full credit requires: chop into charge elements dq = lambda dl / sigma da / rho dtau, write each element's field with the separation vector, add (integrate) as vectors using symmetry to drop cancelling components; checks: far-field point charge limit, infinite-extent/known limit, direction/symmetry, units.",
+				"modelAnswer": "Break the object into small elements $dq=\\lambda\\,dl$, $\\sigma\\,da$ or $\\rho\\,d\\tau$, write each element's Coulomb field using the vector from the element to the field point, and add the vectors by integrating, using symmetry to cancel components. Then check the far-field limit (should look like a point charge $Q$), a known infinite or short limit, and that units and directions are sensible."
+			}
+		],
+		"p5-l005-gauss-law-divergence-e": [
+			{
+				"kind": "mc",
+				"prompt": "A point charge $q$ sits inside a cube but far from the centre, close to one face. What is the total electric flux through the cube's surface?",
+				"options": [
+					"Larger than $q/\\epsilon_0$, because the field is strong near the nearest face.",
+					"Smaller than $q/\\epsilon_0$, because some field lines leave through other faces and miss the nearby one.",
+					"Exactly $q/\\epsilon_0$, the same as if the charge were at the centre; position inside does not matter.",
+					"It cannot be determined without knowing the exact position of the charge."
+				],
+				"answer": 2,
+				"explanation": "Gauss's law is exact for any closed surface: the flux counts the field lines that begin inside, and every line from $q$ leaves the cube once, regardless of the charge's position."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The net electric flux through a closed surface is zero. Which conclusion is justified?",
+				"options": [
+					"The enclosed net charge is zero; the field on the surface can still be strong, inward flux balancing outward flux.",
+					"The electric field is zero everywhere on the surface, because any nonzero field component normal to it would produce a nonzero net flux.",
+					"There are no charges anywhere in space, inside or outside the surface, because any charge would contribute some flux.",
+					"The field must be uniform over the surface, because only a uniform field can give zero net flux."
+				],
+				"answer": 0,
+				"explanation": "Flux is a sum of $\\mathbf E\\cdot d\\mathbf a$ over the surface, so inflow can cancel outflow. A charge outside the surface produces field on it, but all of its lines that enter also leave."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At a point in space $\\nabla\\cdot\\mathbf E<0$. What does this say about the local charge and the field lines?",
+				"options": [
+					"There is a net positive charge density there; field lines emerge from it.",
+					"There is no charge there, but the field is decreasing in magnitude in that region.",
+					"The charge density is zero, and a negative divergence just reflects the sign of the potential.",
+					"There is a net negative charge density there; field lines converge and terminate on it."
+				],
+				"answer": 3,
+				"explanation": "$\\nabla\\cdot\\mathbf E=\\rho/\\epsilon_0$: positive divergence marks sources (positive charge), negative divergence marks sinks (negative charge)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A closed surface encloses three point charges: $+2.0$ nC, $-5.0$ nC and $+1.0$ nC. A fourth charge, $+7.0$ nC, sits outside. Compute the net electric flux through the surface in N$\\cdot$m$^2$/C (include the sign).",
+				"answer": -225.9,
+				"tolerance": 0.02,
+				"unit": "N m^2/C",
+				"explanation": "Only enclosed charge counts: $\\Phi=(2-5+1)\\text{ nC}/\\epsilon_0=-2.0\\times10^{-9}/8.854\\times10^{-12}\\approx-226$ N$\\cdot$m$^2$/C (net inward)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Gauss's law holds for every closed surface and every charge arrangement, yet it is only used to *calculate* $\\mathbf E$ in special situations. Explain why, and what kind of configuration allows it.",
+				"rubric": "Full credit requires: law is always true (flux = Q_enc/eps0) but gives only the integral of E.dA, not E itself; to pull E out of the integral need symmetry (spherical, cylindrical, planar) so E is constant in magnitude and parallel/perpendicular to surface; otherwise use Coulomb/potential methods.",
+				"modelAnswer": "Gauss's law always gives $\\oint\\mathbf E\\cdot d\\mathbf a=Q_{\\rm enc}/\\epsilon_0$, but that is a single number about the whole surface and does not by itself tell you $\\mathbf E$ at each point. Only when symmetry (spherical, cylindrical or planar) makes $E$ constant over the surface and parallel or perpendicular to it can $E$ be pulled out of the integral and solved for."
+			}
+		],
+		"p5-l006-gauss-applications-curl-e": [
+			{
+				"kind": "mc",
+				"prompt": "Inside a uniformly charged solid sphere (radius $R$), how does the electric field vary with distance $r<R$ from the centre?",
+				"options": [
+					"It is zero everywhere inside, as it is inside a conducting shell, because the symmetry of the sphere makes all contributions cancel.",
+					"It grows linearly with $r$: the enclosed charge grows as $r^3$ while the area grows as $r^2$.",
+					"It falls as $1/r^2$, just like the field outside a point charge, because Gauss's law gives the same flux.",
+					"It is constant, equal to its value at the surface, because the charge enclosed does not change."
+				],
+				"answer": 1,
+				"explanation": "$E\\,4\\pi r^2=\\rho\\frac{4}{3}\\pi r^3/\\epsilon_0$ gives $E=\\rho r/(3\\epsilon_0)$. A uniform sphere is not a conductor; its charge is spread through the volume, so interior field is nonzero."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which charge distribution can NOT have its electric field found directly from Gauss's law?",
+				"options": [
+					"A uniformly charged infinite plane.",
+					"A uniformly charged cube of finite size.",
+					"A very long, uniformly charged cylinder.",
+					"A sphere with a charge density that depends only on the distance from its centre."
+				],
+				"answer": 1,
+				"explanation": "Gauss's law is useful only with spherical, cylindrical or planar symmetry. A cube lacks any such symmetry, so $E$ is not constant over a convenient surface."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For static charges $\\nabla\\times\\mathbf E=0$, which lets us define a scalar potential. What happens when the magnetic field changes in time?",
+				"options": [
+					"Nothing changes: $\\mathbf E=-\\nabla V$ remains true because curl-free is a property of all electric fields.",
+					"$\\mathbf E$ becomes zero in the region where $\\mathbf B$ changes.",
+					"$\\nabla\\cdot\\mathbf E$ stops being proportional to charge density.",
+					"$\\nabla\\times\\mathbf E=-\\partial\\mathbf B/\\partial t\\neq0$."
+				],
+				"answer": 3,
+				"explanation": "Faraday's law adds a curl to $\\mathbf E$. Then the work done around a loop is nonzero, which is how generators and transformers work."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A uniformly charged solid sphere of radius $R=0.10$ m carries total charge $Q=4.0$ nC. Compute the field magnitude at $r=0.050$ m from its centre, in V/m.",
+				"answer": 1798.0,
+				"tolerance": 0.02,
+				"unit": "V/m",
+				"explanation": "Inside: $E=\\dfrac{Q\\,r}{4\\pi\\epsilon_0R^3}=(8.99\\times10^9)(4\\times10^{-9})(0.05)/(10^{-3})\\approx1.80\\times10^3$ V/m."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how you choose a Gaussian surface for a given charge distribution, and what must be true about $\\mathbf E$ on that surface for the method to work.",
+				"rubric": "Full credit requires: identify symmetry (spherical, cylindrical, planar) and choose a surface matching it (concentric sphere, coaxial cylinder, pillbox); E must have constant magnitude over the surface (or parts of it) and be either parallel or perpendicular to dA, so E comes out of the integral; then solve using Q_enc.",
+				"modelAnswer": "First identify the symmetry (spherical, cylindrical or planar) and draw a surface with the same shape: a concentric sphere, a coaxial cylinder or a pillbox through a sheet. On that surface $\\mathbf E$ must have constant magnitude and be either perpendicular or parallel to $d\\mathbf a$, so the flux integral reduces to $E\\times$ area, and then $E=Q_{\\rm enc}/(\\epsilon_0\\,\\text{area})$."
+			}
+		],
+		"p5-l007-electric-potential": [
+			{
+				"kind": "mc",
+				"prompt": "Why can the potential difference between two points in an electrostatic field be defined without specifying the path?",
+				"options": [
+					"Because $\\nabla\\times\\mathbf E=0$ for static charges.",
+					"Because $\\mathbf E$ is always perpendicular to the path, so no work is done.",
+					"Because charges only move along field lines, which are the only physically allowed paths.",
+					"Because the potential is defined to be zero at infinity, which removes any path dependence."
+				],
+				"answer": 0,
+				"explanation": "A zero-curl field has zero circulation around any loop, so two paths between the same endpoints give the same integral. That is what makes $V$ a well-defined function."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At some point the electric field is exactly zero. What can be said about the potential $V$ there?",
+				"options": [
+					"$V$ must be zero there, since zero field means zero potential.",
+					"$V$ must be a maximum there.",
+					"Nothing about its value: $V$ may be any number there.",
+					"$V$ must equal its value at infinity."
+				],
+				"answer": 2,
+				"explanation": "$\\mathbf E=-\\nabla V$ means a zero field implies a stationary point of $V$, not zero. The zero of potential is a free choice, so only differences matter."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A thin sheet carries surface charge $\\sigma$. Crossing the sheet, which of these quantities is discontinuous?",
+				"options": [
+					"The potential $V$, which jumps by $\\sigma/\\epsilon_0$.",
+					"The tangential component of $\\mathbf E$, which jumps by $\\sigma/\\epsilon_0$.",
+					"Nothing is discontinuous, since every field in physics is smooth.",
+					"The normal component of $\\mathbf E$, which jumps by $\\sigma/\\epsilon_0$."
+				],
+				"answer": 3,
+				"explanation": "A thin pillbox gives the normal jump; the zero circulation around a thin loop across the sheet gives continuity of the tangential component, and hence of $V$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Charges $+4.0$ nC and $-2.0$ nC lie at distances of 0.30 m and 0.60 m, respectively, from point P. Taking $V=0$ at infinity, compute the potential at P in volts.",
+				"answer": 89.88,
+				"tolerance": 0.02,
+				"unit": "V",
+				"explanation": "Potentials are scalars and simply add: $V=\\frac{1}{4\\pi\\epsilon_0}\\left(\\frac{4\\text{ nC}}{0.3}-\\frac{2\\text{ nC}}{0.6}\\right)\\approx89.9$ V."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why it is easier to compute $V$ for a charge distribution and then take $\\mathbf E=-\\nabla V$ than to add up vector fields directly. Connect this to the curl of $\\mathbf E$.",
+				"rubric": "Full credit requires: V is a scalar so contributions add as numbers (no components/directions); E obtained by differentiating; this is possible because curl E = 0 for static charges so E is a gradient of a single function.",
+				"modelAnswer": "Potentials are scalars: contributions from each charge are just added as numbers, with no directions or components to track. Because static $\\mathbf E$ has zero curl, it is guaranteed to be the gradient of one such scalar function, so a single differentiation, $\\mathbf E=-\\nabla V$, then recovers all three field components."
+			}
+		],
+		"p5-l008-electrostatic-work-energy": [
+			{
+				"kind": "mc",
+				"prompt": "The energy to assemble a set of point charges is $W=\\tfrac12\\sum_i q_iV(\\mathbf r_i)$. Why is there a factor of $\\tfrac12$?",
+				"options": [
+					"Because only half of the charges need to be moved; the others are already in place.",
+					"Each pair of charges contributes to the potential at both locations.",
+					"Because the potential energy of a charge in a field is half of $qV$ for continuous fields.",
+					"Because half of the work is dissipated as heat during assembly."
+				],
+				"answer": 1,
+				"explanation": "$W=\\sum_{\\text{pairs}}\\frac{q_iq_j}{4\\pi\\epsilon_0r_{ij}}$. Writing it as $\\sum q_iV_i$ double counts each pair, so a $\\tfrac12$ fixes it."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A point charge's field energy $\\frac{\\epsilon_0}{2}\\int E^2d\\tau$ is infinite, and energy does not obey superposition. What is the reason for each?",
+				"options": [
+					"The integral of $1/r^4\\cdot r^2dr$ diverges at $r\\to0$.",
+					"The point charge has infinite charge; and energy is not additive because different charges have different signs.",
+					"The integral diverges at large distance; and energy is not additive because fields cancel.",
+					"Both are mathematical artifacts that vanish if charges are allowed to be negative."
+				],
+				"answer": 0,
+				"explanation": "$(\\mathbf E_1+\\mathbf E_2)^2=E_1^2+E_2^2+2\\mathbf E_1\\cdot\\mathbf E_2$: the cross term is the interaction energy. For a point charge the self-energy integral $\\propto\\int dr/r^2$ blows up near $r=0$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In an ionic crystal like NaCl, each ion has same-sign neighbours that repel it. Why is the overall Madelung (electrostatic lattice) energy still attractive?",
+				"options": [
+					"The same-sign repulsions are screened to zero by the electron cloud.",
+					"Electrostatic energy is always negative, regardless of charge signs.",
+					"The nearest neighbours are of opposite sign and closer.",
+					"The repulsions are exactly cancelled by gravitational attraction between the ions."
+				],
+				"answer": 2,
+				"explanation": "Summing $\\pm q^2/(4\\pi\\epsilon_0 r)$ over all neighbours in order of distance gives a net negative number (Madelung constant 1.7476 for NaCl). Repulsive terms exist but are farther away."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A thin spherical shell of radius $R=5.0$ cm carries a uniform total charge $Q=10$ nC. Compute the electrostatic energy stored in its field, in microjoules.",
+				"answer": 8.988,
+				"tolerance": 0.02,
+				"unit": "uJ",
+				"explanation": "$W=\\dfrac{Q^2}{8\\pi\\epsilon_0R}=\\dfrac{(10^{-8})^2(8.99\\times10^9)}{2(0.05)}=9.0\\times10^{-6}$ J $=9.0\\ \\mu$J (all stored in the field outside the shell)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Two opposite charges attract, so their electrostatic energy is negative, yet the energy density $\\epsilon_0E^2/2$ is never negative. Explain how both statements can be true.",
+				"rubric": "Full credit requires: energy density formula uses the total field squared, which is positive; total energy = self-energies + interaction (cross) term; interaction term can be negative (field partly cancels between opposite charges), and the reference is the infinitely separated state where self-energies are the same; so 'negative energy' is relative to separated charges.",
+				"modelAnswer": "The field energy $\\frac{\\epsilon_0}{2}\\int E^2$ is always positive, but it contains each charge's own (self) energy plus a cross term $\\epsilon_0\\int\\mathbf E_1\\cdot\\mathbf E_2$. For opposite charges the fields partly cancel in between, so the cross term is negative. The 'negative energy' means the pair has less field energy than the same charges infinitely far apart, which is why work must be done to separate them."
+			}
+		],
+		"p5-l009-conductors-capacitance": [
+			{
+				"kind": "mc",
+				"prompt": "A neutral metal block has an internal cavity containing a charge $+q$ (not touching the metal). What charges appear on the cavity wall and on the outer surface?",
+				"options": [
+					"$+q$ on the cavity wall and $-q$ on the outer surface.",
+					"No charges appear on the cavity wall; $+q$ appears on the outer surface.",
+					"$-q$ on the cavity wall and $+q$ on the outer surface.",
+					"$-q$ on the cavity wall and nothing on the outer surface, since the block is neutral."
+				],
+				"answer": 2,
+				"explanation": "Gauss's law with a surface just inside the metal (where $E=0$) forces $-q$ on the cavity wall. Neutrality of the block then pushes $+q$ to the outer surface."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A capacitor stores charge $Q$ at voltage $V$. If you double $Q$, what happens to the capacitance $C=Q/V$?",
+				"options": [
+					"It stays the same: $C$ depends only on geometry (and the medium), and $V$ doubles along with $Q$.",
+					"It doubles, because $C$ is proportional to $Q$ and the voltage stays fixed by the geometry.",
+					"It halves, because $V$ must double to hold twice the charge on the same plates.",
+					"It increases by a factor of four, since the energy stored goes as $Q^2$ and the capacitance tracks the energy stored."
+				],
+				"answer": 0,
+				"explanation": "Everything is linear: $\\mathbf E\\propto Q$, so $V\\propto Q$ and $Q/V$ is a purely geometric constant, e.g. $\\epsilon_0A/d$ for parallel plates."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does an ion dissolved in water or an electrolyte have a much shorter-ranged electric field than in vacuum (Debye screening)?",
+				"options": [
+					"The ion's charge is gradually neutralised by chemical reactions with the solvent, so that at large distances the ion's net charge is essentially zero.",
+					"Electric field lines cannot travel through liquids, because water molecules absorb the field and convert it to heat as it passes.",
+					"The ion's charge decreases in water because it loses electrons to the solvent, which is why dissolved ions are only weakly charged.",
+					"Mobile counter-ions and oriented solvent dipoles gather around it, much like induced charge on a conductor, cancelling its field at a distance."
+				],
+				"answer": 3,
+				"explanation": "A cloud of counter-ions rearranges, partially screening the central ion, just like surface charge on a conductor screens interior fields. The Debye length measures the cloud's size."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A parallel-plate capacitor has plate area $A=0.010$ m$^2$ and plate separation $d=1.0$ mm (vacuum). It is charged to 100 V. Compute the stored energy in microjoules.",
+				"answer": 0.4427,
+				"tolerance": 0.02,
+				"unit": "uJ",
+				"explanation": "$C=\\epsilon_0A/d=8.85\\times10^{-11}$ F, so $W=\\tfrac12CV^2=\\tfrac12(8.85\\times10^{-11})(100)^2\\approx0.443\\ \\mu$J."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the electric field inside a conductor in electrostatic equilibrium is zero, and why the field at its surface must be perpendicular to the surface.",
+				"rubric": "Full credit requires: free charges move until net force is zero; a nonzero E inside would drive current so it is not equilibrium; a tangential surface component would likewise push surface charges around, so only a normal component remains (surface is an equipotential).",
+				"modelAnswer": "A conductor has mobile charges. If any field existed inside, those charges would move, and they keep moving until they rearrange to cancel the field, so in equilibrium $\\mathbf E=0$ inside and the whole conductor is at one potential. A tangential field component at the surface would likewise push surface charges along it, so only a perpendicular component can survive."
+			}
+		],
+		"p5-l010-laplace-equation": [
+			{
+				"kind": "mc",
+				"prompt": "Laplace's equation $\\nabla^2V=0$ has the mean-value property: $V$ at a point equals the average of $V$ over any sphere centred on that point (in a charge-free region). What follows?",
+				"options": [
+					"$V$ must be constant throughout any charge-free region, with the same value as on its boundary.",
+					"$V$ can have no local maximum or minimum in a charge-free region.",
+					"$V$ can have a local minimum but never a local maximum in a charge-free region.",
+					"$V$ is always equal to its value at infinity."
+				],
+				"answer": 1,
+				"explanation": "If $V$ at a point equals the average of its neighbours, some neighbour must be at least as high and some at least as low. So there are no interior peaks or dips, only saddles."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Earnshaw's theorem says a test charge cannot be held in stable equilibrium by fixed charges alone. Which statement gives the underlying reason?",
+				"options": [
+					"Charges always repel at short distances, so any equilibrium point is quickly destroyed by the test charge's own field once it is displaced.",
+					"A stable point needs a local minimum of $qV$ in every direction, but a charge-free region has no local extremum of $V$.",
+					"The force on a test charge averages to zero over time, so it cannot be held in any one place by a static field.",
+					"Static fields cannot exert force on a charge that is at rest, so there is nothing to hold it in place at all."
+				],
+				"answer": 1,
+				"explanation": "Stability needs the field to point inward from all sides (negative divergence), but $\\nabla\\cdot\\mathbf E=0$ in empty space. There is always an escape direction, which is why ion traps use oscillating fields."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A solution of Laplace's equation in one dimension between two points where $V$ is specified is a straight line. In 2D and 3D, what is the analogous property?",
+				"options": [
+					"The value at any point is the maximum of its neighbours, so the solution rises toward the interior.",
+					"The value at any point is the sum of its neighbours' values, so potentials add up around a point.",
+					"There is no analogy: only 1D problems have simple solutions, while in higher dimensions solutions have wild oscillations.",
+					"The value at any point is the average of the values on a circle (or sphere) around it."
+				],
+				"answer": 3,
+				"explanation": "In 1D the average of the two neighbours gives the straight line. In higher dimensions, the same averaging principle means no wiggles beyond what the boundary demands."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In a relaxation (grid) solution of Laplace's equation, a grid point has neighbours at potentials 100 V, 60 V, 20 V and 40 V. What value, in volts, does one relaxation step assign to the point?",
+				"answer": 55.0,
+				"tolerance": 0.02,
+				"unit": "V",
+				"explanation": "$V_{ij}\\to\\tfrac14(100+60+20+40)=55$ V. Repeating this over the whole grid until nothing changes yields the solution."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why repeatedly replacing each grid value by the average of its neighbours converges to the solution of Laplace's equation.",
+				"rubric": "Full credit requires: Laplace solution satisfies the mean-value/neighbour-average property (finite-difference form of the equation), so it is a fixed point of the averaging; boundary values stay fixed; repeated averaging smooths out any deviations until nothing changes.",
+				"modelAnswer": "The finite-difference form of $\\nabla^2V=0$ says each interior value equals the average of its neighbours. So the true solution is unchanged by an averaging step. Starting from any guess with the boundary values held fixed, each step smooths bumps toward their neighbours, and the process only stops when every point equals its neighbours' average, i.e. at the Laplace solution."
+			}
+		],
+		"p5-l011-uniqueness-theorems": [
+			{
+				"kind": "mc",
+				"prompt": "By some clever guess you find a function $V$ that satisfies Poisson's equation in a region and matches the given potential on the boundary. How do you know it is the right potential?",
+				"options": [
+					"By the uniqueness theorem: only one function satisfies both.",
+					"You do not: you must also check that it can be derived from the Coulomb integral.",
+					"Because any function satisfying Poisson's equation is automatically the physical one.",
+					"Because the boundary values alone determine the potential, so the equation need not be checked."
+				],
+				"answer": 0,
+				"explanation": "If two solutions existed, their difference would satisfy Laplace's equation with zero boundary values, so by the no-extrema property it vanishes. This justifies tricks like the method of images."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A hollow metal box has an empty cavity inside, and a charge outside it is moved around. Why does nothing change inside the cavity?",
+				"options": [
+					"The metal absorbs the outside charge so that it stops producing any field in or near the box.",
+					"Electric field lines cannot pass through metal, so none can reach the cavity from outside.",
+					"The cavity wall is an equipotential, and a constant is the unique solution of Laplace's equation with that boundary value.",
+					"The electric field from outside charges always cancels exactly at the centre of the cavity but not elsewhere, so only the centre is shielded."
+				],
+				"answer": 2,
+				"explanation": "The conductor is an equipotential. Uniqueness says that in a charge-free cavity bounded by an equipotential, $V$ is constant and $\\mathbf E=0$. This is the Faraday cage."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A region contains conductors and a given charge density between them. According to the second uniqueness theorem, what extra data fix the electric field everywhere?",
+				"options": [
+					"The potential at one point on each conductor surface and the current in each.",
+					"The magnetic field around each conductor.",
+					"Nothing more: the charge density between them already determines the field.",
+					"The total charge on each conductor (rather than their potentials)."
+				],
+				"answer": 3,
+				"explanation": "Conductors can redistribute charge freely. Giving each conductor's total charge (or alternatively its potential) pins down the solution uniquely."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two large parallel plates 3.0 cm apart are held at 0 V and 12 V. Neglecting edge effects, uniqueness says the potential between them is the linear function that meets the boundary values. Compute the field magnitude between them in V/m.",
+				"answer": 400.0,
+				"tolerance": 0.02,
+				"unit": "V/m",
+				"explanation": "$V$ is linear, so $E=-dV/dx=12\\text{ V}/0.03\\text{ m}=400$ V/m, pointing from the higher-potential plate toward the lower."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words the argument for the first uniqueness theorem (Dirichlet boundary values): why must two solutions of Poisson's equation with the same boundary potentials be identical?",
+				"rubric": "Full credit requires: take difference of two solutions; it satisfies Laplace's equation (charge terms cancel) and is zero on the boundary; Laplace solutions have no interior max/min, so the difference is zero everywhere inside; hence solutions are equal.",
+				"modelAnswer": "Subtract the two solutions. The charge density cancels, so the difference obeys Laplace's equation, and since both match the boundary values it is zero on the boundary. A Laplace solution has no interior maximum or minimum, so it cannot rise above or fall below zero in the interior; it is zero everywhere, and the two solutions are the same."
+			}
+		],
+		"p5-l012-method-of-images": [
+			{
+				"kind": "mc",
+				"prompt": "A point charge $+q$ is held a distance $d$ above an infinite grounded conducting plane. The method of images replaces the plane with $-q$ at distance $d$ below. For which region is the resulting potential valid, and what is the total charge induced on the plane?",
+				"options": [
+					"Valid everywhere, including below the plane, and the induced charge totals $-q/2$ because half of the field lines end on the plane.",
+					"Valid only above the plane; the induced charge totals $-q$, concentrated directly beneath the charge.",
+					"Valid only above the plane, and the induced charge totals $+q$ because the plane is grounded and so draws in positive charge.",
+					"Valid only below the plane, where the image sits, and the induced charge totals $-q$."
+				],
+				"answer": 1,
+				"explanation": "The image is a bookkeeping device in the region above the plane; below it the true field is zero. All the field lines from $q$ end on the plane, so the induced charge is exactly $-q$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The electrostatic energy of a charge $q$ above a grounded plane is $-\\dfrac{q^2}{16\\pi\\epsilon_0 d}$, half of the interaction energy of the real and image pair, $-\\dfrac{q^2}{8\\pi\\epsilon_0 d}$. Why the factor of $\\tfrac12$?",
+				"options": [
+					"The field below the plane does not exist, so only the upper half-space holds energy.",
+					"The image charge is only half as large as the real charge, so the interaction energy is halved.",
+					"Half of the energy is dissipated into the grounded plane as heat, so only half remains in the field.",
+					"The factor comes from the average of the energy over the angle of approach of the charge to the plane."
+				],
+				"answer": 0,
+				"explanation": "The pair's field fills all space, but physically the field exists only above the plane, i.e. half of the volume. By symmetry the energy there is half."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A $q=5.0$ nC point charge is 2.0 cm above a large grounded conducting plane. Compute the attractive force on it in millinewtons.",
+				"answer": 0.1404,
+				"tolerance": 0.02,
+				"unit": "mN",
+				"explanation": "$F=\\dfrac{q^2}{4\\pi\\epsilon_0(2d)^2}=\\dfrac{(8.99\\times10^9)(25\\times10^{-18})}{4(0.02)^2}\\approx1.40\\times10^{-4}$ N, toward the plane."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A $q=2.0$ nC point charge sits $a=0.40$ m from the centre of a grounded conducting sphere of radius $R=0.10$ m. Compute the image charge $q'=-Rq/a$ in nC (include the sign).",
+				"answer": -0.5,
+				"tolerance": 0.02,
+				"unit": "nC",
+				"explanation": "$q'=-(0.10/0.40)(2.0)=-0.50$ nC, located at $b=R^2/a=0.025$ m from the centre, on the line to the real charge."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the method of images gives the correct field, and describe a situation where it cannot be used.",
+				"rubric": "Full credit requires: image configuration reproduces Poisson's equation (same real charges in region) and the boundary condition (V=0 on surface); uniqueness theorem then guarantees it is the solution; fails when no simple image set matches the boundary (e.g. a conductor of arbitrary shape such as a cube) or the boundary condition is not satisfiable by few point images.",
+				"modelAnswer": "The real charge plus the image charges satisfy Poisson's equation in the region of interest (the images lie outside it), and the combination makes the conductor's surface equal to the required potential. By the uniqueness theorem, that is therefore the field. It fails when no simple set of image charges makes the surface an equipotential, e.g. for a charge near a conducting cube or an irregular shape."
+			}
+		],
+		"p5-l013-separation-cartesian": [
+			{
+				"kind": "mc",
+				"prompt": "Separating $V(x,y)=X(x)Y(y)$ in Laplace's equation gives $X''/X=k^2$ and $Y''/Y=-k^2$. What decides that $Y$ is sinusoidal and $X$ is exponential?",
+				"options": [
+					"Laplace's equation itself always forces sinusoids in $y$ and exponentials in $x$, regardless of the boundary conditions.",
+					"The sign of the separation constant is arbitrary, so the choice does not matter.",
+					"The boundary conditions: $V=0$ at $y=0$ and $y=a$ forces $Y$ to oscillate and vanish at both ends.",
+					"Whichever variable is first in the alphabet becomes the exponential."
+				],
+				"answer": 2,
+				"explanation": "The separation constant's sign decides which variable oscillates. The variable with two zero boundary conditions must oscillate (sine), forcing the other to be exponential."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why must the final solution for the slot be a sum (series) of many product solutions rather than a single $X(x)Y(y)$?",
+				"options": [
+					"A single product always violates Laplace's equation.",
+					"Each product solution only works for one particular value of $x$.",
+					"A single product solution matches only a sine-shaped boundary profile.",
+					"The sum is needed only to make the answer converge numerically; a single term is exact."
+				],
+				"answer": 2,
+				"explanation": "Each term $\\sin(n\\pi y/a)e^{-n\\pi x/a}$ solves Laplace's equation. Superposition of them, with coefficients from Fourier analysis of the boundary profile, builds the real answer."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The coefficients of the sine series are found by multiplying the boundary condition by $\\sin(n'\\pi y/a)$ and integrating over $0<y<a$. Why does this isolate a single coefficient?",
+				"options": [
+					"The sines are orthogonal: $\\int_0^a\\sin(n\\pi y/a)\\sin(n'\\pi y/a)dy=0$ unless $n=n'$.",
+					"Because all other sine functions are zero at the boundary, so they cannot contribute to the integral over the interval.",
+					"Because integration of a sine over a full period vanishes for all $n$, leaving only the one remaining term.",
+					"Because the coefficients are all equal, so any term determines them."
+				],
+				"answer": 0,
+				"explanation": "Orthogonality means each mode is independent of the others, the same idea as projecting a vector onto a basis vector."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A semi-infinite slot has walls at $y=0$ and $y=a$ held at 0 V and the end at $x=0$ held at $V_0=100$ V. The solution is $V=\\frac{4V_0}{\\pi}\\sum_{n\\,{\\rm odd}}\\frac1ne^{-n\\pi x/a}\\sin\\frac{n\\pi y}{a}$. Compute $V$ at $x=a$, $y=a/2$, in volts.",
+				"answer": 5.499,
+				"tolerance": 0.02,
+				"unit": "V",
+				"explanation": "The $n=1$ term dominates: $\\frac{4\\cdot100}{\\pi}e^{-\\pi}\\approx5.50$ V; higher modes die off as $e^{-n\\pi}$. Evaluating the full series gives about 5.50 V."
+			},
+			{
+				"kind": "short",
+				"prompt": "In a slot problem, why do the high-$n$ terms of the solution matter near the end at $x=0$ but become negligible a distance of order $a$ into the slot? What does this say about how boundary detail influences the interior?",
+				"rubric": "Full credit requires: modes decay as exp(-n pi x/a), faster for larger n (finer structure); so fine detail of the boundary is felt only within a distance ~ a/n of it; far away only the smooth lowest modes remain; a Laplace solution smooths out boundary detail.",
+				"modelAnswer": "Each mode decays like $e^{-n\\pi x/a}$, so the sharp, fine-grained features of the boundary profile (high $n$) die off within a distance of about $a/n$, while only the smoothest components (lowest $n$) penetrate deep. Interior potentials are therefore smooth, and detail at the boundary is felt only near it."
+			}
+		],
+		"p5-l014-separation-spherical": [
+			{
+				"kind": "mc",
+				"prompt": "When solving Laplace's equation inside a sphere (including the origin) with a given $V(R,\\theta)$, which radial terms are kept, and why?",
+				"options": [
+					"Only the $r^{-(l+1)}$ terms, since the potential must fall off at large distance and so cannot grow with $r$.",
+					"Both sets of terms, since each satisfies Laplace's equation and the boundary data fix both coefficients.",
+					"Only the $l=0$ term, because higher terms are not harmonic.",
+					"Only the $r^l$ terms: the $r^{-(l+1)}$ terms diverge at the origin, where there is no charge."
+				],
+				"answer": 3,
+				"explanation": "Both families are solutions, but boundary and regularity conditions select: finite at the origin means $B_l=0$ inside; $\\to0$ at infinity means $A_l=0$ (for $l\\geq1$) outside."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A neutral conducting sphere is placed in a uniform field $E_0$. Where is the field at the sphere's surface strongest, and by what factor compared with $E_0$?",
+				"options": [
+					"At the equator, where it is $3E_0$.",
+					"At the poles (on the axis of the applied field), where it is $3E_0$.",
+					"At the poles, where it is exactly $E_0$ because a conductor does not change the field.",
+					"Uniformly $E_0$ over the surface, since the sphere is symmetric."
+				],
+				"answer": 1,
+				"explanation": "The solution is $V=-E_0(r-R^3/r^2)\\cos\\theta$, so $E_r=E_0(1+2R^3/r^3)\\cos\\theta$ and the surface field is $3E_0\\cos\\theta$, which gives charge $\\sigma=3\\epsilon_0E_0\\cos\\theta$. Lightning rods exploit the field enhancement at sharp ends."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The angular factors $P_l(\\cos\\theta)$ (and more generally $Y_{lm}$) appear both here and in the hydrogen atom. What is the connection with orbitals?",
+				"options": [
+					"They are unrelated; hydrogen orbitals depend only on the radial coordinate.",
+					"They are solutions to the same angular equation.",
+					"They describe only the radial nodes of hydrogen orbitals.",
+					"They represent the electric potential of the proton in the atom."
+				],
+				"answer": 1,
+				"explanation": "Any spherically symmetric potential problem separates in $r$ and angle, and the angular part is always $Y_{lm}$. In chemistry the $l$ quantum number labels s, p, d, f."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A neutral conducting sphere sits in a uniform field $E_0=1.0\\times10^5$ V/m. Compute the induced surface charge density at the pole, $\\sigma=3\\epsilon_0E_0$, in microcoulombs per square metre.",
+				"answer": 2.656,
+				"tolerance": 0.02,
+				"unit": "uC/m^2",
+				"explanation": "$\\sigma=3(8.854\\times10^{-12})(10^5)=2.66\\times10^{-6}$ C/m$^2$ $=2.66\\ \\mu$C/m$^2$ at the pole where field lines enter or leave."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how orthogonality of the Legendre polynomials lets you find the coefficients $A_l$ for a sphere whose surface potential is given as a function of $\\theta$.",
+				"rubric": "Full credit requires: write V(R,theta) as sum of A_l R^l P_l(cos theta); multiply by P_l' and integrate over cos theta from -1 to 1; orthogonality kills all but l=l'; solve for A_l (with 2/(2l+1) factor); analogous to Fourier series / vector projection.",
+				"modelAnswer": "At $r=R$ the boundary condition says $V(R,\\theta)=\\sum_lA_lR^lP_l(\\cos\\theta)$. Multiply both sides by $P_{l'}(\\cos\\theta)$ and integrate over $\\cos\\theta$ from $-1$ to $1$. Orthogonality makes every term vanish except $l=l'$, which gives $\\frac{2}{2l'+1}A_{l'}R^{l'}$, so each coefficient can be read off independently, like projecting a vector on a basis."
+			}
+		],
+		"p5-l015-multipole-monopole-dipole": [
+			{
+				"kind": "mc",
+				"prompt": "Far from a localised charge distribution, which term dominates the potential, and how do successive terms fall off?",
+				"options": [
+					"The highest multipole, because it contains the most detail about the charge arrangement and so the largest field.",
+					"All multipoles fall as $1/r$ and so contribute equally.",
+					"The dipole always, because every distribution has a dipole moment.",
+					"The lowest nonvanishing multipole: monopole $\\sim1/r$, dipole $\\sim1/r^2$, quadrupole $\\sim1/r^3$."
+				],
+				"answer": 3,
+				"explanation": "Each higher multipole carries an extra factor of (size of source)/$r$, so it is suppressed at large distance. For a neutral molecule the monopole is zero and the dipole is the leading term."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A charge distribution with total charge $Q\\neq0$ has dipole moment $\\mathbf p$ about one origin. What happens to $\\mathbf p$ if the origin is shifted by $\\mathbf a$?",
+				"options": [
+					"It changes to $\\mathbf p-Q\\mathbf a$.",
+					"It does not change; the dipole moment is intrinsic to any charge distribution.",
+					"It changes to $\\mathbf p+\\mathbf a$, independent of the charge.",
+					"It is doubled whenever the origin is moved."
+				],
+				"answer": 0,
+				"explanation": "$\\mathbf p=\\int\\mathbf r'\\rho\\,d\\tau'$. Shifting the origin changes each $\\mathbf r'$ by $-\\mathbf a$, so $\\mathbf p\\to\\mathbf p-Q\\mathbf a$. A neutral molecule such as HCl has a well-defined $\\mathbf p$; an ion does not."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the difference between a physical dipole (charges $\\pm q$ a distance $d$ apart) and an ideal point dipole?",
+				"options": [
+					"The ideal dipole has charge $\\pm2q$ while a physical one has $\\pm q$.",
+					"There is no difference; the formula is exact for any $d$.",
+					"The ideal dipole is the limit $d\\to0$ with $p=qd$ fixed.",
+					"A physical dipole produces a field that falls off as $1/r$ close up, an ideal one as $1/r^3$ everywhere."
+				],
+				"answer": 2,
+				"explanation": "The pure dipole formula is the leading term in an expansion in $d/r$. It is excellent when $r\\gg d$ and never exact for finite $d$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A model dipole consists of charges $+e$ and $-e$ separated by $d=0.10$ nm (so $p=ed$). Compute the potential at a point on the dipole axis, 2.0 nm from the centre, in millivolts.",
+				"answer": 36.0,
+				"tolerance": 0.02,
+				"unit": "mV",
+				"explanation": "$V=\\dfrac{p}{4\\pi\\epsilon_0r^2}=\\dfrac{(1.602\\times10^{-29})(8.988\\times10^9)}{(2\\times10^{-9})^2}=0.036$ V $=36$ mV. (Good approximation as $r/d=20$.)"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the multipole expansion is useful for a molecule, and which term you expect to dominate far from a neutral polar molecule versus a monatomic ion.",
+				"rubric": "Full credit requires: expansion in powers of size/r; far away only a few terms matter, so a complex charge arrangement is summarised by a few numbers (moments); monatomic ion: monopole (1/r) dominates; neutral polar molecule: monopole zero so dipole (1/r^2) leads.",
+				"modelAnswer": "The expansion organises the potential in powers of (source size)/$r$, so far away only the first few moments matter and a complicated charge cloud is summarised by a few numbers. A monatomic ion is dominated by the monopole ($Q/r$); a neutral polar molecule has zero net charge, so the dipole term ($1/r^2$) leads."
+			}
+		],
+		"p5-l016-multipole-field-dipole": [
+			{
+				"kind": "mc",
+				"prompt": "Compare the electric field of an ideal dipole at distance $r$ on its axis ($\\theta=0$) with the field at the same $r$ on its equatorial plane ($\\theta=90^\\circ$).",
+				"options": [
+					"The two are equal in magnitude and both point along $\\mathbf p$.",
+					"On the axis the field is half of that at the equator and points opposite to $\\mathbf p$.",
+					"The field vanishes on the axis and is largest on the equator.",
+					"On the axis the field is twice as large as at the equator and points along $\\mathbf p$."
+				],
+				"answer": 3,
+				"explanation": "$\\mathbf E=\\frac{p}{4\\pi\\epsilon_0r^3}(2\\cos\\theta\\,\\hat r+\\sin\\theta\\,\\hat\\theta)$. At $\\theta=0$: $2p/(4\\pi\\epsilon_0r^3)$ along $\\hat z$. At $90^\\circ$: $p/(4\\pi\\epsilon_0r^3)$ along $\\hat\\theta=-\\hat z$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A permanent dipole is placed in a perfectly uniform external field. What does it experience?",
+				"options": [
+					"A net force along $\\mathbf E$ but no torque, since the two ends are pulled equally in the same direction.",
+					"A torque $\\mathbf p\\times\\mathbf E$ that turns it toward the field, but no net force.",
+					"Both a net force and a torque, because the two ends experience different fields.",
+					"Neither, because its total charge is zero and a neutral object feels no electric force."
+				],
+				"answer": 1,
+				"explanation": "The two ends feel equal and opposite forces: no net force but a torque. If the field is non-uniform, the forces differ and a net force appears. Energy is $-\\mathbf p\\cdot\\mathbf E$, lowest when aligned."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which molecule can absorb microwaves through pure rotational transitions?",
+				"options": [
+					"HCl, because its permanent dipole couples to the wave's oscillating electric field.",
+					"N$_2$, because it rotates fastest of the common molecules and so absorbs at the highest frequency.",
+					"CO$_2$, because it has two polar bonds that each couple to the field.",
+					"All diatomic molecules equally, since they all rotate and any rotating molecule absorbs microwaves."
+				],
+				"answer": 0,
+				"explanation": "The oscillating field can only torque a rotating molecule that has a dipole moment. N$_2$ and (linear, symmetric) CO$_2$ have none, so they are microwave-inactive."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A water molecule ($p=6.17\\times10^{-30}$ C$\\cdot$m) is in a strong field $E=1.0\\times10^7$ V/m at $T=298$ K. Compute the ratio of the alignment energy $pE$ to the thermal energy $k_BT$ (a dimensionless number).",
+				"answer": 0.015,
+				"tolerance": 0.05,
+				"explanation": "$pE=6.17\\times10^{-23}$ J and $k_BT=4.11\\times10^{-21}$ J, so the ratio is about 0.015: even a very strong field only slightly biases the orientation against thermal jostling."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a neutral molecule with a permanent dipole is attracted toward a nearby charged object even though its net charge is zero.",
+				"rubric": "Full credit requires: the object's field is non-uniform; the dipole's torque aligns it with the field; the end closer to the object feels the stronger force (opposite-sign end is nearer), so the net force is toward the stronger-field region; equivalently, U = -p.E is lower where E is larger.",
+				"modelAnswer": "The charged object's field is not uniform. The dipole rotates to align with the field (lowest energy $-\\mathbf p\\cdot\\mathbf E$), which puts the oppositely charged end nearer to the object. That end feels a larger attractive force than the farther end feels a repulsive one, so there is a net pull toward the stronger field."
+			}
+		],
+		"p5-l017-polarization-bound-charge": [
+			{
+				"kind": "mc",
+				"prompt": "A slab is uniformly polarised with $\\mathbf P$ perpendicular to its faces. Where does bound charge appear?",
+				"options": [
+					"Throughout the interior, with density equal to $P$.",
+					"Only at the centre of the slab.",
+					"Only on the two faces ($\\sigma_b=\\pm P$).",
+					"Nowhere: bound charge only appears in conductors."
+				],
+				"answer": 2,
+				"explanation": "Uniform polarisation shifts all dipoles the same way: interior charges cancel, leaving a net positive layer on one face and a negative layer on the other."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the electric field inside a uniformly polarised sphere?",
+				"options": [
+					"Zero, because bound charges cancel.",
+					"Uniform, equal to $+\\mathbf P/(3\\epsilon_0)$, so it points along $\\mathbf P$.",
+					"Uniform, equal to $-\\mathbf P/(3\\epsilon_0)$.",
+					"Zero at the centre and growing linearly toward the surface."
+				],
+				"answer": 2,
+				"explanation": "The surface bound charge $\\sigma_b=P\\cos\\theta$ produces an interior field opposing the polarisation (a depolarising field) that is uniform."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Is the bound charge in a polarised dielectric a different kind of charge from free charge in the field equations?",
+				"options": [
+					"No: it is ordinary charge displaced slightly within atoms, and it sources $\\mathbf E$ exactly like free charge.",
+					"Yes, bound charge produces no electric field outside the dielectric, only a field within the material.",
+					"Yes, bound charge produces only magnetic fields, since it arises from circulating currents in the atoms.",
+					"Yes, bound charge obeys a different law than Coulomb's law, which applies only to free charge that we place by hand."
+				],
+				"answer": 0,
+				"explanation": "In $\\nabla\\cdot\\mathbf E=(\\rho_f+\\rho_b)/\\epsilon_0$ both appear on the same footing. We separate them because free charge is what we put there and bound charge is the medium's response."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Helium has polarisability volume $\\alpha'=0.205\\times10^{-30}$ m$^3$ (so $\\alpha=4\\pi\\epsilon_0\\alpha'$). In a gas of $N=2.5\\times10^{25}$ atoms/m$^3$ placed in a field $E=1.0\\times10^6$ V/m, the induced dipole of each atom is $\\alpha E$. Compute the polarisation $P=N\\alpha E$ in nC/m$^2$.",
+				"answer": 0.5702,
+				"tolerance": 0.02,
+				"unit": "nC/m^2",
+				"explanation": "$\\alpha=2.28\\times10^{-41}$ C$\\cdot$m$^2$/V, so $P=(2.5\\times10^{25})(2.28\\times10^{-41})(10^6)\\approx5.7\\times10^{-10}$ C/m$^2$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how a polarised piece of dielectric acquires bound surface and volume charge densities, and what each is in terms of $\\mathbf P$.",
+				"rubric": "Full credit requires: displaced dipoles leave net charge at surfaces (sigma_b = P.n) and in the interior where P is non-uniform (rho_b = -div P) because more dipole ends flow out of a region than in; total bound charge of the object is zero.",
+				"modelAnswer": "When dipoles line up, the positive ends of one layer cancel the negative ends of the next in the interior, but the surface layers are left uncancelled: $\\sigma_b=\\mathbf P\\cdot\\hat n$. If $\\mathbf P$ varies from place to place, the cancellation is incomplete in the interior too, leaving $\\rho_b=-\\nabla\\cdot\\mathbf P$. The total bound charge of a neutral object is zero."
+			}
+		],
+		"p5-l018-displacement-d": [
+			{
+				"kind": "mc",
+				"prompt": "Which statement about the displacement field $\\mathbf D=\\epsilon_0\\mathbf E+\\mathbf P$ is correct?",
+				"options": [
+					"$\\mathbf D=\\epsilon_0\\mathbf E$ in every dielectric, so $\\mathbf D$ is just a rescaled $\\mathbf E$ and carries no new information.",
+					"$\\mathbf D$ is determined by free charge alone in every situation, because $\\nabla\\cdot\\mathbf D=\\rho_f$ is all that is needed to fix a vector field.",
+					"$\\mathbf D$ is the field due to bound charges only, which is why it is sourced by $\\rho_b$.",
+					"$\\oint\\mathbf D\\cdot d\\mathbf a=Q_{f,\\rm enc}$ always holds; it fixes $\\mathbf D$ from free charge alone only when symmetry gives $\\nabla\\times\\mathbf D=0$."
+				],
+				"answer": 3,
+				"explanation": "A field is fixed by both divergence and curl. $\\nabla\\times\\mathbf D=\\nabla\\times\\mathbf P$ need not vanish, so Gauss's law for $\\mathbf D$ is only convenient in symmetric cases."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At an interface between two dielectrics with no free surface charge, which quantities are continuous?",
+				"options": [
+					"The normal component of $\\mathbf E$ and the tangential component of $\\mathbf D$, as at the surface of a conductor.",
+					"The normal component of $\\mathbf D$ and the tangential component of $\\mathbf E$ (so $V$ is continuous).",
+					"Both $\\mathbf E$ and $\\mathbf D$ fully, in every component, since there is no free charge on the interface.",
+					"Only the potential; no component of either field is continuous across a dielectric boundary."
+				],
+				"answer": 1,
+				"explanation": "The pillbox argument applied to $\\nabla\\cdot\\mathbf D=\\rho_f$ gives $D^\\perp$ continuity (jump $=\\sigma_f$); the thin-loop argument on $\\nabla\\times\\mathbf E=0$ gives $E^\\parallel$ continuity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A free charge $q$ is embedded in a large uniform dielectric with $\\epsilon_r=80$ (like water). Compared with vacuum, the electric field at distance $r$ is...",
+				"options": [
+					"Larger by a factor of 80, because polarisation adds to the field of the charge rather than reducing it.",
+					"Smaller by a factor of 80: bound charge of opposite sign gathers around $q$ and partly cancels its field.",
+					"The same, since Coulomb's law doesn't depend on the medium.",
+					"Smaller by a factor of $80^2$, since the field falls with the square of the dielectric constant of the medium."
+				],
+				"answer": 1,
+				"explanation": "For a point free charge, $D=q/(4\\pi r^2)$ and $E=D/\\epsilon=q/(4\\pi\\epsilon_0\\epsilon_rr^2)$. This is why salts dissolve in water: ion-ion forces are about 80 times weaker."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A Na$^+$ and a Cl$^-$ ion are 0.28 nm apart. Their Coulomb force in vacuum is $k e^2/r^2$. In water ($\\epsilon_r=78$) the force is reduced by that factor. Compute the force in water in piconewtons.",
+				"answer": 37.73,
+				"tolerance": 0.03,
+				"unit": "pN",
+				"explanation": "$F_{\\rm vac}=(8.988\\times10^9)(1.602\\times10^{-19})^2/(0.28\\times10^{-9})^2\\approx2.94$ nN; dividing by 78 gives about 37.7 pN."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is it convenient to introduce $\\mathbf D$ rather than always working with $\\mathbf E$ and bound charge? What is the catch?",
+				"rubric": "Full credit requires: D's divergence depends only on free charge, which we control, so bound charge (unknown until the field is known) need not be computed; catch: D alone is not determined unless curl is known (curl D = curl P), so need symmetry or a constitutive relation P(E).",
+				"modelAnswer": "The divergence of $\\mathbf D$ involves only free charge, which is what we specify, so we avoid needing the unknown bound charge. The catch is that $\\mathbf D$'s curl is $\\nabla\\times\\mathbf P$, not zero in general, so free charge alone does not fix it except in symmetric cases or when a relation like $\\mathbf P=\\epsilon_0\\chi_e\\mathbf E$ is supplied."
+			}
+		],
+		"p5-l019-linear-dielectrics": [
+			{
+				"kind": "mc",
+				"prompt": "A parallel-plate capacitor is charged and then disconnected from the battery (fixed charge $Q$). A dielectric slab with $\\epsilon_r>1$ is slid in to fill the gap. What happens?",
+				"options": [
+					"The voltage rises by a factor of $\\epsilon_r$ and the stored energy rises, so the slab must be pushed in.",
+					"Nothing: the charge fixes the field, so the voltage and energy stay the same and no force acts on the slab.",
+					"The charge on the plates drops because the dielectric absorbs some of it as it enters the gap.",
+					"The voltage drops by a factor of $\\epsilon_r$, the stored energy drops, and the slab is pulled in."
+				],
+				"answer": 3,
+				"explanation": "At fixed $Q$ the free-charge $D$ is unchanged, so $E=D/\\epsilon$ drops by $\\epsilon_r$, as does $V=Ed$. With $W=Q^2/2C$ and $C\\to\\epsilon_rC$, the energy falls, so the slab is drawn in."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does an ion lose so much energy-of-field when moved from vacuum into water (Born solvation energy $\\propto -(1-1/\\epsilon_r)$)?",
+				"options": [
+					"The polar water polarises around the ion.",
+					"Water chemically bonds to the ion and the bond energy is the whole effect.",
+					"The ion's charge is reduced by a factor of $\\epsilon_r$ in water.",
+					"The field energy increases in water, which stabilises the ion by absorbing heat."
+				],
+				"answer": 0,
+				"explanation": "The field energy of a charged sphere in a medium is reduced by $1/\\epsilon_r$. The difference $-\\frac{q^2}{8\\pi\\epsilon_0a}(1-1/\\epsilon_r)$ is the Born solvation free energy, and explains why salts dissolve in water but not in hexane."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A parallel-plate capacitor has vacuum capacitance $C_0=100$ pF. A slab with $\\epsilon_r=4$ filling exactly half of the gap thickness (it touches one plate) is inserted. Treat the two layers as capacitors in series and compute the new capacitance in pF.",
+				"answer": 160.0,
+				"tolerance": 0.02,
+				"unit": "pF",
+				"explanation": "The layers have $C_1=2C_0$ (vacuum half-gap) and $C_2=2\\epsilon_rC_0=8C_0$ (dielectric half-gap). Series: $1/C=1/(2C_0)+1/(8C_0)=5/(8C_0)$, so $C=1.6C_0=160$ pF."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the Born solvation free energy of a Na$^+$ ion treated as a sphere of radius $a=0.20$ nm in water ($\\epsilon_r=78$): $\\Delta G=-\\dfrac{e^2}{8\\pi\\epsilon_0a}\\left(1-\\dfrac1{\\epsilon_r}\\right)$. Give the answer in kJ/mol (negative).",
+				"answer": -342.9,
+				"tolerance": 0.05,
+				"unit": "kJ/mol",
+				"explanation": "$e^2/(4\\pi\\epsilon_0)=2.307\\times10^{-28}$ J$\\cdot$m, so $\\Delta G=-\\frac{2.307\\times10^{-28}}{2(0.2\\times10^{-9})}(1-1/78)(6.022\\times10^{23})\\approx-343$ kJ/mol, the right order of magnitude for ion hydration."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically how a linear dielectric reduces the electric field inside a capacitor when the free charge on the plates is held fixed, using $\\mathbf P$, bound charge and $\\mathbf D$.",
+				"rubric": "Full credit requires: field polarises the dielectric; bound surface charges form on faces opposite in sign to adjacent plate charge; these partly cancel the plate field; D fixed by free charge (D = sigma_f) but E = D/eps = D/(eps0 eps_r) smaller.",
+				"modelAnswer": "The plate field polarises the dielectric, leaving bound charge of opposite sign next to each plate, which partly cancels the field of the free charge. In terms of $\\mathbf D$: $D=\\sigma_f$ is fixed by the free charge, and in a linear medium $E=D/\\epsilon=D/(\\epsilon_0\\epsilon_r)$, so the field falls by a factor $\\epsilon_r$."
+			}
+		],
+		"p5-l020-lorentz-force-currents": [
+			{
+				"kind": "mc",
+				"prompt": "A charged particle moves in perpendicular uniform fields $\\mathbf E$ and $\\mathbf B$ with $E<cB$. What is its average (drift) velocity?",
+				"options": [
+					"Along $\\mathbf E$, with speed proportional to $q/m$, since the electric force accelerates the particle.",
+					"Along $\\mathbf B$, with speed set by the initial velocity along the field direction.",
+					"$\\mathbf E\\times\\mathbf B/B^2$, the same for either sign of charge and independent of mass.",
+					"Zero on average, since the magnetic force just makes the particle circle in place."
+				],
+				"answer": 2,
+				"explanation": "In the frame moving at $\\mathbf E\\times\\mathbf B/B^2$ the electric field vanishes and the particle simply circles. In the lab frame, this circular motion plus the drift gives a cycloid."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a steady current, $\\nabla\\cdot\\mathbf J=0$ (the continuity equation with $\\partial\\rho/\\partial t=0$). What does this say physically?",
+				"options": [
+					"Current density must be uniform everywhere in the conductor, with no variation across its cross-section.",
+					"No charges are moving anywhere, so the conductor carries no current at all.",
+					"The current can flow in only one direction around any closed loop.",
+					"Current flowing into any region equals the current flowing out."
+				],
+				"answer": 3,
+				"explanation": "Continuity is charge conservation: $\\nabla\\cdot\\mathbf J=-\\partial\\rho/\\partial t$. For steady current there is no accumulation, so what flows in must flow out."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two long parallel wires carry currents in the same direction. What is the force between them?",
+				"options": [
+					"They repel, like charges of the same sign, because parallel currents behave like two like charges moving together.",
+					"They attract: the force $I\\mathbf l\\times\\mathbf B$ from each wire's field points toward the other wire.",
+					"There is no force, since each wire is electrically neutral and so cannot interact with the other.",
+					"They attract only if the currents are unequal, and repel when the currents are equal in size."
+				],
+				"answer": 1,
+				"explanation": "Each wire's field circles around it; the force $I\\,d\\mathbf l\\times\\mathbf B$ on the other points toward the source when currents are parallel. Opposite currents repel."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A proton moves at $v=1.0\\times10^6$ m/s perpendicular to a uniform field $B=0.50$ T. Compute the radius of its circular path in centimetres.",
+				"answer": 2.088,
+				"tolerance": 0.02,
+				"unit": "cm",
+				"explanation": "$qvB=mv^2/r\\Rightarrow r=\\dfrac{mv}{qB}=\\dfrac{(1.673\\times10^{-27})(10^6)}{(1.602\\times10^{-19})(0.5)}=2.09\\times10^{-2}$ m $=2.09$ cm."
+			},
+			{
+				"kind": "short",
+				"prompt": "The magnetic force on a charge does no work, yet magnetic fields clearly change the motion of charges. Explain how both statements are true.",
+				"rubric": "Full credit requires: F = qv x B is perpendicular to v, so power F.v = 0 and speed/kinetic energy are unchanged; the force changes direction of velocity (centripetal acceleration), so it bends the path; any energy transfer in devices comes from electric fields (induced) or the agent moving the magnet/loop.",
+				"modelAnswer": "The magnetic force $q\\mathbf v\\times\\mathbf B$ is always perpendicular to the velocity, so its power $\\mathbf F\\cdot\\mathbf v$ is zero and the speed never changes. But acceleration can change the direction of the velocity without changing its magnitude, which is exactly circular motion. When a motor appears to gain energy from a magnetic field, the energy is really supplied by electric forces or by whoever moves the magnet."
+			}
+		],
+		"p5-l021-biot-savart": [
+			{
+				"kind": "mc",
+				"prompt": "Near the middle of a very long straight wire, $B=\\mu_0I/(2\\pi s)$. For a short straight segment of length $\\ell$, how does the field on its perpendicular bisector behave at distances $s\\gg\\ell$?",
+				"options": [
+					"It falls off faster than $1/s$ (like $1/s^2$).",
+					"It still falls as $1/s$, since it is a straight wire.",
+					"It becomes uniform, independent of $s$.",
+					"It falls as $1/s^3$, like an electric dipole."
+				],
+				"answer": 0,
+				"explanation": "The $1/s$ law is the infinite-length limit. Far from a short segment, $dB\\propto I\\,\\ell/s^2$ (Biot-Savart). Comparing a result with limits like these is a strong error check."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does the magnetic field of a circular current loop behave on its axis far from the loop ($z\\gg R$)?",
+				"options": [
+					"It falls as $1/z$, like a long straight wire, because the loop is made of wire.",
+					"It falls as $1/z^2$, like a monopole field, because the total current is nonzero.",
+					"It falls as $1/z^3$, like a dipole field: $B\\approx\\mu_0IR^2/(2z^3)=\\mu_0m/(2\\pi z^3)$.",
+					"It is exactly zero because currents on opposite sides of the loop cancel on the axis."
+				],
+				"answer": 2,
+				"explanation": "$B=\\frac{\\mu_0IR^2}{2(R^2+z^2)^{3/2}}\\to\\frac{\\mu_0IR^2}{2z^3}$. The loop is a magnetic dipole of moment $m=I\\pi R^2$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A circular loop of radius $R=5.0$ cm carries $I=2.0$ A. Compute $B$ at its centre in microtesla.",
+				"answer": 25.13,
+				"tolerance": 0.02,
+				"unit": "uT",
+				"explanation": "$B=\\dfrac{\\mu_0I}{2R}=\\dfrac{(4\\pi\\times10^{-7})(2)}{0.10}=2.51\\times10^{-5}$ T $=25.1\\ \\mu$T."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two long parallel wires 2.0 cm apart each carry 10 A in the same direction. Compute the force per unit length between them in millinewtons per metre.",
+				"answer": 1.0,
+				"tolerance": 0.02,
+				"unit": "mN/m",
+				"explanation": "$F/\\ell=\\dfrac{\\mu_0I_1I_2}{2\\pi d}=\\dfrac{(2\\times10^{-7})(100)}{0.02}=1.0\\times10^{-3}$ N/m $=1.0$ mN/m, attractive."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Biot-Savart law gives the field of a current element as $d\\mathbf B\\propto I\\,d\\mathbf l\\times\\hat{\\boldsymbol\\imath}/\\imath^2$. Explain what the cross product tells you about the direction of $\\mathbf B$ around a straight wire, and how you use this when you check a calculation.",
+				"rubric": "Full credit requires: B perpendicular to both the current element and the vector from element to field point; so around a straight wire B circles the wire (right-hand rule); check direction by right-hand rule and symmetry, check magnitude by limiting cases (long wire 1/s, far field), dimensions; contributions from symmetric elements may cancel components.",
+				"modelAnswer": "The cross product makes $d\\mathbf B$ perpendicular to both the current direction and the line from the element to the field point. For a straight wire this means $\\mathbf B$ circles the wire (right-hand rule: thumb along $I$, fingers along $\\mathbf B$), with no radial or axial component. To check a result I confirm the direction with the right-hand rule and symmetry, and the magnitude against known limits such as the infinite wire ($1/s$) or the far field."
+			}
+		],
+		"p5-l022-ampere-law-div-curl-b": [
+			{
+				"kind": "mc",
+				"prompt": "Why is the magnetic field outside an ideal, infinitely long solenoid zero?",
+				"options": [
+					"Ampère's law on a rectangular loop outside shows the axial field is independent of distance, and it must vanish far away.",
+					"Because the field lines are all trapped inside by the wire's insulation, which blocks the magnetic field.",
+					"Because the currents on opposite sides of the solenoid exactly cancel each other's field at every point outside the solenoid, however far away.",
+					"Because field lines cannot leave a region that contains current, so they all remain inside it."
+				],
+				"answer": 0,
+				"explanation": "Symmetry restricts the outside field to the axial direction depending on $s$ only; two sides of the Amperian rectangle then require $B(s_1)=B(s_2)$, and $B\\to0$ at infinity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Ampère's law $\\nabla\\times\\mathbf B=\\mu_0\\mathbf J$ is only valid for steady currents. What fails otherwise?",
+				"options": [
+					"The Biot-Savart law is no longer valid for moving charges, so Ampère's law loses its starting point.",
+					"The curl of $\\mathbf B$ becomes infinite for time-varying currents, so the law gives meaningless values.",
+					"Magnetic fields cannot exist unless the current is steady, so no field is produced.",
+					"Taking the divergence of both sides gives $0=\\mu_0\\nabla\\cdot\\mathbf J$."
+				],
+				"answer": 3,
+				"explanation": "The divergence of any curl is zero, so $\\nabla\\cdot\\mathbf J$ must also be zero; but $\\nabla\\cdot\\mathbf J=-\\partial\\rho/\\partial t$ in general. Maxwell's fix is the displacement current."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A flat infinite sheet carries a surface current $K$ in the $x$ direction in the plane $z=0$. How does $\\mathbf B$ change when crossing the sheet?",
+				"options": [
+					"The normal component jumps by $\\mu_0K$, and the component parallel to the sheet is continuous across the sheet.",
+					"The component of $\\mathbf B$ parallel to the sheet and perpendicular to $\\mathbf K$ jumps by $\\mu_0K$.",
+					"$\\mathbf B$ is continuous in every component, since there is no magnetic charge to produce a discontinuity.",
+					"$\\mathbf B$ is zero on both sides."
+				],
+				"answer": 1,
+				"explanation": "An Amperian loop straddling the sheet gives the parallel jump; $\\nabla\\cdot\\mathbf B=0$ with a pillbox gives continuity of the normal component. Compare with the electric jump $\\sigma/\\epsilon_0$ in the normal component of $\\mathbf E$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A long solenoid has $n=1000$ turns per metre and carries $I=2.0$ A. Compute the field inside it, in millitesla.",
+				"answer": 2.513,
+				"tolerance": 0.02,
+				"unit": "mT",
+				"explanation": "$B=\\mu_0nI=(4\\pi\\times10^{-7})(1000)(2)=2.51\\times10^{-3}$ T $=2.51$ mT, uniform inside."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words what $\\nabla\\cdot\\mathbf B=0$ and $\\nabla\\times\\mathbf B=\\mu_0\\mathbf J$ say about the shape of magnetic field lines.",
+				"rubric": "Full credit requires: div B = 0 means no magnetic charges, so field lines never start or end (closed loops or go to infinity); curl B = mu0 J means field lines circulate around current (right-hand rule), circulation set by enclosed current; hence the lines wrap around currents.",
+				"modelAnswer": "$\\nabla\\cdot\\mathbf B=0$ means there are no magnetic charges, so field lines never begin or end: they close on themselves. $\\nabla\\times\\mathbf B=\\mu_0\\mathbf J$ says the field circulates around any current, with the circulation around a loop equal to $\\mu_0$ times the current enclosed. Together, field lines are closed loops that wrap around currents."
+			}
+		],
+		"p5-l023-vector-potential": [
+			{
+				"kind": "mc",
+				"prompt": "If $\\mathbf B=\\nabla\\times\\mathbf A$, then $\\mathbf A'=\\mathbf A+\\nabla\\lambda$ gives the same $\\mathbf B$ for any scalar function $\\lambda$. What does this tell us?",
+				"options": [
+					"$\\mathbf A$ is always a gradient field with no physical content.",
+					"$\\mathbf A$ is not uniquely determined.",
+					"$\\mathbf B$ is not uniquely defined by the currents.",
+					"$\\nabla\\cdot\\mathbf A$ must always equal zero, with no choice involved."
+				],
+				"answer": 1,
+				"explanation": "Since $\\nabla\\times\\nabla\\lambda=0$, adding a gradient to $\\mathbf A$ changes nothing observable. The Coulomb gauge gives a simple Poisson equation $\\nabla^2\\mathbf A=-\\mu_0\\mathbf J$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The multipole expansion of $\\mathbf A$ has no monopole term. Why not?",
+				"options": [
+					"Because magnetic monopoles are too heavy to observe, so their contribution is dropped.",
+					"Because the vector potential is only defined for dipole-type currents, so the expansion begins at the dipole by definition.",
+					"Because all currents are neutral, so the leading term of the expansion cancels out.",
+					"The would-be monopole term is $\\propto\\oint d\\mathbf l'=0$ for a closed loop: there are no magnetic monopoles."
+				],
+				"answer": 3,
+				"explanation": "Integrating $d\\mathbf l'$ around a closed loop gives zero. The leading term is the dipole $\\mathbf A=\\frac{\\mu_0}{4\\pi}\\frac{\\mathbf m\\times\\hat r}{r^2}$, with $\\mathbf m=I\\mathbf a$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does the far field of a small current loop compare with that of an electric dipole, and what is the key difference near and inside the source?",
+				"options": [
+					"At large distance they have the same mathematical form.",
+					"They are entirely different at all distances, since one is a vector field and the other scalar.",
+					"They are identical everywhere, including inside the source.",
+					"The magnetic dipole field is stronger by a factor $c$ at all distances."
+				],
+				"answer": 0,
+				"explanation": "Outside the source both fall as $1/r^3$ with the same angular dependence. Inside, a magnetic dipole's lines run opposite to the electric case because $\\nabla\\cdot\\mathbf B=0$ forces them to close."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In the Bohr model the electron orbits the proton with $v=2.188\\times10^6$ m/s at radius $r=5.292\\times10^{-11}$ m. Treat this as a current loop and compute its magnetic dipole moment $m=I\\pi r^2$ in units of $10^{-24}$ J/T (A$\\cdot$m$^2$).",
+				"answer": 9.276,
+				"tolerance": 0.02,
+				"unit": "x10^-24 J/T",
+				"explanation": "$I=ev/(2\\pi r)$, so $m=I\\pi r^2=\\tfrac12evr=\\tfrac12(1.602\\times10^{-19})(2.188\\times10^6)(5.292\\times10^{-11})=9.27\\times10^{-24}$ J/T, the Bohr magneton."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the vector potential is useful even though only $\\mathbf B$ is physical, and what the Coulomb gauge condition buys you.",
+				"rubric": "Full credit requires: A satisfies a Poisson equation component by component giving an integral solution analogous to V; guaranteed to exist since div B = 0; gauge freedom A + grad lambda means can choose div A = 0, which decouples to nabla^2 A = -mu0 J; B is gauge independent.",
+				"modelAnswer": "Because $\\nabla\\cdot\\mathbf B=0$, $\\mathbf B$ can always be written as a curl of some $\\mathbf A$, and $\\mathbf A$ obeys a simple Poisson equation with the current as source, just like $V$ with charge, so it can be written as an integral of $\\mathbf J$. The gauge freedom $\\mathbf A\\to\\mathbf A+\\nabla\\lambda$ lets us impose $\\nabla\\cdot\\mathbf A=0$ (Coulomb gauge), which turns the equation into $\\nabla^2\\mathbf A=-\\mu_0\\mathbf J$; $\\mathbf B$ is unaffected by this choice."
+			}
+		],
+		"p5-l024-magnetization-bound-currents": [
+			{
+				"kind": "mc",
+				"prompt": "A substance with all electrons paired (like most organic molecules) is weakly repelled by a magnet. Which type of magnetism is this, and what is its origin?",
+				"options": [
+					"Paramagnetism: permanent moments align against the applied field, which is why the substance is pushed out of the field.",
+					"Ferromagnetism: domains align so as to repel the external magnet, as at a permanent magnet's poles.",
+					"Diamagnetism: the applied field induces orbital currents whose own field opposes it (a Lenz-law response).",
+					"No type of magnetism: paired electrons carry no charge motion, so there is nothing to respond."
+				],
+				"answer": 2,
+				"explanation": "Paired electrons cancel permanent spin moments, leaving only the induced diamagnetic response. Radicals and transition-metal complexes with unpaired electrons are paramagnetic (attracted)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A uniformly polarised sphere has an interior field $-\\mathbf P/(3\\epsilon_0)$ (antiparallel to $\\mathbf P$). What is the interior field of a uniformly magnetised sphere, and why does it differ?",
+				"options": [
+					"$\\mathbf B=-\\tfrac13\\mu_0\\mathbf M$, antiparallel to $\\mathbf M$, same as the electric case.",
+					"$\\mathbf B=0$, because bound currents cancel inside.",
+					"$\\mathbf B=\\mu_0\\mathbf M$ with no factor, since $\\mathbf M$ is a field.",
+					"$\\mathbf B=\\tfrac23\\mu_0\\mathbf M$, parallel to $\\mathbf M$."
+				],
+				"answer": 3,
+				"explanation": "The bound surface current $K_b=M\\sin\\theta$ circulates like a spinning charged shell and produces a uniform interior field along $\\mathbf M$. The result $\\tfrac23\\mu_0\\mathbf M$ follows from solving the sphere problem."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Larmor (NMR) frequency of a proton is $f=\\gamma B/2\\pi$ with $\\gamma=2.675\\times10^8$ rad s$^{-1}$T$^{-1}$. Compute $f$ in MHz for $B=9.4$ T (a '400 MHz' NMR magnet).",
+				"answer": 400.2,
+				"tolerance": 0.02,
+				"unit": "MHz",
+				"explanation": "$f=\\dfrac{(2.675\\times10^8)(9.4)}{2\\pi}=4.00\\times10^8$ Hz $=400$ MHz."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A permanently magnetised bar has uniform magnetisation $M=1.0\\times10^6$ A/m along its axis and length $\\ell=4.0$ cm. Its bound surface current is $K_b=M$ (per unit length of the bar). Compute the equivalent total current flowing around the bar, in kiloamperes.",
+				"answer": 40.0,
+				"tolerance": 0.02,
+				"unit": "kA",
+				"explanation": "$I=K_b\\ell=(10^6\\text{ A/m})(0.04\\text{ m})=4.0\\times10^4$ A $=40$ kA; a modest bar magnet behaves as a coil carrying a huge equivalent current, concentrated at atomic scale."
+			},
+			{
+				"kind": "short",
+				"prompt": "A nuclear magnetic moment in a static field experiences a torque $\\mathbf m\\times\\mathbf B$, but it precesses rather than simply aligning with the field. Explain why, and how this leads to the NMR frequency.",
+				"rubric": "Full credit requires: moment is tied to angular momentum (m = gamma L); torque = dL/dt perpendicular to L, so L (and m) changes direction without changing the angle to B -> precession; rate omega = gamma B independent of angle; resonant absorption of radiation at this frequency (NMR).",
+				"modelAnswer": "A nuclear moment is proportional to the nucleus's angular momentum: $\\mathbf m=\\gamma\\mathbf L$. The torque equals $d\\mathbf L/dt$ and is perpendicular to $\\mathbf L$, so it rotates $\\mathbf L$ about $\\mathbf B$ without changing the angle between them, like a spinning top. The precession rate is $\\omega_L=\\gamma B$, independent of angle, and radio-frequency radiation at exactly this frequency is resonantly absorbed in NMR."
+			}
+		],
+		"p5-l025-auxiliary-h-linear-media": [
+			{
+				"kind": "mc",
+				"prompt": "Why is it useful to define $\\mathbf H=\\mathbf B/\\mu_0-\\mathbf M$?",
+				"options": [
+					"$\\mathbf H$ is the physical field that exerts force on moving charges, whereas $\\mathbf B$ is only an auxiliary quantity.",
+					"Its circulation is set by free current alone, $\\oint\\mathbf H\\cdot d\\mathbf l=I_{f,\\rm enc}$.",
+					"$\\mathbf H$ always equals $\\mathbf B/\\mu_0$ in any material, so it is just a rescaled $\\mathbf B$.",
+					"$\\mathbf H$ is used because it is divergence-free everywhere, unlike $\\mathbf B$."
+				],
+				"answer": 1,
+				"explanation": "The Lorentz force depends on $\\mathbf B$. $\\mathbf H$ is a bookkeeping field that absorbs bound currents so that Ampère's law involves only free current."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Inside a short permanent bar magnet with no free current, how do $\\mathbf H$ and $\\mathbf B$ compare in direction to $\\mathbf M$?",
+				"options": [
+					"$\\mathbf B$ is roughly along $\\mathbf M$ but $\\mathbf H$ points opposite to $\\mathbf M$ (a demagnetising field).",
+					"Both $\\mathbf B$ and $\\mathbf H$ are parallel to $\\mathbf M$, since $\\mathbf B=\\mu_0(\\mathbf H+\\mathbf M)$ and all three line up.",
+					"$\\mathbf B$ is zero and $\\mathbf H$ is parallel to $\\mathbf M$, because the bound currents cancel the field.",
+					"Both $\\mathbf B$ and $\\mathbf H$ are zero inside a permanent magnet, since there is no free current."
+				],
+				"answer": 0,
+				"explanation": "With no free current $\\mathbf H$ looks like the field of effective magnetic poles on the end faces, which runs opposite to $\\mathbf M$ inside, while $\\mathbf B=\\mu_0(\\mathbf H+\\mathbf M)$ closes in loops."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does a hysteresis loop of $M$ versus $H$ for a ferromagnet show, compared with a linear dia- or paramagnet?",
+				"options": [
+					"$M$ is exactly proportional to $H$ with large $\\chi_m$.",
+					"$M$ is zero until $H$ exceeds a threshold, with no memory.",
+					"$M$ depends on history, not just the present $H$.",
+					"$M$ oscillates sinusoidally with $H$."
+				],
+				"answer": 2,
+				"explanation": "A ferromagnet's domains pin in place, giving memory (remanence) and energy loss per cycle (loop area). That is the physics behind magnetic data storage and transformer core losses."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An iron core with relative permeability $\\mu_r=1000$ fills a long solenoid with $n=1000$ turns/m carrying $I=0.50$ A. Using $H=nI$ and $B=\\mu_0\\mu_rH$, compute $B$ in tesla.",
+				"answer": 0.6283,
+				"tolerance": 0.02,
+				"unit": "T",
+				"explanation": "$H=nI=500$ A/m, $B=\\mu_0\\mu_rH=(4\\pi\\times10^{-7})(1000)(500)=0.628$ T, 1000 times the air-core value."
+			},
+			{
+				"kind": "short",
+				"prompt": "Compare the roles of $(\\mathbf E,\\mathbf D,\\mathbf P)$ and $(\\mathbf B,\\mathbf H,\\mathbf M)$. Where does the analogy hold and where does it fail?",
+				"rubric": "Full credit requires: P is dipole density of charges; M dipole density of currents; D includes P, H subtracts M; D sourced by free charge, H circulated by free current; fails because there are no magnetic charges: div B=0 always, B (not H) is the force field analogous to E (not D); naive 'B is like D' is wrong.",
+				"modelAnswer": "Both pairs have a medium response ($\\mathbf P$ or $\\mathbf M$) and an auxiliary field ($\\mathbf D=\\epsilon_0\\mathbf E+\\mathbf P$, $\\mathbf H=\\mathbf B/\\mu_0-\\mathbf M$) tied to free sources: free charge for $\\mathbf D$, free current for $\\mathbf H$. The analogy breaks because there are no magnetic charges: $\\nabla\\cdot\\mathbf B=0$ always, so $\\mathbf B$ (not $\\mathbf H$) is the analogue of $\\mathbf D$ in divergence, while the force field is $\\mathbf B$ for magnetism and $\\mathbf E$ for electricity."
+			}
+		],
+		"p5-l026-emf-motional-emf": [
+			{
+				"kind": "mc",
+				"prompt": "A battery drives current around a closed circuit. Why can a purely electrostatic field not do this by itself?",
+				"options": [
+					"Because electrostatic fields vanish inside conductors, so they cannot act on charges at all.",
+					"Because static fields can only push charges away from each other, never around a loop.",
+					"Because $\\oint\\mathbf E_{\\rm static}\\cdot d\\mathbf l=0$ around any closed loop.",
+					"Because current needs a magnetic field to flow."
+				],
+				"answer": 2,
+				"explanation": "Electrostatic force is conservative, so what it gives a charge in one stretch of the loop it takes back in another. EMF is the net work per charge by the non-conservative agent."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A rectangular loop moves with constant velocity entirely inside a region of uniform $\\mathbf B$ (the loop stays fully inside). What is the net EMF, and why?",
+				"options": [
+					"Zero: the flux is constant, and the $\\mathbf v\\times\\mathbf B$ forces on the leading and trailing sides cancel around the loop.",
+					"$BLv$, from the leading side only, since the trailing side moves parallel to the field lines.",
+					"$2BLv$, from both sides adding, since each moving side has its own motional EMF.",
+					"It depends on the loop's resistance, since a larger resistance gives less current and so a smaller EMF around the whole loop."
+				],
+				"answer": 0,
+				"explanation": "Each moving side has a motional EMF $BLv$, but they oppose around the circuit. Equivalently the flux rule: $d\\Phi/dt=0$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A conducting bar of length $\\ell=0.20$ m slides at $v=3.0$ m/s perpendicular to a uniform field $B=0.50$ T, along rails. Compute the motional EMF in volts.",
+				"answer": 0.3,
+				"tolerance": 0.02,
+				"unit": "V",
+				"explanation": "$\\mathcal E=B\\ell v=(0.5)(0.2)(3.0)=0.30$ V (equivalently $-d\\Phi/dt$ as the enclosed area grows at $\\ell v$)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 10 m length of copper wire (resistivity $1.68\\times10^{-8}\\ \\Omega\\,$m) has diameter 1.0 mm. Compute its resistance $R=\\rho L/A$ in ohms.",
+				"answer": 0.2139,
+				"tolerance": 0.02,
+				"unit": "ohm",
+				"explanation": "$A=\\pi(0.5\\times10^{-3})^2=7.85\\times10^{-7}$ m$^2$, so $R=(1.68\\times10^{-8})(10)/(7.85\\times10^{-7})=0.214\\ \\Omega$."
+			},
+			{
+				"kind": "short",
+				"prompt": "The flux rule $\\mathcal E=-d\\Phi/dt$ works for a loop moving through a magnetic field, even though the magnetic force does no work. Explain how these fit together.",
+				"rubric": "Full credit requires: the magnetic force on a charge has a component along the wire (from v x B with the loop velocity) that drives the current -> emf; but the charge also moves with velocity component along the wire, so the total force perpendicular to its total velocity: net work zero; the wire's agent supplies work; the power delivered to the circuit comes from whoever pulls the loop against the magnetic force on the current; flux rule is equivalent bookkeeping.",
+				"modelAnswer": "The loop's motion gives each charge a velocity along the bar, so $q\\mathbf v\\times\\mathbf B$ has a component along the wire that drives the current, which is the motional EMF. But as current flows, the charges also acquire a velocity along the wire, and the magnetic force then has a component opposing the loop's motion: the total force remains perpendicular to the total velocity and does no work. The electrical energy is paid for by whoever pulls the loop, and the flux rule is a compact accounting of this."
+			}
+		],
+		"p5-l027-faraday-induction": [
+			{
+				"kind": "mc",
+				"prompt": "The north pole of a bar magnet is pushed toward a circular loop. In which sense does the induced current flow, and why?",
+				"options": [
+					"It flows so that its field attracts the approaching pole and helps the motion, pulling the magnet in.",
+					"No current flows unless the loop is moved too, since only the loop's motion matters.",
+					"It flows in whatever direction the loop's wire is first attached, as there is no preferred sense.",
+					"It flows so that its own field repels the approaching pole (opposing the increase in flux)."
+				],
+				"answer": 3,
+				"explanation": "Lenz's law is energy conservation: the induced current opposes the change in flux. Pushing the magnet in costs work, which becomes electrical energy."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A long solenoid's current is increasing, so $B$ inside grows. Is there an induced electric field outside the solenoid, where $B=0$?",
+				"options": [
+					"No: $\\mathbf E$ exists only where $\\mathbf B$ is changing, and outside the solenoid $\\mathbf B$ is zero, so nothing can drive an $\\mathbf E$ there.",
+					"Yes: $\\oint\\mathbf E\\cdot d\\mathbf l=-d\\Phi/dt$ for a loop outside, which still encircles the changing flux.",
+					"Yes, but it points radially outward from the axis, like the field of a line charge.",
+					"No: induced fields cannot exist in a region with no current, as they need a source current nearby."
+				],
+				"answer": 1,
+				"explanation": "The induced field is nonlocal in this sense: $\\nabla\\times\\mathbf E=-\\partial_t\\mathbf B$ determines it everywhere via symmetry, so outside it is $E=\\frac{R^2}{2s}\\frac{dB}{dt}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "When the magnetic flux through a circuit changes in time, why can you no longer speak of the unique 'potential difference' between two points?",
+				"options": [
+					"Because charges stop moving when flux changes.",
+					"Because $\\nabla\\times\\mathbf E\\neq0$.",
+					"Because the voltage is always zero when flux changes.",
+					"Because potential differences are only defined in superconductors."
+				],
+				"answer": 1,
+				"explanation": "The electrostatic potential needed path independence, i.e. zero curl. With changing $\\mathbf B$ the field is non-conservative; voltmeter readings depend on the geometry of the leads."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A rotating coil has $N=100$ turns, area $A=0.010$ m$^2$ and turns at 60 Hz in a field $B=0.20$ T. The EMF is $\\mathcal E=NBA\\omega\\sin\\omega t$. Compute the peak EMF in volts.",
+				"answer": 75.4,
+				"tolerance": 0.02,
+				"unit": "V",
+				"explanation": "$\\omega=2\\pi(60)=377$ rad/s, so $\\mathcal E_{\\max}=NBA\\omega=(100)(0.2)(0.01)(377)=75.4$ V: this is how an AC generator works."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how a changing current in one coil can drive a current in a nearby coil, using Faraday's law in differential form.",
+				"rubric": "Full credit requires: changing current -> changing B -> curl E = -dB/dt gives a non-conservative circulating E field in space -> E acts on charges in the second coil, giving emf = -dPhi/dt through it; transformer principle.",
+				"modelAnswer": "A changing current produces a changing magnetic field. By $\\nabla\\times\\mathbf E=-\\partial\\mathbf B/\\partial t$, a changing $\\mathbf B$ creates a circulating electric field in the surrounding space, even where no charge is. That field drives charges around the second coil, with EMF equal to $-d\\Phi/dt$ through it. This is the principle of a transformer."
+			}
+		],
+		"p5-l028-inductance-magnetic-energy": [
+			{
+				"kind": "mc",
+				"prompt": "The mutual inductance obeys $M_{12}=M_{21}$ (Neumann formula) even when the two circuits have very different shapes, e.g. a small loop in a large solenoid. Why is this surprising?",
+				"options": [
+					"It is not surprising: all coils have equal inductance by definition, regardless of their shape or size.",
+					"Because inductance is normally much larger for large circuits than for small ones.",
+					"Because energy conservation requires them to differ when the circuits differ in size.",
+					"The fluxes through each coil from the other's current are generally very different geometric quantities."
+				],
+				"answer": 3,
+				"explanation": "Neumann's formula is symmetric in the two circuits, which guarantees $M_{12}=M_{21}$. It also shows $M$ depends only on geometry."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Where is the energy $\\tfrac12LI^2$ of an inductor stored?",
+				"options": [
+					"In the magnetic field throughout space, with density $B^2/(2\\mu_0)$.",
+					"In the wire, as the kinetic energy of the electrons carrying the current, which stops when the current does.",
+					"In the current itself, which carries the energy along the wire as it flows.",
+					"In the battery, which holds it in reserve until the inductor releases it back."
+				],
+				"answer": 0,
+				"explanation": "Integrating $B^2/2\\mu_0$ over all space gives exactly $\\tfrac12LI^2$. A solenoid of known $B$ lets you compute $L$ from the field energy."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A long solenoid has $N=500$ turns, length 0.20 m and cross-sectional area $4.0\\ \\mathrm{cm}^2$. Compute its inductance $L=\\mu_0N^2A/\\ell$ in millihenries.",
+				"answer": 0.6283,
+				"tolerance": 0.02,
+				"unit": "mH",
+				"explanation": "$L=\\dfrac{(4\\pi\\times10^{-7})(500)^2(4\\times10^{-4})}{0.20}=6.28\\times10^{-4}$ H $=0.628$ mH."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An MRI magnet produces a field $B=1.5$ T. Compute the magnetic energy density $B^2/(2\\mu_0)$ in kJ/m$^3$.",
+				"answer": 895.2,
+				"tolerance": 0.02,
+				"unit": "kJ/m^3",
+				"explanation": "$u=\\dfrac{(1.5)^2}{2(4\\pi\\times10^{-7})}=8.95\\times10^{5}$ J/m$^3$ $=895$ kJ/m$^3$; a few litres of field hold on the order of a megajoule."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the current in an RL circuit cannot jump instantly when a switch is closed, and what the time constant $\\tau=L/R$ means physically.",
+				"rubric": "Full credit requires: changing current changes flux which induces back-EMF -L dI/dt opposing the change; instant change would need infinite EMF/energy since W=1/2 L I^2 cannot jump; the current approaches I = V/R exponentially; tau = L/R larger L (more energy per current) or smaller R slows the change.",
+				"modelAnswer": "Any change in current changes the flux and induces a back-EMF $-L\\,dI/dt$ opposing the change; an instantaneous jump would require an infinite EMF and a sudden change of the stored energy $\\tfrac12LI^2$. The current rises as $I=(V/R)(1-e^{-t/\\tau})$, and $\\tau=L/R$ measures how long the circuit takes to build up the field energy: a bigger $L$ (more energy per amp) or smaller $R$ gives a slower rise."
+			}
+		],
+		"p5-l029-maxwell-equations": [
+			{
+				"kind": "mc",
+				"prompt": "Why was Ampère's law $\\nabla\\times\\mathbf B=\\mu_0\\mathbf J$ inconsistent for time-varying situations, and how does Maxwell's displacement current fix it?",
+				"options": [
+					"The curl of $\\mathbf B$ is non-zero only for steady currents; the displacement current adds a second steady current.",
+					"Ampère's law gave the wrong direction for $\\mathbf B$; displacement current reverses it.",
+					"The divergence of a curl is zero, but $\\nabla\\cdot\\mathbf J=-\\partial\\rho/\\partial t\\neq0$ when charge accumulates.",
+					"Ampère's law violated energy conservation; displacement current dissipates the excess energy."
+				],
+				"answer": 2,
+				"explanation": "Gauss's law gives $\\nabla\\cdot\\partial_t\\mathbf E=\\partial_t\\rho/\\epsilon_0$, so $\\nabla\\cdot(\\mathbf J+\\epsilon_0\\partial_t\\mathbf E)=0$ is consistent with continuity. A changing $\\mathbf E$ acts like a current source of $\\mathbf B$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A parallel-plate capacitor is being charged. No charge crosses the gap, yet a magnetic field circulates around the gap region. What produces it?",
+				"options": [
+					"Residual conduction current leaking across the gap.",
+					"The static charge on the plates, which acts like a magnet.",
+					"No magnetic field exists in the gap.",
+					"The changing electric field in the gap."
+				],
+				"answer": 3,
+				"explanation": "Ampère's law with a surface passing through the gap instead of the wire must give the same answer; the displacement current makes it so."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Between circular capacitor plates of radius 5.0 cm, the electric field is increasing at $dE/dt=1.0\\times10^{12}$ V/(m$\\cdot$s). Compute the total displacement current $I_d=\\epsilon_0A\\,dE/dt$ in milliamperes.",
+				"answer": 69.54,
+				"tolerance": 0.02,
+				"unit": "mA",
+				"explanation": "$I_d=(8.854\\times10^{-12})(\\pi\\,0.05^2)(10^{12})=0.0695$ A $=69.5$ mA."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "With that displacement current, compute the magnetic field magnitude at the edge of the plates ($r=5.0$ cm) from $B=\\mu_0I_d/(2\\pi r)$, in nanotesla.",
+				"answer": 278.2,
+				"tolerance": 0.02,
+				"unit": "nT",
+				"explanation": "$B=\\dfrac{(4\\pi\\times10^{-7})(0.0695)}{2\\pi(0.05)}=2.78\\times10^{-7}$ T $=278$ nT: tiny, which is why the effect took Maxwell's insight rather than experiment to discover."
+			},
+			{
+				"kind": "short",
+				"prompt": "In matter we write Maxwell's equations as $\\nabla\\cdot\\mathbf D=\\rho_f$ and $\\nabla\\times\\mathbf H=\\mathbf J_f+\\partial\\mathbf D/\\partial t$. Explain what has been absorbed into $\\mathbf D$ and $\\mathbf H$, and where the polarisation current appears.",
+				"rubric": "Full credit requires: bound charge (rho_b = -div P) and bound currents (J_b = curl M) have been absorbed so only free charge and current appear; changing polarisation gives current J_p = dP/dt, included in dD/dt term; so equations contain only quantities we control.",
+				"modelAnswer": "The bound charge $\\rho_b=-\\nabla\\cdot\\mathbf P$ and bound current $\\mathbf J_b=\\nabla\\times\\mathbf M$ have been absorbed into the definitions of $\\mathbf D$ and $\\mathbf H$, leaving only free charge and free current as sources. A changing polarisation also gives a polarisation current $\\mathbf J_p=\\partial\\mathbf P/\\partial t$, which is contained in the term $\\partial\\mathbf D/\\partial t=\\epsilon_0\\partial_t\\mathbf E+\\partial_t\\mathbf P$."
+			}
+		],
+		"p5-l030-poynting-energy-charge": [
+			{
+				"kind": "mc",
+				"prompt": "A resistive wire carries a steady current with an electric field $\\mathbf E$ along its length. In which direction does the Poynting vector $\\mathbf S=\\mathbf E\\times\\mathbf B/\\mu_0$ point at the wire's surface?",
+				"options": [
+					"Along the wire, in the direction of the current, since that is where the energy goes.",
+					"Radially inward: the Joule heat enters the wire from the surrounding fields.",
+					"Radially outward, as the wire radiates the heat it produces.",
+					"It is zero at the surface since $\\mathbf B$ vanishes at the wire's surface, leaving no energy flux there."
+				],
+				"answer": 1,
+				"explanation": "$\\mathbf E$ is along the wire and $\\mathbf B$ circles it, so $\\mathbf E\\times\\mathbf B$ is inward. Integrating $S$ over the wire's surface gives $EI$ per unit length, the Joule heating."
+			},
+			{
+				"kind": "mc",
+				"prompt": "While a parallel-plate capacitor charges, where does the energy that ends up in the gap flow?",
+				"options": [
+					"It enters from the sides through the fields around the plates.",
+					"It travels through the wires with the electrons and then jumps across the gap.",
+					"It comes from the plates' surface charge, one plate at a time.",
+					"It is created in the gap from the vacuum."
+				],
+				"answer": 0,
+				"explanation": "With $\\mathbf E$ across the gap and $\\mathbf B$ circulating (due to displacement current), $\\mathbf E\\times\\mathbf B$ points toward the axis. Fields, not wires, transport the energy."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Poynting's theorem reads $\\partial u/\\partial t=-\\nabla\\cdot\\mathbf S-\\mathbf J\\cdot\\mathbf E$. What does a region with $\\mathbf J\\cdot\\mathbf E>0$ do to the field energy?",
+				"options": [
+					"It increases the field energy, since the charges radiate more than they absorb.",
+					"It has no effect on the energy, since $\\mathbf J\\cdot\\mathbf E$ only describes the motion of charges.",
+					"The field does work on the charges there (heating a resistor or accelerating particles).",
+					"It destroys energy, because $\\mathbf J\\cdot\\mathbf E$ is not a conserved quantity and so can remove field energy."
+				],
+				"answer": 2,
+				"explanation": "$\\mathbf J\\cdot\\mathbf E$ is the power delivered to charges per unit volume. The theorem is energy conservation: field energy changes by outflow plus work done on charges."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A resistive wire of radius $a=1.0$ mm carries $I=10$ A with an axial electric field $E=0.050$ V/m. Compute the magnitude of the Poynting vector at its surface in W/m$^2$ (use $B=\\mu_0I/2\\pi a$).",
+				"answer": 79.58,
+				"tolerance": 0.02,
+				"unit": "W/m^2",
+				"explanation": "$S=EB/\\mu_0=EI/(2\\pi a)=(0.05)(10)/(2\\pi\\,10^{-3})=79.6$ W/m$^2$, so power per length $2\\pi aS=EI=0.5$ W/m."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why it is legitimate to say that the energy powering a light bulb flows through the space around the wires rather than inside them.",
+				"rubric": "Full credit requires: Poynting vector E x B / mu0 gives energy flux density in the fields; around a wire/battery circuit E (from surface charges) and B (from current) are nonzero in the space around the wires, and S points along the wires from source toward load; integrating S over a surface gives total power equal to VI; energy conservation (Poynting theorem) is local so energy is located in fields.",
+				"modelAnswer": "Poynting's theorem is a local conservation law: field energy density $u$ and energy flux $\\mathbf S=\\mathbf E\\times\\mathbf B/\\mu_0$ obey a continuity equation. Around a circuit the surface charges and currents create $\\mathbf E$ and $\\mathbf B$ in the surrounding space, and $\\mathbf S$ points from the battery toward the load there. Integrating $\\mathbf S$ over a surface enclosing the bulb gives the power $VI$ it receives, so the energy is carried by the fields."
+			}
+		],
+		"p5-l031-momentum-stress-tensor": [
+			{
+				"kind": "mc",
+				"prompt": "Two charges move on perpendicular straight paths so that at one instant the force on each is not equal and opposite. Does this violate momentum conservation?",
+				"options": [
+					"Yes: electromagnetic forces don't obey momentum conservation, only energy conservation.",
+					"No: but only because magnetic forces always cancel exactly, leaving just the electric ones.",
+					"No: the fields carry momentum, $\\mathbf g=\\epsilon_0\\mathbf E\\times\\mathbf B$, so particle plus field momentum is conserved.",
+					"Yes: the charges must be accelerating, which breaks the law only at that instant, though the net change is later undone."
+				],
+				"answer": 2,
+				"explanation": "Momentum can be exchanged with the field. Newton's third law in its simple form fails for fields; the full conservation law includes $\\mathbf g$ and the Maxwell stress tensor."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the Feynman disk paradox, a charged disk starts to rotate when a current in a coaxial solenoid is switched off. Where did its angular momentum come from?",
+				"options": [
+					"From angular momentum stored in the fields, $\\mathbf r\\times\\epsilon_0(\\mathbf E\\times\\mathbf B)$, before the current was switched off.",
+					"From nowhere: angular momentum is not conserved in electromagnetism, since fields carry none.",
+					"From the battery or power supply that drove the solenoid current, through the wires.",
+					"From the magnetic force acting on the stationary disk, which is nonzero because the disk is charged and sits in the solenoid's field."
+				],
+				"answer": 0,
+				"explanation": "Static charges and a steady current have a circulating Poynting flow, hence angular momentum in the fields. When $\\mathbf B$ decays, the induced $\\mathbf E$ transfers this to the disk."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Sunlight at Earth's orbit has intensity $I=1361$ W/m$^2$. Compute the radiation pressure $P=I/c$ on a perfectly absorbing surface facing the Sun, in micropascals.",
+				"answer": 4.54,
+				"tolerance": 0.02,
+				"unit": "uPa",
+				"explanation": "$P=\\dfrac{1361}{3.00\\times10^8}=4.54\\times10^{-6}$ Pa $=4.54\\ \\mu$Pa: tiny, but it matters for dust and spacecraft."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A perfectly reflecting solar sail of area 100 m$^2$ faces the Sun at normal incidence (intensity 1361 W/m$^2$). Using $P=2I/c$ for a reflector, compute the force on it in millinewtons.",
+				"answer": 0.908,
+				"tolerance": 0.02,
+				"unit": "mN",
+				"explanation": "$F=\\dfrac{2IA}{c}=\\dfrac{2(1361)(100)}{3.00\\times10^8}=9.08\\times10^{-4}$ N $=0.908$ mN: reflection doubles the momentum transfer."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what the Maxwell stress tensor represents physically and why it lets you calculate the electromagnetic force on a collection of charges without knowing exactly where the charges are.",
+				"rubric": "Full credit requires: T_ij is the momentum flux (force per unit area) transmitted through the fields; the force on charges inside a volume equals the integral of T over the enclosing surface (minus the rate of field momentum change); so only the fields on the surface are needed, from the divergence theorem applied to the Lorentz force density.",
+				"modelAnswer": "The stress tensor $T_{ij}$ gives the flow of electromagnetic momentum, i.e. the force per unit area that the fields exert across a surface. The Lorentz force density on charges can be written as the divergence of $T$ minus the rate of change of field momentum, so by the divergence theorem the total force on everything inside a closed surface is $\\oint T\\cdot d\\mathbf a$ (plus a time-derivative term). Only the fields on the surface are needed, not the charge arrangement inside."
+			}
+		],
+		"p5-l032-waves-one-dimension": [
+			{
+				"kind": "mc",
+				"prompt": "A pulse travelling along a light string reaches a junction with a much heavier string (same tension). What does the reflected pulse look like?",
+				"options": [
+					"It is reflected upright with the same amplitude and nothing is transmitted.",
+					"It is not reflected at all; the whole pulse continues into the heavy string at the same speed.",
+					"It is reflected inverted with full amplitude, and nothing is transmitted.",
+					"It is partly reflected and inverted (flipped in sign)."
+				],
+				"answer": 3,
+				"explanation": "Continuity of the string's displacement and slope at the knot gives $A_R/A_I=(v_2-v_1)/(v_2+v_1)$, negative when $v_2<v_1$ (heavier string), and $A_T/A_I=2v_2/(v_1+v_2)$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A sinusoidal travelling wave is written in complex form $\\tilde f=\\tilde Ae^{i(kz-\\omega t)}$ with complex $\\tilde A=A_0e^{i\\delta}$. What does the complex amplitude and the physical wave correspond to?",
+				"options": [
+					"The physical wave is the whole complex number, with its imaginary part representing a second polarisation.",
+					"The modulus $A_0$ is the real amplitude and the phase $\\delta$ sets the starting phase.",
+					"The phase $\\delta$ sets the wave's speed and $A_0$ its frequency.",
+					"The imaginary part is a wave travelling in the opposite direction."
+				],
+				"answer": 1,
+				"explanation": "Complex exponentials are a convenient bookkeeping device: linear operations (derivatives, sums) are easy, and at the end you take the real part."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A transverse wave travels along $z$ on a rope that can move in the $x$ and $y$ directions. How many independent polarisations does it have, and what does a circularly polarised wave correspond to?",
+				"options": [
+					"One, since a wave can only oscillate in a single direction at a time.",
+					"Two (x and y); circular polarisation is two equal-amplitude linear components $90^\\circ$ out of phase.",
+					"Three (x, y and z), since the rope can also move longitudinally along the direction of travel.",
+					"Two, and circular polarisation needs the two components to oscillate exactly in phase with equal amplitudes."
+				],
+				"answer": 1,
+				"explanation": "Two transverse directions give two independent components. Equal amplitudes with a $\\pm90^\\circ$ phase shift trace out a circle."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A string with tension $T=100$ N and linear density $\\mu_1=0.010$ kg/m is joined to a string of the same tension with $\\mu_2=0.040$ kg/m. A wave on the first string hits the junction. Use $v=\\sqrt{T/\\mu}$ and $A_R/A_I=(v_2-v_1)/(v_2+v_1)$ to compute the ratio of reflected to incident amplitude (include the sign).",
+				"answer": -0.3333,
+				"tolerance": 0.03,
+				"explanation": "$v_1=100$ m/s, $v_2=50$ m/s, so $A_R/A_I=(50-100)/(150)=-1/3$: the reflected pulse is inverted with one third of the incident amplitude."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why any function of the form $f(z-vt)$ solves the one-dimensional wave equation and what it means physically.",
+				"rubric": "Full credit requires: argument u = z - vt, so d^2f/dz^2 = f'' and d^2f/dt^2 = v^2 f'', hence the equation holds; physically the shape f is rigidly translated at speed v without changing, any shape (not only sinusoids), and f(z+vt) travels left; general solution is the sum of both.",
+				"modelAnswer": "Writing $u=z-vt$, the chain rule gives $\\partial_z^2f=f''$ and $\\partial_t^2f=v^2f''$, so $\\partial_z^2f=v^{-2}\\partial_t^2f$. Physically, $f(z-vt)$ is the shape $f$ carried rigidly to the right at speed $v$ without changing; any pulse shape works, not just sinusoids, and $f(z+vt)$ goes left. The general solution is the sum of a right-mover and a left-mover."
+			}
+		],
+		"p5-l033-em-waves-vacuum": [
+			{
+				"kind": "mc",
+				"prompt": "For a plane electromagnetic wave in vacuum, how are $\\mathbf E$, $\\mathbf B$ and the propagation direction $\\mathbf k$ related?",
+				"options": [
+					"$\\mathbf E$ and $\\mathbf B$ are parallel and both are along $\\mathbf k$.",
+					"$\\mathbf E$ and $\\mathbf B$ are perpendicular but $\\mathbf B$ lags $\\mathbf E$ by a quarter cycle.",
+					"$\\mathbf E$ is along $\\mathbf k$ (longitudinal) while $\\mathbf B$ is transverse.",
+					"All three are mutually perpendicular."
+				],
+				"answer": 3,
+				"explanation": "$\\nabla\\cdot\\mathbf E=0$ forces $\\mathbf E\\perp\\mathbf k$ and Faraday's law then fixes $\\mathbf B=\\hat k\\times\\mathbf E/c$: perpendicular, in phase, with $B_0=E_0/c$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How is circularly polarised light built from linear components?",
+				"options": [
+					"Two perpendicular linear polarisations in phase with different amplitudes, which rotates the field.",
+					"Two parallel linear polarisations with a $90^\\circ$ phase difference between them.",
+					"Two perpendicular linear polarisations of equal amplitude, $90^\\circ$ out of phase.",
+					"A longitudinal and a transverse component of equal size, oscillating together."
+				],
+				"answer": 2,
+				"explanation": "Different amplitudes or phase differences other than $\\pm90^\\circ$ give elliptical polarisation; zero phase difference gives linear polarisation at an angle."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A plane wave has electric field amplitude $E_0=300$ V/m. Compute its magnetic field amplitude $B_0=E_0/c$ in microtesla.",
+				"answer": 1.001,
+				"tolerance": 0.02,
+				"unit": "uT",
+				"explanation": "$B_0=300/(3.00\\times10^8)=1.00\\times10^{-6}$ T $=1.00\\ \\mu$T; magnetic fields of waves are tiny in SI units because of the factor $c$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A plane wave in vacuum has $E_0=100$ V/m. Compute its intensity $I=\\tfrac12\\epsilon_0cE_0^2$ in W/m$^2$.",
+				"answer": 13.27,
+				"tolerance": 0.02,
+				"unit": "W/m^2",
+				"explanation": "$I=\\tfrac12(8.854\\times10^{-12})(3.00\\times10^8)(100)^2=13.3$ W/m$^2$ (about one hundredth of sunlight)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how Maxwell's equations lead to a self-sustaining wave in empty space, and where the speed $c$ comes from.",
+				"rubric": "Full credit requires: in vacuum changing B induces E (Faraday) and changing E induces B (displacement current); taking curl of one and substituting the other gives wave equation for each field; speed is 1/sqrt(mu0 eps0) = c from the electric and magnetic constants, matching the speed of light.",
+				"modelAnswer": "In vacuum, Faraday's law says a changing $\\mathbf B$ makes a circulating $\\mathbf E$, and the Ampère-Maxwell law says a changing $\\mathbf E$ makes a circulating $\\mathbf B$. Taking the curl of one equation and substituting the other gives a wave equation for each field, $\\nabla^2\\mathbf E=\\mu_0\\epsilon_0\\,\\partial_t^2\\mathbf E$, so the disturbance regenerates itself as it moves at $1/\\sqrt{\\mu_0\\epsilon_0}=c$, a speed fixed by the electric and magnetic constants alone."
+			}
+		],
+		"p5-l034-em-waves-matter-reflection": [
+			{
+				"kind": "mc",
+				"prompt": "A light wave passes from air into glass ($n=1.5$). Which quantities change?",
+				"options": [
+					"Frequency and speed both decrease, but the wavelength is unchanged.",
+					"Speed and frequency decrease, and wavelength increases.",
+					"Nothing changes inside the glass; only the amplitude changes.",
+					"Speed and wavelength decrease by a factor $n$."
+				],
+				"answer": 3,
+				"explanation": "The boundary conditions must hold at all times, so the oscillation frequency is fixed by the source. Since $v=c/n$ and $v=f\\lambda$, the wavelength is $\\lambda/n$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Light reflecting from a glass surface at Brewster's angle is...",
+				"options": [
+					"Completely absent: Brewster's angle is where all light is transmitted whatever the polarisation.",
+					"Completely polarised perpendicular to the plane of incidence.",
+					"Completely polarised in the plane of incidence.",
+					"Unpolarised, just weaker than normal."
+				],
+				"answer": 1,
+				"explanation": "At $\\tan\\theta_B=n_2/n_1$ the Fresnel coefficient for the in-plane polarisation vanishes (reflected and refracted rays are at $90^\\circ$), leaving only the perpendicular polarisation reflected."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "At normal incidence from air ($n=1.00$) onto glass ($n=1.50$), the reflectance is $R=\\left(\\frac{n_1-n_2}{n_1+n_2}\\right)^2$. Compute the fraction of intensity reflected, as a percentage.",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"unit": "%",
+				"explanation": "$R=\\left(\\frac{-0.5}{2.5}\\right)^2=0.04$, i.e. 4% per surface. This is why uncoated lens systems lose light and why anti-reflection coatings matter."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Light inside glass ($n=1.50$) hits a glass-air interface. Compute the critical angle for total internal reflection in degrees.",
+				"answer": 41.81,
+				"tolerance": 0.02,
+				"unit": "deg",
+				"explanation": "$\\sin\\theta_c=n_2/n_1=1/1.5$, so $\\theta_c=41.8^\\circ$. Beyond it, the transmitted wave is evanescent: no energy leaves. This is how optical fibres work."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how Snell's law and the law of reflection follow from the requirement that the boundary conditions hold at every point of the interface at all times.",
+				"rubric": "Full credit requires: boundary conditions must hold for all positions along the surface and all times, so the incident, reflected and transmitted waves must have the same frequency and the same wavevector component parallel to the surface (phase matching); equal tangential k gives theta_I = theta_R and n1 sin theta_I = n2 sin theta_T.",
+				"modelAnswer": "The matching conditions on $\\mathbf E$ and $\\mathbf B$ must hold at every point on the surface and at every time, which is only possible if all three waves have the same frequency and the same phase variation along the surface: equal tangential wavevector components. For reflection, same medium gives $\\theta_R=\\theta_I$; for transmission, $k_1\\sin\\theta_I=k_2\\sin\\theta_T$ with $k=n\\omega/c$ gives $n_1\\sin\\theta_I=n_2\\sin\\theta_T$."
+			}
+		],
+		"p5-l035-absorption-dispersion": [
+			{
+				"kind": "mc",
+				"prompt": "As the frequency of an alternating current in a copper wire increases, what happens to the skin depth, and why?",
+				"options": [
+					"It decreases ($\\delta\\propto1/\\sqrt{\\omega\\mu\\sigma}$).",
+					"It increases, because high-frequency current spreads out through the wire.",
+					"It stays constant, because it depends only on the wire's material.",
+					"It becomes infinite at high frequency, since a conductor stops conducting."
+				],
+				"answer": 0,
+				"explanation": "Inside a conductor the wave decays as $e^{-z/\\delta}$. Higher $\\omega$ means more induced screening, so $\\delta$ shrinks, which is why RF conductors are silver-plated and why microwaves don't penetrate metal."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do metals reflect visible light so well?",
+				"options": [
+					"Metal atoms emit their own light that adds to the incident beam and so doubles the intensity at the surface.",
+					"Metals have a refractive index close to 1, so light cannot enter the surface at all.",
+					"The free electrons respond to the field and generate a field that cancels it inside.",
+					"The incident photons are absorbed and reemitted with lower frequency, which is why metals look dull."
+				],
+				"answer": 2,
+				"explanation": "In a good conductor the large $\\sigma$ makes the wave number almost imaginary, so the transmitted wave dies in a distance of about $\\delta\\ll\\lambda$ and almost all energy is reflected."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A glass prism spreads white light into a spectrum. What does this show about the refractive index in a transparent region?",
+				"options": [
+					"It depends on frequency, decreasing with frequency, so red bends more than blue in the glass.",
+					"It is independent of frequency, and the spreading comes from different light speeds in vacuum for different colours.",
+					"It depends on frequency (dispersion), rising toward the nearest absorption resonance in the ultraviolet.",
+					"It depends on intensity, so brighter colours bend more."
+				],
+				"answer": 2,
+				"explanation": "In the Lorentz model each resonance contributes a term $\\propto1/(\\omega_j^2-\\omega^2)$, so below the resonance $n$ rises with $\\omega$ (normal dispersion) and falls through the absorption line (anomalous)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute the skin depth $\\delta=\\sqrt{2/(\\omega\\mu_0\\sigma)}$ in copper ($\\sigma=5.96\\times10^7$ S/m) at $f=1.0$ MHz, in micrometres.",
+				"answer": 65.19,
+				"tolerance": 0.02,
+				"unit": "um",
+				"explanation": "$\\omega=2\\pi\\times10^6$ rad/s, so $\\delta=\\sqrt{2/[(6.28\\times10^6)(4\\pi\\times10^{-7})(5.96\\times10^7)]}=6.5\\times10^{-5}$ m $=65\\ \\mu$m."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how modelling electrons in a dielectric as damped, driven harmonic oscillators produces both a frequency-dependent refractive index and absorption bands, and relate this to UV/IR absorption in chemistry.",
+				"rubric": "Full credit requires: electrons (or vibrating charges) bound with natural frequency w_j and damping respond to driving field; response amplitude and phase vary with frequency, giving complex dielectric function; real part gives n(w) (dispersion), imaginary part gives absorption peaked near w_j; the absorption bands seen in UV (electronic) and IR (vibrational) spectra are these resonances.",
+				"modelAnswer": "Each bound charge feels a restoring force, damping and the oscillating field, so it responds like a driven damped oscillator with a natural frequency $\\omega_j$. The response gives a complex dielectric function: its real part gives $n(\\omega)$ (dispersion, large near $\\omega_j$) and its imaginary part gives absorption, peaked at $\\omega_j$. The UV (electronic) and IR (vibrational) absorption bands in spectroscopy are exactly these resonances."
+			}
+		],
+		"p5-l036-guided-waves": [
+			{
+				"kind": "mc",
+				"prompt": "A hollow rectangular metal waveguide is driven at a frequency below its cutoff $\\omega_{mn}$. What happens to the wave?",
+				"options": [
+					"It cannot propagate: the wave number is imaginary, so the fields decay exponentially (evanescent).",
+					"It propagates faster than $c$, so it arrives sooner than the same signal would through free space over the same distance.",
+					"It propagates normally but with greater loss, because the walls absorb more.",
+					"It propagates in a different mode with no cutoff, which is the TEM mode of the guide."
+				],
+				"answer": 0,
+				"explanation": "$k=\\sqrt{\\omega^2-\\omega_{mn}^2}/c$ is imaginary for $\\omega<\\omega_{mn}$. Only waves with at least half a wavelength across the guide fit."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a waveguide the phase velocity exceeds $c$ and the group velocity is less than $c$. Why does this not violate relativity?",
+				"options": [
+					"Because only the phase velocity is observable.",
+					"Because the guide is not a vacuum, so relativity doesn't apply.",
+					"Because both exceed $c$ but only the product is bounded.",
+					"Information and energy travel at the group velocity, $v_g<c$."
+				],
+				"answer": 3,
+				"explanation": "For waveguide modes $v_pv_g=c^2$. The crest speed is a geometric effect (crests sweeping along a wall), not a transport speed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A hollow single-conductor rectangular waveguide cannot support a TEM wave, but a coaxial cable can. Why?",
+				"options": [
+					"Coax is wider than a waveguide, so more modes fit and TEM is allowed among them.",
+					"A TEM wave needs two conductors with a potential difference between them, which coax has.",
+					"TEM waves exist only in dielectrics, not in vacuum, so a hollow guide cannot carry one.",
+					"A hollow guide absorbs TEM waves in its walls because the wall currents dissipate that mode's energy."
+				],
+				"answer": 1,
+				"explanation": "For TEM, transverse fields obey Laplace's equation with the boundary conditions, and a single closed conductor allows only the trivial solution. Coax's two conductors allow a nontrivial one at all frequencies."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A WR-90 waveguide has width $a=2.286$ cm. Its lowest (TE$_{10}$) mode has cutoff $f_c=c/2a$. Compute the ratio of group velocity to $c$ at 10.0 GHz, $v_g/c=\\sqrt{1-(f_c/f)^2}$.",
+				"answer": 0.755,
+				"tolerance": 0.02,
+				"explanation": "$f_c=c/(2a)=6.56$ GHz, so $v_g/c=\\sqrt{1-(6.56/10)^2}=0.755$: signals travel at about three quarters of $c$ down the guide."
+			},
+			{
+				"kind": "short",
+				"prompt": "Using the picture of a plane wave bouncing between the guide walls, explain why a waveguide has a cutoff frequency and why the group velocity is less than $c$.",
+				"rubric": "Full credit requires: waveguide mode = superposition of two plane waves reflecting at angle between walls; transverse standing wave requires fitting integer half-wavelengths, fixing the transverse wave number; the longitudinal k = sqrt(omega^2/c^2 - k_t^2) is real only if omega exceeds the cutoff; the zigzag path means the net progress along the guide is c times the cosine of the angle, so v_g < c, while crest speed is c / cosine > c.",
+				"modelAnswer": "A guided mode is two plane waves zig-zagging between the walls. For a standing pattern across the guide, the transverse wave number must be fixed ($m\\pi/a$). The total wave number is $\\omega/c$, so the part along the guide, $k=\\sqrt{\\omega^2/c^2-k_t^2}$, is real only above the cutoff $\\omega_{mn}=ck_t$. Because the wave zig-zags at an angle, its net progress along the guide is only a fraction $\\cos\\theta<1$ of $c$, giving $v_g<c$."
+			}
+		],
+		"p5-l037-potential-formulation-retarded": [
+			{
+				"kind": "mc",
+				"prompt": "The potentials $V$ and $\\mathbf A$ are not unique: $V\\to V-\\partial_t\\lambda$, $\\mathbf A\\to\\mathbf A+\\nabla\\lambda$ leaves the fields unchanged. Why do physicists exploit this by choosing the Lorenz gauge $\\nabla\\cdot\\mathbf A=-\\mu_0\\epsilon_0\\partial_tV$?",
+				"options": [
+					"It sets the potentials to zero outside the sources, making the fields easier to compute.",
+					"It makes the equations for $V$ and $\\mathbf A$ decouple into sourced wave equations of the same form.",
+					"It changes the physical fields to make them satisfy a simpler equation, since the gauge choice matters physically.",
+					"It removes the radiation fields, which are gauge artefacts."
+				],
+				"answer": 1,
+				"explanation": "Gauge changes do not affect $\\mathbf E$ and $\\mathbf B$ because $\\nabla\\times\\nabla\\lambda=0$ and the time derivative terms cancel. The Lorenz gauge is Lorentz-covariant and gives sourced wave equations."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The retarded potential at $(\\mathbf r,t)$ uses the source evaluated at $t_r=t-\\imath/c$. What does this express physically?",
+				"options": [
+					"The source moves backwards in time to meet the field at the observer.",
+					"The potential responds instantaneously to a source anywhere in space.",
+					"The source is always evaluated at the earliest possible moment, namely when it was first switched on, whatever the distance.",
+					"Causality: changes in the source reach the field point only after the travel time $\\imath/c$."
+				],
+				"answer": 3,
+				"explanation": "In the static limit $t_r$ drops out and the retarded integral reduces to Coulomb/Biot-Savart. In general information propagates at $c$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A charge is suddenly switched on at the origin at $t=0$. At a point 3 m away, when does the potential become nonzero?",
+				"options": [
+					"After a delay of about $\\imath/c=10$ ns.",
+					"Immediately, since potentials obey instantaneous Coulomb's law.",
+					"After 3 s.",
+					"Never, because a sudden switch-on makes the potential infinite."
+				],
+				"answer": 0,
+				"explanation": "The retarded potentials say $V(\\mathbf r,t)=0$ for $t<\\imath/c$: electromagnetic influence spreads outward at $c$, in accord with special relativity."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute the retardation time, $t-t_r=\\imath/c$, for light travelling from the Sun to Earth, a distance of $1.496\\times10^{11}$ m, in seconds.",
+				"answer": 499.0,
+				"tolerance": 0.02,
+				"unit": "s",
+				"explanation": "$1.496\\times10^{11}/(3.00\\times10^8)=499$ s $\\approx8.3$ minutes: we see the Sun as it was 8 minutes ago."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the retarded potentials do not make the electromagnetic influence of a source act instantaneously at a distance, and how they reduce to the familiar static formulas.",
+				"rubric": "Full credit requires: the potential at (r,t) is built from the source's charge and current at the retarded time t - R/c, so changes arrive with finite delay (causal); for static sources the time dependence drops out and the retarded time does not matter, reducing to Coulomb's law and the Biot-Savart law.",
+				"modelAnswer": "The potential at time $t$ uses the source's charge and current at the earlier time $t_r=t-\\imath/c$, so a change in the source influences a distant point only after the light-travel time: causality is respected. If the source does not change in time, the retardation drops out and the integrals become exactly the Coulomb and Biot-Savart expressions."
+			}
+		],
+		"p5-l038-lienard-wiechert": [
+			{
+				"kind": "mc",
+				"prompt": "A point charge moves at constant velocity close to the speed of light. How does its electric field pattern differ from a stationary charge's?",
+				"options": [
+					"The field is unchanged, because the charge has no acceleration and so nothing about it changes.",
+					"The field lines point toward the retarded position and are isotropic about it.",
+					"Radial from the present position but squashed into the plane perpendicular to the motion.",
+					"The field disappears sideways and becomes concentrated along the line of motion, like a searchlight beam ahead of the charge."
+				],
+				"answer": 2,
+				"explanation": "A uniformly moving charge's field is the boosted Coulomb field: $E_\\perp=\\gamma E_{\\rm rest}$ at the same present distance, $E_\\parallel=E_{\\rm rest}/\\gamma^2$, always pointing away from the present position."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Liénard-Wiechert field has a velocity part and an acceleration part. Which carries energy away to infinity, and why?",
+				"options": [
+					"The velocity field, which falls as $1/r$.",
+					"Both equally, since both are produced by the same charge.",
+					"Neither: radiation comes only from the magnetic field.",
+					"The acceleration field, which falls as $1/r$."
+				],
+				"answer": 3,
+				"explanation": "Power through a sphere = $S\\cdot4\\pi r^2$. $E\\propto1/r^2$ gives $S\\propto1/r^4$ and power $\\to0$; $E\\propto1/r$ gives a finite power: radiation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does a charge moving at constant velocity not radiate?",
+				"options": [
+					"Because its magnetic field cancels its electric field.",
+					"In its rest frame it is a static charge, which cannot radiate.",
+					"Because radiation needs a medium and a uniformly moving charge doesn't disturb it.",
+					"It does radiate, but too weakly to detect."
+				],
+				"answer": 1,
+				"explanation": "A boost to the charge's rest frame turns the field into a pure Coulomb field. Only the acceleration term $\\boldsymbol\\imath\\times(\\mathbf u\\times\\mathbf a)$ in the formula gives $1/r$ fields."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A charge moves at $v=0.90c$. At the same distance from the charge's present position, compute the ratio of the electric field magnitude on the plane perpendicular to the motion to the field of a stationary charge, $E_\\perp/E_{\\rm rest}=\\gamma$.",
+				"answer": 2.294,
+				"tolerance": 0.02,
+				"explanation": "$\\gamma=1/\\sqrt{1-0.81}=2.29$: the sideways field is more than doubled while along the line of motion it is reduced to $1/\\gamma^2\\approx0.19$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why only accelerating charges radiate, in terms of how the field falls with distance and the energy flux through a large sphere.",
+				"rubric": "Full credit requires: velocity (Coulomb-like) field falls as 1/r^2 giving S ~ 1/r^4 and zero power at infinity; acceleration field falls as 1/r giving S ~ 1/r^2 and finite power through sphere; the acceleration field is present only when a != 0; energy therefore escapes only for accelerated charges.",
+				"modelAnswer": "The field of a non-accelerating charge falls as $1/r^2$, so its Poynting vector falls as $1/r^4$ and the power through a sphere ($S\\cdot4\\pi r^2$) vanishes as $r\\to\\infty$. The acceleration-dependent term falls only as $1/r$, giving $S\\propto1/r^2$ and a finite power through any large sphere: energy genuinely escapes. That term is present only if the charge accelerates."
+			}
+		],
+		"p5-l039-electric-dipole-radiation": [
+			{
+				"kind": "mc",
+				"prompt": "An oscillating electric dipole along $\\hat z$ radiates with angular distribution $\\propto\\sin^2\\theta$. In which directions is the radiated intensity largest and zero?",
+				"options": [
+					"Largest perpendicular to the dipole axis and zero along it, like a doughnut around the antenna.",
+					"Largest along the axis and zero in the equatorial plane, like a searchlight along the dipole.",
+					"Equal in all directions, because a point source radiates isotropically.",
+					"Largest along the axis and half as large in the equatorial plane, as for a rotating dipole averaged over time."
+				],
+				"answer": 0,
+				"explanation": "The radiated field is $\\propto\\ddot{p}\\sin\\theta/r$, since only the component of acceleration perpendicular to the line of sight radiates; none goes along the axis."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Rayleigh scattering by air molecules goes as $\\omega^4$. Why is the sky blue and the sunset red?",
+				"options": [
+					"Air absorbs red light but transmits blue, so the sky glows blue and the Sun looks red.",
+					"The Sun emits blue light mostly, red only near the horizon, so the sky mirrors the Sun's colour.",
+					"Blue light is scattered much more strongly out of the direct beam, into all directions.",
+					"Blue light travels faster in air and so reaches us in greater amounts."
+				],
+				"answer": 2,
+				"explanation": "Scattered power $\\propto\\omega^4\\propto\\lambda^{-4}$: 450 nm blue is scattered about 6 times more than 700 nm red. Sunsets send the direct light through the thickest air, stripping the blue."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Dipole fields have near-zone ($r\\ll\\lambda$) and radiation-zone ($r\\gg\\lambda$) behaviour. What distinguishes them?",
+				"options": [
+					"Near the source the fields are radiative; far away they are static, and the source cannot be seen.",
+					"There is no difference: the dipole fields fall as $1/r^3$ at all distances from the source.",
+					"Near the source the fields are quasi-static and fall as $1/r^3$; far away they fall as $1/r$.",
+					"In the radiation zone the electric field is purely longitudinal, along the direction of propagation."
+				],
+				"answer": 2,
+				"explanation": "The full field has terms in $1/r^3$, $1/r^2$ and $1/r$ with phase factors; at large $kr$ the $1/r$ term dominates and gives the radiation pattern."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An oscillating dipole has $p_0=1.0\\times10^{-10}$ C$\\cdot$m (e.g. $\\pm1$ nC separated by 10 cm) at $f=100$ MHz. Compute the average radiated power $P=\\mu_0p_0^2\\omega^4/(12\\pi c)$ in watts.",
+				"answer": 0.1733,
+				"tolerance": 0.02,
+				"unit": "W",
+				"explanation": "$\\omega=2\\pi(10^8)=6.28\\times10^8$ rad/s, so $P=\\dfrac{(4\\pi\\times10^{-7})(10^{-20})(1.56\\times10^{35})}{12\\pi(3\\times10^8)}\\approx0.17$ W."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the power radiated by an oscillating dipole scales as $\\omega^4$, starting from the idea that radiation comes from acceleration of charge.",
+				"rubric": "Full credit requires: radiation field proportional to the acceleration (second time derivative of p), which for harmonic motion is omega^2 p0; power is proportional to field squared, hence (omega^2)^2 = omega^4; consequence: high frequency radiates much more efficiently.",
+				"modelAnswer": "The radiation field is proportional to the acceleration of the charges, i.e. $\\ddot p=-\\omega^2p_0\\cos\\omega t$ for harmonic motion, so $E\\propto\\omega^2p_0$. Power is proportional to the field squared, giving $\\omega^4p_0^2$. At a fixed dipole amplitude, doubling the frequency gives 16 times the power, which is why blue light scatters so much more than red."
+			}
+		],
+		"p5-l040-magnetic-dipole-arbitrary-sources": [
+			{
+				"kind": "mc",
+				"prompt": "For an atom, the ratio of magnetic-dipole to electric-dipole radiated power is roughly $(m/cp)^2$ with $m\\sim\\mu_B$ and $p\\sim ea_0$. What does this say about atomic transitions?",
+				"options": [
+					"M1 is suppressed by about $10^{-5}$ compared with E1.",
+					"M1 transitions dominate, because magnetic moments are larger than electric dipoles.",
+					"E1 and M1 radiate at the same rate for any atom.",
+					"M1 is $10^5$ times stronger than E1."
+				],
+				"answer": 0,
+				"explanation": "$m/(cp)\\sim\\mu_B/(ea_0c)=\\alpha/2\\approx3.7\\times10^{-3}$, so $P_{M1}/P_{E1}\\sim10^{-5}$: the small size of atoms compared with the wavelength suppresses the magnetic and higher multipoles."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The d-d transitions of transition-metal complexes (octahedral) give weak colours. In multipole language, why?",
+				"options": [
+					"They connect states with different parity, so E1 is strongly allowed.",
+					"They violate energy conservation unless a photon is absorbed in pairs.",
+					"They involve nuclear rather than electronic motion.",
+					"They connect states of the same parity."
+				],
+				"answer": 3,
+				"explanation": "E1 changes parity (the dipole operator is odd). d-d transitions keep $g\\to g$ symmetry in centrosymmetric complexes, so they are only weakly allowed through vibrations that break the inversion symmetry."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does the radiation pattern of an oscillating magnetic dipole compare with that of an electric dipole of the same orientation?",
+				"options": [
+					"A $\\cos^2\\theta$ pattern with a maximum along the axis, because the magnetic dipole points along the axis and radiates along its direction.",
+					"The same $\\sin^2\\theta$ pattern, but with the roles of $\\mathbf E$ and $\\mathbf B$ interchanged (polarisation rotated $90^\\circ$).",
+					"Isotropic: magnetic dipoles radiate equally in all directions, unlike electric dipoles.",
+					"There is no radiation, since $\\mathbf B$ does not accelerate charges and so cannot carry energy away."
+				],
+				"answer": 1,
+				"explanation": "The magnetic dipole fields are obtained from the electric dipole ones by $\\mathbf E\\to c\\mathbf B$, $c\\mathbf B\\to-\\mathbf E$ (duality)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the ratio $P_{M1}/P_{E1}=(m/cp)^2$ for an atom with $m=\\mu_B=9.274\\times10^{-24}$ J/T and $p=ea_0$ ($a_0=5.292\\times10^{-11}$ m), in units of $10^{-5}$.",
+				"answer": 1.331,
+				"tolerance": 0.05,
+				"unit": "x10^-5",
+				"explanation": "$cp=(3.00\\times10^8)(1.602\\times10^{-19})(5.292\\times10^{-11})=2.54\\times10^{-21}$ J, so $m/cp=3.65\\times10^{-3}$ and the ratio is $1.33\\times10^{-5}$ (this equals $(\\alpha/2)^2$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why electric-dipole radiation dominates in typical atomic transitions, and what controls the strength of higher multipoles (M1, E2) relative to E1.",
+				"rubric": "Full credit requires: multipole expansion in powers of ka (size over wavelength) - atoms are ~0.1 nm and wavelengths ~100s of nm so ka << 1, each higher multipole suppressed by (ka)^2 in power; magnetic dipole also suppressed by v/c; so E1 dominates when allowed; selection rules (parity change, delta l = +-1) determine when it vanishes, and then M1/E2 appear.",
+				"modelAnswer": "The radiation field is a multipole expansion in powers of $ka$, the atomic size over the wavelength. For atoms (0.1 nm versus hundreds of nm) this is about $10^{-3}$, so each higher multipole is suppressed in power by roughly $(ka)^2$, and M1 is further suppressed by $v/c$. Electric dipole thus dominates whenever its selection rules (parity change, $\\Delta l=\\pm1$) allow it; M1 and E2 show up only for E1-forbidden transitions, at rates about $10^5$ times slower."
+			}
+		],
+		"p5-l041-larmor-radiation-reaction": [
+			{
+				"kind": "mc",
+				"prompt": "The Larmor power is $P=\\mu_0q^2a^2/(6\\pi c)$. A proton and an electron are each pushed by the same force. Which radiates more power, and by how much?",
+				"options": [
+					"The proton, because it has larger mass and so more kinetic energy to radiate away.",
+					"The electron, by a factor of about $(m_p/m_e)^2\\approx3\\times10^6$.",
+					"They radiate equally, since the charges have equal magnitude.",
+					"The electron, by a factor of about 1836, the ratio of the proton and electron masses."
+				],
+				"answer": 1,
+				"explanation": "$P\\propto q^2a^2=q^2F^2/m^2$, so the ratio is $(m_p/m_e)^2=(1836)^2\\approx3.4\\times10^6$. This is why light particles radiate readily and heavy ones barely do."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Abraham-Lorentz radiation reaction force $\\propto\\dot{\\mathbf a}$ appears in the equation of motion of a radiating charge. What difficulty does it raise?",
+				"options": [
+					"It makes charges move faster than light, because the reaction force grows without bound.",
+					"It violates energy conservation by creating energy from nothing, since the radiation reaction force always adds energy to the charge instead of removing it.",
+					"It predicts that charges never radiate, since the reaction force exactly cancels the radiated power.",
+					"Runaway solutions (acceleration grows exponentially with no force) and acausal preacceleration: classical point-charge theory breaks down."
+				],
+				"answer": 3,
+				"explanation": "Physical solutions must be selected by an artificial final condition that makes the charge accelerate slightly before the force acts, over a time $\\tau\\sim6\\times10^{-24}$ s for an electron."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A classical electron orbiting a proton radiates by Larmor's formula. What does the classical model predict, and what does this show?",
+				"options": [
+					"The electron loses energy and spirals into the nucleus within about $10^{-11}$ s.",
+					"It orbits forever at constant energy, since a circular orbit has constant speed and so no acceleration.",
+					"It is ejected from the atom because it radiates away its binding energy as it speeds up.",
+					"It radiates only at the Bohr frequencies, explaining line spectra and keeping the atom stable."
+				],
+				"answer": 0,
+				"explanation": "A circular orbit has centripetal acceleration, so it radiates continuously. The classical collapse time is $a_0^3/(4r_e^2c)$. Quantum mechanics resolves this by having discrete stationary states."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the classical collapse time of a hydrogen atom, $t=a_0^3/(4r_e^2c)$, with $a_0=5.292\\times10^{-11}$ m and classical electron radius $r_e=2.818\\times10^{-15}$ m. Give the answer in picoseconds.",
+				"answer": 15.56,
+				"tolerance": 0.05,
+				"unit": "ps",
+				"explanation": "$t=(5.29\\times10^{-11})^3/[4(2.82\\times10^{-15})^2(3.00\\times10^8)]=1.6\\times10^{-11}$ s $\\approx16$ ps."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why an accelerating charge radiates but a charge in uniform motion does not, and what Larmor's formula says about how radiated power depends on acceleration.",
+				"rubric": "Full credit requires: acceleration produces a time-dependent field that propagates away (the kink in field lines / 1/r transverse field), uniform motion is boosted static field with no 1/r piece; Larmor power proportional to a^2 (and q^2), independent of velocity direction at low speed; radiated energy comes from the agent doing the accelerating.",
+				"modelAnswer": "A uniformly moving charge has just a boosted Coulomb field, which falls too fast to carry energy to infinity. When a charge accelerates, the change in its field has to propagate outward as a transverse disturbance falling only as $1/r$, which transports energy. Larmor's formula says the radiated power is proportional to $q^2a^2$: doubling the acceleration quadruples the power, and the energy comes from whatever is doing the accelerating."
+			}
+		],
+		"p5-l042-relativity-review-mechanics": [
+			{
+				"kind": "mc",
+				"prompt": "Cosmic-ray muons are made about 15 km up and have a proper lifetime of 2.2 $\\mu$s, which at nearly $c$ is only about 660 m of travel. Yet many reach the ground. How does relativity explain this?",
+				"options": [
+					"Muons travel faster than light, so they arrive before decaying.",
+					"Their clocks run fast, so they last longer in Earth's frame.",
+					"In Earth's frame the muon's clock runs slow by $\\gamma$.",
+					"Their mass is larger, so they decay more slowly by Newtonian dynamics."
+				],
+				"answer": 2,
+				"explanation": "Time dilation: $t=\\gamma\\tau$ with $\\gamma\\gg1$. In the muon frame, the distance to the ground contracts by $\\gamma$. The spacetime interval is the invariant that makes the two stories consistent."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The interval $-(c\\Delta t)^2+\\Delta x^2$ between two events is positive (spacelike) in one inertial frame. What can be said in other frames?",
+				"options": [
+					"It can become negative in a fast enough frame, so the events could then be causally connected.",
+					"It changes sign when the frame moves faster than $c/2$.",
+					"It is zero in a frame moving with the events.",
+					"It is the same in every inertial frame, so the events remain spacelike."
+				],
+				"answer": 3,
+				"explanation": "The interval is Lorentz-invariant, like distance in rotation. Its sign classifies the separation (timelike, lightlike, spacelike) in an observer-independent way."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Muons of proper lifetime 2.2 $\\mu$s travel at $v=0.998c$. Compute the average distance they travel in Earth's frame before decaying, $d=v\\gamma\\tau$, in kilometres.",
+				"answer": 10.41,
+				"tolerance": 0.02,
+				"unit": "km",
+				"explanation": "$\\gamma=1/\\sqrt{1-0.998^2}=15.8$, so $d=(0.998)(3.00\\times10^8)(15.8)(2.2\\times10^{-6})=10.4$ km, compared with the non-relativistic 0.66 km."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A distant galaxy recedes along the line of sight at $0.60c$. Light emitted at 500 nm is observed at wavelength $\\lambda_{\\rm obs}=\\lambda\\sqrt{(1+\\beta)/(1-\\beta)}$. Compute $\\lambda_{\\rm obs}$ in nm.",
+				"answer": 1000.0,
+				"tolerance": 0.02,
+				"unit": "nm",
+				"explanation": "$\\sqrt{1.6/0.4}=2$, so $\\lambda_{\\rm obs}=1000$ nm: shifted from the green into the infrared. The Doppler factor follows from transforming the wave four-vector $(\\omega/c,\\mathbf k)$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why time dilation and length contraction are not contradictory when each observer says the other's clock runs slow.",
+				"rubric": "Full credit requires: relativity of simultaneity - observers disagree about which events are simultaneous, so comparing a moving clock with two separated clocks in your frame vs comparing one clock vs two clocks in the other frame are different comparisons; each statement refers to a different measurement; invariants (interval, proper time) are the same for all.",
+				"modelAnswer": "Each observer compares one clock of their own with two separated clocks of the other that are synchronised only in the other's frame. Because simultaneity is relative, the two comparisons are not the same measurement, so there is no contradiction. What both agree on are invariants such as the spacetime interval and the proper time along a given worldline."
+			}
+		],
+		"p5-l043-magnetism-field-transformations": [
+			{
+				"kind": "mc",
+				"prompt": "In frame S there is only a static electric field ($\\mathbf B=0$). An observer moving past in frame S$'$ measures the fields. What do they find?",
+				"options": [
+					"Only an electric field, identical to S, since there is no magnetic source in the new frame either.",
+					"Both fields, with $\\mathbf E'\\cdot\\mathbf B'=0$ still and $E'^2-c^2B'^2=E^2$ (both quantities are invariant).",
+					"Only a magnetic field, since the observer is moving and the electric field is transformed away.",
+					"Both fields, with $\\mathbf E'$ and $\\mathbf B'$ parallel to each other, so that $\\mathbf E'\\cdot\\mathbf B'$ is nonzero in S$'$."
+				],
+				"answer": 1,
+				"explanation": "The field transformation $B'_z=\\gamma(B_z-vE_y/c^2)$ gives $B'\\neq0$ even though $B=0$: a moving observer sees a magnetic field. The invariants stay fixed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a plane light wave, $E=cB$ and $\\mathbf E\\perp\\mathbf B$. What does Lorentz invariance of $E^2-c^2B^2$ and $\\mathbf E\\cdot\\mathbf B$ imply?",
+				"options": [
+					"Both invariants vanish, so every observer sees $\\mathbf E\\perp\\mathbf B$ and $|\\mathbf E|=c|\\mathbf B|$ (only amplitude and frequency change).",
+					"You can always find a frame in which the wave's magnetic field vanishes, by moving along the propagation direction at a suitable speed below $c$.",
+					"The wave's speed depends on the observer's frame, because the fields mix under boosts.",
+					"The invariants are only defined for static fields, so nothing can be said about a wave."
+				],
+				"answer": 0,
+				"explanation": "Zero invariants mean no frame can have $E=0$ or $B=0$ alone. This is the field-theory counterpart of light moving at $c$ in all frames."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In the lab frame there is a field $E_y=1000$ V/m and no magnetic field. Using $B'_z=-\\gamma vE_y/c^2$, compute $|B'_z|$ seen by an observer moving at $v=0.50c$ along $x$, in microtesla.",
+				"answer": 1.926,
+				"tolerance": 0.02,
+				"unit": "uT",
+				"explanation": "$\\gamma=1.155$, so $|B'_z|=\\gamma vE_y/c^2=\\gamma(0.5)(1000)/c=1.93\\times10^{-6}$ T $=1.93\\ \\mu$T."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "At some point, perpendicular fields $E=500$ V/m and $B=2.0\\ \\mu$T are present. Because $cB>E$, there is a frame moving at speed $v=E/B$ in which the electric field vanishes. Compute $v/c$.",
+				"answer": 0.8339,
+				"tolerance": 0.02,
+				"explanation": "$v=E/B=500/(2\\times10^{-6})=2.5\\times10^8$ m/s, i.e. $v/c=0.834$. This is possible because $E^2-c^2B^2<0$ (magnetic-dominated)."
+			},
+			{
+				"kind": "short",
+				"prompt": "A neutral wire carries a current, and a charge moves parallel to it. Explain how the magnetic force on the charge in the lab frame becomes an electric force in the charge's rest frame.",
+				"rubric": "Full credit requires: in the lab frame the wire is neutral (positive lattice and moving electrons equal density) and the charge is moving so feels v x B; in the charge's rest frame, the positive and negative charge carriers have different speeds, so their length contractions differ and the wire carries net charge density; this net charge produces an electric field acting on the stationary charge; same force (up to gamma), different description.",
+				"modelAnswer": "In the lab the wire is neutral but the charge moves, so the force is magnetic, $q\\mathbf v\\times\\mathbf B$. In the charge's rest frame, the electrons and the positive ions move at different speeds, so their charge densities Lorentz-contract by different factors and the wire acquires a net charge density. This net charge makes an electric field that pushes the (now stationary) charge with the same physical result. Electricity and magnetism are the same interaction seen from different frames."
+			}
+		],
+		"p5-l044-field-tensor-covariant": [
+			{
+				"kind": "mc",
+				"prompt": "The electromagnetic field tensor $F^{\\mu\\nu}=\\partial^\\mu A^\\nu-\\partial^\\nu A^\\mu$ is a $4\\times4$ antisymmetric matrix. Why does it contain exactly the six numbers $E_x,E_y,E_z,B_x,B_y,B_z$?",
+				"options": [
+					"Its 16 entries hold the three components of $\\mathbf E$ and three of $\\mathbf B$ plus ten gauge components.",
+					"A symmetric matrix would be used, and the 10 entries combine the 6 components with 4 charge-current terms.",
+					"An antisymmetric $4\\times4$ matrix has 6 independent entries.",
+					"The tensor contains only $\\mathbf E$; $\\mathbf B$ is obtained by time derivative."
+				],
+				"answer": 2,
+				"explanation": "$F^{\\mu\\nu}=-F^{\\nu\\mu}$ kills the diagonal and halves the off-diagonal count. This single object shows that $\\mathbf E$ and $\\mathbf B$ are components of one field, mixing under boosts."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Maxwell's equations take the covariant form $\\partial_\\mu F^{\\mu\\nu}=\\mu_0J^\\nu$ and $\\partial_\\mu\\tilde F^{\\mu\\nu}=0$. Which equations does the second one contain?",
+				"options": [
+					"Gauss's law and the Ampère-Maxwell law, which are the equations with sources.",
+					"Only the continuity equation, since it is the only conservation law in the theory.",
+					"The source-free ones: $\\nabla\\cdot\\mathbf B=0$ and Faraday's law.",
+					"The Lorentz force law, since $F^{\\mu\\nu}$ appears in it too."
+				],
+				"answer": 2,
+				"explanation": "The first equation contains Gauss's law ($\\nu=0$) and Ampère-Maxwell ($\\nu=i$). The second, with the dual tensor, contains the homogeneous pair."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Taking $\\partial_\\nu$ of $\\partial_\\mu F^{\\mu\\nu}=\\mu_0J^\\nu$ gives $\\partial_\\nu J^\\nu=0$. What is this physically, and why does it work?",
+				"options": [
+					"Charge conservation: $F^{\\mu\\nu}$ is antisymmetric but $\\partial_\\nu\\partial_\\mu$ is symmetric, so the double divergence vanishes.",
+					"Energy conservation, following from the symmetry of $F$ under exchange of its indices, in the same way as for the symmetric stress tensor.",
+					"Momentum conservation, because $F$ is symmetric and so its divergence carries the force density.",
+					"Nothing physical; it is a gauge condition on the potential that we are free to impose or to drop."
+				],
+				"answer": 0,
+				"explanation": "Maxwell's equations are consistent only if sources conserve charge, and the antisymmetric structure builds this in. This reproduces what Maxwell's displacement-current fix achieved."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Fields $E_y=3000$ V/m and $B_z=2.0\\times10^{-5}$ T are seen in a lab frame. For a boost along $x$ at $v=0.60c$, compute $E'_y=\\gamma(E_y-vB_z)$, in V/m (include the sign).",
+				"answer": -746.9,
+				"tolerance": 0.02,
+				"unit": "V/m",
+				"explanation": "$\\gamma=1.25$ and $vB_z=0.6(2.998\\times10^8)(2\\times10^{-5})=3597.5$ V/m, so $E'_y=1.25(3000-3597.5)=-747$ V/m. The same rule follows from $F'^{\\mu\\nu}=\\Lambda^\\mu{}_\\alpha\\Lambda^\\nu{}_\\beta F^{\\alpha\\beta}$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what is gained by writing electrodynamics in terms of the field tensor $F^{\\mu\\nu}$ rather than separate $\\mathbf E$ and $\\mathbf B$ equations.",
+				"rubric": "Full credit requires: four Maxwell equations reduce to two tensor equations; manifest Lorentz covariance - the form is the same in all inertial frames; the field transformation laws follow from tensor transformation; E and B are seen as parts of one object; charge conservation and gauge structure are automatic.",
+				"modelAnswer": "Maxwell's four vector equations collapse into two tensor equations whose form is manifestly the same in every inertial frame. The transformation rules for $\\mathbf E$ and $\\mathbf B$ follow automatically from how a rank-2 tensor transforms, it becomes clear that $\\mathbf E$ and $\\mathbf B$ are components of one object, and charge conservation drops out of the antisymmetry of $F$."
+			}
+		],
+		"p5-l045-green-functions-bvp": [
+			{
+				"kind": "mc",
+				"prompt": "The Dirichlet Green function is $G_D(\\mathbf x,\\mathbf x')=1/|\\mathbf x-\\mathbf x'|+F(\\mathbf x,\\mathbf x')$. What is the role of $F$?",
+				"options": [
+					"$F$ adds an extra point charge inside the region to make the total charge zero, as required by Gauss's law.",
+					"$F$ makes $G_D$ finite at $\\mathbf x=\\mathbf x'$, removing the singularity of the point charge.",
+					"$F$ is the induced charge on the surface, which is not harmonic and is found separately.",
+					"$F$ is a harmonic function inside the region (it adds no charge), chosen so that $G_D=0$ on the boundary."
+				],
+				"answer": 3,
+				"explanation": "Both $1/|\\mathbf x-\\mathbf x'|$ and $F$ solve Laplace's equation away from $\\mathbf x'$; $F$ is adjusted for the boundary. It is the image-charge potential in simple geometries."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the symmetry $G(\\mathbf x,\\mathbf x')=G(\\mathbf x',\\mathbf x)$ mean physically?",
+				"options": [
+					"The potential at $\\mathbf x$ is independent of where the charge sits, so the Green function is constant.",
+					"Reciprocity: the potential at $\\mathbf x$ from a unit charge at $\\mathbf x'$ equals that at $\\mathbf x'$ from a unit charge at $\\mathbf x$.",
+					"Charges at $\\mathbf x$ and $\\mathbf x'$ have the same potential energy as if the boundary were absent, so the boundary has no effect.",
+					"The boundary must be spherically symmetric, since otherwise the exchange would change the answer."
+				],
+				"answer": 1,
+				"explanation": "It reflects the self-adjointness of the Laplacian with these boundary conditions, and is the analogue of Maxwell's reciprocity theorems for networks."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a grounded conducting plane at $z=0$, the Dirichlet Green function is $\\dfrac{1}{|\\mathbf x-\\mathbf x'|}-\\dfrac{1}{|\\mathbf x-\\mathbf x'_{\\rm img}|}$. Why is the second term allowed?",
+				"options": [
+					"It is allowed because it is smaller than the first term everywhere in the region, so it only slightly corrects the potential.",
+					"It is harmonic in $z>0$ (its source lies outside the region) and cancels the first term on the plane.",
+					"It is allowed because charge must be conserved, so the total induced charge is removed.",
+					"It is not allowed; the Green function must be $1/|\\mathbf x-\\mathbf x'|$ alone, with the boundary added afterwards."
+				],
+				"answer": 1,
+				"explanation": "The image point is the mirror point, equidistant from every point of the plane, so the two terms cancel at $z=0$ and obey Laplace's equation inside. The image method is exactly the construction of this Green function."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A grounded conducting plane lies at $z=0$. A point charge $q=2.0$ nC sits at $(0,0,1)$ m. Using the Dirichlet Green function with the image at $(0,0,-1)$ m, compute the potential at $(0,0,2)$ m in volts: $V=\\dfrac{q}{4\\pi\\epsilon_0}\\left(\\dfrac{1}{1}-\\dfrac{1}{3}\\right)$.",
+				"answer": 11.98,
+				"tolerance": 0.02,
+				"unit": "V",
+				"explanation": "$V=(8.99\\times10^9)(2\\times10^{-9})(1-1/3)=12.0$ V. The image term reduces the potential from the 18.0 V of the isolated charge."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in words what the Green-function formula for the potential says when the boundary is held at zero potential, and how it differs when the boundary has non-zero potential.",
+				"rubric": "Full credit requires: for a grounded boundary, the potential is the integral of charge density times the Green function (each charge element contributes G times its charge), no surface term; for non-zero boundary potential an additional surface integral of V on the boundary times normal derivative of G_D adds the boundary's contribution; G_D encodes how a unit source or boundary value spreads.",
+				"modelAnswer": "The Green function is the potential of a unit point source in the presence of the boundary, so for a grounded boundary $\\Phi(\\mathbf x)$ is just the sum over charge elements of $\\rho\\,G_D$. If the boundary has non-zero potential, there is an extra surface term, $\\propto\\oint\\Phi\\,\\partial G_D/\\partial n'\\,da'$, that adds the effect of the boundary values."
+			}
+		],
+		"p5-l046-spherical-harmonics-legendre": [
+			{
+				"kind": "mc",
+				"prompt": "Why are the spherical harmonics $Y_{lm}$ the natural angular functions for hydrogen orbitals and for multipole expansions?",
+				"options": [
+					"They are the only functions that are zero at the origin, which is required of every atomic orbital.",
+					"They are chosen so that the radial functions become trivial, which is not possible for other bases.",
+					"They are the solutions only for the Coulomb potential, so other central potentials need other angular functions.",
+					"They are eigenfunctions of the angular part of the Laplacian (and of $L^2$, $L_z$)."
+				],
+				"answer": 3,
+				"explanation": "For any central problem the angular dependence is the same: $Y_{lm}$, with $l(l+1)$ appearing as the eigenvalue. That is why d orbitals and electric quadrupoles share the same angular shapes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the expansion $\\dfrac{1}{|\\mathbf x-\\mathbf x'|}=\\sum\\dfrac{r_<^l}{r_>^{l+1}}P_l(\\cos\\gamma)$, what are $r_<$ and $r_>$?",
+				"options": [
+					"The smaller and larger of $r=|\\mathbf x|$ and $r'=|\\mathbf x'|$.",
+					"The smaller and larger of the two charges, so that the ratio is always below one.",
+					"The positions of the nearest and farthest charges in the distribution.",
+					"The radii of the inner and outer conductors, as in a spherical capacitor."
+				],
+				"answer": 0,
+				"explanation": "Using the smaller radius to the power $l$ and the larger to $-(l+1)$ ensures the series converges for $r\\neq r'$ and reduces to the multipole expansion for $r\\gg r'$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which multipole moments $q_{lm}$ of a spherically symmetric charge distribution are nonzero?",
+				"options": [
+					"Only $q_{10}$, the dipole moment, since the other moments are not defined at the centre.",
+					"All of them, with $q_{lm}$ decreasing with $l$, as for any smooth distribution.",
+					"Only $q_{00}$ (the total charge); all $l\\geq1$ moments vanish by symmetry.",
+					"None; spherically symmetric distributions have no moments of any order, not even a total charge."
+				],
+				"answer": 2,
+				"explanation": "$\\int Y^*_{lm}\\,d\\Omega=0$ for $l>0$, so a spherically symmetric $\\rho$ has a pure monopole field outside: Gauss's law for shells and Newton's shell theorem."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A general (non-axisymmetric) multipole expansion includes all $Y_{lm}$ with $-l\\le m\\le l$. How many independent functions $Y_{lm}$ are there with $l=0,1,2,3$ (monopole through octupole)?",
+				"answer": 16.0,
+				"tolerance": 0.02,
+				"explanation": "$\\sum_{l=0}^{3}(2l+1)=1+3+5+7=16$. This is also the number of hydrogen orbitals in the $n=4$ shell ($4^2$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how a problem with azimuthal symmetry reduces the spherical-harmonic expansion to Legendre polynomials, and why general problems need the index $m$. Connect to the real p orbitals $p_x$, $p_y$, $p_z$.",
+				"rubric": "Full credit requires: azimuthal symmetry means no phi dependence so only m=0 survive and Y_l0 proportional to P_l(cos theta); without symmetry need all m, the phi dependence e^{i m phi}; p_z is m=0, while p_x, p_y are real combinations of m=+1 and -1 (cos phi, sin phi dependence).",
+				"modelAnswer": "If nothing depends on the azimuth $\\phi$, only $m=0$ terms contribute and $Y_{l0}\\propto P_l(\\cos\\theta)$. Without that symmetry the $e^{im\\phi}$ dependence matters and all $m$ are needed. The $p_z$ orbital is $m=0$ (axially symmetric); $p_x$ and $p_y$ are real combinations of $m=\\pm1$, with $\\cos\\phi$ and $\\sin\\phi$ dependence."
+			}
+		],
+		"p5-l047-cylindrical-bessel-green-expansions": [
+			{
+				"kind": "mc",
+				"prompt": "A grounded cylinder of radius $a$ has its side wall at $V=0$ and a prescribed potential on an end cap. Which functions describe the radial and axial dependence of the (axisymmetric) solution?",
+				"options": [
+					"Radial: exponentials; axial: sines, because the wall is at zero potential and the cap is at fixed potential.",
+					"Radial: $J_0$ and axial: $J_0$ as well, because the Laplacian is symmetric in $\\rho$ and $z$.",
+					"Both radial and axial parts are sines and cosines, as in the rectangular slot problem.",
+					"Radial: $J_0(x_{0n}\\rho/a)$, vanishing at the wall; axial: exponentials in $z$."
+				],
+				"answer": 3,
+				"explanation": "The separation constant's sign is forced by the boundary: vanishing at the side wall requires oscillatory radial dependence (Bessel zeros $x_{0n}$), which makes the axial part exponential."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do the allowed radial wave numbers take the discrete values $k_n=x_{mn}/a$ in the cylinder problem?",
+				"options": [
+					"Because charge on the wall is quantised, so the allowed wave numbers are multiples of $e$.",
+					"$J_m(ka)=0$ at the wall holds only at the zeros $x_{mn}$ of the Bessel function, like $\\sin(n\\pi y/a)$ in the slot.",
+					"Because Bessel functions are only defined at integer arguments, so $ka$ must be an integer.",
+					"Because the potential must be periodic in $\\rho$, which fixes the spacing of the allowed wave numbers along the radius, as for a Fourier series."
+				],
+				"answer": 1,
+				"explanation": "Like Fourier modes in a slot, the allowed modes are the ones fitting the boundary. Their orthogonality, $\\int\\rho J_m(x_{mn}\\rho/a)J_m(x_{mn'}\\rho/a)d\\rho\\propto\\delta_{nn'}$, extracts coefficients."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Bessel functions look like damped cosines, $J_m(x)\\sim\\sqrt{2/\\pi x}\\cos(\\dots)$ at large $x$. Why does the amplitude decay?",
+				"options": [
+					"The geometry spreads a 2D wave over a growing circumference.",
+					"Because friction damps the oscillation as the wave travels outward through the medium.",
+					"Because the zeros of $J_m$ become closer together, squeezing the oscillation.",
+					"It doesn't decay; the cosine form is exact for all $x$."
+				],
+				"answer": 0,
+				"explanation": "Cylindrical waves spreading outward have energy flux $\\propto|J|^2\\cdot2\\pi\\rho$ constant, so $|J|\\propto\\rho^{-1/2}$. The drumhead modes of a circular membrane are the same functions."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A grounded cylinder has radius $a=10$ cm. The fundamental mode of an end-cap potential decays along the axis as $e^{-x_{01}z/a}$ with $x_{01}=2.405$ (first zero of $J_0$). By what fraction does it decay at a distance $z=a/2$ from the cap? Give $e^{-x_{01}z/a}$.",
+				"answer": 0.3005,
+				"tolerance": 0.02,
+				"explanation": "$e^{-2.405\\times0.5}=e^{-1.202}=0.300$: the lowest mode is down to 30% after half a radius; higher modes ($x_{0n}$ larger) die out even faster."
+			},
+			{
+				"kind": "short",
+				"prompt": "Compare the Fourier sine series for the rectangular slot with the Bessel-function series for a cylinder. What is the same in the two methods?",
+				"rubric": "Full credit requires: both separate Laplace's equation into ordinary differential equations; boundary conditions quantise the separation constant (sin zeros / Bessel zeros); eigenfunctions are orthogonal so coefficients are found by integrating the boundary data against each eigenfunction (with weight rho for Bessel); solution is a sum of modes with exponential decay into the volume.",
+				"modelAnswer": "Both methods separate Laplace's equation into ordinary differential equations, let the boundary conditions quantise the separation constant (zeros of the sine or of the Bessel function), use orthogonality of the eigenfunctions (with weight $\\rho$ for Bessel) to extract the coefficients from the boundary data, and give a sum of modes that decay into the volume at rates set by the mode's index."
+			}
+		],
+		"p5-l048-multipoles-macroscopic-media": [
+			{
+				"kind": "mc",
+				"prompt": "Why do only nuclei with spin $I\\geq1$ show nuclear quadrupole resonance (NQR) or quadrupolar line broadening in NMR?",
+				"options": [
+					"Only nuclei with $I\\geq1$ have a magnetic dipole moment, so only they interact with fields.",
+					"Quadrupole coupling needs a net charge on the nucleus that spin-1/2 nuclei lack, since they carry less charge.",
+					"A nucleus with $I=\\tfrac12$ is spherical-like and has no electric quadrupole moment.",
+					"All nuclei have quadrupole moments but only large ones show up."
+				],
+				"answer": 2,
+				"explanation": "Quadrupole interaction energy $\\propto Q_{ij}\\,\\partial_iE_j$ needs a non-spherical charge distribution. Spin-1/2 nuclei ($^1$H, $^{13}$C) are quadrupole-free; $^2$H, $^{14}$N, $^{35}$Cl are not."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which charge distribution has a vanishing quadrupole tensor $Q_{ij}=\\int(3x_ix_j-r^2\\delta_{ij})\\rho\\,d^3x$?",
+				"options": [
+					"A uniformly charged oblate ellipsoid (flattened sphere), whose shape is symmetric about its axis.",
+					"Two equal positive charges at $\\pm d$ on the $z$ axis, which are symmetric about the origin.",
+					"A uniformly charged sphere (or any spherically symmetric distribution).",
+					"A ring of charge in the $xy$ plane, which is symmetric about the $z$ axis."
+				],
+				"answer": 2,
+				"explanation": "The tensor measures deviation from spherical shape and is traceless by construction. A prolate or oblate shape gives non-zero $Q_{zz}$ of opposite signs."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Macroscopic Maxwell equations are obtained by averaging the microscopic ones over a region containing many atoms. Why does the polarisation $\\mathbf P$ emerge?",
+				"options": [
+					"Averaging washes out atomic-scale variation but leaves the dipole contribution of each neutral molecule.",
+					"Averaging deletes bound charge entirely, so only free charge remains in the macroscopic equations.",
+					"Averaging creates the dipole moments, which do not exist microscopically, from the random thermal motion of the molecules.",
+					"Averaging makes the field uniform, so $\\mathbf P$ equals $\\mathbf E$."
+				],
+				"answer": 0,
+				"explanation": "Expanding the charge of each molecule about its centre, the leading nonzero multipole of a neutral molecule is the dipole; the sum over molecules gives $\\mathbf P$, whose divergence is the bound charge density."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A linear quadrupole has charges $+e$ at $z=\\pm d$ and $-2e$ at the origin, with $d=0.10$ nm. Compute $Q_{zz}=\\sum q(3z^2-r^2)$ in units of $10^{-39}$ C$\\cdot$m$^2$.",
+				"answer": 6.409,
+				"tolerance": 0.02,
+				"unit": "x10^-39 C m^2",
+				"explanation": "Each outer charge gives $e(3d^2-d^2)=2ed^2$, the centre gives 0, so $Q_{zz}=4ed^2=4(1.602\\times10^{-19})(10^{-10})^2=6.41\\times10^{-39}$ C$\\cdot$m$^2$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in words why the interaction energy of a charge distribution with an external field is $W=q\\Phi-\\mathbf p\\cdot\\mathbf E-\\tfrac16 Q_{ij}\\partial_iE_j-\\dots$, and which term matters for a neutral nonpolar molecule in a uniform field.",
+				"rubric": "Full credit requires: Taylor-expand the external potential about the origin: Phi(0) times total charge, gradient (E) times dipole, second derivative times quadrupole; each term couples a moment to a progressively higher derivative of the field; neutral nonpolar molecule in a uniform field: monopole zero, dipole zero (permanent), uniform field has no gradient, so no energy at this order unless a dipole is induced.",
+				"modelAnswer": "Expanding the external potential in a Taylor series about the origin, each charge-distribution moment multiplies a derivative of the field: the monopole $q$ with $\\Phi$, the dipole $\\mathbf p$ with $\\mathbf E=-\\nabla\\Phi$, the quadrupole with $\\partial_iE_j$, and so on. A neutral nonpolar molecule has no monopole or permanent dipole, and a uniform field has no gradient, so the lowest-order energy comes from an induced dipole (polarisability)."
+			}
+		],
+		"p5-l049-waveguides-cavities": [
+			{
+				"kind": "mc",
+				"prompt": "What distinguishes TE from TM modes in a waveguide?",
+				"options": [
+					"TE modes have no magnetic field and TM modes have no electric field at all.",
+					"TE modes propagate only in cylindrical guides and TM only in rectangular ones, because of the wall shape.",
+					"TE modes travel faster than $c$ and TM modes slower.",
+					"TE modes have $E_z=0$ with $B_z\\neq0$ (Neumann condition at the walls); TM modes have $B_z=0$."
+				],
+				"answer": 3,
+				"explanation": "All other field components follow from the longitudinal ones. The boundary conditions on a perfect conductor (tangential $\\mathbf E=0$, normal $\\mathbf B=0$) lead to Dirichlet or Neumann problems for $E_z$ or $B_z$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A rectangular metal cavity has a discrete set of resonant frequencies. How is this similar to a quantum particle in a box?",
+				"options": [
+					"Both have continuous allowed energies with only the ground state fixed by the boundary conditions.",
+					"Both are wave problems with boundary conditions on all walls, forcing standing waves with integer numbers of half-wavelengths.",
+					"Both are described by the Schrödinger equation, which is why the frequencies are quantised.",
+					"There is no similarity: classical waves in a closed box have a continuous spectrum, and discrete energies arise only for quantum waves, never for light."
+				],
+				"answer": 1,
+				"explanation": "$\\omega_{lmn}=c\\pi\\sqrt{(l/a)^2+(m/b)^2+(n/d)^2}$, analogous to $E\\propto(n_x^2+n_y^2+n_z^2)$ for a particle in a box. Confinement quantises the modes."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A resonant cavity has quality factor $Q=10^4$ at $f_0=10$ GHz. Using $\\Delta f=f_0/Q$ for the width of its resonance, compute $\\Delta f$ in MHz.",
+				"answer": 1.0,
+				"tolerance": 0.02,
+				"unit": "MHz",
+				"explanation": "$\\Delta f=10^{10}/10^4=10^6$ Hz $=1$ MHz: a high-Q cavity responds only to a narrow band of frequencies (it stores energy for about $Q/2\\pi$ cycles)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A cubic metal cavity has side $a=3.0$ cm. Its lowest mode (TE$_{101}$) has $\\omega=c\\pi\\sqrt{1/a^2+1/a^2}$. Compute the frequency $f$ in GHz.",
+				"answer": 7.066,
+				"tolerance": 0.02,
+				"unit": "GHz",
+				"explanation": "$f=\\dfrac{c}{2}\\sqrt{\\dfrac{2}{a^2}}=\\dfrac{c}{\\sqrt2\\,a}=\\dfrac{3.00\\times10^8}{1.414(0.03)}=7.07$ GHz."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words what the quality factor $Q$ of a cavity tells you, and how wall losses determine it.",
+				"rubric": "Full credit requires: Q = omega0 x stored energy / power lost; high Q means energy persists for many oscillation cycles (energy decays as exp(-omega0 t/Q)) and the resonance is narrow (width f0/Q); finite wall conductivity means currents dissipate power in the skin depth, so Q is limited by wall resistance - better conductor or larger volume/surface ratio gives higher Q.",
+				"modelAnswer": "$Q=\\omega_0\\,(\\text{stored energy})/(\\text{power lost})$: the stored energy falls as $e^{-\\omega_0t/Q}$, so the cavity 'rings' for about $Q/2\\pi$ cycles, and the resonance width is $\\omega_0/Q$. The loss comes from currents flowing in the walls within a skin depth against finite resistance, so better conductors (or a larger volume-to-surface ratio) give larger $Q$."
+			}
+		],
+		"p5-l050-multipole-radiation": [
+			{
+				"kind": "mc",
+				"prompt": "In the radiation from a localised oscillating source we expand $e^{-ik\\hat n\\cdot\\mathbf x'}\\approx1-ik\\hat n\\cdot\\mathbf x'+\\dots$. What do the first terms correspond to, and what is the small expansion parameter?",
+				"options": [
+					"The leading term gives quadrupole radiation, with dipole from the next term; the small parameter is $\\omega/c$ alone.",
+					"The leading term gives electric-dipole radiation, the next terms give magnetic dipole and electric quadrupole.",
+					"The first term gives magnetic monopole radiation, which is why magnetic fields appear at all.",
+					"All terms contribute equally, since the phase factor is of order one for any source."
+				],
+				"answer": 1,
+				"explanation": "For atoms $ka\\sim10^{-3}$, so each higher multipole is down by $(ka)^2\\sim10^{-6}$ in power relative to the previous one."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can't an atom make a single-photon transition between two states both with total angular momentum $J=0$?",
+				"options": [
+					"Because photons have mass, so they cannot be emitted when no angular momentum changes.",
+					"Because $J=0$ states have no energy difference.",
+					"Because parity forbids it, regardless of the multipole, since both states have the same parity.",
+					"A photon always carries at least one unit of angular momentum ($l\\geq1$ for any multipole)."
+				],
+				"answer": 3,
+				"explanation": "A multipole of order $l$ carries angular momentum $\\hbar\\sqrt{l(l+1)}$ with $l\\geq1$: the lowest is the dipole ($\\hbar\\sqrt2$). This gives selection rules $|J_i-J_f|\\leq l\\leq J_i+J_f$, so $0\\to0$ is forbidden."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which pair of statements about selection rules is correct?",
+				"options": [
+					"E1 changes the parity of the atomic state while M1 and E2 do not, and E1 is far faster.",
+					"E1 conserves parity; M1 changes parity; all three have similar rates, within a factor of ten.",
+					"E1, M1 and E2 all change parity, with E2 the fastest.",
+					"Parity is irrelevant for radiation; only energy matters."
+				],
+				"answer": 0,
+				"explanation": "The E1 operator is odd under inversion, M1 is even (axial vector) and E2 is even. Their relative rates scale as $1:\\alpha^2:(ka)^2\\sim1:10^{-5}:10^{-6}$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For visible light with $\\lambda=500$ nm and an atom of size $a=0.10$ nm, compute $(ka)^2$ with $k=2\\pi/\\lambda$, which sets the E2-to-E1 rate ratio, in units of $10^{-6}$.",
+				"answer": 1.579,
+				"tolerance": 0.03,
+				"unit": "x10^-6",
+				"explanation": "$k=1.257\\times10^7$ m$^{-1}$, $ka=1.26\\times10^{-3}$, $(ka)^2=1.58\\times10^{-6}$: electric quadrupole transitions are about a million times slower than E1."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how the multipole expansion of the radiation field produces different kinds of radiation (E1, M1, E2) and why the lowest allowed one dominates.",
+				"rubric": "Full credit requires: far-field vector potential is the Fourier transform of the current at wavevector k n; expanding the phase factor in powers of k.x' gives successive terms: leading J integral = electric dipole (rate of change of p); next order splits into magnetic dipole (antisymmetric part) and electric quadrupole (symmetric part); each successive order is suppressed by factor ka << 1, so the lowest allowed (nonvanishing by selection rule) multipole dominates.",
+				"modelAnswer": "The far-field vector potential is $\\int\\mathbf J(\\mathbf x')e^{-ik\\hat n\\cdot\\mathbf x'}d^3x'$. Expanding the phase factor in powers of $k\\hat n\\cdot\\mathbf x'$: the zeroth term gives the electric dipole ($\\dot{\\mathbf p}$), the first-order term splits into an antisymmetric part (magnetic dipole) and a symmetric part (electric quadrupole), and so on. Each order is suppressed by a factor of $ka\\ll1$, so the lowest multipole that the selection rules allow dominates the radiation."
+			}
+		]
+	}
+}

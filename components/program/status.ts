@@ -22,6 +22,7 @@ export const TRACK_COLOR: Record<string, string> = {
 	physics: "var(--tr-physics)",
 	survey: "var(--tr-survey)",
 	capstone: "var(--tr-capstone)",
+	elective: "var(--tr-elective)",
 };
 
 export const COURSE_STATUS_COLOR: Record<ProgressSnapshot["courses"][string]["status"], string> = {

@@ -93,7 +93,7 @@ function overviewGraph(program: ProgramView, snapshot: ProgressSnapshot): { node
 		return v;
 	};
 	const cols = new Map<number, CourseView[]>();
-	const trackRank: Record<string, number> = { math: 0, physics: 1, survey: 2, capstone: 3 };
+	const trackRank: Record<string, number> = { math: 0, physics: 1, survey: 2, elective: 3, capstone: 4 };
 	for (const c of program.courses) cols.set(d(c.id), [...(cols.get(d(c.id)) ?? []), c]);
 	const nodes: Node[] = [];
 	for (const [col, list] of cols) {

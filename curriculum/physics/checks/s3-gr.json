@@ -1,0 +1,1078 @@
+{
+	"courseId": "s3-gr",
+	"checks": {
+		"s3-l001-equivalence-principle": [
+			{
+				"kind": "mc",
+				"prompt": "What does an Eötvös-type torsion-balance experiment actually test?",
+				"options": [
+					"The gravitational force between two masses falls off as exactly $1/r^2$ down to laboratory distances, with no deviation.",
+					"Whether a beam of light is deflected by the Earth's gravitational field by the angle predicted for a massive particle.",
+					"Different materials accelerate identically: $m_{\\rm grav}/m_{\\rm inertial}$ is the same for all bodies.",
+					"That Newton's constant $G$ was the same at all epochs in the history of the universe, with no drift in time."
+				],
+				"answer": 2,
+				"explanation": "The balance hangs two different materials; Earth's gravity and the inertial (centrifugal) effect of Earth's rotation point in slightly different directions, so any composition dependence of $m_{\\rm grav}/m_{\\rm inertial}$ would twist the beam. Null results at the $10^{-13}$ level or better are the weak equivalence principle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A photon of frequency $f$ is emitted upward from the ground and received at the top of a tower of height $h$ on Earth. Which description is correct?",
+				"options": [
+					"Its frequency is lower by $\\Delta f/f = gh/c^2$; its local speed stays $c$, but it loses energy climbing.",
+					"Its speed drops to $c - gh/c$ at the top of the tower, while its frequency stays the same as at emission.",
+					"Its frequency is higher by $gh/c^2$, since the photon is attracted by the Earth and gains energy as it travels.",
+					"Nothing changes: a massless photon has no gravitational mass, so it does not couple to gravity at all."
+				],
+				"answer": 0,
+				"explanation": "In the accelerating-elevator picture the receiver at the top is moving away from where the light was emitted by the time it arrives, so it is Doppler-redshifted by $g h/c^2$. By the equivalence principle the same holds in a gravitational field, and the effect is in agreement with the Pound-Rebka experiment."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Free fall is universal, so a freely falling lab can cancel gravity locally. Why does this not let us remove gravity everywhere with one clever choice of frame?",
+				"options": [
+					"Inertial and gravitational mass differ slightly for large bodies, so a large lab cannot be in free fall at all.",
+					"Freely falling frames always rotate relative to the distant stars, so gravity returns as a Coriolis-type force.",
+					"Gravity acts instantaneously over any distance, so no motion of the lab could ever cancel it, even locally.",
+					"The field varies from place to place, so nearby free-falling particles accelerate relative to each other."
+				],
+				"answer": 3,
+				"explanation": "Cancelling gravity at a point uses the fact that every body falls the same way there. Away from that point the gravitational field has a different direction and strength, so nearby free-falling bodies drift apart or together. These tidal accelerations are the physical signature of curvature."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A GPS satellite orbits at $r = 26{,}560$ km from Earth's centre; a ground clock sits at $R = 6371$ km. Use only the gravitational-potential part of the weak-field time dilation, $\\Delta\\tau/\\tau = \\Delta\\Phi/c^2$ with $\\Phi=-GM/r$ ($GM_\\oplus = 3.986\\times10^{14}\\ \\mathrm{m^3/s^2}$). By how many microseconds per day does the satellite clock run faster than the ground clock from this effect alone? (Give the answer in $\\mu$s/day.)",
+				"answer": 45.72,
+				"tolerance": 0.05,
+				"unit": "μs/day",
+				"explanation": "$\\Delta\\tau/\\tau = (GM/c^2)(1/R - 1/r) \\approx 5.29e-10$, which over 86,400 s is about 45.7 $\\mu$s. Orbital speed contributes about $-7\\ \\mu$s/day, so the net is roughly $+38\\ \\mu$s/day, which must be corrected for or positions drift by about 10 km per day."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, explain why the universality of free fall (every body falls the same way regardless of mass or composition) suggests that gravity is a property of spacetime geometry rather than an ordinary force.",
+				"rubric": "Full credit: (1) universality means the motion of a freely falling body depends only on position and velocity, not on any property of the body (an ordinary force like the electric one depends on charge-to-mass ratio); (2) so the motion can be attributed to the background arena, spacetime, with free fall being the 'straightest' path (geodesic); (3) mentions that the local-inertial-frame idea works only locally and the leftover tidal effects are the curvature.",
+				"modelAnswer": "If gravity were a force with its own coupling, different bodies would respond differently, as charged particles do with different charge-to-mass ratios. Because every body, whatever its mass or composition, follows the same trajectory from the same initial conditions, it is more economical to say they all follow the natural straight lines (geodesics) of the spacetime itself. Locally you can always go into a freely falling frame where gravity disappears, and what cannot be removed, the tidal variation from place to place, is the curvature of spacetime."
+			}
+		],
+		"s3-l002-special-relativity-four-vectors": [
+			{
+				"kind": "numeric",
+				"prompt": "In one inertial frame, two events along the $x$-axis are separated by $\\Delta t = 5$ s and $\\Delta x = 3$ light-seconds. They are timelike-separated. How much proper time (in seconds) elapses between them on a clock that is present at both events?",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"unit": "s",
+				"explanation": "$\\Delta s^2 = -c^2\\Delta t^2 + \\Delta x^2 = -(25-9)$ in light-second units, so $c\\,\\Delta\\tau = \\sqrt{16} = 4$ s. A frame moving at $v = 3c/5$ sees both events at the same place, where the elapsed time is 4 s."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Cosmic-ray muons (rest lifetime about 2.2 $\\mu$s) created high in the atmosphere reach the ground even though $c \\times 2.2\\ \\mu\\mathrm{s} \\approx 660$ m. How do the Earth frame and the muon frame each explain this, and why don't they disagree?",
+				"options": [
+					"Earth frame: the muon's lifetime is truly lengthened. Muon frame: the atmosphere keeps its full thickness, so the muon must decay; the frames disagree.",
+					"Earth frame: the muon's clock runs slow. Muon frame: the atmosphere is length-contracted. Both agree it reaches the ground.",
+					"In both frames the muon moves at nearly $c$, so the atmosphere is thin in both and no correction to the lifetime is needed.",
+					"The muon exceeds $c$ in the Earth frame, which lets it cover the distance before it can decay in its own frame."
+				],
+				"answer": 1,
+				"explanation": "Time dilation and length contraction are two descriptions of the same boost. What is frame-independent is the spacetime interval between the 'created' and 'arrives at ground' events, and whether the muon survives is an invariant fact about those events."
+			},
+			{
+				"kind": "mc",
+				"prompt": "With signature $(-,+,+,+)$ and $p^\\mu = (E/c,\\ \\mathbf p)$, evaluating $p^\\mu p_\\mu$ gives the same number in every inertial frame. What is it, and what does that tell you?",
+				"options": [
+					"$+E^2/c^2 + |\\mathbf p|^2$: energy and momentum add in quadrature, so the 'size' of the four-momentum grows with speed.",
+					"$-E^2/c^2 + |\\mathbf p|^2 = -m^2c^2$: a fixed Minkowski length set by the rest mass, so $E^2 = p^2c^2 + m^2c^4$ in every frame.",
+					"$-E^2/c^2 - |\\mathbf p|^2$: lowering the index flips every component's sign, so the result is always negative and frame dependent.",
+					"$+m^2c^2$: the squared magnitude of any four-vector is positive, and a sign flip appears only when a particle is off shell."
+				],
+				"answer": 1,
+				"explanation": "Lowering an index with $\\eta_{\\mu\\nu}$ flips the sign of the time component only (in this signature). The contraction is a Lorentz scalar, so it can be evaluated in the rest frame where it equals $-m^2c^2$; for a photon it is zero (null four-momentum)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "One twin stays on an inertial worldline between two events; the other travels out and back, accelerating at the turnaround. Which statement is correct?",
+				"options": [
+					"The traveller ages more, because a longer path accumulates more proper time, just as for distances in Euclidean geometry.",
+					"Neither ages less: each twin sees the other's clock run slow, so the situation is completely symmetric.",
+					"The traveller ages less only because of the turnaround; the cruising legs themselves produce no time dilation at all.",
+					"The traveller ages less: the inertial straight worldline has the longest proper time of all timelike paths."
+				],
+				"answer": 3,
+				"explanation": "Proper time is the 'length' of a worldline in a Lorentzian geometry, where the straight line maximises it. The situation is not symmetric because only the stay-at-home twin is inertial between the two events; the traveller's worldline changes frames."
+			},
+			{
+				"kind": "short",
+				"prompt": "Time dilation and length contraction are both frame-dependent. Explain in your own words why the spacetime interval is nonetheless the 'real' invariant quantity, and how the two effects are consistent with it.",
+				"rubric": "Full credit: (1) states the interval $-c^2\\Delta t^2+\\Delta x^2$ takes the same value in all inertial frames (a boost rotates $(ct,x)$ the way a spatial rotation rotates $(x,y)$); (2) time dilation/length contraction arise from projecting a fixed 4D separation onto different time and space axes; (3) a clock's proper time is the invariant quantity; no contradiction since different frames split the interval into 'time' and 'space' parts differently.",
+				"modelAnswer": "A boost mixes time and space the way a rotation mixes $x$ and $y$, and the quantity $-c^2\\Delta t^2 + \\Delta x^2$ is the analogue of the invariant length. Different observers slice the same four-dimensional separation into different time and space parts, so the time between events (time dilation) and the length of a moving rod (length contraction) differ between frames. The proper time along a worldline, the interval itself, is the thing all observers agree on."
+			}
+		],
+		"s3-l003-metric-coordinates-curved-space": [
+			{
+				"kind": "numeric",
+				"prompt": "On a sphere of radius $R$ with $ds^2 = R^2(d\\theta^2 + \\sin^2\\theta\\, d\\phi^2)$, draw the circle of all points at surface distance $r = \\pi R/2$ from the north pole (that is, the equator). What is the ratio (circumference)/(radius), with both measured along the surface? (A flat plane would give $2\\pi \\approx 6.28$.)",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"explanation": "The circumference is $\\oint R\\sin\\theta\\,d\\phi = 2\\pi R\\sin(\\pi/2) = 2\\pi R$ and the radius (measured along the surface) is $\\pi R/2$, so the ratio is $4$. Being smaller than $2\\pi$ is an intrinsic signal of positive curvature, with no reference to any embedding in 3D."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The metric $ds^2 = dr^2 + r^2\\,d\\theta^2$ has a coefficient $r^2$ that varies with position. Is this space curved?",
+				"options": [
+					"No. It is the flat plane in polar coordinates ($x=r\\cos\\theta$, $y=r\\sin\\theta$); curvature is not read off the coefficients.",
+					"Yes. A coefficient that varies with position means distances are stretched differently at different $r$, which is what curvature is.",
+					"Yes, but only near $r=0$, where the coordinates break down and triangle angle sums deviate from $180^\\circ$.",
+					"No, but only because $r^2$ grows with $r$; a coefficient that shrank with $r$ would signal curvature."
+				],
+				"answer": 0,
+				"explanation": "Coordinate-dependent features such as position-dependent metric components can be artifacts of the labels. The invariant tests are measurable things, like whether the angles of a triangle sum to $180^\\circ$ or whether circumference/radius is $2\\pi$; both pass here."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the metric $ds^2 = -c^2dt^2 + 4\\,dx^2$ (one space dimension), light has coordinate speed $dx/dt = c/2$. What does this mean?",
+				"options": [
+					"Light genuinely travels at half speed in this region, just as it would in a medium with refractive index 2.",
+					"The metric must be wrong, because the speed of light has to equal $c$ in every coordinate system.",
+					"Nothing physical: $x$ is just a label with proper length $2\\,dx$, so the locally measured speed of light is still $c$.",
+					"Light and clocks are both slowed by the same factor, so the proper speed of light is $c$ only far from the origin."
+				],
+				"answer": 2,
+				"explanation": "Null directions satisfy $ds^2 = 0$: $c\\,dt = 2\\,dx$. Coordinate speeds depend on the labelling; what is invariant is the light cone and the speed measured with proper lengths and proper times, which is always $c$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can one always choose coordinates in which $g_{\\mu\\nu} = \\eta_{\\mu\\nu}$ and $\\partial_\\lambda g_{\\mu\\nu} = 0$ at a given point, but not in a neighbourhood?",
+				"options": [
+					"Curvature vanishes at every individual point, even though it can be nonzero over extended regions of space.",
+					"Every metric is flat in suitable coordinates, so a neighbourhood version also exists; it is just harder to construct.",
+					"Gravity is a force that can be switched off at a point by an accelerating frame, but not at neighbouring points.",
+					"Coordinates can cancel the metric's deviation from $\\eta$ and its first derivatives at a point, not the second."
+				],
+				"answer": 3,
+				"explanation": "Counting the free coordinate functions shows that they can set $g$ and $\\partial g$ to the flat values at a point. The second derivatives of the metric contain independent information (Riemann curvature) that no coordinate change can eliminate. This is the mathematical form of 'free fall removes gravity only locally'."
+			},
+			{
+				"kind": "short",
+				"prompt": "You are an inhabitant of a two-dimensional surface and cannot step 'off' it. Describe two measurements you could make to decide whether your surface is intrinsically curved, and explain what each would show on a sphere.",
+				"rubric": "Full credit: names two valid intrinsic tests, e.g. (a) circumference vs. radius of circles ($C<2\\pi r$ on a sphere), (b) angle sum of a triangle (>180° on a sphere), (c) area of a disc vs $\\pi r^2$, (d) parallel-transport/triangle geodesics converging; states sphere results correctly; makes clear these do not need an embedding space.",
+				"modelAnswer": "Draw a circle by marking all points at the same surface distance $r$ from a centre and measure its circumference: in flat space $C = 2\\pi r$, but on a sphere $C = 2\\pi R\\sin(r/R) < 2\\pi r$. Or measure the interior angles of a triangle made of geodesic segments: they sum to $180^\\circ$ in flat space and to more than $180^\\circ$ on a sphere (the excess is the area divided by $R^2$). Both use only distances and angles within the surface, so no embedding is needed."
+			}
+		],
+		"s3-l004-geodesics-christoffel": [
+			{
+				"kind": "mc",
+				"prompt": "In flat 2D space with polar coordinates, a free particle moving in a straight line has $d^2r/ds^2 \\ne 0$ (the Christoffel symbol $\\Gamma^r{}_{\\theta\\theta} = -r$ enters). What does this show?",
+				"options": [
+					"A real force pulls the particle off a straight path; straight lines have constant $r$ only in Cartesian coordinates.",
+					"The $\\Gamma$ terms reflect changing basis vectors, not a force or curvature; flat space can have nonzero $\\Gamma$.",
+					"The straight line is not a geodesic in polar coordinates, because geodesics must have $d^2x^\\mu/ds^2=0$ in every system.",
+					"Nonzero Christoffel symbols prove the space is curved, so the plane in polar coordinates is intrinsically curved at $r\\neq0$."
+				],
+				"answer": 1,
+				"explanation": "The geodesic equation is $\\ddot x^\\mu + \\Gamma^\\mu{}_{\\alpha\\beta}\\dot x^\\alpha\\dot x^\\beta = 0$. In polar coordinates the term $-r\\dot\\theta^2$ is the 'centrifugal' coordinate effect, which compensates the change of basis. $\\Gamma$ is not a tensor and can be nonzero even in flat space."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A metric has components that do not depend on the coordinate $\\phi$. What follows for geodesic motion?",
+				"options": [
+					"The angular velocity $d\\phi/d\\tau$ is constant along every geodesic, whatever the other coordinates do.",
+					"Every geodesic stays at constant $r$ or moves on a circle of constant radius around the origin of $\\phi$.",
+					"The covariant component $p_\\phi = m\\,g_{\\phi\\mu}\\,dx^\\mu/d\\tau$ is conserved along every geodesic.",
+					"All Christoffel symbols carrying a $\\phi$ index vanish, so $\\phi$ behaves like a Cartesian coordinate."
+				],
+				"answer": 2,
+				"explanation": "The Euler-Lagrange equation for $\\phi$ reads $\\frac{d}{d\\tau}\\!\\left(\\partial L/\\partial\\dot\\phi\\right) = \\partial L/\\partial\\phi = 0$. Symmetry gives a conserved quantity: independence of $t$ gives energy, of $\\phi$ gives angular momentum. The conserved thing is $p_\\phi$, not $\\dot\\phi$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a slowly moving particle in a weak field, $g_{00} = -(1 + 2\\Phi/c^2)$ reproduces Newtonian gravity, $\\ddot{\\mathbf x} = -\\nabla\\Phi$. Why does only $g_{00}$ matter at this order?",
+				"options": [
+					"Since $dx^0/d\\tau\\approx c$ dominates, the geodesic equation reduces to $\\ddot x^i\\approx\\tfrac12c^2\\partial_ig_{00}$.",
+					"The spatial components $g_{ij}$ are exactly flat in any gravitational field, so only the time component can change.",
+					"Time dilation is the only relativistic effect at this order, and the geometry of space plays no role in any experiment.",
+					"All the Christoffel symbols are equal at this order, so any component of the metric would give the same result."
+				],
+				"answer": 0,
+				"explanation": "For $v \\ll c$, every term with a spatial velocity is suppressed by $v/c$. The surviving term is $\\Gamma^i{}_{00}$, which involves $\\partial_i g_{00}$. Spatial curvature $g_{ij}$ matters only for fast particles (this is why light bends twice the Newtonian amount)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "At Earth's surface, the time-time metric component differs from its flat-space value by $|g_{00} + 1| = 2GM/(Rc^2)$. Using $GM_\\oplus = 3.986\\times10^{14}\\ \\mathrm{m^3/s^2}$, $R = 6.371\\times10^6$ m and $c = 2.998\\times10^8$ m/s, give this number in units of $10^{-9}$.",
+				"answer": 1.392,
+				"tolerance": 0.02,
+				"unit": "×10⁻⁹",
+				"explanation": "$2GM/(Rc^2) = 1.392e-09$, about one part in a billion: gravity on Earth is an extremely weak perturbation of flat spacetime, which is why Newtonian physics works so well."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why light rays cannot be described by extremizing proper time, and how the geodesic description is modified for light.",
+				"rubric": "Full credit: (1) for light $ds^2 = 0$, so proper time along the path is zero and cannot be used as parameter or as the quantity to extremize; (2) null geodesics are obtained with an affine parameter $\\lambda$ (e.g. extremizing $\\int g_{\\mu\\nu}\\dot x^\\mu \\dot x^\\nu d\\lambda$) with the constraint $g_{\\mu\\nu}\\dot x^\\mu\\dot x^\\nu = 0$; (3) same geodesic equation, conserved quantities carry over, or light as limit of massless particle.",
+				"modelAnswer": "A photon's worldline is null, $ds^2 = 0$, so the proper time along it is zero and the 'longest proper time' principle is empty. Instead one uses an affine parameter $\\lambda$ along the path, with the same geodesic equation $\\ddot x^\\mu + \\Gamma^\\mu{}_{\\alpha\\beta}\\dot x^\\alpha \\dot x^\\beta = 0$, and imposes the null condition $g_{\\mu\\nu}\\dot x^\\mu \\dot x^\\nu = 0$ as a constraint. Conserved quantities from symmetries still apply."
+			}
+		],
+		"s3-l005-schwarzschild-redshift": [
+			{
+				"kind": "numeric",
+				"prompt": "Compute the Schwarzschild radius $r_s = 2GM/c^2$ of the Earth ($GM_\\oplus = 3.986\\times10^{14}\\ \\mathrm{m^3/s^2}$). Give the answer in millimetres.",
+				"answer": 8.87,
+				"tolerance": 0.02,
+				"unit": "mm",
+				"explanation": "$r_s = 2GM/c^2 = 8.87$ mm. Squeezing the entire Earth into a marble-sized sphere would be needed to form a black hole; the Sun's value is about 2.95 km."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the Schwarzschild metric, what does the coordinate $r$ mean physically?",
+				"options": [
+					"The areal radius: a sphere at coordinate $r$ has area $4\\pi r^2$; radial proper distances exceed $\\Delta r$.",
+					"The proper distance from the centre to the point, found by laying rulers end to end along a radial line.",
+					"The distance a faraway observer infers from radar echoes: half the round-trip light time multiplied by $c$.",
+					"The radial distance only for light rays; for massive observers $r$ has no geometric meaning whatsoever."
+				],
+				"answer": 0,
+				"explanation": "The angular part $r^2 d\\Omega^2$ guarantees that circumferences are $2\\pi r$, but the radial term $dr^2/(1-r_s/r)$ means a radial ruler stretches. Spacetime is curved, so there is no flat 'distance to the centre' in the Euclidean sense."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a particle with angular momentum $L$ near a Schwarzschild black hole, what is qualitatively new in $V_{\\rm eff}(r)$ compared with the Newtonian effective potential?",
+				"options": [
+					"The centrifugal barrier diverges at $r=r_s$, so any particle with $L\\neq0$ is stopped before it reaches the horizon.",
+					"An extra repulsive $1/r^3$ term raises the barrier, so every orbit is stable and no plunge is ever possible.",
+					"An extra attractive $-r_sL^2/(m^2c^2r^3)$ term that beats the centrifugal barrier at small $r$, allowing plunging orbits.",
+					"The attractive $1/r$ term disappears, leaving only the centrifugal $L^2/r^2$ barrier, as in free space."
+				],
+				"answer": 2,
+				"explanation": "Expanding $(1-r_s/r)(1 + L^2/m^2c^2r^2)$ gives the Newtonian-like terms plus $-r_s L^2/(m^2c^2r^3)$. At small $r$ this term dominates and sends $V_{\\rm eff}$ down, so unlike Newtonian gravity there is no angular-momentum barrier that always saves you."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Light from the Sun's surface ($R_\\odot = 6.957\\times10^8$ m, $GM_\\odot = 1.327\\times10^{20}\\ \\mathrm{m^3/s^2}$) is received by a distant static observer. Using $\\nu_{\\rm obs}/\\nu_{\\rm em} = \\sqrt{1 - r_s/R_\\odot}$, what is the fractional redshift $z = \\nu_{\\rm em}/\\nu_{\\rm obs} - 1$ in units of $10^{-6}$?",
+				"answer": 2.123,
+				"tolerance": 0.03,
+				"unit": "×10⁻⁶",
+				"explanation": "$r_s/R_\\odot = 4.245e-06$, so $z \\approx r_s/(2R_\\odot) = 2.12\\times10^-6$, equivalent to a Doppler speed of about 640 m/s. It is real but small, and is confounded with convective Doppler shifts."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the difference between the coordinate time $t$ and the proper time of a static observer in the Schwarzschild geometry, and use it to explain why light climbing out of a gravitational well is redshifted when measured by static observers at different radii.",
+				"rubric": "Full credit: (1) $t$ is the proper time of an observer at infinity; a static observer at $r$ has $d\\tau = \\sqrt{1-r_s/r}\\,dt$; (2) the metric is static so the coordinate-time interval between successive wave crests is the same at emission and reception; (3) therefore proper periods are in ratio $\\sqrt{1-r_s/r_{\\rm em}} : \\sqrt{1-r_s/r_{\\rm obs}}$, giving a lower frequency for the higher-up observer.",
+				"modelAnswer": "Coordinate time $t$ is the clock reading of a static observer very far away, whereas a static observer at radius $r$ measures $d\\tau = \\sqrt{1-r_s/r}\\,dt$, which is smaller deeper in the well. Because the spacetime is static, successive wave crests take the same coordinate-time interval to travel between two radii. Each observer measures that interval with their own clock, so the emitter's period is shorter in proper time than the receiver's if it is deeper in the well; hence the received frequency is lower: the ratio of $\\sqrt{1-r_s/r}$ factors."
+			}
+		],
+		"s3-l006-orbits-perihelion": [
+			{
+				"kind": "mc",
+				"prompt": "Why are there no stable circular orbits around a Schwarzschild black hole inside $r = 6GM/c^2$?",
+				"options": [
+					"The event horizon sits at $6GM/c^2$, so nothing can orbit at or inside that radius.",
+					"Inside that radius $V_{\\rm eff}$ has no minimum left for any $L$, so every circular orbit is unstable.",
+					"Circular-orbit speeds there would exceed the speed of light, so such orbits cannot exist at all.",
+					"Orbiting particles radiate gravitational waves so strongly inside that radius that they spiral inward at once."
+				],
+				"answer": 1,
+				"explanation": "The horizon is at $2GM/c^2$. For $L$ below a critical value the effective potential has no local minimum; the critical case defines the ISCO at $6GM/c^2$. Between $3GM/c^2$ and $6GM/c^2$ circular orbits exist but are unstable, and light's circular orbit sits at $3GM/c^2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Newtonian gravity from a point mass gives closed elliptical orbits, but Mercury's orbit precesses. What is the origin of the extra $\\approx 43''$ per century in GR?",
+				"options": [
+					"Perturbations from the other planets, which GR predicts to be larger than the Newtonian calculation by 43'' per century.",
+					"The Sun's oblateness: its Newtonian quadrupole moment fully accounts for the 43'' per century.",
+					"Mercury's relativistic mass increase near perihelion makes its orbit expand and shift each time it speeds up.",
+					"A small extra $1/r^3$ term spoils the exact $1/r^2$ law, so the ellipse no longer closes and slowly rotates."
+				],
+				"answer": 3,
+				"explanation": "Closed orbits in Newtonian theory are a special property of the exact $1/r^2$ law (Bertrand's theorem). The GR term $\\propto 1/r^3$ breaks it, giving $\\Delta\\varphi = 6\\pi GM/[c^2 a(1-e^2)]$ per orbit. The 43'' is what remains after subtracting planetary perturbations (about 530''/century)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is special about the photon sphere at $r = 3GM/c^2$?",
+				"options": [
+					"Light there is on a stable circular orbit and stays trapped indefinitely, forming a permanent ring.",
+					"It is the event horizon: nothing inside that radius can send signals out to infinity.",
+					"Light can orbit there, but unstably: a small nudge sends it into the hole or out to infinity.",
+					"Light there appears frozen to a distant observer, because of an infinite gravitational redshift."
+				],
+				"answer": 2,
+				"explanation": "For null geodesics the effective potential has a maximum at $3GM/c^2$ (a hill, not a well), so the circular orbit is unstable. Rays skimming just outside circle many times before escaping, producing the bright ring in black-hole images."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Mercury has semi-major axis $a = 5.7909\\times10^{10}$ m, eccentricity $e = 0.20563$ and period 87.969 days. Using $\\Delta\\varphi = 6\\pi GM/[c^2 a (1-e^2)]$ per orbit and $GM_\\odot = 1.327\\times10^{20}\\ \\mathrm{m^3/s^2}$, find the GR perihelion advance per century in arcseconds.",
+				"answer": 42.98,
+				"tolerance": 0.03,
+				"unit": "arcsec/century",
+				"explanation": "Per orbit $\\Delta\\varphi = 5.019e-07$ rad; there are about 415.2 orbits per century, giving 43.0'' per century, matching the observed anomaly."
+			},
+			{
+				"kind": "short",
+				"prompt": "Gas spiralling into a black hole through an accretion disk can radiate about 6% of its rest-mass energy, versus about 0.7% for hydrogen fusion. Explain in physical terms where this energy comes from and why the number is tied to the innermost stable circular orbit.",
+				"rubric": "Full credit: (1) gas loses energy as viscosity lets it move inward through a sequence of nearly circular orbits, radiating the difference in orbital energy; (2) inside the ISCO no stable circular orbit exists so matter plunges without radiating much; (3) the energy per unit mass radiated is $1 - E_{\\rm ISCO}/mc^2 = 1 - \\sqrt{8/9} \\approx 5.7\\%$ (rest-mass energy minus the orbital energy at the ISCO).",
+				"modelAnswer": "Gas in the disk moves through a sequence of nearly circular orbits, losing orbital energy through viscous friction and radiating it away as it drifts inward. The last stable circular orbit is at $6GM/c^2$, where the specific energy is $E/mc^2 = \\sqrt{8/9}$, so about $1 - \\sqrt{8/9} \\approx 5.7\\%$ of the rest mass has been radiated; inside it the gas plunges quickly with little further radiation. Fusion extracts only the small binding-energy difference between nuclei, while deep gravitational binding is a far bigger reservoir."
+			}
+		],
+		"s3-l007-light-bending-solar-system-tests": [
+			{
+				"kind": "numeric",
+				"prompt": "Using $\\Delta\\phi = 4GM/(c^2 b)$, find the deflection of a light ray from a distant star grazing the Sun's limb ($b = R_\\odot = 6.957\\times10^8$ m, $GM_\\odot = 1.327\\times10^{20}\\ \\mathrm{m^3/s^2}$). Give the answer in arcseconds.",
+				"answer": 1.751,
+				"tolerance": 0.02,
+				"unit": "arcsec",
+				"explanation": "$4GM/(c^2R_\\odot) = 8.490e-06$ rad $= 1.75''$. This is twice the value from treating light as Newtonian corpuscles; Eddington's 1919 eclipse expedition provided the first confirmation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does GR predict twice the light deflection that a Newtonian corpuscle calculation gives?",
+				"options": [
+					"Light feels the time-time and an equal spatial part of the metric; corpuscles feel only the first.",
+					"Light travels faster than $c$ near the Sun, so it is deflected more than a slow particle would be.",
+					"A photon's relativistic mass $E/c^2$ doubles its coupling to gravity compared with a slow particle.",
+					"The Sun's rotation drags the light around, doubling the deflection relative to a nonrotating star."
+				],
+				"answer": 0,
+				"explanation": "For a slowly moving particle only $g_{00}$ matters. For light, the spatial part $g_{ij} \\approx (1 - 2\\Phi/c^2)\\delta_{ij}$ contributes an equal amount. Measuring $\\gamma = 1$ confirms this spatial curvature per unit mass."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A radar pulse sent past the Sun to Venus and back arrives later than flat-space travel time would predict (Shapiro delay). What is the correct interpretation?",
+				"options": [
+					"Gravitational redshift lowers the radar frequency, and a lower-frequency pulse needs more time to complete its journey.",
+					"It is entirely refraction in the solar atmosphere, which acts as a medium with $n>1$ and is unrelated to gravity.",
+					"The signal is physically slowed to below $c$ along its whole path, as measured by a local observer anywhere along it.",
+					"By distant clocks, light crosses the well more slowly and along a longer path; its local speed is still $c$."
+				],
+				"answer": 3,
+				"explanation": "The delay is a coordinate-based effect of $g_{00}$ and $g_{rr}$: both make the null path take longer in coordinate time $t$. Plasma delay is a separate effect, removed by using two frequencies. Photons do not slow locally; the reduction applies only to the distant observer's coordinate speed."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A star at $D_L = 4$ kpc acts as a point lens ($M = 1\\,M_\\odot$) for a source star at $D_S = 8$ kpc. With $\\theta_E = \\sqrt{(4GM/c^2)\\,D_{LS}/(D_L D_S)}$ and $D_{LS} = D_S - D_L$, what is the Einstein ring angle in milliarcseconds? ($4GM_\\odot/c^2 \\approx 5.91$ km; 1 kpc $= 3.086\\times10^{19}$ m.)",
+				"answer": 1.009,
+				"tolerance": 0.04,
+				"unit": "mas",
+				"explanation": "$\\theta_E = 4.892e-09$ rad $= 1.01$ mas, too small to resolve in typical microlensing; instead one sees the source's brightness rise and fall as the lens passes in front."
+			},
+			{
+				"kind": "short",
+				"prompt": "Four classical tests of GR (gravitational redshift, perihelion advance, light deflection, radar time delay) are often discussed with the PPN parameters $\\beta$ and $\\gamma$. Explain what $\\gamma$ and $\\beta$ physically represent and which tests are sensitive to which parameter.",
+				"rubric": "Full credit: (1) $\\gamma$ measures how much spatial curvature is produced per unit mass, $\\beta$ measures the nonlinearity in the superposition of gravitational fields (how gravity gravitates); (2) deflection and Shapiro delay depend on $\\gamma$ (factor $(1+\\gamma)/2$); (3) perihelion advance depends on $(2+2\\gamma-\\beta)/3$; (4) the gravitational redshift depends on neither (it tests the equivalence principle); GR has $\\beta=\\gamma=1$.",
+				"modelAnswer": "$\\gamma$ says how much spatial curvature a unit mass produces compared with the Newtonian-like $g_{00}$ potential, and $\\beta$ measures how nonlinearly gravitational fields combine (gravity of gravity). Light deflection and the Shapiro delay are proportional to $(1+\\gamma)/2$; the perihelion advance scales as $(2+2\\gamma-\\beta)/3$, so it constrains a combination; the redshift tests the equivalence principle, independent of $\\beta,\\gamma$. GR predicts $\\beta = \\gamma = 1$, and solar-system experiments confirm this to better than $10^{-4}$ or so."
+			}
+		],
+		"s3-l008-schwarzschild-black-hole-horizon": [
+			{
+				"kind": "mc",
+				"prompt": "Why do physicists say $r = r_s$ is only a coordinate singularity while $r = 0$ is a genuine singularity?",
+				"options": [
+					"The metric component $g_{tt}$ vanishes at $r_s$, but $g_{rr}$ stays finite, so the metric is non-singular there.",
+					"Curvature invariants stay finite at $r_s$ but diverge as $r\\to0$; the trouble at $r_s$ is a coordinate artifact.",
+					"Tidal forces are always infinite at $r_s$, but the metric is smooth there when written in better coordinates.",
+					"The metric components blow up at both places, and physicists treat the one at $r_s$ more gently only by convention."
+				],
+				"answer": 1,
+				"explanation": "The blow-up of $g_{rr}$ at $r_s$ is an artifact of the Schwarzschild coordinates, just as longitude is ill-defined at the poles. Invariant measures of curvature are finite at the horizon, and a freely falling observer crosses it without a locally noticeable event. At $r=0$ the curvature invariants diverge, so the singularity is real."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A distant observer watches a clock fall radially into a black hole. How do the observations compare with the infalling clock's own experience?",
+				"options": [
+					"Both see the clock reach the horizon in finite time, after which it simply vanishes from view.",
+					"The distant observer sees it slow and fade, never crossing; the clock itself crosses in finite proper time.",
+					"The clock is destroyed by infinite tides at the horizon, which is why the distant observer sees it freeze.",
+					"The clock also needs infinite proper time to reach the horizon, so the two descriptions agree completely."
+				],
+				"answer": 1,
+				"explanation": "The coordinate time diverges logarithmically as $r\\to r_s$, and the light from the faller is increasingly redshifted, so it fades from view. Proper time to reach $r=0$ from rest at $r_0$ is finite, $\\tau = (\\pi/2)\\,r_0^{3/2}/\\sqrt{2GM}$, and the tidal forces at the horizon are finite for large holes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In Eddington-Finkelstein coordinates the light cones tilt inward as one approaches $r_s$. How does this define the event horizon?",
+				"options": [
+					"The local speed of light drops to zero at $r_s$, so nothing can move there and a solid surface forms.",
+					"It is where the Newtonian escape speed equals $c$, and the tilting cones merely illustrate where that happens.",
+					"Inside the horizon the cones tilt outward, so signals can still reach distant observers, only with a long delay.",
+					"Outgoing light at $r_s$ stays at constant $r$, and inside it all future paths lead to smaller $r$."
+				],
+				"answer": 3,
+				"explanation": "Light's local speed is always $c$; what changes is the geometry of the cones. Inside $r_s$, the direction of increasing $r$ lies outside the future light cone, so decreasing $r$ is as inevitable as moving forward in time. The horizon is a null surface, not a material one."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 2 m tall astronaut falls feet-first toward a $10\\,M_\\odot$ black hole. Estimate the tidal acceleration difference between head and feet, $\\Delta a = 2GM L/r^3$ with $L = 2$ m, at $r = r_s = 2GM/c^2$. ($GM_\\odot = 1.327\\times10^{20}\\ \\mathrm{m^3/s^2}$.) Give the answer in $\\mathrm{m/s^2}$.",
+				"answer": 206100000.0,
+				"tolerance": 0.04,
+				"unit": "m/s²",
+				"explanation": "$r_s \\approx 29.5$ km and $\\Delta a = 2.06e+08\\ \\mathrm{m/s^2} \\approx 2.1e+07\\,g$: fatal, which is 'spaghettification'. Since $\\Delta a \\propto M/r_s^3 \\propto 1/M^2$, a supermassive hole has gentle tides at the horizon."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Kruskal-Szekeres extension of the Schwarzschild solution contains an 'Einstein-Rosen bridge' connecting two exterior regions. Explain why no observer or signal can use it to travel from one exterior to the other.",
+				"rubric": "Full credit: (1) the maximal extension has a second asymptotic region and white hole region in addition to the black hole; (2) the throat pinches off too quickly: any path from one exterior to the other would need to be spacelike (faster than light) because both regions are causally separated, with any timelike or null path ending in the singularity; (3) mention that a real black hole formed by collapse has no such second exterior.",
+				"modelAnswer": "In the Kruskal diagram, the two exterior regions are connected through the horizon region, but the bridge between them evolves: it expands and then pinches off before anything can cross. Light rays are at 45 degrees, and any timelike or null worldline entering the black hole from one exterior ends on the singularity rather than reaching the other exterior. Crossing would require a spacelike path, i.e. faster than light. Also, a hole formed by realistic collapse has no second exterior or white hole region."
+			}
+		],
+		"s3-l009-astrophysical-black-holes-hawking": [
+			{
+				"kind": "numeric",
+				"prompt": "Use $T_H = \\hbar c^3/(8\\pi G M k_B)$ to find the Hawking temperature of a one-solar-mass black hole ($M_\\odot = 1.989\\times10^{30}$ kg). Give the answer in nanokelvin.",
+				"answer": 61.7,
+				"tolerance": 0.02,
+				"unit": "nK",
+				"explanation": "$T_H = 61.7$ nK. That is far below the 2.7 K cosmic microwave background, so a solar-mass hole currently absorbs more energy than it emits and grows."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the key observational argument that the compact object Sgr A* at the Galactic centre is a supermassive black hole rather than, say, a dense star cluster?",
+				"options": [
+					"Stars such as S2 follow Keplerian orbits (period about 16 yr), implying $4\\times10^6\\,M_\\odot$ in a tiny volume.",
+					"It emits strong Hawking radiation, which is observed as a hot spot at the centre of the Galaxy.",
+					"It shows periodic X-ray eclipses by a companion star, the same signature used to weigh stellar-mass black holes.",
+					"Its radio image is larger than the event horizon would be, which proves the object is much bigger than $r_s$."
+				],
+				"answer": 0,
+				"explanation": "Stellar orbits measure the enclosed mass through Kepler's third law. A mass of millions of suns packed within a few light-hours would collapse or eject stars through collisions; the Event Horizon Telescope image adds that the shadow size matches a black hole."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Bekenstein-Hawking entropy $S = k_B c^3 A/(4G\\hbar)$ is proportional to the horizon area. Why is this a puzzle for ordinary statistical mechanics?",
+				"options": [
+					"The entropy is negative for black holes lighter than the Sun, which would violate the third law of thermodynamics.",
+					"Area has the wrong units to be an entropy unless the horizon is a physical membrane made of atoms.",
+					"Ordinary entropy scales with volume; area scaling implies far fewer microstates than local field theory suggests.",
+					"Black holes do not radiate, so no temperature exists and the formula is unrelated to heat or disorder."
+				],
+				"answer": 2,
+				"explanation": "A box of gas has entropy scaling like its volume. For a black hole the entropy of about $10^{77}k_B$ for a solar mass scales with area $\\propto M^2$. The area theorem ($A$ never decreases classically) and Hawking's $T_H$ turn the analogy with thermodynamics into the identification $S = A/4$ in Planck units."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Today's universe is bathed in 2.7 K microwave background radiation. What happens to an isolated $10\\,M_\\odot$ black hole in it?",
+				"options": [
+					"It evaporates within about $10^{10}$ years, since all black holes lose mass through Hawking radiation.",
+					"It stays at constant mass, because its temperature adjusts itself to match the 2.7 K background.",
+					"It is heated by the CMB and its horizon shrinks as it warms, since higher temperature means smaller mass.",
+					"It absorbs CMB photons faster than it emits Hawking radiation ($T_H$ is only tens of nK), so it grows."
+				],
+				"answer": 3,
+				"explanation": "$T_H \\propto 1/M$, so large black holes are colder than the CMB and are net absorbers. Because black holes have negative heat capacity, equilibrium with a bath is unstable. Only when the CMB cools well below $T_H$ (or for tiny primordial holes) would they lose mass."
+			},
+			{
+				"kind": "short",
+				"prompt": "Argue why the evaporation time of a black hole scales as $M^3$, and what this implies for tiny versus stellar-mass black holes.",
+				"rubric": "Full credit: (1) Hawking radiation power from a blackbody of temperature $T_H\\propto 1/M$ and area $A\\propto M^2$: $P\\propto A T^4\\propto 1/M^2$; (2) $dM/dt \\propto -1/M^2$ integrates to $t \\propto M^3$; (3) consequence: stellar-mass holes (and anything above ~$10^{11}$ kg) take vastly longer than the age of the universe (~$10^{67}$ yr for a solar mass), whereas very small ones evaporate quickly and end in a burst.",
+				"modelAnswer": "The hole radiates like a blackbody with temperature $T_H \\propto 1/M$ from an area $A \\propto M^2$, so the power is $P \\propto A T^4 \\propto M^2/M^4 = 1/M^2$. Then $dM/dt \\propto -1/M^2$, which integrates to $t_{\\rm evap} \\propto M^3$. For a solar-mass hole this is about $10^{67}$ years, absurdly long, while a mountain-mass primordial hole (about $2\\times10^{11}$ kg) would be finishing its evaporation now; smaller holes get hotter and brighter and end in a burst."
+			}
+		],
+		"s3-l010-rotation-kerr": [
+			{
+				"kind": "mc",
+				"prompt": "What does 'frame dragging' mean physically for a spinning body like the Earth or a Kerr black hole?",
+				"options": [
+					"The spinning body drags nearby matter along by friction through its atmosphere or accretion disk.",
+					"Inertial frames near a rotating mass are twisted along with it, so gyroscopes precess relative to distant stars.",
+					"Light is slowed inside the rotating body, which bends rays in the sense of its rotation.",
+					"The gravitational redshift at the surface depends on the direction of rotation, so clocks tick differently east and west."
+				],
+				"answer": 1,
+				"explanation": "Frame dragging is a feature of the geometry itself (the $g_{t\\phi}$ term in the metric). Gravity Probe B measured the gyroscope precession (predicted: about 39 milliarcseconds per year), and LAGEOS measured the Lense-Thirring precession of the orbital plane."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For a Kerr black hole of spin parameter $a_* = cJ/(GM^2) = 0.9$, compute the outer horizon radius $r_+ = (GM/c^2)\\left(1 + \\sqrt{1 - a_*^2}\\right)$ in units of $GM/c^2$.",
+				"answer": 1.436,
+				"tolerance": 0.02,
+				"unit": "GM/c²",
+				"explanation": "$r_+ = 1 + \\sqrt{1 - 0.81} = 1.436\\,GM/c^2$, compared with $2\\,GM/c^2$ for a nonrotating hole. For $a_*>1$ there would be no real horizon: a naked singularity, which is why cosmic censorship matters."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the ergosphere of a Kerr black hole?",
+				"options": [
+					"The region inside the inner horizon where closed timelike curves appear, hidden from outside observers.",
+					"The region where the escape speed exceeds $c$, so light cannot get out to infinity from there.",
+					"The region outside the outer horizon where nothing can stay at rest relative to distant stars.",
+					"The region in which time stops from the viewpoint of a distant observer watching the hole."
+				],
+				"answer": 2,
+				"explanation": "The static limit $r_{\\rm static} = (GM/c^2)(1+\\sqrt{1 - a_*^2\\cos^2\\theta})$ lies outside the event horizon except at the poles. Within it, escape is still possible, which is why energy can be extracted."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does the black hole's spin change the accretion efficiency for gas orbiting in the same sense as the spin (prograde)?",
+				"options": [
+					"The ISCO moves inward (to $GM/c^2$ at extreme spin), so efficiency rises from 5.7% toward 42%.",
+					"The ISCO moves outward, because rotation adds a repulsive frame-dragging force, and the efficiency goes down.",
+					"Spin does not change the ISCO location; it only changes the position of the horizon.",
+					"The ISCO moves inward but the efficiency stays 5.7%, because the radiated energy is fixed by the mass alone."
+				],
+				"answer": 0,
+				"explanation": "Prograde orbits are dragged along with the hole, so they can remain stable closer in and release more binding energy before plunging. Retrograde orbits have the ISCO at larger radius (up to $9GM/c^2$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe the Penrose process in your own words, and explain why it does not violate energy conservation or allow arbitrary energy extraction.",
+				"rubric": "Full credit: (1) a particle enters the ergosphere and splits into two; one fragment has negative energy as measured at infinity, falls into the hole, while the other escapes with more energy than the original; (2) energy is conserved overall: the black hole loses rotational energy (its mass and spin decrease); (3) limited to the hole's rotational energy (up to ~29% of $M c^2$ for extremal), and the horizon area cannot decrease (irreducible mass), so extraction stops when the spin reaches zero.",
+				"modelAnswer": "Inside the ergosphere, energy at infinity (conserved along a geodesic with a time-like Killing vector) can be negative because the Killing vector $\\partial_t$ becomes spacelike. A particle that enters and splits can send one piece, with negative energy, into the hole while the other piece escapes with more energy than the original. The total is conserved; the hole's mass decreases by the amount of energy gained, with its angular momentum reduced. The process taps only the rotational energy (at most about 29% of $Mc^2$), and the irreducible mass (horizon area) cannot go down, so it cannot go on forever."
+			}
+		],
+		"s3-l011-gravitational-waves-polarization": [
+			{
+				"kind": "mc",
+				"prompt": "Why does a plane gravitational wave in transverse-traceless gauge have exactly two polarizations?",
+				"options": [
+					"$h_{ij}$ is transverse, symmetric and traceless, which leaves two components: plus and cross.",
+					"Space has three dimensions, so a symmetric tensor wave has three polarizations, one of which is unphysical.",
+					"Gravitational waves are longitudinal like sound, so only two transverse directions of compression can occur.",
+					"Light has two polarizations and gravitational waves are made of photons that couple to mass."
+				],
+				"answer": 0,
+				"explanation": "Of the ten components of $h_{\\mu\\nu}$, gauge freedom and the constraints remove all but two. A rotation by $45^\\circ$ turns plus into cross (compared with $90^\\circ$ for the electric field of light), a signature of spin 2."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A ring of free test particles lies in the plane perpendicular to the direction of an incoming plus-polarized gravitational wave. What happens during one cycle?",
+				"options": [
+					"The ring expands and contracts uniformly in all directions, like a breathing mode.",
+					"The particles oscillate back and forth along the propagation direction, as in a sound wave.",
+					"One axis is stretched while the perpendicular axis is squeezed, then the pattern reverses.",
+					"The ring rotates rigidly about its centre at the wave's frequency without changing its shape."
+				],
+				"answer": 2,
+				"explanation": "The proper distances between free masses change by $\\delta L/L = \\tfrac12 h$ with opposite signs along perpendicular directions. The cross polarization produces the same pattern rotated by $45^\\circ$, and a circularly polarized wave makes the distortion rotate."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A gravitational wave of strain amplitude $h = 10^{-21}$ passes two free masses separated by the Earth-Moon distance, $3.844\\times10^8$ m, along an axis of maximum stretch. Using $\\delta L = \\tfrac12 h L$, by how much (in metres) does their separation oscillate?",
+				"answer": 1.922e-13,
+				"tolerance": 0.02,
+				"unit": "m",
+				"explanation": "$\\delta L = \\tfrac12 (10^{-21})(3.844\\times10^8) = 1.92e-13$ m, only about 0.2 picometres even over the Earth-Moon distance, which is why detecting waves took a century. The effect grows with the baseline."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How fast do gravitational waves travel, and why?",
+				"options": [
+					"Instantaneously, as in Newtonian gravity, since gravity is a property of spacetime rather than a signal in it.",
+					"At $c$: the vacuum equation $\\Box h_{\\mu\\nu}=0$ gives speed $c$ at all frequencies, as for a massless graviton.",
+					"More slowly than light, because the waves must push through the matter they pass on the way.",
+					"At a frequency-dependent speed, as for water waves, with higher frequencies travelling faster."
+				],
+				"answer": 1,
+				"explanation": "The wave operator $\\Box = -\\tfrac{1}{c^2}\\partial_t^2 + \\nabla^2$ means a speed of $c$ for all frequencies in vacuum. Changes in the source propagate outward at $c$, and the observation of a neutron-star merger in both gravitational and electromagnetic waves bounds any speed difference to about $10^{-15}$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Gravitational waves are sometimes described as 'ripples in spacetime that change the distances between free particles' even though the free particles feel no force. Explain in your own words what is actually changing and why detectors use free masses.",
+				"rubric": "Full credit: (1) the metric (the rule for converting coordinate separation into physical distance) oscillates; free particles stay at constant TT coordinates but their proper separation changes; (2) no force is acting on a free particle (it follows a geodesic); the relative acceleration is a tidal effect from curvature; (3) a detector uses freely suspended mirrors/test masses and measures light travel time between them.",
+				"modelAnswer": "The wave is a travelling oscillation of the metric: the relation between coordinate separation and physical distance changes. In TT coordinates free masses stay at fixed coordinates, no force acts on them, but the proper distance between them (what a ruler or a light-travel time would measure) oscillates with fractional amplitude $h/2$. A detector therefore suspends mirrors so they are nearly free and measures how the light travel time between them changes."
+			}
+		],
+		"s3-l012-detecting-gravitational-waves-ligo": [
+			{
+				"kind": "numeric",
+				"prompt": "LIGO's arms are $L = 4$ km long. A gravitational wave of strain $h = 10^{-21}$ stretches one arm by $\\delta L = \\tfrac12 hL$ and shrinks the other by the same amount. What is the change in one arm's length, in metres?",
+				"answer": 2e-18,
+				"tolerance": 0.03,
+				"unit": "m",
+				"explanation": "$\\delta L = \\tfrac12 (10^{-21})(4000) = 2.0e-18$ m; the arm-length difference seen by the interferometer is $hL = 4e-18$ m, a few hundred times smaller than a proton. The Michelson layout subtracts the arms, so a common-mode noise cancels while the signal doubles."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The frequency of an inspiral signal is $f = 50$ Hz and rising at $\\dot f = 285$ Hz/s. Using $\\dot f = \\tfrac{96}{5}\\pi^{8/3}\\left(G\\mathcal M/c^3\\right)^{5/3} f^{11/3}$, find the chirp mass in solar masses. ($G M_\\odot/c^3 = 4.925\\ \\mu$s.)",
+				"answer": 30.01,
+				"tolerance": 0.04,
+				"unit": "M☉",
+				"explanation": "Solving for the chirp mass gives $\\mathcal M \\approx 30.0\\,M_\\odot$ (the inspiral phase depends on the masses mainly through this single combination). For comparison, GW150914 had $\\mathcal M \\approx 28\\,M_\\odot$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If the strain amplitude $h$ of a gravitational wave is halved while its frequency $f$ is doubled, how does the energy flux $F = \\frac{c^3}{32\\pi G}\\langle\\dot h_{ij}\\dot h_{ij}\\rangle$ change?",
+				"options": [
+					"Quartered, because the flux depends only on the square of the amplitude.",
+					"Doubled, because the flux is proportional to the product $hf$.",
+					"It cannot be determined without also knowing the distance to the source.",
+					"Unchanged, because $F\\propto f^2h^2$ and $(\\tfrac12)^2\\cdot2^2=1$."
+				],
+				"answer": 3,
+				"explanation": "The flux depends on the time derivative of $h$, so $F\\propto (2\\pi f h)^2$. High-frequency waves of tiny amplitude carry as much energy as low-frequency waves of large amplitude. Waves from a merger carry energy of order $M_\\odot c^2$, yet reach Earth with a power of only about milliwatts per square metre."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Hulse-Taylor binary pulsar's orbital period decreases by about 76 microseconds per year, matching the GR prediction to better than 1%. What does this show?",
+				"options": [
+					"A direct detection of gravitational waves arriving at Earth, with the pulsar acting as the detector.",
+					"The pulsar's spin slows through magnetic dipole radiation, which has the same $1/r^2$ form as gravity.",
+					"The orbit shrinks at the quadrupole-radiation rate: indirect evidence for gravitational waves.",
+					"The orbit expands as the waves carry away angular momentum, so the orbital period increases."
+				],
+				"answer": 2,
+				"explanation": "A bound orbit that loses energy shrinks and speeds up, shortening the period. The measured decay matches $\\dot P_b$ from the quadrupole formula, with no free parameters, and earned a Nobel Prize in 1993."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the signal from an inspiralling binary is a 'chirp' (rising frequency and amplitude) and why the 'chirp mass' is the combination of masses that is best measured.",
+				"rubric": "Full credit: (1) energy loss to GWs shrinks the orbit, so orbital (and GW) frequency rises, accelerating as it approaches merger; (2) GW power and amplitude grow steeply as the separation shrinks ($h\\propto f^{2/3}$); (3) at leading order, the rate of frequency change depends on the masses only through $\\mathcal M=(m_1m_2)^{3/5}/(m_1+m_2)^{1/5}$ (so measuring $f$ and $\\dot f$ gives $\\mathcal M$ directly).",
+				"modelAnswer": "As the binary radiates it loses orbital energy, so the stars move closer and orbit faster; the gravitational-wave frequency (twice the orbital one) rises, and since the radiated power depends strongly on the compactness, the amplitude rises too: the signal speeds up into a chirp. At leading order the evolution $\\dot f \\propto \\mathcal M^{5/3} f^{11/3}$ depends on the masses only through the chirp mass, so the observed $f$ and $\\dot f$ give $\\mathcal M$ directly, while the individual masses show up only in smaller higher-order effects."
+			}
+		],
+		"s3-l013-tensors-index-notation": [
+			{
+				"kind": "mc",
+				"prompt": "Why is the partial derivative $\\partial_\\mu V^\\nu$ of a vector field not a tensor?",
+				"options": [
+					"The Jacobian varies with position, so differentiating $V'^\\nu$ produces an extra second-derivative term.",
+					"Derivatives are only defined in flat space, so they fail whenever the metric is not Minkowski.",
+					"It has two indices, and only objects with a single index can be tensors.",
+					"$V^\\nu$ is not differentiable at a generic point of a curved space, so the derivative is ill-defined."
+				],
+				"answer": 0,
+				"explanation": "In Cartesian coordinates on flat space the Jacobian is constant and the extra term disappears, but in general coordinates it does not. The covariant derivative adds the Christoffel term that cancels the inhomogeneous piece."
+			},
+			{
+				"kind": "mc",
+				"prompt": "All components of a tensor vanish in one coordinate system. What can you conclude?",
+				"options": [
+					"Nothing: the components may be nonzero in another system, as with the Christoffel symbols.",
+					"They vanish in every system only if the metric is flat; otherwise the answer depends on the metric.",
+					"They vanish in every system related by a rotation, but not necessarily after nonlinear coordinate changes.",
+					"They vanish in every coordinate system, since components transform linearly and homogeneously."
+				],
+				"answer": 3,
+				"explanation": "The transformation law is linear in the components with no inhomogeneous term. The Christoffel symbols, in contrast, are not tensors: they vanish in Cartesian coordinates yet not in polar coordinates, so 'zero' has no invariant meaning for them."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Vector components $V^\\mu$ transform with $\\partial x'/\\partial x$ and covector components $W_\\mu$ with $\\partial x/\\partial x'$. Why are they opposite?",
+				"options": [
+					"Upper indices describe time components and lower indices describe space components.",
+					"So that $W_\\mu V^\\mu$ is a scalar all coordinate systems agree on: covectors are linear maps from vectors to numbers.",
+					"Covectors measure lengths and vectors measure directions, and lengths shrink under the change that stretches directions.",
+					"It is only a convention with no structural reason; the two laws could be swapped without any consequence."
+				],
+				"answer": 1,
+				"explanation": "Gradients $\\partial_\\mu f$ are the prototype of covectors, and tangent vectors $dx^\\mu/d\\lambda$ of vectors; $df/d\\lambda = \\partial_\\mu f\\,dx^\\mu/d\\lambda$ is coordinate-independent. The metric converts between the two."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In plane polar coordinates $(r,\\theta)$ the metric is $g = \\mathrm{diag}(1, r^2)$. At $r = 2$ a vector has components $V^r = 3$ and $V^\\theta = 0.5$ (in whatever units $r$ and $\\theta$ use). What is its squared length $g_{\\mu\\nu}V^\\mu V^\\nu$?",
+				"answer": 10.0,
+				"tolerance": 0.02,
+				"explanation": "$g_{\\mu\\nu}V^\\mu V^\\nu = 1\\cdot 3^2 + r^2 (0.5)^2 = 9 + 4(0.25) = 10$. The $\\theta$-component has physical length $r V^\\theta$, which is why the metric is needed. In Cartesian components this vector is the same arrow, with the same squared length."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words: what does it mean for a quantity to be a tensor, and how can you check whether a set of components given in one coordinate system is a tensor?",
+				"rubric": "Full credit: (1) a tensor is a geometric object independent of coordinates; its components change in a prescribed, linear way under coordinate changes; (2) to test: transform the components with the Jacobians and see whether you get the corresponding components in the new system (or contract with known vectors and check the result is a scalar); (3) example: $\\partial_\\mu V^\\nu$ or Christoffel symbols fail the test.",
+				"modelAnswer": "A tensor is an object whose existence and meaning do not depend on coordinates; only its components do, and they change by one factor of the Jacobian (or inverse) per index. To test a set of numbers, apply the transformation law, or contract them with arbitrary known vectors and check whether the result is invariant. Partial derivatives of vectors and the Christoffel symbols fail the test because their transformation includes an extra inhomogeneous term."
+			}
+		],
+		"s3-l014-covariant-derivative-parallel-transport": [
+			{
+				"kind": "mc",
+				"prompt": "In $\\nabla_\\mu V^\\nu = \\partial_\\mu V^\\nu + \\Gamma^\\nu{}_{\\mu\\lambda}V^\\lambda$, what is the job of the Christoffel term?",
+				"options": [
+					"It is the curvature tensor and vanishes only in flat space, in whatever coordinates are used.",
+					"It compensates for the changing basis vectors; it can be nonzero even in flat space.",
+					"It is the gravitational force on the vector, so that $\\nabla_\\mu V^\\nu=0$ describes free fall.",
+					"It makes the derivative symmetric in its indices, so that the partial derivatives commute."
+				],
+				"answer": 1,
+				"explanation": "Derivatives of components mix 'the vector changes' with 'the basis changes'. $\\Gamma$ removes the second part. Curvature is a separate thing, extracted from commutators of covariant derivatives (the Riemann tensor)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A vector is parallel-transported around a closed loop on a sphere and returns to its starting point. What happens?",
+				"options": [
+					"It returns unchanged, because parallel transport keeps a vector parallel to itself and so cannot change its direction.",
+					"It returns rotated by $360^\\circ$ regardless of the loop, because the sphere is a closed surface.",
+					"It returns rotated, but the angle depends on the vector's starting direction rather than on the loop.",
+					"It returns rotated by (enclosed area)/$R^2$: holonomy measures curvature, and on a plane it would be unchanged."
+				],
+				"answer": 3,
+				"explanation": "Parallel transport keeps the length and angles between vectors fixed, but the final direction depends on the path. On a sphere of radius $R$ the holonomy angle is $A/R^2$. Around a geodesic triangle with three $90^\\circ$ angles (an octant), the vector rotates $90^\\circ$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "On a sphere, a loop runs from the north pole down a meridian (longitude $0^\\circ$) to the equator, along the equator to longitude $60^\\circ$, then back up that meridian to the pole. A vector is parallel-transported around the loop. By what angle, in degrees, does it rotate relative to its starting direction?",
+				"answer": 60.0,
+				"tolerance": 0.02,
+				"unit": "degrees",
+				"explanation": "The rotation angle in radians is (enclosed area)/$R^2$ $= \\Delta\\phi\\,(1-\\cos\\theta_{\\max}) = (\\pi/3)(1 - 0) = 1.0472$, i.e. 60 degrees. (The loop's three corners have angles $90^\\circ, 90^\\circ, 60^\\circ$, an angle excess of $60^\\circ$.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why are geodesics sometimes called the 'straightest possible' curves?",
+				"options": [
+					"A geodesic parallel-transports its own tangent vector, never turning relative to the geometry.",
+					"They are always the shortest paths between two points, in any geometry whatsoever.",
+					"All the Christoffel symbols vanish along them, in every coordinate system.",
+					"Their coordinate acceleration $d^2x^\\mu/d\\lambda^2$ vanishes in all coordinate systems."
+				],
+				"answer": 0,
+				"explanation": "In curved space, 'straight' means the tangent stays parallel to itself. Geodesics are only locally extremal (on a sphere the long way around is also a geodesic; in Lorentzian geometry timelike geodesics maximise proper time). The coordinate acceleration need not vanish."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why demanding that the covariant derivative preserve the metric ($\\nabla g = 0$) and have no torsion fixes the Christoffel symbols uniquely, and what the metric-compatibility condition means physically.",
+				"rubric": "Full credit: (1) metric compatibility means that lengths and angles are preserved under parallel transport (inner products of parallel-transported vectors stay constant); (2) torsion-free means $\\Gamma^\\lambda_{\\mu\\nu}=\\Gamma^\\lambda_{\\nu\\mu}$ (infinitesimal parallelograms close); (3) these two conditions determine $\\Gamma$ completely from the metric via the Christoffel formula (permuting indices on $\\nabla g=0$ and combining).",
+				"modelAnswer": "Metric compatibility says that when two vectors are parallel-transported, their lengths and the angle between them do not change, so transport is a pure rotation, which fits the idea that the geometry defines lengths. Torsion-free means $\\Gamma^\\lambda{}_{\\mu\\nu}$ is symmetric in its lower indices. Writing out $\\nabla_\\lambda g_{\\mu\\nu}=0$ with its three index permutations and combining them gives $\\Gamma$ in terms of derivatives of $g_{\\mu\\nu}$ alone; no further freedom remains."
+			}
+		],
+		"s3-l015-riemann-curvature-geodesic-deviation": [
+			{
+				"kind": "mc",
+				"prompt": "Two freely falling particles start at rest relative to each other, and later their separation begins to change. What does this tell you?",
+				"options": [
+					"A force acts between the particles in addition to gravity, since free fall alone would keep them at rest relative to each other.",
+					"Their frames are non-inertial, and a change to a better inertial frame would remove the relative acceleration.",
+					"Spacetime is curved: the tidal term $-R^\\mu{}_{\\nu\\rho\\sigma}u^\\nu\\xi^\\rho u^\\sigma$ is nonzero in every coordinate system.",
+					"They have different masses and so fall at different rates, which violates the equivalence principle."
+				],
+				"answer": 2,
+				"explanation": "By the equivalence principle all free fall is universal, so mass differences are irrelevant. Relative acceleration between nearby geodesics is a physical, coordinate-independent measure of curvature (tidal forces), exactly what the Newtonian tidal tensor $\\partial_i\\partial_j\\Phi$ represents."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Newtonian tidal acceleration across a body of height $L$ at distance $r$ from a mass $M$ (Riemann in the weak-field limit) is $2GML/r^3$ along the radial direction. For a 1.8 m person standing on Earth's surface ($GM_\\oplus = 3.986\\times10^{14}\\ \\mathrm{m^3/s^2}$, $R = 6.371\\times10^6$ m), find the head-to-foot difference in Earth's gravitational acceleration, in $\\mu\\mathrm{m/s^2}$.",
+				"answer": 5.549,
+				"tolerance": 0.03,
+				"unit": "μm/s²",
+				"explanation": "$2GML/R^3 = 5.55\\ \\mu\\mathrm{m/s^2}$, about $5\\times10^{-7}\\,g$: undetectable by the person, which is why free fall locally feels like zero gravity. The Moon's tidal field on the oceans is the same effect accumulated over a planet-size scale."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Riemann tensor is defined through $[\\nabla_\\mu,\\nabla_\\nu]V^\\rho = R^\\rho{}_{\\sigma\\mu\\nu}V^\\sigma$. What is the geometric meaning of this?",
+				"options": [
+					"It is the failure of the metric to be diagonal in a given coordinate system.",
+					"It records the fact that partial derivatives do not commute in curved coordinates.",
+					"It measures how far the geodesics differ from straight lines in a chosen coordinate system.",
+					"Curvature is the failure of covariant derivatives to commute: path dependence of transport."
+				],
+				"answer": 3,
+				"explanation": "Partial derivatives always commute. The Riemann tensor arises when the Christoffel terms in $\\nabla$ fail to cancel in the commutator. In flat space with Cartesian coordinates, $R=0$; the polar-coordinate Christoffel terms cancel exactly there."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A generic Riemann tensor in $n$ dimensions has $n^2(n^2-1)/12$ independent components after using its symmetries (this gives 20 for spacetime, $n=4$). How many does it have in $n = 3$ dimensions?",
+				"answer": 6.0,
+				"tolerance": 0.001,
+				"explanation": "$n^2(n^2-1)/12 = 9\\cdot8/12 = 6$. In $n=2$ the formula gives 1: the single Gaussian curvature $K = 1/R^2$ for a sphere. In 3D the Ricci tensor (also 6 components) carries all the curvature information; in 4D there are 10 more (Weyl) components that can exist in vacuum."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Christoffel symbols can be made to vanish at a point by a choice of coordinates, but the Riemann tensor cannot. Explain what this says physically about gravity and the equivalence principle.",
+				"rubric": "Full credit: (1) Christoffels are not tensors, they encode coordinate-dependent connection (inertial 'forces'), and can be set to zero at a point (local inertial frame); (2) Riemann is a tensor built from second derivatives of the metric, so it is the same in all frames: curvature; (3) physical meaning: gravity's local effects (acceleration) can be removed (equivalence principle) but tidal effects, differences over distance, cannot; so spacetime is curved.",
+				"modelAnswer": "The Christoffel symbols describe the acceleration that arises from your choice of frame, which in free fall can be cancelled at a point: that is the equivalence principle. The Riemann tensor involves second derivatives of the metric and is a genuine tensor, so if it is nonzero in one frame it is nonzero in all frames. It describes tidal effects (relative accelerations of nearby free-falling particles) that no choice of free-falling frame can remove: that is the invariant content of gravity."
+			}
+		],
+		"s3-l016-ricci-bianchi-einstein-tensor": [
+			{
+				"kind": "numeric",
+				"prompt": "The Ricci scalar of a 2-sphere of radius $R$ is $\\mathcal R = 2/R^2$ (twice the Gaussian curvature). What is its value, in $\\mathrm{m^{-2}}$, for a sphere of radius $R = 2$ m?",
+				"answer": 0.5,
+				"tolerance": 0.02,
+				"unit": "m⁻²",
+				"explanation": "$\\mathcal R = 2/R^2 = 2/4 = 0.5\\ \\mathrm{m^{-2}}$. It is positive for a sphere, and zero for a plane (or a cylinder): the Ricci scalar is the intrinsic curvature, independent of embedding."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the physical consequence of the contracted Bianchi identity $\\nabla_\\mu G^{\\mu\\nu} = 0$ for the Einstein equation $G_{\\mu\\nu} = (8\\pi G/c^4)T_{\\mu\\nu}$?",
+				"options": [
+					"The total energy of the universe is exactly conserved, as in Newtonian mechanics.",
+					"The source must satisfy $\\nabla_\\mu T^{\\mu\\nu}=0$: local energy-momentum conservation.",
+					"The curvature must vanish wherever there is no matter, so vacuum spacetime is flat.",
+					"The metric is fixed up to coordinate choice, leaving no freedom to specify initial conditions."
+				],
+				"answer": 1,
+				"explanation": "The divergence of the left side vanishes identically (a geometric fact), so the right side must also be divergence-free. This is local conservation; a global conserved energy exists only when the spacetime has a timelike Killing vector (a time-translation symmetry)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The vacuum Einstein equation is $R_{\\mu\\nu} = 0$. Does this imply flat spacetime?",
+				"options": [
+					"Yes: with no Ricci curvature there is no source, so the Riemann tensor must vanish as well.",
+					"Yes: the Ricci tensor is a contraction of Riemann, and contractions preserve all of the information.",
+					"No. Schwarzschild has $R_{\\mu\\nu}=0$ outside the mass yet nonzero Weyl curvature (tides).",
+					"Yes, but only without a cosmological constant; with $\\Lambda\\neq0$ vacuum is curved."
+				],
+				"answer": 2,
+				"explanation": "The Riemann tensor has 20 components in 4D; the Ricci tensor accounts for only 10 of them. The remaining 10 (the Weyl tensor) can be nonzero in vacuum and carry the tidal field of a distant source and gravitational waves."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the Einstein tensor $G_{\\mu\\nu} = R_{\\mu\\nu} - \\tfrac12 R g_{\\mu\\nu}$, rather than $R_{\\mu\\nu}$ alone, the natural geometric counterpart of $T_{\\mu\\nu}$?",
+				"options": [
+					"It is symmetric, second order in derivatives of the metric, and divergence-free like $T_{\\mu\\nu}$.",
+					"The Einstein tensor contains the Weyl curvature, which is the part directly sourced by matter.",
+					"The Einstein tensor is identical to the Riemann tensor in four dimensions, so the choice is only notation.",
+					"It is the only curvature-built tensor that vanishes in flat space, so it is the only one that can couple to matter."
+				],
+				"answer": 0,
+				"explanation": "Requirements: tensor, symmetric, linear in second derivatives, divergence-free. Together with the Newtonian limit they essentially fix $G_{\\mu\\nu}$ (up to the cosmological-constant term). Hilbert's action $\\int R\\sqrt{-g}\\,d^4x$ gives the same equation."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Ricci and Weyl parts of the curvature play different physical roles. Explain in your own words what each one does to a small ball of freely falling test particles.",
+				"rubric": "Full credit: (1) Ricci curvature, sourced locally by matter, changes the volume of the ball (focusing/convergence of geodesics); (2) Weyl curvature, the part that can exist in vacuum, distorts the ball's shape (tidal stretch and squeeze) at constant volume, to first order, and carries gravitational waves; (3) both are parts of the geodesic deviation from the Riemann tensor.",
+				"modelAnswer": "The trace part of the geodesic-deviation tensor (the Ricci curvature) tells how the volume of a small ball of test particles changes: it is determined by the matter present locally, so matter focuses geodesics (like $\\nabla^2\\Phi = 4\\pi G\\rho$). The trace-free Weyl part leaves the volume unchanged to first order but stretches the ball in one direction and squeezes it in others; this tidal distortion remains in vacuum and is what a passing gravitational wave produces."
+			}
+		],
+		"s3-l017-stress-energy-einstein-equation": [
+			{
+				"kind": "mc",
+				"prompt": "In GR the acceleration of the cosmic expansion depends on $\\rho + 3p/c^2$. Why does pressure act as a source of gravity?",
+				"options": [
+					"Pressure (momentum flux $T^{ii}$) is part of $T^{\\mu\\nu}$, and the whole tensor is the source of gravity.",
+					"It does not: pressure enters only through the conversion $\\rho\\to\\rho c^2$ and is a bookkeeping device.",
+					"Pressure pushes matter outward and so counteracts gravity, exactly as in the Newtonian hydrostatic equation.",
+					"Pressure raises the temperature, which increases the rest mass of the particles."
+				],
+				"answer": 0,
+				"explanation": "In Newtonian gravity only $\\rho$ sources $\\Phi$. In GR the source is $T^{\\mu\\nu}$, and for a perfect fluid $T^{00} = \\rho c^2$ and $T^{ii} = p$. Positive pressure increases gravitational attraction; dark energy's negative pressure ($p = -\\rho c^2$) gives repulsion."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does the Newtonian limit $\\nabla^2\\Phi = 4\\pi G\\rho$ emerge from the Einstein equation, and what fixes the factor $8\\pi G/c^4$?",
+				"options": [
+					"The factor $8\\pi$ follows from pure geometry, independent of experiment, and Newton's $G$ then enters via the metric.",
+					"All ten components contribute equally in the limit, and their sum reduces to $\\nabla^2\\Phi$.",
+					"For weak static fields and slow dust only the 00 component matters; matching Poisson fixes $8\\pi G/c^4$.",
+					"It needs strong fields and relativistic speeds; in the Newtonian limit the equation reduces to $\\nabla\\Phi=0$."
+				],
+				"answer": 2,
+				"explanation": "The proportionality of $G_{\\mu\\nu}$ and $T_{\\mu\\nu}$ is required by the Bianchi identity; the number $8\\pi G/c^4$ is fixed by demanding that the Newtonian limit be Poisson's equation with the measured $G$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Dust has rest-frame mass density $\\rho = 1.0\\times10^{-3}\\ \\mathrm{kg/m^3}$. An observer moves relative to the dust at $v = 0.6c$. What energy density $T^{00}$ (in $\\mathrm{J/m^3}$) does this observer measure, using $T^{\\mu\\nu} = \\rho u^\\mu u^\\nu$ with $u^0 = \\gamma c$?",
+				"answer": 140400000000000.0,
+				"tolerance": 0.02,
+				"unit": "J/m³",
+				"explanation": "$T^{00} = \\gamma^2\\rho c^2$ with $\\gamma = 1.250$, giving 1.404e+14 J/m³, a factor of $\\gamma^2 = 1.562$ larger than the rest-frame $\\rho c^2$ because one $\\gamma$ comes from the energy per particle and one from length contraction of the volume."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Einstein equation implies $\\nabla_\\mu T^{\\mu\\nu} = 0$. Does this mean the total energy of the universe is conserved?",
+				"options": [
+					"Yes: since the divergence of $T$ vanishes, the volume integral of $T^{00}$ is constant in any spacetime.",
+					"No: it is a local law; a conserved total energy needs a timelike Killing vector (a time-translation symmetry).",
+					"Yes, but only with a cosmological constant, which supplies the required symmetry.",
+					"No, because $\\nabla_\\mu T^{\\mu\\nu}=0$ holds only in the Newtonian limit and fails when gravity is strong."
+				],
+				"answer": 1,
+				"explanation": "In flat space $\\partial_\\mu T^{\\mu\\nu}=0$ integrates to a conserved charge via Gauss's theorem. With a covariant divergence the Christoffel terms exchange energy with the gravitational field, and integrals of components are not coordinate-invariant. Noether's theorem needs a symmetry."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words the statement 'matter tells spacetime how to curve; spacetime tells matter how to move', and identify which equation encodes each half.",
+				"rubric": "Full credit: (1) Einstein field equation: $T_{\\mu\\nu}$ (matter, energy and stress) determines the curvature $G_{\\mu\\nu}$; (2) geodesic equation (or $\\nabla_\\mu T^{\\mu\\nu}=0$) tells matter to follow geodesics of the curved geometry; (3) points out the loop: the equations are nonlinear and coupled; possible mention that Newtonian limit reproduces Poisson and $\\ddot{\\mathbf x}=-\\nabla\\Phi$.",
+				"modelAnswer": "The Einstein equation $G_{\\mu\\nu} = 8\\pi G T_{\\mu\\nu}/c^4$ says the energy, momentum, and stress of matter determine the curvature of spacetime. The geodesic equation (a consequence of $\\nabla_\\mu T^{\\mu\\nu}=0$) says free matter follows the straightest paths in that geometry. In the Newtonian limit these become Poisson's equation (matter sources the potential) and $\\ddot{\\mathbf x} = -\\nabla\\Phi$ (the potential moves the matter)."
+			}
+		],
+		"s3-l018-spherical-symmetry-birkhoff": [
+			{
+				"kind": "mc",
+				"prompt": "A spherical star pulsates radially in and out. Birkhoff's theorem says what about the gravitational field outside it?",
+				"options": [
+					"The exterior metric oscillates at the pulsation frequency, which produces monopole gravitational waves.",
+					"The exterior is Schwarzschild only for a static star; a pulsating star has a time-dependent exterior.",
+					"The pulsation radiates quadrupole waves, since the star's mass distribution varies with time.",
+					"It is exactly Schwarzschild for the constant total mass, so the pulsation is invisible outside."
+				],
+				"answer": 3,
+				"explanation": "Birkhoff's theorem: any spherically symmetric vacuum solution is Schwarzschild (hence static). It is the GR analogue of Newton's shell theorem and of the absence of monopole radiation in electromagnetism. Gravitational waves need a time-varying quadrupole moment, which a spherical pulsation lacks."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Compared with the Newtonian hydrostatic equation $dp/dr = -G\\rho m/r^2$, how do the extra relativistic factors in the TOV equation change the physics of dense stars?",
+				"options": [
+					"The corrections weaken gravity in dense stars, so GR allows heavier stars than Newtonian theory does.",
+					"The corrections matter only for rotating stars, because TOV is the extension that includes frame dragging.",
+					"Pressure itself gravitates and the geometric factor grows, so every correction strengthens gravity, implying a maximum mass.",
+					"Pressure still only opposes gravity, as in the Newtonian equation; the factors change numbers, not the qualitative behaviour."
+				],
+				"answer": 2,
+				"explanation": "Pressure holds a star up but also adds to the source of gravity; at high compactness the second effect wins and no pressure can stabilize the star. For neutron stars this gives the Tolman-Oppenheimer-Volkoff maximum mass of roughly $2$-$3\\,M_\\odot$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "When solving the vacuum Einstein equations for a static spherically symmetric metric, why does the integration constant become $2GM/c^2$?",
+				"options": [
+					"Matching $g_{00}\\approx-(1-2GM/rc^2)$ at large $r$ identifies the one free constant with the mass.",
+					"It is the radius at which the pressure of the stellar interior falls to zero.",
+					"The field equations require the horizon to sit at $2GM/c^2$ for consistency.",
+					"It is arbitrary and can take any value, since the source's mass plays no role in the vacuum solution."
+				],
+				"answer": 0,
+				"explanation": "The vacuum equations fix the functional form of the metric; the constant measures the source's strength, and its physical meaning is read off from the weak-field limit. The same solution works outside any spherical body, including a star, because of Birkhoff's theorem."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Buchdahl bound says any static, spherical star has $R > 9GM/(4c^2)$. What is the smallest possible radius, in km, of a $1.4\\,M_\\odot$ neutron star? ($GM_\\odot/c^2 = 1.477$ km.)",
+				"answer": 4.651,
+				"tolerance": 0.02,
+				"unit": "km",
+				"explanation": "$R_{\\min} = (9/4)(1.4)(1.477\\ \\mathrm{km}) = 4.65$ km, only 12.5% bigger than the Schwarzschild radius (4.13 km). Actual neutron stars have $R\\approx 11$-$13$ km, a factor 2.5 or so above the bound."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the Buchdahl bound in words and explain what it implies for a star more compact than the bound.",
+				"rubric": "Full credit: (1) a static spherical star in GR (with non-increasing density) must have radius greater than $9/4$ times $GM/c^2$ ($9/8\\, r_s$); (2) pressure gravitates, so squeezing further needs ever more pressure, which diverges at the bound; (3) hence no static configuration exists for more compact objects: the star must collapse, ending as a black hole.",
+				"modelAnswer": "A static, spherical star in general relativity cannot have a radius smaller than $9GM/4c^2$, i.e. $9/8$ of its Schwarzschild radius. Close to this limit the central pressure required for equilibrium diverges, because pressure adds to gravity. Therefore a body more compact than the bound cannot be held up by any matter; it must collapse to a black hole."
+			}
+		],
+		"s3-l019-linearized-gravity-wave-emission": [
+			{
+				"kind": "mc",
+				"prompt": "Why does gravity have no monopole or dipole radiation, so the leading gravitational radiation is quadrupolar?",
+				"options": [
+					"Spherically symmetric sources do not exist in nature, so monopole radiation is impossible.",
+					"They exist but are too weak compared with the quadrupole for any known astrophysical source.",
+					"Gravitational waves are transverse, and a transverse wave cannot be produced by a dipole.",
+					"Conservation of energy and momentum forbids both monopole and dipole radiation."
+				],
+				"answer": 3,
+				"explanation": "In electromagnetism a dipole is allowed because charges come in both signs, and the dipole moment can change even if total charge is conserved. For mass, $\\ddot{\\mathbf d} \\propto \\dot{\\mathbf P} = 0$ by momentum conservation. Thus the first allowed radiation is from the mass quadrupole: $h\\sim G\\ddot Q/(c^4 r)$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The linearized field equation $\\Box\\bar h_{\\mu\\nu} = -16\\pi G T_{\\mu\\nu}/c^4$ is solved with a retarded Green's function, just as for the retarded potentials of electrodynamics. What is the physical meaning of evaluating the source at $t - r/c$?",
+				"options": [
+					"The field depends on the source at all times, past and future, averaged symmetrically.",
+					"The field at $(t,r)$ is set by the source at time $t-r/c$: changes propagate outward at $c$.",
+					"Gravity acts instantaneously, and $t-r/c$ is only the delay in the measuring apparatus.",
+					"It is the time a graviton is emitted, after which it travels at a speed set by its energy."
+				],
+				"answer": 1,
+				"explanation": "The retarded solution is selected by causality. The $1/r$ fall-off of the radiative part means energy flux $\\propto 1/r^2$ so that a fixed amount of energy crosses every large sphere."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which of these systems radiates gravitational waves in the quadrupole approximation?",
+				"options": [
+					"A perfectly spherical star rotating uniformly about an axis through its centre at constant angular velocity.",
+					"A thin rod tumbling end over end: its quadrupole changes in time, radiating at twice the rotation frequency.",
+					"A spherical star pulsating radially, expanding and contracting while staying exactly spherical.",
+					"A perfectly axisymmetric disk spinning at constant angular velocity about its own symmetry axis."
+				],
+				"answer": 1,
+				"explanation": "The radiation requires $\\dddot Q_{ij}\\neq 0$. Rotation about a symmetry axis or radial pulsations leave the mass quadrupole constant or zero. The rod's quadrupole returns to itself after half a turn, hence frequency $2f_{\\rm rot}$. A circular binary radiates the same way."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two $1.4\\,M_\\odot$ neutron stars orbit each other on a circular orbit of separation $a = 1.95\\times10^9$ m (similar to the Hulse-Taylor pulsar). Use the quadrupole formula's result $t_{\\rm coal} = \\dfrac{5}{256}\\dfrac{c^5 a^4}{G^3 m_1 m_2 (m_1+m_2)}$ to estimate the time to merger, in years. ($G=6.674\\times10^{-11}$, $M_\\odot = 1.989\\times10^{30}$ kg.)",
+				"answer": 1689000000.0,
+				"tolerance": 0.05,
+				"unit": "years",
+				"explanation": "$t_{\\rm coal} = 5.33e+16$ s $\\approx 1.69e+09$ yr, about 1.7 billion years for a circular orbit (the real PSR B1913+16 is eccentric, $e\\approx0.62$, which speeds the merger up to about 300 Myr). Since $t\\propto a^4$, halving the separation shortens the time by a factor of 16."
+			},
+			{
+				"kind": "short",
+				"prompt": "Linearized gravity, with $g_{\\mu\\nu} = \\eta_{\\mu\\nu} + h_{\\mu\\nu}$, looks a lot like electromagnetism with retarded potentials. List one important similarity and one important difference between the two radiation problems.",
+				"rubric": "Full credit: similarity: wave equation with source in Lorenz/harmonic gauge solved by retarded Green's function; waves at $c$; $1/r$ radiation field; or energy flux. Difference: gravity's source is a rank-2 tensor / spin-2 so quadrupole is leading (dipole forbidden by momentum conservation), whereas EM has dipole radiation from vector source; or gravity gravitates (nonlinear), or only one sign of charge.",
+				"modelAnswer": "Both are wave equations for a potential ($A_\\mu$ or $\\bar h_{\\mu\\nu}$) sourced by a conserved current ($J_\\mu$ or $T_{\\mu\\nu}$), in Lorenz gauge, solved by retarded solutions; the radiation travels at $c$ and falls off as $1/r$. The difference is that the gravitational source is a tensor with only one sign of charge, so conservation of momentum kills the dipole term and the lowest radiation is quadrupolar (spin 2), and that the full theory is nonlinear because gravity itself carries energy."
+			}
+		],
+		"s3-l020-frw-friedmann-from-einstein": [
+			{
+				"kind": "mc",
+				"prompt": "In the FRW picture, distant galaxies recede from us. What is the correct interpretation?",
+				"options": [
+					"Galaxies were flung outward from a central point and move through a fixed background space at speeds set by the initial explosion.",
+					"Space expands inside every bound system, atoms and galaxies included, but our rulers expand too, so we cannot measure it.",
+					"Galaxies move through space, and those receding faster than $c$ have broken special relativity locally.",
+					"Comoving galaxies keep fixed coordinates while $a(t)$ grows: the space between them stretches."
+				],
+				"answer": 3,
+				"explanation": "The metric $ds^2 = -c^2dt^2 + a(t)^2[\\ldots]$ tells you proper distance between comoving points is $a(t)\\chi$. Recession speed $v = H d$ can exceed $c$ at large distance without violating relativity, which only restricts local motion relative to the Hubble flow."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The acceleration equation is $\\ddot a/a = -\\tfrac{4\\pi G}{3}(\\rho + 3p/c^2) + \\Lambda c^2/3$. What is needed for the expansion to accelerate?",
+				"options": [
+					"A component with sufficiently negative pressure, $p<-\\rho c^2/3$, such as a cosmological constant.",
+					"A very large positive pressure, which pushes the universe outward faster than gravity pulls it in.",
+					"A negative mass density, since any positive density always decelerates the expansion.",
+					"A matter density above the critical density, whose extra gravity speeds the expansion up."
+				],
+				"answer": 0,
+				"explanation": "Positive pressure adds to deceleration in GR because it contributes to the gravitating source. Negative pressure that is more negative than $-\\rho c^2/3$ makes $\\rho + 3p/c^2<0$ and yields repulsion. This is what dark energy is inferred to do."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In a flat universe dominated by matter, $a\\propto t^{2/3}$ and the age is $t_0 = 2/(3H_0)$. For $H_0 = 70$ km/s/Mpc (1 Mpc $= 3.086\\times10^{22}$ m), find $t_0$ in billions of years.",
+				"answer": 9.312,
+				"tolerance": 0.02,
+				"unit": "Gyr",
+				"explanation": "$H_0 = 2.269e-18\\ \\mathrm{s^{-1}}$, so $t_0 = 2/(3H_0) = 9.31$ Gyr. This is shorter than the age of the oldest stars and the ΛCDM value ($\\approx 13.8$ Gyr), one of the early arguments for a cosmological constant."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why did radiation dominate the early universe, while matter dominates later and (today) dark energy takes over?",
+				"options": [
+					"Radiation is gradually converted into matter as the universe cools, and matter into dark energy as structures form.",
+					"All three components dilute the same way with volume, so their ratios are fixed by the initial conditions.",
+					"Matter dilutes as $a^{-3}$, radiation as $a^{-4}$, and Lambda not at all, so the slowest-diluting wins late.",
+					"Radiation density falls as $a^{-2}$ because photons spread over areas, matter as $a^{-3}$, and Lambda as $a^{-4}$."
+				],
+				"answer": 2,
+				"explanation": "The Friedmann equation then gives $a\\propto t^{1/2}$ for radiation, $t^{2/3}$ for matter, and $e^{Ht}$ for Lambda. The universe passes through these epochs in that order."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Newtonian derivation of the Friedmann equation uses a shell of dust in a gravitating sphere. State two things that the GR derivation adds, and explain the physical meaning of the curvature constant $k$.",
+				"rubric": "Full credit: (1) GR gives meaning to $k$: the spatial curvature of the universe (closed $k=+1$, flat $0$, open $-1$), whereas in Newton it is just an energy (integration) constant; (2) pressure is a source of gravity ($\\rho+3p/c^2$), also Lambda and radiation fall naturally into the formalism; (3) it applies to the whole of space including radiation and beyond the horizon, consistent with relativity.",
+				"modelAnswer": "In the Newtonian derivation the term $-kc^2/a^2$ is just the total energy of a test shell. In GR it is the curvature of space itself: $k=+1$ is a closed universe like a 3-sphere, $k=0$ is flat, and $k=-1$ is open (negatively curved), with flatness corresponding to the critical density. GR also tells us that pressure gravitates (the $\\rho + 3p/c^2$ combination), which lets radiation and dark energy be included consistently."
+			}
+		],
+		"s3-l021-horizons-observations-lcdm": [
+			{
+				"kind": "mc",
+				"prompt": "The particle horizon today is about 46 billion light-years in comoving distance, though the universe is only 13.8 billion years old. How is this possible?",
+				"options": [
+					"Light travelled faster than $c$ during the early universe, covering a larger distance than $ct$.",
+					"The age of the universe is underestimated; the true age must be about 46 billion years.",
+					"Distant galaxies move through space faster than $c$ relative to us, which carries them 46 Gly away.",
+					"Light has travelled since the Big Bang, but space expanded meanwhile, carrying its sources farther away."
+				],
+				"answer": 3,
+				"explanation": "The horizon is $d_{\\rm hor} = a(t)\\int c\\,dt'/a(t')$, which exceeds $ct$ when $a$ grows. It marks the farthest point we could, in principle, have received signals from. It is not an edge of the universe."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What do the labels closed ($k=+1$), flat ($k=0$) and open ($k=-1$) FRW models tell us?",
+				"options": [
+					"The universe's fate: closed ones always recollapse, open ones always expand, flat ones stall, whatever the cosmological constant.",
+					"The geometry of space at fixed cosmic time; with Lambda, geometry alone does not fix the fate of the expansion.",
+					"A closed universe has a boundary beyond which there is nothing, and an open universe is infinite but has an edge.",
+					"Flat means no matter content, while closed and open give the sign of the matter's net energy."
+				],
+				"answer": 1,
+				"explanation": "In matter-only models the spatial curvature is tied to the fate of the expansion. With $\\Lambda$, a closed universe can expand forever. Observations (CMB) find $|\\Omega_k|\\lesssim 10^{-3}$, consistent with flat."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Distant Type Ia supernovae are fainter than a matter-only decelerating universe would predict. What is the most natural interpretation?",
+				"options": [
+					"The universe is decelerating even more strongly than a matter-only model predicts.",
+					"Space is positively curved, which dims every distant source by an overall factor.",
+					"The expansion accelerated recently, which requires something like a cosmological constant.",
+					"Gravity is stronger at large distances, which slows the light coming from supernovae."
+				],
+				"answer": 2,
+				"explanation": "Luminosity distance depends on the integral $\\int dz/H(z)$. A larger distance at given redshift means $H$ was lower in the past relative to a matter-only model, i.e. acceleration. Combined with the CMB (flat geometry) and BAO, this gives $\\Omega_m\\approx0.3$, $\\Omega_\\Lambda\\approx0.7$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In a flat $\\Lambda$CDM universe with $H_0 = 70$ km/s/Mpc, $\\Omega_m = 0.3$ and $\\Omega_\\Lambda = 0.7$, $H(z) = H_0\\sqrt{0.3(1+z)^3 + 0.7}$. Evaluate the comoving distance $\\chi(z) = \\int_0^z c\\,dz'/H(z')$ to a galaxy at $z = 1$, in Mpc. ($c = 2.998\\times10^5$ km/s.)",
+				"answer": 3304.0,
+				"tolerance": 0.02,
+				"unit": "Mpc",
+				"explanation": "Numerical integration gives $\\chi = 3304$ Mpc (about 10.8 billion light-years). The integrand falls as $H$ grows, so the distance is less than the naive $cz/H_0 = 4283$ Mpc."
+			},
+			{
+				"kind": "short",
+				"prompt": "Cosmologists combine supernovae, the CMB and baryon acoustic oscillations to constrain the expansion history. In your own words, explain how each depends on $H(z)$ and why combining them is more powerful than any one alone.",
+				"rubric": "Full credit: (1) distances such as comoving/luminosity/angular-diameter distance are integrals of $1/H(z)$, so each probe constrains an integral of the expansion history; (2) supernovae give luminosity distance (standard candles) vs $z$, mainly sensitive to acceleration; CMB peaks and BAO provide standard rulers (angular scales) fixing curvature and matter density; (3) each probe has degeneracies in $\\Omega_m$–$\\Omega_\\Lambda$–$H_0$ that are broken in combination (different directions in parameter space).",
+				"modelAnswer": "Distances are integrals of $1/H(z)$, so each probe measures some combination of the density parameters in $H^2 = H_0^2[\\Omega_m(1+z)^3 + \\Omega_r(1+z)^4 + \\Omega_k(1+z)^2 + \\Omega_\\Lambda]$. Supernovae (standard candles) measure luminosity distance versus redshift and are sensitive to acceleration; the CMB peaks and BAO are standard rulers, giving angular sizes that fix the geometry and matter density. Each leaves a degeneracy in the parameter space, but the degeneracy directions differ, so the intersection pins down $\\Omega_m \\approx 0.3$ and $\\Omega_\\Lambda \\approx 0.7$."
+			}
+		]
+	}
+}

@@ -1,0 +1,2430 @@
+{
+	"courseId": "p4-classical",
+	"checks": {
+		"p4-l001-newton-polar": [
+			{
+				"kind": "mc",
+				"prompt": "Why is Newton's first law more than the special case $F=0$ of the second law?",
+				"options": [
+					"It says a body at rest stays at rest in every frame, accelerating or not, so no special class of frames is needed.",
+					"It adds the claim that mass is constant, which the second law alone cannot express without that extra assumption.",
+					"It asserts that inertial frames exist, where force-free bodies move uniformly; it fails in accelerating frames.",
+					"It is a statement about friction: objects stop only because friction acts, so it applies on rough surfaces only."
+				],
+				"answer": 2,
+				"explanation": "The first law is the postulate that makes the second law usable: it identifies the class of reference frames (inertial frames) in which $\\vec F=m\\vec a$ holds without fictitious forces."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A particle moves on a circle of radius $R$ at constant speed, so $\\dot r=0$, $\\ddot r=0$ and $\\ddot\\phi=0$. Using $\\vec a=(\\ddot r-r\\dot\\phi^2)\\hat r+(r\\ddot\\phi+2\\dot r\\dot\\phi)\\hat\\phi$, what is its acceleration?",
+				"options": [
+					"$R\\dot\\phi^2$ directed toward the centre; there is no tangential component.",
+					"Zero, because the speed is constant and so the velocity cannot be changing.",
+					"$R\\dot\\phi^2$ directed outward, since the particle is thrown outward: the centrifugal acceleration.",
+					"$R\\dot\\phi^2$ toward the centre plus a tangential part of size $2R\\dot\\phi^2$."
+				],
+				"answer": 0,
+				"explanation": "Constant speed does not mean constant velocity: the direction of $\\hat\\phi$ keeps turning. The $-r\\dot\\phi^2\\hat r$ term is the centripetal acceleration, which a real inward force must supply."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A bead slides outward along a straight wire that rotates at constant $\\dot\\phi$, with $\\dot r>0$ and $\\ddot\\phi=0$. In the polar acceleration, the $2\\dot r\\dot\\phi\\,\\hat\\phi$ term is nonzero. What does that imply?",
+				"options": [
+					"Nothing: with $\\ddot\\phi=0$ there is no tangential acceleration, so no tangential force is needed.",
+					"The bead feels a real Coriolis force exerted on it by the rotating Earth, not by the wire.",
+					"The bead must also be speeding up radially, so $\\ddot r\\neq 0$ is required for this term to exist.",
+					"The wire must push the bead sideways, since the tangential speed $r\\dot\\phi$ grows as $r$ grows."
+				],
+				"answer": 3,
+				"explanation": "The $2\\dot r\\dot\\phi$ term is purely kinematic: moving to larger $r$ at fixed $\\dot\\phi$ requires increasing tangential speed $r\\dot\\phi$, so the wire exerts a tangential normal force."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A laboratory centrifuge spins at 10 000 revolutions per minute. A sample sits at radius 8.0 cm from the axis. Taking $g=9.81$ m/s², what is its centripetal acceleration, expressed as a multiple of $g$ (give the multiple)?",
+				"answer": 911.6,
+				"tolerance": 0.02,
+				"explanation": "$a=r\\dot\\phi^2$ with $\\dot\\phi=10\\,000\\cdot 2\\pi/60=1047$ rad/s gives $a\\approx 8943$ m/s², about 912 g.",
+				"unit": "g"
+			},
+			{
+				"kind": "short",
+				"prompt": "Newton's third law says the forces two particles exert on each other are equal and opposite. Explain how this leads to conservation of the total momentum of an isolated pair, and what the word 'isolated' is doing in the argument.",
+				"rubric": "Full credit requires: (1) F12 = -F21 so d(p1)/dt + d(p2)/dt = F12 + F21 = 0 (or equivalent); (2) hence total momentum p1+p2 is constant; (3) 'isolated' means no external forces, since an external force would add a nonzero net term to dP/dt.",
+				"modelAnswer": "The rate of change of each momentum is the force on it: $\\dot{\\vec p}_1=\\vec F_{12}$ and $\\dot{\\vec p}_2=\\vec F_{21}=-\\vec F_{12}$. Adding gives $d(\\vec p_1+\\vec p_2)/dt=0$. 'Isolated' means only the mutual forces act; any external force would break the cancellation and change the total momentum."
+			}
+		],
+		"p4-l002-momentum-cm-rockets": [
+			{
+				"kind": "mc",
+				"prompt": "Two ice skaters at rest on frictionless ice push hard against each other and fly apart. What happens to their centre of mass?",
+				"options": [
+					"It moves toward the heavier skater, since that skater has more inertia and so resists being pushed.",
+					"It stays at rest, because the internal forces cancel in pairs and the net external force is zero.",
+					"It moves toward the lighter skater, since that skater moves faster and carries more of the motion.",
+					"It accelerates briefly during the push and then stops once the skaters are out of contact."
+				],
+				"answer": 1,
+				"explanation": "Only external forces change the motion of the centre of mass: $M\\ddot{\\vec R}=\\vec F_{ext}$. Internal forces, however violent, cancel in pairs by the third law."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A rocket in deep space, far from any planet or gas, speeds up by burning fuel and expelling the exhaust backward. What is the correct physical explanation?",
+				"options": [
+					"The exhaust pushes against the surrounding interstellar medium, which in turn pushes the rocket forward.",
+					"Momentum is conserved: the exhaust carries momentum backward, so the rocket gains it forward.",
+					"It cannot happen in a vacuum, because with nothing to push against no force can act on the rocket.",
+					"The rocket gains energy from the burning fuel, and momentum plays no role in the process."
+				],
+				"answer": 1,
+				"explanation": "No external medium is needed: the rocket and the expelled mass interact only with each other, so their total momentum is unchanged and the rocket recoils."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the centre-of-mass frame, two particles collide elastically. Compared with before the collision, what is true afterwards?",
+				"options": [
+					"The particles stop momentarily and then separate again, with speeds that depend on their masses.",
+					"The lighter particle speeds up and the heavier one slows down, in order to conserve total momentum.",
+					"The relative speed of the particles doubles, because the collision adds the two speeds together.",
+					"Each keeps its speed; the equal and opposite momenta are just rotated to a new direction."
+				],
+				"answer": 3,
+				"explanation": "In the CM frame the total momentum is zero, so $\\vec p_1=-\\vec p_2$. Conservation of energy then fixes $|\\vec p|$, leaving only a rotation of direction (the scattering angle)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A rocket has exhaust speed 4.4 km/s (hydrogen-oxygen) and burns until its mass has dropped to one eighth of its initial value (mass ratio 8). Using the rocket equation, what speed gain does it achieve in free space starting from rest? Give the answer in km/s.",
+				"answer": 9.15,
+				"tolerance": 0.02,
+				"explanation": "$\\Delta v=v_{ex}\\ln(m_0/m_f)=4.4\\ln 8\\approx 9.150$ km/s.",
+				"unit": "km/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "A thin rod of length $L$ has a mass density that increases linearly from zero at the left end to a maximum at the right end. Without doing a full calculation, say whether its centre of mass lies left or right of the midpoint and why, then write the integral formula for the position and evaluate it.",
+				"rubric": "Full credit requires: (1) CM to the right of the midpoint because more mass sits at the dense right end; (2) x_cm = integral(x lambda dx)/integral(lambda dx) with lambda = c x; (3) result x_cm = 2L/3 measured from the zero-density end.",
+				"modelAnswer": "More of the mass is at the dense end, so the centre of mass is right of $L/2$. With $\\lambda=cx$: $x_{cm}=\\int_0^L x\\,\\lambda\\,dx/\\int_0^L\\lambda\\,dx=(cL^3/3)/(cL^2/2)=2L/3$."
+			}
+		],
+		"p4-l003-angular-momentum": [
+			{
+				"kind": "mc",
+				"prompt": "A particle moves under a central force. Which argument correctly explains why its orbit lies in a plane and sweeps equal areas in equal times?",
+				"options": [
+					"The torque $\\vec r\\times\\vec F$ vanishes, so $\\vec L$ is constant and confines the motion to a plane with $dA/dt=L/2m$.",
+					"The central force does no work, so the speed is constant and the path is forced to be a circle in a plane.",
+					"Energy conservation forces the particle to stay at a fixed distance from the centre, so the orbit is planar and sweeps equal areas.",
+					"The force is always along $\\vec r$, so $\\vec v$ points along $\\vec r$ and the path is a straight line, which lies in many planes."
+				],
+				"answer": 0,
+				"explanation": "Zero torque means constant $\\vec L=\\vec r\\times m\\vec v$. Both $\\vec r$ and $\\vec v$ are perpendicular to this fixed vector, hence the plane. Equal areas follow from $dA/dt=\\tfrac12|\\vec r\\times\\vec v|=L/2m$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A particle drifts in a straight line at constant velocity (no force). What is true of its angular momentum?",
+				"options": [
+					"It is zero about every origin, because there is no force and therefore no torque about any point.",
+					"It is constant and has the same value about every origin, since nothing acts on the particle.",
+					"It is constant, but its value depends on the origin; it is zero about points on the line of motion.",
+					"It changes with time, because the position vector from the origin rotates as the particle moves."
+				],
+				"answer": 2,
+				"explanation": "$\\vec L=\\vec r\\times\\vec p$ depends on where you measure it from. With no force the torque is zero about every point, so $\\vec L$ is constant, but its constant value is $\\vec r_\\perp\\times\\vec p$ and is generally not zero."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A baseball is thrown with spin. Its total angular momentum about a fixed point on the ground equals:",
+				"options": [
+					"Only the spin part about its centre, since the orbital part averages to zero over a flight.",
+					"Only $\\vec R\\times M\\vec V$, because the internal angular momentum of the ball is not conserved.",
+					"The spin part about the ground point, which the motion of the centre of mass does not affect at all.",
+					"The orbital term $\\vec R\\times M\\vec V$ plus the spin term about the centre of mass."
+				],
+				"answer": 3,
+				"explanation": "Total angular momentum splits as $\\vec L=\\vec R\\times M\\vec V+\\vec L_{cm}$. The two pieces have different physical origins and are separately meaningful."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Treat Earth's orbit as circular with radius $1.496\\times10^{11}$ m and speed $2.978\\times10^{4}$ m/s. What area per second does the line from Sun to Earth sweep out? Give $dA/dt$ in m²/s.",
+				"answer": 2228000000000000.0,
+				"tolerance": 0.02,
+				"explanation": "$dA/dt=\\tfrac12 r v=2.228\\times10^{15}$ m²/s. By conservation of angular momentum the same rate holds for any central-force orbit.",
+				"unit": "m^2/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what happens to a particle's angular momentum and to the torque on it when you move the origin of your coordinate system by a fixed vector $\\vec a$. Does the law $d\\vec L/dt=\\vec\\Gamma$ survive?",
+				"rubric": "Full credit requires: (1) r' = r - a, so L' = L - a x p and Gamma' = Gamma - a x F; (2) both L and Gamma change but the relation dL'/dt = Gamma' still holds because a is constant; (3) a conserved L about one origin may not be conserved about another unless the torque vanishes there too.",
+				"modelAnswer": "With new position $\\vec r\\,'=\\vec r-\\vec a$, $\\vec L'=\\vec L-\\vec a\\times\\vec p$ and $\\vec\\Gamma'=\\vec\\Gamma-\\vec a\\times\\vec F$. Both shift, but since $\\vec a$ is constant, $d\\vec L'/dt=\\vec\\Gamma'$ still holds. Whether torque vanishes (and $\\vec L$ is conserved) can depend on the origin."
+			}
+		],
+		"p4-l004-work-energy-conservative": [
+			{
+				"kind": "mc",
+				"prompt": "Which of these force fields (in the $xy$-plane) is conservative?",
+				"options": [
+					"$\\vec F=(-y,\\,x)$",
+					"$\\vec F=(y,\\,x)$",
+					"$\\vec F=(y,\\,0)$",
+					"$\\vec F=(0,\\,x)$"
+				],
+				"answer": 1,
+				"explanation": "Only $\\partial F_y/\\partial x=\\partial F_x/\\partial y$ (zero curl) allows a potential. For $(y,x)$ it is $U=-xy$. The others have nonzero curl: they do net work around a closed loop even though each depends only on position."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A car moving at speed $v$ skids to rest under a constant friction force, stopping in distance $d$. If it started at $2v$ with the same friction, how far would it skid?",
+				"options": [
+					"$2d$, because stopping distance is proportional to the starting speed.",
+					"$8d$, because stopping distance scales as the cube of the speed.",
+					"$4d$: friction work $Fd$ equals $\\tfrac12mv^2$, so $d\\propto v^2$.",
+					"$\\sqrt2\\,d$, because the speed scales as the square root of the distance travelled."
+				],
+				"answer": 2,
+				"explanation": "Work-energy: $F d=\\tfrac12mv^2$. Doubling $v$ quadruples the energy to be removed, so the stopping distance quadruples. This is why speed limits matter more than they seem."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A charged particle sits between capacitor plates whose separation is slowly varied by a motor, so the potential energy is $U(x,t)$. Why is the particle's mechanical energy $T+U$ not conserved?",
+				"options": [
+					"Because $dE/dt=\\partial U/\\partial t\\neq0$: the changing field does work on the particle.",
+					"It is conserved, since any potential energy function implies that $T+U$ is conserved.",
+					"The force is not conservative even at a single instant, because its curl is nonzero.",
+					"Energy is not conserved because the electric force depends on the particle's velocity."
+				],
+				"answer": 0,
+				"explanation": "At each instant the force is the gradient of a potential, but the potential itself changes with time. The explicit time dependence means the system is not isolated from the agent changing the plates."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two argon atoms interact via the Lennard-Jones potential $U=4\\varepsilon[(\\sigma/r)^{12}-(\\sigma/r)^{6}]$ with $\\varepsilon=0.997$ kJ/mol (per pair, i.e. $1.656\\times10^{-21}$ J) and $\\sigma=0.340$ nm. Using $F_r=-dU/dr$, what is the force at $r=0.400$ nm? Give the magnitude in piconewtons (pN); it is attractive.",
+				"answer": 9.205,
+				"tolerance": 0.03,
+				"explanation": "$F_r=\\frac{4\\varepsilon}{\\sigma}[12(\\sigma/r)^{13}-6(\\sigma/r)^{7}]$ gives $F_r\\approx-9.21$ pN; the negative sign means attraction (the atoms are beyond the potential minimum at $2^{1/6}\\sigma=0.382$ nm).",
+				"unit": "pN"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain, in your own words, why a force that is the gradient of a potential energy does work that does not depend on the path, and why sliding friction cannot be written that way.",
+				"rubric": "Full credit requires: (1) if F = -grad U then the work along any path is U(start) - U(end), depending only on endpoints (equivalently zero around any closed loop / zero curl); (2) friction opposes the motion and its work grows with path length (e.g. longer path = more work lost), so it depends on the path and is not conservative.",
+				"modelAnswer": "If $\\vec F=-\\nabla U$ then $\\int\\vec F\\cdot d\\vec r=U_A-U_B$, which only knows the endpoints, so any closed loop gives zero. Friction always points opposite to the motion, so the longer the path the more energy it removes; the work depends on route and no potential exists."
+			}
+		],
+		"p4-l005-energy-diagrams-multiparticle": [
+			{
+				"kind": "mc",
+				"prompt": "A diatomic molecule's bond has a potential well with minimum depth $-D_e$ and $U\\to0$ at large separation. If its total energy is $E>0$ (above dissociation), what does the motion look like?",
+				"options": [
+					"The atoms approach, rebound from the repulsive wall at the single turning point, and separate for good.",
+					"The atoms keep oscillating between two turning points, but with a larger amplitude than before.",
+					"The atoms settle at the equilibrium separation, because that is where $U$ has its lowest value.",
+					"The atoms spiral into the potential minimum and stay bound there, as energy is lost by radiation."
+				],
+				"answer": 0,
+				"explanation": "With $E>0$ the allowed region extends to infinity. The particle has a single inner turning point (on the repulsive wall) and escapes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For attractive gravity or Coulomb attraction $U=-k/r$, a particle with nonzero angular momentum never reaches $r=0$. What explains this in the effective-potential picture?",
+				"options": [
+					"The attractive force vanishes at small $r$, so the particle is no longer being pulled inward.",
+					"The particle loses kinetic energy by radiating as it approaches, and so it stalls before reaching the centre.",
+					"The centrifugal term $L^2/2\\mu r^2$ outgrows $1/r$ at small $r$, giving a barrier.",
+					"Total energy is conserved, so the particle can never reach a point of lower potential energy."
+				],
+				"answer": 2,
+				"explanation": "Fixing $L$, the angular kinetic energy $L^2/2\\mu r^2$ blows up as $r\\to0$ and acts as a barrier in the effective radial potential. It is not a real force but a bookkeeping device for conserved angular momentum."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A flask of gas rides in a fast train. Which part of the gas's energy determines its temperature and thermodynamic internal energy?",
+				"options": [
+					"The total kinetic energy including the translation of the train, since all molecules share that speed.",
+					"The internal kinetic energy relative to the centre of mass, plus internal potential energy.",
+					"Only the potential energy between the molecules, since the kinetic part averages away.",
+					"Only the centre-of-mass kinetic energy $\\tfrac12MV^2$, since it is the largest term."
+				],
+				"answer": 1,
+				"explanation": "The energy of a system splits into $\\tfrac12MV^2$ (CM) plus internal kinetic and potential energy. The temperature of the gas does not change just because the whole flask moves."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 0.50 kg block on a spring ($k=200$ N/m) is pulled 0.100 m from equilibrium and released from rest. Using the energy diagram (conserved $E$), what is its speed when it passes $x=0.050$ m? Give the answer in m/s.",
+				"answer": 1.732,
+				"tolerance": 0.02,
+				"explanation": "$\\tfrac12mv^2=\\tfrac12k(A^2-x^2)$ gives $v=\\sqrt{k(A^2-x^2)/m}=1.732$ m/s.",
+				"unit": "m/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "How do you read turning points and the stability of equilibria from a plot of $U(x)$, and why can a three-dimensional central-force problem be reduced to this kind of one-dimensional picture?",
+				"rubric": "Full credit requires: (1) turning points are where E = U(x); the motion is confined to the region E >= U; (2) equilibria are where U' = 0, stable at minima and unstable at maxima; (3) in a central-force problem conserved L lets you replace the angular motion with the centrifugal term, giving a 1D radial problem with an effective potential.",
+				"modelAnswer": "Draw the line $E$ across the plot: the particle can only be where $U\\le E$, and it reverses at the points where $U=E$. Equilibria are at $U'=0$: minima are stable, maxima unstable. For a central force, conservation of $L$ eliminates $\\dot\\phi$, leaving a radial equation with $U_{eff}(r)=U(r)+L^2/2\\mu r^2$."
+			}
+		],
+		"p4-l006-linear-drag": [
+			{
+				"kind": "mc",
+				"prompt": "For a projectile in a linear drag medium, how does the descending part of the trajectory compare with the rising part?",
+				"options": [
+					"It is a mirror image of the rising part, just as in vacuum, with only a small change in scale.",
+					"It is flatter, since drag slows the vertical motion more than it slows the horizontal motion.",
+					"It is a parabola again, but one with a smaller effective value of $g$.",
+					"It is steeper, since $v_x$ decays and the path nears a vertical asymptote."
+				],
+				"answer": 3,
+				"explanation": "$v_x(t)=v_{x0}e^{-t/\\tau}$ so $x(t)$ tends to the finite limit $v_{x0}\\tau$. The trajectory is asymmetric, with a steeper descent and a vertical asymptote."
+			},
+			{
+				"kind": "mc",
+				"prompt": "When is a linear (viscous) drag law a good model, and when is quadratic drag better?",
+				"options": [
+					"Linear drag applies to heavy objects and quadratic drag to light objects, since weight sets the speed.",
+					"Linear drag applies at high speeds and quadratic drag at low speeds, as the drag grows with speed.",
+					"Linear drag suits slow, small objects in viscous fluids (low Re); quadratic suits fast, large ones (high Re).",
+					"Linear drag applies in air and quadratic drag in liquids, since liquids are denser than air."
+				],
+				"answer": 2,
+				"explanation": "The Reynolds number compares inertial to viscous effects. At low Re (a bacterium, a dust grain, a bead in glycerol) force is proportional to $v$; at high Re (a baseball) it is proportional to $v^2$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A ball is launched at 20 m/s and $45^\\circ$ in a medium with linear drag and time constant $\\tau=40$ s (so drag is weak). To first order in the small drag, the range is $R\\approx R_{vac}\\,[1-\\tfrac{4}{3}\\,v_{y0}/(g\\tau)]$. By what percentage does drag reduce the range? Use $g=9.81$ m/s².",
+				"answer": 4.805,
+				"tolerance": 0.05,
+				"explanation": "$v_{y0}=14.14$ m/s, so the fractional loss is $4v_{y0}/(3g\\tau)=4.81$%.",
+				"unit": "%"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 1.0 g bead falls in oil where the linear drag coefficient is $b=0.20$ kg/s. What is its terminal speed in cm/s? (Use $g=9.81$ m/s².)",
+				"answer": 4.905,
+				"tolerance": 0.02,
+				"explanation": "$v_t=mg/b=0.0491$ m/s $=4.905$ cm/s, reached within a few time constants $\\tau=m/b=5$ ms.",
+				"unit": "cm/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, what physical balance sets the terminal velocity under linear drag, and what does the time constant $\\tau=m/b$ tell you about how the velocity approaches it?",
+				"rubric": "Full credit requires: (1) terminal velocity when drag force b v equals weight (net force zero), v_t = mg/b; (2) the approach is exponential, v = v_t(1 - e^{-t/tau}); (3) tau = m/b is the time to close 63% of the gap (about 95% after 3 tau): larger mass is slower, larger b is quicker.",
+				"modelAnswer": "As the body speeds up, the drag $bv$ grows until it cancels the weight, giving $v_t=mg/b$. The approach is $v=v_t(1-e^{-t/\\tau})$ with $\\tau=m/b$: after one $\\tau$ it has covered 63% of the gap and after three about 95%."
+			}
+		],
+		"p4-l007-quadratic-drag": [
+			{
+				"kind": "mc",
+				"prompt": "Two skydivers have identical size and posture, but one is twice as heavy. How do their terminal speeds under quadratic drag compare?",
+				"options": [
+					"The heavier one falls faster by a factor $\\sqrt2$, since $v_t=\\sqrt{mg/c}$.",
+					"Equal: terminal speed depends only on the shape, not on the mass of the body.",
+					"The heavier one falls twice as fast, since $v_t$ is proportional to the mass.",
+					"The heavier one falls four times as fast, since the drag force scales as $v^2$."
+				],
+				"answer": 0,
+				"explanation": "At terminal speed $cv_t^2=mg$, so $v_t\\propto\\sqrt m$. In a linear medium $v_t=mg/b$ would double instead."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does the two-dimensional projectile with quadratic drag have no closed-form solution, while the linear-drag case does?",
+				"options": [
+					"Quadratic drag is not a conservative force, whereas linear drag happens to be conservative.",
+					"Quadratic drag depends on position, so energy conservation cannot be used to simplify it.",
+					"A solution exists only for a launch angle of 45 degrees, where the two components are equal.",
+					"The drag involves $\\sqrt{v_x^2+v_y^2}$, which couples the $x$ and $y$ equations nonlinearly."
+				],
+				"answer": 3,
+				"explanation": "Linear drag gives two independent linear ODEs. Quadratic drag makes each component depend on the total speed, so the equations couple and are nonlinear; numerical integration is needed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a body dropped from rest with quadratic drag, $v(t)=v_t\\tanh(gt/v_t)$. Which description matches this?",
+				"options": [
+					"It grows linearly forever, though with a slope smaller than $g$, and never levels off.",
+					"Initially $v\\approx gt$, then it saturates smoothly at $v_t$ without exceeding it.",
+					"It overshoots $v_t$ and then oscillates back toward it with a decaying amplitude.",
+					"It decays exponentially from an initial value $v_t$, ending at zero speed."
+				],
+				"answer": 1,
+				"explanation": "For small $t$, $\\tanh x\\approx x$, giving free fall. For large $t$, $\\tanh\\to1$ and $v\\to v_t$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A skydiver of mass 80 kg falls belly-down with quadratic drag $F=cv^2$, where $c=\\tfrac12\\rho C_dA$ with $\\rho=1.2$ kg/m³, $C_d=1.0$ and $A=0.70$ m². What is the terminal speed in m/s? (Use $g=9.81$ m/s².)",
+				"answer": 43.23,
+				"tolerance": 0.02,
+				"explanation": "$c=0.42$ kg/m and $v_t=\\sqrt{mg/c}=43.2$ m/s, about 155 km/h.",
+				"unit": "m/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how you would find the range of a projectile with quadratic drag numerically, and how you would decide that the step size is small enough.",
+				"rubric": "Full credit requires: (1) write the equations as first-order ODEs in x, y, vx, vy with acceleration from gravity and -c|v|v/m; (2) step forward in time with Euler or Runge-Kutta, stopping when y returns to 0 (interpolate for the range); (3) check convergence by halving the step size (or comparing Euler with RK4) until the range stops changing.",
+				"modelAnswer": "Write four first-order equations for $x,y,v_x,v_y$ with drag acceleration $-(c/m)|\\vec v|\\vec v$. Step forward with Runge-Kutta, stop when $y$ crosses zero and interpolate to get the range. Halve $\\Delta t$ repeatedly; when the range stops changing to the accuracy you need, the step is small enough."
+			}
+		],
+		"p4-l008-charge-magnetic-field": [
+			{
+				"kind": "mc",
+				"prompt": "A charged particle moves in a uniform magnetic field and nothing else. Why does its speed remain constant?",
+				"options": [
+					"The force is conservative, so kinetic energy is stored in the field as potential energy.",
+					"The force $q\\vec v\\times\\vec B$ is perpendicular to $\\vec v$, so it does no work.",
+					"The magnetic force is balanced by the particle's inertia, so the net force on it is zero.",
+					"The magnetic force is zero once the particle is moving in a circle, since it then needs no push."
+				],
+				"answer": 1,
+				"explanation": "$\\vec F\\cdot\\vec v=0$ so $dT/dt=0$. Direction changes, magnitude does not."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two ions with the same charge-to-mass ratio but different speeds are in the same uniform field. How do their cyclotron frequencies and orbit radii compare?",
+				"options": [
+					"The faster ion has a higher frequency and the same radius, since it covers its circle sooner.",
+					"Both have the same radius, but the faster ion goes around at a higher frequency.",
+					"The faster ion has a lower frequency and a larger radius, since it travels further per turn.",
+					"Equal frequencies ($\\omega=qB/m$); the faster ion moves on a larger circle."
+				],
+				"answer": 3,
+				"explanation": "$\\omega=qB/m$ is independent of speed. This is the reason cyclotron-based mass measurements work even when ions have a spread of velocities."
+			},
+			{
+				"kind": "mc",
+				"prompt": "An ion has a velocity component along $\\vec B$ as well as perpendicular to it. What is its path?",
+				"options": [
+					"A helix: circular motion perpendicular to $\\vec B$ plus uniform drift along $\\vec B$.",
+					"A straight line along $\\vec B$, since the magnetic force always acts to straighten the path.",
+					"A circle whose radius grows steadily with time, as the parallel velocity feeds the circular motion.",
+					"A parabola in the plane containing $\\vec B$, as under a constant sideways force."
+				],
+				"answer": 0,
+				"explanation": "The force $q\\vec v\\times\\vec B$ has no component along $\\vec B$, so $v_\\parallel$ is constant. Meanwhile the perpendicular components rotate at $\\omega$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In FT-ICR mass spectrometry an ion of mass 500 u carrying one elementary charge is held in a 7.0 T magnet. What is its cyclotron frequency $f=qB/(2\\pi m)$? Give it in kHz. (Use $u=1.6605\\times10^{-27}$ kg.)",
+				"answer": 215.0,
+				"tolerance": 0.02,
+				"explanation": "$f=qB/(2\\pi m)=215.0$ kHz. Heavier ions have lower frequencies, and frequency can be measured very precisely, which gives the very high mass resolution.",
+				"unit": "kHz"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why measuring the cyclotron frequency of an ion in a magnetic field lets you determine its mass-to-charge ratio, and why the ion's speed does not matter.",
+				"rubric": "Full credit requires: (1) the equation of motion gives circular motion with angular frequency omega = qB/m; (2) the frequency depends only on q/m and B, not on speed or radius; (3) so measuring omega at known B gives m/q.",
+				"modelAnswer": "Newton's second law with the Lorentz force gives circular motion at $\\omega=qB/m$. Faster ions go on bigger circles but with the same period, so the frequency depends only on $q/m$ for a known $B$. Measuring it therefore measures $m/q$."
+			}
+		],
+		"p4-l009-sho-two-dim": [
+			{
+				"kind": "mc",
+				"prompt": "H$_2$ and D$_2$ have essentially the same electronic potential curve. Why do they vibrate at different frequencies?",
+				"options": [
+					"D$_2$ has a stronger bond, so $k$ is larger and the frequency comes out higher than for H$_2$.",
+					"The bond lengths differ between the isotopes, which changes $k$ but leaves the reduced mass $\\mu$ alone.",
+					"$k=U''(r_e)$ is the same, but $\\mu$ doubles, so $\\omega=\\sqrt{k/\\mu}$ falls by about $\\sqrt2$.",
+					"Isotopes do not change vibration frequencies at all; only the rotational spectrum is affected by mass."
+				],
+				"answer": 2,
+				"explanation": "The potential comes from the electrons and is independent of nuclear mass (Born-Oppenheimer). The frequency depends on both $k$ and the mass."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a harmonic oscillator $x(t)=A\\cos(\\omega t-\\delta)$, what happens to the period and the total energy if you double the amplitude (same spring and mass)?",
+				"options": [
+					"The period doubles with the amplitude, and the energy doubles with it as well.",
+					"The period is unchanged, and the energy doubles along with the amplitude.",
+					"The period halves as the motion speeds up, and the energy quadruples.",
+					"The period is unchanged; the energy $\\tfrac12kA^2$ quadruples."
+				],
+				"answer": 3,
+				"explanation": "The harmonic oscillator is isochronous: $\\omega=\\sqrt{k/m}$ does not depend on $A$. The energy scales as $A^2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A two-dimensional oscillator has $\\omega_x/\\omega_y$ equal to an irrational number. What does the trajectory look like over long times?",
+				"options": [
+					"It is an ellipse, just as for the isotropic oscillator with equal frequencies.",
+					"It never closes, and eventually fills the rectangle $|x|\\le A_x$, $|y|\\le A_y$ densely.",
+					"It is a closed Lissajous figure, but with a very large number of lobes.",
+					"It spirals into the origin, as the two incommensurate motions cancel each other."
+				],
+				"answer": 1,
+				"explanation": "Lissajous figures close only if the frequency ratio is rational. Otherwise the motion is quasi-periodic."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The H-$^{35}$Cl bond vibrates at a wavenumber of $2990$ cm$^{-1}$. Model it as a harmonic oscillator with reduced mass $\\mu$ of H ($1.00783$ u) and $^{35}$Cl ($34.96885$ u). What is the force constant $k=\\mu(2\\pi c\\tilde\\nu)^2$? Give it in N/m. (Use $u=1.6605\\times10^{-27}$ kg.)",
+				"answer": 516.0,
+				"tolerance": 0.03,
+				"explanation": "$\\mu=0.9796$ u, $\\omega=2\\pi c\\tilde\\nu$, so $k\\approx516$ N/m, a stiff chemical bond (compare with a few N/m for a spring).",
+				"unit": "N/m"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the general solution of the one-dimensional harmonic oscillator has exactly two free constants, and how the amplitude and phase are fixed by the initial position and velocity.",
+				"rubric": "Full credit requires: (1) the equation is second order in time so two integration constants are needed; (2) forms: A cos(wt - delta) or Re[C e^{iwt}]; (3) x(0)=A cos delta and v(0)=A w sin delta, which determine A and delta from x0, v0.",
+				"modelAnswer": "$m\\ddot x=-kx$ is second order, so there are two constants. Writing $x=A\\cos(\\omega t-\\delta)$, the initial conditions give $x_0=A\\cos\\delta$ and $v_0=A\\omega\\sin\\delta$, so $A=\\sqrt{x_0^2+(v_0/\\omega)^2}$ and $\\tan\\delta=v_0/(\\omega x_0)$."
+			}
+		],
+		"p4-l010-damped-oscillator": [
+			{
+				"kind": "mc",
+				"prompt": "A door closer is adjusted so that the door returns to the closed position as fast as possible without swinging past it. Which damping regime is this?",
+				"options": [
+					"Strong (over)damping, with $\\beta$ made as large as possible so the door cannot move freely.",
+					"Weak damping, with $\\beta$ just above zero so that the door barely loses any energy.",
+					"Critical damping, where $\\beta=\\omega_0$ exactly.",
+					"Zero damping, which is the fastest return of all since nothing holds the door back."
+				],
+				"answer": 2,
+				"explanation": "Strong damping approaches equilibrium slowly because the slow root $r=-\\beta+\\sqrt{\\beta^2-\\omega_0^2}$ is close to zero. Critical damping gives the fastest non-oscillatory return."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A weakly damped oscillator has amplitude $\\propto e^{-\\beta t}$. How does its energy decay?",
+				"options": [
+					"As $e^{-2\\beta t}$, twice as fast as the amplitude, since energy goes as amplitude squared.",
+					"As $e^{-\\beta t}$, at the same rate as the amplitude, since energy and amplitude go together.",
+					"As $e^{-\\beta t/2}$, more slowly than the amplitude, since part of the energy is stored.",
+					"Energy is conserved while only the amplitude decays, because damping just rescales the motion."
+				],
+				"answer": 0,
+				"explanation": "Since $E\\propto A^2$, the energy decays at rate $2\\beta=b/m$. It dissipates into heat."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two excited molecular states emit light, and state B decays much faster than state A. How do their spectral lines compare?",
+				"options": [
+					"B has the broader line: exponential decay in time becomes a Lorentzian in frequency whose width is the decay rate.",
+					"B has the narrower line, because a state that decays quickly has less time in which to radiate.",
+					"The lines have the same width, since the decay rate only changes the intensity of the emission.",
+					"B's line is shifted to lower frequency but is no broader, since only the centre is affected."
+				],
+				"answer": 0,
+				"explanation": "A signal decaying as $e^{-\\Gamma t/2}\\cos\\omega_0t$ Fourier transforms to a Lorentzian of full width $\\Gamma$. Short lifetime means large linewidth."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A tuning fork at 440 Hz has an amplitude that decays by a factor $1/e$ in 5.0 s. Treating it as a weakly damped oscillator, what is its quality factor $Q=\\omega_0/2\\beta$? (Give a dimensionless number.)",
+				"answer": 6912.0,
+				"tolerance": 0.03,
+				"explanation": "$\\beta=1/5.0=0.2$ s$^{-1}$, $\\omega_0=2\\pi\\cdot440$, so $Q=\\omega_0/2\\beta\\approx6912$. It rings for thousands of cycles."
+			},
+			{
+				"kind": "short",
+				"prompt": "Using the trial solution $x=e^{rt}$ in $\\ddot x+2\\beta\\dot x+\\omega_0^2x=0$, explain how the roots $r$ determine whether the motion oscillates, and what the oscillation frequency is in the weak-damping case.",
+				"rubric": "Full credit requires: (1) r^2 + 2 beta r + w0^2 = 0, so r = -beta +/- sqrt(beta^2 - w0^2); (2) beta < w0: complex roots, decaying oscillation at w1 = sqrt(w0^2 - beta^2); beta = w0 critical; beta > w0 real roots, no oscillation; (3) the real part -beta gives envelope decay and the imaginary part gives the oscillation.",
+				"modelAnswer": "The characteristic equation gives $r=-\\beta\\pm\\sqrt{\\beta^2-\\omega_0^2}$. If $\\beta<\\omega_0$ the roots are complex and the solution is $e^{-\\beta t}\\cos(\\omega_1t-\\delta)$ with $\\omega_1=\\sqrt{\\omega_0^2-\\beta^2}$. At $\\beta=\\omega_0$ the roots coincide (critical); for $\\beta>\\omega_0$ both are real and negative, so there is no oscillation."
+			}
+		],
+		"p4-l011-driven-resonance": [
+			{
+				"kind": "mc",
+				"prompt": "After the initial transient has died away, at what frequency does a driven damped oscillator oscillate, and how does it depend on its initial conditions?",
+				"options": [
+					"At its natural frequency $\\omega_0$, with an amplitude that is set by the initial conditions.",
+					"At a mixture of $\\omega_0$ and the driving frequency, which persists forever with no decay.",
+					"At the driving frequency, with amplitude and phase set by the drive alone.",
+					"At the damped frequency $\\omega_1$, but only if the driving frequency happens to be lower."
+				],
+				"answer": 2,
+				"explanation": "The homogeneous (transient) part decays as $e^{-\\beta t}$. What is left is the particular solution, which follows the drive."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A driven oscillator is driven at a frequency much higher than $\\omega_0$. How does its response compare with the force?",
+				"options": [
+					"Its amplitude is large and it moves in phase with the force, as in the static limit.",
+					"Its amplitude is small and it is almost exactly out of phase, because inertia dominates.",
+					"Its amplitude is large, with a phase lag of $\\pi/2$ as at resonance.",
+					"It does not respond at all, so there is no phase to speak of, since the system is too slow."
+				],
+				"answer": 1,
+				"explanation": "At high $\\omega$, $m\\omega^2$ beats $k$ and the response is $x\\approx-F_0\\cos\\omega t/(m\\omega^2)$: small and reversed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If the damping $\\beta$ of a resonant system is doubled, what happens to the height and width of the amplitude peak?",
+				"options": [
+					"Both roughly double, since a more heavily damped system responds more strongly.",
+					"The peak roughly doubles and the width halves, since damping sharpens the response.",
+					"The height is unchanged and only the width doubles, since the drive supplies the same power.",
+					"The peak height roughly halves and the width roughly doubles."
+				],
+				"answer": 3,
+				"explanation": "$A_{res}\\approx F_0/(2m\\beta\\omega_0)\\propto1/\\beta$ and the full width at half maximum is $\\approx2\\beta$. Sharp resonances need low damping (high $Q$)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A $0.50$ kg mass on a spring with $\\omega_0=10$ rad/s has damping rate $\\beta=0.50$ s$^{-1}$ and is driven by $F_0\\cos\\omega t$ with $F_0=2.0$ N at $\\omega=\\omega_0$. What is the steady-state amplitude? Give it in metres.",
+				"answer": 0.4,
+				"tolerance": 0.03,
+				"explanation": "At $\\omega=\\omega_0$, $A=F_0/(2m\\beta\\omega_0)=0.40$ m. Compare the static displacement $F_0/k=0.04$ m: the amplification is $Q=\\omega_0/2\\beta=10$.",
+				"unit": "m"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically why the phase of the response lags the driving force by about $\\pi/2$ exactly at resonance, and why this is the condition for maximum power absorption.",
+				"rubric": "Full credit requires: (1) at resonance the displacement lags the force by pi/2, so velocity is in phase with the force; (2) power = F v is then always positive/maximal, so the driver always pushes in the direction of motion; (3) in steady state this input balances the energy lost to damping.",
+				"modelAnswer": "Resonance means the displacement lags by $\\pi/2$, so the velocity is in phase with the force: the driver always pushes along the direction of motion and the power $Fv$ is maximal. In steady state this equals the power dissipated by damping, so the amplitude stays constant."
+			}
+		],
+		"p4-l012-fourier-driven": [
+			{
+				"kind": "mc",
+				"prompt": "Which harmonics appear in the Fourier series of a symmetric square wave (equal time spent at $+1$ and $-1$)?",
+				"options": [
+					"All harmonics, with amplitudes falling off as $1/n^2$, as for any piecewise-smooth wave.",
+					"Only even harmonics, which all have equal amplitude, since the wave is symmetric about zero.",
+					"Only odd harmonics, with amplitudes falling as $1/n$.",
+					"Only the fundamental, since a square wave has just a single period."
+				],
+				"answer": 2,
+				"explanation": "A square wave is odd and has half-wave symmetry, which kills even harmonics. Amplitudes $4/(n\\pi)$ decay slowly because of the sharp edges."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A damped oscillator with $\\omega_0=3\\omega$ is driven by a square-wave force of fundamental frequency $\\omega$. Which harmonic of the response dominates?",
+				"options": [
+					"The third harmonic: it sits at resonance despite a force amplitude only a third as large.",
+					"The fundamental, since the force amplitude is largest there and resonance does not matter.",
+					"All harmonics equally, since the square wave is built from equal parts of every frequency.",
+					"None: there is no response, since the drive is not a single sinusoid."
+				],
+				"answer": 0,
+				"explanation": "By linearity the response is a sum over harmonics, each amplified by its own factor $A(n\\omega)$. For weak damping, resonance enhancement beats the smaller force amplitude."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does Parseval's theorem say about a periodic signal?",
+				"options": [
+					"The amplitude of the signal at each instant is the sum of the amplitudes of its harmonics.",
+					"The signal contains only a finite number of nonzero harmonics, however sharp its corners.",
+					"The mean of the signal is equal to the largest of its Fourier coefficients.",
+					"Mean square of the signal equals the sum of the harmonics' mean squares: powers add."
+				],
+				"answer": 3,
+				"explanation": "Harmonics are orthogonal over a period, so cross terms average to zero and the energies add."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A square wave of amplitude $\\pm1$ has Fourier series $\\frac{4}{\\pi}\\sum_{n\\,odd}\\sin(n\\omega t)/n$. Using Parseval's theorem (mean square of the wave is 1), what fraction of its mean-square value is contained in the fundamental?",
+				"answer": 0.8106,
+				"tolerance": 0.02,
+				"explanation": "The fundamental has mean square $\\tfrac12(4/\\pi)^2=8/\\pi^2=0.8106$, i.e. about 81%; the remaining 19% is spread over higher odd harmonics."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why Fourier analysis is the natural language of FTIR and NMR spectroscopy, in terms of what the detector records and what the spectrum shows.",
+				"rubric": "Full credit requires: (1) the detector records a signal in time (interferogram or free-induction decay) that is a superposition of oscillations at the system's characteristic frequencies; (2) by linearity/orthogonality the Fourier transform converts this to frequency, with each peak being a component and its width related to the decay rate; (3) a mention of decay times giving linewidths.",
+				"modelAnswer": "The detector records a time-domain signal (an interferogram, or the NMR free-induction decay) that is a sum of oscillations, one per characteristic frequency, each decaying. Fourier analysis decomposes this sum into its frequency components; peaks give frequencies, areas give amounts and decay rates set the line widths."
+			}
+		],
+		"p4-l013-variations-intro": [
+			{
+				"kind": "mc",
+				"prompt": "The shortest path between two points in a plane is found by extremising $\\int\\sqrt{1+y'^2}\\,dx$. Why does the Euler-Lagrange equation give a straight line?",
+				"options": [
+					"The Euler-Lagrange equation always returns straight lines, whatever functional is used.",
+					"Since $f$ depends only on $y'$, the equation gives $\\partial f/\\partial y'=$ const, so $y'$ is constant.",
+					"The functional is minimised when $y''$ is as large as possible, which forces a straight line.",
+					"The endpoints fix a unique parabola, and on a plane a parabola of this kind is straight."
+				],
+				"answer": 1,
+				"explanation": "With $f$ independent of $y$ and $x$, $d/dx(\\partial f/\\partial y')=\\partial f/\\partial y=0$. A constant $y'$ is a straight line. Other functionals give other curves."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The brachistochrone is the curve of fastest descent between two points. Why is it not simply the straight line joining them?",
+				"options": [
+					"A straight line has more friction than a curve, so it is slower even though it is shorter.",
+					"A steeper start builds speed early, which outweighs the longer path; the optimum is a cycloid.",
+					"The straight line is the shortest path, and so the fastest path has to be the longest one.",
+					"The ball would leave a straight line because of the centrifugal force, so it must follow a curve."
+				],
+				"answer": 1,
+				"explanation": "Minimum time is not minimum length. The cost to minimise is $\\int ds/v$ with $v=\\sqrt{2gy}$, which trades path length against speed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If $f$ has no explicit $x$-dependence, the Beltrami identity says $f-y'\\,\\partial f/\\partial y'$ is constant. What is the analogue in mechanics?",
+				"options": [
+					"Conservation of momentum, since the identity expresses the absence of any dependence on $y$.",
+					"Conservation of angular momentum, since the identity reflects a symmetry under rotations.",
+					"Nothing in mechanics: it is a purely geometrical identity about curves with no physical analogue.",
+					"Conservation of energy: with no explicit time dependence in $L$, the energy function is constant."
+				],
+				"answer": 3,
+				"explanation": "Take $x\\to t$ and $f\\to L$: $L-\\dot q\\,\\partial L/\\partial\\dot q=-h$. Time-translation symmetry gives a first integral without solving the second-order equation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A bead slides without friction from rest along (a) the cycloid brachistochrone from the cusp to its lowest point, and (b) the straight chute joining the same two points. For a cycloid of radius $R$, the endpoints are separated by $\\pi R$ horizontally and $2R$ vertically; the cycloid time is $\\pi\\sqrt{R/g}$ and the straight chute takes $\\sqrt{\\pi^2+4}\\,\\sqrt{R/g}$. By what percentage is the straight chute slower than the cycloid?",
+				"answer": 18.54,
+				"tolerance": 0.05,
+				"explanation": "Ratio $=\\sqrt{\\pi^2+4}/\\pi=1.1854$, so the chute is 18.5% slower even though it is shorter.",
+				"unit": "%"
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, describe how the Euler-Lagrange equation is derived by varying the path, and why the endpoints of the variation vanish.",
+				"rubric": "Full credit requires: (1) consider a perturbed path y + eps*eta(x) and demand dS/d eps = 0 at eps=0; (2) integrate by parts to move the derivative off eta', using eta=0 at the endpoints to drop the boundary term; (3) since eta is arbitrary the integrand must vanish: d/dx(df/dy') - df/dy = 0.",
+				"modelAnswer": "Replace $y\\to y+\\epsilon\\eta$ with $\\eta(x_1)=\\eta(x_2)=0$ because the endpoints are held fixed. Setting $dS/d\\epsilon=0$ gives $\\int(\\partial f/\\partial y\\,\\eta+\\partial f/\\partial y'\\,\\eta')dx=0$. Integrating the second term by parts (the boundary term vanishes since $\\eta=0$ at the ends) leaves $\\int[\\partial f/\\partial y-d/dx(\\partial f/\\partial y')]\\eta\\,dx=0$ for arbitrary $\\eta$, forcing the bracket to be zero."
+			}
+		],
+		"p4-l014-variations-several": [
+			{
+				"kind": "mc",
+				"prompt": "Lagrange's equations have the same form in Cartesian, polar or any other generalised coordinates. What is the underlying reason?",
+				"options": [
+					"Hamilton's principle: the action is one number per path, independent of the coordinates, so $\\delta S=0$ is coordinate-free.",
+					"$F=ma$ takes the same form in every coordinate system, and Lagrange's equations are just that law.",
+					"All coordinate systems are related by rotations, and rotations leave the Lagrangian $L$ unchanged.",
+					"Lagrange's equations are valid only in Cartesian coordinates and must be converted to other systems."
+				],
+				"answer": 0,
+				"explanation": "The action is a scalar over the space of paths. Changing coordinates relabels paths but not their action, so the stationarity condition (and the Euler-Lagrange equations) retain their form."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement about Hamilton's principle is correct?",
+				"options": [
+					"The actual path always has the smallest action of all possible paths between the endpoints.",
+					"The particle tries every path in turn and settles on the one with the largest action.",
+					"The action is stationary under small endpoint-fixed variations, and need not be a minimum.",
+					"The actual path makes the total energy stationary, not the action, between the two endpoints."
+				],
+				"answer": 2,
+				"explanation": "Stationarity ($\\delta S=0$) is what produces Lagrange's equations. In many problems it is a minimum for short times but it can be a saddle point over long times."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Suppose someone used $L'=T+U$ instead of $L=T-U$ for a particle in a potential $U(x)$. What would the Euler-Lagrange equation give?",
+				"options": [
+					"The same equation of motion, because only the derivatives of $L$ with respect to $q$ matter.",
+					"$m\\ddot x=-dU/dx$ exactly, with only the value of the conserved energy being different.",
+					"No equation at all, since $T+U$ is a constant and so cannot be varied.",
+					"$m\\ddot x=+dU/dx$: the force has the wrong sign, so a spring would push masses away."
+				],
+				"answer": 3,
+				"explanation": "$\\partial L/\\partial x=-dU/dx$ for $L=T-U$ gives Newton's law; with $T+U$ the sign of the force flips. The minus sign in $L=T-U$ is physics, not convention."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 1.0 kg particle moves from $x=0$ at $t=0$ to $x=1.0$ m at $t=1.0$ s with $L=\\tfrac12m\\dot x^2$ (no force). The true path is $x=t$. Compute the action along the slightly wrong path $x=t+0.1\\sin(\\pi t)$, which has the same endpoints. Give $S$ in J s.",
+				"answer": 0.5247,
+				"tolerance": 0.02,
+				"explanation": "For the true path $S_0=0.5$ J s. For the perturbed path $S=\\tfrac12(1+\\epsilon^2\\pi^2/2)=0.5247$ J s: larger by only 5%, a second-order change, and a first-order change vanishes.",
+				"unit": "J s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how Hamilton's principle, applied to a Lagrangian depending on several coordinates $q_i$, produces one Lagrange equation per coordinate.",
+				"rubric": "Full credit requires: (1) vary each coordinate independently, q_i -> q_i + eps*eta_i with eta_i vanishing at the endpoints; (2) integration by parts, vanishing boundary terms; (3) because the eta_i are independent and arbitrary, each bracket vanishes, giving d/dt(dL/dq_i-dot) = dL/dq_i for each i.",
+				"modelAnswer": "Vary each $q_i\\to q_i+\\epsilon\\eta_i$ with $\\eta_i=0$ at both times. The first-order change of $S$ is a sum over $i$ of $\\int[\\partial L/\\partial q_i-\\tfrac{d}{dt}\\partial L/\\partial\\dot q_i]\\eta_i\\,dt$ after integration by parts. Since the $\\eta_i$ can be chosen independently, every bracket must vanish separately, giving one equation per coordinate."
+			}
+		],
+		"p4-l015-lagrange-constrained": [
+			{
+				"kind": "mc",
+				"prompt": "A double pendulum in a vertical plane consists of two point masses on rigid massless rods. How many degrees of freedom does it have?",
+				"options": [
+					"Four, since there are two particles and each needs both an $x$ and a $y$ coordinate.",
+					"Two: four plane coordinates minus two rigid-rod constraints leaves two angles.",
+					"One, because the whole assembly swings together as a single rigid body.",
+					"Three, one for each rod plus one more for the position of the pivot."
+				],
+				"answer": 1,
+				"explanation": "Degrees of freedom = coordinates minus independent holonomic constraints: $4-2=2$. The natural generalised coordinates are the two angles."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do Lagrange's equations written in generalised coordinates contain no constraint forces such as tension or normal forces?",
+				"options": [
+					"Constraint forces vanish in equilibrium, and Lagrange's equations are written at equilibrium.",
+					"Constraint forces are always conservative, so they cancel inside $T-U$.",
+					"They are perpendicular to the allowed displacements, so they do no work in the variation.",
+					"Lagrangian mechanics ignores any force that is larger than gravity, as these constraint forces are."
+				],
+				"answer": 2,
+				"explanation": "Choosing generalised coordinates that automatically satisfy the constraints eliminates the constraint forces from the equations. The price is that you do not learn their values (unless you use multipliers)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a pendulum, $L=\\tfrac12ml^2\\dot\\theta^2+mgl\\cos\\theta$ gives $ml^2\\ddot\\theta=-mgl\\sin\\theta$. How does this compare with the Newtonian torque equation?",
+				"options": [
+					"They are the same equation; the tension never enters the torque about the pivot.",
+					"Newton's law gives $\\ddot\\theta=-g\\cos\\theta/l$, which differs from the Lagrangian result.",
+					"They agree only for small angles, where $\\sin\\theta\\approx\\theta$; otherwise they differ.",
+					"The Lagrangian equation lacks the tension, so it is less accurate than Newton's law."
+				],
+				"answer": 0,
+				"explanation": "A good consistency check: the tension is perpendicular to the motion and never enters the torque about the pivot."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using the equation of motion above, what is the period of small oscillations of a simple pendulum of length 1.00 m? Take $g=9.81$ m/s². Give it in seconds.",
+				"answer": 2.006,
+				"tolerance": 0.02,
+				"explanation": "For small angles $\\ddot\\theta=-(g/l)\\theta$, so $T=2\\pi\\sqrt{l/g}=2.006$ s.",
+				"unit": "s"
+			},
+			{
+				"kind": "short",
+				"prompt": "What is a generalised coordinate, and why does choosing a good set of them simplify a constrained mechanics problem?",
+				"rubric": "Full credit requires: (1) a generalised coordinate is any independent variable that specifies the configuration (angle, arc length, etc.), number = degrees of freedom; (2) holonomic constraints are built into the choice, so the number of equations is reduced and constraint forces do not appear; (3) a concrete example such as a bead on a hoop described by a single angle.",
+				"modelAnswer": "A generalised coordinate is any independent variable that labels the configuration, such as an angle on a hoop. If the constraints are holonomic, choosing as many coordinates as degrees of freedom builds the constraints in, so you write fewer equations and the unknown constraint forces never appear. A bead on a hoop needs only the angle $\\theta$ instead of $x,y$ plus the normal force."
+			}
+		],
+		"p4-l016-lagrange-examples": [
+			{
+				"kind": "mc",
+				"prompt": "A bead on a hoop of radius $R$ rotates about the vertical diameter at angular speed $\\omega$. The bottom of the hoop is a stable equilibrium for small $\\omega$. What happens as $\\omega$ is increased past $\\sqrt{g/R}$?",
+				"options": [
+					"The bottom becomes unstable, and the bead moves to equilibria at $\\cos\\theta_0=g/R\\omega^2$.",
+					"The bead rises to the top of the hoop, which becomes the stable equilibrium at high speed.",
+					"The bottom stays stable, and only the frequency of small oscillations about it changes.",
+					"The bead spirals outward and leaves the hoop once $\\omega$ exceeds the critical value."
+				],
+				"answer": 0,
+				"explanation": "The effective potential $-\\tfrac12mR^2\\omega^2\\sin^2\\theta-mgR\\cos\\theta$ changes from a single minimum to a double well, like a symmetry-breaking pitchfork bifurcation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In which situation is Newtonian mechanics usually simpler than Lagrangian mechanics?",
+				"options": [
+					"Whenever a problem has two or more bodies, since Lagrange's method is awkward with many particles.",
+					"Whenever energy is conserved, since the Lagrangian approach then adds nothing useful.",
+					"When you want a constraint force itself, such as a tension, or have no good coordinates.",
+					"Never: the Lagrangian method is always simpler, whatever the problem asks for."
+				],
+				"answer": 2,
+				"explanation": "Lagrange wins when many constraints would make a force-by-force approach painful. If you need the constraint forces, Newton's laws (or Lagrange multipliers) are the direct route."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An Atwood machine has masses $m_1=3.0$ kg and $m_2=1.0$ kg over a pulley that is a uniform disc of mass $M=2.0$ kg (so $I/R^2=M/2$). The rope does not slip. Compute the acceleration of the masses from $a=(m_1-m_2)g/(m_1+m_2+I/R^2)$. Take $g=9.81$ m/s² and give $a$ in m/s².",
+				"answer": 3.924,
+				"tolerance": 0.02,
+				"explanation": "$I/R^2=1.0$ kg so $a=2(9.81)/(5.0)=3.924$ m/s², lower than the 4.905 m/s² of an ideal massless pulley, since the pulley also has to be spun up.",
+				"unit": "m/s^2"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A bead on a vertical hoop of radius $R=0.20$ m rotates about its vertical diameter. At what angular speed $\\omega_c=\\sqrt{g/R}$ does the bottom of the hoop become an unstable equilibrium? Give the answer in rad/s ($g=9.81$ m/s²).",
+				"answer": 7.004,
+				"tolerance": 0.02,
+				"explanation": "$\\omega_c=\\sqrt{9.81/0.20}=7.00$ rad/s (about 1.1 revolutions per second).",
+				"unit": "rad/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Write the Lagrangian of a particle in a central potential $U(r)$ in spherical coordinates and explain how the radial equation, with its centrifugal term, emerges from it.",
+				"rubric": "Full credit requires: (1) L = (m/2)(r-dot^2 + r^2 theta-dot^2 + r^2 sin^2(theta) phi-dot^2) - U(r); (2) phi is cyclic so p_phi (angular momentum about z) is conserved, and motion lies in a plane; (3) the radial Lagrange equation m r-ddot = -dU/dr + m r (angular velocity)^2 contains the centrifugal term, which can be written as L^2/(m r^3).",
+				"modelAnswer": "$L=\\tfrac m2(\\dot r^2+r^2\\dot\\theta^2+r^2\\sin^2\\theta\\,\\dot\\phi^2)-U(r)$. Since $\\phi$ is absent, $p_\\phi=mr^2\\sin^2\\theta\\,\\dot\\phi$ is conserved. The $r$ equation is $m\\ddot r=-dU/dr+mr(\\dot\\theta^2+\\sin^2\\theta\\,\\dot\\phi^2)$; the last term is the centrifugal term, which equals $L^2/(mr^3)$ for planar motion."
+			}
+		],
+		"p4-l017-generalized-momenta": [
+			{
+				"kind": "mc",
+				"prompt": "If a Lagrangian does not depend on a coordinate $q_k$ (although it may depend on $\\dot q_k$), what can you conclude?",
+				"options": [
+					"The velocity $\\dot q_k$ is conserved, since $L$ does not depend on $q_k$.",
+					"The generalised momentum $p_k=\\partial L/\\partial\\dot q_k$ is conserved, since $\\dot p_k=0$.",
+					"The coordinate $q_k$ itself is conserved, since the Lagrangian does not depend on it.",
+					"Energy is conserved and nothing else is, because $q_k$ is unrelated to any symmetry."
+				],
+				"answer": 1,
+				"explanation": "The Euler-Lagrange equation reads $\\dot p_k=\\partial L/\\partial q_k$. An ignorable coordinate means a symmetry of $L$ under shifts of $q_k$ and gives a conserved momentum."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A projectile moves near the Earth's surface under gravity alone, $U=mgz$. Which momentum components are conserved and why?",
+				"options": [
+					"Only $p_z$ is conserved, because gravity acts along $z$ and so cannot change the vertical momentum.",
+					"All three are conserved, since linear momentum is always conserved whenever a force is conservative.",
+					"None are conserved, because a force acts and any force changes the momentum.",
+					"$p_x$ and $p_y$, since $L$ is independent of $x,y$; $p_z$ changes because $L$ depends on $z$."
+				],
+				"answer": 3,
+				"explanation": "Noether: each continuous symmetry of $L$ yields a conserved quantity. Gravity breaks translation symmetry only along the vertical."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A bead slides on a hoop that is forced to rotate at constant angular speed $\\omega$ about a vertical axis. The Lagrangian has no explicit time dependence in terms of $\\theta$. Which statement is correct?",
+				"options": [
+					"Both $h$ and $T+U$ are conserved and equal, as for any conservative system.",
+					"Neither is conserved, since the hoop is driven by an outside agent and so energy cannot be conserved.",
+					"$h=\\sum p\\dot q-L$ is conserved but differs from $T+U$ (the motor does work).",
+					"$T+U$ is conserved but $h$ is not, because $h$ depends on the choice of coordinates."
+				],
+				"answer": 2,
+				"explanation": "$h$ is conserved because $L(\\theta,\\dot\\theta)$ has no explicit $t$; but $T$ contains terms quadratic in $\\dot\\theta$ and terms independent of it (from $\\omega$), so $h\\neq T+U$. This is a useful example of the difference."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 0.50 kg particle moves under a central force with angular speed 3.0 rad/s at radius 2.0 m. It spirals inward to $r=1.0$ m. Using conservation of $p_\\phi=mr^2\\dot\\phi$, what is its angular speed there? Give it in rad/s.",
+				"answer": 12.0,
+				"tolerance": 0.02,
+				"explanation": "$p_\\phi=mr^2\\dot\\phi$ is constant, so $\\dot\\phi_2=\\dot\\phi_1(r_1/r_2)^2=3.0\\times4=12$ rad/s (the figure-skater effect).",
+				"unit": "rad/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "State, in your own words, what Noether's theorem says and illustrate it with one example of a symmetry and its conserved quantity.",
+				"rubric": "Full credit requires: (1) a continuous symmetry of the Lagrangian (transformation leaving L unchanged) gives a conserved quantity; (2) a correct example, e.g. translation invariance gives momentum, rotation invariance gives angular momentum, time-translation gives energy; (3) a statement of why: the symmetry makes some coordinate ignorable or L independent of t.",
+				"modelAnswer": "Noether's theorem says every continuous symmetry of the Lagrangian corresponds to a conserved quantity. For example, if $L$ is unchanged when the system is rotated about the $z$ axis, then $\\phi$ is ignorable and $p_\\phi=L_z$ is conserved. Similarly, time-independence of $L$ gives conservation of the energy function."
+			}
+		],
+		"p4-l018-lagrange-multipliers": [
+			{
+				"kind": "mc",
+				"prompt": "In the method of Lagrange multipliers, what does the multiplier $\\lambda$ represent physically?",
+				"options": [
+					"The strength of the constraint force: $\\lambda\\,\\partial f/\\partial q_i$ is the generalised force on $q_i$.",
+					"The energy stored in the constraint, which is released again when the constraint is removed from the system.",
+					"A mathematical bookkeeping number with no physical meaning, used only to make the equations solvable.",
+					"The value of the Lagrangian evaluated on the constraint surface, which is conserved along the motion."
+				],
+				"answer": 0,
+				"explanation": "Adding $\\lambda f(q)$ to the equations of motion supplies exactly the force needed to maintain $f(q)=0$. Solving for $\\lambda$ yields tensions and normal forces."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A particle slides from rest on a smooth hemisphere. At what condition does it leave the surface?",
+				"options": [
+					"When its speed reaches the escape speed from the sphere, since it then has enough energy to leave.",
+					"When it reaches the bottom of the hemisphere, since the surface ends there and cannot hold it.",
+					"When the gravitational force exceeds the normal force at the top, since the particle is then pulled off.",
+					"When the normal force (the multiplier) drops to zero; a surface can only push, never pull."
+				],
+				"answer": 3,
+				"explanation": "On the surface, $mg\\cos\\theta-N=mv^2/R$. Contact is lost when $N=0$, which with energy conservation gives $\\cos\\theta=2/3$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A disc rolls without slipping along a straight line. How should this constraint be classified?",
+				"options": [
+					"Nonholonomic, because the condition $v=R\\dot\\theta$ involves velocities and so cannot remove a coordinate.",
+					"Holonomic: $v=R\\dot\\theta$ integrates to $x=R\\theta$, which removes one degree of freedom.",
+					"Not a constraint at all, because friction does no work in rolling and so cannot restrict the motion.",
+					"Holonomic only if the disc is a ring, since a solid disc has additional internal motion."
+				],
+				"answer": 1,
+				"explanation": "A velocity constraint is nonholonomic only if it cannot be integrated to a relation among coordinates. For a straight line it can (unlike a sphere rolling on a plane in general)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A small block slides from rest at the top of a frictionless hemisphere. At what angle from the vertical (measured at the centre) does it leave the surface? Give the angle in degrees, from $\\cos\\theta=2/3$.",
+				"answer": 48.19,
+				"tolerance": 0.02,
+				"explanation": "Energy gives $v^2=2gR(1-\\cos\\theta)$ and $N=0$ requires $v^2=gR\\cos\\theta$, so $\\cos\\theta=2/3$ and $\\theta=48.19^\\circ$.",
+				"unit": "degrees"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain when you would choose Lagrange multipliers rather than eliminating the constraint by choosing generalised coordinates.",
+				"rubric": "Full credit requires: (1) multipliers are chosen when the constraint force itself is wanted (tension, normal force, when contact is lost), or the constraint is hard to solve for; (2) generalised coordinates are cheaper when the motion alone is needed; (3) the multiplier is the (generalised) constraint force, so solving for it gives the force.",
+				"modelAnswer": "Eliminating the constraint with good generalised coordinates is fastest when you only want the motion. Multipliers are better when you need the constraint force (to find where a particle leaves a surface, or the tension in a rope) or when the constraint is awkward to eliminate. The multiplier's value then gives the generalised constraint force."
+			}
+		],
+		"p4-l019-velocity-dependent-potentials": [
+			{
+				"kind": "mc",
+				"prompt": "For a charged particle in an electromagnetic field the canonical momentum is $\\vec p=m\\vec v+q\\vec A$. Which statement is true?",
+				"options": [
+					"The canonical momentum is the physically measurable one, and $m\\vec v$ changes with the gauge choice.",
+					"$m\\vec v$ is gauge-invariant and measurable; $\\vec p$ changes under $\\vec A\\to\\vec A+\\nabla\\chi$.",
+					"Both are gauge-invariant, since the physics must be the same in any gauge, so neither depends on $\\vec A$.",
+					"The two are equal whenever $\\vec B\\neq0$, because the magnetic force fixes the vector potential."
+				],
+				"answer": 1,
+				"explanation": "The Lorentz force and hence $m\\ddot{\\vec r}$ are gauge invariant. The vector potential is not, so neither is $\\vec p$; the difference is the term $q\\vec A$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A charge moves in a uniform magnetic field along $z$. In the symmetric gauge the system has rotational symmetry about the $z$ axis. Which quantity is conserved?",
+				"options": [
+					"The kinetic angular momentum $mr^2\\dot\\phi$ alone, as for any rotationally symmetric system.",
+					"Neither, because the magnetic force depends on velocity and so spoils all conservation laws.",
+					"Both separately, since the field is uniform and nothing singles out any direction in the plane.",
+					"The canonical $p_\\phi=mr^2\\dot\\phi+\\tfrac12qBr^2$; the kinetic part alone is not conserved."
+				],
+				"answer": 3,
+				"explanation": "$\\phi$ is cyclic in $L$, so $p_\\phi$ is conserved; the magnetic force exerts a torque on the kinetic part, but the sum is conserved."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In quantum mechanics, how do you build the Hamiltonian of a charged particle in an electromagnetic field from the free-particle one?",
+				"options": [
+					"Replace $\\vec p\\to\\vec p-q\\vec A$ in the kinetic term and add $q\\phi$ (minimal coupling).",
+					"Add only the term $-\\vec\\mu\\cdot\\vec B$, with the kinetic term left unchanged from the free particle.",
+					"Replace $\\vec p$ by $\\vec p+m\\vec v$ in the free Hamiltonian, which builds in the velocity dependence.",
+					"Replace the energy $E$ by $q\\vec A$ in the free-particle Schroedinger equation."
+				],
+				"answer": 0,
+				"explanation": "The classical canonical momentum $\\vec p=m\\vec v+q\\vec A$ gives $H=(\\vec p-q\\vec A)^2/2m+q\\phi$; promoting $\\vec p\\to-i\\hbar\\nabla$ gives the Schroedinger equation with electromagnetic coupling."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In a uniform field $B=1.0$ T, use the symmetric gauge $\\vec A=\\tfrac12\\vec B\\times\\vec r$. For an electron at distance $r=0.10$ m from the axis, what is the magnitude of the difference between canonical and kinetic momentum, $|q\\vec A|$? Give the answer in kg m/s ($|q|=1.602\\times10^{-19}$ C).",
+				"answer": 8.01e-21,
+				"tolerance": 0.02,
+				"explanation": "$|A|=\\tfrac12Br=0.050$ T m, so $|qA|=8.010e-21$ kg m/s. The value depends on the gauge, which is why only $p-qA$ appears in physical quantities.",
+				"unit": "kg m/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how a Lagrangian $L=\\tfrac12mv^2-q\\phi+q\\vec v\\cdot\\vec A$ can produce the magnetic force, which depends on velocity and is not the gradient of an ordinary potential.",
+				"rubric": "Full credit requires: (1) the velocity-dependent term q v.A makes dL/dv = m v + q A; (2) d/dt(mv + qA) contains the convective derivative of A, so the Euler-Lagrange equation gives m dv/dt = q(E + v x B); (3) the magnetic force perpendicular to v does no work.",
+				"modelAnswer": "$\\partial L/\\partial\\dot x_i=m\\dot x_i+qA_i$, and its time derivative includes $q(\\partial_t A_i+\\vec v\\cdot\\nabla A_i)$. The right-hand side $\\partial L/\\partial x_i=-q\\partial_i\\phi+q\\vec v\\cdot\\partial_i\\vec A$. Rearranging gives $m\\ddot{\\vec r}=q(\\vec E+\\vec v\\times\\vec B)$ with $\\vec E=-\\nabla\\phi-\\partial_t\\vec A$ and $\\vec B=\\nabla\\times\\vec A$. The velocity-dependent potential gives a force perpendicular to $\\vec v$."
+			}
+		],
+		"p4-l020-lagrangian-review": [
+			{
+				"kind": "mc",
+				"prompt": "You are asked for the tension in the string of a pendulum at the bottom of its swing. Which approach is most direct?",
+				"options": [
+					"Lagrange's equation in the angle $\\theta$, since it gives the tension immediately as a by-product.",
+					"Conservation of angular momentum about the pivot, since the tension exerts no torque there.",
+					"Newton's law along the radius (or a Lagrange multiplier), since tension is a constraint force.",
+					"Dimensional analysis alone, since the tension must have the dimensions of a force."
+				],
+				"answer": 2,
+				"explanation": "Lagrange's equation in a good generalised coordinate eliminates the tension. Use $T-mg=mv^2/l$ with $v$ from energy conservation, or multipliers."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A student finds the small-oscillation frequency of a simple pendulum to be $\\omega=\\sqrt{gl}/m$. What is the quickest sanity check that exposes the error?",
+				"options": [
+					"Energy conservation, since the formula should give the same total energy for the pendulum as the exact one.",
+					"Counting the degrees of freedom of the pendulum, which shows that the formula has too many parameters.",
+					"Checking that the Lagrangian used is the sum $T+U$, since a wrong sign would give a wrong frequency.",
+					"Dimensional analysis: the result does not have units of s$^{-1}$, and mass should cancel."
+				],
+				"answer": 3,
+				"explanation": "A correct answer is $\\omega=\\sqrt{g/l}$. Dimensional analysis and the limit that mass cancels (equivalence principle) catch the mistake in seconds."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A pendulum of mass $m$ hangs from a block of mass $M$ that slides on a frictionless horizontal rail. Which quantities are conserved?",
+				"options": [
+					"Only the energy, since the sliding block and the pendulum exchange momentum all the time.",
+					"The horizontal momentum (as $x_{block}$ is ignorable) and the energy; angular momentum about the pivot is not.",
+					"The angle $\\theta$ and the horizontal momentum, since both are unchanged by the block's motion.",
+					"Only the horizontal momentum, since the string tension does work and so the energy is not conserved."
+				],
+				"answer": 1,
+				"explanation": "$L$ does not depend on the block's position, so $p_x$ is conserved. $L$ has no explicit time dependence, so energy is also conserved."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the pendulum on the sliding block, with $m=1.0$ kg, $M=3.0$ kg and $l=0.50$ m, small oscillations have $\\omega^2=\\dfrac{g}{l}\\,\\dfrac{M+m}{M}$. Compute the angular frequency in rad/s ($g=9.81$ m/s²).",
+				"answer": 5.115,
+				"tolerance": 0.02,
+				"explanation": "$\\omega^2=(9.81/0.50)(4/3)=26.16$ s$^{-2}$, so $\\omega=5.115$ rad/s, higher than the fixed-pivot value $\\sqrt{g/l}=4.43$ rad/s.",
+				"unit": "rad/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "For $\\omega^2=\\dfrac{g}{l}\\dfrac{M+m}{M}$ (a bob of mass $m$ hanging from a sliding block of mass $M$), what should the limits $M\\to\\infty$ and $m\\gg M$ look like physically, and does the formula pass?",
+				"rubric": "Full credit requires: (1) M -> infinity: the block is effectively fixed, so omega^2 -> g/l, the ordinary pendulum, which the formula gives; (2) m >> M: the heavy bob stays nearly at rest, supported by a tension of about mg, and the light block is pulled sideways by mg*theta over a distance l*theta, so omega^2 is about mg/(M l), which the formula gives; (3) the idea that limiting-case checks test a derived formula.",
+				"modelAnswer": "As $M\\to\\infty$ the block is effectively nailed down, so we must recover $\\omega^2=g/l$, and the formula does. For $m\\gg M$ the heavy bob barely moves and hangs from a tension $\\approx mg$; the light block feels a horizontal restoring force $mg\\theta$ for a displacement $l\\theta$, so $\\omega^2\\approx mg/(Ml)$, again what the formula gives. Passing both limits makes an algebra mistake unlikely."
+			}
+		],
+		"p4-l021-two-body-reduction": [
+			{
+				"kind": "mc",
+				"prompt": "For two bodies of masses $m_1\\gg m_2$ interacting through a central force, what is the reduced mass and what does it mean?",
+				"options": [
+					"$\\mu\\approx m_1$: the relative motion is dominated by the heavy body, which therefore does most of the moving.",
+					"$\\mu=(m_1+m_2)/2$ always, the average of the two masses, whatever their ratio.",
+					"$\\mu=m_1m_2/(m_1+m_2)\\approx m_2$: a light body orbiting a nearly fixed heavy one.",
+					"$\\mu=m_1+m_2$, the total mass, since the relative coordinate carries both bodies."
+				],
+				"answer": 2,
+				"explanation": "The relative coordinate obeys $\\mu\\ddot{\\vec r}=\\vec F(r)$. For a heavy nucleus the reduced mass is almost the electron mass."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does the relative motion of two bodies under a central force lie in a plane?",
+				"options": [
+					"The relative angular momentum $\\mu\\vec r\\times\\dot{\\vec r}$ is conserved, so $\\vec r$ stays perpendicular to a fixed vector.",
+					"The centre of mass is fixed in the plane, and the relative vector must remain within that plane.",
+					"The force is attractive, and attraction alone is enough to confine the bodies to one plane.",
+					"Total energy is conserved, and that constraint restricts the relative vector to a plane."
+				],
+				"answer": 0,
+				"explanation": "The force is along $\\vec r$ so the torque is zero; the plane perpendicular to the constant $\\vec L$ contains $\\vec r(t)$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Balmer H$\\alpha$ line of deuterium is at slightly shorter wavelength than that of hydrogen. What causes the isotope shift?",
+				"options": [
+					"The reduced mass of the pair is slightly larger for deuterium, which raises the Rydberg constant and the transition energy.",
+					"Deuterium has a different nuclear charge, which pulls the electron in slightly more strongly.",
+					"The extra neutron adds a magnetic interaction with the electron, shifting the line to shorter wavelength.",
+					"The deuterium nucleus is larger and screens the electron more, which also shifts the line."
+				],
+				"answer": 0,
+				"explanation": "Transition energies scale with the reduced mass, $R\\propto\\mu$. The nucleus recoils slightly, and recoil is less for the heavier deuteron."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using $m_p/m_e=1836.15$ and $m_d/m_e=3670.48$ and the fact that the transition energy scales with the reduced mass, estimate the wavelength shift between H$\\alpha$ in hydrogen (656.28 nm) and deuterium. Give $\\lambda_H-\\lambda_D$ in nm.",
+				"answer": 0.1785,
+				"tolerance": 0.05,
+				"explanation": "$\\mu_D/\\mu_H=1.000272$ so $\\lambda_D=\\lambda_H/1.000272$ and the shift is about 0.179 nm (the observed splitting is about 0.18 nm).",
+				"unit": "nm"
+			},
+			{
+				"kind": "short",
+				"prompt": "After you have solved the relative-coordinate problem $\\vec r(t)$, how do you recover the individual trajectories of the two bodies?",
+				"rubric": "Full credit requires: (1) the CM moves uniformly (or sits at rest) as R(t); (2) r1 = R + (m2/M) r and r2 = R - (m1/M) r; (3) each body orbits the CM, the lighter one on the larger orbit.",
+				"modelAnswer": "The centre of mass moves uniformly: $\\vec R(t)=\\vec R_0+\\vec Vt$. Then $\\vec r_1=\\vec R+(m_2/M)\\vec r$ and $\\vec r_2=\\vec R-(m_1/M)\\vec r$, with $M=m_1+m_2$. Each body traces a scaled copy of the relative orbit about the centre of mass, the lighter body on the larger orbit."
+			}
+		],
+		"p4-l022-effective-potential": [
+			{
+				"kind": "mc",
+				"prompt": "What is the 'centrifugal barrier' in the effective potential $U_{eff}=U(r)+L^2/(2\\mu r^2)$?",
+				"options": [
+					"A real outward force exerted on the particle by the other body when they come close together.",
+					"The repulsion between like charges, which acts alongside the attractive $1/r$ force and dominates at short range.",
+					"Kinetic energy of the angular motion written in terms of $r$; it rises steeply at small $r$.",
+					"The energy of the centre-of-mass motion, which is added to the potential in the radial equation."
+				],
+				"answer": 2,
+				"explanation": "Fixing $L$ ties the angular speed to $r$: $\\dot\\phi=L/\\mu r^2$. The angular kinetic energy then depends only on $r$ and can be treated as part of an effective potential."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For an attractive $1/r$ potential, a particle with $E<0$ and with $E$ above the minimum of $U_{eff}$ has which type of orbit?",
+				"options": [
+					"A circle sitting at the minimum of $U_{eff}$, which is the only bound orbit allowed.",
+					"A bound orbit oscillating between $r_{min}$ and $r_{max}$: an ellipse.",
+					"An unbound scattering orbit that approaches once and then escapes to infinity.",
+					"A fall to $r=0$, since the attraction is stronger than the barrier at small distances."
+				],
+				"answer": 1,
+				"explanation": "At $E=U_{eff,min}$ the orbit is circular; for $U_{eff,min}<E<0$ it is bound with two turning points; for $E>0$ the particle escapes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Planetary perihelia in the Solar System are observed to precess slowly. What does Bertrand's theorem imply about the force law?",
+				"options": [
+					"The force must be proportional to $r$ (a harmonic force), since that law also gives closed orbits.",
+					"Closed orbits exist for every central potential, so the observed precession is just measurement noise.",
+					"The force must be a pure $1/r^2$ law, since any other law would give precession.",
+					"A pure $1/r^2$ force gives closed orbits, so precession means the force is perturbed."
+				],
+				"answer": 3,
+				"explanation": "Only $1/r$ and $r^2$ potentials have closed bound orbits for all initial conditions, so a precessing orbit signals a deviation from $1/r^2$, such as the pull of other planets or general relativity."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 1000 kg satellite is in a circular orbit of radius 7000 km around Earth ($GM=3.986\\times10^{14}$ m³/s²). What is its total mechanical energy $E=-GMm/(2r)$? Give it in GJ (negative).",
+				"answer": -28.47,
+				"tolerance": 0.02,
+				"explanation": "$E=-GMm/2r=-2.847\\times10^{10}$ J $=-28.47$ GJ. The total energy of a circular orbit is minus its kinetic energy.",
+				"unit": "GJ"
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from the radial equation, explain why it is convenient to use $u=1/r$ as a function of $\\phi$ rather than $r(t)$ when finding the shape of an orbit, and what simplification results for an inverse-square force.",
+				"rubric": "Full credit requires: (1) conservation of L lets you replace d/dt by (L/mr^2) d/dphi, eliminating time; (2) with u=1/r the orbit equation becomes u'' + u = -(m/L^2) d/du U(1/u) (equivalently -(m/L^2u^2)F); (3) for F = -k/r^2 the right side is a constant, giving a linear equation whose solution is a conic.",
+				"modelAnswer": "Because $L$ is conserved, $d/dt=(L/mr^2)\\,d/d\\phi$, so we can eliminate time and find $r(\\phi)$. With $u=1/r$ the equation becomes $u''+u=-(m/L^2)\\,F(1/u)/u^2$. For $F=-k/r^2$ the right side is the constant $mk/L^2$, giving $u''+u=\\text{const}$, a linear equation whose solution is $u=A+B\\cos\\phi$, i.e. a conic section."
+			}
+		],
+		"p4-l023-kepler-orbits": [
+			{
+				"kind": "mc",
+				"prompt": "A comet is observed with total energy $E>0$ in the Sun's gravitational field. Which orbit type is this?",
+				"options": [
+					"An ellipse with a very large eccentricity, which comes back after a very long period.",
+					"A parabola, since the energy $E>0$ is exactly what defines a parabolic orbit.",
+					"A hyperbola ($\\epsilon>1$): it passes the Sun once and leaves.",
+					"A circle, since a comet moves at constant speed around the Sun."
+				],
+				"answer": 2,
+				"explanation": "For the $1/r$ potential: $E<0$ ellipse (circle at the minimum), $E=0$ parabola, $E>0$ hyperbola. The eccentricity is $\\epsilon=\\sqrt{1+2EL^2/(\\mu k^2)}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If a planet's orbit around a star had twice the semi-major axis of Earth's, how would its period compare with a year (same star)?",
+				"options": [
+					"About 2.83 years, since $T^2\\propto a^3$.",
+					"Exactly 2 years, since the period scales in proportion to the size of the orbit.",
+					"Exactly 4 years, since the period scales as the square of the orbit's size.",
+					"About 1.41 years, since the period scales as the square root of the orbit's size."
+				],
+				"answer": 0,
+				"explanation": "Kepler's third law: $T^2=4\\pi^2a^3/GM$. Period grows faster than orbit size."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Both the Kepler problem and the Bohr hydrogen atom have a $1/r$ potential. What is the key difference?",
+				"options": [
+					"Hydrogen has no orbits at all; only the classical Kepler problem has any orbits, so they cannot be compared.",
+					"The potentials differ: hydrogen has a $1/r^2$ force law and gravity a $1/r$ force law.",
+					"The Kepler problem has an unbounded energy spectrum, while hydrogen's bound energies are limited.",
+					"Classical orbits may have any energy and size; Bohr's quantisation allows only discrete angular momenta."
+				],
+				"answer": 3,
+				"explanation": "The same $-k/r$ potential gives elliptical orbits in both pictures. Quantisation (Bohr's $L=n\\hbar$) selects a discrete subset."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Jupiter's moon Io orbits with period 1.769 days and semi-major axis $4.217\\times10^{8}$ m. Use Kepler's third law $M=4\\pi^2a^3/(GT^2)$ to estimate Jupiter's mass ($G=6.674\\times10^{-11}$). Give $M$ in kg.",
+				"answer": 1.899e+27,
+				"tolerance": 0.03,
+				"explanation": "$T=1.769\\times86400=1.528\\times10^5$ s, so $M=4\\pi^2a^3/(GT^2)\\approx1.90\\times10^{27}$ kg.",
+				"unit": "kg"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain which of Kepler's three laws follows from any central force, and which depend specifically on the force being inverse-square.",
+				"rubric": "Full credit requires: (1) the second law (equal areas) follows from conservation of angular momentum for any central force; (2) the first law (ellipses with the Sun at a focus) and the third law (T^2 proportional to a^3) hold only for the 1/r^2 force; (3) a short reason, such as Bertrand's theorem for closed orbits.",
+				"modelAnswer": "The law of equal areas comes from conservation of angular momentum and holds for every central force. The ellipses with the Sun at a focus and the period law $T^2\\propto a^3$ depend on the force being exactly $1/r^2$; other power laws do not give closed ellipses (Bertrand's theorem)."
+			}
+		],
+		"p4-l024-orbit-changes-scattering": [
+			{
+				"kind": "mc",
+				"prompt": "A satellite in a circular orbit fires its engine to move to a higher circular orbit (Hohmann transfer). After arriving, how does its speed in the new circular orbit compare with the old one?",
+				"options": [
+					"Higher, because it fired its engines and so gained speed in every part of the manoeuvre.",
+					"Lower: it gained energy, but climbing turned kinetic energy into potential energy.",
+					"The same, since both its energy and its angular momentum were increased by the burns.",
+					"Zero, since it has to come to rest relative to the Earth to stay in the new orbit."
+				],
+				"answer": 1,
+				"explanation": "Speed up to enter the transfer ellipse, speed up again at apogee; yet the final circular speed $\\sqrt{GM/r}$ is lower because $r$ is larger. Total energy $-GMm/2r$ is higher (less negative)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In Rutherford scattering of alpha particles from a gold nucleus, which alphas scatter through the largest angles?",
+				"options": [
+					"Those with the largest impact parameter, as they sweep the largest cross section of the nucleus.",
+					"Those with the smallest impact parameter, which pass closest and feel the strongest repulsion.",
+					"Those with the lowest energy only, whatever their impact parameter happens to be.",
+					"All alphas scatter through the same angle, since the nucleus is the same for each one."
+				],
+				"answer": 1,
+				"explanation": "$\\tan(\\theta/2)\\propto1/b$ for Coulomb repulsion, so small $b$ gives large angles."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why was observing alpha particles bounced back almost 180 degrees significant?",
+				"options": [
+					"It proved that alphas are electrons, since only a light particle can reverse direction.",
+					"It showed that the atom's electrons are heavy enough to reflect alpha particles directly.",
+					"It proved that energy is not conserved in collisions between nuclei and alpha particles.",
+					"A concentrated nucleus can repel an alpha strongly; a diffuse positive charge would give only small deflections."
+				],
+				"answer": 3,
+				"explanation": "A large-angle scatter needs a large force over a small region, and only a concentrated charge can supply it. The $1/\\sin^4(\\theta/2)$ law matched the data."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A satellite is in a circular low Earth orbit of radius $6.678\\times10^6$ m and is moved to a geostationary orbit of radius $4.2164\\times10^7$ m by a Hohmann transfer. Using $GM=3.986\\times10^{14}$ m³/s², find the total $\\Delta v$ of the two burns. Give the answer in km/s.",
+				"answer": 3.893,
+				"tolerance": 0.03,
+				"explanation": "Burn 1 gives about 2.43 km/s, burn 2 about 1.47 km/s, total about 3.89 km/s.",
+				"unit": "km/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Define the impact parameter and the differential cross section, and explain in words why the Rutherford cross section diverges as $\\theta\\to0$.",
+				"rubric": "Full credit requires: (1) impact parameter b is the perpendicular offset of the incoming line from the centre, and dsigma/dOmega = (b/sin theta)|db/dtheta| counts how many particles per area and solid angle scatter in a given direction; (2) the Coulomb force has infinite range, so even very distant particles (large b) are deflected a little, giving infinite total cross section; (3) screening by atomic electrons cuts it off in practice.",
+				"modelAnswer": "The impact parameter $b$ is the perpendicular distance between the incoming trajectory and a parallel line through the target. The differential cross section $d\\sigma/d\\Omega=(b/\\sin\\theta)|db/d\\theta|$ is the effective target area per unit solid angle. Because the Coulomb force has infinite range, particles at arbitrarily large $b$ are still deflected slightly, so $d\\sigma/d\\Omega\\propto1/\\sin^4(\\theta/2)$ diverges at small angles; electron screening cuts it off in real atoms."
+			}
+		],
+		"p4-l025-accelerating-tides": [
+			{
+				"kind": "mc",
+				"prompt": "In an elevator that is accelerating upward at $a$, a scale reads the apparent weight $m(g+a)$. In the elevator frame, how is this described?",
+				"options": [
+					"A fictitious force $-m\\vec A$ (downward here) is added, so the effective gravity is $g+a$.",
+					"The gravitational force on the object genuinely increases by $ma$ while the elevator accelerates.",
+					"Newton's second law fails in the elevator, so it cannot be used to predict the scale reading.",
+					"The mass of the object increases while the elevator accelerates, which the scale registers."
+				],
+				"answer": 0,
+				"explanation": "In an accelerating frame we add $-m\\vec A$ to the real forces. It is a property of the frame, not a new interaction."
+			},
+			{
+				"kind": "mc",
+				"prompt": "An astronaut in orbit floats freely 'weightless', although gravity is almost as strong as at the surface. What is the explanation in terms of frames?",
+				"options": [
+					"Gravity is negligible at orbital altitude, being a tiny fraction of its surface value.",
+					"The astronaut is beyond the Earth's gravitational field once she is far enough above the atmosphere.",
+					"The spacecraft is in free fall, a locally inertial frame where the fictitious force cancels gravity.",
+					"The spacecraft's engines are cancelling gravity continuously, which is what makes things float."
+				],
+				"answer": 2,
+				"explanation": "Gravity at 400 km is about 90% of surface gravity. Free fall removes gravity locally: this is the equivalence principle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why are there two tidal bulges on Earth, one facing the Moon and one on the opposite side?",
+				"options": [
+					"The far bulge is caused by the Sun, which pulls the water on the far side directly away from the Moon.",
+					"The Moon pulls the far-side water directly away from the Moon, which makes the second bulge.",
+					"The Earth's rotation produces a centrifugal bulge on the side facing away from the Moon only.",
+					"The Moon's pull is stronger on the near side and weaker on the far side than at the centre."
+				],
+				"answer": 3,
+				"explanation": "Tidal acceleration is the difference between the Moon's pull at a point and at the centre: $\\approx\\pm2GMR/d^3$ along the Earth-Moon line."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Moon has $GM=4.903\\times10^{12}$ m³/s² and is at $d=3.844\\times10^{8}$ m. Estimate the maximum tidal acceleration at the Earth's surface, $2GMR_E/d^3$ with $R_E=6.371\\times10^{6}$ m. Give it in micrometres per second squared ($\\mu$m/s²).",
+				"answer": 1.1,
+				"tolerance": 0.03,
+				"explanation": "$2GMR_E/d^3\\approx1.10\\times10^{-6}$ m/s², about $10^{-7}g$, tiny but acting on an entire ocean.",
+				"unit": "um/s^2"
+			},
+			{
+				"kind": "short",
+				"prompt": "State the equivalence principle in your own words, and explain why it only holds 'locally' and what the tides have to do with that.",
+				"rubric": "Full credit requires: (1) in a freely falling frame the effects of uniform gravity vanish: gravity and acceleration are locally indistinguishable (gravitational = inertial mass); (2) over a finite region the gravitational field varies, so cancellation is imperfect; (3) the residual difference is the tidal force (stretching along the line to the source, squeezing across).",
+				"modelAnswer": "In a freely falling frame, a uniform gravitational field is cancelled by the fictitious force of the frame's acceleration, so physics looks as it does in an inertial frame; gravity and acceleration are locally indistinguishable. 'Locally' matters because the field varies from place to place: over the size of the Earth the cancellation fails, and the leftover difference is the tidal force."
+			}
+		],
+		"p4-l026-rotating-frame": [
+			{
+				"kind": "mc",
+				"prompt": "You are on a spinning carousel and feel pulled outward. How does an inertial observer on the ground describe the same situation?",
+				"options": [
+					"There is a real outward force called the centrifugal force, which acts on every rotating body.",
+					"No outward force exists; you tend to go straight, and the rail supplies the inward centripetal force.",
+					"You feel nothing special, since you are at rest relative to the carousel and so nothing acts on you.",
+					"Gravity is pulling you outward, since it acts differently on rotating objects than on fixed ones."
+				],
+				"answer": 1,
+				"explanation": "The centrifugal force $m\\omega^2r$ appears only in the rotating frame, where $-m\\vec\\omega\\times(\\vec\\omega\\times\\vec r)$ is added to account for the frame's acceleration."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A merry-go-round is speeding up, $d\\omega/dt>0$. What additional fictitious force acts on a child sitting at rest on it, in the rotating frame?",
+				"options": [
+					"Only the usual centrifugal force, which already accounts for any change in the rotation rate.",
+					"A Coriolis force directed radially inward, which is the only force that depends on the rotation rate.",
+					"The Euler force $-m\\dot{\\vec\\omega}\\times\\vec r$, pointing tangentially backward.",
+					"None: fictitious forces only arise when the rotation rate is constant, not while it changes."
+				],
+				"answer": 2,
+				"explanation": "The Euler term appears when the rotation rate changes and is how you feel yourself 'left behind' when the carousel starts."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Where on Earth's surface is the centrifugal acceleration from Earth's rotation largest, and what is it at the poles?",
+				"options": [
+					"Largest at the equator ($\\Omega^2R$) and zero at the poles, as it depends on distance from the axis.",
+					"Largest at the poles and zero at the equator, because it depends on the distance from the centre.",
+					"The same everywhere, $\\Omega^2R$, since the Earth is spinning as a single rigid body.",
+					"Zero everywhere, since the Earth is in equilibrium and fictitious forces vanish at equilibrium."
+				],
+				"answer": 0,
+				"explanation": "Distance from the axis is $R\\cos\\lambda$ at latitude $\\lambda$, so the centrifugal acceleration is $\\Omega^2R\\cos\\lambda$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Earth rotates once per sidereal day ($\\Omega=7.292\\times10^{-5}$ rad/s) and has radius $6.378\\times10^{6}$ m. What is the magnitude of the centrifugal acceleration at latitude $40^\\circ$, $\\Omega^2R\\cos\\lambda$? Give it in m/s².",
+				"answer": 0.02598,
+				"tolerance": 0.02,
+				"explanation": "$\\Omega^2R=0.0339$ m/s², times $\\cos40^\\circ=0.766$ gives 0.0260 m/s², about 0.26% of $g$.",
+				"unit": "m/s^2"
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from the relation between time derivatives in the inertial and rotating frames, identify the origin of the centrifugal, Coriolis and Euler terms in the rotating-frame equation of motion.",
+				"rubric": "Full credit requires: (1) (d/dt)_in = (d/dt)_rot + omega x, applied twice to the position vector; (2) the terms: -m omega x (omega x r) (centrifugal), -2m omega x v_rot (Coriolis), -m (d omega/dt) x r (Euler); (3) these arise from the frame's acceleration, so they are fictitious.",
+				"modelAnswer": "Applying $(d/dt)_{in}=(d/dt)_{rot}+\\vec\\omega\\times$ twice to $\\vec r$ gives $\\vec a_{in}=\\vec a_{rot}+2\\vec\\omega\\times\\vec v_{rot}+\\vec\\omega\\times(\\vec\\omega\\times\\vec r)+\\dot{\\vec\\omega}\\times\\vec r$. Moving these to the force side yields $-2m\\vec\\omega\\times\\vec v$ (Coriolis), $-m\\vec\\omega\\times(\\vec\\omega\\times\\vec r)$ (centrifugal) and $-m\\dot{\\vec\\omega}\\times\\vec r$ (Euler). They arise from the frame's own acceleration, not from any interaction."
+			}
+		],
+		"p4-l027-coriolis-foucault": [
+			{
+				"kind": "mc",
+				"prompt": "Why do low-pressure systems in the Northern Hemisphere rotate counterclockwise (seen from above)?",
+				"options": [
+					"Air flowing inward toward the low is deflected to its right by the Coriolis force, giving counterclockwise flow.",
+					"The Earth's rotation drags the air counterclockwise by friction with the ground, which sets the sense of spin.",
+					"The centrifugal force from the Earth's rotation pushes the air round in a counterclockwise direction.",
+					"Warm air rises counterclockwise in the Northern Hemisphere only, because of the Sun's heating pattern."
+				],
+				"answer": 0,
+				"explanation": "In the Northern Hemisphere the Coriolis force deflects moving air to the right; inflow toward a low is deflected into counterclockwise rotation, balanced by the pressure gradient."
+			},
+			{
+				"kind": "mc",
+				"prompt": "People often claim that water drains counterclockwise from a bathtub in the Northern Hemisphere because of the Coriolis force. Is this a good explanation?",
+				"options": [
+					"Yes: the Coriolis effect determines the direction of rotation in any drain, large or small.",
+					"Yes, but only at the equator, where the Earth's rotation is fastest, and the effect reverses south.",
+					"No: at this scale $2\\Omega v\\sim10^{-4}$ m/s$^2$ is far smaller than the effects of basin shape and residual currents.",
+					"No, because the Coriolis force vanishes in water, since a fluid cannot sustain a sideways force."
+				],
+				"answer": 2,
+				"explanation": "Compare $2\\Omega v$ to other accelerations: for slow flow in a tub it is about $10^{-5}g$. Only large-scale, long-lived flows (weather, ocean gyres) are controlled by Coriolis."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A Foucault pendulum precesses at $\\Omega\\sin\\lambda$ at latitude $\\lambda$. At Memphis ($\\lambda=35.15^\\circ$), how long does the swing plane take to turn through a full $360^\\circ$? Use a sidereal day of 23.934 h and give the answer in hours.",
+				"answer": 41.57,
+				"tolerance": 0.02,
+				"explanation": "$T=23.934\\,\\text{h}/\\sin35.15^\\circ=41.6$ h. At the pole it would be 23.9 h; at the equator the plane does not turn.",
+				"unit": "hours"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An object is dropped from rest from a 100 m tower at latitude $35.15^\\circ$. Its eastward Coriolis deflection is $\\tfrac13\\Omega g t^3\\cos\\lambda$ with fall time $t=\\sqrt{2h/g}$. What is the deflection in millimetres? ($\\Omega=7.292\\times10^{-5}$ rad/s, $g=9.81$ m/s²)",
+				"answer": 17.95,
+				"tolerance": 0.03,
+				"explanation": "$t=4.515$ s so the deflection is $\\tfrac13\\Omega gt^3\\cos\\lambda=17.9$ mm, about 1.8 cm east.",
+				"unit": "mm"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically why a Foucault pendulum at latitude $\\lambda$ precesses at $\\Omega\\sin\\lambda$ rather than at the full $\\Omega$.",
+				"rubric": "Full credit requires: (1) only the component of the Earth's angular velocity along the local vertical affects horizontal motion: Omega sin(lambda); (2) the horizontal Coriolis force -2m Omega_vertical x v deflects the swing consistently to the right (north) so the plane rotates; (3) at the pole the vertical component is the full Omega, at the equator it is zero.",
+				"modelAnswer": "A horizontal swing is only affected by the horizontal Coriolis force, which comes from the component of $\\vec\\Omega$ along the local vertical, $\\Omega\\sin\\lambda$. This force always deflects the bob to the right of its motion (in the Northern Hemisphere), so the plane rotates at $\\Omega\\sin\\lambda$: full rate at the pole, zero at the equator."
+			}
+		],
+		"p4-l028-fixed-axis": [
+			{
+				"kind": "mc",
+				"prompt": "A solid cylinder and a hollow cylinder (same mass and radius) are released together from rest at the top of a ramp and roll without slipping. Which reaches the bottom first, and why?",
+				"options": [
+					"The hollow cylinder, because its mass lies farther from the axis, which gives it more torque.",
+					"The solid cylinder: smaller $I/MR^2$, so less energy goes into rotation.",
+					"They tie, because the mass and radius are the same, so gravity treats them identically.",
+					"The hollow cylinder, because it stores more rotational energy and so keeps going faster."
+				],
+				"answer": 1,
+				"explanation": "Both lose the same potential energy $Mgh$. At the bottom $Mgh=\\tfrac12Mv^2(1+I/MR^2)$, so a smaller $I/MR^2$ means a larger $v$. Notably the result is independent of $M$ and $R$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The parallel-axis theorem $I=I_{cm}+Md^2$ implies which of the following?",
+				"options": [
+					"The moment of inertia is always smallest about the axis that lies farthest from the centre of mass.",
+					"The moment of inertia is the same about every axis for a symmetric body such as a cylinder.",
+					"Moving the axis towards the edge of the body always reduces $I$, since the leverage is increased.",
+					"The axis through the centre of mass gives the smallest $I$ among all parallel axes."
+				],
+				"answer": 3,
+				"explanation": "The extra term $Md^2\\ge0$ always adds. This is why a bat feels heavier to swing about its end than about its middle."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A solid sphere (moment of inertia $\\tfrac25MR^2$) rolls without slipping from rest down a ramp through a vertical drop of 1.0 m. Using $Mgh=\\tfrac12Mv^2+\\tfrac12I\\omega^2$ with $\\omega=v/R$, what is its speed at the bottom? Give it in m/s ($g=9.81$ m/s²).",
+				"answer": 3.744,
+				"tolerance": 0.02,
+				"explanation": "$Mgh=\\tfrac12Mv^2(1+2/5)$ gives $v=\\sqrt{10gh/7}=3.744$ m/s, lower than the sliding value $\\sqrt{2gh}=4.43$ m/s.",
+				"unit": "m/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, why does the same body have different moments of inertia about different axes, and what role does $I$ play in rotation?",
+				"rubric": "Full credit requires: (1) I = integral of r_perp^2 dm, so it depends on how far the mass is from the chosen axis; (2) I is the rotational analogue of mass: torque = I alpha, L = I omega, KE = 1/2 I omega^2; (3) mass far from the axis contributes more, so a given body is harder to spin about some axes than others.",
+				"modelAnswer": "The moment of inertia is $I=\\int r_\\perp^2\\,dm$, so what matters is the mass distribution relative to the axis; the same body is harder to spin about an axis where its mass is far away. It plays the role that mass plays in linear motion: $\\Gamma=I\\alpha$, $L=I\\omega$ and $K=\\tfrac12I\\omega^2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A rigid body's kinetic energy is $K=\\tfrac12Mv_{cm}^2+\\tfrac12I_{cm}\\omega^2$. What does this decomposition mean for a wheel rolling on a road?",
+				"options": [
+					"The wheel's kinetic energy is $\\tfrac12Mv_{cm}^2$ only, since rotation involves no motion of the centre of mass.",
+					"The rotational energy is already included in $\\tfrac12Mv_{cm}^2$, so adding it would count it twice.",
+					"Total energy is the translational energy of the CM plus the rotational energy about it.",
+					"The rotational energy is irrelevant when the wheel rolls without slipping, since the contact point is at rest."
+				],
+				"answer": 2,
+				"explanation": "Splitting into CM motion plus motion about the CM is exact. Rolling without slipping links $v_{cm}=R\\omega$, so both terms scale with $v^2$."
+			}
+		],
+		"p4-l029-inertia-tensor": [
+			{
+				"kind": "mc",
+				"prompt": "A thin dumbbell is made to spin about an axis through its centre but tilted from the dumbbell's own axis. Why does the spinning mounting feel a rapidly rotating torque?",
+				"options": [
+					"$\\vec L=\\mathbf I\\vec\\omega$ is not parallel to $\\vec\\omega$ here, so $\\vec L$ turns and the bearings must supply a torque.",
+					"The dumbbell's moment of inertia changes sign as it turns, which reverses the angular momentum.",
+					"The centrifugal force acts on only one end of the dumbbell, and this unbalanced force makes the torque.",
+					"Angular momentum is not conserved for rigid bodies, so the mount has to absorb the difference."
+				],
+				"answer": 0,
+				"explanation": "The inertia tensor mixes components: $L_i=\\sum_jI_{ij}\\omega_j$. Off-axis rotation gives a constantly turning $\\vec L$ and a torque: this is why car wheels are balanced."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does a nonzero off-diagonal element $I_{xy}$ mean physically?",
+				"options": [
+					"The body is not rigid, because its mass distribution changes as it spins about the axis.",
+					"The body has no moment of inertia about the $z$ axis, since the coupling replaces the diagonal term.",
+					"The centre of mass is not at the origin, which is the only way for products of inertia to appear.",
+					"Spinning about $x$ gives angular momentum along $y$ too; the mass is not reflection-symmetric."
+				],
+				"answer": 3,
+				"explanation": "$I_{xy}=-\\sum mxy$ measures the correlation of the mass distribution in $x$ and $y$; it vanishes if the axes are principal axes (for example, by reflection symmetry)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Rotational spectra of two linear molecules are measured: one has a larger moment of inertia $I$. Whose rotational lines are more closely spaced?",
+				"options": [
+					"The molecule with the smaller $I$, because its rotational constant $B$ is smaller.",
+					"The molecule with larger $I$: its rotational constant $B=\\hbar/4\\pi cI$ is smaller.",
+					"They have identical spacing, because both molecules are linear and the rotational levels depend only on $J$.",
+					"Spacing depends only on temperature and not on the molecule, as it reflects only the population of levels."
+				],
+				"answer": 1,
+				"explanation": "Larger $I$ means smaller rotational energies $\\hbar^2J(J+1)/2I$ and closer spacing. Heavy molecules like I$_2$ have crowded rotational spectra."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The CO molecule has bond length 1.128 Å and reduced mass $6.857$ u (masses 12.000 u and 15.995 u). Compute its moment of inertia $I=\\mu r^2$ and the rotational constant $B=h/(8\\pi^2cI)$. Give $B$ in cm$^{-1}$. (Use $u=1.6605\\times10^{-27}$ kg.)",
+				"answer": 1.932,
+				"tolerance": 0.03,
+				"explanation": "$I=\\mu r^2=1.449e-46$ kg m² and $B=h/(8\\pi^2cI)\\approx1.93$ cm$^{-1}$, matching the experimental 1.93 cm$^{-1}$.",
+				"unit": "cm^-1"
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is the angular momentum of a rotating rigid body generally not parallel to its angular velocity, and when is it?",
+				"rubric": "Full credit requires: (1) L = I omega, where I is a tensor (matrix), so it can rotate omega into a different direction; (2) example: a tilted dumbbell where the mass distribution is off-axis relative to omega; (3) L is parallel to omega only if omega lies along a principal axis (eigenvector) of I.",
+				"modelAnswer": "$\\vec L=\\mathbf I\\vec\\omega$, with $\\mathbf I$ a $3\\times3$ matrix. It acts like a different scale factor along different directions, so $\\vec L$ is generally tilted away from $\\vec\\omega$ (a tilted dumbbell is the standard example). The two are parallel only if $\\vec\\omega$ is along a principal axis, an eigenvector of $\\mathbf I$."
+			}
+		],
+		"p4-l030-principal-axes": [
+			{
+				"kind": "mc",
+				"prompt": "Why are the principal axes of a rigid body mutually perpendicular?",
+				"options": [
+					"Because the body is rigid, so every direction fixed in the body is automatically perpendicular to the others.",
+					"The inertia tensor is real symmetric, so its eigenvectors can be chosen orthogonal.",
+					"Because the principal moments are all equal, which forces the axes to be at right angles to each other.",
+					"Because we choose them perpendicular as a matter of convenience; they could in principle be oblique."
+				],
+				"answer": 1,
+				"explanation": "Symmetric matrices have an orthogonal eigenbasis (spectral theorem). Physical meaning: three perpendicular axes about which pure rotation keeps $\\vec L\\parallel\\vec\\omega$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which of these molecules is an asymmetric top (three different principal moments)?",
+				"options": [
+					"CH$_4$, which is a spherical top with three equal moments of inertia",
+					"NH$_3$, which is a symmetric top, with its three-fold axis making two moments equal",
+					"SF$_6$, which is a spherical top with three equal moments of inertia",
+					"H$_2$O, which has only two-fold symmetry"
+				],
+				"answer": 3,
+				"explanation": "Methane and SF$_6$ have three equal moments; ammonia has a three-fold axis giving two equal moments; water has $C_{2v}$ symmetry only, giving three distinct moments."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Benzene is flat with a six-fold axis perpendicular to the ring. Its principal moments are $I_a=I_b$ (in the plane) and $I_c=2I_a$ (perpendicular to the plane). What kind of rotor is it?",
+				"options": [
+					"An oblate symmetric top, since the unique moment is the largest.",
+					"A prolate symmetric top, since two moments are equal and the third is different.",
+					"A spherical top, since the ring has a six-fold axis and so looks the same in every direction.",
+					"An asymmetric top, since the three principal moments are not all equal to each other."
+				],
+				"answer": 0,
+				"explanation": "Two equal moments make it a symmetric top. If the unique moment is the largest (a disc), the top is oblate; if it is the smallest (a cigar), it is prolate."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A body has inertia tensor (in kg m²) $\\begin{pmatrix}5&-2&0\\\\-2&5&0\\\\0&0&8\\end{pmatrix}$. What is its smallest principal moment of inertia? Give it in kg m².",
+				"answer": 3.0,
+				"tolerance": 0.02,
+				"explanation": "The characteristic equation gives eigenvalues $3,\\,7,\\,8$ kg m² (the $2\\times2$ block has $5\\pm2$). The smallest is 3, about the axis $(1,1,0)/\\sqrt2$.",
+				"unit": "kg m^2"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why finding the principal axes and principal moments is an eigenvalue problem, and what you gain by using them.",
+				"rubric": "Full credit requires: (1) a principal axis is a direction for which L = I omega is parallel to omega, i.e. I w = lambda w, which is the eigenvalue equation; (2) the eigenvalues are the principal moments and the eigenvectors the axes; (3) in this basis I is diagonal, so L_i = I_i omega_i and K = sum of (1/2) I_i omega_i^2, which greatly simplifies the dynamics.",
+				"modelAnswer": "A principal axis is a direction for which $\\vec L=\\mathbf I\\vec\\omega$ is parallel to $\\vec\\omega$: $\\mathbf I\\vec\\omega=\\lambda\\vec\\omega$. That is exactly an eigenvalue problem; the eigenvalues are the principal moments and the eigenvectors the principal axes. In that basis $\\mathbf I$ is diagonal, so $L_i=I_i\\omega_i$ and $K=\\tfrac12\\sum I_i\\omega_i^2$."
+			}
+		],
+		"p4-l031-euler-equations": [
+			{
+				"kind": "mc",
+				"prompt": "A tennis racket (three distinct principal moments) is tossed spinning about each principal axis in turn. Which rotation is unstable?",
+				"options": [
+					"Rotation about the axis of smallest moment only, since that one has the least inertia to resist perturbations.",
+					"Rotation about the axis of largest moment only, since that one is the most easily knocked off axis.",
+					"Rotation about the intermediate axis: small perturbations grow exponentially, so the racket flips.",
+					"All three are equally stable, since angular momentum is conserved for each of these rotations."
+				],
+				"answer": 2,
+				"explanation": "Linearising Euler's equations about axis 2 gives $\\ddot\\epsilon=+\\kappa\\epsilon$ with $\\kappa>0$ (growth), while axes 1 and 3 give oscillation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why are Euler's equations $I_1\\dot\\omega_1-(I_2-I_3)\\omega_2\\omega_3=\\Gamma_1$ (and cyclic) written in the body frame?",
+				"options": [
+					"Angular velocity is only defined in the body frame, and has no meaning to an outside observer.",
+					"Torque is zero in the body frame, which removes the term that would otherwise complicate the equations.",
+					"The inertia tensor is constant and diagonal there, which makes the equations simple.",
+					"The body frame is an inertial frame, so Newton's laws hold there without any extra terms."
+				],
+				"answer": 3,
+				"explanation": "In the space frame $\\mathbf I$ changes with time as the body rotates. The price in the body frame is the extra gyroscopic terms from the rotating axes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A frisbee flying torque-free wobbles. In the space frame, which vector stays fixed?",
+				"options": [
+					"The angular velocity $\\vec\\omega$, which stays fixed because there is no torque acting on the frisbee.",
+					"$\\vec L$ stays fixed; the symmetry axis and $\\vec\\omega$ precess around it.",
+					"The symmetry axis of the frisbee, which keeps pointing the same way if the disc is spun fast enough.",
+					"Nothing is fixed, since the disc wobbles and so every vector associated with it changes direction."
+				],
+				"answer": 1,
+				"explanation": "With no torque $\\vec L$ is conserved. For a symmetric top, $\\vec\\omega$ and the symmetry axis precess around $\\vec L$; a good spin keeps the wobble small."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For a nearly spherical rigid body like Earth, $(I_3-I_1)/I_1\\approx0.003273$. In the torque-free symmetric-top solution the body-frame precession rate of $\\vec\\omega$ is $\\Omega_b=\\omega_3(I_3-I_1)/I_1$. For $\\omega_3=2\\pi$ rad per day, how long is the precession period (the Euler period of the Chandler wobble) in days?",
+				"answer": 305.5,
+				"tolerance": 0.02,
+				"explanation": "$T=1/0.003273=306$ days (Euler's prediction, about 305 days). The observed Chandler wobble is about 433 days because the real Earth is not rigid.",
+				"unit": "days"
+			},
+			{
+				"kind": "short",
+				"prompt": "Using Euler's equations, argue why rotation about the intermediate axis is unstable while rotation about the largest or smallest axis is stable.",
+				"rubric": "Full credit requires: (1) near rotation about axis 2, omega_2 ~ const and small omega_1, omega_3: I1 w1' = (I2-I3) w2 w3 and I3 w3' = (I1-I2) w1 w2; (2) combine to w1'' proportional to (I2-I3)(I1-I2)/(I1 I3) w2^2 w1; (3) for the intermediate axis both factors are negative so the coefficient is positive (exponential growth), while for the smallest or largest axis the factors have opposite signs so it is negative (oscillation, stability).",
+				"modelAnswer": "Spin about axis 2 with small $\\omega_1,\\omega_3$: $I_1\\dot\\omega_1=(I_2-I_3)\\omega_2\\omega_3$ and $I_3\\dot\\omega_3=(I_1-I_2)\\omega_1\\omega_2$. Eliminating gives $\\ddot\\omega_1=\\dfrac{(I_2-I_3)(I_1-I_2)}{I_1I_3}\\omega_2^2\\omega_1$. For the intermediate axis both factors $(I_2-I_3)$ and $(I_1-I_2)$ are negative, so the coefficient is positive and $\\omega_1$ grows exponentially; for the largest or smallest axis the factors have opposite signs, so the coefficient is negative and perturbations oscillate."
+			}
+		],
+		"p4-l032-euler-angles-top": [
+			{
+				"kind": "mc",
+				"prompt": "For a symmetric top with fixed tip in a gravitational field, why are $p_\\phi$ and $p_\\psi$ conserved?",
+				"options": [
+					"Because gravity is a central force, and central forces always conserve the angular momentum components.",
+					"Because the top spins fast, and fast spin makes the spin angular momentum nearly constant.",
+					"The Lagrangian is independent of $\\phi$ and $\\psi$, because gravity depends only on $\\theta$.",
+					"Because angular momentum is always conserved for any rigid body in a gravitational field."
+				],
+				"answer": 2,
+				"explanation": "The potential $Mgl\\cos\\theta$ depends only on $\\theta$, and $T$ is independent of the azimuth $\\phi$ and spin angle $\\psi$. So only the $\\theta$-motion is nontrivial: the one-dimensional effective-potential problem."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A fast gyroscope is precessing steadily under gravity. If you double its spin rate $\\omega_3$ (keeping everything else the same), what happens to the precession rate?",
+				"options": [
+					"It halves, since $\\Omega\\approx Mgl/(I_3\\omega_3)$.",
+					"It doubles, since faster spin gives a larger gyroscopic effect and so more precession.",
+					"It stays the same, since the gravitational torque, not the spin, determines the precession rate.",
+					"It quadruples, since the precession rate scales as the square of the spin rate."
+				],
+				"answer": 0,
+				"explanation": "The gravitational torque $Mgl\\sin\\theta$ changes $\\vec L$ at a rate fixed by the torque, so the larger the spin angular momentum the slower its direction changes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A top released with its axis tilted shows a small periodic nodding of the axis on top of the slow precession. What is this nutation in the effective-potential picture?",
+				"options": [
+					"Oscillation of $\\theta$ between two turning points of $U_{eff}(\\theta)$; steady precession is the minimum.",
+					"Random vibration caused by friction at the tip, which dies away as the top settles into steady precession.",
+					"A resonance between the spin and precession frequencies that eventually destroys the motion of the top.",
+					"A violation of energy conservation caused by the changing tilt of the axis relative to the vertical."
+				],
+				"answer": 0,
+				"explanation": "With $p_\\phi,p_\\psi,E$ conserved, $\\theta$ obeys a 1D energy equation; its bounded motion is nutation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A toy gyroscope has mass $M=0.20$ kg, centre of mass $l=0.050$ m from the pivot, spin moment $I_3=2.0\\times10^{-4}$ kg m² and spin rate 3000 rpm. Using $\\Omega=Mgl/(I_3\\omega_3)$, what is its precession rate? Give it in rad/s ($g=9.81$ m/s²).",
+				"answer": 1.561,
+				"tolerance": 0.03,
+				"explanation": "$\\omega_3=3000\\cdot2\\pi/60=314.2$ rad/s so $\\Omega=0.2(9.81)(0.05)/(2\\times10^{-4}\\cdot314.2)=1.56$ rad/s (one precession in about 4 s).",
+				"unit": "rad/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "A spinning top does not simply topple under gravity. Explain, in terms of angular momentum, why it precesses instead.",
+				"rubric": "Full credit requires: (1) the gravitational torque is horizontal and perpendicular to L (the spin angular momentum along the axis); (2) torque = dL/dt, so L changes direction, not magnitude; (3) the axis therefore moves sideways around the vertical (precession) rather than falling.",
+				"modelAnswer": "The torque from gravity $\\vec r\\times M\\vec g$ is horizontal and perpendicular to the spin angular momentum $\\vec L$. Since $d\\vec L/dt=\\vec\\Gamma$, $\\vec L$ changes direction, not magnitude: the axis sweeps around the vertical instead of falling. The faster the spin, the smaller the change of direction per unit time."
+			}
+		],
+		"p4-l033-two-coupled": [
+			{
+				"kind": "mc",
+				"prompt": "Two equal masses are joined to walls and to each other by springs $k$, $\\kappa$, $k$. Which normal mode has the higher frequency, and why?",
+				"options": [
+					"The in-phase mode, because both masses move together and so carry more of the energy at a higher rate.",
+					"The two modes have equal frequencies, because the two masses and end springs are identical by symmetry.",
+					"The out-of-phase mode: the middle spring is stretched, adding restoring force, $\\omega^2=(k+2\\kappa)/m$.",
+					"The in-phase mode, because it has to overcome the extra resistance of the middle spring."
+				],
+				"answer": 2,
+				"explanation": "In the in-phase mode the middle spring never changes length, so it is irrelevant. In the antisymmetric mode it is stretched twice as much as either end spring."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a normal mode of a coupled-oscillator system, what is true of all the coordinates?",
+				"options": [
+					"Each coordinate oscillates at its own frequency, independently of the others, as in uncoupled oscillators.",
+					"All coordinates oscillate at one single frequency with fixed relative amplitudes and phases.",
+					"Only one coordinate is nonzero at any moment, with the energy passing from mass to mass in turn.",
+					"The coordinates oscillate at frequencies that change slowly in time as energy is exchanged."
+				],
+				"answer": 1,
+				"explanation": "A normal mode is a collective motion, an eigenvector of the equations of motion; any motion is a superposition of such modes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two identical weakly coupled pendulums: one is displaced and released from rest, the other starts at rest. What happens?",
+				"options": [
+					"Only the first pendulum ever moves, since the weak coupling cannot transmit any appreciable energy.",
+					"Both swing with constant, equal amplitudes forever once the coupling has set the motion going.",
+					"The second pendulum is driven by the first but never gains any net energy from it.",
+					"Energy sloshes back and forth between them (beats), at the difference of the mode frequencies."
+				],
+				"answer": 3,
+				"explanation": "The initial state is an equal superposition of the in-phase and out-of-phase modes. Their slightly different frequencies drift into and out of phase, transferring energy."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two equal masses of 0.50 kg are attached to walls by springs $k=20$ N/m and to each other by a weak spring $\\kappa=5.0$ N/m. Its normal modes are $\\omega_1=\\sqrt{k/m}$ and $\\omega_2=\\sqrt{(k+2\\kappa)/m}$. What is the beat period $2\\pi/(\\omega_2-\\omega_1)$ in seconds?",
+				"answer": 4.42,
+				"tolerance": 0.03,
+				"explanation": "$\\omega_1=6.325$ rad/s, $\\omega_2=7.746$ rad/s so $T_{beat}=2\\pi/1.421=4.42$ s.",
+				"unit": "s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how you would solve a two-coupled-oscillator problem using the normal-mode ansatz, and how an arbitrary initial condition is handled.",
+				"rubric": "Full credit requires: (1) substitute x_i = A_i e^{i omega t}, giving an eigenvalue problem for omega^2 and mode vectors; (2) solve the characteristic equation for the two frequencies and the amplitude ratios; (3) the general solution is a superposition of the two modes (four constants: two amplitudes and two phases), which are fixed by initial positions and velocities.",
+				"modelAnswer": "Substitute $x_i=A_ie^{i\\omega t}$ to get a linear algebra problem; the condition for nonzero $A_i$ gives the characteristic equation for $\\omega^2$, and each root gives a mode shape. The general motion is a superposition of the two modes with four free constants, which are matched to the two initial positions and two initial velocities."
+			}
+		],
+		"p4-l034-double-pendulum-general": [
+			{
+				"kind": "mc",
+				"prompt": "The normal-mode condition $(\\mathbf K-\\omega^2\\mathbf M)\\vec a=0$ requires $\\det(\\mathbf K-\\omega^2\\mathbf M)=0$. Why?",
+				"options": [
+					"Because the determinant of the matrix is the energy of the system, and this must vanish for oscillation.",
+					"Because $\\mathbf K$ and $\\mathbf M$ must be equal, which is the condition for any oscillation to occur.",
+					"A homogeneous linear system has a nonzero solution only when its matrix is singular.",
+					"Because the oscillation amplitudes are all zero at a normal mode, so the determinant must be zero."
+				],
+				"answer": 2,
+				"explanation": "The system is an eigenvalue problem: a nonzero mode vector $\\vec a$ exists only for special values of $\\omega^2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "An inverted double pendulum (both rods pointing up) has equilibrium. What do the normal-mode equations give for $\\omega^2$ near this equilibrium?",
+				"options": [
+					"At least one $\\omega^2$ is negative, so deviations grow exponentially: the equilibrium is unstable.",
+					"All the $\\omega^2$ are positive, since gravity still acts as a restoring influence on each rod.",
+					"$\\omega^2$ comes out complex, which indicates a damped oscillation about the inverted position.",
+					"The equations have no solutions, because the inverted position is not an equilibrium of the system."
+				],
+				"answer": 0,
+				"explanation": "Stability of an equilibrium requires $\\mathbf K$ to be positive definite. A negative eigenvalue gives imaginary frequency and $e^{\\pm\\gamma t}$ solutions."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can one prove that normal-mode frequencies are real and that the mode vectors are mutually orthogonal in the kinetic-energy metric $\\vec a^T\\mathbf M\\vec b=0$?",
+				"options": [
+					"Because energy is not conserved in the small-oscillation approximation, which forces the frequencies to be real.",
+					"Because the modes are chosen arbitrarily and only appear to be orthogonal when plotted.",
+					"Because the matrices are anti-symmetric, which makes the eigenvalues real and the vectors orthogonal.",
+					"$\\mathbf K$ and $\\mathbf M$ are real symmetric with $\\mathbf M$ positive definite, a symmetric eigenproblem."
+				],
+				"answer": 3,
+				"explanation": "Real symmetric (Hermitian) structure gives real $\\omega^2$ and orthogonality: the same mathematics that makes quantum observables have real eigenvalues."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A double pendulum has two equal masses and two equal rods of length $l=1.00$ m. For small oscillations the normal modes satisfy $\\omega^2=(2\\pm\\sqrt2)\\,g/l$. What is the lower normal-mode angular frequency? Give it in rad/s ($g=9.81$ m/s²).",
+				"answer": 2.397,
+				"tolerance": 0.02,
+				"explanation": "$\\omega_{low}=\\sqrt{(2-\\sqrt2)(9.81)}=2.397$ rad/s (the in-phase swing); the upper mode is 5.79 rad/s.",
+				"unit": "rad/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how you obtain the matrices $\\mathbf M$ and $\\mathbf K$ for a general system from its Lagrangian, and why the equilibrium condition matters.",
+				"rubric": "Full credit requires: (1) expand T to second order in velocities with coefficients evaluated at equilibrium (giving M) and U to second order in the displacements (giving K); (2) at equilibrium the first-order terms in U vanish (generalised forces zero), so the leading term is quadratic; (3) then L = 1/2 q-dot^T M q-dot - 1/2 q^T K q gives linear equations.",
+				"modelAnswer": "Write $q_i=q_i^{(0)}+\\eta_i$ about equilibrium. The kinetic energy to second order is $\\tfrac12\\sum M_{ij}\\dot\\eta_i\\dot\\eta_j$ with $M_{ij}$ evaluated at equilibrium; $U\\approx U_0+\\tfrac12\\sum K_{ij}\\eta_i\\eta_j$. The linear term in $U$ vanishes precisely because it's an equilibrium ($\\partial U/\\partial q_i=0$). Then the Lagrange equations are $\\mathbf M\\ddot{\\vec\\eta}=-\\mathbf K\\vec\\eta$."
+			}
+		],
+		"p4-l035-normal-coordinates": [
+			{
+				"kind": "mc",
+				"prompt": "What is the main advantage of normal coordinates $\\xi_i$ for a harmonic system?",
+				"options": [
+					"They make all the frequencies of the system equal, which is why the motion becomes simple.",
+					"The Lagrangian becomes a sum of independent oscillators, each with its own conserved energy.",
+					"They remove the need for initial conditions, since the modes are fixed entirely by the system.",
+					"They turn a nonlinear problem into a linear one at any amplitude, however large."
+				],
+				"answer": 1,
+				"explanation": "The change of variables diagonalises both $\\mathbf M$ and $\\mathbf K$ simultaneously, decoupling the equations."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Three identical pendulums are in a row coupled by springs between neighbours. Which displacement pattern $(x_1,x_2,x_3)$ can be a normal mode?",
+				"options": [
+					"$(1,1,0)$, in which the first two pendulums move together and the third stays at rest.",
+					"$(1,0,-1)$: antisymmetric under reflection, with the middle pendulum at rest.",
+					"$(2,1,0)$, in which the amplitude falls off steadily along the row of pendulums.",
+					"$(0,1,1)$, in which the second and third pendulums move together and the first stays at rest."
+				],
+				"answer": 1,
+				"explanation": "The reflection symmetry $1\\leftrightarrow3$ forces modes to be symmetric or antisymmetric. Only $(1,0,-1)$ among these is antisymmetric (the symmetric modes are $(1,1,1)$ and $(1,-2,1)$)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "To fit the motion of three coupled pendulums to arbitrary initial positions and velocities, how many constants must the general solution contain?",
+				"options": [
+					"Three: one amplitude for each normal mode, since the phases are set by the system itself.",
+					"Nine: three positions, three velocities and three accelerations all have to be matched.",
+					"Two: one amplitude and one phase, since all the pendulums share a single frequency.",
+					"Six: an amplitude and a phase for each of the three modes."
+				],
+				"answer": 3,
+				"explanation": "Three second-order equations need $3+3$ initial conditions; the sum over three modes with two constants each supplies exactly these."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Three identical pendulums (natural frequency$^2$ $g/l=9.81$ s$^{-2}$) are coupled in a line by two identical springs; the normal modes have $\\omega^2=g/l+(k/m)\\lambda$ with $\\lambda=0,1,3$. For $k/m=2.0$ s$^{-2}$, what is the highest normal-mode frequency? Give it in rad/s.",
+				"answer": 3.976,
+				"tolerance": 0.02,
+				"explanation": "The $\\lambda=3$ mode (displacement pattern $(1,-2,1)$) has $\\omega^2=9.81+6=15.81$, so $\\omega=3.976$ rad/s.",
+				"unit": "rad/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why using the reflection symmetry of a system helps you find its normal modes before computing anything.",
+				"rubric": "Full credit requires: (1) if the system is unchanged by a reflection, each normal mode must be either symmetric or antisymmetric under it (for non-degenerate modes); (2) this lets you guess the form of modes, reducing the size of the problem; (3) e.g. in a symmetric three-body chain, the antisymmetric mode has the middle body at rest.",
+				"modelAnswer": "If a reflection maps the system into itself, the equations of motion are unchanged by the swap, so each non-degenerate normal mode must either be unchanged or flip sign under it. That lets you guess mode shapes (for a symmetric three-body chain, one antisymmetric mode with the centre stationary) and splits the problem into smaller independent blocks."
+			}
+		],
+		"p4-l036-molecular-vibrations": [
+			{
+				"kind": "mc",
+				"prompt": "Why is the symmetric stretch of CO$_2$ IR inactive while the antisymmetric stretch is IR active?",
+				"options": [
+					"The molecular dipole stays zero in the symmetric stretch but oscillates in the antisymmetric one.",
+					"The symmetric stretch has too high a frequency to be detected by an infrared spectrometer.",
+					"The symmetric stretch does not change the bond lengths, so it cannot interact with any radiation.",
+					"The antisymmetric stretch is the only mode that has a force constant, so only it can vibrate."
+				],
+				"answer": 0,
+				"explanation": "IR absorption requires a change in dipole moment during the vibration. The symmetric stretch is Raman active instead."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How many vibrational modes does a nonlinear molecule with $N=12$ atoms (e.g. benzene) have?",
+				"options": [
+					"36, which is $3N$: every atomic coordinate counts as one vibrational mode of the molecule.",
+					"33, which is $3N-3$: only the translations of the whole molecule are removed from the count.",
+					"30, since $3N-6$ removes translations and rotations.",
+					"24, which is $2N$: each atom contributes one stretch and one bend only."
+				],
+				"answer": 2,
+				"explanation": "Total degrees of freedom $3N$ minus 3 translations and 3 rotations. A linear molecule has only two rotations, hence $3N-5$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the continuum limit of a chain of coupled masses, how does the discrete chain's dispersion relation differ from the continuous string's $\\omega=vq$?",
+				"options": [
+					"The chain has no wave solutions at all, so the continuum limit gives only static displacements.",
+					"The chain has the same linear dispersion at every wavelength, exactly as a continuous string does.",
+					"The chain's frequency increases without limit as $q$ grows, since shorter waves need more energy.",
+					"At short wavelengths $\\omega=2\\sqrt{k/m}|\\sin(qa/2)|$ falls below $vq$ and reaches a maximum."
+				],
+				"answer": 3,
+				"explanation": "The chain cannot support wavelengths shorter than $2a$; this is the origin of the Debye cutoff and of phonon bands."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A model of the symmetric stretch of CO$_2$ keeps the carbon fixed, with each oxygen (15.995 u) attached to it by a spring of force constant 1700 N/m. Compute the vibration wavenumber $\\tilde\\nu=\\frac1{2\\pi c}\\sqrt{k/m_O}$ in cm$^{-1}$. (Use $u=1.6605\\times10^{-27}$ kg.)",
+				"answer": 1343.0,
+				"tolerance": 0.03,
+				"explanation": "$\\tilde\\nu=1343$ cm$^{-1}$, close to the observed 1388 cm$^{-1}$ (Raman).",
+				"unit": "cm^-1"
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe the three types of vibrational motion of a CO$_2$ molecule and say which are infrared active and why.",
+				"rubric": "Full credit requires: (1) symmetric stretch (both O move away from C together), antisymmetric stretch (one O in, one out) and bending (doubly degenerate); (2) IR activity requires a changing dipole: antisymmetric stretch and bend change the dipole; the symmetric stretch does not; (3) a mention of symmetry or dipole reasoning.",
+				"modelAnswer": "CO$_2$ has the symmetric stretch (both oxygens move out together, no dipole change, IR inactive), the antisymmetric stretch (one oxygen moves in while the other goes out, the dipole oscillates, IR active) and the doubly degenerate bend (the molecule bends, creating a dipole, IR active). IR absorption requires an oscillating dipole moment."
+			}
+		],
+		"p4-l037-hamilton-eqs": [
+			{
+				"kind": "mc",
+				"prompt": "When does the Hamiltonian $H=\\sum p_i\\dot q_i-L$ equal the total energy $T+U$?",
+				"options": [
+					"Always, since $H$ is defined as the total energy of the system, whatever the coordinates used.",
+					"When constraints and the coordinates are time-independent and $T$ is quadratic in velocities.",
+					"Only for one-dimensional systems, where there is no distinction between $T+U$ and $H$.",
+					"Only when the force is central, so that the potential energy depends on distance alone."
+				],
+				"answer": 1,
+				"explanation": "The identity $\\sum \\dot q_i\\partial T/\\partial\\dot q_i=2T$ for quadratic $T$ gives $H=2T-(T-U)=T+U$. For a rotating frame or a time-dependent constraint it fails."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What do Hamilton's equations $\\dot q_i=\\partial H/\\partial p_i$ and $\\dot p_i=-\\partial H/\\partial q_i$ gain over Lagrange's equations?",
+				"options": [
+					"They hold only for conservative systems, so they cannot describe driven or time-dependent problems.",
+					"They are $N$ second-order equations, and so offer no advantage over Lagrange's equations.",
+					"They are $2N$ first-order equations for independent $q$ and $p$, giving phase-space geometry.",
+					"They remove the need for initial conditions, since $q$ and $p$ are treated on an equal footing."
+				],
+				"answer": 2,
+				"explanation": "Treating $(q,p)$ as independent coordinates puts position and momentum on equal footing: the stage for Liouville's theorem, Poisson brackets and canonical quantisation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A Hamiltonian in polar coordinates, $H=p_r^2/2m+p_\\phi^2/(2mr^2)+U(r)$, does not contain $\\phi$. What follows?",
+				"options": [
+					"$\\dot p_\\phi=-\\partial H/\\partial\\phi=0$: the angular momentum is conserved.",
+					"$\\phi$ itself is constant, since the Hamiltonian does not depend on it in any way.",
+					"$p_r$ is conserved, since the radial and angular parts of $H$ are completely separate.",
+					"Nothing follows: $H$ is always conserved, but this tells us nothing about $p_\\phi$."
+				],
+				"answer": 0,
+				"explanation": "An ignorable coordinate in $H$ gives a conserved conjugate momentum, just as in the Lagrangian formulation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The classical analogue of CO rotation: a rotor with moment of inertia $I=1.449\\times10^{-46}$ kg m² and $H=p_\\theta^2/(2I)$. For rotational quantum number $J=10$, take $p_\\theta=\\hbar\\sqrt{J(J+1)}$. Using Hamilton's equation $\\dot\\theta=\\partial H/\\partial p_\\theta$, what is the angular velocity? Give it in rad/s ($\\hbar=1.0546\\times10^{-34}$ J s).",
+				"answer": 7635000000000.0,
+				"tolerance": 0.03,
+				"explanation": "$\\dot\\theta=p_\\theta/I=\\hbar\\sqrt{110}/I=7.64\\times10^{12}$ rad/s, about $1.2\\times10^{12}$ revolutions per second.",
+				"unit": "rad/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the classical Hamiltonian becomes the operator in the Schroedinger equation, and why it matters that $q$ and $p$ are treated as independent variables in the Hamiltonian formulation.",
+				"rubric": "Full credit requires: (1) classical H(q,p) is the energy as a function of position and momentum; quantisation replaces p by -i hbar d/dq (operators) so H becomes an operator whose eigenvalues are energy levels; (2) Hamilton's formulation treats q and p as independent coordinates of phase space, and the pair does not commute in QM ({q,p}=1 becomes [q,p]=i hbar); (3) the Lagrangian velocity dependence is replaced by the independent momentum, which is what is promoted to an operator.",
+				"modelAnswer": "The Hamiltonian expresses the energy as a function $H(q,p)$. Replacing $p\\to-i\\hbar\\,\\partial/\\partial q$ turns it into an operator, and the Schroedinger equation is $i\\hbar\\,\\partial\\psi/\\partial t=\\hat H\\psi$. Treating $q$ and $p$ as independent phase-space variables is what makes this possible: $p$ becomes an independent operator with $[\\hat q,\\hat p]=i\\hbar$, mirroring the classical bracket $\\{q,p\\}=1$."
+			}
+		],
+		"p4-l038-phase-space-liouville": [
+			{
+				"kind": "mc",
+				"prompt": "In the phase portrait of a pendulum, what does the separatrix represent?",
+				"options": [
+					"It separates oscillation (closed orbits) from full rotation (open orbits), passing through the unstable top.",
+					"It is the orbit with zero energy, which separates motion above the bottom from motion below it.",
+					"It is the line along which the pendulum has its maximal speed during each swing.",
+					"It is the set of all fixed points of the pendulum, including the hanging and inverted positions."
+				],
+				"answer": 0,
+				"explanation": "The separatrix has energy equal to that of the inverted position. Motion on it takes infinite time to reach the top."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Liouville's theorem says phase-space volume is conserved by Hamiltonian flow. Which statement is correct?",
+				"options": [
+					"A blob of initial conditions always keeps its shape as it moves through phase space.",
+					"Every initial condition ends up at the same point, since volume conservation squeezes them together.",
+					"A blob keeps its volume but may stretch into thin filaments; its density along the flow is constant.",
+					"The volume of a blob shrinks to zero over time, as all orbits converge on a small region."
+				],
+				"answer": 2,
+				"explanation": "Volume is preserved, but shape is not. In chaotic systems the blob stretches in one direction and contracts in another, filling the energy surface finely."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A damped pendulum eventually comes to rest at the bottom whatever its starting state. What does this say about the flow in phase space?",
+				"options": [
+					"Phase-space volume is conserved here, so the apparent attractor must be an artifact of friction.",
+					"Dissipation contracts phase-space volume, so all states flow to a fixed-point attractor.",
+					"Volume expands under damping, so nearby trajectories diverge before the pendulum comes to rest.",
+					"The system is not deterministic, since different starting states reach the same final state."
+				],
+				"answer": 1,
+				"explanation": "Hamiltonian flows conserve volume so cannot have attractors; friction adds a negative divergence to the flow, which collapses volume onto an attractor."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A harmonic oscillator of mass 0.10 kg and spring constant 10 N/m (so $\\omega=10$ rad/s) oscillates with amplitude 0.050 m. The phase-space orbit is an ellipse of area $\\oint p\\,dq=2\\pi E/\\omega$. What is this area? Give it in J s.",
+				"answer": 0.007854,
+				"tolerance": 0.02,
+				"explanation": "$E=\\tfrac12kA^2=0.0125$ J so $\\text{Area}=2\\pi E/\\omega=0.00785$ J s. Equivalently $\\pi(A)(m\\omega A)=\\pi m\\omega A^2$.",
+				"unit": "J s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how Liouville's theorem supports the equal a priori probability postulate used for the microcanonical ensemble in statistical mechanics.",
+				"rubric": "Full credit requires: (1) Liouville: phase-space density is constant along trajectories, so a uniform distribution over an energy shell stays uniform under the dynamics (stationary); (2) the microcanonical ensemble spreads probability uniformly over the accessible phase-space region at fixed energy; (3) therefore equal weighting is consistent with equilibrium (does not evolve), which a nonuniform distribution would not guarantee.",
+				"modelAnswer": "Liouville's theorem says the flow preserves phase-space volume and the density is constant along trajectories. A distribution that is uniform over the energy surface therefore stays uniform in time, i.e. is stationary. This is what is needed of an equilibrium ensemble, so equal a priori probability on the energy shell (the microcanonical postulate) is dynamically consistent."
+			}
+		],
+		"p4-l039-nonlinear-ddp": [
+			{
+				"kind": "mc",
+				"prompt": "A pendulum swings with a large amplitude (e.g. $60^\\circ$). How does its period compare with the small-angle value $2\\pi\\sqrt{l/g}$?",
+				"options": [
+					"The same: the period of a pendulum never depends on its amplitude, which is why clocks work.",
+					"Shorter, because the restoring force is larger when the pendulum is displaced farther from the vertical.",
+					"Exactly twice as long, at any amplitude, since the arc to travel is longer.",
+					"Longer: $\\sin\\theta$ is weaker than $\\theta$ at large angles, so the period grows with amplitude."
+				],
+				"answer": 3,
+				"explanation": "The linear (isochronous) result holds only for small $\\theta$. $T\\approx T_0(1+\\theta_0^2/16)$ for modest amplitudes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which phenomenon can only occur in a nonlinear system?",
+				"options": [
+					"Resonance with a narrow peak, which needs the oscillator to respond more than proportionally.",
+					"Damped oscillation, which cannot be described by a linear equation of motion.",
+					"A response at frequencies absent from the drive, such as harmonic generation.",
+					"A phase shift between drive and response, which cannot appear if superposition holds."
+				],
+				"answer": 2,
+				"explanation": "Linear systems respond only at the drive frequency; superposition forbids new frequencies. Harmonic generation (such as frequency doubling in nonlinear crystals) is a hallmark of nonlinearity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the driven damped pendulum, as the drive amplitude $\\gamma$ is increased with other parameters fixed, what sequence is typically observed?",
+				"options": [
+					"Periodic at the drive period, then period doubling, then chaos with periodic windows.",
+					"Chaos at all drive amplitudes, since the nonlinearity is always strong enough to cause it.",
+					"Periodic motion at every amplitude, since the equation of motion is deterministic.",
+					"An immediate jump to chaos at some critical amplitude, with no intermediate states."
+				],
+				"answer": 0,
+				"explanation": "Period-doubling cascades are a standard route to chaos, shared by many nonlinear systems."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The exact period of a pendulum with amplitude $\\theta_0$ is $T=\\dfrac{2}{\\pi}K(\\sin^2(\\theta_0/2))\\,T_0$, with $K$ the complete elliptic integral. For $\\theta_0=60^\\circ$, what is the ratio $T/T_0$? (Give a dimensionless number.)",
+				"answer": 1.073,
+				"tolerance": 0.02,
+				"explanation": "$T/T_0=1.0732$: the period is 7.3% longer than the small-angle value; the series estimate $1+\\theta_0^2/16=1.069$ is close."
+			},
+			{
+				"kind": "short",
+				"prompt": "A pendulum with periodic driving obeys a deterministic equation but can behave chaotically. Explain what the drive amplitude controls and why nonlinearity is essential for chaos.",
+				"rubric": "Full credit requires: (1) the drive amplitude is a control parameter: changing it tunes the system through qualitatively different regimes (periodic, period doubling, chaos); (2) linear systems obey superposition and respond predictably at the drive frequency, so cannot produce chaos; (3) nonlinear terms (sin theta) allow stretching and folding of phase-space trajectories, producing sensitivity to initial conditions.",
+				"modelAnswer": "The drive amplitude $\\gamma$ is the control parameter: varying it carries the system from periodic motion through period doubling to chaos. Chaos needs nonlinearity because a linear system obeys superposition, so nearby trajectories diverge at most linearly in time. The $\\sin\\theta$ term lets phase space stretch and fold, producing exponential divergence."
+			}
+		],
+		"p4-l040-chaos-sensitivity": [
+			{
+				"kind": "mc",
+				"prompt": "A stroboscopic Poincare section of a chaotic motion looks like:",
+				"options": [
+					"A single point, as for a system that returns to the same state after one drive period.",
+					"A finite set of points that repeats, as for a system with a long period.",
+					"A smooth closed curve, as for motion on a torus with two incommensurate frequencies.",
+					"A scatter of points filling a region, often with fractal structure."
+				],
+				"answer": 3,
+				"explanation": "Periodic: a finite set of points; quasi-periodic: a closed curve; chaotic: a fractal cloud."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the sign of the largest Lyapunov exponent $\\lambda$ tell you?",
+				"options": [
+					"It gives the energy of the system, with positive values meaning that the system is gaining energy.",
+					"$\\lambda>0$: nearby trajectories separate as $e^{\\lambda t}$ (chaos); $\\lambda<0$: they converge; $\\lambda=0$: neither.",
+					"It is positive for every dynamical system, since all systems have some sensitivity to initial conditions.",
+					"It counts the number of dimensions of phase space that take part in the motion of the system."
+				],
+				"answer": 1,
+				"explanation": "The exponent quantifies the average exponential rate of divergence of nearby initial conditions."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If a chaotic system's equations are deterministic, why can't we predict its long-term behavior?",
+				"options": [
+					"Because the equations contain random terms, so the same initial conditions give different outcomes.",
+					"Initial data are known only to finite precision and errors grow exponentially, so more digits help little.",
+					"Because the system is infinitely large, so a finite computer cannot hold all the variables.",
+					"Because we have not found the exact solution of the equations yet, though one probably exists."
+				],
+				"answer": 1,
+				"explanation": "The predictability horizon is about $(1/\\lambda)\\ln(\\Delta/\\delta_0)$: 1000 times more precision buys only $\\ln1000/\\lambda$ extra time."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two trajectories of a chaotic system start $10^{-8}$ apart and their separation grows as $e^{\\lambda t}$ with $\\lambda=0.50$ s$^{-1}$. How long does it take until they are separated by order 1? Give the time in seconds.",
+				"answer": 36.84,
+				"tolerance": 0.03,
+				"explanation": "$t=\\ln(10^8)/\\lambda=36.8$ s. Improving the initial precision by another factor of $10^8$ would only double the horizon.",
+				"unit": "s"
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, what is the Lyapunov exponent and why does a positive one make long-term prediction impossible, even though the motion is deterministic?",
+				"rubric": "Full credit requires: (1) the Lyapunov exponent is the average exponential growth rate of the separation of nearby trajectories; (2) a positive exponent amplifies tiny initial uncertainties by e^{lambda t}, so they become macroscopic after a finite time; (3) because initial conditions are never known exactly, prediction beyond about (1/lambda) ln(1/delta) is impossible, despite determinism.",
+				"modelAnswer": "The Lyapunov exponent $\\lambda$ is the average exponential rate at which two initially close trajectories separate, $\\delta(t)\\approx\\delta_0e^{\\lambda t}$. If $\\lambda>0$, any small uncertainty in the initial state is magnified until it is of order 1 after a time $\\sim(1/\\lambda)\\ln(1/\\delta_0)$. Because we can never specify initial conditions exactly, prediction beyond that horizon fails, even though the equations are deterministic."
+			}
+		],
+		"p4-l041-logistic-map": [
+			{
+				"kind": "mc",
+				"prompt": "For the logistic map $x_{n+1}=rx_n(1-x_n)$ with $r=3.2$, what is the long-time behaviour?",
+				"options": [
+					"Convergence to the fixed point $x^*=0.6875$, where $f(x^*)=x^*$ and the iteration stops.",
+					"Chaos, with no repeating pattern, since $r=3.2$ is beyond the first bifurcation.",
+					"Divergence to infinity, since $r>3$ makes the iterates grow at every step.",
+					"A stable period-2 cycle, alternating between about 0.513 and 0.799."
+				],
+				"answer": 3,
+				"explanation": "The fixed point $x^*=1-1/r$ is stable only for $r<3$, where $|f'(x^*)|=|2-r|<1$. At $r=3.2$ it has become unstable ($f'=-1.2$), so the iterates settle onto a 2-cycle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do very different systems (the logistic map, driven pendulums, convecting fluids) show the same Feigenbaum ratio $\\delta\\approx4.669$ at period doubling?",
+				"options": [
+					"Universality: the cascade depends on the map's shape near a quadratic maximum, not on microscopic details.",
+					"All of these systems are described by exactly the same equation, up to a change of variables.",
+					"It is a coincidence, with no deeper reason, which would also vanish if the systems were changed slightly.",
+					"Because they all conserve energy, and energy conservation fixes the rate of period doubling."
+				],
+				"answer": 0,
+				"explanation": "Renormalisation-group analysis shows that any smooth one-humped map with a quadratic maximum falls into the same universality class."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How is the logistic-map route to chaos related to the one seen in the driven damped pendulum?",
+				"options": [
+					"The pendulum goes straight to chaos with no period-doubling cascade, unlike the logistic map.",
+					"The logistic map has no cascade at all, while the pendulum does show period doubling.",
+					"Both pass through period-doublings whose spacing shrinks by one universal ratio, ending in chaos.",
+					"The pendulum reaches chaos by quasi-periodicity only, which is a different route from the map's."
+				],
+				"answer": 2,
+				"explanation": "The DDP shows period doubling in the drive amplitude, with bifurcation points that converge geometrically at the Feigenbaum ratio."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The logistic map has period-doubling bifurcations at $r_2=3.4494897$, $r_3=3.5440903$ and $r_4=3.5644073$. Estimate the Feigenbaum ratio $\\delta\\approx(r_3-r_2)/(r_4-r_3)$.",
+				"answer": 4.656,
+				"tolerance": 0.03,
+				"explanation": "$\\delta\\approx0.0946006/0.020317=4.656$, near the exact limit 4.669."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how to find the stability of a fixed point of a one-dimensional map and what happens at the point where it stops being stable.",
+				"rubric": "Full credit requires: (1) find fixed points x* = f(x*); (2) linearise: perturbation grows by the factor f'(x*) each step, so stable if |f'(x*)|<1; (3) when f' passes through -1 the fixed point becomes unstable and a period-2 cycle appears (period doubling); f' = +1 gives tangent or pitchfork bifurcations.",
+				"modelAnswer": "Solve $x^*=f(x^*)$ and linearise: a small deviation $\\eta$ evolves as $\\eta_{n+1}=f'(x^*)\\eta_n$, so the fixed point is stable if $|f'(x^*)|<1$. As a parameter varies and $f'$ passes through $-1$, the fixed point loses stability and a stable 2-cycle is born, the first period doubling."
+			}
+		],
+		"p4-l042-poisson-brackets": [
+			{
+				"kind": "mc",
+				"prompt": "A particle moves in a potential $U(r)$ depending only on the distance from the origin. Using $dF/dt=\\{F,H\\}$, which quantity is conserved?",
+				"options": [
+					"The linear momentum $\\vec p$, since the force on the particle is central and so conserves it.",
+					"Only $L^2$ but not the individual components, since the potential picks out no particular axis.",
+					"Nothing, since there is a nonzero force acting on the particle all the time.",
+					"The angular momentum $\\vec L$ (all components), as $\\{L_i,H\\}=0$ for rotationally symmetric $H$."
+				],
+				"answer": 3,
+				"explanation": "$H=p^2/2m+U(r)$ is invariant under rotations, so each $L_i$ has zero bracket with $H$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If $L_x$ and $L_y$ are constants of motion of a system, what does Poisson's theorem tell you?",
+				"options": [
+					"$L_z$ must be zero, since two components of $\\vec L$ cannot both be conserved otherwise.",
+					"$\\{L_x,L_y\\}=L_z$ is also a constant of motion (by the Jacobi identity).",
+					"$L_z$ is not conserved, because $L_x$ and $L_y$ already fix the direction of $\\vec L$.",
+					"Nothing: constants of motion are independent, and conserving two says nothing about a third."
+				],
+				"answer": 1,
+				"explanation": "The bracket of two constants of motion is again a constant of motion; here it produces $L_z$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the 'replacement rule' that links Poisson brackets to quantum mechanics?",
+				"options": [
+					"$\\{A,B\\}\\to\\hat A\\hat B$, the ordinary product of the corresponding operators.",
+					"$\\{A,B\\}\\to\\hbar\\hat A\\hat B$, the product of the operators times Planck's constant.",
+					"$\\{A,B\\}\\to[\\hat A,\\hat B]/(i\\hbar)$, so $\\{q,p\\}=1$ becomes $[\\hat q,\\hat p]=i\\hbar$.",
+					"$\\{A,B\\}\\to0$, since quantum observables are treated as numbers that cannot change."
+				],
+				"answer": 2,
+				"explanation": "Dirac's correspondence: the classical algebra of brackets maps to the commutator algebra. Heisenberg's equation $d\\hat A/dt=[\\hat A,\\hat H]/(i\\hbar)$ is then the exact counterpart of $dA/dt=\\{A,H\\}$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $f=x^2p$ and $g=xp$ (one degree of freedom), compute the Poisson bracket $\\{f,g\\}=\\dfrac{\\partial f}{\\partial x}\\dfrac{\\partial g}{\\partial p}-\\dfrac{\\partial f}{\\partial p}\\dfrac{\\partial g}{\\partial x}$ at $x=2$, $p=3$. (Dimensionless units.)",
+				"answer": 12.0,
+				"tolerance": 0.02,
+				"explanation": "$\\partial f/\\partial x=2xp$, $\\partial g/\\partial p=x$, $\\partial f/\\partial p=x^2$, $\\partial g/\\partial x=p$. So $\\{f,g\\}=2x^2p-x^2p=x^2p=12$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the equation $df/dt=\\{f,H\\}+\\partial f/\\partial t$ is a more compact way to describe time evolution, and how it relates to Heisenberg's equation of motion.",
+				"rubric": "Full credit requires: (1) it follows from the chain rule and Hamilton's equations, giving the time derivative of any phase-space function as a bracket with H; (2) f is conserved if {f,H}=0 (and no explicit t-dependence): a single test for conservation laws; (3) in quantum mechanics {,} is replaced by the commutator over i hbar, giving dA/dt = [A,H]/(i hbar).",
+				"modelAnswer": "By the chain rule and Hamilton's equations, $df/dt=\\sum(\\partial f/\\partial q\\,\\dot q+\\partial f/\\partial p\\,\\dot p)+\\partial_tf=\\{f,H\\}+\\partial_tf$. So any function with zero bracket with $H$ (and no explicit time dependence) is conserved. Replacing $\\{,\\}$ by $[,]/(i\\hbar)$ gives Heisenberg's equation $d\\hat A/dt=[\\hat A,\\hat H]/(i\\hbar)$."
+			}
+		],
+		"p4-l043-canonical-transformations": [
+			{
+				"kind": "mc",
+				"prompt": "Which of these transformations of one degree of freedom is canonical?",
+				"options": [
+					"$Q=p,\\ P=-q$",
+					"$Q=p,\\ P=q$",
+					"$Q=q+p,\\ P=q-p$",
+					"$Q=2q,\\ P=2p$"
+				],
+				"answer": 0,
+				"explanation": "A transformation is canonical if $\\{Q,P\\}=1$. $\\{p,-q\\}=1$ works; $\\{p,q\\}=-1$ does not; $\\{q+p,q-p\\}=-2$ and $\\{2q,2p\\}=4$ also fail."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the role of a generating function such as $F_2(q,P)$?",
+				"options": [
+					"One mixed function of old and new variables encodes the whole transformation: $p=\\partial F_2/\\partial q$.",
+					"It is the new Hamiltonian, written in terms of the old position and the new momentum of the system.",
+					"It is the Lagrangian rewritten in the new coordinates, from which the new momenta then follow.",
+					"It gives the equations of motion directly, so that Hamilton's equations never have to be solved."
+				],
+				"answer": 0,
+				"explanation": "The generating function guarantees canonicity because the transformation is derived from a variational condition on $p\\,dq-P\\,dQ$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the time evolution map $(q_0,p_0)\\mapsto(q(t),p(t))$ of a Hamiltonian system a canonical transformation?",
+				"options": [
+					"Because the energy is conserved along the motion, and conserving energy makes any map canonical.",
+					"Because the map is linear, and linear maps always preserve phase-space structure.",
+					"Hamilton's equations preserve Poisson brackets, so the map from initial to later coordinates is canonical.",
+					"Because the map only rescales the variables, so brackets are unchanged by a constant factor."
+				],
+				"answer": 2,
+				"explanation": "The flow of a Hamiltonian vector field is symplectic. This is also the classical origin of unitary time evolution in quantum mechanics."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Consider the scaling $Q=4q$, $P=\\beta p$ for one degree of freedom. For the transformation to be canonical ($\\{Q,P\\}=1$), what must $\\beta$ be?",
+				"answer": 0.25,
+				"tolerance": 0.02,
+				"explanation": "$\\{Q,P\\}=\\{4q,\\beta p\\}=4\\beta\\{q,p\\}=4\\beta$, so $\\beta=1/4$. Stretching position must squeeze momentum, preserving phase-space area."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how a type-1 generating function $F_1(q,Q)$ defines a canonical transformation.",
+				"rubric": "Full credit requires: (1) canonical transformations require p dq - P dQ = dF (exact differential) so the action is preserved up to a boundary term; (2) with F = F1(q,Q): p = dF1/dq and P = -dF1/dQ; (3) solving these gives the new variables, and the new Hamiltonian is K = H + dF/dt.",
+				"modelAnswer": "Requiring that $p\\,\\dot q-H$ and $P\\,\\dot Q-K$ differ only by a total derivative means $p\\,dq-P\\,dQ=dF_1$ for some $F_1(q,Q)$. Hence $p=\\partial F_1/\\partial q$ and $P=-\\partial F_1/\\partial Q$: these relations define $Q(q,p)$ and $P(q,p)$ implicitly, and the new Hamiltonian is $K=H+\\partial F_1/\\partial t$."
+			}
+		],
+		"p4-l044-infinitesimal-symmetry": [
+			{
+				"kind": "mc",
+				"prompt": "Which phase-space function generates rotations about the $z$ axis via $\\delta f=\\epsilon\\{f,G\\}$?",
+				"options": [
+					"The linear momentum $p_z$, which generates translations along the $z$ axis.",
+					"The angular momentum $L_z$, which generates rotations about the $z$ axis.",
+					"The Hamiltonian $H$, which generates the evolution of the system in time.",
+					"The position $z$, which generates shifts in the momentum along the $z$ axis."
+				],
+				"answer": 1,
+				"explanation": "$\\{x,L_z\\}=-y$ and $\\{y,L_z\\}=x$, an infinitesimal rotation. Similarly $p$ generates translations and $H$ generates time evolution."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A particle in uniform gravity has $H=p^2/2m+mgz$. Which generator commutes with $H$ (zero Poisson bracket), meaning a symmetry?",
+				"options": [
+					"$p_z$, because gravity acts along $z$ and so this component of the momentum is unaffected.",
+					"$z$, because the potential energy depends on $z$ only and so commutes with it.",
+					"None of them, since gravity breaks the translation symmetry in every direction.",
+					"$p_x$: translations along $x$ leave $H$ unchanged."
+				],
+				"answer": 3,
+				"explanation": "$\\{p_x,H\\}=-\\partial H/\\partial x=0$, but $\\{p_z,H\\}=-mg\\neq0$. By Noether, $p_x$ and $p_y$ are conserved."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In quantum mechanics, what does $[\\hat G,\\hat H]=0$ imply?",
+				"options": [
+					"$G$ must be zero, since commuting operators cannot both have nonzero values.",
+					"Energy is not conserved, since a nonzero commutator is needed for time evolution.",
+					"$G$ is conserved, and $H$ and $G$ can be diagonalised together, so states can be labelled by $G$.",
+					"The Hamiltonian is not Hermitian, which makes the energy eigenvalues complex."
+				],
+				"answer": 2,
+				"explanation": "This is the quantum version of $\\{G,H\\}=0$: for example $[L_z,H]=0$ lets us label hydrogen states by $m$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An infinitesimal rotation by angle $\\epsilon=0.0010$ rad about the $z$ axis, generated by $L_z$, moves a point at $(x,y)=(3.0,4.0)$ m by $\\delta x=-\\epsilon y$ and $\\delta y=\\epsilon x$. What is the magnitude of the displacement in metres?",
+				"answer": 0.005,
+				"tolerance": 0.02,
+				"explanation": "$|\\delta\\vec r|=\\epsilon\\sqrt{x^2+y^2}=\\epsilon r=0.0010\\times5.0=0.0050$ m: a rotation moves a point along a circle by $r\\epsilon$.",
+				"unit": "m"
+			},
+			{
+				"kind": "short",
+				"prompt": "State Noether's theorem in its Hamiltonian form and explain why the same function that generates a symmetry is conserved.",
+				"rubric": "Full credit requires: (1) G generates a transformation of H that leaves H unchanged iff {H,G}=0; (2) dG/dt = {G,H} = 0, so G is conserved; the antisymmetry of the bracket means the statement is symmetric ('G generates a symmetry of H' iff 'H generates no change in G'); (3) example (e.g. L_z generating rotations, conserved for rotationally symmetric H).",
+				"modelAnswer": "A function $G$ generates a symmetry of $H$ if the change of $H$ under the transformation it generates, $\\delta H=\\epsilon\\{H,G\\}$, vanishes. But $dG/dt=\\{G,H\\}=-\\{H,G\\}$, so the same condition says $G$ is conserved. Thus $\\{G,H\\}=0$ is both 'G generates a symmetry' and 'G is a constant of motion'; for example, $L_z$ generates rotations and is conserved when $H$ is rotationally symmetric."
+			}
+		],
+		"p4-l045-hamilton-jacobi": [
+			{
+				"kind": "mc",
+				"prompt": "In the Hamilton-Jacobi formalism, how do you get the momentum from Hamilton's principal function $S(q,t)$?",
+				"options": [
+					"$p=\\partial S/\\partial q$: the momentum is the gradient of $S$ with position.",
+					"$p=\\partial S/\\partial t$, the rate at which the principal function changes with time.",
+					"$p=S/q$, the principal function divided by the coordinate, for a function that is homogeneous.",
+					"$p=-S$, the principal function itself with a minus sign, since $S$ has the units of action."
+				],
+				"answer": 0,
+				"explanation": "$S$ is the generating function of a canonical transformation to constants of motion, so $p=\\partial S/\\partial q$ and $\\partial S/\\partial t=-H$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In which sense does the Hamilton-Jacobi equation arise as the classical limit of the Schroedinger equation?",
+				"options": [
+					"It does not: the two equations describe different things and are not connected in any limit.",
+					"By setting the wavefunction equal to zero, which leaves only the classical equation.",
+					"By replacing $\\hbar$ by $2\\pi$, which turns the quantum equation into a classical one.",
+					"Putting $\\psi=e^{iS/\\hbar}$ and letting $\\hbar\\to0$ gives HJ; trajectories are normal to surfaces of constant $S$."
+				],
+				"answer": 3,
+				"explanation": "This is the same relation as geometric optics to wave optics: rays are perpendicular to wavefronts, and the WKB approximation is a refinement."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a conservative system, how is the time dependence of $S$ separated?",
+				"options": [
+					"$S=W+Et$ with $W$ a constant, since the energy enters with a positive sign.",
+					"$S=W(q)-Et$, where $W$ obeys the reduced equation $H(q,\\partial W/\\partial q)=E$.",
+					"$S$ cannot depend on time for a conservative system, so the time-dependent term is dropped.",
+					"$S=Et$ only, since a conservative system has no dependence on position in its principal function."
+				],
+				"answer": 1,
+				"explanation": "Since $H$ does not depend on $t$, the energy $E$ is a separation constant: the time-dependence is simply $-Et$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The principal function for a free particle of mass $m$ going from $x=0$ to $x$ in time $t$ is $S=mx^2/(2t)$. For $m=2.0$ kg, $x=10$ m and $t=5.0$ s, what is $S$? Give it in J s.",
+				"answer": 20.0,
+				"tolerance": 0.02,
+				"explanation": "$S=2.0\\times100/(2\\times5.0)=20$ J s. This equals $\\int\\tfrac12mv^2dt=\\tfrac12(2)(2)^2(5)$ along the actual path.",
+				"unit": "J s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the idea behind the Hamilton-Jacobi method: why would you look for a canonical transformation to constant coordinates and momenta?",
+				"rubric": "Full credit requires: (1) if you can find variables (Q,P) for which the new Hamiltonian vanishes, then Q and P are constants and the problem is solved; (2) the generating function S(q,P,t) must satisfy dS/dt + H(q, dS/dq, t) = 0, the Hamilton-Jacobi equation; (3) solving this single first-order PDE (often by separation of variables) replaces solving Hamilton's ODEs.",
+				"modelAnswer": "If a canonical transformation takes you to variables $(Q,P)$ in which the new Hamiltonian is zero, then $\\dot Q=\\dot P=0$ and the motion is trivial: the original variables follow from inverting the transformation. The generating function $S$ must satisfy $\\partial S/\\partial t+H(q,\\partial S/\\partial q,t)=0$, the Hamilton-Jacobi equation, whose solution (e.g. by separation of variables) gives the full motion."
+			}
+		],
+		"p4-l046-action-angle": [
+			{
+				"kind": "mc",
+				"prompt": "For an integrable system written in action-angle variables, $H=H(J)$. How do the angle variables evolve in time?",
+				"options": [
+					"They are constant in time, since the energy is conserved and depends only on the actions.",
+					"They increase linearly: $\\dot\\theta_i=\\partial H/\\partial J_i=\\omega_i$, a uniform motion on a torus.",
+					"They grow exponentially in time, as nearby orbits on the torus separate from each other.",
+					"They oscillate with the action, since each action is exchanged with its conjugate angle."
+				],
+				"answer": 1,
+				"explanation": "The actions $J_i$ are constants and the frequencies depend only on the actions."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Applying the Bohr-Sommerfeld rule $J=\\oint p\\,dq=nh$ to a harmonic oscillator, where $J=2\\pi E/\\omega$, gives which energy levels?",
+				"options": [
+					"$E_n=(n+\\tfrac12)\\hbar\\omega$ exactly, the full quantum result including the zero-point energy.",
+					"$E_n=n^2\\hbar\\omega$, as for the levels of a particle in a box with fixed walls.",
+					"$E_n=\\hbar\\omega/n$, as for the levels of the hydrogen atom with the energy falling with $n$.",
+					"$E_n=n\\hbar\\omega$: correct spacing, but without the zero-point energy $\\tfrac12\\hbar\\omega$."
+				],
+				"answer": 3,
+				"explanation": "$2\\pi E/\\omega=nh$ gives $E=n\\hbar\\omega$. The correct quantum result includes $\\tfrac12\\hbar\\omega$ (a Maslov correction in the semiclassical rule)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For the Kepler problem the Hamiltonian depends on the actions only through the combination $J_r+J_\\theta+J_\\phi$. What does this imply?",
+				"options": [
+					"All three frequencies are equal, so orbits close, and hydrogen's energy depends on $n$ alone.",
+					"The three frequencies are different, so the orbits never close and the motion fills a torus.",
+					"The system has no integrals of motion beyond the energy, so its orbits are not integrable.",
+					"The energy depends only on the angular momentum, since the radial action drops out."
+				],
+				"answer": 0,
+				"explanation": "Frequency degeneracy corresponds to the extra conserved Laplace-Runge-Lenz vector and the closed orbits of Bertrand's theorem."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 1.0 kg pendulum oscillates at 1.0 Hz ($\\omega=2\\pi$ rad/s) with an amplitude of 0.10 m (small-angle, harmonic approximation). If its energy were quantised as $E=n\\hbar\\omega$ (action $J=nh$), what quantum number $n=E/(\\hbar\\omega)$ does it have? Give $n$ (dimensionless). ($\\hbar=1.0546\\times10^{-34}$ J s)",
+				"answer": 2.979e+32,
+				"tolerance": 0.03,
+				"explanation": "$E=\\tfrac12m\\omega^2A^2=0.1974$ J so $n=E/\\hbar\\omega=2.98\\times10^{32}$: quantisation is invisible for macroscopic systems."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how separation of variables in the Hamilton-Jacobi equation works for the Kepler problem in spherical coordinates, and what the separation constants are.",
+				"rubric": "Full credit requires: (1) in spherical coordinates, S = W_r(r) + W_theta(theta) + W_phi(phi) - Et is assumed, the HJ equation separates; (2) phi is cyclic so p_phi = alpha_phi (L_z) is a constant, then theta equation gives total angular momentum L^2, and r equation gives the energy E; (3) three constants of motion (E, L, L_z) obtained.",
+				"modelAnswer": "Because $\\phi$ is cyclic, $W_\\phi=\\alpha_\\phi\\phi$ with $\\alpha_\\phi=L_z$. The $\\theta$ part then contains only $\\theta$ and the $L_z$ constant, so it equals a separation constant $L^2$. The remaining radial equation involves only $r$, $L^2$ and $E$. The three separation constants $(E,L^2,L_z)$ are the constants of motion."
+			}
+		],
+		"p4-l047-adiabatic-invariants": [
+			{
+				"kind": "mc",
+				"prompt": "A pendulum string is pulled slowly through a hole so that the pendulum's length is cut to one quarter. What happens to the pendulum's energy, if the action $E/\\omega$ is conserved?",
+				"options": [
+					"The energy is unchanged, since only the length of the string, not the motion itself, was altered.",
+					"The energy quadruples, since the frequency goes as $1/\\sqrt l$ and energy goes as frequency squared.",
+					"The energy doubles: $\\omega\\propto1/\\sqrt l$ rises by 2 and $E\\propto\\omega$.",
+					"The energy halves, since the pendulum swings through a smaller arc after the length is reduced."
+				],
+				"answer": 2,
+				"explanation": "The person pulling does positive work on the pendulum. Adiabatic invariance: $E/\\omega$ = const, so $E\\propto\\omega\\propto l^{-1/2}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "According to the KAM theorem, what happens when an integrable Hamiltonian system is perturbed weakly?",
+				"options": [
+					"All tori are destroyed immediately, as soon as the perturbation is switched on at any strength.",
+					"All tori survive exactly, so a weak perturbation has no effect on the dynamics at all.",
+					"The motion immediately becomes fully chaotic everywhere in phase space after any perturbation.",
+					"Most tori survive in slightly deformed form; resonant ones break up into thin chaotic layers."
+				],
+				"answer": 3,
+				"explanation": "For weak perturbations the phase space is a mixture: regular regions (surviving tori) and chaotic layers near resonances."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The classical adiabatic invariant $J$ corresponds, in the quantum theory, to which statement?",
+				"options": [
+					"The system always jumps to the ground state when a parameter is varied, however slowly.",
+					"If a parameter changes slowly enough the system stays in the same state: $n$ (with $J\\approx n\\hbar$) is conserved.",
+					"The energy levels cross freely as the parameter changes, so the system moves between states.",
+					"The state randomises over all the levels, with equal probability for each of them."
+				],
+				"answer": 1,
+				"explanation": "$J=\\oint p\\,dq=nh$: conserved $J$ is conserved $n$. This underlies, for example, adiabatic cooling and Born-Oppenheimer-type arguments."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A harmonic oscillator has amplitude 10 cm. Its spring constant is slowly increased until its frequency has quadrupled. Using the adiabatic invariance of $E/\\omega=\\tfrac12m\\omega A^2$, what is the final amplitude? Give it in cm.",
+				"answer": 5.0,
+				"tolerance": 0.02,
+				"explanation": "$A^2\\omega$ is constant so $A\\propto\\omega^{-1/2}$: $A_f=10/\\sqrt4=5.0$ cm.",
+				"unit": "cm"
+			},
+			{
+				"kind": "short",
+				"prompt": "What does it mean for a system to be integrable (Liouville-Arnold), and why is motion in such a system regular?",
+				"rubric": "Full credit requires: (1) N degrees of freedom with N independent constants of motion in involution (mutually vanishing Poisson brackets); (2) trajectories then lie on N-dimensional tori in phase space; (3) action-angle variables make the motion quasi-periodic, uniform angular motion on the torus, so regular (non-chaotic).",
+				"modelAnswer": "A system with $N$ degrees of freedom is integrable if it has $N$ independent constants of motion in involution (all mutual Poisson brackets zero). Their common level sets are $N$-dimensional tori, and in action-angle variables the motion is uniform rotation on the torus: regular and quasi-periodic. Chaos requires too few constants of motion."
+			}
+		]
+	}
+}

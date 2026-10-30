@@ -1,0 +1,1586 @@
+{
+	"courseId": "p7-statmech",
+	"checks": {
+		"p7-l001-thermal-eq-ideal-gas": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the zeroth law of thermodynamics make a thermometer possible?",
+				"options": [
+					"It states that energy is conserved, so a thermometer can simply track the energy changes of the sample.",
+					"It states that heat flows from hot to cold, so the thermometer always reads the hotter of two objects.",
+					"If A and C are each in equilibrium with B, they are in equilibrium with each other.",
+					"It guarantees that all objects eventually reach absolute zero, which gives the thermometer its reference point."
+				],
+				"answer": 2,
+				"explanation": "Transitivity of thermal equilibrium means a single number labels each equilibrium class. A thermometer is any system with a convenient property that varies with that number."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A sample of H$_2$ gas at 300 K has a heat capacity $C_V\\approx\\tfrac52Nk$, not $\\tfrac72Nk$ as full equipartition would predict for three translations, two rotations and one vibration (two quadratic terms). Why?",
+				"options": [
+					"The vibrational level spacing greatly exceeds $kT$ at 300 K, so that mode is frozen out.",
+					"Hydrogen is monatomic, so only translation matters and rotation or vibration cannot be excited.",
+					"Rotation of the molecule is forbidden at room temperature, so only vibration and translation contribute.",
+					"Equipartition is always wrong for molecules and only works for single atoms, never for diatomics."
+				],
+				"answer": 0,
+				"explanation": "Equipartition applies only when $kT$ is large compared with the spacing between quantum levels of the mode. Vibration of H$_2$ needs about 6000 K to unfreeze; rotation (about 85 K) is already active."
+			},
+			{
+				"kind": "mc",
+				"prompt": "As a sample of H$_2$ gas is cooled from 300 K to about 30 K, its $C_V$ drops from about $\\tfrac52Nk$ toward $\\tfrac32Nk$. Why?",
+				"options": [
+					"The molecules stop translating at low temperature, so only the internal modes remain active.",
+					"The H-H bond breaks as the gas cools, leaving separate atoms that have only translational energy.",
+					"The gas liquefies and equipartition no longer applies to liquids, so the heat capacity changes.",
+					"Rotational spacings become large compared with $kT$, so rotation freezes out and only translation is left."
+				],
+				"answer": 3,
+				"explanation": "Rotational constant for H$_2$ is large (small moment of inertia), so the rotational temperature is about 85 K. Below roughly that, rotation freezes. Heavier molecules unfreeze much earlier."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the root-mean-square speed of N$_2$ molecules ($m=28.014$ u) at 300 K from $\\tfrac12mv_{rms}^2=\\tfrac32kT$. Give the answer in m/s. ($u=1.6605\\times10^{-27}$ kg)",
+				"answer": 516.8,
+				"tolerance": 0.02,
+				"explanation": "$v_{rms}=\\sqrt{3kT/m}=517$ m/s, comparable to the speed of sound in air (about 340 m/s) -- not a coincidence.",
+				"unit": "m/s"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the heat capacity of a gas of diatomic molecules rises in steps as temperature increases (translation, then rotation, then vibration), in terms of energy-level spacings.",
+				"rubric": "Full credit requires: (1) a mode contributes kT/2 per quadratic term to the energy only when kT is comparable to or greater than the spacing of its quantised levels; (2) translational spacings are tiny, rotational are about 10^-3 to 10^-2 eV (tens of K), vibrational are about 0.1-0.5 eV (thousands of K); (3) so each mode 'switches on' in turn as T increases, producing steps.",
+				"modelAnswer": "A quantised mode can only absorb energy if the thermal energy $kT$ is enough to excite it to its next level. Translational spacings are essentially zero, so translation is always active. Rotational spacings are about $10^{-3}$ eV (tens of kelvin) and vibrational spacings about $0.1$ eV (thousands of kelvin), so rotation turns on at low temperature and vibration at high temperature. Each switch-on adds a step to $C_V$."
+			}
+		],
+		"p7-l002-heat-work": [
+			{
+				"kind": "mc",
+				"prompt": "Which statement about internal energy, heat and work is correct?",
+				"options": [
+					"Heat and work are both state functions, just like the internal energy $U$.",
+					"$U$ is a state function; heat and work are energy-transfer modes that depend on the path.",
+					"Heat is energy stored in a body, whereas work is energy in the process of being transferred.",
+					"Work is a state function, whereas heat depends on the path taken between the two states."
+				],
+				"answer": 1,
+				"explanation": "$\\Delta U=Q+W$. Different paths between the same states can have different $Q$ and $W$ but always the same $\\Delta U$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is it important that a compression be quasistatic when evaluating $W=-\\int P\\,dV$?",
+				"options": [
+					"Quasistatic processes need no heat exchange, so $W=\\Delta U$ holds and the integral is unnecessary.",
+					"The gas must stay near equilibrium so that a single pressure $P(V)$ exists throughout the integral.",
+					"Slow processes are always isothermal, which is what makes the integral easy to evaluate.",
+					"The work depends on how fast the piston moves, so we must pick the slowest possible speed."
+				],
+				"answer": 1,
+				"explanation": "For rapid compression the gas near the piston has a higher pressure than the bulk and the work done is larger than $-\\int P\\,dV$ calculated from the average pressure."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A bicycle pump gets hot when you inflate a tire quickly. Which explanation is correct?",
+				"options": [
+					"Friction between the piston and the cylinder walls alone is responsible for the heating.",
+					"Heat flows into the gas from the warmer surrounding air during the compression.",
+					"The pressure itself is a source of heat, so any increase in pressure raises the temperature.",
+					"The compression is nearly adiabatic: work raises the internal energy before heat can escape."
+				],
+				"answer": 3,
+				"explanation": "With $Q\\approx0$, $\\Delta U=W>0$, so $T$ rises. This is the principle of diesel ignition and of cooling by sudden expansion."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In a diesel engine, air at 300 K is compressed adiabatically and quasi-statically by a factor of 15 in volume. For a diatomic gas, $\\gamma=1.4$. Using $TV^{\\gamma-1}=$ const, what is the final temperature? Give it in K.",
+				"answer": 886.3,
+				"tolerance": 0.02,
+				"explanation": "$T_f=300\\times15^{0.4}=886$ K, hot enough to ignite the injected fuel without a spark.",
+				"unit": "K"
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from the first law and the equipartition result $U=\\tfrac f2NkT$, explain how to arrive at $PV^\\gamma=$ const for a quasistatic adiabatic process of an ideal gas.",
+				"rubric": "Full credit requires: (1) adiabatic means Q=0 so dU = -P dV; (2) dU = (f/2)Nk dT and PV = NkT give (f/2) dT/T = -dV/V; (3) integrating yields T V^(2/f) = const, i.e. T V^(gamma-1) with gamma = (f+2)/f, hence P V^gamma = const.",
+				"modelAnswer": "With $Q=0$: $dU=-P\\,dV$. Using $dU=\\tfrac f2Nk\\,dT$ and $P=NkT/V$: $\\tfrac f2\\,dT/T=-dV/V$. Integrating gives $TV^{2/f}=$ const, and since $\\gamma=(f+2)/f$ we have $2/f=\\gamma-1$, so $TV^{\\gamma-1}=$ const; using $T\\propto PV$ gives $PV^\\gamma=$ const."
+			}
+		],
+		"p7-l003-heat-capacity": [
+			{
+				"kind": "mc",
+				"prompt": "For an ideal gas, why is $C_P$ larger than $C_V$ by $Nk$?",
+				"options": [
+					"At constant $P$ the gas expands and does work, so extra heat is needed beyond the rise in $U$.",
+					"Because pressure itself stores energy, a gas held at constant pressure has more energy to raise.",
+					"Because gases at constant pressure have extra degrees of freedom that are absent at constant volume.",
+					"Because $C_V$ includes the work done by the gas, while $C_P$ counts only the change in internal energy."
+				],
+				"answer": 0,
+				"explanation": "$C_P=C_V+Nk$: part of the heat goes into $P\\,dV$ work. For solids and liquids the expansion is tiny so $C_P\\approx C_V$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "During boiling at atmospheric pressure, you keep adding heat to water at 100 $^\\circ$C but the temperature doesn't change. Where does the energy go?",
+				"options": [
+					"It is stored as kinetic energy of the water molecules, which then move faster than before.",
+					"It is lost to the surroundings, so the water stays at 100 $^\\circ$C because it cools as fast as it heats, so no energy is left over to heat the water.",
+					"It goes into overcoming intermolecular attractions in the liquid-to-vapour change, not into kinetic energy.",
+					"The thermometer is faulty, because the heat capacity of water drops to zero at 100 $^\\circ$C."
+				],
+				"answer": 2,
+				"explanation": "At a phase transition, heat changes the structure (the potential-energy part of $U$) at constant $T$; the heat capacity is formally infinite."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A chemist measures the heat released by a reaction in an open flask (constant atmospheric pressure). Which quantity does this measure?",
+				"options": [
+					"The internal energy change $\\Delta U$, whatever the conditions under which the reaction is run.",
+					"The Gibbs free energy change $\\Delta G$, since the flask is open and the reaction is spontaneous.",
+					"The entropy change $\\Delta S$, since the heat released is always divided by the temperature.",
+					"The enthalpy change $\\Delta H$, since $Q_P=\\Delta H$ at constant pressure."
+				],
+				"answer": 3,
+				"explanation": "$H=U+PV$ and $dH=T\\,dS+V\\,dP$, so at constant $P$ the heat absorbed equals $\\Delta H$ (assuming only $PV$ work)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "How much heat is needed to warm 0.50 kg of liquid water from 20 $^\\circ$C to 100 $^\\circ$C and then vaporize 0.10 kg of it? Use $c=4186$ J/(kg K) and $L_v=2.257\\times10^{6}$ J/kg. Give the answer in kJ.",
+				"answer": 393.1,
+				"tolerance": 0.02,
+				"explanation": "$Q=mc\\Delta T+m'L_v=167.4+225.7=393.1$ kJ. Note the vaporisation of only 20% of the water needs more energy than heating all of it by 80 K.",
+				"unit": "kJ"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain, in your own words, what enthalpy is and why chemists use it rather than internal energy.",
+				"rubric": "Full credit requires: (1) H = U + PV; (2) at constant pressure the heat absorbed equals Delta H, because the PV work is accounted for; (3) most lab chemistry occurs at constant (atmospheric) pressure, so Delta H is what a calorimeter measures.",
+				"modelAnswer": "Enthalpy is $H=U+PV$, the energy of the system plus the work needed to make room for it at pressure $P$. At constant pressure, $dH=dU+P\\,dV=\\delta Q$, so $\\Delta H$ is exactly the heat exchanged. Because most chemistry happens at atmospheric pressure, $\\Delta H$ (not $\\Delta U$) is what a calorimeter measures."
+			}
+		],
+		"p7-l004-two-state-einstein": [
+			{
+				"kind": "mc",
+				"prompt": "Flip four fair coins. Why is 'two heads, two tails' the most probable macrostate even though 'HHTT' is no more likely than 'HHHH' as a specific sequence?",
+				"options": [
+					"Fair coins prefer to land in equal numbers, so an even split is the likeliest outcome.",
+					"Each sequence is equally likely, but 'two heads' contains 6 microstates and 'four heads' only 1.",
+					"Because the specific sequence HHTT is more likely than HHHH when the coins are fair.",
+					"Because the macrostate is chosen to maximise the energy of the coin system."
+				],
+				"answer": 1,
+				"explanation": "Probability of a macrostate = (number of its microstates)/(total microstates). Entropy counts exactly this."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the fundamental assumption of statistical mechanics say?",
+				"options": [
+					"All macrostates are equally probable, whatever the number of microstates each contains.",
+					"The system always sits in its lowest-energy microstate, which is the most probable one.",
+					"In an isolated system in equilibrium, every accessible microstate is equally probable.",
+					"Microstates with higher energy are more probable, because there are more ways to reach them."
+				],
+				"answer": 2,
+				"explanation": "Equal weights on microstates imply that macrostates with more microstates are more likely: the origin of the second law."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two independent systems have multiplicities $\\Omega_1$ and $\\Omega_2$. Why is entropy $S=k\\ln\\Omega$ additive?",
+				"options": [
+					"The combined multiplicity is the product $\\Omega_1\\Omega_2$, and the log turns it into a sum.",
+					"Because multiplicities add when independent systems are combined, so their logarithms add too.",
+					"Because the logarithm is only defined for sums, so entropy must be defined as a sum of terms.",
+					"It isn't additive: the entropy of the combined system equals the larger of the two entropies."
+				],
+				"answer": 0,
+				"explanation": "The logarithm is exactly what makes entropy extensive. $k$ sets the units (J/K)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An Einstein solid has $N=10$ oscillators sharing $q=10$ quanta. The multiplicity is $\\Omega=\\binom{q+N-1}{q}$. What is the entropy $S/k=\\ln\\Omega$? (Dimensionless.)",
+				"answer": 11.43,
+				"tolerance": 0.02,
+				"explanation": "$\\Omega=\\binom{19}{10}=92\\,378$ so $S/k=\\ln92378=11.43$."
+			},
+			{
+				"kind": "short",
+				"prompt": "A sample contains $N$ nuclear spins-1/2 in a magnetic field. If all spin orientations are equally likely (no polarization), how many microstates are there, and what is the entropy? What happens to the entropy when the spins become partially aligned?",
+				"rubric": "Full credit requires: (1) 2^N microstates, S = k ln 2^N = N k ln 2; (2) alignment reduces the number of microstates (fewer arrangements with a given excess in the lower state); (3) entropy is lower for the polarised ensemble.",
+				"modelAnswer": "Each spin has two states, so there are $2^N$ microstates and $S=k\\ln2^N=Nk\\ln2$. Partial alignment concentrates the population into fewer microstates ($\\Omega=\\binom{N}{N_\\uparrow}$ is smaller), so the entropy is lower. Polarising spins (as in NMR) costs entropy."
+			}
+		],
+		"p7-l005-interacting-large": [
+			{
+				"kind": "mc",
+				"prompt": "Two Einstein solids exchange energy quanta. At equilibrium the most probable arrangement is the one where:",
+				"options": [
+					"The energy per oscillator is nearly equal in both, so the larger solid holds proportionally more quanta.",
+					"All the energy sits in the smaller solid, because it can reach a given temperature with fewer quanta, and so can hold much more energy per quantum.",
+					"The two solids hold equal numbers of quanta, regardless of how many oscillators each contains.",
+					"All the energy sits in the larger solid, because it has far more ways to hold the quanta."
+				],
+				"answer": 0,
+				"explanation": "The product $\\Omega_A\\Omega_B$ is maximised when the temperatures (slopes of $\\ln\\Omega$) match, i.e. when the energy per oscillator is equal."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do macroscopic systems never spontaneously 'un-mix' or have heat flow from cold to hot, even though the microscopic dynamics permit it?",
+				"options": [
+					"Because the laws of mechanics forbid such motions, so they never occur in any real system.",
+					"Because the second law is a fundamental force that pushes systems toward higher entropy.",
+					"Such states are not impossible but overwhelmingly improbable: the multiplicity peak is so sharp.",
+					"Because the molecules somehow know which direction time flows and arrange their motion to follow it."
+				],
+				"answer": 2,
+				"explanation": "The multiplicity curve for $N\\sim10^{23}$ is so narrow that the probability of a macroscopic deviation is like $e^{-10^{20}}$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Solid A has 300 oscillators and solid B has 200. Together they hold 100 energy quanta. In the most probable state, how many quanta are in solid A?",
+				"answer": 60.0,
+				"tolerance": 0.02,
+				"explanation": "At equilibrium the energy per oscillator is equal: $q_A/N_A=q_B/N_B$, so $q_A=100\\times300/500=60$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The relative width of the multiplicity peak scales as $1/\\sqrt N$. Estimate the relative width for $N=10^{23}$ particles (give the number).",
+				"answer": 3.162e-12,
+				"tolerance": 0.05,
+				"explanation": "$1/\\sqrt{10^{23}}=3.16e-12$: fluctuations are about $3\\times10^{-12}$ of the mean, undetectable."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does Stirling's approximation help show that the multiplicity function is sharply peaked? Explain how you get from $\\Omega$ to a Gaussian.",
+				"rubric": "Full credit requires: (1) factorials in binomial-type multiplicity are approximated by N! ~ N^N e^-N sqrt(2 pi N); (2) ln Omega near its maximum is expanded to second order, giving Omega ~ Omega_max exp(-(x-x0)^2 / 2 sigma^2); (3) sigma/mean scales as 1/sqrt N, so the peak is extremely sharp for large N.",
+				"modelAnswer": "Stirling, $\\ln N!\\approx N\\ln N-N$, turns factorial multiplicities into smooth functions. Expanding $\\ln\\Omega$ to second order about its maximum gives $\\Omega\\approx\\Omega_{max}\\exp[-(x-x_0)^2/2\\sigma^2]$, a Gaussian. Because $\\ln\\Omega$ is extensive, the width relative to the mean scales as $1/\\sqrt N$, so for macroscopic $N$ the peak is extremely narrow."
+			}
+		],
+		"p7-l006-ideal-gas-entropy": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the Sackur-Tetrode derivation divide the count of states by $N!$?",
+				"options": [
+					"To correct for the collisions between particles, which would otherwise be counted twice.",
+					"Identical particles are indistinguishable, so swapping labels gives no new microstate.",
+					"Because each molecule has $N$ translational degrees of freedom, all of which must be divided out.",
+					"To account for the fact that the total energy of the isolated gas is conserved."
+				],
+				"answer": 1,
+				"explanation": "Dividing by $N!$ makes $S$ proportional to $N$ at fixed density, as it must be."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A gas expands freely (no work, no heat) into twice its volume. What is the entropy change?",
+				"options": [
+					"$\\Delta S=0$, since no heat flows into the gas during the process.",
+					"$\\Delta S<0$, because the gas spreads out and becomes more ordered after the expansion.",
+					"$\\Delta S=Nk\\ln2$ only if the gas does work on its surroundings as it expands.",
+					"$\\Delta S=Nk\\ln2>0$: each molecule gets twice the space, although $Q=0$."
+				],
+				"answer": 3,
+				"explanation": "Free expansion is irreversible. Because $S$ is a state function, we can compute $\\Delta S$ along any reversible path between the same states: $\\int P\\,dV/T=Nk\\ln(V_2/V_1)$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two identical samples of the same gas, at the same $T$ and $P$, are separated by a partition. After removing the partition, what is the entropy change?",
+				"options": [
+					"$2Nk\\ln2$, exactly as for the mixing of two different gases at the same temperature and pressure.",
+					"$Nk\\ln2$, since the molecules from one side can now explore the other half of the volume.",
+					"Zero: the final state is just a larger sample at the same density.",
+					"Negative, since removing the partition lets the gas organise itself uniformly in the larger volume."
+				],
+				"answer": 2,
+				"explanation": "For different gases each species expands into twice the volume, giving $2Nk\\ln 2$. For identical gases nothing macroscopic changes: this is the resolution of the Gibbs paradox."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Use the Sackur-Tetrode equation $S=Nk[\\ln(V/N\\lambda^3)+\\tfrac52]$ with $\\lambda=h/\\sqrt{2\\pi mkT}$ to compute the molar entropy of argon ($m=39.948$ u) at 298.15 K and 1 bar. Give the answer in J/(mol K).",
+				"answer": 154.8,
+				"tolerance": 0.02,
+				"explanation": "$\\lambda=16.00$ pm, $V/N=kT/P$; the result $154.8$ J/(mol K) agrees with the tabulated 154.8.",
+				"unit": "J/(mol K)"
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, what is the Gibbs paradox and how does counting identical particles resolve it?",
+				"rubric": "Full credit requires: (1) without a 1/N! factor, mixing two samples of the same gas would produce an entropy increase of 2Nk ln 2, even though nothing observable has changed; (2) identical molecules are indistinguishable, so permutations don't yield distinct microstates, giving a 1/N! factor; (3) this makes entropy extensive and removes the spurious mixing entropy.",
+				"modelAnswer": "If you treat molecules as distinguishable, removing a partition between two samples of the *same* gas appears to raise the entropy by $2Nk\\ln2$, although nothing has changed physically and the process is reversible. The fix is that identical molecules are indistinguishable: permuting them gives the same microstate, so we divide by $N!$. Then $S$ is extensive and mixing identical gases gives zero entropy change."
+			}
+		],
+		"p7-l007-entropy-second-law": [
+			{
+				"kind": "mc",
+				"prompt": "Which is the best statement of the statistical second law?",
+				"options": [
+					"Isolated systems tend toward macrostates with the most microstates; entropy decreases are astronomically improbable.",
+					"The entropy of an isolated system can never fluctuate downward, even for a system of just 10 particles.",
+					"The entropy of any system, isolated or not, always increases with time without exception.",
+					"Heat can never flow from cold to hot under any circumstances, including inside a refrigerator."
+				],
+				"answer": 0,
+				"explanation": "The law is statistical: for few particles fluctuations are visible, but for $N\\sim10^{23}$ they are unobservable."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A hot block at $T_h$ is placed in contact with a cold block at $T_c$ and heat $Q$ flows from hot to cold. What happens to the total entropy?",
+				"options": [
+					"It is unchanged, since energy is conserved when heat moves from one block to the other.",
+					"It decreases, because the hot block loses entropy and heat flow orders the system.",
+					"It increases only if the two blocks are made of different materials with different heat capacities.",
+					"It increases: the cold block gains $Q/T_c$, more than the hot block's loss $Q/T_h$."
+				],
+				"answer": 3,
+				"explanation": "$\\Delta S_{total}=Q(1/T_c-1/T_h)>0$ whenever $T_h>T_c$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Microscopic laws are time-reversal invariant, yet we observe an arrow of time. What is the resolution?",
+				"options": [
+					"Microscopic laws are not really time-reversal invariant, and that asymmetry gives the arrow of time.",
+					"The universe began in a very low-entropy state, and high-entropy microstates vastly outnumber the rest.",
+					"Reversed motions are physically impossible, as they would violate the equations of motion themselves, since a reversed film of the motion could not occur in nature.",
+					"Time is only defined for macroscopic systems, so a microscopic law has no direction to be reversed."
+				],
+				"answer": 1,
+				"explanation": "Reversed trajectories exist but occupy an exceedingly small fraction of phase space; the arrow comes from boundary conditions plus counting."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "1.00 kg of water is heated reversibly from 20 $^\\circ$C (293.15 K) to 80 $^\\circ$C (353.15 K). With $c=4186$ J/(kg K) constant, what is its entropy change $\\Delta S=C\\ln(T_2/T_1)$? Give it in J/K.",
+				"answer": 779.5,
+				"tolerance": 0.02,
+				"explanation": "$\\Delta S=4186\\ln(353.15/293.15)=779$ J/K. (Using the average temperature, $Q/T_{avg}=251\\,160/323=777$ J/K, is close but not exact.)",
+				"unit": "J/K"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how entropy is related to information, and why knowing more about a system's microstate reduces the entropy you assign to it.",
+				"rubric": "Full credit requires: (1) entropy S = k ln Omega measures the number of microstates consistent with what we know about the macrostate, i.e. missing information; (2) if we learn more about the microstate (fewer possibilities), Omega falls and so does the entropy we assign; (3) mention of bits (k ln 2 per bit) or Maxwell's demon.",
+				"modelAnswer": "$S=k\\ln\\Omega$ measures how many microstates are compatible with the macrostate we know, i.e. how much information about the microstate is missing (each bit corresponds to $k\\ln2$). If we acquire information that narrows the possible microstates, $\\Omega$ and the assigned entropy decrease, which is why Maxwell's demon must pay an entropy cost to acquire and erase information."
+			}
+		],
+		"p7-l008-temperature-entropy-heat": [
+			{
+				"kind": "mc",
+				"prompt": "Why does equating the slopes $\\partial S/\\partial U$ of two systems in thermal contact give the equilibrium condition?",
+				"options": [
+					"Because entropy is conserved in the exchange, so the total entropy stays the same throughout.",
+					"Total multiplicity is maximal when shifting a little energy leaves $S_{total}$ unchanged: equal slopes, equal $T$.",
+					"Because energy flows until the entropies of the two systems are equal to each other.",
+					"Because energy flows until the internal energies of the two systems are equal to each other."
+				],
+				"answer": 1,
+				"explanation": "Energy flows to the system with the larger $\\partial S/\\partial U$ (the colder one), since it gains more entropy than the other loses. Hence $1/T=\\partial S/\\partial U$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A spin system with population inversion (more spins in the upper level than in the lower) has a negative absolute temperature. What does this mean when it is placed in contact with an ordinary system?",
+				"options": [
+					"It is colder than absolute zero and absorbs energy from any ordinary system it touches.",
+					"Nothing happens, because negative temperatures cannot be defined for any physical system at all.",
+					"It would violate energy conservation, so such a state cannot be prepared in a real experiment.",
+					"It is hotter than any positive temperature: energy flows from it into an ordinary system."
+				],
+				"answer": 3,
+				"explanation": "Negative $T$ arises because adding energy to a bounded spectrum can decrease $S$ ($\\partial S/\\partial U<0$). On the scale of $\\beta=1/kT$ it lies beyond $+\\infty$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Einstein solid's $T(U)$ rises with $U$ (positive heat capacity). What does this say about the shape of $S(U)$?",
+				"options": [
+					"$S(U)$ is concave: each added unit of energy raises $S$ by less than the one before.",
+					"$S(U)$ is convex, so each added unit of energy raises the entropy more than the one before.",
+					"$S(U)$ is a straight line, with a slope that is the same at every energy.",
+					"$S$ decreases with $U$ at all energies, which is why the temperature increases."
+				],
+				"answer": 0,
+				"explanation": "$T^{-1}=\\partial S/\\partial U$ decreasing with $U$ means $\\partial^2S/\\partial U^2<0$: concavity, which guarantees stable thermal equilibrium."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Below 10 K the heat capacity of an insulating crystal follows $C=bT^3$ with $b=2.0\\times10^{-4}$ J/K$^4$. Using $S(T)=\\int_0^TC/T'\\,dT'$ with $S(0)=0$, find $S$ at $T=10$ K. Give it in J/K.",
+				"answer": 0.06667,
+				"tolerance": 0.02,
+				"explanation": "$S=bT^3/3=2.0\\times10^{-4}\\times1000/3=0.0667$ J/K.",
+				"unit": "J/K"
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive, in words and symbols, why the quantity $\\partial S/\\partial U$ plays the role of inverse temperature when two systems exchange energy.",
+				"rubric": "Full credit requires: (1) total entropy S1(U1)+S2(U2) with U1+U2 fixed; (2) maximise: dS = (1/T1 - 1/T2) dU1 = 0 gives equal slopes; (3) the slope is therefore the quantity that is equalised, and energy flows from the smaller slope (hot) to the larger slope (cold), consistent with 1/T = dS/dU.",
+				"modelAnswer": "With $U_1+U_2$ fixed, the total entropy $S_1(U_1)+S_2(U_2)$ is maximal when $\\partial S_1/\\partial U_1=\\partial S_2/\\partial U_2$. Energy flows toward the system for which an energy gain raises $S$ more (larger slope). The quantity that equalises at equilibrium and decides the direction of energy flow is what we call inverse temperature: $1/T=\\partial S/\\partial U$."
+			}
+		],
+		"p7-l009-paramagnetism": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the magnetisation of a paramagnet follow the Curie law $M\\propto B/T$ at high temperature?",
+				"options": [
+					"Because heating generates additional magnetic moments in the sample, which add to the magnetisation.",
+					"Because the dipoles are completely aligned at high $T$, so the magnetisation reaches its maximum.",
+					"Thermal agitation randomises the dipoles, so only a fraction $\\sim\\mu B/kT$ is aligned.",
+					"Because the field strength itself depends on temperature, falling as the sample is warmed up."
+				],
+				"answer": 2,
+				"explanation": "For $\\mu B\\ll kT$, $\\tanh(\\mu B/kT)\\approx\\mu B/kT$. The competition is energy ($\\mu B$) versus entropy ($kT$)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do NMR spectroscopists want ever-stronger magnets (and sometimes cooled probes)?",
+				"options": [
+					"The molecules need stronger fields to be excited into the upper spin state at all.",
+					"Stronger fields raise the temperature of the sample, which increases the population difference.",
+					"Stronger fields make Boltzmann statistics irrelevant, so all spins then contribute to the signal.",
+					"The signal follows the excess in the lower spin state, which grows as $B/T$."
+				],
+				"answer": 3,
+				"explanation": "Polarisation $\\approx\\hbar\\gamma B/2kT$ is only about $10^{-5}$ at room temperature, so every increase helps."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A spin-1/2 system in a field has more nuclei in the *upper* energy state than the lower. Which statement is correct?",
+				"options": [
+					"It is colder than absolute zero, and therefore cannot exist as an equilibrium state of any system.",
+					"It has a negative temperature, can release energy (as a laser does), and is hotter than any positive $T$.",
+					"It is at infinite entropy, since all the spins are equally likely to be in either state.",
+					"It is impossible to prepare, since population inversion violates the second law of thermodynamics."
+				],
+				"answer": 1,
+				"explanation": "Population inversion is routine in NMR (after a 180 degree pulse) and lasing; the temperature is formally negative since $n_\\uparrow/n_\\downarrow=e^{-\\Delta E/kT}>1$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Protons in a 11.74 T magnet precess at 500 MHz, so the spin-state energy gap is $\\Delta E=h\\nu$. At 298.15 K, what is the fractional polarisation $P=\\tanh(\\Delta E/2kT)$ (difference of populations divided by their sum), in parts per million?",
+				"answer": 40.24,
+				"tolerance": 0.03,
+				"explanation": "$\\Delta E=3.31\\times10^{-25}$ J, $\\Delta E/2kT=4.0\\times10^{-5}$, so $P\\approx40.2$ ppm: only 40 of every million spins contribute net signal.",
+				"unit": "ppm"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why NMR is intrinsically an insensitive technique, using the Boltzmann population of the two spin states.",
+				"rubric": "Full credit requires: (1) the energy gap between spin states is tiny compared with kT at room temperature (about 10^-5), so populations are nearly equal; (2) only the small population excess (about B/T times a constant) produces a net signal; (3) so signal grows with B and falls with T.",
+				"modelAnswer": "The two nuclear-spin levels are separated by an energy $\\Delta E=\\hbar\\gamma B$ that is about $10^{-5}kT$ at room temperature, so the Boltzmann populations are almost equal. Only the tiny excess $\\Delta E/2kT\\sim10^{-5}$ in the lower state gives a net signal, and it scales as $B/T$, which is why strong magnets and low temperatures help."
+			}
+		],
+		"p7-l010-pressure-mechanical": [
+			{
+				"kind": "mc",
+				"prompt": "Two gases are separated by a movable, heat-conducting piston. What determines the equilibrium position of the piston?",
+				"options": [
+					"The two sides have equal volumes, since the piston moves until it is exactly in the middle.",
+					"The two sides hold equal numbers of molecules, whatever their temperatures or volumes.",
+					"Total entropy is maximal: $P_1/T_1=P_2/T_2$, which for equal $T$ means equal $P$.",
+					"The side with the larger entropy always wins, so the piston moves to enlarge that side."
+				],
+				"answer": 2,
+				"explanation": "The thermodynamic definition: $P/T=(\\partial S/\\partial V)_{U,N}$. Volume flows to the side where it gains more entropy."
+			},
+			{
+				"kind": "mc",
+				"prompt": "From the ideal-gas entropy $S=Nk\\ln V+\\cdots$ at fixed $U$ and $N$, which relation follows?",
+				"options": [
+					"$P/T=\\partial S/\\partial V=Nk/V$, i.e. $PV=NkT$.",
+					"$P=0$, because the entropy depends only on the logarithm of the volume and not on the energy.",
+					"$PV=U$, since the entropy's volume dependence fixes the energy in terms of the pressure.",
+					"$P=T\\ln V$, since the entropy is proportional to $\\ln V$ and $P/T=S/V$."
+				],
+				"answer": 0,
+				"explanation": "The ideal-gas law is purely a statement that the multiplicity of positions grows as $V^N$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The thermodynamic identity is $dU=T\\,dS-P\\,dV$. For a reversible process, which interpretation is correct?",
+				"options": [
+					"$T\\,dS$ is the heat added and $-P\\,dV$ is the work done on the system.",
+					"$T\\,dS$ is the work done and $-P\\,dV$ is the heat added, since $P\\,dV$ is a heat term.",
+					"Both terms are heat, since each is an energy change that comes from a thermal exchange.",
+					"Both terms are work, since each is the product of an intensive and an extensive quantity."
+				],
+				"answer": 0,
+				"explanation": "For quasistatic processes, $\\delta Q=T\\,dS$ and $\\delta W=-P\\,dV$. For irreversible processes $\\delta Q<T\\,dS$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "1.00 mol of an ideal gas at 300 K expands isothermally and reversibly to twice its volume. Using $Q=T\\Delta S$ with $\\Delta S=nR\\ln(V_2/V_1)$, how much heat does it absorb? Give it in J.",
+				"answer": 1729.0,
+				"tolerance": 0.02,
+				"explanation": "$Q=nRT\\ln2=1729$ J. Since $\\Delta U=0$, all of it becomes work done by the gas.",
+				"unit": "J"
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the relation $P/T=(\\partial S/\\partial V)_{U,N}$ from the condition for mechanical equilibrium of two systems that can exchange volume (and energy).",
+				"rubric": "Full credit requires: (1) total S = S1(U1,V1) + S2(U2,V2) with V1+V2 and U1+U2 fixed; (2) at maximum, dS = (1/T1 - 1/T2) dU1 + (P1/T1 - P2/T2) dV1 = 0; (3) so the volume derivative of entropy (dS/dV)_U = P/T is what equalises; with T equal this means equal pressure.",
+				"modelAnswer": "With $V_1+V_2$ and $U_1+U_2$ fixed, maximising $S_1+S_2$ over $V_1$ and $U_1$ gives $\\left(\\partial S_1/\\partial V_1\\right)_U=\\left(\\partial S_2/\\partial V_2\\right)_U$ and $\\partial S_1/\\partial U_1=\\partial S_2/\\partial U_2$. Identifying $(\\partial S/\\partial V)_U=P/T$ (which reproduces $PV=NkT$ for the ideal gas), the first condition becomes equal pressure when the temperatures are equal."
+			}
+		],
+		"p7-l011-chemical-potential": [
+			{
+				"kind": "mc",
+				"prompt": "Two containers hold the same ideal gas at the same temperature but different concentrations, and are joined by a small hole. In which direction do particles tend to flow, and what quantity decides it?",
+				"options": [
+					"From low to high concentration, in order to equalise the pressure on the two sides.",
+					"They don't flow at all, because the two containers are at the same temperature.",
+					"From the concentrated side to the dilute side, as $\\mu=kT\\ln(n/n_Q)$ is higher there.",
+					"From low to high $\\mu$, because the particles move toward the state with more available entropy."
+				],
+				"answer": 2,
+				"explanation": "Particle flow raises total entropy when it goes from larger $-\\partial S/\\partial N$ to smaller. Equal $\\mu$ means diffusive equilibrium."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If you compress an ideal gas isothermally to a higher pressure, what happens to its chemical potential?",
+				"options": [
+					"It decreases, because compressing the gas reduces the volume available to each particle.",
+					"It increases by $kT\\ln(P_2/P_1)$.",
+					"It stays the same, since $T$ is fixed and $\\mu$ depends on temperature alone.",
+					"It becomes independent of $N$, since compression fixes the number of particles per unit volume."
+				],
+				"answer": 1,
+				"explanation": "$\\mu=\\mu^\\circ+kT\\ln(P/P^\\circ)$: higher pressure means a stronger 'escaping tendency' for particles."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A chemist states that the molar Gibbs energy $G/n$ is the chemical potential. Is that consistent with the statistical-mechanics definition $\\mu=-T(\\partial S/\\partial N)_{U,V}$?",
+				"options": [
+					"No: $\\mu$ is the molar enthalpy, and Gibbs energy is a different quantity altogether.",
+					"No: $\\mu$ is the molar entropy, as the definition involves the derivative of $S$.",
+					"No: $\\mu$ has nothing to do with Gibbs energy, which is defined only for chemical reactions.",
+					"Yes: $\\mu=(\\partial G/\\partial N)_{T,P}$ is the partial molar Gibbs energy; the definitions agree."
+				],
+				"answer": 3,
+				"explanation": "From $dU=TdS-PdV+\\mu dN$ and Legendre transforms: $dG=-SdT+VdP+\\mu dN$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A gas at 298.15 K is compressed isothermally from 1 bar to 10 bar. What is the change in chemical potential per mole, $\\Delta\\mu=RT\\ln(P_2/P_1)$? Give it in kJ/mol.",
+				"answer": 5.708,
+				"tolerance": 0.02,
+				"explanation": "$\\Delta\\mu=RT\\ln10=5.71$ kJ/mol. This is the Gibbs-energy cost of compressing each mole.",
+				"unit": "kJ/mol"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the equality of chemical potentials is the condition for equilibrium between two phases or two regions that exchange particles.",
+				"rubric": "Full credit requires: (1) mu = -T dS/dN measures the entropy cost/gain of moving a particle; (2) with total N fixed, S_total is maximised when mu1 = mu2; otherwise particles moving from higher to lower mu raise S_total; (3) so coexistence of phases (and chemical equilibrium) requires equal mu.",
+				"modelAnswer": "$\\mu=-T(\\partial S/\\partial N)$ tells how much entropy a region gains when it takes in a particle. With the total number fixed, particles flow until a further transfer cannot increase $S_{total}$, i.e. until $\\mu_1=\\mu_2$. For two phases in coexistence, and for reacting species ($\\sum\\nu_i\\mu_i=0$), the same condition applies."
+			}
+		],
+		"p7-l012-engines": [
+			{
+				"kind": "mc",
+				"prompt": "Why can no heat engine operating between $T_h$ and $T_c$ be more efficient than a Carnot engine?",
+				"options": [
+					"Because Carnot engines have no friction, so their parts waste nothing and real engines cannot match them.",
+					"Because the first law forbids any engine from converting heat into more work than the Carnot engine.",
+					"Such an engine would drive a Carnot refrigerator and move heat cold-to-hot with no net work.",
+					"Because Carnot engines use an ideal gas as their working substance, which no other fluid can beat."
+				],
+				"answer": 2,
+				"explanation": "$e_{Carnot}=1-T_c/T_h$ is an upper bound for all engines between those temperatures: the proof is by contradiction with the second law."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A real engine achieves a lower efficiency than the Carnot limit. Which is the underlying reason?",
+				"options": [
+					"Irreversible processes (friction, finite temperature differences, rapid expansion) generate entropy.",
+					"The first law is violated in real engines, since some of the energy supplied is lost as heat.",
+					"Real engines have no cold reservoir, so they cannot reject any heat to the surroundings.",
+					"Efficiency can only be computed for ideal gases, so a real engine's value is simply not defined, whereas real working fluids have no efficiency at all."
+				],
+				"answer": 0,
+				"explanation": "Carnot efficiency needs reversible heat transfer at nearly the same temperature, which means zero power output."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An Otto-cycle engine with compression ratio $r=9$ and working gas with $\\gamma=1.4$ has efficiency $e=1-r^{1-\\gamma}$. What is its efficiency? Give it as a percentage.",
+				"answer": 58.48,
+				"tolerance": 0.02,
+				"explanation": "$e=1-9^{-0.4}=0.585$, i.e. 58.5% for the ideal cycle. Real engines reach about 30%.",
+				"unit": "%"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A refrigerator keeps its interior at 268 K in a kitchen at 298 K. What is the maximum possible coefficient of performance $T_c/(T_h-T_c)$ (heat removed per unit work)?",
+				"answer": 8.933,
+				"tolerance": 0.02,
+				"explanation": "$COP_{max}=268/30=8.93$. Cooling to a smaller temperature difference is much more efficient."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the Carnot efficiency from the second law, explaining the role of entropy.",
+				"rubric": "Full credit requires: (1) engine takes heat Qh from hot reservoir and rejects Qc to cold; W = Qh - Qc; (2) for a reversible cycle total entropy change is zero: Qh/Th = Qc/Tc; (3) thus e = W/Qh = 1 - Qc/Qh = 1 - Tc/Th, and irreversibility makes Qc larger, so e smaller.",
+				"modelAnswer": "The engine takes $Q_h$ from the hot reservoir and discards $Q_c$ to the cold one, so $W=Q_h-Q_c$. For a reversible cycle the total entropy change is zero: $-Q_h/T_h+Q_c/T_c=0$, giving $Q_c/Q_h=T_c/T_h$. Therefore $e=1-Q_c/Q_h=1-T_c/T_h$. Any irreversibility generates entropy and forces larger $Q_c$, hence lower efficiency."
+			}
+		],
+		"p7-l013-free-energy": [
+			{
+				"kind": "mc",
+				"prompt": "A chemical reaction is carried out at constant temperature and pressure. Which potential is minimised at equilibrium?",
+				"options": [
+					"The internal energy $U$, which is lowest in the ground state of the system.",
+					"The enthalpy $H=U+PV$, which would be minimal at fixed pressure and entropy.",
+					"The Helmholtz free energy $F=U-TS$, which is minimised at fixed volume.",
+					"The Gibbs free energy $G=U-TS+PV$, which is minimised at fixed $T$ and $P$."
+				],
+				"answer": 3,
+				"explanation": "At fixed $T$ and $P$, the system plus its reservoir maximise total entropy exactly when $G$ of the system is minimised. For fixed $T$ and $V$ the analogue is $F$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "'Free energy is the force toward equilibrium.' What is the physical meaning of this statement?",
+				"options": [
+					"It means $G$ is a mechanical force that acts on the atoms and pushes them towards the products.",
+					"At fixed $T,P$, $\\Delta S_{tot}=-\\Delta G/T$, so a process is spontaneous exactly when it lowers $G$.",
+					"It means that the energy of the system is always minimised, whatever the conditions of the process, since a system always settles into its lowest-energy state.",
+					"It means that the entropy of the system alone is always minimised at equilibrium."
+				],
+				"answer": 1,
+				"explanation": "The energy given to the reservoir ($-\\Delta H$) changes the reservoir's entropy by $-\\Delta H/T$; combined with the system's $\\Delta S$ this gives $\\Delta S_{tot}=-\\Delta G/T$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Maxwell relation $(\\partial S/\\partial V)_T=(\\partial P/\\partial T)_V$ is useful because:",
+				"options": [
+					"It proves that entropy is a function of the volume alone, so it can be read off from $V$.",
+					"It turns an entropy derivative, which cannot be measured directly, into a measurable $\\partial P/\\partial T$.",
+					"It shows that the pressure of any substance is independent of its temperature at fixed volume.",
+					"It follows from the second law, but has no practical use for calculating real quantities."
+				],
+				"answer": 1,
+				"explanation": "Maxwell relations follow from the equality of mixed partial derivatives of a potential (here $F$) and convert hard-to-measure derivatives into measurable ones."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Haber reaction N$_2$ + 3H$_2\\to$ 2NH$_3$ has $\\Delta H^\\circ=-92.2$ kJ/mol and $\\Delta S^\\circ=-198.8$ J/(mol K) at 298.15 K. Compute $\\Delta G^\\circ=\\Delta H^\\circ-T\\Delta S^\\circ$ in kJ/mol.",
+				"answer": -32.93,
+				"tolerance": 0.02,
+				"explanation": "$-T\\Delta S=+59.3$ kJ/mol opposes the favourable $\\Delta H=-92.2$ kJ/mol, giving $-32.9$ kJ/mol; at higher $T$ the entropy term would dominate and favour the reactants.",
+				"unit": "kJ/mol"
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from the thermodynamic identity $dU=T\\,dS-P\\,dV$, explain how the Helmholtz free energy is obtained as a Legendre transform and what $dF$ is.",
+				"rubric": "Full credit requires: (1) F = U - TS replaces S by T as the natural variable; (2) dF = dU - T dS - S dT = -S dT - P dV; (3) hence F is minimal at constant T,V and (dF/dT)_V = -S, (dF/dV)_T = -P.",
+				"modelAnswer": "Define $F=U-TS$. Then $dF=dU-T\\,dS-S\\,dT=-S\\,dT-P\\,dV$, so $F$ is naturally a function of $(T,V)$. Its derivatives give $S=-(\\partial F/\\partial T)_V$ and $P=-(\\partial F/\\partial V)_T$. At constant $T$ and $V$ the system settles at the minimum of $F$."
+			}
+		],
+		"p7-l014-phases-chemical-eq": [
+			{
+				"kind": "mc",
+				"prompt": "How is a pressure-temperature phase diagram of a pure substance related to the Gibbs free energy?",
+				"options": [
+					"Phase diagrams are constructed from the enthalpy alone, with no reference to the entropy.",
+					"The stable phase at each $(T,P)$ is the one with the highest $G$ per molecule.",
+					"At phase boundaries the entropies of the two phases are equal, which is why they coexist.",
+					"At each $(T,P)$ the stable phase has the lowest $\\mu=G/N$; boundaries are where two $\\mu$ are equal."
+				],
+				"answer": 3,
+				"explanation": "Equal $\\mu$ on both sides gives the coexistence curve $P(T)$ whose slope is the Clausius-Clapeyron equation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a reaction with $\\Delta G^\\circ=-10$ kJ/mol, a student says the reaction 'goes to completion'. What is the correct statement?",
+				"options": [
+					"$K=e^{-\\Delta G^\\circ/RT}\\approx57$: products favoured, some reactant remains, and $\\Delta G=0$ at equilibrium.",
+					"Yes: a negative $\\Delta G^\\circ$ means that every reactant molecule is eventually converted.",
+					"No: $K<1$ for a negative $\\Delta G^\\circ$, so the reaction actually favours the reactants at equilibrium.",
+					"The reaction is at equilibrium initially, so the sign of $\\Delta G^\\circ$ has no effect on the composition, since the standard state is the equilibrium state in each case."
+				],
+				"answer": 0,
+				"explanation": "$\\Delta G=\\Delta G^\\circ+RT\\ln Q=0$ at equilibrium. The sign of $\\Delta G^\\circ$ sets the *direction*, and its magnitude sets how extreme the ratio is."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Water boils at 100 $^\\circ$C (373.15 K) at 1.013 bar. Using the Clausius-Clapeyron equation for an ideal vapour, $\\ln(P_2/P_1)=-\\frac{L}{R}\\left(\\frac1{T_2}-\\frac1{T_1}\\right)$ with $L=40.66$ kJ/mol, find the boiling temperature at 0.795 bar (a mountain town about 2000 m high). Give it in $^\\circ$C.",
+				"answer": 93.23,
+				"tolerance": 0.02,
+				"explanation": "$1/T_2=1/373.15-R\\ln(0.795/1.013)/L$, giving $T_2=366.4$ K $=93.2$ $^\\circ$C. Cooking takes longer at altitude.",
+				"unit": "C"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "What equilibrium constant corresponds to $\\Delta G^\\circ=-10.0$ kJ/mol at 298.15 K? Use $K=\\exp(-\\Delta G^\\circ/RT)$.",
+				"answer": 56.48,
+				"tolerance": 0.03,
+				"explanation": "$-\\Delta G^\\circ/RT=4.034$, so $K=56.5$. A change of just 5.7 kJ/mol shifts $K$ by a factor of 10."
+			},
+			{
+				"kind": "short",
+				"prompt": "Using the condition that the Gibbs free energies per molecule of two coexisting phases are equal along the boundary, explain how the Clausius-Clapeyron equation $dP/dT=L/(T\\Delta V)$ arises.",
+				"rubric": "Full credit requires: (1) along the boundary mu1(T,P) = mu2(T,P), so dmu1 = dmu2 as one moves along the boundary; (2) dmu = -s dT + v dP (per molecule), giving (s2 - s1) dT = (v2 - v1) dP; (3) with latent heat L = T(s2 - s1) one obtains dP/dT = L/(T Delta v).",
+				"modelAnswer": "On the coexistence curve $\\mu_1=\\mu_2$, so $d\\mu_1=d\\mu_2$ along it. Using $d\\mu=-s\\,dT+v\\,dP$ per molecule: $-s_1dT+v_1dP=-s_2dT+v_2dP$, so $dP/dT=(s_2-s_1)/(v_2-v_1)$. With latent heat per molecule $L=T(s_2-s_1)$ this is $dP/dT=L/(T\\Delta v)$."
+			}
+		],
+		"p7-l015-boltzmann-factor": [
+			{
+				"kind": "mc",
+				"prompt": "Why is the probability of a small system being in state $s$ proportional to $e^{-E_s/kT}$ when it is in thermal contact with a large reservoir?",
+				"options": [
+					"Because high-energy states are physically forbidden when a small system is in contact with a reservoir.",
+					"Because the small system always seeks the lowest energy available and so avoids high-energy states.",
+					"Energy $E_s$ taken from the reservoir cuts its microstates by a factor $e^{-E_s/kT}$.",
+					"Because probabilities must sum to one, which fixes the exponential form of the weights."
+				],
+				"answer": 2,
+				"explanation": "$P(s)\\propto\\Omega_R(U-E_s)\\propto e^{S_R(U-E_s)/k}\\approx e^{S_R/k}e^{-E_s/kT}$ since $\\partial S_R/\\partial U=1/T$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The first excited electronic state of a hydrogen atom lies 10.2 eV above the ground state. At room temperature ($kT\\approx0.026$ eV), what is its thermal population?",
+				"options": [
+					"About one percent, since the thermal energy is not far below the excitation energy, since $kT$ at room temperature is not far below the 10.2 eV gap.",
+					"About half, because the degeneracy of the excited state is four times larger.",
+					"About ten percent, because the excitation energy is only a few times $kT$.",
+					"Utterly negligible (of order $e^{-390}$): essentially every atom is in the ground state."
+				],
+				"answer": 3,
+				"explanation": "Even multiplying by a degeneracy factor of 4 cannot compensate for $e^{-10.2/0.026}$. Visible emission from H requires discharges or stars at thousands of kelvin."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the partition function $Z=\\sum_se^{-E_s/kT}$ roughly measure?",
+				"options": [
+					"The average energy of the system, since $Z$ weights each state by its energy.",
+					"It counts the effective number of thermally accessible states: $Z\\to1$ at low $T$, large at high $T$.",
+					"The entropy of the system, since $Z$ measures the disorder directly in units of $k$.",
+					"The probability that the system is in its ground state, as the Boltzmann factor is normalised."
+				],
+				"answer": 1,
+				"explanation": "$Z$ is the normalisation of the Boltzmann weights, and everything else in thermodynamics follows from it."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Cl$_2$ stretching vibration has wavenumber 560 cm$^{-1}$. At 300 K, what is the ratio of the population of the $v=1$ level to that of $v=0$, $e^{-hc\\tilde\\nu/kT}$? Use $hc/k=1.4388$ cm K.",
+				"answer": 0.06817,
+				"tolerance": 0.03,
+				"explanation": "$hc\\tilde\\nu/kT=1.4388\\times560/300=2.686$, so the ratio is 0.0682: about 6.4% of Cl$_2$ molecules are vibrationally excited (hot bands in the spectrum)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how the Boltzmann factor follows from the entropy of the reservoir, in your own words.",
+				"rubric": "Full credit requires: (1) system plus reservoir share a fixed total energy U; if the system takes energy E_s the reservoir has U - E_s; (2) the probability of that state is proportional to the number of reservoir microstates, exp[S_R(U - E_s)/k]; (3) expanding S_R to first order, dS_R/dU = 1/T gives exp(-E_s/kT).",
+				"modelAnswer": "If the small system is in state $s$ with energy $E_s$, the reservoir has energy $U-E_s$ and $\\Omega_R(U-E_s)$ microstates. The probability is proportional to this. Writing $\\Omega_R=e^{S_R/k}$ and expanding $S_R(U-E_s)\\approx S_R(U)-E_s/T$ gives $P(s)\\propto e^{-E_s/kT}$."
+			}
+		],
+		"p7-l016-averages-equipartition": [
+			{
+				"kind": "mc",
+				"prompt": "How does the average energy of a system follow from its partition function?",
+				"options": [
+					"$\\langle E\\rangle=kT\\ln Z$, since the logarithm of $Z$ measures the energy per unit temperature.",
+					"$\\langle E\\rangle=Z/\\beta$, since $Z$ divided by $\\beta$ gives the typical energy of the system.",
+					"$\\langle E\\rangle=-\\partial\\ln Z/\\partial\\beta$, the Boltzmann-weighted mean of the energy.",
+					"$\\langle E\\rangle$ equals the smallest energy in the sum, because the ground state dominates."
+				],
+				"answer": 2,
+				"explanation": "Differentiating $Z=\\sum e^{-\\beta E_s}$ brings down $-E_s$ from each term, so $-\\partial_\\beta\\ln Z=\\sum E_se^{-\\beta E_s}/Z$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A two-level system (gap $\\Delta$) has a heat capacity that peaks at a temperature of order $\\Delta/2k$ and vanishes at both low and high $T$. Why does it vanish at high $T$?",
+				"options": [
+					"At high $T$ both levels are equally populated, so the energy saturates and cannot absorb more.",
+					"Because the gap between the two levels closes at high temperature, so the system stops responding.",
+					"Because the system loses its energy to the surroundings faster than it can absorb heat.",
+					"Because the partition function diverges at high temperature, so the heat capacity is undefined."
+				],
+				"answer": 0,
+				"explanation": "The energy is bounded (maximum $\\Delta/2$ per system), so $C=dU/dT\\to0$ when saturation is reached: the Schottky anomaly."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The mean energy of a quantum harmonic oscillator of frequency $\\omega$ approaches what in the limits of high and low temperature?",
+				"options": [
+					"$kT$ at high $T$; zero-point $\\tfrac12\\hbar\\omega$ at low $T$ when $kT\\ll\\hbar\\omega$.",
+					"$kT$ at both limits, since equipartition applies at every temperature to a harmonic oscillator.",
+					"Zero at low $T$ and $\\hbar\\omega$ at high $T$, since quantum effects switch on as the oscillator warms.",
+					"$\\tfrac12kT$ at high $T$ and $kT$ at low $T$, with the roles of the two terms reversed."
+				],
+				"answer": 0,
+				"explanation": "$\\langle E\\rangle=\\tfrac12\\hbar\\omega+\\hbar\\omega/(e^{\\hbar\\omega/kT}-1)$ is the Planck/Einstein result."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A vibrational mode with wavenumber 1000 cm$^{-1}$ has heat capacity (Einstein function) $C/k=x^2e^x/(e^x-1)^2$ with $x=hc\\tilde\\nu/kT$. What is $C/k$ at 300 K? Use $hc/k=1.4388$ cm K.",
+				"answer": 0.1932,
+				"tolerance": 0.03,
+				"explanation": "$x=4.796$ so $C/k=0.193$, i.e. the mode contributes only 19% of its classical value $k$ at room temperature."
+			},
+			{
+				"kind": "short",
+				"prompt": "Show, for a degree of freedom whose energy is quadratic ($E=\\alpha x^2$) and classical, that its average thermal energy is $\\tfrac12kT$.",
+				"rubric": "Full credit requires: (1) Z = integral exp(-beta alpha x^2) dx proportional to beta^(-1/2) (Gaussian integral); (2) <E> = -d ln Z / d beta = 1/(2 beta) = kT/2; (3) independent of alpha: any quadratic term, which is the equipartition theorem; mention it requires classical continuous energies (kT >> level spacing).",
+				"modelAnswer": "$Z=\\int e^{-\\beta\\alpha x^2}dx=\\sqrt{\\pi/\\beta\\alpha}\\propto\\beta^{-1/2}$. Then $\\langle E\\rangle=-\\partial\\ln Z/\\partial\\beta=\\tfrac12\\cdot\\tfrac1\\beta=\\tfrac12kT$, independent of $\\alpha$. This holds only when the energy levels are dense compared with $kT$."
+			}
+		],
+		"p7-l017-maxwell-speed": [
+			{
+				"kind": "mc",
+				"prompt": "Hydrogen ($m=2$ u) and oxygen ($m=32$ u) escape through a tiny hole into vacuum at the same temperature. How do their effusion rates compare?",
+				"options": [
+					"They effuse at the same rate, as the temperature is the same and the mean kinetic energy is shared.",
+					"Hydrogen effuses 16 times faster, since the rate scales as the inverse of the molecular mass.",
+					"Hydrogen effuses 4 times faster, as the rate goes as $1/\\sqrt m$.",
+					"Oxygen effuses faster, because each oxygen molecule carries more energy than a hydrogen molecule."
+				],
+				"answer": 2,
+				"explanation": "Graham's law: rate $\\propto1/\\sqrt m$, as the mean kinetic energies are equal."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the correct order of the three characteristic speeds of the Maxwell distribution?",
+				"options": [
+					"$v_{rms}<\\bar v<v_{mp}$, since the rms is dominated by the slowest molecules.",
+					"$v_{mp}<\\bar v<v_{rms}$, ratios $1:1.128:1.225$.",
+					"$\\bar v<v_{mp}<v_{rms}$, since the mean is pulled down by the slow molecules near zero speed.",
+					"All three are equal for a Gaussian-like distribution, as the peak coincides with the mean."
+				],
+				"answer": 1,
+				"explanation": "The distribution has a long tail toward high speeds, which pulls the mean and rms above the peak."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If the temperature of a gas is raised, how does its Maxwell speed distribution change?",
+				"options": [
+					"The distribution stays the same shape but is merely shifted to higher speeds.",
+					"The peak moves to lower speed, since the molecules lose energy to the walls.",
+					"The curve narrows and becomes taller, since the molecules become more alike in speed, since a hotter gas has molecules that are more alike in speed.",
+					"The peak moves up ($\\propto\\sqrt T$) and the curve broadens and lowers; the area stays 1."
+				],
+				"answer": 3,
+				"explanation": "The factor $e^{-mv^2/2kT}$ cuts off at $v\\sim\\sqrt{kT/m}$ and the $v^2$ phase-space factor determines the shape."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A reaction rate is proportional to the fraction of molecules with energy above the activation energy, $\\propto e^{-E_a/RT}$. For $E_a=50$ kJ/mol, by what factor does the rate increase when the temperature rises from 298.15 K to 308.15 K?",
+				"answer": 1.924,
+				"tolerance": 0.03,
+				"explanation": "Ratio $=\\exp[(E_a/R)(1/298.15-1/308.15)]=1.92$: the rule of thumb 'rates double per 10 K' is an average of this exponential sensitivity."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does the Maxwell speed distribution peak at a nonzero speed, and why does it fall off at high speed? Explain the two competing factors.",
+				"rubric": "Full credit requires: (1) the number of velocity vectors with speed v grows as v^2 (spherical shell of volume 4 pi v^2 dv); (2) the Boltzmann factor exp(-mv^2/2kT) decreases with energy; (3) the product has a maximum at v = sqrt(2kT/m): few molecules are near zero speed (small shell) and few are at very high speed (Boltzmann suppression).",
+				"modelAnswer": "$f(v)\\propto v^2e^{-mv^2/2kT}$. The $v^2$ comes from the phase space: the number of velocity vectors with speed in $[v,v+dv]$ is a shell of volume $4\\pi v^2dv$. The exponential is the Boltzmann factor. At small $v$ the shell is small, at large $v$ the exponential kills the weight, so the product peaks at $v_{mp}=\\sqrt{2kT/m}$."
+			}
+		],
+		"p7-l018-partition-free-energy": [
+			{
+				"kind": "mc",
+				"prompt": "Why is $Z_N=Z_1^N/N!$ for a gas of $N$ identical, non-interacting molecules but $Z_N=Z_1Z_2\\cdots$ for $N$ distinguishable systems?",
+				"options": [
+					"Because identical particles interact more strongly, which changes how their states are counted.",
+					"Because $N!$ is the number of molecules in a mole, so it only matters for macroscopic samples.",
+					"Identical gas particles are indistinguishable, so label permutations overcount microstates $N!$ times.",
+					"Because gas particles have fewer available states than the distinguishable systems found in solids, so they can be counted with a simpler formula, one that has no factorial."
+				],
+				"answer": 2,
+				"explanation": "The $1/N!$ is what makes $F$ extensive and gives the Sackur-Tetrode entropy."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For N$_2$ at 300 K, the rotational temperature is $\\theta_{rot}\\approx2.9$ K and the vibrational temperature is $\\theta_{vib}\\approx3400$ K. Which statement about its heat capacity is correct?",
+				"options": [
+					"Translation and rotation are classical, so $C_V\\approx\\tfrac52Nk$; vibration is frozen out.",
+					"All three contribute fully, so $C_V=\\tfrac72Nk$, since $T$ is larger than $\\theta_{rot}$.",
+					"Only translation contributes, since rotation and vibration both need much higher temperatures.",
+					"Rotation is frozen, because $T\\gg\\theta_{rot}$ makes the rotational levels too closely spaced to matter."
+				],
+				"answer": 0,
+				"explanation": "A mode is classical when $T\\gg\\theta$ and frozen when $T\\ll\\theta$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Once you have $F=-kT\\ln Z$, how do you obtain the pressure and entropy?",
+				"options": [
+					"By integrating $F$ over $V$ and $T$, which gives the entropy and pressure directly.",
+					"They cannot be found from $F$ alone; one needs the energy distribution as well.",
+					"$S=F/T$ and $P=F/V$, since $F$ is the energy per unit temperature and volume.",
+					"As derivatives: $S=-(\\partial F/\\partial T)_{V,N}$ and $P=-(\\partial F/\\partial V)_{T,N}$."
+				],
+				"answer": 3,
+				"explanation": "From $dF=-S\\,dT-P\\,dV+\\mu\\,dN$. The partition function therefore carries all the thermodynamics."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The classical rotational partition function of a homonuclear diatomic is $q_{rot}=T/(\\sigma\\theta_{rot})$ with symmetry number $\\sigma=2$. For N$_2$ ($\\theta_{rot}=2.88$ K) at 300 K, what is $q_{rot}$?",
+				"answer": 52.08,
+				"tolerance": 0.03,
+				"explanation": "$q_{rot}=300/(2\\times2.88)=52.1$: about 52 rotational states are thermally accessible, which justifies the classical treatment."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why all thermodynamic properties follow once you know the partition function $Z(T,V,N)$.",
+				"rubric": "Full credit requires: (1) Z encodes the Boltzmann-weighted sum over all microstates; (2) F = -kT ln Z is the thermodynamic potential for (T,V,N); (3) S, P, mu (and U, C_V) are partial derivatives of F, so one function gives everything.",
+				"modelAnswer": "$Z$ sums the Boltzmann weights of all microstates, so it contains the energy spectrum. $F=-kT\\ln Z$ is the appropriate thermodynamic potential for fixed $(T,V,N)$, and from $dF=-S\\,dT-P\\,dV+\\mu\\,dN$, the entropy, pressure and chemical potential are its partial derivatives; $U$ and $C_V$ follow as well. Thus one function holds all the thermodynamics."
+			}
+		],
+		"p7-l019-gibbs-bosons-fermions": [
+			{
+				"kind": "mc",
+				"prompt": "What is the maximum average occupation of a single-particle state for fermions and for bosons?",
+				"options": [
+					"Both are limited to an occupation of at most 1, as a consequence of the Pauli principle.",
+					"Fermions: at most 1 (Pauli); bosons: unlimited, diverging as $\\epsilon\\to\\mu$.",
+					"Fermions are unlimited and bosons are limited to at most 1, as bosons obey the exclusion rule.",
+					"Both are unlimited, since occupation is limited only by the available thermal energy."
+				],
+				"answer": 1,
+				"explanation": "$\\bar n_{FD}=1/(e^{(\\epsilon-\\mu)/kT}+1)\\le1$ and $\\bar n_{BE}=1/(e^{(\\epsilon-\\mu)/kT}-1)$, which requires $\\mu<\\epsilon_{min}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "When can the quantum distributions be replaced by the classical Maxwell-Boltzmann distribution?",
+				"options": [
+					"Whenever the particles are bosons, since bosons never feel the restrictions of the exclusion principle.",
+					"When every state has mean occupation far below 1: $n\\lambda^3\\ll1$ (dilute and hot).",
+					"Only at absolute zero, where all the particles sit in the lowest available states.",
+					"Whenever the particles are fermions, since their occupancy is already limited to a small number."
+				],
+				"answer": 1,
+				"explanation": "For $e^{(\\epsilon-\\mu)/kT}\\gg1$ both $\\pm1$ can be ignored."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How is the Pauli exclusion principle, as used in building electronic configurations, related to the Fermi-Dirac distribution?",
+				"options": [
+					"It applies only to the nucleons inside nuclei and has no role in electronic structure.",
+					"It is an extra rule with no connection to statistics, added to explain the periodic table.",
+					"It means electrons repel each other so strongly that two can never share an orbital.",
+					"Electrons are spin-1/2 fermions, so an orbital holds one electron per spin state; FD is the thermal version."
+				],
+				"answer": 3,
+				"explanation": "The spin-statistics theorem: half-integer spin implies antisymmetric wavefunctions, so no two identical fermions share a state."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For N$_2$ gas at 300 K and 1 atm, the thermal de Broglie wavelength is $\\lambda=h/\\sqrt{2\\pi mkT}$. Compute the degeneracy parameter $n\\lambda^3$ (dimensionless) using $n=P/kT$ and $m=28.014$ u.",
+				"answer": 1.69e-07,
+				"tolerance": 0.05,
+				"explanation": "$\\lambda=19.0$ pm, $n=2.45\\times10^{25}$ m$^{-3}$, so $n\\lambda^3=1.7\\times10^{-7}\\ll1$: air is very classical."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the Fermi-Dirac and Bose-Einstein mean occupations from the Gibbs factor for a single state of energy $\\epsilon$.",
+				"rubric": "Full credit requires: (1) Gibbs factor exp[-(E - mu N)/kT] for a state holding N particles of energy epsilon each; (2) fermions N = 0 or 1: nbar = x/(1+x) = 1/(e^{(eps-mu)/kT}+1) with x = e^{-(eps-mu)/kT}; (3) bosons N = 0, 1, 2, ...: geometric series gives nbar = 1/(e^{(eps-mu)/kT}-1).",
+				"modelAnswer": "With $x=e^{-(\\epsilon-\\mu)/kT}$, a state with $N$ particles has weight $x^N$. For fermions $N=0,1$: $Z=1+x$ and $\\bar n=x/(1+x)=1/(x^{-1}+1)$. For bosons $N=0,1,2,\\dots$: $Z=1/(1-x)$ and $\\bar n=x/(1-x)=1/(x^{-1}-1)$."
+			}
+		],
+		"p7-l020-fermi-gas": [
+			{
+				"kind": "mc",
+				"prompt": "Why is the electronic heat capacity of a metal at room temperature much smaller than the classical value $\\tfrac32Nk$?",
+				"options": [
+					"Only electrons within about $kT$ of $E_F$ can be excited, a fraction $\\sim1\\%$; the rest are Pauli-blocked.",
+					"Electrons in metals carry no thermal energy, so they cannot contribute to the heat capacity.",
+					"Electrons have no kinetic energy at room temperature, so they cannot absorb thermal energy.",
+					"The electrons are frozen in place by the ion lattice, so they cannot take up thermal energy."
+				],
+				"answer": 0,
+				"explanation": "This is why $C_{el}\\propto T$ and why classical equipartition fails for conduction electrons."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can white-dwarf stars support themselves against gravity even at low temperature?",
+				"options": [
+					"Nuclear fusion continues in the core, which supplies the pressure that holds the star up.",
+					"The thermal pressure of the very hot gas, which stays high long after fusion has stopped.",
+					"Degenerate electrons are forced into high-momentum states by the Pauli principle, giving a pressure independent of $T$.",
+					"The electrons repel one another electrically with extreme strength when compressed."
+				],
+				"answer": 2,
+				"explanation": "Compression forces electrons into smaller $\\Delta x$, raising their momenta. This sets the Chandrasekhar mass limit."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Copper has a conduction-electron density $n=8.49\\times10^{28}$ m$^{-3}$. Compute its Fermi energy $E_F=\\frac{\\hbar^2}{2m}(3\\pi^2n)^{2/3}$ in eV. ($m_e=9.109\\times10^{-31}$ kg)",
+				"answer": 7.044,
+				"tolerance": 0.03,
+				"explanation": "$E_F=7.04$ eV, corresponding to a Fermi temperature $T_F=E_F/k\\approx81740$ K.",
+				"unit": "eV"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "At 300 K the electronic heat capacity of a degenerate gas is $C=\\frac{\\pi^2}{2}Nk\\,(kT/E_F)$. For copper ($E_F=7.04$ eV), what is $C/(Nk)$ at 300 K?",
+				"answer": 0.01811,
+				"tolerance": 0.05,
+				"explanation": "$C/(Nk)=4.93\\times0.0259/7.04=0.018$, about 1% of the classical value 1.5."
+			},
+			{
+				"kind": "short",
+				"prompt": "Sketch in words the density of states $g(\\epsilon)\\propto\\sqrt\\epsilon$ and the occupation $\\bar n(\\epsilon)$ at $T=0$ and at small $T>0$, and explain how this gives a heat capacity linear in $T$.",
+				"rubric": "Full credit requires: (1) in 3D, g(epsilon) grows as the square root of epsilon (more states at higher energy); (2) at T=0 occupation is a step function up to E_F, at T>0 the step is smeared over about kT; (3) only about g(E_F) kT electrons are excited, each with energy ~kT, so U increases as T^2 and C = dU/dT is proportional to T.",
+				"modelAnswer": "$g(\\epsilon)\\propto\\sqrt\\epsilon$ in three dimensions. At $T=0$ the occupation is a step: filled below $E_F$ and empty above. At small $T$ the step is smeared over a width $\\sim kT$. The number of electrons affected is $\\sim g(E_F)kT$, each gains $\\sim kT$, so $\\Delta U\\propto T^2$ and $C=dU/dT\\propto T$."
+			}
+		],
+		"p7-l021-blackbody": [
+			{
+				"kind": "mc",
+				"prompt": "Classical equipartition applied to the modes of radiation in a cavity predicts infinite total energy (the 'ultraviolet catastrophe'). How does quantisation fix this?",
+				"options": [
+					"It reduces the number of modes to a finite number, by assumption rather than by a derivation.",
+					"It makes the speed of light depend on the temperature, which cuts off the high-frequency modes, which would then cut off the high-frequency modes as well.",
+					"It lowers the temperature of the cavity, so the equipartition result gives a finite energy.",
+					"Modes with $h\\nu\\gg kT$ cannot be excited, as energy comes in lumps $h\\nu$; the spectrum is cut off."
+				],
+				"answer": 3,
+				"explanation": "Each mode's average energy is $h\\nu/(e^{h\\nu/kT}-1)$, which tends to $kT$ at low frequency and to zero exponentially at high frequency."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A tungsten lamp filament (about 2800 K) and the Sun (about 5800 K) are both approximately blackbodies. How do their spectra differ?",
+				"options": [
+					"Both peak at the same wavelength, since a filament is a blackbody like the Sun.",
+					"The Sun peaks near 500 nm (visible); the filament near 1000 nm (infrared), so most lamp power is invisible.",
+					"The filament peaks at shorter wavelengths because it is brighter at close range.",
+					"The Sun peaks in the infrared, as the infrared is where the bulk of its energy is emitted."
+				],
+				"answer": 1,
+				"explanation": "Wien's law: $\\lambda_{max}T=2.898$ mm K. Incandescent bulbs are inefficient for lighting."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If the temperature of a blackbody doubles, by what factor does the total radiated power per unit area change?",
+				"options": [
+					"A factor of 2, because the power per unit area is proportional to the temperature.",
+					"A factor of 4, because the power per unit area is proportional to $T^2$.",
+					"A factor of 16, because the power per unit area goes as $T^4$.",
+					"A factor of 8, because the power per unit area is proportional to $T^3$."
+				],
+				"answer": 2,
+				"explanation": "Integrating the Planck spectrum gives $\\sigma T^4$. The factor reflects both the peak moving up in frequency and more photons per mode."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using Wien's law $\\lambda_{max}T=2.898\\times10^{-3}$ m K, find the peak wavelength emitted by a filament at 2800 K, in nm.",
+				"answer": 1035.0,
+				"tolerance": 0.02,
+				"explanation": "$\\lambda_{max}=2.898\\times10^{-3}/2800=1035$ nm (near infrared), well outside the visible range (400-700 nm).",
+				"unit": "nm"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically how the cosmic microwave background can be a blackbody spectrum at 2.7 K, and how Wien's law connects the temperature to the wavelength in the microwave band.",
+				"rubric": "Full credit requires: (1) the early universe was hot and in thermal equilibrium with radiation, giving a Planck spectrum; (2) expansion stretches wavelengths, lowering the effective temperature but preserving the blackbody shape; (3) Wien's law gives lambda_max = 2.898 mm K / 2.7 K, about 1 mm, i.e. microwaves.",
+				"modelAnswer": "Early on, matter and radiation were in thermal equilibrium, so the radiation had a Planck spectrum. The universe's expansion redshifts all wavelengths by the same factor, which keeps a blackbody shape but with lower temperature, now 2.725 K. Wien's law gives $\\lambda_{max}=2.898\\text{ mm K}/2.725\\text{ K}\\approx1.06$ mm, in the microwave band."
+			}
+		],
+		"p7-l022-debye-solids": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the Einstein model of a solid fail at very low temperatures, while the Debye model succeeds?",
+				"options": [
+					"The Einstein model has a single frequency, so $C$ falls exponentially; real solids have long-wave modes that stay excited ($T^3$).",
+					"The Einstein model neglects the quantisation of energy, and so cannot describe low temperatures.",
+					"Einstein's model predicts a $T^3$ law, which is too large compared with what is observed.",
+					"The Debye model neglects the atomic nature of solids, and so cannot be used at high temperature."
+				],
+				"answer": 0,
+				"explanation": "Any $kT$, however small, can excite phonons whose energy $\\hbar vq$ is smaller still: the density of low-energy states is what produces the power law."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At high temperature, what is the heat capacity of a solid in both models and why?",
+				"options": [
+					"$3Nk$ (Dulong-Petit): six quadratic terms per atom, each contributing $\\tfrac12kT$.",
+					"$\\tfrac32Nk$, since only the three translational terms of each atom contribute classically.",
+					"$Nk$, since each atom has one effective oscillator contributing $kT$ to the energy.",
+					"It diverges, as every mode of the crystal becomes thermally accessible at high temperature."
+				],
+				"answer": 0,
+				"explanation": "At $T\\gg\\theta_D$ all modes are active and classical."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Diamond has a Debye temperature of about 2200 K, while lead's is about 100 K. What does this mean for their heat capacities at room temperature?",
+				"options": [
+					"Both are at $3Nk$, since room temperature is high enough for every solid to follow Dulong-Petit.",
+					"Diamond is above $3Nk$, because its stiff bonds store more energy per atom than lead's.",
+					"Lead is at about $3Nk$, but diamond is far below because its stiff, high-frequency modes are frozen out.",
+					"Both are far below $3Nk$, since room temperature is below $\\theta_D$ for each of the two solids."
+				],
+				"answer": 2,
+				"explanation": "Light atoms and stiff bonds give high sound speeds and a high Debye temperature."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the Debye temperature of diamond from $\\theta_D=(\\hbar v/k)(6\\pi^2n)^{1/3}$, using an average sound speed of 13 000 m/s and an atomic density $n=1.76\\times10^{29}$ m$^{-3}$. Give it in K.",
+				"answer": 2169.0,
+				"tolerance": 0.05,
+				"explanation": "$(6\\pi^2n)^{1/3}=2.19\\times10^{10}$ m$^{-1}$ so $\\theta_D\\approx2169$ K, close to the tabulated 2230 K.",
+				"unit": "K"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain, using the phonon picture, why the low-temperature heat capacity of an insulating solid goes as $T^3$.",
+				"rubric": "Full credit requires: (1) at temperature T only phonons with energy hbar v q of order kT are thermally excited, so the excited modes fill a sphere in q-space of radius ~kT/hbar v; (2) the number of such modes is proportional to T^3, each carrying energy ~kT, so U is proportional to T^4; (3) C = dU/dT is proportional to T^3.",
+				"modelAnswer": "Only phonons with $\\hbar vq\\lesssim kT$ are excited. In $q$-space they fill a sphere of radius $\\propto T$, so their number scales as $T^3$, each carrying energy $\\sim kT$. Hence $U\\propto T^4$ and $C=dU/dT\\propto T^3$."
+			}
+		],
+		"p7-l023-bose-einstein": [
+			{
+				"kind": "mc",
+				"prompt": "Below the critical temperature of an ideal Bose gas, what happens to the number of particles in the ground state?",
+				"options": [
+					"No particle is in the ground state, as the thermal energy spreads them over the excited states.",
+					"A macroscopic fraction piles into the lowest state, since the excited states hold only a limited number.",
+					"Only one particle occupies the ground state, the others being kept out by their mutual repulsion.",
+					"The ground state is empty, because bosons repel each other and avoid the state of lowest energy."
+				],
+				"answer": 1,
+				"explanation": "The excited states can accommodate at most $N_{ex}\\propto T^{3/2}$ particles; the remainder must go to the ground state."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At the same temperature and density, how do an ideal gas of fermions and an ideal gas of bosons differ near $T\\to0$?",
+				"options": [
+					"Both condense into the lowest state, since at $T\\to0$ every particle seeks the lowest energy.",
+					"Both fill a Fermi sea, since the quantum statistics of the two kinds of gas are identical at $T=0$.",
+					"Fermions condense into the lowest state, whereas bosons spread out because they repel one another.",
+					"Fermions fill levels up to $E_F$ (a Fermi sea), whereas bosons pile into the lowest state."
+				],
+				"answer": 3,
+				"explanation": "Quantum statistics determines the ground state of non-interacting particles."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which of these is a real example of Bose-Einstein condensation or the related superfluid transition?",
+				"options": [
+					"Liquid water freezing at 0 $^\\circ$C, a transition in which many molecules enter one ordered state.",
+					"Electrons in a copper wire at room temperature, which all move together as a single coherent state.",
+					"Ultracold rubidium atoms near 100 nK, and liquid $^4$He below 2.17 K.",
+					"Neutrinos in the early universe, which are bosons and therefore condensed into one quantum state."
+				],
+				"answer": 2,
+				"explanation": "Both involve bosonic atoms. Electrons are fermions and cannot condense in the same single-particle state (they pair up in superconductors)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the BEC critical temperature of an ideal gas with the mass of $^4$He (4.0026 u) at the liquid density $n=2.18\\times10^{28}$ m$^{-3}$, using $T_c=\\frac{2\\pi\\hbar^2}{mk}\\left(\\frac{n}{2.612}\\right)^{2/3}$. Give it in K.",
+				"answer": 3.133,
+				"tolerance": 0.03,
+				"explanation": "$T_c\\approx3.13$ K, remarkably close to the observed superfluid transition at 2.17 K, though helium is not an ideal gas.",
+				"unit": "K"
+			},
+			{
+				"kind": "short",
+				"prompt": "What does it mean physically that a Bose-Einstein condensate can be described by a single macroscopic wavefunction?",
+				"rubric": "Full credit requires: (1) a macroscopic number of particles occupy the same single-particle quantum state, so they share one wavefunction; (2) that gives phase coherence across the whole sample (interference, superfluid flow); (3) mention of a macroscopic quantum effect such as interference between two condensates or frictionless flow.",
+				"modelAnswer": "Below $T_c$ a macroscopic fraction of the bosons sits in the same single-particle state, so they share a common wavefunction with a definite phase. The condensate is therefore coherent over the whole sample, which shows up as matter-wave interference between two condensates and as superfluid (frictionless) flow."
+			}
+		],
+		"p7-l024-virial-vdw": [
+			{
+				"kind": "mc",
+				"prompt": "How does the second virial coefficient $B_2(T)$ of a real gas reflect the intermolecular potential?",
+				"options": [
+					"It is negative at low $T$ (attraction dominates) and positive at high $T$ (repulsion dominates).",
+					"It is always zero, since the virial expansion for a gas contains only the ideal-gas term.",
+					"It is positive at low $T$, where the molecules are slow, and negative at high $T$.",
+					"It depends only on the molecular mass, not on the intermolecular potential or on the temperature."
+				],
+				"answer": 0,
+				"explanation": "$B_2=-\\tfrac12\\int(e^{-U/kT}-1)\\,d^3r$. The Boyle temperature is where $B_2=0$: the gas behaves ideally to first order."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What physical effects do the parameters $a$ and $b$ in the van der Waals equation $(P+a n^2/V^2)(V-nb)=nRT$ represent?",
+				"options": [
+					"$a$ is the volume of the molecules and $b$ is the strength of the attraction between them.",
+					"Both are corrections for the mass of the molecules, which makes real gases heavier than ideal ones.",
+					"$a$ and $b$ are both repulsive terms, which raise the pressure above the ideal-gas value.",
+					"$b$ is the excluded volume of the repulsive cores; $a$ is the attraction that lowers the pressure."
+				],
+				"answer": 3,
+				"explanation": "Hard cores shrink the free volume to $V-nb$; mean-field attractions reduce pressure by $a n^2/V^2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Below the critical temperature, the van der Waals isotherm has a loop with a region of negative compressibility. What does the Maxwell equal-area construction do?",
+				"options": [
+					"It removes the critical point, so that the isotherm is smooth at every temperature.",
+					"It replaces the loop by a horizontal line at the coexistence pressure, where $\\mu_{liq}=\\mu_{gas}$.",
+					"It picks the highest pressure reached on the loop, which marks the onset of liquefaction.",
+					"It averages the pressure over the loop with equal weight, giving the mean pressure of the isotherm."
+				],
+				"answer": 1,
+				"explanation": "The equal-area rule follows from $\\mu_{liq}=\\mu_{gas}$, since $\\Delta\\mu=\\int V\\,dP$ along the loop must vanish."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the van der Waals gas the critical temperature is $T_c=8a/(27Rb)$. For CO$_2$, $a=0.364$ Pa m$^6$/mol$^2$ and $b=4.27\\times10^{-5}$ m$^3$/mol. What is $T_c$ in K?",
+				"answer": 303.8,
+				"tolerance": 0.02,
+				"explanation": "$T_c=303.8$ K, close to the measured 304.1 K, and shows how well simple physics (excluded volume plus weak attraction) captures real fluids.",
+				"unit": "K"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the van der Waals equation can be motivated from the second virial coefficient of a potential made of a hard core and a weak attractive tail.",
+				"rubric": "Full credit requires: (1) B2 = b - a/(kT) for a hard core (excluded volume b) plus a weak attraction (integral gives a); (2) the virial expansion P/kT = n + B2 n^2 + ... ~ n(1 + n(b - a/kT)); (3) resumming gives P = nkT/(1 - nb) - a n^2, the van der Waals equation.",
+				"modelAnswer": "A hard core of excluded volume $b$ and a weak long-range attraction give $B_2(T)\\approx b-a/kT$. Then $P/kT=n+(b-a/kT)n^2+\\dots$, which is the expansion of $P=nkT/(1-nb)-an^2$. Resumming the repulsive series into $1/(1-nb)$ gives the van der Waals equation."
+			}
+		],
+		"p7-l025-ising-1d": [
+			{
+				"kind": "mc",
+				"prompt": "What does the parameter $J>0$ in the Ising Hamiltonian $H=-J\\sum_{\\langle ij\\rangle}s_is_j-h\\sum_is_i$ represent?",
+				"options": [
+					"The temperature of the lattice, which sets how strongly the neighbouring spins feel one another.",
+					"A coupling that favours parallel neighbours (ferromagnetic); $h$ is the external field.",
+					"The magnetisation of the lattice, which is the average of the spins taken over all the sites.",
+					"The cost of flipping one spin in zero field, regardless of what its neighbours are doing."
+				],
+				"answer": 1,
+				"explanation": "The same model describes a lattice gas (occupied/empty sites with nearest-neighbour attraction) and cooperative binding (e.g. ligands on a polymer)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does the one-dimensional Ising chain not order at any $T>0$?",
+				"options": [
+					"Because the ordered state has higher energy than the disordered state at every temperature.",
+					"Because the chain is too short to have any interactions that could support long-range order.",
+					"Because the transfer matrix has a zero eigenvalue, which removes the possibility of a transition, which leaves no possible route to order at any temperature.",
+					"One domain wall costs $2J$ but has $\\sim N$ positions, giving $k\\ln N$ entropy; walls proliferate."
+				],
+				"answer": 3,
+				"explanation": "In higher dimensions a domain wall costs energy proportional to its area, which grows with $N$ and beats the entropy gain."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a Metropolis Monte Carlo simulation of the 2D Ising model, what is the rule for accepting a trial spin flip with energy change $\\Delta E$?",
+				"options": [
+					"Accept if $\\Delta E\\le0$, else accept with probability $e^{-\\Delta E/kT}$, sampling the Boltzmann weight.",
+					"Always accept flips that raise the energy, since raising the energy is what the heat bath does.",
+					"Accept only flips that lower the energy, since the system should always move toward equilibrium.",
+					"Accept all flips with probability one half, so that the spins reach a random configuration."
+				],
+				"answer": 0,
+				"explanation": "The algorithm satisfies detailed balance, so long runs sample the canonical ensemble. Averages of $m$, $E$ etc. then estimate thermodynamic quantities."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In the 1D Ising chain at zero field the spin correlation falls as $\\langle s_0s_r\\rangle=\\tanh^r(J/kT)$. For $J/kT=1.0$, what is the correlation length $\\xi=-1/\\ln\\tanh(J/kT)$ in lattice spacings?",
+				"answer": 3.672,
+				"tolerance": 0.03,
+				"explanation": "$\\tanh1=0.7616$, so $\\xi=-1/\\ln0.7616=3.67$ lattice spacings. As $T\\to0$ ($J/kT\\to\\infty$) $\\xi\\to\\infty$, a signature of order only at $T=0$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the domain-wall argument for the absence of a phase transition in the one-dimensional Ising model, in your own words.",
+				"rubric": "Full credit requires: (1) in 1D flipping a whole block creates just two (or one) domain walls costing energy ~2J per wall; (2) the walls can be located at about N positions, giving entropy gain k ln N; (3) the free energy change 2J - kT ln N is negative for large N at any T>0, so order is destroyed.",
+				"modelAnswer": "Starting from the fully aligned state, flip half of the chain: this creates one domain wall at energy cost $2J$. The wall can sit at any of $N$ positions, so the entropy gain is $k\\ln N$. The change in free energy $2J-kT\\ln N$ becomes negative for large $N$ at any $T>0$, so such walls always appear and there is no long-range order."
+			}
+		],
+		"p7-l026-mean-field": [
+			{
+				"kind": "mc",
+				"prompt": "What approximation is made in the mean-field theory of the Ising model?",
+				"options": [
+					"The interaction is switched off above $T_c$, so the spins behave independently there.",
+					"All spins are assumed independent of one another at every temperature, with no interaction at all.",
+					"Each spin feels the average magnetisation of its neighbours, ignoring their fluctuations and correlations.",
+					"The lattice is assumed infinite and every spin is assumed to point the same way from the start."
+				],
+				"answer": 2,
+				"explanation": "Replacing $s_j$ by $\\langle s\\rangle=m$ gives an effective field $h+Jzm$. It ignores correlations between spin fluctuations."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Just below $T_c$ mean-field theory predicts $m\\propto(T_c-T)^{1/2}$. What does this tell you about the transition?",
+				"options": [
+					"The magnetisation jumps discontinuously at $T_c$, as in a first-order transition.",
+					"The magnetisation grows linearly in $T_c-T$ just below $T_c$, with a finite slope.",
+					"The magnetisation is unchanged across $T_c$, so the transition is not visible in $m$.",
+					"The order parameter rises continuously from zero, with infinite slope: a second-order transition."
+				],
+				"answer": 3,
+				"explanation": "Real 3D magnets have exponent about 0.33; exact 2D Ising has 1/8: the correlations that mean-field ignores matter near $T_c$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Mean-field theory predicts a transition for the 1D Ising chain ($T_c=2J/k$) although the exact solution has none. In which situations is mean-field theory most reliable?",
+				"options": [
+					"In low dimensions, where each spin has few neighbours and the average is easy to compute.",
+					"In high dimensions ($d\\ge4$) or with long-range forces, where many neighbours average out fluctuations.",
+					"Only at $T=0$, where the spins are all aligned and the fluctuations are completely absent.",
+					"Only in one dimension, where the exact transfer-matrix solution agrees with the mean-field result, where the exact transfer-matrix solution agrees with the mean-field theory."
+				],
+				"answer": 1,
+				"explanation": "More neighbours means the average field is a better approximation of the instantaneous field."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the mean-field critical temperature $T_c=zJ/k$ for a square-lattice ($z=4$) magnet with exchange coupling $J=1.0$ meV. Give it in K.",
+				"answer": 46.42,
+				"tolerance": 0.03,
+				"explanation": "$T_c=4\\times1.0\\text{ meV}/k=46.4$ K (the exact 2D result is lower, $2.27J/k=26$ K, because fluctuations suppress ordering).",
+				"unit": "K"
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the mean-field self-consistency equation $m=\\tanh[\\beta(Jzm+h)]$ for the Ising model.",
+				"rubric": "Full credit requires: (1) pick one spin, replace its z neighbours by their average m, giving effective field h_eff = h + J z m; (2) a spin in field h_eff has energy -h_eff s, so <s> = tanh(beta h_eff); (3) requiring <s> = m gives m = tanh[beta(h + J z m)].",
+				"modelAnswer": "Pick a spin; replace each of its $z$ neighbours by the average $m$. It then feels an effective field $h_{eff}=h+Jzm$ and has energy $-h_{eff}s$ with $s=\\pm1$, so $\\langle s\\rangle=\\tanh(\\beta h_{eff})$. Self-consistency requires $\\langle s\\rangle=m$, giving $m=\\tanh[\\beta(Jzm+h)]$."
+			}
+		],
+		"p7-l027-landau-critical": [
+			{
+				"kind": "mc",
+				"prompt": "In Landau theory the free energy is $F=F_0+a(T-T_c)m^2+bm^4$ with $a,b>0$. What is the equilibrium $m$ for $T>T_c$ and $T<T_c$?",
+				"options": [
+					"$m=0$ at all temperatures, since the free energy has a single minimum for every $T$.",
+					"$m\\neq0$ at all temperatures, since the quartic term always favours a finite magnetisation.",
+					"$m=0$ above $T_c$; below it $m=\\pm\\sqrt{a(T_c-T)/2b}$, growing continuously from zero.",
+					"$m$ jumps from zero to a finite value at $T_c$, since the free energy has two competing minima."
+				],
+				"answer": 2,
+				"explanation": "Minimising gives $2a(T-T_c)m+4bm^3=0$. The sign change of the quadratic coefficient creates two symmetric minima."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What kind of term in the Landau free energy can produce a first-order transition?",
+				"options": [
+					"A cubic term $cm^3$ (if symmetry allows), or a negative quartic term with a positive $m^6$ term.",
+					"Only a larger quadratic coefficient, which would move the transition to a higher temperature.",
+					"A purely quadratic term, since a single parabola can have two minima as the coefficient changes.",
+					"No terms can: Landau theory describes only second-order transitions, whatever terms are included."
+				],
+				"answer": 0,
+				"explanation": "These produce a free-energy landscape with two competing minima, so $m$ jumps at the transition and there is latent heat."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The liquid-gas critical point and the Ising magnet have the same critical exponents. What principle explains this?",
+				"options": [
+					"Universality: exponents depend on dimension and order-parameter symmetry, not on microscopic details.",
+					"They are made of the same atoms, so that their critical behaviour is naturally identical.",
+					"It is an accident of the Ising model, which happens to match the liquid-gas data.",
+					"Exponents are always the mean-field values, whatever the system, so all systems agree."
+				],
+				"answer": 0,
+				"explanation": "Near $T_c$ the correlation length is much larger than any microscopic scale, so microscopic details are irrelevant."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In mean-field theory the susceptibility diverges as $\\chi\\propto|T-T_c|^{-\\gamma}$ with $\\gamma=1$. By what factor is $\\chi$ larger at $|T-T_c|/T_c=0.001$ than at $0.1$?",
+				"answer": 100.0,
+				"tolerance": 0.02,
+				"explanation": "A factor of $(0.1/0.001)^\\gamma=100$ for $\\gamma=1$. (With the true 3D Ising $\\gamma=1.24$ it would be about 300.)"
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from the Landau free energy with $a(T-T_c)m^2+bm^4$, show that mean-field theory predicts $m\\propto(T_c-T)^{1/2}$, i.e. the exponent $\\beta=1/2$.",
+				"rubric": "Full credit requires: (1) set dF/dm = 0: 2a(T-T_c)m + 4 b m^3 = 0; (2) nonzero solution: m^2 = a(T_c-T)/(2b); (3) hence m proportional to (T_c - T)^(1/2) and beta = 1/2.",
+				"modelAnswer": "Minimising: $\\partial F/\\partial m=2a(T-T_c)m+4bm^3=0$. For $T<T_c$ the nonzero solution has $m^2=a(T_c-T)/2b$, so $m\\propto(T_c-T)^{1/2}$ and $\\beta=1/2$."
+			}
+		],
+		"p7-l028-probability-clt": [
+			{
+				"kind": "mc",
+				"prompt": "Why do relative fluctuations of extensive quantities such as total energy scale as $1/\\sqrt N$?",
+				"options": [
+					"Because the individual contributions are perfectly correlated, so the fluctuations add up coherently.",
+					"Because the standard deviation is always proportional to the mean, whatever the size of the system.",
+					"The total is a sum of $N$ independent terms: its mean grows as $N$, its spread as $\\sqrt N$.",
+					"Because larger systems have less energy per particle, so their fluctuations are proportionally smaller."
+				],
+				"answer": 2,
+				"explanation": "Variances of independent contributions add: $\\sigma^2=N\\sigma_1^2$, so $\\sigma/\\mu\\propto1/\\sqrt N$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The number of molecules in a small region of an ideal gas follows a Poisson distribution with mean 100. What is the standard deviation?",
+				"options": [
+					"100, since the standard deviation of a count equals its mean for a Poisson distribution.",
+					"10, because for a Poisson distribution the variance equals the mean.",
+					"1, since the count is an integer and can only differ from its mean by one unit.",
+					"50, since the standard deviation of a count is about half of its mean."
+				],
+				"answer": 1,
+				"explanation": "Variance $=\\bar N$, so relative fluctuation $1/\\sqrt{\\bar N}=10\\%$. This is the origin of the visible 'graininess' of small samples."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can we use the microcanonical or the canonical ensemble interchangeably for macroscopic systems?",
+				"options": [
+					"Because energy is always exactly conserved in a heat bath, so the canonical energy does not vary.",
+					"Because the temperature does not matter in either ensemble, only the number of particles does.",
+					"Because the two ensembles are mathematically identical for any number of particles, large or small, so that fixed-$T$ and fixed-$E$ ensembles can never be told apart.",
+					"Canonical energy fluctuations are $\\sim1/\\sqrt N$, negligible for large $N$, so the two ensembles agree."
+				],
+				"answer": 3,
+				"explanation": "Ensemble equivalence fails only for small systems or at critical points where fluctuations become large."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A volume of 1 mm$^3$ of air at standard conditions contains on average $2.69\\times10^{16}$ molecules. Treating the number as Poisson distributed, what is the relative fluctuation $\\sigma/\\bar N$ in the number of molecules?",
+				"answer": 6.097e-09,
+				"tolerance": 0.03,
+				"explanation": "$\\sigma/\\bar N=1/\\sqrt{2.69\\times10^{16}}=6.10e-09$, about six parts in a billion: invisible."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the central limit theorem and explain why it justifies thermodynamics as a deterministic theory of macroscopic systems.",
+				"rubric": "Full credit requires: (1) the sum of many independent random variables with finite variance tends to a Gaussian, with mean N*mu and standard deviation sqrt(N)*sigma; (2) extensive quantities are such sums, so their relative fluctuations scale as 1/sqrt(N); (3) for N ~ 10^23 these are ~10^-12, so averages are sharply defined and thermodynamics is effectively deterministic.",
+				"modelAnswer": "The central limit theorem says that the sum of $N$ independent variables with finite variance is approximately Gaussian with mean $N\\mu$ and standard deviation $\\sqrt N\\sigma$. Extensive thermodynamic quantities are such sums, so their relative fluctuations are $\\sim1/\\sqrt N\\sim10^{-12}$ for $N\\sim10^{23}$. Macroscopic quantities are therefore effectively sharp, which is why thermodynamics is deterministic."
+			}
+		],
+		"p7-l029-ensembles": [
+			{
+				"kind": "mc",
+				"prompt": "Which ensemble is appropriate for a small region of a gas that can exchange both energy and particles with the rest of the gas?",
+				"options": [
+					"The microcanonical ensemble, since the region of gas has a definite energy at any given time.",
+					"The canonical ensemble, since the region exchanges heat with the rest of the gas around it.",
+					"The grand canonical ensemble, with fixed $T$ and $\\mu$; energy and $N$ both fluctuate.",
+					"None of them can describe an open system, which needs a separate formalism altogether."
+				],
+				"answer": 2,
+				"explanation": "Microcanonical: isolated ($E,V,N$ fixed); canonical: heat bath ($T,V,N$); grand canonical: heat and particle bath ($T,V,\\mu$)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the grand potential $\\Phi=-kT\\ln Z_G$ for a homogeneous system?",
+				"options": [
+					"$\\Phi=U-TS-\\mu N=-PV$, the Legendre transform of $U$ in $S$ and $N$.",
+					"$\\Phi=U+PV-TS$, which is the Gibbs free energy of a system at fixed $T$ and $P$.",
+					"$\\Phi=TS$, the heat content of the system at the temperature of the bath.",
+					"$\\Phi=U+PV$, which is the enthalpy of the system at fixed pressure."
+				],
+				"answer": 0,
+				"explanation": "It is the Legendre transform of $U$ with respect to $S$ and $N$; for a uniform system its extensivity gives $-PV$ (the Euler relation)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the canonical ensemble the system's energy is not fixed. What does this imply?",
+				"options": [
+					"The energy is exactly zero, as the bath absorbs any energy that the system may have.",
+					"The system cannot be described statistically, since its energy no longer has a definite value.",
+					"The temperature is fluctuating wildly, because the bath changes it from moment to moment.",
+					"The energy fluctuates about its mean by a relative amount $\\sim1/\\sqrt N$, negligible for large $N$."
+				],
+				"answer": 3,
+				"explanation": "Thermal contact with a bath allows energy exchange; $T$ is fixed by the bath."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For 1.00 mol of an ideal gas at 300 K, the grand potential is $\\Phi=-PV=-nRT$. Compute $\\Phi$ in kJ.",
+				"answer": -2.494,
+				"tolerance": 0.02,
+				"explanation": "$\\Phi=-nRT=-2.494$ kJ; the magnitude equals the work $PV$ the gas does when it makes room for itself.",
+				"unit": "kJ"
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how the canonical ensemble is obtained from the microcanonical ensemble by coupling the system to a heat bath.",
+				"rubric": "Full credit requires: (1) the system plus bath is isolated and described by the microcanonical ensemble; (2) tracing over the bath, the probability of a system microstate with energy E_s is proportional to the number of bath states, which falls as exp(-E_s/kT); (3) so the system obeys the Boltzmann distribution with fixed temperature set by the bath.",
+				"modelAnswer": "System plus bath is isolated, so it is microcanonical with all joint microstates equally likely. The probability of a system microstate with energy $E_s$ is proportional to the number of bath microstates with energy $E-E_s$, which is $\\propto e^{-E_s/kT}$ for a large bath. The system therefore follows the canonical (Boltzmann) distribution at the bath's temperature."
+			}
+		],
+		"p7-l030-fluctuations-response": [
+			{
+				"kind": "mc",
+				"prompt": "The relation $\\mathrm{Var}(E)=kT^2C_V$ says what about heat capacity?",
+				"options": [
+					"Heat capacity measures only the average energy of the system, not how it varies from moment to moment.",
+					"Large $C_V$ means large energy fluctuations: the response to $T$ is tied to spontaneous fluctuations.",
+					"Fluctuations are independent of the heat capacity, which is a bulk property of the material.",
+					"Fluctuations are smaller when the heat capacity is larger, since a large $C_V$ stabilises the energy."
+				],
+				"answer": 1,
+				"explanation": "This is a first example of the fluctuation-response (fluctuation-dissipation) idea: equilibrium fluctuations determine linear response coefficients."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Near the liquid-gas critical point, a transparent fluid becomes milky. What is the cause of this critical opalescence?",
+				"options": [
+					"The fluid becomes a solid, and the crystals scatter light in all directions.",
+					"Compressibility diverges, so density fluctuations on the scale of light's wavelength scatter strongly.",
+					"The fluid decomposes chemically near the critical point, forming a colloid of fine particles.",
+					"The temperature suddenly drops, and the cold fluid condenses into a fog of droplets."
+				],
+				"answer": 1,
+				"explanation": "Number fluctuations are related to compressibility: $\\langle\\Delta N^2\\rangle/\\langle N\\rangle=nkT\\kappa_T$. At the critical point $\\kappa_T\\to\\infty$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the grand canonical ensemble, an ideal gas has $\\langle\\Delta N^2\\rangle=\\langle N\\rangle$. What does this say?",
+				"options": [
+					"The number of particles is exactly fixed, so no fluctuation in $N$ is possible at all.",
+					"The variance in $N$ is zero, so the gas has a perfectly sharp particle number.",
+					"The fluctuations of an ideal gas are larger than those of any real gas, because it has no interactions.",
+					"The number fluctuations are Poissonian, with relative size $1/\\sqrt{\\langle N\\rangle}$."
+				],
+				"answer": 3,
+				"explanation": "Interactions increase or decrease fluctuations (via the compressibility), but an ideal gas gives exactly the Poisson value."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using $\\mathrm{Var}(E)=kT^2C_V$ and $C_V=\\tfrac32Nk$, estimate the relative energy fluctuation $\\sigma_E/U$ for one mole of a monatomic ideal gas ($U=\\tfrac32NkT$).",
+				"answer": 1.052e-12,
+				"tolerance": 0.03,
+				"explanation": "$\\sigma_E/U=\\sqrt{2/(3N)}=1.05e-12$: about $10^{-12}$, so the energy is sharp to a part in a trillion."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive $\\mathrm{Var}(E)=kT^2C_V$ for the canonical ensemble.",
+				"rubric": "Full credit requires: (1) <E> = -d ln Z / d beta and <E^2> = (1/Z) d^2 Z / d beta^2; (2) Var(E) = d^2 ln Z / d beta^2 = -d<E>/d beta; (3) since d/d beta = -kT^2 d/dT, this equals kT^2 dU/dT = kT^2 C_V.",
+				"modelAnswer": "$\\langle E\\rangle=-\\partial_\\beta\\ln Z$ and $\\langle E^2\\rangle=Z^{-1}\\partial_\\beta^2Z$. Then $\\mathrm{Var}(E)=\\partial_\\beta^2\\ln Z=-\\partial_\\beta\\langle E\\rangle$. Since $\\partial_\\beta=-kT^2\\partial_T$, $\\mathrm{Var}(E)=kT^2\\,\\partial U/\\partial T=kT^2C_V$."
+			}
+		],
+		"p7-l031-classical-gases-cluster": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the classical partition function of an interacting gas contain the factors $1/N!$ and $1/h^{3N}$?",
+				"options": [
+					"$1/N!$ for indistinguishable particles; $h^{3N}$ makes the phase-space integral a count of quantum states.",
+					"They arise from the interaction potential, which sets the weight given to each configuration.",
+					"Both come from the equipartition theorem, which fixes the weight of each phase-space cell.",
+					"They are arbitrary constants with no effect on observables, which could be set to any value."
+				],
+				"answer": 0,
+				"explanation": "The $h^{3N}$ is irrelevant for energy and pressure but needed for absolute entropy (it fixes the constant in Sackur-Tetrode)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A salt is added to a solution, increasing its ionic strength $I$. How does the Debye screening length $\\lambda_D\\propto I^{-1/2}$ change, and what does this mean for the potential around an ion?",
+				"options": [
+					"It lengthens, so that the electrostatic potential of an ion reaches farther into the solution.",
+					"It is unchanged, since screening depends on the charge of the ion and not on the ionic strength.",
+					"It shortens: the ion cloud screens the central charge better, so the potential decays faster than $1/r$.",
+					"It becomes infinite, since the added salt cancels the charge of the central ion completely."
+				],
+				"answer": 2,
+				"explanation": "Debye-Hückel: $\\phi(r)=\\frac{q}{4\\pi\\epsilon r}e^{-r/\\lambda_D}$. More ions means a smaller $\\lambda_D$, which affects activity coefficients in solution chemistry."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Classical statistical mechanics predicts that every molecular rotation and vibration contributes $\\tfrac12kT$ per quadratic term at all temperatures. Where does this fail?",
+				"options": [
+					"It fails only for noble gases, which have no rotational or vibrational degrees of freedom.",
+					"It fails at high temperature when particles move too fast, because relativistic effects then matter.",
+					"It never fails, since classical mechanics is exact for molecules at every temperature.",
+					"It fails when $kT$ is below a mode's level spacing, e.g. H$_2$ rotation below about 85 K."
+				],
+				"answer": 3,
+				"explanation": "Classical results are the high-temperature limit of the quantum partition function."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Debye screening length for a 1:1 electrolyte in water at 25 $^\\circ$C is $\\lambda_D=\\sqrt{\\epsilon_r\\epsilon_0kT/(2N_Ae^2I)}$ with ionic strength $I$ in mol/m$^3$. For $I=0.100$ mol/L (100 mol/m$^3$) and $\\epsilon_r=78.5$, find $\\lambda_D$ in nm.",
+				"answer": 0.962,
+				"tolerance": 0.03,
+				"explanation": "$\\lambda_D=0.96$ nm, a few ion diameters. At $I=0.001$ M it would be 9.6 nm.",
+				"unit": "nm"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the second virial coefficient emerges from the cluster expansion of the classical partition function, and what role the Mayer function plays.",
+				"rubric": "Full credit requires: (1) write Boltzmann factor of interaction as product of (1 + f_ij) with Mayer function f = e^{-U/kT} - 1, which is zero when particles are far apart; (2) expanding in powers of f groups terms by clusters of interacting particles; the leading correction involves pairs; (3) the pair term gives B2 = -(1/2) integral f(r) d^3r.",
+				"modelAnswer": "The interaction Boltzmann factor $e^{-\\beta U}=\\prod_{i<j}(1+f_{ij})$ with $f_{ij}=e^{-\\beta u(r_{ij})}-1$, which vanishes for widely separated molecules. Expanding the product groups the terms by clusters; the lowest-order term involves isolated pairs, and integrating it gives the second virial coefficient $B_2=-\\tfrac12\\int f(r)\\,d^3r$."
+			}
+		]
+	}
+}

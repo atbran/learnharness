@@ -1,0 +1,1369 @@
+{
+	"courseId": "m5-methods",
+	"checks": {
+		"m5-l001-fourier-coefficients": [
+			{
+				"kind": "mc",
+				"prompt": "What is the fundamental period of $f(x)=\\sin(3x)+\\cos(2x)$?",
+				"options": [
+					"$\\pi$",
+					"$2\\pi/3$",
+					"$6\\pi$",
+					"$2\\pi$"
+				],
+				"answer": 3,
+				"explanation": "$\\sin 3x$ repeats every $2\\pi/3$ and $\\cos 2x$ every $\\pi$. The smallest interval that is a whole number of both periods is $2\\pi$ (3 periods of the first, 2 of the second)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A square wave has $f(x)=-1$ for $-\\pi<x<0$ and $f(x)=+1$ for $0<x<\\pi$, repeating with period $2\\pi$. Its Fourier series is $\\sum b_n\\sin nx$. Compute $b_3=\\frac1\\pi\\int_{-\\pi}^{\\pi}f(x)\\sin 3x\\,dx$ (dimensionless).",
+				"answer": 0.42441,
+				"tolerance": 0.02,
+				"explanation": "Odd extension gives $b_n=\\frac{2}{\\pi}\\int_0^\\pi \\sin nx\\,dx=\\frac{2}{n\\pi}(1-\\cos n\\pi)=\\frac{4}{n\\pi}$ for odd $n$, so $b_3=4/(3\\pi)\\approx0.424$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The $2\\pi$-periodic function $f(x)=x$ for $-\\pi<x<\\pi$ (a sawtooth) has a jump at $x=\\pi$. To what value does its Fourier series converge at $x=\\pi$?",
+				"options": [
+					"$\\pi$, the value of the function just to the left",
+					"$-\\pi$, the value of the function just to the right",
+					"$0$, the midpoint of the left and right limits",
+					"The series diverges there"
+				],
+				"answer": 2,
+				"explanation": "At a jump discontinuity (Dirichlet conditions satisfied) the series converges to the average of the left and right limits: $(\\pi+(-\\pi))/2=0$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You add more and more terms to the Fourier series of a square wave. What happens to the overshoot near the jump (the Gibbs phenomenon)?",
+				"options": [
+					"The overshoot shrinks to zero in proportion to $1/N$",
+					"The overshoot stays near 9% of the jump but narrows",
+					"The overshoot grows without bound as terms are added",
+					"The overshoot appears only if an even number of terms is kept"
+				],
+				"answer": 1,
+				"explanation": "Partial sums converge to the function at every point away from the jump, but the maximum overshoot near the jump does not shrink: it tends to about 9% of the jump height while squeezing into an ever narrower region."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the orthogonality of sines and cosines on a period lets us find each Fourier coefficient separately, and what the coefficient $b_n$ physically measures.",
+				"rubric": "Full credit requires: (1) multiplying by $\\sin nx$ and integrating kills every term except the matching one because the integral of $\\sin mx\\sin nx$ over a period is zero for $m\\ne n$; (2) stating that $b_n$ measures how much of the $n$-th harmonic the function contains (a projection, like a vector component along an orthogonal axis).",
+				"modelAnswer": "The functions $\\sin nx$ and $\\cos nx$ are mutually orthogonal over a period, like perpendicular axes. Multiplying $f$ by $\\sin nx$ and integrating therefore wipes out every term in the series except the $n$-th, leaving $\\pi b_n$. So $b_n$ is the projection of $f$ onto that harmonic, i.e. how much of that pure frequency is present."
+			}
+		],
+		"m5-l002-symmetry-complex-intervals": [
+			{
+				"kind": "mc",
+				"prompt": "On $(-\\pi,\\pi)$, $f(x)=x\\sin x$ is extended periodically. Which terms appear in its Fourier series?",
+				"options": [
+					"Only sines, because $f$ contains $\\sin x$",
+					"Only cosines (and the constant term), because $f$ is even",
+					"Both sines and cosines, since $f$ is a product of an odd and a non-constant function",
+					"Only the constant term"
+				],
+				"answer": 1,
+				"explanation": "$x$ is odd and $\\sin x$ is odd, so their product is even. Even functions have $b_n=0$ for all $n$; only $a_n$ (cosines and the constant) survive, which halves the work."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Expand $f(x)=x$ on $0<x<3$ in a half-range sine series $\\sum b_n\\sin(n\\pi x/3)$ with $b_n=\\frac{2}{3}\\int_0^3 x\\sin(n\\pi x/3)\\,dx$. Find $b_2$ (dimensionless, include the sign).",
+				"answer": -0.95493,
+				"tolerance": 0.02,
+				"explanation": "Integration by parts gives $b_n=\\frac{2L}{n\\pi}(-1)^{n+1}$ with $L=3$, so $b_2=-\\frac{6}{2\\pi}=-3/\\pi\\approx-0.955$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A rod of length $L$ has perfectly insulated ends (no heat flows through them). You want to expand its initial temperature profile on $[0,L]$ in eigenfunctions for the heat equation. Which expansion matches those boundary conditions?",
+				"options": [
+					"A half-range cosine series",
+					"A half-range sine series, because the temperature must vanish at the ends",
+					"A half-range sine series, because insulation means no heat anywhere",
+					"Either one; the choice of series does not depend on the boundary conditions"
+				],
+				"answer": 0,
+				"explanation": "No heat flow means $\\partial u/\\partial x=0$ at the ends (Neumann). Cosines have zero slope at $0$ and $L$. Sines vanish at the ends, which describes ends held at zero temperature (Dirichlet), a different physical situation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A real Fourier series has $a_3=4$ and $b_3=-6$ (same units). Using $c_n=\\tfrac12(a_n-ib_n)$, find the magnitude $|c_3|$.",
+				"answer": 3.6056,
+				"tolerance": 0.02,
+				"explanation": "$c_3=\\tfrac12(4+6i)=2+3i$, so $|c_3|=\\sqrt{13}\\approx3.606$. Note it equals $\\tfrac12\\sqrt{a_3^2+b_3^2}$, half the amplitude of the third harmonic."
+			},
+			{
+				"kind": "short",
+				"prompt": "In the complex Fourier series $f=\\sum_{n=-\\infty}^{\\infty}c_ne^{in\\pi x/L}$, what do the terms with negative $n$ mean for a real function $f$, and how are $c_{-n}$ and $c_n$ related?",
+				"rubric": "Full credit requires: $c_{-n}=c_n^*$ for real $f$; negative-$n$ terms are the complex-conjugate partners that make the imaginary parts cancel so the sum is real; together $c_ne^{i\\theta}+c_n^*e^{-i\\theta}$ gives a real cosine/sine of one frequency (so one real harmonic uses a pair of complex terms).",
+				"modelAnswer": "For real $f$, $c_{-n}=c_n^*$. The $-n$ term is the complex conjugate of the $+n$ term, so each pair $c_ne^{in\\theta}+c_n^*e^{-in\\theta}=2\\,\\mathrm{Re}(c_ne^{in\\theta})$ is real: it is just the $n$-th real harmonic with its amplitude and phase packaged in $c_n$. Negative $n$ is not a 'negative frequency' in any physical sense; it is bookkeeping for the conjugate."
+			}
+		],
+		"m5-l003-parseval-applications": [
+			{
+				"kind": "numeric",
+				"prompt": "A unit square wave ($f=\\pm1$) has mean-square value $\\tfrac{1}{2\\pi}\\int f^2\\,dx=1$. Its series is $\\sum_{n\\ \\mathrm{odd}}\\frac{4}{n\\pi}\\sin nx$, and each sine harmonic carries power $b_n^2/2$. By Parseval's theorem, what fraction of the total power is in the fundamental ($n=1$)? Give a decimal fraction.",
+				"answer": 0.81057,
+				"tolerance": 0.02,
+				"explanation": "Power in the fundamental is $\\tfrac12(4/\\pi)^2=8/\\pi^2\\approx0.811$, so about 81% of the power sits in the first harmonic and the rest is spread over $n=3,5,\\dots$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Given $\\sum_{n=1}^{\\infty}1/n^2=\\pi^2/6$, find the sum over odd $n$ only, $\\sum_{n\\ \\mathrm{odd}}1/n^2=1+\\tfrac19+\\tfrac1{25}+\\cdots$.",
+				"answer": 1.2337,
+				"tolerance": 0.02,
+				"explanation": "The even terms are $\\sum 1/(2k)^2=\\tfrac14\\cdot\\pi^2/6$. Subtracting from the total leaves $\\tfrac34\\cdot\\pi^2/6=\\pi^2/8\\approx1.234$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A damped oscillator with natural angular frequency $\\omega_0=3\\omega$ is driven by a square-wave force of angular frequency $\\omega$. Which Fourier component of the force excites the strongest response?",
+				"options": [
+					"The fundamental ($\\omega$), since it has the largest amplitude in the force",
+					"The second harmonic ($2\\omega$), since it is nearest to resonance among those present",
+					"None; a square wave has no component near $3\\omega$",
+					"The third harmonic ($3\\omega$)"
+				],
+				"answer": 3,
+				"explanation": "Each harmonic drives the oscillator independently (superposition). The response amplitude is the force amplitude times the oscillator's gain at that frequency; the third harmonic is weaker than the fundamental ($4/3\\pi$ vs $4/\\pi$) but is exactly resonant, so its gain is much larger. A square wave has only odd harmonics, so there is no second harmonic."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A violin and a flute play the same note (same fundamental frequency, same loudness). Why do they sound different?",
+				"options": [
+					"Their fundamental frequencies differ slightly",
+					"One of them contains overtones and the other does not",
+					"The relative amplitudes of their overtones (harmonic content) differ",
+					"The speed of sound is different in the two instruments"
+				],
+				"answer": 2,
+				"explanation": "Both produce periodic waveforms with the same period, so the same set of harmonic frequencies; the timbre is set by how strongly each harmonic is present. Every real instrument has overtones; the pattern of their amplitudes is what we hear as timbre."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why Parseval's theorem says the total power of a periodic signal is the sum of the powers of its harmonics, with no cross terms.",
+				"rubric": "Full credit requires: squaring the series produces products of different harmonics, but orthogonality makes those integrals vanish over a period; only squares of each harmonic survive; interpretation as energy bookkeeping/Pythagoras in function space.",
+				"modelAnswer": "When you square the series and average over a period, the cross terms such as $\\sin mx\\sin nx$ ($m\\ne n$) integrate to zero by orthogonality. Only each harmonic's own square survives, so the mean-square signal is the sum of $a_n^2/2$ and $b_n^2/2$. It is a Pythagorean theorem in function space: orthogonal components add in squares, so power in one harmonic does not interfere with power in another."
+			}
+		],
+		"m5-l004-fourier-transform": [
+			{
+				"kind": "mc",
+				"prompt": "A Gaussian pulse of width $\\sigma$ has a Fourier transform that is also Gaussian. If you make the pulse 4 times shorter in time, what happens to the width of its spectrum?",
+				"options": [
+					"It becomes 4 times narrower",
+					"It stays the same",
+					"It becomes 4 times broader",
+					"It becomes 16 times broader"
+				],
+				"answer": 2,
+				"explanation": "The transform of $e^{-x^2/2\\sigma^2}$ is proportional to $e^{-\\sigma^2k^2/2}$, whose width is $1/\\sigma$. Width in $x$ times width in $k$ is fixed (1/2 at the minimum), so shrinking one by 4 stretches the other by 4."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A box function is $f(x)=1$ for $|x|<2$ and 0 otherwise. Its transform is $\\hat f(k)=\\int f e^{-ikx}dx=2\\sin(ka)/k$ with $a=2$. Evaluate $\\hat f$ at $k=0.5$ (in the same length units).",
+				"answer": 3.3659,
+				"tolerance": 0.02,
+				"explanation": "$\\hat f(0.5)=2\\sin(1)/0.5=4\\sin 1\\approx3.366$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A pulse is delayed in time by $t_0$ without changing its shape. What happens to the magnitude $|\\hat f(\\omega)|$ of its Fourier transform?",
+				"options": [
+					"The whole spectrum shifts in frequency by $1/t_0$",
+					"It is unchanged; only the phase changes (by $e^{-i\\omega t_0}$)",
+					"The spectrum narrows because the pulse is now later",
+					"The spectrum acquires an extra peak at $\\omega=t_0$"
+				],
+				"answer": 1,
+				"explanation": "Shifting $f(t)\\to f(t-t_0)$ multiplies $\\hat f$ by $e^{-i\\omega t_0}$, a pure phase. The set of frequencies present does not change when you merely delay a signal; modulation (multiplying by a cosine) is what shifts the spectrum."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An NMR free-induction decay is $e^{-t/T_2}\\cos\\omega_0 t$ with $T_2=0.5\\ \\mathrm{s}$. Its spectrum is a Lorentzian line of full width at half maximum $\\Delta\\nu=1/(\\pi T_2)$. Give $\\Delta\\nu$ in Hz.",
+				"answer": 0.63662,
+				"tolerance": 0.02,
+				"unit": "Hz",
+				"explanation": "A decaying exponential in time transforms to a Lorentzian whose half-width in angular frequency is $1/T_2$, i.e. FWHM $=2/T_2$ rad/s $=1/(\\pi T_2)$ Hz $\\approx0.64$ Hz. Faster decay (shorter $T_2$) means broader lines."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the relation between the duration of a pulse and the width of its spectrum, and use it to explain why a short laser pulse or a quickly decaying NMR signal gives a broad spectral line.",
+				"rubric": "Full credit requires: $\\Delta x\\,\\Delta k\\ge 1/2$ (or $\\Delta t\\Delta\\omega$) with equality for Gaussians; a localized signal needs many frequencies to build it; short duration means large bandwidth, so rapid decay means broad lines; mention of the analogy with the QM uncertainty principle is a plus.",
+				"modelAnswer": "A signal that is confined to a short time must be built by superposing a wide range of frequencies so they cancel outside the pulse: $\\Delta t\\,\\Delta\\omega\\gtrsim1/2$. A fast-decaying FID (short $T_2$) is a short signal, so its transform is broad (Lorentzian width $\\sim1/T_2$); a long-lived signal gives a sharp line. It is the same mathematics as the position-momentum uncertainty relation."
+			}
+		],
+		"m5-l005-convolution-parseval": [
+			{
+				"kind": "mc",
+				"prompt": "Blurring an image with a point-spread function $g$ is the convolution $f*g$. In Fourier space this operation is:",
+				"options": [
+					"Multiplication of $\\hat f$ by $\\hat g$",
+					"Convolution of $\\hat f$ with $\\hat g$",
+					"Addition of $\\hat f$ and $\\hat g$",
+					"Division of $\\hat f$ by $\\hat g$"
+				],
+				"answer": 0,
+				"explanation": "The convolution theorem: $\\widehat{f*g}=\\hat f\\,\\hat g$. A convolution is an awkward integral in real space but just a pointwise product in Fourier space, which is why filtering is done in frequency space."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two independent Gaussian line-broadening mechanisms with standard deviations $\\sigma_1=3$ and $\\sigma_2=4$ (same units) convolve to give an observed line. Convolving two normalized Gaussians gives a Gaussian; what is its standard deviation?",
+				"answer": 5.0,
+				"tolerance": 0.02,
+				"explanation": "The transforms multiply: $e^{-\\sigma_1^2k^2/2}e^{-\\sigma_2^2k^2/2}=e^{-(\\sigma_1^2+\\sigma_2^2)k^2/2}$, so variances add: $\\sigma=\\sqrt{9+16}=5$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 700 Hz tone is sampled at 1000 Hz (Nyquist limit 500 Hz) with no anti-aliasing filter. At what apparent frequency (Hz, positive) does it appear in the sampled data?",
+				"answer": 300.0,
+				"tolerance": 0.02,
+				"unit": "Hz",
+				"explanation": "Frequencies above Nyquist fold back: $|700-1000|=300$ Hz. The tone is indistinguishable from a genuine 300 Hz tone."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A signal's spectrum is multiplied by a filter that is 1 below a cutoff and 0 above it (a low-pass filter). By Plancherel's theorem, the total energy $\\int|f|^2dx$ lost from the signal equals:",
+				"options": [
+					"$\\int|\\hat f|\\,dk$ over the removed frequencies (the sum of amplitudes)",
+					"Zero, because the Fourier transform preserves total energy",
+					"The number of removed frequencies times the cutoff frequency",
+					"$\\frac1{2\\pi}\\int|\\hat f|^2dk$ taken over the removed frequencies"
+				],
+				"answer": 3,
+				"explanation": "Plancherel says energy in x-space equals $\\frac1{2\\pi}\\int|\\hat f|^2dk$, and since the integral splits by frequency band, the energy removed is exactly the spectral energy density integrated over the removed band. Amplitudes are not what adds up; squared magnitudes are."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, what is aliasing, and why must the signal be low-pass filtered before it is sampled?",
+				"rubric": "Full credit requires: sampling at rate $f_s$ cannot distinguish frequencies differing by multiples of $f_s$; components above $f_s/2$ fold into the band below and masquerade as lower frequencies; once folded they cannot be removed, so one must filter out content above $f_s/2$ (or sample faster) beforehand.",
+				"modelAnswer": "Sampling at rate $f_s$ cannot tell apart sinusoids whose frequencies differ by a multiple of $f_s$, so any content above $f_s/2$ folds back and appears as a spurious lower frequency. After sampling you cannot tell which components were genuine, so you must remove content above $f_s/2$ with an analog low-pass filter first (or sample faster)."
+			}
+		],
+		"m5-l006-delta-function": [
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\int_{-\\infty}^{\\infty}(x^2+1)\\,\\delta(2x-6)\\,dx$.",
+				"answer": 5.0,
+				"tolerance": 0.02,
+				"explanation": "$\\delta(2x-6)=\\tfrac12\\delta(x-3)$, so the integral is $\\tfrac12(3^2+1)=5$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\int_{-\\infty}^{\\infty}e^{-x}\\,\\delta(x^2-4)\\,dx$.",
+				"answer": 1.8811,
+				"tolerance": 0.02,
+				"explanation": "The zeros of $g=x^2-4$ are $\\pm2$ with $|g'|=4$. The integral is $\\tfrac14(e^{-2}+e^{2})=\\tfrac12\\cosh2\\approx1.881$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the second derivative of $f(x)=|x|$ (in the sense of distributions)?",
+				"options": [
+					"$\\delta(x)$",
+					"$\\mathrm{sgn}(x)$",
+					"$0$, since $|x|$ is linear on each side",
+					"$2\\delta(x)$"
+				],
+				"answer": 3,
+				"explanation": "$f'=\\mathrm{sgn}(x)$, which jumps by 2 at the origin. The derivative of a jump of height 2 is $2\\delta(x)$. The second derivative is zero away from the origin but concentrated at the kink."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If $x$ is a length, what are the dimensions of $\\delta(x)$, and what does that imply about $\\delta^3(\\mathbf r)$ for a point charge density $\\rho=q\\,\\delta^3(\\mathbf r)$?",
+				"options": [
+					"$\\delta(x)$ is dimensionless, so $\\rho=q\\,\\delta^3$ has the dimension of charge",
+					"$\\delta(x)$ has dimension of length, so $\\delta^3$ has dimension of volume",
+					"$\\delta(x)$ has dimension 1/length",
+					"It has no dimensions of its own, so units are meaningless for delta functions"
+				],
+				"answer": 2,
+				"explanation": "Since $\\int\\delta(x)\\,dx=1$ is a pure number, $\\delta(x)$ carries the inverse units of $x$. Thus $\\delta^3(\\mathbf r)$ has units of 1/volume and $q\\delta^3(\\mathbf r)$ is a charge density, as it must be."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the sifting property $\\int f(x)\\delta(x-a)dx=f(a)$ and how it lets a delta function model an instantaneous kick to a particle.",
+				"rubric": "Full credit requires: the delta is a narrow, unit-area spike (limit of Gaussians), so integrating against any smooth $f$ only samples $f$ at $a$; for a force $F=J\\,\\delta(t-t_0)$, the impulse $\\int F\\,dt=J$ is delivered at one instant, changing momentum by $J$ with no time to move.",
+				"modelAnswer": "The delta is the limit of narrower and narrower spikes of unit area, so when multiplied by a smooth $f$ and integrated, only the value of $f$ at the spike survives: $f(a)$. A force $F(t)=J\\delta(t-t_0)$ delivers a total impulse $\\int F\\,dt=J$ in an instant, so the momentum jumps by $J$ at $t_0$ while the position is unchanged at that moment."
+			}
+		],
+		"m5-l007-pde-intro": [
+			{
+				"kind": "mc",
+				"prompt": "Classify $u_{xx}+2u_{xy}+5u_{yy}=0$ by computing $B^2-AC$ for $Au_{xx}+2Bu_{xy}+Cu_{yy}$.",
+				"options": [
+					"Hyperbolic, because $B^2-AC=-4$",
+					"Elliptic, because $B^2-AC=-4<0$",
+					"Parabolic, because $B^2-AC=0$",
+					"Hyperbolic, because $B^2-AC=+4$"
+				],
+				"answer": 1,
+				"explanation": "Here $A=1$, $B=1$, $C=5$, so $B^2-AC=1-5=-4<0$: elliptic, like Laplace's equation. Elliptic equations describe steady states with data given on a closed boundary; hyperbolic ones describe waves with finite propagation speed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The end of a metal rod loses heat to the surrounding air at a rate proportional to the difference between its end temperature and the air temperature. Which type of boundary condition describes this?",
+				"options": [
+					"Robin (mixed): a combination of $u$ and $\\partial u/\\partial x$",
+					"Dirichlet: the end temperature is held fixed at a given value",
+					"Neumann: the heat flux through the end is zero everywhere",
+					"No boundary condition is needed for a rod's end"
+				],
+				"answer": 0,
+				"explanation": "Heat flux out of the end is $-k\\,\\partial u/\\partial x=h(u-u_{\\rm air})$, which mixes the value and the slope: a Robin condition. Dirichlet fixes the temperature (end in an ice bath); Neumann fixes the flux (insulated end)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which of these is a well-posed problem?",
+				"options": [
+					"$\\nabla^2u=0$ inside a disc, with $u$ specified everywhere on the circle",
+					"$\\nabla^2u=0$ inside a disc, with both $u$ and $\\partial u/\\partial n$ specified everywhere on the circle",
+					"$\\nabla^2u=0$ inside a disc, with $\\partial u/\\partial n=+1$ at every point of the circle",
+					"$\\nabla^2u=0$ inside a disc, with no boundary data given"
+				],
+				"answer": 0,
+				"explanation": "Dirichlet data all around gives a unique solution. Specifying both $u$ and its normal derivative overdetermines the problem (no solution in general). Neumann data of $+1$ everywhere would need net flux out of a source-free region, impossible (Gauss's theorem); and without boundary data the solution is not unique."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the wave equation $u_{tt}=v^2u_{xx}$ on a string of tension $T=64\\ \\mathrm N$ and mass per unit length $\\mu=4.0\\times10^{-3}\\ \\mathrm{kg/m}$, find the wave speed $v=\\sqrt{T/\\mu}$ in m/s.",
+				"answer": 126.49,
+				"tolerance": 0.02,
+				"unit": "m/s",
+				"explanation": "$v=\\sqrt{64/0.004}=\\sqrt{16000}\\approx126.5$ m/s. Stiffer (higher tension) or lighter strings carry waves faster."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why superposition allows us to build a general solution from separated solutions, and what property of the PDE and boundary conditions is required.",
+				"rubric": "Full credit requires: linear homogeneous PDE means sums/multiples of solutions are solutions; homogeneous boundary conditions are also preserved by sums; so a series of simple product solutions can be fitted to arbitrary initial/boundary data; this fails for nonlinear equations or inhomogeneous conditions, which must be handled by subtracting a particular solution.",
+				"modelAnswer": "If the PDE is linear and homogeneous, any sum of solutions is again a solution, and if the boundary conditions are homogeneous the sum also satisfies them. So we can take infinitely many simple separated solutions, each satisfying the boundaries, and choose their coefficients to match the initial data. Nonlinearity or inhomogeneous conditions break this, so they must be treated first (e.g. by subtracting a particular or steady-state solution)."
+			}
+		],
+		"m5-l008-laplace-rectangle": [
+			{
+				"kind": "mc",
+				"prompt": "A rectangular plate ($0<x<a$, $0<y<b$) has $u=0$ on the sides $x=0$, $x=a$ and $y=0$. After separating $u=X(x)Y(y)$ with $X''/X=-k^2$, what is the correct $y$-dependence of the solutions?",
+				"options": [
+					"$\\cos(n\\pi y/a)$, because $X$ is oscillatory so $Y$ must be too",
+					"$\\cosh(n\\pi y/a)$, which is the only choice that stays finite",
+					"$e^{-n\\pi y/a}$ alone, because the potential must decay",
+					"$\\sinh(n\\pi y/a)$, which vanishes at $y=0$ and grows exponentially"
+				],
+				"answer": 3,
+				"explanation": "$X''=-k^2X$ with $X(0)=X(a)=0$ forces $k=n\\pi/a$. Then $Y''=+k^2Y$ is exponential, and $Y(0)=0$ selects $\\sinh$. The separation constant has opposite signs in the two ODEs; oscillation in one direction means exponential behaviour in the other."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A square plate with $a=b=1$ has $u=0$ on three sides and $u(x,1)=100\\sin(\\pi x)$ on the top. The solution is $u=100\\sin(\\pi x)\\,\\sinh(\\pi y)/\\sinh(\\pi)$. Find $u$ at the centre $(0.5,\\,0.5)$ in the same temperature units.",
+				"answer": 19.927,
+				"tolerance": 0.02,
+				"explanation": "$u=100\\cdot1\\cdot\\sinh(\\pi/2)/\\sinh\\pi\\approx100\\times0.1993=19.9$. Equivalently $1/(2\\cosh(\\pi/2))$ times 100. The temperature falls off rapidly into the plate away from the hot edge."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Same plate ($a=b=1$) but now the top edge is held at constant $u(x,1)=100$ (other sides 0). The series is $u=\\sum b_n\\sin(n\\pi x)\\sinh(n\\pi y)$ with $b_n\\sinh(n\\pi)=2\\int_0^1 100\\sin(n\\pi x)\\,dx$. Find $b_1$.",
+				"answer": 11.025,
+				"tolerance": 0.02,
+				"explanation": "$2\\int_0^1100\\sin\\pi x\\,dx=400/\\pi\\approx127.3$. Dividing by $\\sinh\\pi\\approx11.549$ gives $b_1\\approx11.02$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In steady state (no heat sources) can a point in the interior of a plate be hotter than every point on its edge?",
+				"options": [
+					"Yes, if the plate is thick enough that heat accumulates in the middle",
+					"Yes, whenever the edge temperatures are not all equal",
+					"No: a harmonic function takes its maximum and minimum on the boundary",
+					"No, but only because the plate is rectangular"
+				],
+				"answer": 2,
+				"explanation": "Laplace's equation implies the mean-value property: the value at a point is the average over any surrounding circle. An interior maximum would exceed its own average, a contradiction. So steady-state temperatures lie between the edge extremes (maximum principle), in any shape."
+			},
+			{
+				"kind": "short",
+				"prompt": "A rectangular plate has nonzero temperature data on all four sides. Explain how to construct the solution from the one-nonzero-side solutions.",
+				"rubric": "Full credit requires: solve four separate problems, each with data on one side and zero on the other three (each is a sine/sinh series by orthogonality); Laplace's equation is linear so the sum of the four solves it; the sum has the right boundary value on each side because the other three solutions vanish there.",
+				"modelAnswer": "Solve four problems, each with the actual data on one side and zero on the other three, each by the sine-sinh series with coefficients from orthogonality. Because Laplace's equation is linear, the sum solves it. On any given side, three of the four pieces vanish and the remaining one equals the data, so the sum satisfies all four boundary conditions."
+			}
+		],
+		"m5-l009-heat-equation": [
+			{
+				"kind": "mc",
+				"prompt": "A rod's initial temperature profile has a sharp corner. As it cools toward equilibrium by diffusion, the corner rounds off long before the overall shape changes. Why?",
+				"options": [
+					"Heat flows faster across sharp features because the gradient is infinite there, regardless of mode content",
+					"Sharp features need high-$n$ modes, and mode $n$ decays at rate $D(n\\pi/L)^2$, so high modes die fastest",
+					"All modes decay at the same rate, so features are lost only by spreading",
+					"High-$n$ modes decay slowest because they carry the most energy"
+				],
+				"answer": 1,
+				"explanation": "Each mode $\\sin(n\\pi x/L)$ decays as $e^{-D(n\\pi/L)^2t}$, quadratically faster for higher $n$. Detail (high spatial frequency) is smoothed first, leaving the long-wavelength shape, which relaxes slowly."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A metal rod of length $L=0.10\\ \\mathrm m$ has both ends held at the same fixed temperature (reference 0) and thermal diffusivity $D=1.0\\times10^{-4}\\ \\mathrm{m^2/s}$. The slowest-decaying mode ($n=1$) decays as $e^{-t/\\tau_1}$ with $\\tau_1=L^2/(D\\pi^2)$. Find $\\tau_1$ in seconds.",
+				"answer": 10.132,
+				"tolerance": 0.02,
+				"unit": "s",
+				"explanation": "$\\tau_1=\\dfrac{(0.1)^2}{10^{-4}\\pi^2}\\approx10.1$ s. Mode $n$ has time constant $\\tau_1/n^2$, so the $n=3$ mode is gone about nine times faster."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A rod with perfectly insulated ends starts with a non-uniform temperature profile. After a very long time, what is its temperature everywhere?",
+				"options": [
+					"Zero, because every mode eventually decays",
+					"The average of the initial temperature profile",
+					"The initial maximum temperature, since heat flows toward the hottest point",
+					"The temperature of the midpoint at $t=0$"
+				],
+				"answer": 1,
+				"explanation": "With Neumann (insulated) ends the eigenfunctions are $\\cos(n\\pi x/L)$ including the constant $n=0$ mode, which has zero decay rate. Total heat is conserved, so the final uniform temperature is the initial average."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A small solute molecule in water has diffusion coefficient $D=1.0\\times10^{-9}\\ \\mathrm{m^2/s}$. In 1D, the mean-square displacement is $\\langle x^2\\rangle=2Dt$. How many seconds does it take for the rms displacement to reach 1.0 mm?",
+				"answer": 500.0,
+				"tolerance": 0.02,
+				"unit": "s",
+				"explanation": "$t=x^2/(2D)=(10^{-3})^2/(2\\times10^{-9})=500$ s, about 8 minutes. Diffusion distance grows only as $\\sqrt t$, so doubling the distance costs four times the time; this is why diffusion works over cell scales but not over centimetres."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why diffusion distance grows as $\\sqrt{t}$ rather than linearly, using the Gaussian heat kernel, and say how the separated heat-equation solution resembles the Schrodinger equation for a particle in a box.",
+				"rubric": "Full credit requires: the kernel is a Gaussian of variance $2Dt$ so its width is $\\sqrt{2Dt}$ (random-walk picture: variance adds linearly in time); the heat equation separates into spatial eigenfunctions (same sines as particle in a box) times time factors, but real decaying exponentials $e^{-D\\lambda t}$ instead of the oscillating phases $e^{-iEt/\\hbar}$.",
+				"modelAnswer": "The heat kernel is a Gaussian whose variance $2Dt$ grows linearly in time, like the variance of a random walk, so its width, the typical distance, goes as $\\sqrt{2Dt}$. Separation of variables gives the same spatial sines as the particle in a box; the difference is that the time factor is a real decay $e^{-D\\lambda t}$ for diffusion, while in the Schrodinger equation the factor of $i$ turns it into an oscillating phase $e^{-iEt/\\hbar}$."
+			}
+		],
+		"m5-l010-wave-equation": [
+			{
+				"kind": "mc",
+				"prompt": "What physically creates the fixed nodes of a standing wave on a string with fixed ends?",
+				"options": [
+					"Equal left- and right-moving waves cancel there at every instant",
+					"The string tension drops to zero at those points",
+					"The wave stops travelling and the energy is stored only at the nodes",
+					"The wave speed drops to zero at those fixed points on the string"
+				],
+				"answer": 0,
+				"explanation": "A standing wave is a superposition of two equal counter-propagating waves: $\\sin(kx-\\omega t)+\\sin(kx+\\omega t)=2\\sin kx\\cos\\omega t$. At the nodes the two always cancel; at antinodes they reinforce. Energy flows within each loop; it is the net displacement that is fixed at the nodes."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A guitar string has length $0.65\\ \\mathrm m$, tension $70\\ \\mathrm N$ and linear mass density $1.2\\times10^{-3}\\ \\mathrm{kg/m}$. Find the fundamental frequency $f_1=v/(2L)$ with $v=\\sqrt{T/\\mu}$, in Hz.",
+				"answer": 185.79,
+				"tolerance": 0.02,
+				"unit": "Hz",
+				"explanation": "$v=\\sqrt{70/0.0012}\\approx241.5$ m/s and $f_1=241.5/(2\\times0.65)\\approx186$ Hz (close to a low F$\\sharp$)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A pulse travelling along a string reaches an end that is rigidly fixed to a wall. What does the reflected pulse look like?",
+				"options": [
+					"The same shape and the same side up, travelling back",
+					"Reflected pulse of half the amplitude, same side up",
+					"No reflected pulse; the wall absorbs it",
+					"The same shape but inverted (upside down), travelling back"
+				],
+				"answer": 3,
+				"explanation": "The fixed end forces $u=0$ there. In d'Alembert's solution this is achieved by an image pulse of opposite sign arriving from the other side, so the reflection is inverted. At a free end the slope is zero and the reflection keeps the same sign."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A string is plucked exactly at its midpoint. Which harmonics are absent from the resulting vibration?",
+				"options": [
+					"The odd harmonics, because they have a node at the midpoint",
+					"None; plucking excites all harmonics equally",
+					"The even harmonics",
+					"All harmonics above the fundamental"
+				],
+				"answer": 2,
+				"explanation": "Mode $n$ has shape $\\sin(n\\pi x/L)$. At $x=L/2$ this vanishes for even $n$, so plucking (displacing) at the midpoint puts no amplitude in them; their Fourier coefficients vanish. Pluck near the end and many harmonics appear."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why a string fixed at both ends has only discrete allowed frequencies, and how this is the same idea as the quantised energies of a particle in a box.",
+				"rubric": "Full credit requires: boundary conditions $u(0)=u(L)=0$ allow only sine shapes with an integer number of half-wavelengths, so $k_n=n\\pi/L$ and $\\omega_n=vk_n$; the same boundary conditions on $\\psi$ for a particle in a box force $\\sin(n\\pi x/L)$ and discrete $k$ and hence discrete energies $E=\\hbar^2k^2/2m$.",
+				"modelAnswer": "Fixed ends allow only waves that fit an integer number of half-wavelengths on the string, so $k_n=n\\pi/L$ and $\\omega_n=n\\pi v/L$. The particle in a box has the same equation structure and boundary conditions $\\psi(0)=\\psi(L)=0$, so it also has $k_n=n\\pi/L$, and energy $\\hbar^2k_n^2/2m$ is quantised. Confinement plus a wave equation gives discrete modes."
+			}
+		],
+		"m5-l011-gamma-beta": [
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\Gamma(7/2)$ using $\\Gamma(z+1)=z\\Gamma(z)$ and $\\Gamma(1/2)=\\sqrt\\pi$.",
+				"answer": 3.3234,
+				"tolerance": 0.02,
+				"explanation": "$\\Gamma(7/2)=\\tfrac52\\cdot\\tfrac32\\cdot\\tfrac12\\,\\Gamma(\\tfrac12)=\\tfrac{15}{8}\\sqrt\\pi\\approx3.323$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\int_0^\\infty x^4e^{-2x^2}\\,dx$. (Use $\\int_0^\\infty x^{2n}e^{-ax^2}dx=\\Gamma(n+\\tfrac12)/(2a^{n+1/2})$.)",
+				"answer": 0.1175,
+				"tolerance": 0.02,
+				"explanation": "With $n=2$, $a=2$: $\\Gamma(5/2)=\\tfrac34\\sqrt\\pi\\approx1.329$ and $2\\cdot2^{5/2}=11.31$, giving $\\approx0.1175$. (Equivalent to $\\tfrac{3\\sqrt\\pi}{32\\sqrt2}$.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\int_0^1x^2(1-x)^3\\,dx$ using the beta function.",
+				"options": [
+					"$1/35$",
+					"$1/30$",
+					"$1/60$",
+					"$1/12$"
+				],
+				"answer": 2,
+				"explanation": "$\\int_0^1x^{p-1}(1-x)^{q-1}dx=B(p,q)$ with $p=3$, $q=4$: $B(3,4)=\\Gamma(3)\\Gamma(4)/\\Gamma(7)=2\\cdot6/720=1/60$. A common slip is to use $p!q!/(p+q)!$ instead of the shifted arguments."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Stirling's approximation $\\ln n!\\approx n\\ln n-n$ is noticeably inaccurate for $n=10$ but is used freely in statistical mechanics for $N\\sim10^{23}$. Why is that justified?",
+				"options": [
+					"Stirling's formula is exact whenever $N$ is even",
+					"The relative error in $\\ln N!$ goes to zero as $N$ grows",
+					"Entropy is defined only up to the error that Stirling's formula makes",
+					"For large $N$ the factorial becomes an integer power of $e$, which the formula reproduces"
+				],
+				"answer": 1,
+				"explanation": "The neglected terms (like $\\tfrac12\\ln 2\\pi N$) grow only logarithmically while $N\\ln N$ grows much faster, so the relative error shrinks as $\\sim\\ln N/N$. At $N\\sim10^{23}$ it is $\\sim10^{-21}$, far below any measurement."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the recursion $\\Gamma(z+1)=z\\Gamma(z)$ extends the factorial beyond the integers, and why $\\Gamma(1/2)=\\sqrt\\pi$ is connected to the Gaussian integral.",
+				"rubric": "Full credit requires: $\\Gamma(n+1)=n!$ and the integral definition makes sense for non-integer (and complex) $z$, with the recursion matching $n!=n(n-1)!$; $\\Gamma(1/2)=\\int_0^\\infty t^{-1/2}e^{-t}dt$ becomes $2\\int_0^\\infty e^{-u^2}du=\\sqrt\\pi$ on substituting $t=u^2$.",
+				"modelAnswer": "The integral $\\Gamma(z)=\\int_0^\\infty t^{z-1}e^{-t}dt$ satisfies $\\Gamma(z+1)=z\\Gamma(z)$ by integration by parts and equals $(n-1)!$ at integers, so it is a smooth interpolation of the factorial to real arguments. Setting $t=u^2$ in $\\Gamma(1/2)$ gives $2\\int_0^\\infty e^{-u^2}du=\\sqrt\\pi$, i.e. the Gaussian integral, which is why half-integer gamma functions carry $\\sqrt\\pi$."
+			}
+		],
+		"m5-l012-legendre": [
+			{
+				"kind": "mc",
+				"prompt": "Why do the regular solutions of Legendre's equation on the whole interval $[-1,1]$ (the poles of a sphere) exist only for integer $l$?",
+				"options": [
+					"Non-integer $l$ gives solutions that diverge at $x=\\pm1$",
+					"Non-integer $l$ makes the equation impossible to write down",
+					"Orthogonality $\\int P_lP_m\\,dx=0$ can only hold for integer $l$",
+					"Integer $l$ is needed so that $P_l(1)=0$ at the poles"
+				],
+				"answer": 0,
+				"explanation": "The power series about $x=0$ has radius of convergence 1 and, for generic $l$, blows up at $x=\\pm1$. Only if $l$ is an integer does one of the two series terminate, giving a polynomial that stays finite at the poles."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate the Legendre polynomial $P_3(x)=\\tfrac12(5x^3-3x)$ at $x=0.5$.",
+				"answer": -0.4375,
+				"tolerance": 0.02,
+				"explanation": "$P_3(0.5)=\\tfrac12(5\\cdot0.125-1.5)=\\tfrac12(0.625-1.5)=-0.4375$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Expand $f(x)=x^2$ on $[-1,1]$ as $\\sum c_lP_l(x)$ with $c_l=\\frac{2l+1}{2}\\int_{-1}^1fP_l\\,dx$. Find $c_2$ (given $P_2=\\tfrac12(3x^2-1)$).",
+				"answer": 0.66667,
+				"tolerance": 0.02,
+				"explanation": "$c_2=\\tfrac52\\int_{-1}^1x^2\\cdot\\tfrac12(3x^2-1)dx=\\tfrac52\\cdot\\tfrac12(\\tfrac65-\\tfrac23)=\\tfrac23$. Indeed $x^2=\\tfrac13P_0+\\tfrac23P_2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The generating function $1/\\sqrt{1-2xt+t^2}=\\sum P_l(x)t^l$ gives the multipole expansion $\\frac{1}{|\\mathbf r-\\mathbf r'|}=\\sum_l\\frac{r'^l}{r^{l+1}}P_l(\\cos\\gamma)$ for $r>r'$. How does the $l$-th multipole term fall off with distance $r$ from the source?",
+				"options": [
+					"As $r^{-l}$, so the monopole is constant",
+					"As $r^{l}$, growing with distance",
+					"All terms fall off as $1/r$ but with different coefficients",
+					"As $r^{-(l+1)}$: monopole $1/r$, dipole $1/r^2$, quadrupole $1/r^3$"
+				],
+				"answer": 3,
+				"explanation": "Each higher multipole carries one extra power of $r'/r$, so it dies off faster at large $r$. Far from a charge distribution the lowest non-vanishing multipole dominates."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the analogy between Legendre-series coefficients $c_l$ and components of a vector, and what the normalisation $2/(2l+1)$ does.",
+				"rubric": "Full credit requires: $P_l$ are mutually orthogonal ('perpendicular axes') under $\\int_{-1}^1dx$; projecting onto $P_l$ with the integral isolates $c_l$ just as a dot product isolates a component; the norm $\\int P_l^2dx=2/(2l+1)$ is the squared length that must be divided out since $P_l$ are not unit vectors.",
+				"modelAnswer": "The $P_l$ play the role of orthogonal basis vectors in function space: $\\int P_lP_m\\,dx=0$ for $l\\ne m$. Integrating $f$ against $P_l$ picks out its component along $P_l$, just as dotting with a basis vector does. Since $P_l$ is not unit length (its squared norm is $2/(2l+1)$), we divide by that to get the coefficient, $c_l=\\frac{2l+1}{2}\\int fP_l\\,dx$."
+			}
+		],
+		"m5-l013-associated-legendre-ylm": [
+			{
+				"kind": "mc",
+				"prompt": "Why must the azimuthal quantum number $m$ in $e^{im\\phi}$ be an integer?",
+				"options": [
+					"So that the energy is quantised",
+					"So that $P_l^m$ is orthogonal to $P_l$",
+					"So that the normalisation integral converges",
+					"The function must be single-valued"
+				],
+				"answer": 3,
+				"explanation": "The point at angle $\\phi+2\\pi$ is the same point as at $\\phi$, so $e^{im(\\phi+2\\pi)}=e^{im\\phi}$ requires $m$ to be an integer. Likewise regularity at the poles ties $l$ to integers with $|m|\\le l$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate the spherical harmonic $Y_{20}(\\theta=0)=\\sqrt{\\frac{5}{4\\pi}}\\,P_2(1)$, with $P_2(1)=1$.",
+				"answer": 0.63078,
+				"tolerance": 0.02,
+				"explanation": "$Y_{20}(0)=\\sqrt{5/4\\pi}\\approx0.631$. Along the $z$-axis only $m=0$ harmonics are nonzero because $P_l^m(1)=0$ for $m\\ne0$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The real orbital $p_x$ is the combination $(Y_{1,-1}-Y_{1,1})/\\sqrt2$. If you measure $L_z$ on an electron in a $p_x$ orbital, what do you find?",
+				"options": [
+					"Exactly $0$, since $p_x$ lies along $x$ rather than $z$",
+					"Exactly $+\\hbar$",
+					"$+\\hbar$ or $-\\hbar$ with equal probability",
+					"Always $\\sqrt2\\hbar$, the magnitude of $\\mathbf L$"
+				],
+				"answer": 2,
+				"explanation": "$p_x$ is an equal superposition of $m=+1$ and $m=-1$, so it is not an $L_z$ eigenstate: a measurement gives $\\pm\\hbar$ with 50% probability each. Real orbitals are convenient for drawing bonds but are not $L_z$ eigenstates. ($\\sqrt2\\hbar$ is $|\\mathbf L|$, not $L_z$.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "How is the angular structure of $Y_{3,1}$ (an $f$-type function with $|m|=1$) organised into nodal surfaces?",
+				"options": [
+					"Two nodal planes and one nodal cone",
+					"One nodal plane and two nodal cones",
+					"Three nodal planes containing the $z$-axis and no cones",
+					"Three nodal cones and no planes"
+				],
+				"answer": 1,
+				"explanation": "$Y_{lm}$ has $l$ angular nodes in total: $|m|$ of them are planes through the $z$-axis (from $\\cos m\\phi$) and $l-|m|$ are cones (zeros of $P_l^m$). For $l=3$, $|m|=1$ that is one plane and two cones."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the angular parts of hydrogen orbitals are the same spherical harmonics for any central potential, and what the labels $l$ and $m$ tell you physically.",
+				"rubric": "Full credit requires: a central potential depends only on $r$, so the angular part of the Laplacian/Schrodinger equation separates and is independent of $V(r)$; its solutions are $Y_{lm}$; $l$ sets the magnitude of angular momentum ($\\sqrt{l(l+1)}\\hbar$, shape complexity, number of nodes) and $m$ its $z$-component ($m\\hbar$), i.e. orientation, with $2l+1$ values per $l$.",
+				"modelAnswer": "If $V$ depends only on $r$, the angular part of the equation separates from the radial part and is purely geometric, so its solutions $Y_{lm}(\\theta,\\phi)$ are universal. The quantum number $l$ gives the size of the angular momentum, $\\sqrt{l(l+1)}\\hbar$, and the number of angular nodes ($s,p,d,f$ for $l=0,1,2,3$); $m$ gives its $z$-component $m\\hbar$, i.e. orientation, with $2l+1$ allowed values."
+			}
+		],
+		"m5-l014-bessel": [
+			{
+				"kind": "numeric",
+				"prompt": "Given $J_0(2)=0.2239$ and $J_1(2)=0.5767$, use the recurrence $J_{n-1}(x)+J_{n+1}(x)=\\frac{2n}{x}J_n(x)$ with $n=1$, $x=2$ to find $J_2(2)$.",
+				"answer": 0.35283,
+				"tolerance": 0.02,
+				"explanation": "$J_0+J_2=\\tfrac{2}{2}J_1$, so $J_2(2)=J_1-J_0=0.5767-0.2239=0.3528$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Compared with $\\sin x$ for large $x$, how does $J_0(x)\\approx\\sqrt{2/(\\pi x)}\\cos(x-\\pi/4)$ behave?",
+				"options": [
+					"Roughly the same period, with amplitude decaying as $1/\\sqrt x$",
+					"It oscillates with constant amplitude but a period that grows with $x$",
+					"It decays exponentially to zero without any oscillation",
+					"Its amplitude grows as $\\sqrt x$ while the period stays fixed"
+				],
+				"answer": 0,
+				"explanation": "Bessel functions are 'damped cosines': successive zeros become evenly spaced by about $\\pi$, but the $1/\\sqrt x$ envelope appears because a circular wavefront spreads its energy over a circumference proportional to $r$, so intensity falls as $1/r$ and amplitude as $1/\\sqrt r$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Bessel orthogonality integral is $\\int_0^a x\\,J_n(\\alpha_{nj}x/a)J_n(\\alpha_{nk}x/a)\\,dx=0$ for $j\\ne k$. Why is there a factor $x$?",
+				"options": [
+					"Bessel's equation in Sturm-Liouville form has weight $x$",
+					"It makes the integral converge at $x=0$ where $J_n$ diverges",
+					"It compensates the $1/\\sqrt{x}$ decay so that the integrand is constant",
+					"It is a normalisation convention with no mathematical significance"
+				],
+				"answer": 0,
+				"explanation": "Writing $x^2y''+xy'+(\\lambda x^2-n^2)y=0$ as $(xy')'+(\\lambda x-n^2/x)y=0$ identifies the weight $w=x$. Physically, integrals over a disc are $\\int(\\dots)\\,r\\,dr\\,d\\phi$, so the radial inner product carries $r$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You solve Laplace's equation inside a solid cylinder (including the axis $r=0$). Which radial solution should you keep?",
+				"options": [
+					"$N_n(kr)$, since it is the more general solution",
+					"Both $J_n$ and $N_n$, since the equation is second order",
+					"Neither; use $\\sin kr$ and $\\cos kr$",
+					"$J_n(kr)$, since $N_n(kr)$ diverges at $r=0$"
+				],
+				"answer": 3,
+				"explanation": "A second-order equation has two independent solutions, but the Neumann function $N_n$ (or $Y_n$) is singular at the origin. Physical regularity on the axis selects $J_n$. For an annulus that excludes the axis, both are needed."
+			},
+			{
+				"kind": "short",
+				"prompt": "Spherical Bessel functions such as $j_0(kr)=\\sin(kr)/(kr)$ solve the radial equation for a free particle in 3D. Explain what they represent physically and how they would give energy levels for a particle in a spherical box.",
+				"rubric": "Full credit requires: they are the radial standing waves of a free particle (regular at the origin, decaying like $1/r$ amplitude); imposing $\\psi=0$ at radius $a$ selects zeros of $j_l$, giving $k_{ln}a=$ zero values, so discrete energies $E=\\hbar^2k^2/2m$, with $l=0$ zeros at $n\\pi/a$.",
+				"modelAnswer": "$j_l(kr)$ is the radial part of a free-particle wavefunction: a standing spherical wave that is regular at the origin and whose amplitude falls like $1/r$ at large $r$. Putting the particle in a spherical box of radius $a$ requires the wavefunction to vanish at $r=a$, so $ka$ must be a zero of $j_l$, giving discrete $k$ and energies $E=\\hbar^2k^2/2m$. For $l=0$, $j_0=\\sin kr/kr$ vanishes at $ka=n\\pi$, like the 1D box."
+			}
+		],
+		"m5-l015-hermite-laguerre": [
+			{
+				"kind": "mc",
+				"prompt": "In solving the harmonic-oscillator equation, why must the power series for the wavefunction terminate (giving a Hermite polynomial)?",
+				"options": [
+					"Because only polynomial functions can be orthogonal to each other",
+					"Because the potential is zero outside the well, so the series must stop there",
+					"Otherwise $\\psi$ grows like $e^{x^2/2}$ and cannot be normalised",
+					"Because $H_n$ must equal $n!$ at $x=0$"
+				],
+				"answer": 2,
+				"explanation": "A non-terminating series behaves like $e^{x^2}$ times the Gaussian factor $e^{-x^2/2}$, so $\\psi\\sim e^{x^2/2}$ diverges. Only for $E=(n+\\tfrac12)\\hbar\\omega$ does the series stop, leaving $H_n(x)e^{-x^2/2}$ normalisable: quantisation arises from the boundary condition at infinity."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using $H_4(x)=16x^4-48x^2+12$, evaluate $H_4(1)$.",
+				"answer": -20.0,
+				"tolerance": 0.02,
+				"explanation": "$H_4(1)=16-48+12=-20$. (The oscillator state $\\psi_4\\propto H_4(x)e^{-x^2/2}$ has four nodes where $H_4$ crosses zero.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "How many radial nodes (zeros of the radial function at finite $r>0$) does a hydrogen 3p orbital ($n=3$, $l=1$) have?",
+				"options": [
+					"None, since the p orbital already has an angular node",
+					"One, since the number of radial nodes is $n-l-1$",
+					"Two, since $n-1=2$",
+					"Three, equal to $n$"
+				],
+				"answer": 1,
+				"explanation": "The associated Laguerre polynomial in the radial function has degree $n-l-1$, equal to the number of radial nodes: $3-1-1=1$. Total nodes are $n-1=2$ (one radial and one angular)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Hermite orthogonality is written $\\int H_mH_ne^{-x^2}dx=0$ ($m\\ne n$), with weight $e^{-x^2}$. Why does this weight appear for oscillator wavefunctions?",
+				"options": [
+					"Because the oscillator potential is $e^{-x^2}$",
+					"Because $\\psi_n=H_n(x)e^{-x^2/2}$",
+					"Because the weight keeps $H_n$ from diverging at $x=0$",
+					"Because the weight is needed to make the energy levels evenly spaced"
+				],
+				"answer": 1,
+				"explanation": "Ordinary orthogonality of the physical wavefunctions $\\int\\psi_m\\psi_n\\,dx=0$ becomes the weighted orthogonality of the polynomials when the Gaussian factors are collected: the weight is just the square of the Gaussian envelope."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, how does the requirement that a wavefunction be normalisable lead to quantised energies, both for the harmonic oscillator and for the bound states of hydrogen?",
+				"rubric": "Full credit requires: for general energy the second-order ODE has a solution that blows up at large distance; only special energies give solutions that decay (the series terminates into Hermite or Laguerre polynomials); oscillator gives $E=(n+\\tfrac12)\\hbar\\omega$ and hydrogen $E=-13.6\\,\\mathrm{eV}/n^2$.",
+				"modelAnswer": "For a generic energy, the solution of the Schrodinger equation that is well-behaved at the origin grows without bound at large distance, so it cannot be normalised. Only for special energies does the power series terminate into a polynomial (Hermite for the oscillator, associated Laguerre for hydrogen) times a decaying exponential or Gaussian. That selects $E_n=(n+\\tfrac12)\\hbar\\omega$ for the oscillator and $E_n=-13.6\\ \\mathrm{eV}/n^2$ for hydrogen."
+			}
+		],
+		"m5-l016-cylinder": [
+			{
+				"kind": "mc",
+				"prompt": "A cylinder of radius $a$ has $u=0$ on its side $r=a$. After separating Laplace's equation as $R(r)Z(z)$, what is the $z$-dependence of each mode?",
+				"options": [
+					"Exponential-type ($\\sinh$, $\\cosh$ or $e^{\\pm\\alpha z/a}$)",
+					"Oscillatory ($\\sin$, $\\cos$), because the radial part is oscillatory",
+					"Linear in $z$ for every mode",
+					"Independent of $z$"
+				],
+				"answer": 0,
+				"explanation": "$J_0(\\alpha r/a)$ must vanish at $r=a$, which forces a positive separation constant and an oscillating radial function. Laplace's equation then demands $Z''=+(\\alpha/a)^2Z$: exponential growth or decay in $z$. The signs are chosen by the boundary conditions."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For a cylinder of radius $a=2.0$ cm with $u=0$ on the side, the lowest mode varies as $J_0(\\alpha_1r/a)e^{-\\alpha_1z/a}$ with $\\alpha_1=2.405$ (the first zero of $J_0$). Over what distance $a/\\alpha_1$ (in cm) does this mode decay by a factor of $e$ along the axis?",
+				"answer": 0.83166,
+				"tolerance": 0.02,
+				"unit": "cm",
+				"explanation": "$a/\\alpha_1=2.0/2.405\\approx0.83$ cm. Higher modes ($\\alpha_2=5.52$, ...) decay even faster, so far from the heated end only the lowest mode survives."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A cylinder of radius $a$ has its end cap held at constant $u=T_0$ (side at 0). The Fourier-Bessel coefficients are $A_n=\\dfrac{2T_0}{\\alpha_n J_1(\\alpha_n)}$, where $\\alpha_n$ are zeros of $J_0$. Find $A_1/T_0$ (using $\\alpha_1=2.4048$, $J_1(\\alpha_1)=0.5191$).",
+				"answer": 1.602,
+				"tolerance": 0.02,
+				"explanation": "$A_1/T_0=2/(2.4048\\times0.5191)\\approx1.602$. The coefficient exceeds 1 because the Bessel series for a constant needs alternating contributions of several modes to cancel at the edge."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For Laplace's equation in a hollow cylindrical shell $a<r<b$ (the axis is not part of the region), which radial solutions may be used?",
+				"options": [
+					"Only $J_n$, because $N_n$ is never allowed",
+					"Only $N_n$, because the region is hollow",
+					"Neither; the shell needs Hermite functions",
+					"Both $J_n$ and $N_n$ (or both $r^n$ and $r^{-n}$ for $k=0$)"
+				],
+				"answer": 3,
+				"explanation": "Regularity at $r=0$ is the only reason to discard $N_n$; if $r=0$ is not in the domain, the two boundary conditions at $r=a$ and $r=b$ fix both coefficients."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the Bessel-series method for the cylinder parallels the sine-series method in the rectangle: what plays the role of the basis functions, the orthogonality condition and the coefficient integral?",
+				"rubric": "Full credit requires: basis functions $J_0(\\alpha_nr/a)$ replace $\\sin(n\\pi x/a)$; orthogonality now has weight $r$; coefficients are found by multiplying the boundary data by the basis function and weight and integrating, divided by the norm; both come from a Sturm-Liouville problem.",
+				"modelAnswer": "In the rectangle the boundary data are expanded in $\\sin(n\\pi x/a)$, and the coefficients are found by multiplying by a sine and integrating. In the cylinder the basis functions are $J_0(\\alpha_nr/a)$, which are orthogonal with weight $r$: $\\int_0^aJ_0(\\alpha_jr/a)J_0(\\alpha_kr/a)\\,r\\,dr=0$ for $j\\ne k$. The coefficient is the weighted integral of the data against $J_0(\\alpha_nr/a)$ divided by the norm $\\tfrac{a^2}{2}J_1(\\alpha_n)^2$. Both are Sturm-Liouville eigenfunction expansions."
+			}
+		],
+		"m5-l017-drum": [
+			{
+				"kind": "numeric",
+				"prompt": "For a circular drum the mode frequencies are $\\omega_{mn}\\propto\\alpha_{mn}$ (zeros of $J_m$). Using $\\alpha_{01}=2.405$ and $\\alpha_{11}=3.832$, find the ratio $\\omega_{11}/\\omega_{01}$.",
+				"answer": 1.5933,
+				"tolerance": 0.02,
+				"explanation": "$3.832/2.405\\approx1.593$. A string's first overtone is exactly 2 times the fundamental; the drum's is not an integer multiple, so a drum sounds unpitched."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A drum of radius $a=0.25$ m has wave speed $v=100$ m/s on its membrane. Find its fundamental frequency $f_{01}=\\dfrac{v\\,\\alpha_{01}}{2\\pi a}$ in Hz, with $\\alpha_{01}=2.405$.",
+				"answer": 153.1,
+				"tolerance": 0.02,
+				"unit": "Hz",
+				"explanation": "$f_{01}=100\\times2.405/(2\\pi\\times0.25)\\approx153$ Hz. Larger radius or slower waves give lower pitch, as for a string."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For modes $u=J_m(\\alpha_{mn}r/a)\\cos m\\phi\\cos\\omega_{mn}t$, where $\\alpha_{mn}$ is the $n$-th zero of $J_m$, what are the nodal lines of the $(m,n)=(0,2)$ mode?",
+				"options": [
+					"Two nodal diameters and no circles",
+					"One nodal diameter and one nodal circle",
+					"One interior nodal circle and no nodal diameters",
+					"No nodal lines at all"
+				],
+				"answer": 2,
+				"explanation": "$m$ counts nodal diameters (from $\\cos m\\phi$) and $n-1$ counts interior nodal circles (zeros of $J_m(\\alpha_{mn}r/a)$ inside the rim). For $(0,2)$: no diameters, one circle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does a drum have a less definite pitch than a guitar string?",
+				"options": [
+					"The membrane is damped much more strongly than a string",
+					"The membrane has only one mode, so no pitch can be assigned",
+					"The membrane's overtone frequencies are not integer multiples of the fundamental",
+					"All modes have exactly the same frequency (degeneracy)"
+				],
+				"answer": 2,
+				"explanation": "A string's modes at $n\\pi v/L$ form a harmonic series, which the ear hears as one pitch. For a circular membrane the mode frequencies are $v\\alpha_{mn}/a$ with irregular ratios ($1,1.59,2.14,2.30,2.65,\\dots$), so the overtones do not blend into a single pitch."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the motion of a drum struck with an arbitrary initial displacement is built from normal modes, and where orthogonality enters.",
+				"rubric": "Full credit requires: expand the initial shape in the basis $J_m(\\alpha_{mn}r/a)\\{\\cos m\\phi,\\sin m\\phi\\}$ (the normal modes); each mode oscillates independently at $\\omega_{mn}$; the amplitude of each mode is found by projecting the initial displacement onto that mode using orthogonality (with weight $r$); the total motion is the sum.",
+				"modelAnswer": "The initial displacement is expanded in the normal modes $J_m(\\alpha_{mn}r/a)\\cos m\\phi$ (and $\\sin m\\phi$). Orthogonality of these functions, with weight $r$ in the radial integral, lets us pick out the amplitude of each mode by projecting the initial shape onto it. Each mode then oscillates independently as $\\cos\\omega_{mn}t$ (plus $\\sin$ terms for initial velocity), and the actual motion is the sum of these."
+			}
+		],
+		"m5-l018-sphere-poisson": [
+			{
+				"kind": "mc",
+				"prompt": "For the potential inside a sphere (including the centre), why are the $r^{-(l+1)}$ terms discarded?",
+				"options": [
+					"They diverge at $r\\to\\infty$, which is outside the region",
+					"They diverge at $r=0$, where the potential must be finite",
+					"They are not solutions of Laplace's equation",
+					"They violate the boundary condition on the surface of the sphere"
+				],
+				"answer": 1,
+				"explanation": "Inside, regularity at the origin keeps only $r^l$. Outside, the potential must vanish at infinity and keeps only $r^{-(l+1)}$. Matching the two at the surface is what fixes the coefficients."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A sphere of radius $a$ has surface potential $V(a,\\theta)=10\\cos\\theta$ (volts). Outside, the potential is $V(r,\\theta)=10\\,(a/r)^2\\cos\\theta$. Find $V$ at $r=2a$, $\\theta=60^\\circ$ in volts.",
+				"answer": 1.25,
+				"tolerance": 0.02,
+				"unit": "V",
+				"explanation": "$V=10\\times\\tfrac14\\times\\cos60^\\circ=1.25$ V. A dipole ($l=1$) potential falls as $1/r^2$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A charge-free sphere has surface potential $V(\\theta)=V_0(2+3\\cos^2\\theta)$ with $V_0=4$ V. By the mean-value property, the potential at the centre equals the average of $V$ over the surface. Find it in volts.",
+				"answer": 12.0,
+				"tolerance": 0.02,
+				"unit": "V",
+				"explanation": "The average of $\\cos^2\\theta$ over a sphere is $1/3$, so the mean is $V_0(2+1)=3V_0=12$ V. This is the $l=0$ coefficient $A_0$: only the monopole part of the surface data matters at the centre."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Far from a localised neutral object (e.g. a polar molecule), which term of the multipole expansion typically dominates the potential?",
+				"options": [
+					"The dipole ($l=1$) term, falling as $1/r^2$",
+					"The monopole term, falling as $1/r$",
+					"The quadrupole term, falling as $1/r^3$",
+					"All multipoles contribute equally at large distance"
+				],
+				"answer": 0,
+				"explanation": "A neutral object has zero monopole. Its leading far field comes from the lowest non-vanishing moment, usually the dipole. Higher multipoles decay faster so they matter only close in or for symmetric molecules whose dipole vanishes."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why do the higher-$l$ terms of the exterior potential matter only close to the source, and what does this say about how well far-away measurements can reveal a source's detailed shape?",
+				"rubric": "Full credit requires: $l$-th term goes as $r^{-(l+1)}$ so higher $l$ fall off faster; fine angular detail (large $l$) is washed out at distance; far-field data reveal only the lowest moments (total charge, dipole, ...), so different detailed shapes look the same from far away.",
+				"modelAnswer": "The $l$-th exterior term scales as $r^{-(l+1)}$, so higher-$l$ terms (finer angular structure) decay faster and are negligible at large distance. From far away only the lowest multipole moments, total charge and dipole, can be measured; many different detailed charge distributions share the same far field. Fine structure is recoverable only by measuring close to the source."
+			}
+		],
+		"m5-l019-sturm-liouville": [
+			{
+				"kind": "mc",
+				"prompt": "Hermite's equation is $y''-2xy'+2ny=0$. Multiplying by the integrating factor $e^{-x^2}$ puts it in Sturm-Liouville form $(py')'+\\lambda wy=0$. What is the weight $w$ for orthogonality of the solutions?",
+				"options": [
+					"$w=1$",
+					"$w=x$",
+					"$w=e^{+x^2}$",
+					"$w=e^{-x^2}$"
+				],
+				"answer": 3,
+				"explanation": "$e^{-x^2}(y''-2xy')=(e^{-x^2}y')'$, so the equation becomes $(e^{-x^2}y')'+2ne^{-x^2}y=0$ with $p=w=e^{-x^2}$. Eigenfunctions are orthogonal with that weight, as in $\\int H_mH_ne^{-x^2}dx=0$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Eigenfunctions of $-y''=\\lambda y$ on $[0,\\pi]$ with $y(0)=y(\\pi)=0$ are $\\sin nx$ (weight 1). Expand $f(x)=x$ as $\\sum c_n\\sin nx$, with $c_n=\\frac{2}{\\pi}\\int_0^\\pi x\\sin nx\\,dx$. Find $c_3$.",
+				"answer": 0.66667,
+				"tolerance": 0.02,
+				"explanation": "$c_n=\\frac{2(-1)^{n+1}}{n}$, so $c_3=+2/3\\approx0.667$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which boundary conditions on $[0,L]$ make $-d^2/dx^2$ self-adjoint, so that its eigenvalues are real and eigenfunctions orthogonal?",
+				"options": [
+					"$u(0)=1$ and $u(L)=1$",
+					"$u(0)=0$ only, with nothing specified at $L$",
+					"$u'(0)=1$ and $u'(L)=1$",
+					"$u(0)=0$ and $u(L)=0$ (also Neumann or periodic pairs)"
+				],
+				"answer": 3,
+				"explanation": "Self-adjointness needs the boundary term $[u v'-u'v]_0^L$ to vanish for all functions in the space. Homogeneous Dirichlet, Neumann or periodic conditions do this. Inhomogeneous conditions do not form a vector space, and leaving one end free leaves a boundary term."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The completeness relation $\\sum_n\\phi_n(x)\\phi_n(x')w(x')=\\delta(x-x')$ means:",
+				"options": [
+					"The eigenfunctions are mutually orthogonal",
+					"All eigenvalues are real",
+					"Any reasonable function can be expanded in the $\\phi_n$",
+					"There are only finitely many eigenfunctions for a given operator"
+				],
+				"answer": 2,
+				"explanation": "Orthogonality is a separate property. Completeness says the set is big enough to represent any function (like a basis spanning the space). In quantum mechanics it says every state is a superposition of energy eigenstates."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why eigenfunctions with different eigenvalues of a Sturm-Liouville problem must be orthogonal, and why the same fact is true of energy eigenstates in quantum mechanics.",
+				"rubric": "Full credit requires: self-adjointness gives $\\int(\\phi_mL\\phi_n-\\phi_nL\\phi_m)w\\,dx=0$ so $(\\lambda_n-\\lambda_m)\\int\\phi_m\\phi_nw=0$, hence orthogonality when $\\lambda_m\\ne\\lambda_n$; the QM Hamiltonian is Hermitian (self-adjoint), so eigenstates of different energy are orthogonal and eigenvalues real.",
+				"modelAnswer": "If $L$ is self-adjoint, $\\langle\\phi_m,L\\phi_n\\rangle=\\langle L\\phi_m,\\phi_n\\rangle$. Inserting $L\\phi=\\lambda w\\phi$ gives $(\\lambda_n-\\lambda_m)\\int\\phi_m\\phi_nw\\,dx=0$, so the integral vanishes when the eigenvalues differ. In quantum mechanics, $H$ is Hermitian, so energy eigenstates with different energies are orthogonal and energies are real, which is what makes them measurable values."
+			}
+		],
+		"m5-l020-green-ode": [
+			{
+				"kind": "mc",
+				"prompt": "The deflection of a taut string pinned at both ends under a single unit point load at $x'$ is $G(x,x')$. How would you find the deflection under a continuous load distribution $f(x')$?",
+				"options": [
+					"Multiply: $y(x)=G(x,x')f(x)$",
+					"Superpose: $y(x)=\\int G(x,x')f(x')\\,dx'$",
+					"Differentiate: $y(x)=\\partial G/\\partial x'$ evaluated with load $f$",
+					"It cannot be done without solving the ODE from scratch"
+				],
+				"answer": 1,
+				"explanation": "The ODE is linear, so the response to a sum of point sources is the sum of the responses. A distributed load is a continuous sum of point loads $f(x')dx'$, each producing $G(x,x')f(x')dx'$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $-y''=f(x)$ on $[0,1]$ with $y(0)=y(1)=0$, the Green's function is $G(x,x')=x_<(1-x_>)$ (with $x_<=\\min(x,x')$, $x_>=\\max(x,x')$). For uniform $f=6$, evaluate $y(0.25)=\\int_0^1G(0.25,x')\\,f\\,dx'$.",
+				"answer": 0.5625,
+				"tolerance": 0.02,
+				"explanation": "The integral gives $y=3x(1-x)$, so $y(0.25)=3(0.25)(0.75)=0.5625$. (Check: $-y''=6$, $y(0)=y(1)=0$.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $L=-d^2/dx^2$ with $LG(x,x')=\\delta(x-x')$, what happens at $x=x'$?",
+				"options": [
+					"$G$ is continuous and $G'$ jumps by $-1$",
+					"$G$ jumps by $-1$ and $G'$ is continuous",
+					"Both $G$ and $G'$ are continuous",
+					"$G$ is continuous and $G'$ jumps by $+1$"
+				],
+				"answer": 0,
+				"explanation": "Integrating $-G''=\\delta(x-x')$ across $x'$ gives $-[G']=1$, so $G'$ jumps by $-1$ (a downward kink). $G$ itself must stay continuous, otherwise $G''$ would contain $\\delta'$, not $\\delta$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A string is pinned at both ends. A small weight at position $a$ produces some deflection at position $b$. If the same weight is moved to $b$, what is the deflection at $a$?",
+				"options": [
+					"The same: reciprocity, $G(a,b)=G(b,a)$",
+					"Larger, because it is now closer to a pinned end",
+					"Smaller, since the string was already deflected",
+					"It depends on the string tension but not on the geometry"
+				],
+				"answer": 0,
+				"explanation": "For self-adjoint operators the Green's function is symmetric: response at $b$ to a source at $a$ equals response at $a$ to a source at $b$ (Maxwell-Betti reciprocity in mechanics)."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Green's function has an eigenfunction expansion $G(x,x')=\\sum_n\\phi_n(x)\\phi_n(x')/\\lambda_n$. Explain what this says about which modes dominate the response to a point source, and what happens when some $\\lambda_n$ is close to zero.",
+				"rubric": "Full credit requires: each mode is excited in proportion to its overlap with the source and responds with strength $1/\\lambda_n$, so modes with small eigenvalue (soft, low-frequency/long-wavelength) dominate; if $\\lambda_n\\to0$ the response diverges (resonance-like), and for $\\lambda_n=0$ the problem has no unique solution/needs a solvability condition.",
+				"modelAnswer": "A point source excites every mode, each with weight $\\phi_n(x')$, and each mode responds with a factor $1/\\lambda_n$. Modes with small eigenvalues (long wavelengths, easily deformed) therefore dominate the response. As some $\\lambda_n\\to0$ its contribution blows up, like driving a system at resonance; at exactly $\\lambda_n=0$ the operator has a null mode and the problem is not uniquely solvable without a compatibility condition."
+			}
+		],
+		"m5-l021-green-pde": [
+			{
+				"kind": "numeric",
+				"prompt": "Using $G_0=-1/(4\\pi|\\mathbf r-\\mathbf r'|)$ and $\\varphi=-\\frac1{\\varepsilon_0}\\int G_0\\rho\\,d^3r'$, a point charge $+e$ gives the Coulomb potential $e/(4\\pi\\varepsilon_0 r)$. Evaluate this at $r=0.50$ nm in volts.",
+				"answer": 2.8799,
+				"tolerance": 0.02,
+				"unit": "V",
+				"explanation": "$e/(4\\pi\\varepsilon_0r)=1.44\\ \\mathrm{V\\,nm}/0.50\\ \\mathrm{nm}\\approx2.88$ V. (The handy number is $e^2/4\\pi\\varepsilon_0=1.44$ eV nm.)"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An ion with charge $+e$ is a distance $d=0.50$ nm from a grounded metal plane. By the method of images, the force is that of an image charge $-e$ at the mirror point. Find the attractive force magnitude in newtons.",
+				"answer": 2.3071e-10,
+				"tolerance": 0.02,
+				"unit": "N",
+				"explanation": "The image is at distance $2d=1.0$ nm, so $F=e^2/[4\\pi\\varepsilon_0(2d)^2]=1.44\\ \\mathrm{eV\\,nm}/(1\\ \\mathrm{nm})^2=1.44$ eV/nm $\\approx2.3\\times10^{-10}$ N."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement about the image charge for a point charge above a grounded conducting plane is correct?",
+				"options": [
+					"It is a real charge located behind the plane",
+					"It gives the correct field both above and below the plane",
+					"The force on the real charge is $q^2/(4\\pi\\varepsilon_0d^2)$, with $d$ the charge's height",
+					"A mathematical device, valid only in the region above the plane"
+				],
+				"answer": 3,
+				"explanation": "The image makes the potential vanish on the plane so the field above is correct; below the (conductor) plane the true field is zero. The image sits at distance $d$ below the plane, i.e. $2d$ from the charge, so the force is $q^2/[4\\pi\\varepsilon_0(2d)^2]$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In Green's second identity for Poisson's equation with specified potential on the boundary (Dirichlet), why do we choose the Green's function $G_D$ that vanishes on the boundary?",
+				"options": [
+					"It makes the charge density vanish inside the region",
+					"It forces the potential to be zero everywhere in the region of interest",
+					"It removes the unknown $\\partial\\varphi/\\partial n$ term on the boundary",
+					"It makes the final solution independent of the boundary data"
+				],
+				"answer": 2,
+				"explanation": "The surface term contains both $G\\,\\partial_n\\varphi$ and $\\varphi\\,\\partial_nG$. We know $\\varphi$ on the boundary but not $\\partial_n\\varphi$; choosing $G=0$ there removes the unknown term, leaving only known boundary data."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in words how the generating function of the Legendre polynomials gives the multipole expansion of the potential of a charge distribution, and which term dominates far away for a neutral molecule with a permanent dipole.",
+				"rubric": "Full credit requires: $1/|\\mathbf r-\\mathbf r'|=\\sum_l(r'^l/r^{l+1})P_l(\\cos\\gamma)$ for $r>r'$ is the generating function with $t=r'/r$; integrating over the charge distribution gives moments for each $l$; $l$-th term falls as $r^{-(l+1)}$; for a neutral molecule the monopole vanishes so the dipole ($1/r^2$) dominates.",
+				"modelAnswer": "Writing $t=r'/r$ in the generating function expands the Coulomb kernel $1/|\\mathbf r-\\mathbf r'|$ as a series in powers of $r'/r$ multiplying $P_l(\\cos\\gamma)$. Integrating against the charge density gives each multipole moment, with the $l$-th term falling as $r^{-(l+1)}$. A neutral molecule has no monopole term, so its permanent dipole ($1/r^2$) controls the far field."
+			}
+		],
+		"m5-l022-transform-pdes": [
+			{
+				"kind": "mc",
+				"prompt": "Heat flows in a semi-infinite rod $x>0$ whose end is held at temperature $0$. Which transform is natural?",
+				"options": [
+					"The Fourier cosine transform, since $u(0)=0$",
+					"The Fourier sine transform",
+					"The full Fourier transform over $-\\infty<x<\\infty$, ignoring the end",
+					"The Laplace transform in $x$"
+				],
+				"answer": 1,
+				"explanation": "$\\mathcal F_s\\{u_{xx}\\}=-k^2\\hat u_s+k\\,u(0)$; with $u(0)=0$ the boundary term disappears. For an insulated end ($u_x(0)=0$) the cosine transform plays this role."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A unit amount of heat is released at $x=0$ on an infinite line, giving $u(x,t)=\\dfrac{1}{\\sqrt{4\\pi Dt}}e^{-x^2/4Dt}$. With $D=0.5$ and $t=2$ (consistent units), find $u(0,t)$.",
+				"answer": 0.28209,
+				"tolerance": 0.02,
+				"explanation": "$u(0,t)=1/\\sqrt{4\\pi\\cdot0.5\\cdot2}=1/\\sqrt{4\\pi}\\approx0.282$. The peak falls as $1/\\sqrt t$ while the width grows as $\\sqrt t$, keeping the area fixed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Taking the Laplace transform in $t$ of $u_t=Du_{xx}$ gives:",
+				"options": [
+					"An algebraic equation in $s$ only",
+					"An ODE in $x$: $sU-u(x,0)=DU_{xx}$",
+					"Another PDE in $s$ and $x$ that is harder than the original",
+					"$U_{xx}=0$, because time dependence is eliminated"
+				],
+				"answer": 1,
+				"explanation": "$\\mathcal L\\{u_t\\}=sU-u(x,0)$ builds the initial condition into the transformed equation, reducing the PDE to an ODE in $x$ with $s$ as a parameter."
+			},
+			{
+				"kind": "mc",
+				"prompt": "When is a transform method preferable to separation of variables with a series?",
+				"options": [
+					"On unbounded domains, where the spectrum is continuous",
+					"On finite domains with homogeneous boundary conditions at both ends",
+					"Only for nonlinear equations",
+					"When the equation is not separable in any coordinate system"
+				],
+				"answer": 0,
+				"explanation": "A bounded domain gives discrete eigenvalues (a series). On an unbounded domain there is no boundary to quantise the wavenumber, so all $k$ appear and the sum becomes an integral: a Fourier transform."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the Fourier transform turns the heat equation into a simple ODE, and why the solution is a convolution of the initial data with a Gaussian.",
+				"rubric": "Full credit requires: differentiation in $x$ becomes multiplication by $ik$, so $u_t=Du_{xx}$ becomes $\\hat u_t=-Dk^2\\hat u$ with solution $\\hat u_0e^{-Dk^2t}$; multiplication in $k$-space is convolution in $x$, and $e^{-Dk^2t}$ is the transform of a Gaussian of variance $2Dt$; each Fourier mode decays at its own rate.",
+				"modelAnswer": "In Fourier space $\\partial_x\\to ik$, so the heat equation becomes $\\hat u_t=-Dk^2\\hat u$ for each $k$ separately, solved by $\\hat u_0e^{-Dk^2t}$: each mode just decays, faster for large $k$. A product in $k$-space is a convolution in $x$, and $e^{-Dk^2t}$ is the transform of a Gaussian of variance $2Dt$, so $u=G*u_0$: the profile is smeared by a spreading Gaussian."
+			}
+		],
+		"m5-l023-euler-equation": [
+			{
+				"kind": "mc",
+				"prompt": "In deriving the Euler-Lagrange equation by varying the path, the boundary term $\\left[\\frac{\\partial f}{\\partial y'}\\delta y\\right]_a^b$ from integrating by parts is dropped because:",
+				"options": [
+					"$\\partial f/\\partial y'$ always vanishes at the endpoints",
+					"The integrand $f$ has no explicit dependence on $x$",
+					"The path is assumed to be a straight line",
+					"The endpoints are fixed"
+				],
+				"answer": 3,
+				"explanation": "We compare nearby paths with the same endpoints, so $\\delta y(a)=\\delta y(b)=0$. Then the integral must vanish for arbitrary interior $\\delta y$, which forces the Euler-Lagrange equation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A cylinder of radius $R=1$ is cut along a vertical line and unrolled flat. Find the length of the shortest path on the surface from the point $(\\phi=0,z=0)$ to $(\\phi=\\pi,z=2)$, in the same length units.",
+				"answer": 3.7242,
+				"tolerance": 0.02,
+				"explanation": "Geodesics on a cylinder are straight lines on the unrolled sheet (a helix on the cylinder). The horizontal run is $\\pi R=\\pi$ and the vertical rise is 2, so the length is $\\sqrt{\\pi^2+4}\\approx3.723$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A bead slides from rest, without friction, from the origin to the point reached by the cycloid $x=R(\\theta-\\sin\\theta)$, $y=R(1-\\cos\\theta)$ at $\\theta=\\pi$ (a drop of $2R$) with $R=1$ m. The cycloid time is $t=\\pi\\sqrt{R/g}$. How many seconds longer does the bead take on the straight ramp joining the same two points? (use $g=9.81\\ \\mathrm{m/s^2}$)",
+				"answer": 0.18601,
+				"tolerance": 0.05,
+				"unit": "s",
+				"explanation": "Cycloid: $\\pi\\sqrt{1/9.81}\\approx1.003$ s. Straight ramp of length $\\sqrt{\\pi^2+4}=3.723$ m with constant acceleration $g\\sin\\alpha=g\\cdot2/3.723$: $t=\\sqrt{2L/a}\\approx1.189$ s. The straight line is about $0.186$ s slower: the shortest path is not the quickest."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Beltrami first integral $f-y'\\,\\partial f/\\partial y'=\\text{const}$ holds when $f$ has no explicit $x$-dependence. What is its counterpart in mechanics when $L$ has no explicit time dependence?",
+				"options": [
+					"Conservation of linear momentum along the path",
+					"Conservation of angular momentum about the origin",
+					"Conservation of energy (the Hamiltonian)",
+					"Newton's third law of equal and opposite reactions"
+				],
+				"answer": 2,
+				"explanation": "For $L(q,\\dot q)$ with no explicit $t$, $\\dot q\\,\\partial L/\\partial\\dot q-L=E$ is conserved. The same algebra gives the Beltrami identity, with $x\\leftrightarrow t$."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Euler-Lagrange equation only makes the functional stationary. Using the example of paths on a sphere, explain why a stationary path need not be the shortest one, and what additional check is needed.",
+				"rubric": "Full credit requires: stationarity means first variation vanishes (min, max or saddle); the great circle the long way round is also a geodesic (stationary) but not the shortest; to decide one examines the second variation (sign of the second-order change), or uses geometric/other arguments.",
+				"modelAnswer": "Euler-Lagrange only says the first-order change vanishes, which also occurs at maxima and saddles. Between two points on a sphere both arcs of the great circle through them are geodesics (stationary), but the long way round is not the shortest. To decide whether a stationary path is a minimum we must check the second variation (the sign of the second-order change under small perturbations)."
+			}
+		],
+		"m5-l024-lagrange-constraints": [
+			{
+				"kind": "mc",
+				"prompt": "For a mass on a spring, $L=\\tfrac12m\\dot x^2-\\tfrac12kx^2$. What does the Euler-Lagrange equation $\\frac{d}{dt}\\frac{\\partial L}{\\partial\\dot x}-\\frac{\\partial L}{\\partial x}=0$ give?",
+				"options": [
+					"$m\\ddot x=kx$",
+					"$\\ddot x=-kx$",
+					"$m\\ddot x=-kx$",
+					"$m\\ddot x=-\\tfrac12kx$"
+				],
+				"answer": 2,
+				"explanation": "$\\partial L/\\partial\\dot x=m\\dot x$ so the first term is $m\\ddot x$; $\\partial L/\\partial x=-kx$. Hence $m\\ddot x+kx=0$: Hooke's law and simple harmonic motion with $\\omega^2=k/m$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Among all closed plane curves with perimeter $20$ cm, the isoperimetric problem (maximise area with a Lagrange multiplier on the length) has a circle as its solution. What is the maximum enclosed area in cm$^2$?",
+				"answer": 31.831,
+				"tolerance": 0.02,
+				"unit": "cm^2",
+				"explanation": "A circle with circumference 20 has radius $20/(2\\pi)$, area $=P^2/(4\\pi)=400/(4\\pi)\\approx31.8$ cm$^2$. (The Lagrange multiplier turns out to be the radius.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "In both ordinary calculus and the calculus of variations, a Lagrange multiplier attached to a constraint $g=c$ tells you:",
+				"options": [
+					"Nothing physical; it is only a bookkeeping device that is eliminated from the answer",
+					"How sensitive the optimal value is to the constraint level $c$",
+					"The number of independent constraints",
+					"The value of the function at its optimum"
+				],
+				"answer": 1,
+				"explanation": "Extremising $f$ subject to $g=c$, $\\partial f^*/\\partial c=-\\lambda$ (with sign convention $\\delta(f+\\lambda g)=0$): the multiplier measures the 'price' of the constraint. In mechanics the multiplier is the generalised force that enforces the constraint, e.g. the tension in a rod or the normal force on a hoop."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do we usually choose generalised coordinates that satisfy a holonomic constraint automatically (e.g. one angle for a bead on a hoop)?",
+				"options": [
+					"The workless constraint forces drop out, leaving fewer unknowns",
+					"Because constraint forces are always zero in every mechanical system",
+					"Because it creates additional conserved quantities",
+					"Because the Lagrangian is then independent of time"
+				],
+				"answer": 0,
+				"explanation": "Constraint forces act perpendicular to allowed displacements and do no virtual work, so they do not appear in Lagrange's equations written in independent coordinates. Multipliers are needed only when we want the constraint force itself."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, how does 'make the action stationary' lead to Newton's second law, and why is this formulation especially convenient for systems with constraints?",
+				"rubric": "Full credit requires: the action $S=\\int(T-V)dt$ is stationary for the true path; Euler-Lagrange equations from $\\partial L/\\partial q-\\frac{d}{dt}\\partial L/\\partial\\dot q=0$ reproduce $m\\ddot q=-\\partial V/\\partial q$ in Cartesian coordinates; the formulation uses scalar energies in any coordinates, so constraints are built into the choice of coordinates and constraint forces never appear.",
+				"modelAnswer": "Requiring $S=\\int(T-V)\\,dt$ to be stationary gives the Euler-Lagrange equations, which for Cartesian coordinates reduce to $m\\ddot x=-\\partial V/\\partial x$, Newton's second law. Because the equations hold in any coordinates and involve only scalar energies, we can pick coordinates that respect the constraints; the unknown constraint forces then never enter."
+			}
+		],
+		"m5-l025-variational-notation-principles": [
+			{
+				"kind": "mc",
+				"prompt": "Fermat's principle says light between two points follows a path that makes the optical path length $\\int n\\,ds$ stationary. What does this imply when light goes from air into water ($n$ larger)?",
+				"options": [
+					"The ray bends away from the normal in water, because light travels faster there",
+					"The ray goes straight because stationary paths are straight lines",
+					"The ray bends toward the normal only if the water is cold",
+					"The ray bends toward the normal in water"
+				],
+				"answer": 3,
+				"explanation": "Varying the crossing point to make $\\int n\\,ds$ stationary yields Snell's law. In the denser medium light travels more slowly ($v=c/n$), so the least-time path spends less distance there, i.e. bends toward the normal."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For hydrogen's ground state, the trial function $\\psi\\propto e^{-\\alpha r^2}$ gives $E(\\alpha)=\\tfrac32\\alpha-2\\sqrt{2\\alpha/\\pi}$ in hartree. Minimising over $\\alpha$ gives $E_{\\min}=-4/(3\\pi)$ hartree. Convert to eV (1 hartree $=27.211$ eV).",
+				"answer": -11.549,
+				"tolerance": 0.02,
+				"unit": "eV",
+				"explanation": "$-4/(3\\pi)=-0.4244$ hartree $\\approx-11.55$ eV. The exact ground-state energy is $-13.6$ eV; the variational value lies above it, as it must."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A trial wavefunction for a molecule has a 10% error in its shape (relative to the true ground state). Roughly how large is the resulting error in the variational energy?",
+				"options": [
+					"About 10%, since errors carry over linearly",
+					"Exactly zero, since the variational energy is exact",
+					"About 0.1%, since the error is third order",
+					"About 1% (of the excitation scale)"
+				],
+				"answer": 3,
+				"explanation": "The energy functional is stationary at the true ground state, so its first-order change vanishes: errors in $E$ are quadratic in errors in $\\psi$. This is why modest trial functions give surprisingly good energies, and also why other properties (which are first-order) are less accurate."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which Lagrangian density gives the wave equation $\\rho u_{tt}=\\tau u_{xx}$ through the Euler-Lagrange equations?",
+				"options": [
+					"$\\mathcal L=\\tfrac12\\rho u_t^2+\\tfrac12\\tau u_x^2$",
+					"$\\mathcal L=\\tfrac12\\tau u_x^2$",
+					"$\\mathcal L=\\tfrac12\\rho u_t^2-\\tfrac12\\tau u_x^2$",
+					"$\\mathcal L=\\tfrac12\\rho u_t^2-\\tau u_x$"
+				],
+				"answer": 2,
+				"explanation": "Kinetic minus potential (stretching) energy density. The E-L equation $-\\partial_t(\\rho u_t)+\\partial_x(\\tau u_x)=0$ gives $\\rho u_{tt}=\\tau u_{xx}$. With a plus sign you would get $\\rho u_{tt}=-\\tau u_{xx}$, an elliptic (non-wave) equation."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the Rayleigh-Ritz variational energy is always an upper bound to the true ground-state energy, and how this idea is used in Hartree-Fock theory.",
+				"rubric": "Full credit requires: expanding any trial state in energy eigenstates, $\\langle H\\rangle=\\sum|c_n|^2E_n\\ge E_0\\sum|c_n|^2$; so any trial function gives an energy at least $E_0$, with equality only for the ground state; one minimises over parameters to get the best approximation; Hartree-Fock minimises the energy over single-determinant trial wavefunctions.",
+				"modelAnswer": "Any trial state can be written as a superposition of true eigenstates, so its normalised energy $\\sum|c_n|^2E_n$ is a weighted average of energies none of which is below $E_0$, hence $\\ge E_0$. Lowering the energy by adjusting parameters therefore always moves us closer to the ground state. Hartree-Fock applies exactly this, minimising $\\langle H\\rangle$ over all single Slater-determinant wavefunctions."
+			}
+		],
+		"m5-l026-index-notation": [
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\epsilon_{ijk}\\epsilon_{ijk}$ in three dimensions (sum over all three indices).",
+				"answer": 6.0,
+				"tolerance": 0.02,
+				"explanation": "Using $\\epsilon_{ijk}\\epsilon_{ilm}=\\delta_{jl}\\delta_{km}-\\delta_{jm}\\delta_{kl}$, contracting gives $\\epsilon_{ijk}\\epsilon_{ijk}=\\delta_{jj}\\delta_{kk}-\\delta_{jk}\\delta_{kj}=9-3=6$ (the six permutations of 123, each contributing $(\\pm1)^2$)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The determinant of a $3\\times3$ matrix is $\\det M=\\epsilon_{ijk}M_{1i}M_{2j}M_{3k}$. Compute it for the rows $(1,2,0)$, $(0,1,3)$, $(4,0,1)$.",
+				"answer": 25.0,
+				"tolerance": 0.02,
+				"explanation": "$\\det M=1(1\\cdot1-3\\cdot0)-2(0\\cdot1-3\\cdot4)+0=1+24=25$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which expression is a valid use of the summation convention for the $j$-th component of a vector?",
+				"options": [
+					"$a_j=M_{ik}v_k$",
+					"$a_j=M_{jk}v_k$",
+					"$a_j=M_{jk}v_kw_k$",
+					"$a_j=M_{jj}v_k$"
+				],
+				"answer": 1,
+				"explanation": "Each side must have the same free indices and any repeated index appears exactly twice. $M_{ik}v_k$ has free index $i$ on the right but $j$ on the left; $M_{jk}v_kw_k$ repeats $k$ three times; $M_{jj}v_k$ has a free $k$ on the right only."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In index notation $(\\nabla\\times\\nabla\\varphi)_i=\\epsilon_{ijk}\\partial_j\\partial_k\\varphi=0$. Why does this vanish for any smooth $\\varphi$?",
+				"options": [
+					"$\\epsilon_{ijk}$ is antisymmetric in $j,k$ but $\\partial_j\\partial_k\\varphi$ is symmetric",
+					"Because the gradient $\\nabla\\varphi$ is always zero, so there is nothing left to differentiate",
+					"Because $\\epsilon_{ijk}$ is nonzero only when all three of its indices are equal",
+					"Only if $\\varphi$ is harmonic ($\\nabla^2\\varphi=0$); otherwise the second derivatives survive"
+				],
+				"answer": 0,
+				"explanation": "A fully symmetric object contracted with an antisymmetric one vanishes: $\\epsilon_{ijk}S_{jk}=-\\epsilon_{ikj}S_{jk}=-\\epsilon_{ijk}S_{kj}=-\\epsilon_{ijk}S_{jk}$. No condition on $\\varphi$ beyond smoothness is needed."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the difference between free and dummy indices, and why you may rename a dummy index but never a free one.",
+				"rubric": "Full credit requires: a free index appears once per term and labels a component of the result (must match across the equation); a dummy index appears twice and is summed, so its name is irrelevant ($a_ib_i=a_jb_j$); renaming a free index on one side only changes which component the equation claims.",
+				"modelAnswer": "A free index appears once in each term and says which component of the result the equation describes; it must be the same in every term. A dummy index appears twice and is summed over, so it is just a placeholder: $a_ib_i=a_kb_k$. Renaming a dummy changes nothing, but changing a free index on only one side would equate different components."
+			}
+		],
+		"m5-l027-cartesian-tensors": [
+			{
+				"kind": "mc",
+				"prompt": "Under spatial inversion ($\\mathbf r\\to-\\mathbf r$), which of these quantities does NOT change sign?",
+				"options": [
+					"Angular momentum $\\mathbf L=\\mathbf r\\times\\mathbf p$",
+					"Position $\\mathbf r$ of the particle relative to the origin",
+					"Linear momentum $\\mathbf p=m\\mathbf v$ of the particle",
+					"Electric field $\\mathbf E$ of a point charge"
+				],
+				"answer": 0,
+				"explanation": "$\\mathbf r$ and $\\mathbf p$ both flip sign, so their cross product does not: $\\mathbf L$ is a pseudovector (as is $\\mathbf B$). $\\mathbf E$, like force, is a true (polar) vector and flips."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A molecule has a symmetric polarisability tensor (in Angstrom$^3$) $\\alpha=\\begin{pmatrix}6&2&0\\\\2&3&0\\\\0&0&4\\end{pmatrix}$ in its lab axes. Find the largest principal polarisability (its largest eigenvalue).",
+				"answer": 7.0,
+				"tolerance": 0.02,
+				"unit": "A^3",
+				"explanation": "The $xy$ block has eigenvalues $\\frac{9\\pm\\sqrt{9+16}}{2}=7$ and $2$; the $z$ value is 4. Principal values: 2, 4, 7 Å$^3$. Along the principal axes the induced dipole is parallel to the field."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a rigid body, $\\mathbf L=I\\boldsymbol\\omega$. When are $\\mathbf L$ and $\\boldsymbol\\omega$ parallel?",
+				"options": [
+					"Always, since $\\mathbf L=I\\boldsymbol\\omega$ means $\\mathbf L\\propto\\boldsymbol\\omega$",
+					"Never, since $I$ mixes components",
+					"Whenever the body has any symmetry",
+					"When $\\boldsymbol\\omega$ lies along a principal axis of $I$"
+				],
+				"answer": 3,
+				"explanation": "$I$ is a tensor, not a scalar: it maps $\\boldsymbol\\omega$ to $\\mathbf L$ and in general rotates and stretches it. Only along principal axes (eigenvectors) does it act as a simple multiplication, which is why a wobbling top has $\\mathbf L\\not\\parallel\\boldsymbol\\omega$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The quotient rule states: if $T_{ij}v_j$ is a vector for every vector $v_j$, then:",
+				"options": [
+					"$T_{ij}$ is a vector",
+					"$T_{ij}$ is a pseudotensor",
+					"$T_{ij}$ is a rank-2 tensor",
+					"Nothing can be concluded about how $T_{ij}$ transforms"
+				],
+				"answer": 2,
+				"explanation": "Because $T_{ij}v_j$ transforms as a vector for arbitrary $v$, the transformation law for $T_{ij}$ must be $T'_{ij}=R_{ia}R_{jb}T_{ab}$. This is the practical way to show that, e.g., the polarisability (which maps field to dipole) is a tensor."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the induced dipole moment of an anisotropic molecule need not point in the same direction as the applied electric field, and what the principal axes of the polarisability tensor are.",
+				"rubric": "Full credit requires: $\\mathbf p=\\alpha\\mathbf E$ with $\\alpha$ a rank-2 tensor: the molecule polarises more easily along some directions than others, so the response is rotated toward the easy direction; the principal axes are the eigenvectors of $\\alpha$, along which $\\mathbf p\\parallel\\mathbf E$, with eigenvalues the principal polarisabilities.",
+				"modelAnswer": "The polarisability is a tensor, $p_i=\\alpha_{ij}E_j$: the electron cloud is more easily distorted along some molecular directions (e.g. along a conjugated chain) than others, so the induced dipole is tilted toward the easy direction. Only when $\\mathbf E$ is along a principal axis (an eigenvector of $\\alpha$) is $\\mathbf p$ parallel to $\\mathbf E$; the eigenvalues are the principal polarisabilities."
+			}
+		],
+		"m5-l028-general-tensors-metric": [
+			{
+				"kind": "numeric",
+				"prompt": "In plane polar coordinates the line element is $ds^2=dr^2+r^2d\\phi^2$. A particle at $r=3$ moves by $dr=0.1$ and $d\\phi=0.2$ rad. Find the length $ds$ of the small displacement.",
+				"answer": 0.60828,
+				"tolerance": 0.02,
+				"explanation": "$ds=\\sqrt{0.01+9\\times0.04}=\\sqrt{0.37}\\approx0.608$. The metric component $g_{\\phi\\phi}=r^2$ converts angle to length."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For polar coordinates the metric is $g=\\mathrm{diag}(1,r^2)$. Using $\\Gamma^k_{ij}=\\tfrac12g^{kl}(\\partial_ig_{jl}+\\partial_jg_{il}-\\partial_lg_{ij})$, evaluate $\\Gamma^r_{\\phi\\phi}$ at $r=2.5$.",
+				"answer": -2.5,
+				"tolerance": 0.02,
+				"explanation": "Only $l=r$ contributes: $\\Gamma^r_{\\phi\\phi}=-\\tfrac12g^{rr}\\partial_rg_{\\phi\\phi}=-\\tfrac12(1)(2r)=-r=-2.5$. (Also $\\Gamma^\\phi_{r\\phi}=1/r$.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "In spherical coordinates, $\\nabla^2u=\\frac{1}{r^2}\\partial_r(r^2\\partial_ru)+\\dots$ The factor $r^2$ inside the radial derivative comes from:",
+				"options": [
+					"The mass of the particle",
+					"The volume factor $\\sqrt g=r^2\\sin\\theta$ in the covariant Laplacian",
+					"The Christoffel symbol $\\Gamma^r_{\\theta\\theta}$ alone, which has nothing to do with the volume element",
+					"A convention for making the radial equation look like Bessel's equation"
+				],
+				"answer": 1,
+				"explanation": "The Laplacian is the divergence of a gradient and the divergence involves the volume element $\\sqrt g$. In spherical coordinates $\\sqrt g=r^2\\sin\\theta$, giving the $r^2$ in the radial term (and $\\sin\\theta$ in the polar term)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In general (non-Cartesian) coordinates, which of these naturally has covariant components?",
+				"options": [
+					"The coordinate displacement $dx^i$",
+					"The gradient of a scalar, $\\partial_iu$",
+					"The velocity $dx^i/dt$",
+					"The position vector's coordinates $x^i$"
+				],
+				"answer": 1,
+				"explanation": "Under a coordinate change, $dx^i$ transforms with the Jacobian (contravariant), while $\\partial u/\\partial x^i$ transforms with its inverse (covariant). The metric converts between them: $V_i=g_{ij}V^j$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is the covariant derivative needed in curvilinear coordinates? Use polar coordinates and a constant vector field to explain.",
+				"rubric": "Full credit requires: in curvilinear coordinates the basis vectors change from point to point; the partial derivative of components then mixes the genuine change of the vector with the change of the basis; e.g. a constant vector field has components in polar coordinates that vary with position, so $\\partial_iV^j\\ne0$; the covariant derivative adds Christoffel terms $\\Gamma^j_{ik}V^k$ that correct for basis change so that a constant field has zero covariant derivative.",
+				"modelAnswer": "In polar coordinates the unit vectors $\\hat r,\\hat\\phi$ rotate as you move around. A constant vector field (say pointing along $+x$) therefore has components $(V^r,V^\\phi)$ that change from place to place, so ordinary partial derivatives of the components are nonzero even though the field does not change. The covariant derivative adds Christoffel terms $\\Gamma^j_{ik}V^k$ to subtract the part due to the basis rotating, making the derivative of a constant field zero."
+			}
+		]
+	}
+}

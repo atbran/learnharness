@@ -1,0 +1,1029 @@
+{
+	"courseId": "m2-multivariable",
+	"checks": {
+		"m2-l001-parametric-polar": [
+			{
+				"kind": "mc",
+				"prompt": "For the curve $x=t^2,\\ y=t^3$, what is $dy/dx$ at $t=2$?",
+				"options": [
+					"$12$",
+					"$4$",
+					"$3$",
+					"$\\dfrac32$"
+				],
+				"answer": 2,
+				"explanation": "$\\frac{dy}{dx}=\\frac{y'(t)}{x'(t)}=\\frac{3t^2}{2t}=\\frac{3t}{2}$, which is $3$ at $t=2$. A slope needs the ratio of the two rates, not either one alone."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Find the area enclosed by the cardioid $r=1+\\cos\\theta$, using $A=\\tfrac12\\int_0^{2\\pi}r^2\\,d\\theta$.",
+				"answer": 4.712,
+				"tolerance": 0.02,
+				"explanation": "$\\tfrac12\\int_0^{2\\pi}(1+2\\cos\\theta+\\cos^2\\theta)\\,d\\theta=\\tfrac12\\left(2\\pi+0+\\pi\\right)=\\tfrac{3\\pi}{2}\\approx4.712$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the length of the arc $x=3\\cos t,\\ y=3\\sin t$ for $0\\le t\\le\\pi$?",
+				"options": [
+					"$3\\pi$",
+					"$6$",
+					"$9\\pi$",
+					"$\\dfrac{3\\pi}{2}$"
+				],
+				"answer": 0,
+				"explanation": "$\\sqrt{x'^2+y'^2}=\\sqrt{9\\sin^2t+9\\cos^2t}=3$, so $L=\\int_0^\\pi3\\,dt=3\\pi$: half the circumference of a circle of radius $3$. ($6$ is the straight chord.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "The orbit $r=\\dfrac{6}{1+2\\cos\\theta}$ has eccentricity $e=2$. What kind of path is it?",
+				"options": [
+					"An ellipse: a closed, bound orbit",
+					"A parabola: exactly at escape energy",
+					"A circle",
+					"A hyperbola: an unbound, open trajectory"
+				],
+				"answer": 3,
+				"explanation": "In $r=\\frac{ed}{1+e\\cos\\theta}$: $e=0$ circle, $0<e<1$ ellipse (bound), $e=1$ parabola (marginally unbound), $e>1$ hyperbola (unbound, as in a scattered comet or particle)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the area enclosed by a polar curve is $\\tfrac12\\int r^2\\,d\\theta$ and not $\\int r\\,d\\theta$.",
+				"rubric": "Full credit: a thin wedge between angles theta and theta+d theta is approximately a circular sector (a thin triangle) with radius r and arc length r d theta, so its area is (1/2) r (r d theta) = (1/2) r^2 d theta; summing wedges gives the integral; the factor 1/2 is the triangle's one-half base times height; int r dtheta would give the wrong units/quantity (length of an arc-like quantity, not an area) and ignore the widening of wedges with r.",
+				"modelAnswer": "Slice the region into thin wedges from the origin. A wedge of angular width $d\\theta$ at radius $r$ is nearly a triangle with height $r$ and base (arc length) $r\\,d\\theta$, so its area is $\\tfrac12\\cdot r\\cdot r\\,d\\theta=\\tfrac12r^2d\\theta$. Adding up the wedges gives $\\tfrac12\\int r^2d\\theta$. A wedge's area grows as $r^2$ because it widens as well as lengthens; $\\int r\\,d\\theta$ has the units of length, not area."
+			}
+		],
+		"m2-l002-vectors-dot-cross": [
+			{
+				"kind": "numeric",
+				"prompt": "Find the area of the parallelogram spanned by $\\vec a=(1,2,3)$ and $\\vec b=(2,0,-1)$.",
+				"answer": 8.307,
+				"tolerance": 0.02,
+				"explanation": "$\\vec a\\times\\vec b=(2\\cdot(-1)-3\\cdot0,\\ 3\\cdot2-1\\cdot(-1),\\ 1\\cdot0-2\\cdot2)=(-2,7,-4)$, and its magnitude is $\\sqrt{4+49+16}=\\sqrt{69}\\approx8.31$. The magnitude of the cross product is the parallelogram's area."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Are the vectors $(1,0,1)$, $(0,1,1)$ and $(1,1,2)$ coplanar?",
+				"options": [
+					"No: the scalar triple product is $2$, so they span a parallelepiped of volume $2$",
+					"Yes: the triple product is $0$ (the third is the sum of the first two)",
+					"No: they all have different lengths, so they cannot lie in one plane",
+					"Yes: they are mutually perpendicular, so they lie in one plane"
+				],
+				"answer": 1,
+				"explanation": "The triple product $\\vec a\\cdot(\\vec b\\times\\vec c)$ is the volume of the parallelepiped they span; zero volume means the three lie in one plane. Here $(1,0,1)+(0,1,1)=(1,1,2)$, a linear dependence. The vectors are not perpendicular (e.g. $(1,0,1)\\cdot(1,1,2)=3\\ne0$)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A force $\\vec F=(0,0,10)$ N acts at position $\\vec r=(0.5,0,0)$ m. What is the torque $\\vec\\tau=\\vec r\\times\\vec F$?",
+				"options": [
+					"$(0,5,0)$ N m",
+					"$(0,0,5)$ N m",
+					"$5$ N m, a scalar with no direction",
+					"$(0,-5,0)$ N m"
+				],
+				"answer": 3,
+				"explanation": "$\\vec r\\times\\vec F=(0\\cdot10-0\\cdot0,\\ 0\\cdot0-0.5\\cdot10,\\ 0)=(0,-5,0)$. Right-hand rule: pointing fingers along $+x$ and curling toward $+z$ puts the thumb along $-y$. Torque is a vector along the rotation axis."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which is the correct BAC-CAB identity?",
+				"options": [
+					"$\\vec a\\times(\\vec b\\times\\vec c)=\\vec c(\\vec a\\cdot\\vec b)-\\vec b(\\vec a\\cdot\\vec c)$",
+					"$\\vec a\\times(\\vec b\\times\\vec c)=\\vec b(\\vec a\\cdot\\vec c)-\\vec c(\\vec a\\cdot\\vec b)$",
+					"$\\vec a\\times(\\vec b\\times\\vec c)=(\\vec a\\times\\vec b)\\times\\vec c$",
+					"$\\vec a\\times(\\vec b\\times\\vec c)=\\vec a(\\vec b\\cdot\\vec c)-\\vec b(\\vec a\\cdot\\vec c)$"
+				],
+				"answer": 1,
+				"explanation": "Remember 'back-cab': $\\vec b(\\vec a\\cdot\\vec c)-\\vec c(\\vec a\\cdot\\vec b)$. The cross product is not associative, so option 2 is false in general, and the result must lie in the plane of $\\vec b$ and $\\vec c$, which rules out any term along $\\vec a$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the geometric meaning of the dot product and the cross product, and why the cross product (unlike the dot product) depends on the order of the vectors.",
+				"rubric": "Full credit: dot product = |a||b|cos(theta): how much one vector lies along the other (projection), a scalar, used in work W = F.d; cross product = |a||b|sin(theta) with direction perpendicular to both by right-hand rule: magnitude is parallelogram area, used in torque r x F; swapping the order reverses the direction (a x b = -b x a) because the right-hand rule depends on the sense of rotation from first to second vector; dot product is symmetric.",
+				"modelAnswer": "The dot product $|\\vec a||\\vec b|\\cos\\theta$ measures how much the vectors point the same way (projection), and it's a number, as in work $W=\\vec F\\cdot\\vec d$. The cross product has magnitude $|\\vec a||\\vec b|\\sin\\theta$ (the parallelogram's area) and a direction perpendicular to both by the right-hand rule, as in torque $\\vec r\\times\\vec F$. The right-hand rule depends on rotating from the first vector to the second, so swapping them reverses the direction: $\\vec a\\times\\vec b=-\\vec b\\times\\vec a$. The dot product is symmetric."
+			}
+		],
+		"m2-l003-lines-planes-quadrics-coords": [
+			{
+				"kind": "numeric",
+				"prompt": "Find the distance from the point $Q=(1,2,3)$ to the plane through $P_0=(1,0,0)$ with normal vector $\\vec n=(2,-1,2)$.",
+				"answer": 1.333,
+				"tolerance": 0.02,
+				"explanation": "The distance is the length of the projection of $\\vec{P_0Q}=(0,2,3)$ onto the unit normal: $\\frac{|\\vec n\\cdot\\vec{P_0Q}|}{|\\vec n|}=\\frac{|0-2+6|}{3}=\\frac43\\approx1.333$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Where does the line $\\vec r(t)=(t,\\,2t,\\,3t)$ meet the plane $x+y+z=12$?",
+				"options": [
+					"$(2,\\,4,\\,6)$",
+					"$(1,\\,2,\\,3)$",
+					"$(4,\\,8,\\,12)$",
+					"$(12,\\,0,\\,0)$"
+				],
+				"answer": 0,
+				"explanation": "Substitute the parametric line into the plane: $t+2t+3t=6t=12\\Rightarrow t=2$, so the point is $(2,4,6)$. The line passes through the origin, which is not on this plane."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What surface is $x^2+y^2=z^2$?",
+				"options": [
+					"A paraboloid",
+					"A hyperboloid of one sheet",
+					"A (double) cone",
+					"A sphere"
+				],
+				"answer": 2,
+				"explanation": "Horizontal traces ($z=c$) are circles of radius $|c|$, growing linearly with $|c|$, and the trace at $z=0$ is a single point: a cone with two nappes. Adding a constant on the right, $x^2+y^2-z^2=1$, would open it into a hyperboloid."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Take $\\theta$ as the polar angle from the $+z$ axis and $\\varphi$ as the azimuthal angle from the $+x$ axis (the physics convention). What are the Cartesian coordinates of the point $(r,\\theta,\\varphi)=(2,\\ \\pi/3,\\ \\pi/2)$?",
+				"options": [
+					"$(\\sqrt3,\\ 0,\\ 1)$",
+					"$(0,\\ \\sqrt3,\\ 1)$",
+					"$(0,\\ 1,\\ \\sqrt3)$",
+					"$(1,\\ 0,\\ \\sqrt3)$"
+				],
+				"answer": 1,
+				"explanation": "$x=r\\sin\\theta\\cos\\varphi=0$, $y=r\\sin\\theta\\sin\\varphi=2\\cdot\\frac{\\sqrt3}{2}=\\sqrt3$, $z=r\\cos\\theta=1$. Mathematics texts often swap the roles of $\\theta$ and $\\varphi$, so always state the convention."
+			},
+			{
+				"kind": "short",
+				"prompt": "Which coordinate system would you choose to describe (a) the space around a nucleus in an atomic orbital and (b) the space around a long straight wire, and why? What does each coordinate measure?",
+				"rubric": "Full credit: (a) spherical (r, theta, phi): distance from nucleus, polar angle from axis, azimuthal angle about axis; orbitals depend on r and angles separately and the boundary is a sphere so limits are simple; (b) cylindrical (s or r, phi, z): distance from the wire, angle around the wire, position along the wire; symmetry under rotation and translation along z. Principle: choose coordinates matching the symmetry so the region is described by constant-coordinate surfaces.",
+				"modelAnswer": "(a) Spherical: $r$ is the distance from the nucleus, $\\theta$ the angle from the polar axis, and $\\varphi$ the angle around the axis. Orbitals factor into a radial part and an angular part, and spheres are simply $r=\\text{const}$. (b) Cylindrical: $s$ is the distance from the wire, $\\varphi$ the angle around it, and $z$ the position along it; the problem is symmetric under rotation about the wire and translation along it. Pick the system in which the region's boundaries are surfaces where one coordinate is constant."
+			}
+		],
+		"m2-l004-vector-functions-motion": [
+			{
+				"kind": "numeric",
+				"prompt": "Find the length of one turn of the helix $\\vec r(t)=(\\cos t,\\ \\sin t,\\ t)$, for $0\\le t\\le2\\pi$.",
+				"answer": 8.886,
+				"tolerance": 0.02,
+				"explanation": "$\\vec r'=(-\\sin t,\\cos t,1)$ has constant speed $|\\vec r'|=\\sqrt2$, so $L=\\int_0^{2\\pi}\\sqrt2\\,dt=2\\sqrt2\\,\\pi\\approx8.886$ (longer than the circle's $2\\pi$ because of the climb)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a charged particle spiralling in a magnetic field, $\\vec r(t)=(R\\cos\\omega t,\\ R\\sin\\omega t,\\ vt)$, the curvature is $\\kappa=\\dfrac{R\\omega^2}{R^2\\omega^2+v^2}$. What happens in the limits $v\\to0$ and $v\\to\\infty$?",
+				"options": [
+					"$\\kappa\\to0$ for both limits",
+					"$\\kappa\\to\\infty$ for $v\\to0$, and $\\kappa\\to1/R$ for $v\\to\\infty$",
+					"$\\kappa\\to R$ for $v\\to0$, and $\\kappa\\to0$ for $v\\to\\infty$",
+					"$\\kappa\\to1/R$ (a circle), and $\\kappa\\to0$ (nearly a straight line)"
+				],
+				"answer": 3,
+				"explanation": "With $v=0$ the path is a circle of radius $R$ and $\\kappa=1/R$. With very large $v$ the particle shoots along $z$ and the loops become negligible, so the path straightens and curvature tends to $0$. Curvature measures how sharply the direction of motion turns per unit distance."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does a particle moving under a central force $\\vec F\\parallel\\vec r$ stay in a single plane?",
+				"options": [
+					"Because energy is conserved, and conserved energy confines the motion to a plane",
+					"Because $\\vec r\\times\\vec F\\neq0$, and this nonzero torque pushes the motion into a plane",
+					"Because $\\vec r\\times\\vec F=0$ makes $\\vec L=\\vec r\\times\\vec p$ constant, so $\\vec r\\perp\\vec L$ always",
+					"Because the speed is constant, so the velocity can only turn within one plane"
+				],
+				"answer": 2,
+				"explanation": "$\\frac{d}{dt}(\\vec r\\times\\vec p)=\\vec v\\times\\vec p+\\vec r\\times\\vec F$; the first term vanishes ($\\vec p\\parallel\\vec v$) and the second vanishes for a central force. A constant $\\vec L$ means $\\vec r\\perp\\vec L$ at all times: the motion stays in the plane perpendicular to $\\vec L$ (and the constant area rate is Kepler's second law)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A car moves along a curve of radius $50$ m at speed $20$ m/s and is speeding up at $3.0$ m/s$^2$. Find the magnitude of its total acceleration in m/s$^2$, combining the normal part $v^2/R$ and the tangential part $dv/dt$.",
+				"answer": 8.544,
+				"tolerance": 0.02,
+				"unit": "m/s^2",
+				"explanation": "The normal component is $v^2/R=400/50=8.0$ m/s$^2$ (pointing to the centre) and the tangential component is $3.0$. They are perpendicular, so $|\\vec a|=\\sqrt{8^2+3^2}\\approx8.54$ m/s$^2$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Show that if a particle's distance from the origin $|\\vec r(t)|$ is constant, then its velocity is perpendicular to its position, and explain what this says about circular motion.",
+				"rubric": "Full credit: |r|^2 = r.r = const, so differentiating with the product rule for dot products, 2 r.r' = 0, so r . v = 0; the velocity is perpendicular to the radius vector, i.e. tangent to the circle (sphere); this is why circular motion has velocity tangent to the circle and why the speed does not change the distance; also acceleration needs a centripetal component.",
+				"modelAnswer": "If $|\\vec r|$ is constant, so is $\\vec r\\cdot\\vec r$. Differentiating with the product rule for dot products gives $2\\,\\vec r\\cdot\\vec r'=0$, so $\\vec r\\cdot\\vec v=0$: the velocity is perpendicular to the position vector. For circular motion this says the velocity is tangent to the circle at every instant; any radial component of velocity would change the distance from the centre."
+			}
+		],
+		"m2-l005-several-variables-partials": [
+			{
+				"kind": "mc",
+				"prompt": "Let $f(x,y)=x^2+y^2$. Rewrite it using the variables $x$ and $s=x+y$, so $f=x^2+(s-x)^2$. At $(x,y)=(1,2)$, what are $\\left(\\dfrac{\\partial f}{\\partial x}\\right)_y$ and $\\left(\\dfrac{\\partial f}{\\partial x}\\right)_s$?",
+				"options": [
+					"$2$ and $-2$",
+					"$2$ and $2$",
+					"$2$ and $4$",
+					"$2$ and $0$"
+				],
+				"answer": 0,
+				"explanation": "Holding $y$ fixed, $\\partial f/\\partial x=2x=2$. Holding $s$ fixed, $\\partial f/\\partial x=2x-2(s-x)=2x-2y=-2$. The same symbol $\\partial f/\\partial x$ means different things depending on what else is held fixed, which is why thermodynamics writes $(\\partial U/\\partial T)_V$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What happens to $\\displaystyle\\lim_{(x,y)\\to(0,0)}\\frac{xy}{x^2+y^2}$?",
+				"options": [
+					"It does not exist: along $y=mx$ it equals $m/(1+m^2)$, which depends on the path",
+					"It equals $0$, since the numerator $xy$ vanishes at the origin",
+					"It equals $1/2$, the value found by approaching along $y=x$",
+					"It equals $1$, since $xy$ and $x^2+y^2$ are comparable near the origin"
+				],
+				"answer": 0,
+				"explanation": "A limit in several variables must be the same along every path. Along $y=0$ you get $0$ but along $y=x$ you get $1/2$, so no single value exists. Two different path values suffice to prove non-existence."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which function satisfies Laplace's equation $f_{xx}+f_{yy}=0$?",
+				"options": [
+					"$f=x^2+y^2$",
+					"$f=x^3+y^3$",
+					"$f=x^2-y^2$",
+					"$f=\\sin x\\sin y$"
+				],
+				"answer": 2,
+				"explanation": "$f=x^2-y^2$: $f_{xx}=2$, $f_{yy}=-2$, so the sum is $0$. For $x^2+y^2$ the sum is $4$, for $x^3+y^3$ it is $6x+6y$, and for $\\sin x\\sin y$ it is $-2\\sin x\\sin y$. Harmonic functions describe e.g. electrostatic potentials in empty space."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $f(x,y)=x^3y^2$, compute the mixed partial derivative $\\dfrac{\\partial^2f}{\\partial x\\,\\partial y}$ at $(x,y)=(1,2)$.",
+				"answer": 12.0,
+				"tolerance": 0.02,
+				"explanation": "$f_y=2x^3y$, then $f_{yx}=6x^2y=12$ at $(1,2)$. Clairaut's theorem says $f_{xy}=f_{yx}$ for smooth functions: $f_x=3x^2y^2$, $f_{xy}=6x^2y=12$ too."
+			},
+			{
+				"kind": "short",
+				"prompt": "For a gas with $P=P(V,T)$, explain what $(\\partial P/\\partial V)_T$ and $(\\partial P/\\partial T)_V$ each mean physically, and why the subscript matters.",
+				"rubric": "Full credit: (dP/dV)_T = how pressure changes when the volume changes at fixed temperature (slope of an isotherm; related to compressibility); (dP/dT)_V = how pressure rises on heating at fixed volume (e.g. a sealed rigid container); the subscript says which variables are held fixed; because other variables (like P or U) can be expressed in different variable sets, the same-looking derivative can mean different things.",
+				"modelAnswer": "$(\\partial P/\\partial V)_T$ is the slope of an isotherm: how the pressure changes as the gas is squeezed or expanded at constant temperature (it's tied to compressibility). $(\\partial P/\\partial T)_V$ is how fast the pressure rises when the gas is heated in a rigid container. The subscript names the variables held fixed, which is essential because a thermodynamic quantity can be written in terms of different pairs of variables, and the partial derivative with respect to one variable changes with the companion variable that is held constant."
+			}
+		],
+		"m2-l006-differentials-chain-rule": [
+			{
+				"kind": "numeric",
+				"prompt": "The surface $z=x^2y$ passes through $(1,2,2)$. Use its tangent plane there to estimate $z$ at $(x,y)=(1.1,\\,1.9)$.",
+				"answer": 2.3,
+				"tolerance": 0.02,
+				"explanation": "$f_x=2xy=4$ and $f_y=x^2=1$ at $(1,2)$, so $z\\approx2+4(x-1)+1(y-2)=2+0.4-0.1=2.3$. The exact value is $1.21\\times1.9=2.299$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The radius $r$ and height $h$ of a cylinder are measured with relative uncertainties of $1\\%$ and $2\\%$. What is the approximate maximum relative uncertainty in $V=\\pi r^2h$?",
+				"options": [
+					"$3\\%$",
+					"$5\\%$",
+					"$4\\%$",
+					"$2\\%$"
+				],
+				"answer": 2,
+				"explanation": "$dV/V=2\\,dr/r+dh/h=2(1\\%)+2\\%=4\\%$ from the total differential of $\\ln V$. The radius counts double because it is squared. ($3\\%$ forgets the square.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "If $z=x^2y$ with $x=t$ and $y=e^t$, what is $dz/dt$?",
+				"options": [
+					"$(2t+t^2)e^t$",
+					"$2te^t$",
+					"$2te^t+t^2$",
+					"$(2t+1)e^t$"
+				],
+				"answer": 0,
+				"explanation": "$\\frac{dz}{dt}=\\frac{\\partial z}{\\partial x}\\frac{dx}{dt}+\\frac{\\partial z}{\\partial y}\\frac{dy}{dt}=2xy\\cdot1+x^2\\cdot e^t=2te^t+t^2e^t$. Every intermediate variable contributes a branch of the dependency tree."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For an ideal gas, the product $\\left(\\dfrac{\\partial P}{\\partial V}\\right)_T\\left(\\dfrac{\\partial V}{\\partial T}\\right)_P\\left(\\dfrac{\\partial T}{\\partial P}\\right)_V$ equals:",
+				"options": [
+					"$+1$",
+					"$0$",
+					"$-R$",
+					"$-1$"
+				],
+				"answer": 3,
+				"explanation": "With $P=RT/V$ (one mole): $\\left(-\\frac{RT}{V^2}\\right)\\left(\\frac RP\\right)\\left(\\frac VR\\right)=-\\frac{RT}{PV}=-1$. The naive 'cancel the fractions' would give $+1$, but partial derivatives with different held-fixed variables are not ordinary fractions."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the Leibniz rule for $\\frac{d}{dt}\\int_a^bf(x,t)\\,dx$ (with fixed limits) in words, and use it to find $\\frac{d}{dt}\\int_0^1e^{tx}dx$ at $t=0$.",
+				"rubric": "Full credit: for fixed limits and a smooth enough integrand, the derivative of the integral equals the integral of the partial derivative with respect to t (differentiate under the integral sign); here d/dt int_0^1 e^{tx} dx = int_0^1 x e^{tx} dx, which at t=0 is int_0^1 x dx = 1/2. Can check against (e^t-1)/t whose derivative at 0 is 1/2.",
+				"modelAnswer": "With fixed limits, you may differentiate under the integral sign: $\\frac{d}{dt}\\int_a^bf(x,t)dx=\\int_a^b\\frac{\\partial f}{\\partial t}dx$ (for smooth enough $f$). Here $\\frac{d}{dt}\\int_0^1e^{tx}dx=\\int_0^1xe^{tx}dx$, which at $t=0$ is $\\int_0^1x\\,dx=\\tfrac12$. As a check, $\\int_0^1e^{tx}dx=\\frac{e^t-1}{t}=1+\\frac t2+\\cdots$, whose derivative at $0$ is $\\tfrac12$."
+			}
+		],
+		"m2-l007-gradient-directional": [
+			{
+				"kind": "numeric",
+				"prompt": "For $f(x,y,z)=x^2y+z$, find the maximum rate of increase of $f$ (the magnitude of the steepest ascent) at the point $(1,2,3)$.",
+				"answer": 4.243,
+				"tolerance": 0.02,
+				"explanation": "$\\nabla f=(2xy,\\ x^2,\\ 1)=(4,1,1)$ at $(1,2,3)$. The largest directional derivative is $|\\nabla f|=\\sqrt{16+1+1}=\\sqrt{18}\\approx4.243$, in the direction of $\\nabla f$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $f(x,y)=x^2y$ at $(1,2)$, find the directional derivative in the direction of the vector $(3,4)$.",
+				"answer": 3.2,
+				"tolerance": 0.02,
+				"explanation": "$\\nabla f=(2xy,x^2)=(4,1)$ and the unit vector is $\\hat u=(3,4)/5$. So $D_{\\hat u}f=\\nabla f\\cdot\\hat u=(12+4)/5=3.2$. Remember to normalise the direction vector."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the equation of the tangent plane to the sphere $x^2+y^2+z^2=14$ at $(1,2,3)$?",
+				"options": [
+					"$2x+4y+6z=14$",
+					"$x+2y+3z=14$",
+					"$x+y+z=6$",
+					"$x+2y+3z=0$"
+				],
+				"answer": 1,
+				"explanation": "The sphere is the level surface $F=14$ with $\\nabla F=2(x,y,z)=2(1,2,3)$, which is normal to the surface. The plane is $(1,2,3)\\cdot(x-1,y-2,z-3)=0$, i.e. $x+2y+3z=14$. (The first option has the right normal but the wrong right-hand side.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A repulsive Coulomb-type potential energy is $V(r)=A/r$ with $A>0$. What is the force $\\vec F=-\\nabla V$?",
+				"options": [
+					"$-\\dfrac{A}{r^2}\\hat r$, pointing toward the origin",
+					"$\\dfrac{A}{r}\\hat r$",
+					"$0$, since $V$ has no $x$, $y$, $z$ dependence",
+					"$\\dfrac{A}{r^2}\\hat r$, pointing away from the origin"
+				],
+				"answer": 3,
+				"explanation": "$\\nabla V=\\frac{dV}{dr}\\hat r=-\\frac{A}{r^2}\\hat r$, so $\\vec F=-\\nabla V=+\\frac{A}{r^2}\\hat r$. Force points in the direction of decreasing potential energy: moving away from the origin lowers $V$, so the particle is pushed outward."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the gradient points in the direction of steepest increase and is perpendicular to level curves, using $D_{\\hat u}f=\\nabla f\\cdot\\hat u$.",
+				"rubric": "Full credit: D_u f = |grad f| cos(angle) is largest (= |grad f|) when u points along grad f, so grad f is the steepest ascent direction and its magnitude is the maximum rate; along a level curve f doesn't change so D_u f = 0 for u tangent to the level curve, meaning grad f . u = 0: grad f is perpendicular to the level curve.",
+				"modelAnswer": "$D_{\\hat u}f=\\nabla f\\cdot\\hat u=|\\nabla f|\\cos\\alpha$, where $\\alpha$ is the angle between $\\hat u$ and $\\nabla f$. This is maximal ($=|\\nabla f|$) when $\\alpha=0$: the steepest ascent is along $\\nabla f$, at rate $|\\nabla f|$. Moving along a level curve doesn't change $f$, so $D_{\\hat u}f=0$ for tangent directions, i.e. $\\nabla f\\perp\\hat u$: the gradient is perpendicular to the level curve (on a contour map, it points straight uphill, across the contour lines)."
+			}
+		],
+		"m2-l008-optimization-lagrange": [
+			{
+				"kind": "mc",
+				"prompt": "The function $f(x,y)=x^3-3x+y^2$ has critical points at $(1,0)$ and $(-1,0)$. Classify them with the second-derivative test.",
+				"options": [
+					"$(1,0)$ is a saddle point; $(-1,0)$ is a local maximum",
+					"$(1,0)$ is a local minimum; $(-1,0)$ is a saddle point",
+					"Both are local minima",
+					"$(1,0)$ is a local minimum; $(-1,0)$ is a local maximum"
+				],
+				"answer": 1,
+				"explanation": "$f_{xx}=6x$, $f_{yy}=2$, $f_{xy}=0$, so $D=12x$. At $(1,0)$, $D=12>0$ and $f_{xx}>0$: minimum. At $(-1,0)$, $D=-12<0$: saddle (a max in $x$ but a min in $y$)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Maximise $f(x,y)=xy$ subject to the constraint $2x+y=12$ (use Lagrange multipliers). What is the maximum value of $xy$?",
+				"answer": 18.0,
+				"tolerance": 0.02,
+				"explanation": "$\\nabla f=(y,x)=\\lambda(2,1)$ gives $y=2\\lambda$, $x=\\lambda$; the constraint $2\\lambda+2\\lambda=12$ gives $\\lambda=3$, $x=3$, $y=6$ and $xy=18$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Maximising the entropy $S=-\\sum p_i\\ln p_i$ subject to $\\sum p_i=1$ and $\\sum p_iE_i=\\langle E\\rangle$ using Lagrange multipliers gives:",
+				"options": [
+					"$p_i\\propto e^{-\\beta E_i}$ (Boltzmann), with $\\beta$ the multiplier of the energy constraint",
+					"$p_i$ equal for all states whatever $\\langle E\\rangle$ is, since entropy is maximal when uniform",
+					"$p_i\\propto1/E_i$, since lower-energy states are weighted more heavily",
+					"$p_i\\propto E_ie^{-E_i}$ with no free parameter, since the energy constraint is fixed"
+				],
+				"answer": 0,
+				"explanation": "Setting $\\partial_{p_i}[S-\\alpha\\sum p_i-\\beta\\sum p_iE_i]=0$ gives $-\\ln p_i-1-\\alpha-\\beta E_i=0$, so $p_i\\propto e^{-\\beta E_i}$. The multiplier $\\beta$ turns out to be $1/k_BT$: temperature is the 'price' of the energy constraint."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Fit a line $y=mx+b$ by least squares to the data $(0,1),\\ (1,3),\\ (2,4),\\ (3,8)$. What is the slope $m$?",
+				"answer": 2.2,
+				"tolerance": 0.02,
+				"explanation": "Setting $\\partial/\\partial m$ and $\\partial/\\partial b$ of $\\sum(y_i-mx_i-b)^2$ to zero gives the normal equations; the solution is $m=\\frac{\\sum(x-\\bar x)(y-\\bar y)}{\\sum(x-\\bar x)^2}=\\frac{11}{5}=2.2$, and $b=\\bar y-m\\bar x=0.7$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain geometrically why the Lagrange condition $\\nabla f=\\lambda\\nabla g$ holds at a constrained extremum, what $\\lambda$ measures, and how the method fits into finding a global maximum on a closed region.",
+				"rubric": "Full credit: along the constraint curve g=c the extremum of f occurs where the level curve of f is tangent to the constraint curve; hence the normals (gradients) are parallel: grad f = lambda grad g; lambda = rate at which the optimal value of f changes when the constraint value c changes (sensitivity); for a closed region, check interior critical points (grad f=0) and the boundary (a constrained problem, use Lagrange multipliers or parametrisation) and compare all values.",
+				"modelAnswer": "Move along the constraint curve $g=c$. At a constrained extremum, $f$ stops changing along the curve, which means a level curve of $f$ is tangent to the constraint curve there, so their normals are parallel: $\\nabla f=\\lambda\\nabla g$. The multiplier $\\lambda$ is the sensitivity of the optimal value to the constraint, $\\lambda=dF^*/dc$. For a global maximum on a closed region, compare the values at interior critical points ($\\nabla f=0$) and at constrained extrema on the boundary (found with Lagrange multipliers); the largest value wins."
+			}
+		],
+		"m2-l009-double-integrals": [
+			{
+				"kind": "numeric",
+				"prompt": "Find the average value of $f(x,y)=x^2y$ over the rectangle $0\\le x\\le2,\\ 0\\le y\\le3$.",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "$\\iint f\\,dA=\\int_0^2x^2dx\\int_0^3y\\,dy=\\frac83\\cdot\\frac92=12$ (Fubini). The area is $6$, so the average is $12/6=2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\int_0^1\\int_x^1e^{y^2}\\,dy\\,dx$ by reversing the order of integration.",
+				"options": [
+					"$e-1$",
+					"$\\dfrac{1}{2}$",
+					"$\\dfrac{e-1}{2}$",
+					"$\\dfrac{e}{2}$"
+				],
+				"answer": 2,
+				"explanation": "The region is $0\\le x\\le y\\le1$. Integrating over $x$ first: $\\int_0^1\\int_0^ye^{y^2}dx\\,dy=\\int_0^1ye^{y^2}dy=\\frac{e-1}{2}$. In the original order $e^{y^2}$ has no elementary antiderivative."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\iint_{x^2+y^2\\le4}(x^2+y^2)\\,dA$ in polar coordinates.",
+				"options": [
+					"$\\dfrac{16\\pi}{3}$",
+					"$8\\pi$",
+					"$4\\pi$",
+					"$16\\pi$"
+				],
+				"answer": 1,
+				"explanation": "$\\int_0^{2\\pi}\\int_0^2r^2\\cdot r\\,dr\\,d\\theta=2\\pi\\cdot\\frac{2^4}{4}=8\\pi$. Forgetting the Jacobian factor $r$ in $dA=r\\,dr\\,d\\theta$ gives the wrong value $16\\pi/3$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is $\\displaystyle\\iint_{\\mathbb R^2}e^{-(x^2+y^2)}\\,dA$, and why does it give $\\int_{-\\infty}^\\infty e^{-x^2}dx$?",
+				"options": [
+					"$2\\pi$, which equals the 1D integral $\\int e^{-x^2}dx$ itself",
+					"$\\sqrt\\pi$, which equals the square of the 1D integral",
+					"$1$, because the integrand is a normalised probability density",
+					"$\\pi$, the square of $\\int e^{-x^2}dx$, so that integral is $\\sqrt\\pi$"
+				],
+				"answer": 3,
+				"explanation": "By Fubini the double integral factors into $\\left(\\int e^{-x^2}dx\\right)^2$. In polar coordinates it's $2\\pi\\int_0^\\infty re^{-r^2}dr=2\\pi\\cdot\\tfrac12=\\pi$. Hence the 1D integral is $\\sqrt\\pi$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the area element in polar coordinates is $r\\,dr\\,d\\theta$ rather than $dr\\,d\\theta$.",
+				"rubric": "Full credit: a small polar 'rectangle' with radial width dr and angular width d theta has one side dr and the other side an arc of length r d theta; so its area is r dr d theta; the factor r reflects that the same angular step covers more distance farther from the origin; it is the Jacobian of the change from (x,y) to (r,theta).",
+				"modelAnswer": "A small polar cell has radial side $dr$ and tangential side equal to an arc length $r\\,d\\theta$, so its area is $r\\,dr\\,d\\theta$. The factor $r$ appears because the same angle $d\\theta$ sweeps out a longer arc at larger radius: cells far from the origin are bigger. It is the Jacobian of the change of variables $(x,y)\\to(r,\\theta)$."
+			}
+		],
+		"m2-l010-triple-integrals-cyl-sph": [
+			{
+				"kind": "numeric",
+				"prompt": "The hydrogen 1s density is $|\\psi|^2=e^{-2r/a}/(\\pi a^3)$. Find the probability that the electron is within one Bohr radius $a$ of the nucleus, $\\int_0^a4\\pi r^2|\\psi|^2dr$.",
+				"answer": 0.3233,
+				"tolerance": 0.02,
+				"explanation": "With $x=r/a$: $\\int_0^14x^2e^{-2x}dx=1-5e^{-2}\\approx0.323$. About a third of the probability lies inside $r=a$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For the hydrogen 1s state, $|\\psi|^2$ is largest at the nucleus ($r=0$), yet the electron is most likely to be found at a distance $r=a$ from it. Why?",
+				"options": [
+					"The wavefunction is zero at the nucleus, so $|\\psi|^2$ itself actually peaks at $r=a$",
+					"The Bohr model is right: the electron orbits at exactly $r=a$, so $|\\psi|^2$ misleads",
+					"Shell probability is $4\\pi r^2|\\psi|^2dr$; shell volume grows as $r^2$ while $|\\psi|^2$ decays, so it peaks at $a$",
+					"$|\\psi|^2$ is not normalised, so its maximum at the nucleus is not meaningful"
+				],
+				"answer": 2,
+				"explanation": "Probability density per unit volume ($|\\psi|^2$) and per unit radius ($4\\pi r^2|\\psi|^2$) are different things. A shell at larger $r$ has more volume, which competes with the exponential decay and gives the peak of $r^2e^{-2r/a}$ at $r=a$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\iiint_{\\text{upper half-ball of radius }R}z\\,dV$.",
+				"options": [
+					"$\\dfrac{\\pi R^4}{4}$",
+					"$\\dfrac{\\pi R^4}{2}$",
+					"$\\dfrac{\\pi R^4}{8}$",
+					"$\\dfrac{2\\pi R^4}{3}$"
+				],
+				"answer": 0,
+				"explanation": "In spherical coordinates $z=\\rho\\cos\\phi$ and $dV=\\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta$: $\\int_0^{2\\pi}d\\theta\\int_0^{\\pi/2}\\cos\\phi\\sin\\phi\\,d\\phi\\int_0^R\\rho^3d\\rho=2\\pi\\cdot\\tfrac12\\cdot\\tfrac{R^4}{4}=\\tfrac{\\pi R^4}{4}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which function has an average over every sphere equal to its value at the sphere's centre (a harmonic function)?",
+				"options": [
+					"$f=x^2-y^2$",
+					"$f=x^2+y^2$",
+					"$f=x^2+y^2+z^2$",
+					"$f=e^{x}$"
+				],
+				"answer": 0,
+				"explanation": "Harmonic functions satisfy $\\nabla^2f=0$: $x^2-y^2$ gives $2-2=0$. For $x^2+y^2+z^2$ the Laplacian is $6$ and the sphere average exceeds the centre value (the average of $r^2$ on a sphere is positive). Similarly $\\nabla^2e^x=e^x\\ne0$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain where the factor $\\rho^2\\sin\\phi$ in the spherical volume element comes from, and what it implies about where the 'volume' of space is located.",
+				"rubric": "Full credit: a small spherical cell has edges: d rho radially, rho d phi along the polar direction, and rho sin(phi) d theta along the azimuthal direction (the circle of latitude has radius rho sin phi); product gives rho^2 sin(phi) d rho d phi d theta; most of space's volume is at large rho (grows as rho^2), and near the equator (sin phi largest) rather than near the poles.",
+				"modelAnswer": "A small cell has three edges: $d\\rho$ in the radial direction, $\\rho\\,d\\phi$ along a meridian, and $\\rho\\sin\\phi\\,d\\theta$ around a circle of latitude (whose radius is $\\rho\\sin\\phi$). Multiplying: $dV=\\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta$. The volume available grows like $\\rho^2$ with distance (so most of space is far from the origin), and for a given $\\rho$ is concentrated near the equator, where $\\sin\\phi$ is largest."
+			}
+		],
+		"m2-l011-mass-moments": [
+			{
+				"kind": "numeric",
+				"prompt": "A uniform rod of mass $2.0$ kg and length $1.5$ m rotates about an axis through one end, perpendicular to the rod. Find its moment of inertia in kg m$^2$. (Use the centre-of-mass value $\\frac1{12}ML^2$ and the parallel-axis theorem.)",
+				"answer": 1.5,
+				"tolerance": 0.02,
+				"unit": "kg m^2",
+				"explanation": "$I_{cm}=\\frac1{12}ML^2=0.375$ and $Md^2=2.0(0.75)^2=1.125$, so $I=1.5$ kg m$^2$, which equals $\\frac13ML^2$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "HCl has reduced mass $\\mu=1.627\\times10^{-27}$ kg and bond length $1.275\\times10^{-10}$ m. Compute the rotational constant $B=\\hbar^2/(2I)$ with $I=\\mu r^2$, expressed in cm$^{-1}$ (divide the energy by $hc$; $\\hbar=1.0546\\times10^{-34}$ J s, $hc=1.986\\times10^{-23}$ J cm).",
+				"answer": 10.58,
+				"tolerance": 0.02,
+				"unit": "cm^-1",
+				"explanation": "$I=\\mu r^2=2.645\\times10^{-47}$ kg m$^2$, $B=\\hbar^2/2I=2.10\\times10^{-22}$ J, which divided by $hc$ gives $\\approx10.6$ cm$^{-1}$, the observed value for HCl."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A uniform thin spherical shell of mass $M$ attracts a point mass $m$ gravitationally. What is the force on $m$ when it is INSIDE the shell?",
+				"options": [
+					"$GMm/R^2$, as if the mass were at the centre",
+					"It points toward the nearest part of the shell",
+					"Zero, at every position inside",
+					"It increases linearly with distance from the centre"
+				],
+				"answer": 2,
+				"explanation": "Newton's shell theorem: the net force inside a uniform shell vanishes (the nearer, smaller patch pulls with the same strength as the farther, larger patch, and the contributions cancel). Outside, the shell acts as if all its mass were at the centre."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A square plate occupying $0\\le x\\le1$, $0\\le y\\le1$ has density $\\rho=x$ (denser toward the right edge). Where is its centre of mass?",
+				"options": [
+					"$\\left(\\dfrac12,\\ \\dfrac12\\right)$",
+					"$\\left(\\dfrac23,\\ \\dfrac12\\right)$",
+					"$\\left(\\dfrac13,\\ \\dfrac12\\right)$",
+					"$\\left(\\dfrac23,\\ \\dfrac23\\right)$"
+				],
+				"answer": 1,
+				"explanation": "$M=\\iint x\\,dA=\\tfrac12$ and $\\iint x\\cdot x\\,dA=\\tfrac13$, so $x_{cm}=\\frac{1/3}{1/2}=\\frac23$. The density doesn't depend on $y$, so $y_{cm}=\\tfrac12$ by symmetry."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a heavier or larger molecule has a smaller rotational constant $B$, and what this implies for the spacing of lines in its rotational spectrum.",
+				"rubric": "Full credit: moment of inertia I = sum m r^2 (mass weighted by squared distance from axis) increases with mass and bond length; B = hbar^2/2I is inversely proportional to I so B decreases; rotational energy levels E = B J(J+1) are therefore closer together (line spacing 2B in absorption) for large heavy molecules; you can read bond lengths from B.",
+				"modelAnswer": "The moment of inertia $I=\\sum m_ir_{\\perp,i}^2$ weights each mass by the square of its distance from the axis, so heavier atoms or longer bonds make $I$ larger. Since $B=\\hbar^2/2I$, a larger $I$ gives a smaller $B$. Rotational levels $E_J=BJ(J+1)$ are then more closely spaced, and the lines in the rotational spectrum (spaced by about $2B$) crowd together. Measuring the spacing therefore gives $I$ and hence the bond length."
+			}
+		],
+		"m2-l012-change-of-variables": [
+			{
+				"kind": "mc",
+				"prompt": "For the transformation $x=\\dfrac{u+v}{2},\\ y=\\dfrac{u-v}{2}$, what is $|J|=\\left|\\dfrac{\\partial(x,y)}{\\partial(u,v)}\\right|$?",
+				"options": [
+					"$2$",
+					"$1$",
+					"$\\dfrac14$",
+					"$\\dfrac12$"
+				],
+				"answer": 3,
+				"explanation": "$\\begin{vmatrix}1/2&1/2\\\\1/2&-1/2\\end{vmatrix}=-\\tfrac14-\\tfrac14=-\\tfrac12$, so $|J|=\\tfrac12$: the $uv$-plane is mapped to the $xy$-plane with areas shrinking by a factor of $2$. (The inverse map $u=x+y$, $v=x-y$ has Jacobian magnitude $2$.)"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Let $R$ be the square region $0\\le x+y\\le2,\\ 0\\le x-y\\le2$. Evaluate $\\displaystyle\\iint_R(x^2-y^2)\\,dA$ using $u=x+y$, $v=x-y$.",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "Here $x^2-y^2=(x+y)(x-y)=uv$ and $dA=\\tfrac12\\,du\\,dv$ with $R$ becoming the square $[0,2]^2$: $\\tfrac12\\int_0^2u\\,du\\int_0^2v\\,dv=\\tfrac12\\cdot2\\cdot2=2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which set gives the scale factors $(h_\\rho,h_\\phi,h_\\theta)$ of spherical coordinates, with polar angle $\\phi$ and azimuth $\\theta$, so that $dV=h_\\rho h_\\phi h_\\theta\\,d\\rho\\,d\\phi\\,d\\theta$?",
+				"options": [
+					"$(1,\\ \\rho,\\ \\rho)$",
+					"$(1,\\ \\rho\\sin\\phi,\\ \\rho)$",
+					"$(\\rho,\\ \\rho,\\ \\rho)$",
+					"$(1,\\ \\rho,\\ \\rho\\sin\\phi)$"
+				],
+				"answer": 3,
+				"explanation": "A step $d\\rho$ moves a distance $d\\rho$; a step $d\\phi$ moves $\\rho\\,d\\phi$ along a meridian; a step $d\\theta$ moves $\\rho\\sin\\phi\\,d\\theta$ around a parallel of latitude. The product is the familiar $\\rho^2\\sin\\phi$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does it mean geometrically if the Jacobian of a coordinate transformation vanishes at some point (as for polar coordinates at $r=0$)?",
+				"options": [
+					"The map is perfectly area-preserving there, with no distortion of area",
+					"The map collapses area to zero there: not locally invertible",
+					"The orientation is reversed there, as for a reflection of the plane",
+					"The integral over that single point diverges, so the point must be excluded"
+				],
+				"answer": 1,
+				"explanation": "$|J|$ is the local area (or volume) scaling factor. At $r=0$ the whole circle $\\theta\\in[0,2\\pi)$ maps to one point, so a small $dr\\,d\\theta$ rectangle has zero area. A sign change in $J$ (not $|J|=0$) would signal reversed orientation."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the Jacobian appears when changing variables in an integral, and give a physical example of where such a factor matters.",
+				"rubric": "Full credit: a small rectangle du dv in the new coordinates maps to a (nearly) parallelogram in x,y with area |J| du dv, where J is the determinant of the matrix of partial derivatives (the tangent vectors x_u,y_u and x_v,y_v span the parallelogram); so the area element must be multiplied by |J|; example: polar r dr dtheta, spherical rho^2 sin(phi); or density of states: counting states in k-space d^3k = 4 pi k^2 dk requires converting to energy, which includes dk/dE factor.",
+				"modelAnswer": "Under a map $(u,v)\\mapsto(x,y)$, a small rectangle $du\\,dv$ becomes a nearly-parallelogram spanned by $(x_u,y_u)du$ and $(x_v,y_v)dv$, whose area is $|x_uy_v-x_vy_u|\\,du\\,dv=|J|\\,du\\,dv$. So the area element must carry the factor $|J|$ for the integral to count the same area. Examples: $r\\,dr\\,d\\theta$ in polar coordinates, or the density of states, where counting wavevectors with $4\\pi k^2dk$ and converting to energy requires the factor $dk/dE$."
+			}
+		],
+		"m2-l013-vector-fields-line-integrals": [
+			{
+				"kind": "numeric",
+				"prompt": "Compute the line integral $\\oint\\vec F\\cdot d\\vec r$ of $\\vec F=(-y,\\ x)$ once counterclockwise around the circle of radius $2$ centred at the origin.",
+				"answer": 25.13,
+				"tolerance": 0.02,
+				"explanation": "Parametrise $\\vec r=(2\\cos t,2\\sin t)$, $\\vec r'=(-2\\sin t,2\\cos t)$, and $\\vec F=(-2\\sin t,2\\cos t)$. Then $\\vec F\\cdot\\vec r'=4$, so the integral is $\\int_0^{2\\pi}4\\,dt=8\\pi\\approx25.13$. Nonzero circulation: this field swirls."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute $\\int_C\\vec F\\cdot d\\vec r$ for $\\vec F=(y,\\ x)$ along the straight segment from $(0,0)$ to $(1,2)$.",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "With $\\vec r=(t,2t)$, $d\\vec r=(1,2)dt$ and $\\vec F=(2t,t)$: $\\vec F\\cdot d\\vec r=(2t+2t)dt=4t\\,dt$, and $\\int_0^14t\\,dt=2$. (This field is $\\nabla(xy)$, and $xy$ goes from $0$ to $2$.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "If the path $C$ is traversed in the opposite direction, what happens to $\\int_C\\vec F\\cdot d\\vec r$ and to the scalar line integral $\\int_Cf\\,ds$?",
+				"options": [
+					"Both change sign, since both integrals are taken along the same curve",
+					"Neither changes, since the same points of the curve are visited",
+					"$\\int\\vec F\\cdot d\\vec r$ changes sign; $\\int f\\,ds$ does not",
+					"$\\int\\vec F\\cdot d\\vec r$ is unchanged, while $\\int f\\,ds$ changes sign"
+				],
+				"answer": 2,
+				"explanation": "The vector line integral uses $d\\vec r$, which reverses direction with the path, so work done reverses sign. The arc length $ds$ is always positive, so a scalar line integral (such as the mass of a wire) doesn't depend on direction."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which description fits the field $\\vec F=(-y,\\ x)$?",
+				"options": [
+					"It circulates counterclockwise about the origin, with no net outflow",
+					"It points radially outward from the origin, like a source of flow",
+					"It is uniform: the same vector at every point of the plane",
+					"It points radially inward toward the origin, like a sink of flow"
+				],
+				"answer": 0,
+				"explanation": "At $(1,0)$ the field is $(0,1)$, at $(0,1)$ it is $(-1,0)$: it swirls counterclockwise, tangent to circles about the origin. The radial field $(x,y)$ would be the source-like one."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the work done by a force along a curved path is $\\int\\vec F\\cdot d\\vec r$, and why only the component of the force along the path matters.",
+				"rubric": "Full credit: break the path into tiny straight steps dr over which F is nearly constant; work on each step is F.dr = F_parallel |dr| (force component along the step times distance), the perpendicular component does no work (dot product zero); summing steps gives the line integral; for a closed path the integral is the net work around the loop, which can be nonzero for non-conservative forces.",
+				"modelAnswer": "Split the path into tiny straight steps $d\\vec r$ on which $\\vec F$ is nearly constant. The work on a step is $\\vec F\\cdot d\\vec r=F_\\parallel|d\\vec r|$: the dot product keeps only the component along the motion, because a force perpendicular to the motion does no work. Summing over all steps gives $\\int_C\\vec F\\cdot d\\vec r$. Around a closed loop this can be nonzero for a non-conservative force, so work depends on the path."
+			}
+		],
+		"m2-l014-conservative-fields": [
+			{
+				"kind": "mc",
+				"prompt": "Which of these fields is conservative?",
+				"options": [
+					"$\\vec F=(y,\\ -x)$",
+					"$\\vec F=(-y,\\ x)$",
+					"$\\vec F=(2xy,\\ x^2+3)$",
+					"$\\vec F=(y^2,\\ x)$"
+				],
+				"answer": 2,
+				"explanation": "Test $\\partial P/\\partial y=\\partial Q/\\partial x$. For $(2xy,x^2+3)$: $2x=2x$ ✓ (potential $x^2y+3y$). For $(y,-x)$: $1\\neq-1$. For $(-y,x)$: $-1\\neq1$. For $(y^2,x)$: $2y\\neq1$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the conservative field $\\vec F=(2xy,\\ x^2+3)$, find the work done going from $(0,0)$ to $(1,2)$ along ANY path.",
+				"answer": 8.0,
+				"tolerance": 0.02,
+				"explanation": "A potential is $f=x^2y+3y$ (check $f_x=2xy$, $f_y=x^2+3$). By the fundamental theorem for line integrals, $W=f(1,2)-f(0,0)=2+6=8$, independent of the path."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement about thermodynamic differentials is correct?",
+				"options": [
+					"$dU$ and $dS$ are exact; $\\delta q$ and $\\delta w$ are not (path dependent)",
+					"All of $dU$, $dS$, $\\delta q$ and $\\delta w$ are exact differentials of state functions",
+					"$\\delta q$ and $\\delta w$ are exact, but $dU$ is not, since $U$ depends on path",
+					"Only $dU$ is exact; $dS$ is not, since entropy is defined through heat"
+				],
+				"answer": 0,
+				"explanation": "A differential is exact if it is the total differential of a function of state; its integral then depends only on the endpoints. Heat and work depend on path. Yet $\\delta q_{rev}/T=dS$ is exact: dividing by $T$ turns an inexact differential into an exact one."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Starting from $dG=-S\\,dT+V\\,dP$ and the equality of mixed second derivatives, which Maxwell relation follows?",
+				"options": [
+					"$\\left(\\dfrac{\\partial S}{\\partial P}\\right)_T=+\\left(\\dfrac{\\partial V}{\\partial T}\\right)_P$",
+					"$\\left(\\dfrac{\\partial S}{\\partial T}\\right)_P=-\\left(\\dfrac{\\partial V}{\\partial P}\\right)_T$",
+					"$\\left(\\dfrac{\\partial S}{\\partial V}\\right)_T=-\\left(\\dfrac{\\partial P}{\\partial T}\\right)_V$",
+					"$\\left(\\dfrac{\\partial S}{\\partial P}\\right)_T=-\\left(\\dfrac{\\partial V}{\\partial T}\\right)_P$"
+				],
+				"answer": 3,
+				"explanation": "$S=-(\\partial G/\\partial T)_P$ and $V=(\\partial G/\\partial P)_T$. Then $\\partial_P S|_T=-\\partial_P\\partial_TG$ and $\\partial_TV|_P=\\partial_T\\partial_PG$; since mixed partials commute, $\\left(\\frac{\\partial S}{\\partial P}\\right)_T=-\\left(\\frac{\\partial V}{\\partial T}\\right)_P$. It lets you get an entropy change from measurable $P$-$V$-$T$ data."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why path independence, zero circulation around every closed loop, and $\\vec F=\\nabla f$ are equivalent statements, and why this connects to state functions in thermodynamics.",
+				"rubric": "Full credit: if F = grad f then int F.dr = f(B)-f(A) depends only on the endpoints (path independent); path independence implies closed-loop integral = 0 (go out along one path and back along another, which cancel); conversely define f(P) = integral from fixed point along any path; so all equivalent. In thermodynamics a state function like U depends only on state, so its change around a closed cycle is zero, while heat and work around a cycle need not be zero.",
+				"modelAnswer": "If $\\vec F=\\nabla f$, then along any path $\\int\\vec F\\cdot d\\vec r=f(B)-f(A)$, which depends only on the endpoints, so it's path independent. A closed loop is two paths from $A$ to $A$ (go out one way and return the other) so path independence forces zero circulation; conversely, zero circulation lets you define $f(P)$ as the integral from a base point along any path. A state function such as $U$ is exactly such a potential: $\\oint dU=0$ around any cycle, while $\\oint\\delta q$ and $\\oint\\delta w$ are generally non-zero (the net work of an engine cycle)."
+			}
+		],
+		"m2-l015-greens-theorem": [
+			{
+				"kind": "numeric",
+				"prompt": "Use $A=\\tfrac12\\oint(x\\,dy-y\\,dx)$ to find the area of the ellipse $x=3\\cos t,\\ y=2\\sin t$, $0\\le t\\le2\\pi$.",
+				"answer": 18.85,
+				"tolerance": 0.02,
+				"explanation": "$x\\,dy-y\\,dx=(3\\cos t)(2\\cos t)dt-(2\\sin t)(-3\\sin t)dt=6\\,dt$, so $A=\\tfrac12\\int_0^{2\\pi}6\\,dt=6\\pi=\\pi ab\\approx18.85$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Use Green's theorem to evaluate $\\oint\\vec F\\cdot d\\vec r$ for $\\vec F=(0,\\ x^2)$ counterclockwise around the unit square $[0,1]\\times[0,1]$.",
+				"options": [
+					"$0$",
+					"$2$",
+					"$1$",
+					"$\\dfrac12$"
+				],
+				"answer": 2,
+				"explanation": "$\\oint P\\,dx+Q\\,dy=\\iint(Q_x-P_y)\\,dA=\\int_0^1\\int_0^12x\\,dx\\,dy=1$. Directly: only the right edge ($x=1$, going up) contributes, $\\int_0^1 1\\,dy=1$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The field $\\vec F=\\dfrac{(-y,\\ x)}{x^2+y^2}$ has zero curl everywhere except at the origin. What is its circulation counterclockwise around the circle of radius $2$ centred at the origin?",
+				"options": [
+					"$2\\pi$",
+					"$0$, because the curl is zero",
+					"$4\\pi$",
+					"$\\pi$"
+				],
+				"answer": 0,
+				"explanation": "On the circle, $\\vec F\\cdot d\\vec r=d\\theta$ (the field is $\\hat\\theta/r$ and $|d\\vec r|=r\\,d\\theta$), so the circulation is $\\int_0^{2\\pi}d\\theta=2\\pi$ for any radius. Green's theorem fails because the region inside the loop contains the origin, where the field is singular; the domain isn't simply connected."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Use the flux form of Green's theorem to find the outward flux of $\\vec F=(x,y)$ through the circle of radius $2$.",
+				"answer": 25.13,
+				"tolerance": 0.02,
+				"explanation": "$\\nabla\\cdot\\vec F=2$, so the flux is $\\iint2\\,dA=2\\times\\pi(2)^2=8\\pi\\approx25.13$. Directly: $\\vec F\\cdot\\hat n=r=2$ on the circle and the circumference is $4\\pi$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what the 2D curl $\\partial_xQ-\\partial_yP$ and the 2D divergence $\\partial_xP+\\partial_yQ$ measure locally, using Green's theorem.",
+				"rubric": "Full credit: Green's theorem says circulation around a loop = integral of curl over the enclosed region, so curl = circulation per unit area as the loop shrinks (local rotation); flux form says outward flux = integral of div over the region, so div = outward flux per unit area (local source strength/expansion); positive div = source, negative = sink; nonzero curl = local rotation/swirl.",
+				"modelAnswer": "Green's theorem says the circulation around a loop equals the integral of $(Q_x-P_y)$ over the enclosed area. Shrinking the loop, the curl is the circulation per unit area: the local rotation of the field. The flux form says the outward flux through the loop equals $\\iint(P_x+Q_y)\\,dA$, so the divergence is the outward flux per unit area: positive at a source, negative at a sink. The theorems relate what happens on a boundary to the sum of local sources and swirls inside."
+			}
+		],
+		"m2-l016-divergence-curl": [
+			{
+				"kind": "numeric",
+				"prompt": "Compute $\\nabla\\cdot\\vec F$ at the point $(1,2,3)$ for $\\vec F=(x^2y,\\ yz,\\ z^2x)$.",
+				"answer": 13.0,
+				"tolerance": 0.02,
+				"explanation": "$\\nabla\\cdot\\vec F=\\partial_x(x^2y)+\\partial_y(yz)+\\partial_z(z^2x)=2xy+z+2zx=4+3+6=13$. A positive divergence means the field is locally spreading out (a net source)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the curl of the field $\\vec F=(-y,\\ x,\\ 0)$?",
+				"options": [
+					"$(0,\\ 0,\\ -2)$",
+					"$(0,\\ 0,\\ 0)$",
+					"$(0,\\ 0,\\ 1)$",
+					"$(0,\\ 0,\\ 2)$"
+				],
+				"answer": 3,
+				"explanation": "$(\\nabla\\times\\vec F)_z=\\partial_xF_y-\\partial_yF_x=1-(-1)=2$. It points along $+z$, by the right-hand rule for a counterclockwise swirl, with magnitude twice the local angular velocity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $r\\neq0$, what is $\\nabla^2\\!\\left(\\dfrac1r\\right)$ in three dimensions?",
+				"options": [
+					"$\\dfrac{2}{r^3}$, from the second radial derivative alone",
+					"$0$, apart from a delta function at the origin",
+					"$-\\dfrac{2}{r^3}$, since $1/r$ is decreasing",
+					"$\\dfrac{1}{r^2}$, the magnitude of the field $-\\nabla(1/r)$"
+				],
+				"answer": 1,
+				"explanation": "For a radial function, $\\nabla^2f=f''+\\frac2rf'$. With $f=1/r$: $\\frac2{r^3}-\\frac2{r^3}=0$. This is why the Coulomb potential satisfies Laplace's equation away from the charge."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A student is told that $\\nabla\\times\\vec F\\neq0$ at some point. What can be concluded?",
+				"options": [
+					"$\\vec F$ must also have nonzero divergence there, since curl and divergence go together",
+					"$\\vec F$ is the gradient of a potential whose second derivatives do not commute",
+					"$\\vec F$ must have a source at that point, as curl measures outflow",
+					"$\\vec F$ is not the gradient of any scalar function, so it is not conservative"
+				],
+				"answer": 3,
+				"explanation": "Because $\\nabla\\times(\\nabla f)=0$ for any twice-differentiable $f$, a field with nonzero curl is not a gradient, so it has no potential and does path-dependent work. Curl and divergence are independent: a field can have either, both or neither."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically what the divergence and the curl of a vector field describe, and how the continuity equation $\\partial_t\\rho+\\nabla\\cdot\\vec J=0$ expresses conservation.",
+				"rubric": "Full credit: divergence = local net outflow per unit volume (source/sink strength, expansion); curl = local rotation or circulation per unit area (axis along rotation); continuity: if the current J carries a net outflow from a tiny region (div J>0) the density there must decrease at that rate, so the local rate of change of rho equals minus the divergence of J: stuff is neither created nor destroyed.",
+				"modelAnswer": "The divergence at a point is the net outflow of the field per unit volume, a measure of how much the field is spreading from or converging on that point. The curl measures the local rotation, with its direction along the rotation axis. The continuity equation says that if the current has a positive divergence at a point (more flowing out than in), the density there must decrease at exactly that rate: $\\partial_t\\rho=-\\nabla\\cdot\\vec J$. Charge or mass can only change in a region by flowing across its boundary."
+			}
+		],
+		"m2-l017-surface-integrals-flux": [
+			{
+				"kind": "numeric",
+				"prompt": "Compute the flux of $\\vec E=\\hat r/r^2$ outward through a sphere of radius $5$ centred on the origin.",
+				"answer": 12.57,
+				"tolerance": 0.02,
+				"explanation": "On the sphere $\\vec E\\cdot\\hat n=1/25$ and the area is $4\\pi(25)$, so $\\Phi=4\\pi\\approx12.57$, independent of the radius."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A cylinder $x=2\\cos u,\\ y=2\\sin u,\\ z=v$ with $0\\le u\\le2\\pi$, $0\\le v\\le5$ has $|\\vec r_u\\times\\vec r_v|=2$. Use it to find the lateral surface area.",
+				"answer": 62.83,
+				"tolerance": 0.02,
+				"explanation": "$\\vec r_u=(-2\\sin u,2\\cos u,0)$ and $\\vec r_v=(0,0,1)$, so $|\\vec r_u\\times\\vec r_v|=2$. The area is $\\int_0^5\\int_0^{2\\pi}2\\,du\\,dv=20\\pi\\approx62.83$, which equals $2\\pi rh$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A uniform field $\\vec F=(0,0,1)$ passes through the closed unit sphere. What is the net outward flux?",
+				"options": [
+					"$4\\pi$, the area of the sphere times the unit field strength",
+					"$0$: what enters on one side leaves on the other",
+					"$\\dfrac{4\\pi}{3}$, the volume of the ball times the field",
+					"$\\pi$, the area of the equatorial disk where the field crosses"
+				],
+				"answer": 1,
+				"explanation": "Over the northern hemisphere $\\vec F\\cdot\\hat n>0$ (field leaves), over the southern it is negative (field enters), and they cancel. This agrees with the divergence theorem: $\\nabla\\cdot\\vec F=0$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the outward flux of $\\vec F=(x,y,z)$ through a sphere of radius $R$, and what happens if the normal is chosen pointing inward?",
+				"options": [
+					"$4\\pi R^3$ outward; the sign flips for the inward normal",
+					"$4\\pi R^3$ either way, since flux is just area times field strength",
+					"$4\\pi R^2$ outward and $-4\\pi R^2$ inward, as the field has magnitude $1$",
+					"$0$ either way, since the field is symmetric about the origin"
+				],
+				"answer": 0,
+				"explanation": "On the sphere $\\vec F=R\\hat n$, so $\\vec F\\cdot\\hat n=R$ and the flux is $R\\times4\\pi R^2=4\\pi R^3$. Flux depends on orientation: reversing the normal flips the sign. For closed surfaces, use the outward normal by convention."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the flux of the inverse-square field $\\hat r/r^2$ through a sphere around the source doesn't depend on the radius, and why this makes Gauss's law work.",
+				"rubric": "Full credit: the field magnitude falls as 1/r^2 while the area of a sphere grows as r^2, so field times area is constant (4 pi); same number of field lines cross every sphere; this means flux depends only on the enclosed source (charge), giving Gauss's law Q_enc/eps0; applies to any closed surface around the source; only works for exactly inverse-square.",
+				"modelAnswer": "The field strength falls off as $1/r^2$, while the area of the sphere grows as $r^2$, so the product (flux) is a constant, $4\\pi$. Equivalently, the same field lines that cross a small sphere also cross a large one: none are created or destroyed in between. So the flux depends only on how much source is enclosed (the charge), which is Gauss's law. It relies on the field being exactly inverse-square."
+			}
+		],
+		"m2-l018-stokes": [
+			{
+				"kind": "numeric",
+				"prompt": "Let $\\vec F=(y,\\ z,\\ x)$ and let $C$ be the triangle with vertices $(1,0,0)\\to(0,1,0)\\to(0,0,1)\\to(1,0,0)$. Use Stokes' theorem on the flat triangle to find $\\oint_C\\vec F\\cdot d\\vec r$.",
+				"answer": -1.5,
+				"tolerance": 0.02,
+				"explanation": "$\\nabla\\times\\vec F=(-1,-1,-1)$. This orientation corresponds to the outward normal $(1,1,1)/\\sqrt3$; the triangle has area $\\sqrt3/2$. So the circulation is $(-1,-1,-1)\\cdot\\frac{(1,1,1)}{\\sqrt3}\\cdot\\frac{\\sqrt3}{2}=-\\frac32$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is $\\displaystyle\\oiint_{\\text{sphere}}(\\nabla\\times\\vec F)\\cdot d\\vec S$ for any smooth vector field $\\vec F$ over a closed sphere?",
+				"options": [
+					"$4\\pi$",
+					"$\\oint\\vec F\\cdot d\\vec r$ around the equator",
+					"$0$",
+					"It depends on $\\vec F$"
+				],
+				"answer": 2,
+				"explanation": "A closed surface has no boundary curve, so Stokes' theorem gives zero. Equivalently, $\\nabla\\cdot(\\nabla\\times\\vec F)=0$ and the divergence theorem gives zero net flux. The curl field has no sources."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A loop in the $xy$-plane is traversed counterclockwise as seen from above (from $+z$). Which way does the surface normal point in Stokes' theorem?",
+				"options": [
+					"Down, along $-z$, since the loop is seen from above",
+					"Up, along $+z$ (right-hand rule: fingers along the loop, thumb along $\\hat n$)",
+					"Radially outward from the centre of the loop, perpendicular to the curve",
+					"Tangent to the loop, along the direction of traversal"
+				],
+				"answer": 1,
+				"explanation": "Stokes' theorem pairs the orientation of the boundary with that of the surface by the right-hand rule. Reversing the traversal direction would flip $\\hat n$ and the sign of both sides."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A flat loop of area $0.010$ m$^2$ sits perpendicular to a uniform magnetic field that increases at $0.50$ T/s. Using $\\oint\\vec E\\cdot d\\vec l=-d\\Phi_B/dt$, find the magnitude of the induced EMF in millivolts.",
+				"answer": 5.0,
+				"tolerance": 0.02,
+				"unit": "mV",
+				"explanation": "$|\\mathcal E|=A\\,dB/dt=0.010\\times0.50=5.0\\times10^{-3}$ V $=5.0$ mV. Faraday's law is Stokes' theorem applied to $\\nabla\\times\\vec E=-\\partial\\vec B/\\partial t$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the surface integral of a curl depends only on the boundary curve and not on the particular surface spanning it. How is Green's theorem related to Stokes' theorem?",
+				"rubric": "Full credit: Stokes: integral of curl F over S = closed line integral around the boundary, which depends only on the curve; so any two surfaces with the same boundary give the same flux of the curl (consistent with div curl = 0: their difference is a closed surface with zero net flux); Green's theorem is Stokes in the xy-plane where the surface is flat with normal k and (curl F).k = Q_x - P_y.",
+				"modelAnswer": "By Stokes' theorem $\\iint_S(\\nabla\\times\\vec F)\\cdot d\\vec S=\\oint_{\\partial S}\\vec F\\cdot d\\vec r$, and the right side involves only the boundary curve. So two surfaces with the same boundary give the same value. Together they form a closed surface, whose total flux of $\\nabla\\times\\vec F$ is zero because $\\nabla\\cdot(\\nabla\\times\\vec F)=0$. Green's theorem is the special case where the surface is a flat region in the $xy$-plane: $\\hat n=\\hat z$ and $(\\nabla\\times\\vec F)\\cdot\\hat z=Q_x-P_y$."
+			}
+		],
+		"m2-l019-divergence-theorem": [
+			{
+				"kind": "numeric",
+				"prompt": "Use the divergence theorem to find the outward flux of $\\vec F=(x,y,z)$ through the sphere of radius $2$ centred at the origin.",
+				"answer": 100.5,
+				"tolerance": 0.02,
+				"explanation": "$\\nabla\\cdot\\vec F=3$, so $\\Phi=\\iiint3\\,dV=3\\cdot\\frac43\\pi(2)^3=32\\pi\\approx100.5$. Computing $\\oiint\\vec F\\cdot d\\vec S$ directly gives $2\\times4\\pi(4)=32\\pi$ too."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $\\vec E=\\hat r/r^2$ we have $\\nabla\\cdot\\vec E=0$ for $r\\neq0$, yet the flux through a sphere around the origin is $4\\pi$, not $0$. Why doesn't the divergence theorem give $0=4\\pi$?",
+				"options": [
+					"The theorem only applies to spheres of radius less than $1$, and this sphere is too large",
+					"The flux through a sphere is only approximately $4\\pi$, and the error hides the zero",
+					"$\\nabla\\cdot\\vec E$ is infinite at every point inside, so the integral is undefined",
+					"The field is singular at the origin inside the surface, so the smoothness hypothesis fails"
+				],
+				"answer": 3,
+				"explanation": "The divergence theorem needs a field that is continuously differentiable throughout the volume. Excise a tiny ball around the origin: in the remaining shell $\\nabla\\cdot\\vec E=0$, so the flux out of the big sphere equals the flux out of the tiny one, $4\\pi$. The whole $4\\pi$ is the point source at the origin, which the delta function $4\\pi\\delta^3(\\vec r)$ records."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which equation is the integral form of the continuity equation, for a fixed closed surface $S$ enclosing volume $V$?",
+				"options": [
+					"$\\dfrac{d}{dt}\\displaystyle\\int_V\\rho\\,dV=+\\oint_S\\vec J\\cdot d\\vec S$",
+					"$\\dfrac{d}{dt}\\displaystyle\\int_V\\rho\\,dV=-\\displaystyle\\int_V\\rho\\,dV$",
+					"$\\dfrac{d}{dt}\\displaystyle\\int_V\\rho\\,dV=-\\oint_S\\vec J\\cdot d\\vec S$",
+					"$\\displaystyle\\int_V\\rho\\,dV=\\oint_S\\vec J\\cdot d\\vec S$"
+				],
+				"answer": 2,
+				"explanation": "Integrate $\\partial_t\\rho+\\nabla\\cdot\\vec J=0$ over $V$ and apply the divergence theorem: the rate of change of the content equals minus the net outward flux through the boundary. A net outflow depletes the interior."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The total outward flux of $\\vec E$ through a closed surface is $1130$ N m$^2$/C. How much charge is enclosed? Give nC ($\\epsilon_0=8.854\\times10^{-12}$ C$^2$ N$^{-1}$ m$^{-2}$).",
+				"answer": 10.01,
+				"tolerance": 0.02,
+				"unit": "nC",
+				"explanation": "Gauss's law: $\\oint\\vec E\\cdot d\\vec A=Q_{enc}/\\epsilon_0$, so $Q=\\epsilon_0\\Phi=(8.854\\times10^{-12})(1130)\\approx1.00\\times10^{-8}$ C $=10.0$ nC."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the diffusion equation $\\partial c/\\partial t=D\\nabla^2c$ from conservation of matter and Fick's law $\\vec J=-D\\nabla c$, explaining the role of the divergence theorem.",
+				"rubric": "Full credit: conservation for any fixed volume: d/dt int c dV = - closed integral of J.dA; the divergence theorem turns the surface integral into a volume integral of div J, so int (dc/dt + div J) dV = 0 for every volume, hence dc/dt + div J = 0 locally; Fick's law J = -D grad c gives dc/dt = D div grad c = D laplacian c. Physically matter flows from high to low concentration.",
+				"modelAnswer": "For any fixed volume $V$, conservation says $\\frac{d}{dt}\\int_Vc\\,dV=-\\oint_S\\vec J\\cdot d\\vec S$. The divergence theorem turns the surface integral into $\\int_V\\nabla\\cdot\\vec J\\,dV$, so $\\int_V(\\partial_tc+\\nabla\\cdot\\vec J)\\,dV=0$ for every volume, which forces $\\partial_tc+\\nabla\\cdot\\vec J=0$ at every point. Inserting Fick's law ($\\vec J=-D\\nabla c$, flow down the concentration gradient) gives $\\partial_tc=D\\nabla^2c$."
+			}
+		],
+		"m2-l020-identities-curvilinear": [
+			{
+				"kind": "mc",
+				"prompt": "Which is the correct product rule for the divergence?",
+				"options": [
+					"$\\nabla\\cdot(f\\vec A)=f\\,\\nabla\\cdot\\vec A+\\vec A\\cdot\\nabla f$",
+					"$\\nabla\\cdot(f\\vec A)=f\\,\\nabla\\cdot\\vec A$",
+					"$\\nabla\\cdot(f\\vec A)=\\nabla f\\times\\vec A$",
+					"$\\nabla\\cdot(f\\vec A)=\\nabla f\\cdot\\nabla\\cdot\\vec A$"
+				],
+				"answer": 0,
+				"explanation": "The del operator acts on both factors, like any derivative: $\\partial_i(fA_i)=(\\partial_if)A_i+f\\,\\partial_iA_i$. The result is a scalar built from a scalar and a vector, which rules out the cross product."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In spherical coordinates (polar angle $\\theta$, azimuth $\\varphi$), the gradient of a scalar $f$ is:",
+				"options": [
+					"$\\nabla f=\\dfrac{\\partial f}{\\partial r}\\hat r+\\dfrac1r\\dfrac{\\partial f}{\\partial\\theta}\\hat\\theta+\\dfrac{1}{r\\sin\\theta}\\dfrac{\\partial f}{\\partial\\varphi}\\hat\\varphi$",
+					"$\\nabla f=\\dfrac{\\partial f}{\\partial r}\\hat r+\\dfrac{\\partial f}{\\partial\\theta}\\hat\\theta+\\dfrac{\\partial f}{\\partial\\varphi}\\hat\\varphi$",
+					"$\\nabla f=\\dfrac{\\partial f}{\\partial r}\\hat r+r\\dfrac{\\partial f}{\\partial\\theta}\\hat\\theta+r\\sin\\theta\\dfrac{\\partial f}{\\partial\\varphi}\\hat\\varphi$",
+					"$\\nabla f=\\dfrac{\\partial f}{\\partial r}\\hat r+\\dfrac1{r\\sin\\theta}\\dfrac{\\partial f}{\\partial\\theta}\\hat\\theta+\\dfrac1r\\dfrac{\\partial f}{\\partial\\varphi}\\hat\\varphi$"
+				],
+				"answer": 0,
+				"explanation": "A gradient is the rate of change per unit LENGTH, so each angular derivative is divided by the scale factor ($r$ and $r\\sin\\theta$), the length moved per unit angle. Angles are not lengths, so the bare derivatives are not components of the gradient."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In vacuum, Maxwell's equations lead to the wave equation $\\nabla^2\\vec E=\\mu_0\\epsilon_0\\,\\partial_t^2\\vec E$ (via the identity $\\nabla\\times(\\nabla\\times\\vec E)=\\nabla(\\nabla\\cdot\\vec E)-\\nabla^2\\vec E$). The wave speed is $1/\\sqrt{\\mu_0\\epsilon_0}$. Compute it in units of $10^8$ m/s ($\\mu_0=4\\pi\\times10^{-7}$ N/A$^2$, $\\epsilon_0=8.854\\times10^{-12}$ F/m).",
+				"answer": 2.998,
+				"tolerance": 0.02,
+				"unit": "10^8 m/s",
+				"explanation": "$\\mu_0\\epsilon_0=1.113\\times10^{-17}$ s$^2$/m$^2$, so $v=1/\\sqrt{\\mu_0\\epsilon_0}=2.998\\times10^8$ m/s $=c$: light is an electromagnetic wave."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using $\\nabla^2f=\\dfrac{1}{r^2}\\dfrac{d}{dr}\\!\\left(r^2\\dfrac{df}{dr}\\right)$ for a radial function, evaluate $\\nabla^2(r^3)$ at $r=2$.",
+				"answer": 24.0,
+				"tolerance": 0.02,
+				"explanation": "$\\frac{d}{dr}(r^2\\cdot3r^2)=12r^3$, divided by $r^2$ gives $12r$, which is $24$ at $r=2$. In general $\\nabla^2r^n=n(n+1)r^{n-2}$, vanishing for $n=0$ and $n=-1$: the constant and $1/r$ solve Laplace's equation."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the identity $\\nabla\\times(\\nabla\\times\\vec E)=\\nabla(\\nabla\\cdot\\vec E)-\\nabla^2\\vec E$ together with Faraday's and Ampere-Maxwell's laws shows that electromagnetic waves exist in vacuum.",
+				"rubric": "Full credit: take curl of Faraday's law: curl curl E = -d/dt (curl B); in vacuum use Ampere-Maxwell curl B = mu0 eps0 dE/dt to obtain curl curl E = -mu0 eps0 d^2E/dt^2; with div E = 0 the identity gives -laplacian E, so laplacian E = mu0 eps0 d^2E/dt^2: a wave equation with speed 1/sqrt(mu0 eps0)=c, i.e. changing B generates E and changing E generates B, sustaining a propagating wave.",
+				"modelAnswer": "Take the curl of Faraday's law $\\nabla\\times\\vec E=-\\partial_t\\vec B$: $\\nabla\\times(\\nabla\\times\\vec E)=-\\partial_t(\\nabla\\times\\vec B)$. In vacuum, Ampere-Maxwell gives $\\nabla\\times\\vec B=\\mu_0\\epsilon_0\\partial_t\\vec E$, so the right side is $-\\mu_0\\epsilon_0\\partial_t^2\\vec E$. With $\\nabla\\cdot\\vec E=0$, the identity makes the left side $-\\nabla^2\\vec E$. Therefore $\\nabla^2\\vec E=\\mu_0\\epsilon_0\\,\\partial_t^2\\vec E$, a wave equation with speed $c=1/\\sqrt{\\mu_0\\epsilon_0}$: a changing $\\vec B$ makes $\\vec E$ and a changing $\\vec E$ makes $\\vec B$, sustaining a propagating wave."
+			}
+		],
+		"m2-l021-physics-workshop": [
+			{
+				"kind": "mc",
+				"prompt": "Charge flows out of a closed region, and the total charge inside is observed to drop by $2.0$ mC every second. What is the net current through the bounding surface?",
+				"options": [
+					"$2.0$ mA, inward",
+					"Zero, since charge is conserved",
+					"$2.0$ mA, outward",
+					"Cannot be determined without knowing the shape of the surface"
+				],
+				"answer": 2,
+				"explanation": "The integral continuity equation $\\frac{dQ_{in}}{dt}=-\\oint\\vec J\\cdot d\\vec S$ says the interior loses charge exactly as fast as current leaves: $2.0\\times10^{-3}$ C/s $=2.0$ mA outward. Conservation doesn't mean zero current; it means any change is accounted for by flux through the boundary."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Use Gauss's law with a thin pillbox to find the electric field magnitude near a large uniformly charged sheet with surface charge density $\\sigma=2.0\\ \\mu\\mathrm{C/m^2}$ ($E=\\sigma/2\\epsilon_0$). Give the answer in units of $10^5$ N/C.",
+				"answer": 1.129,
+				"tolerance": 0.02,
+				"unit": "10^5 N/C",
+				"explanation": "By symmetry $\\vec E$ is perpendicular to the sheet and uniform; flux through both pillbox faces is $2EA=\\sigma A/\\epsilon_0$, so $E=\\sigma/2\\epsilon_0=1.13\\times10^5$ N/C, independent of distance."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is $\\nabla\\cdot\\left(\\dfrac{\\hat r}{r^2}\\right)$ as a distribution on all of space?",
+				"options": [
+					"$0$ everywhere including the origin, since the divergence vanishes for $r\\neq0$",
+					"$4\\pi\\delta^3(\\vec r)$: zero away from the origin, with total integral $4\\pi$",
+					"$4\\pi/r^2$, the magnitude of the field times the sphere's area factor",
+					"$\\infty$ at every point, since the field blows up at the source"
+				],
+				"answer": 1,
+				"explanation": "Away from the origin the divergence is $\\frac{1}{r^2}\\frac{d}{dr}(r^2\\cdot r^{-2})=0$. But the flux through any sphere around the origin is $4\\pi$, so by the divergence theorem the volume integral of the divergence is $4\\pi$: all of it concentrated at $r=0$. Hence the delta function."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Use Ampere's law (Stokes' theorem on a circular loop around the wire) to find the magnetic field at $0.050$ m from a long straight wire carrying $10$ A. Give $B$ in microtesla ($\\mu_0=4\\pi\\times10^{-7}$ T m/A).",
+				"answer": 40.0,
+				"tolerance": 0.02,
+				"unit": "microtesla",
+				"explanation": "$\\oint\\vec B\\cdot d\\vec l=B(2\\pi s)=\\mu_0I$, so $B=\\frac{\\mu_0I}{2\\pi s}=\\frac{(4\\pi\\times10^{-7})(10)}{2\\pi(0.05)}=4.0\\times10^{-5}$ T $=40\\ \\mu$T (about the strength of Earth's field)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why symmetry is essential for using Gauss's law (or Ampere's law) to find a field, and how you choose the surface or loop.",
+				"rubric": "Full credit: Gauss's law gives only the total flux; to extract E from it you need symmetry that makes E constant in magnitude over the surface and either parallel or perpendicular to dA, so the flux integral reduces to E times area; choose a surface that matches the symmetry (sphere for spherical, coaxial cylinder for line, pillbox for plane); without symmetry the law is still true but doesn't determine E locally; similarly Ampere loops follow B direction.",
+				"modelAnswer": "Gauss's law only constrains the total flux through a surface. To turn that into a value for $E$, symmetry must guarantee that $E$ has the same magnitude everywhere on the chosen surface and is either parallel or perpendicular to the surface element, so that $\\oint\\vec E\\cdot d\\vec A=E\\cdot A$. Choose a surface that matches the symmetry: a sphere for a point or spherical charge, a coaxial cylinder for a line charge, a pillbox for a sheet. The same logic selects a circular loop for Ampere's law around a wire. Without such symmetry the law remains true but doesn't determine $E$ at a point."
+			}
+		]
+	}
+}

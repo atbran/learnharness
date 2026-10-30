@@ -98,7 +98,7 @@ export const examSchema = z.object({
 });
 export type Exam = z.infer<typeof examSchema>;
 
-export const TRACKS = ["math", "physics", "survey", "capstone"] as const;
+export const TRACKS = ["math", "physics", "survey", "capstone", "elective"] as const;
 export type Track = (typeof TRACKS)[number];
 
 export const courseSchema = z.object({
@@ -106,7 +106,7 @@ export const courseSchema = z.object({
 	code: z.string().min(1),
 	title: z.string().min(1),
 	track: z.enum(TRACKS),
-	depth: z.enum(["core", "survey", "capstone"]),
+	depth: z.enum(["core", "survey", "capstone", "elective"]),
 	hours: z.number().positive(),
 	/** Course ids that must be passed (or substantially done) first. */
 	prereqs: z.array(id()).default([]),
@@ -266,6 +266,6 @@ export const checkQuestionSchema = z.discriminatedUnion("kind", [
  *  only for lessons that have none here. */
 export const courseChecksSchema = z.object({
 	courseId: id(),
-	checks: z.record(z.string(), z.array(checkQuestionSchema).min(4).max(6)),
+	checks: z.record(z.string(), z.array(checkQuestionSchema).min(3).max(6)),
 });
 export type CourseChecks = z.infer<typeof courseChecksSchema>;

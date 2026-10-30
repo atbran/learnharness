@@ -1,6 +1,6 @@
 # Authoring brief: quick checks
 
-Every lesson in `curriculum/physics/courses/*.json` gets a 5-question **quick check**, stored in
+Every lesson in `curriculum/physics/courses/*.json` gets a 3–4 question **quick check** (lessons are short, 30–45 min), stored in
 `curriculum/physics/checks/<courseId>.json`. A learner who scores 80% or higher has mastered the
 lesson. The same questions are reused for spaced review months later, so each one should still
 test the lesson's core idea when it comes back.
@@ -13,15 +13,15 @@ much more value from **understanding the nature behind entropy and ΔH in free e
 calculate, but practice and calculation should be **20–50% of the work, not the majority**.
 **Math courses are the exception**: there, technique is the understanding.
 
-So, per lesson (5 questions):
+So, per lesson (3–4 questions):
 
 - **Physics, survey and capstone courses** (`p*`, `s*`, `q-*`):
-  - At least 3 questions test **understanding**: what an equation means physically, why a result holds,
+  - At least 2 questions test **understanding**: what an equation means physically, why a result holds,
     what happens in a limit or a changed situation, predicting real-world behaviour, spotting a
     misconception, or connecting to chemistry and everyday phenomena.
-  - At most 2 are calculational: `numeric` questions or calculation-flavoured `mc`. Make them quick and
+  - At most 1–2 are calculational (never more than half): `numeric` questions or calculation-flavoured `mc`. Make them quick and
     physically meaningful, ideally an estimate with real numbers, never an algebra marathon.
-- **Math courses** (`m*`): about 3 technique and computation questions and 2 conceptual ones ("what does
+- **Math courses** (`m*`): about 2 technique and computation questions and 1–2 conceptual ones ("what does
   this tell you", "when does this method fail", "geometric meaning"). Tie the math to physics or
   chemistry uses where natural.
 
@@ -35,10 +35,11 @@ Every check covers **all of the lesson's objectives** (one question can cover tw
 { "kind": "short", "prompt": "Explain why …", "rubric": "Full credit requires: …", "modelAnswer": "…" }
 ```
 
-- **Mix:** each check has 2–3 `mc`, 0–2 `numeric`, and exactly 1 `short` (the short one is always an
+- **Mix:** each check has 1–2 `mc`, 0–2 `numeric`, and exactly 1 `short` (the short one is always an
   "explain in your own words" item).
 - **`mc`:**
   - Use 4 options. Distractors come from **real misconceptions**, never jokes or obvious throwaways.
+  - **No length tell:** all options are similar in length and style. Keep the key concise and give distractors plausible reasoning. `validate-checks` flags a key much longer than its distractors, and a course where the key is the longest option more than 35% of the time.
   - `answer` is a 0-based index. Vary the position of the right answer across questions.
 - **`numeric`:**
   - The prompt states exactly what to give and in which units.

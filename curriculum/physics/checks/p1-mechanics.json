@@ -1,0 +1,1817 @@
+{
+	"courseId": "p1-mechanics",
+	"checks": {
+		"p1-l001-units-dimensions-estimation": [
+			{
+				"kind": "mc",
+				"prompt": "A student derives the time for an object to fall a height $h$ as $t = \\sqrt{2hg}$. What does a unit check say about this result?",
+				"options": [
+					"A unit check cannot test a formula; only experiment can decide whether a formula is right or wrong.",
+					"It is fine: $h$ and $g$ both involve length, so the square root of their product must be a length.",
+					"It is fine: the factor of 2 is dimensionless, and only the numerical factors matter when checking units.",
+					"It must be wrong: $\\sqrt{hg}$ has units of speed (m/s), not time; it should be $\\sqrt{2h/g}$."
+				],
+				"answer": 3,
+				"explanation": "Dimensions of $hg$ are $\\mathrm{L}^2/\\mathrm{T}^2$, so the square root is a speed. Dimensional consistency is a fast, free test that catches errors like this before any numbers are plugged in."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A Fermi estimate multiplies five factors, each guessed to within a factor of about 3 too high or too low. Why is the final answer usually off by much less than $3^5 \\approx 240$?",
+				"options": [
+					"Errors in the separate factors partly cancel, because some guesses come out high and others low.",
+					"Fermi estimates are exact whenever each factor is rounded to a power of ten, so the errors vanish.",
+					"Multiplying many numbers always reduces the relative error of the product compared with each factor.",
+					"The factors are chosen so that all their errors point the same direction, which makes the total error predictable."
+				],
+				"answer": 0,
+				"explanation": "Each guess is as likely to be high as low, so in $\\log$ space the errors behave like a random walk (growing like $\\sqrt{n}$, not $n$). That is why decomposing an unknown into several modest guesses is more reliable than guessing the whole thing at once."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A car travels at 65 mi/h. Convert this to m/s by chaining conversion factors (1 mi = 1609.34 m, 1 h = 3600 s). Give your answer in m/s (two significant figures are justified by the input, but give the unrounded value).",
+				"answer": 29.06,
+				"tolerance": 0.02,
+				"unit": "m/s",
+				"explanation": "65 mi/h x (1609.34 m / 1 mi) x (1 h / 3600 s) = 29.06 m/s. Because the input has two significant figures, you would quote about 29 m/s."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the number of gas molecules in one breath of 0.50 L of air at 298 K and 1.00 atm (treat air as an ideal gas; $k_B = 1.38\\times10^{-23}$ J/K, 1 atm = 101325 Pa). Give the number of molecules.",
+				"answer": 1.231e+22,
+				"tolerance": 0.1,
+				"unit": "molecules",
+				"explanation": "$N = PV/(k_BT) = (101325)(0.5\\times10^-3)/(1.38\\times10^-23\\cdot298) \\approx 1.23e+22$. Order of magnitude $10^22$: a single breath holds roughly a hundredth of a mole."
+			},
+			{
+				"kind": "short",
+				"prompt": "Dimensional analysis gives $T \\sim \\sqrt{\\ell/g}$ for a pendulum. Explain in your own words how it arrives at that form, and name one thing it cannot tell you about the real period.",
+				"rubric": "Full credit: (1) the only listed quantities are $\\ell$ (L), $g$ (L/T$^2$) and $m$ (M); only the combination $\\sqrt{\\ell/g}$ has units of time and $m$ cannot enter because nothing else carries mass units; (2) dimensional analysis cannot fix dimensionless factors such as $2\\pi$ (or dependence on a dimensionless quantity like the starting angle).",
+				"modelAnswer": "Time has dimension T. The only way to build a T from $\\ell$ (L) and $g$ (L/T$^2$) is $\\sqrt{\\ell/g}$, and mass cannot appear since no other variable has mass units. What dimensional analysis cannot give is the pure number out front (the $2\\pi$) or any dependence on dimensionless parameters like the amplitude angle."
+			}
+		],
+		"p1-l002-vectors-components": [
+			{
+				"kind": "mc",
+				"prompt": "Two students describe the same displacement using coordinate axes rotated by 30 degrees relative to each other. Which statement is correct?",
+				"options": [
+					"They get different components but the same magnitude; the components depend on the chosen axes.",
+					"They get the same components but different magnitudes, since the length of an arrow depends on the axes.",
+					"They get different components and different magnitudes, so at least one student must have made an error.",
+					"They agree on the magnitude only if the displacement lies along one of the axes of the two sets."
+				],
+				"answer": 0,
+				"explanation": "Components depend on the axes you choose; the length and direction of the arrow in space do not. A scalar like $|\\vec A|$ is the same in every rotated frame, while $A_x$ and $A_y$ mix."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two vectors have magnitudes 3 and 4. Which of the following can NOT be the magnitude of their sum?",
+				"options": [
+					"1",
+					"8",
+					"7",
+					"5"
+				],
+				"answer": 1,
+				"explanation": "The sum's magnitude ranges from $|4-3| = 1$ (antiparallel) to $4+3 = 7$ (parallel), with 5 for perpendicular vectors. 8 would violate the triangle inequality."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Given vectors $\\vec A$ and $\\vec B$ drawn from a common tail, the vector $\\vec B - \\vec A$ is the arrow",
+				"options": [
+					"from the tip of $\\vec B$ to the tip of $\\vec A$.",
+					"from the tip of $\\vec A$ to the tip of $\\vec B$.",
+					"from the common tail to the point midway between the two tips.",
+					"of length $|B| - |A|$ pointing along $\\vec B$."
+				],
+				"answer": 1,
+				"explanation": "$\\vec A + (\\vec B - \\vec A) = \\vec B$, so $\\vec B-\\vec A$ must carry you from the tip of $\\vec A$ to the tip of $\\vec B$. Subtracting vectors does not subtract their lengths."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A displacement has components $(A_x, A_y) = (-3.0, +4.0)$ m. Give its direction as an angle in degrees measured counterclockwise from the +x axis (0 to 360).",
+				"answer": 126.9,
+				"tolerance": 0.02,
+				"unit": "degrees",
+				"explanation": "$\\tan^{-1}(4/-3) = -53.1^\\circ$ on a calculator, but the vector is in the second quadrant, so the angle is $180^\\circ - 53.1^\\circ = 126.9^\\circ$. Always check the quadrant from the signs of the components."
+			},
+			{
+				"kind": "short",
+				"prompt": "A quantity is given as the triple (mass, temperature, pressure) of a gas sample. Why is it NOT a vector, even though it is three numbers? What property must a set of components have to count as a vector?",
+				"rubric": "Full credit: a vector's components must transform in the specific way under a rotation of axes (mixing like x, y, z coordinates) so that its magnitude and direction in space are unchanged; mass, T and P are unrelated scalars that do not mix under rotation, so the triple is just a list.",
+				"modelAnswer": "A vector is defined by how its components change when you rotate the coordinate axes: they mix in the same way as the coordinates $(x, y, z)$, so the arrow they describe stays fixed in space. Mass, temperature and pressure are independent scalars that are unchanged by rotation, so grouping them as a triple gives a list of numbers, not a geometric object with direction."
+			}
+		],
+		"p1-l003-dot-cross-products": [
+			{
+				"kind": "mc",
+				"prompt": "For two nonzero vectors, $\\vec A\\cdot\\vec B = 0$ and $\\vec A\\times\\vec B = \\vec 0$ respectively tell you that they are",
+				"options": [
+					"parallel, and perpendicular.",
+					"perpendicular, and parallel (or antiparallel).",
+					"perpendicular, and also perpendicular.",
+					"of equal length, and of opposite direction."
+				],
+				"answer": 1,
+				"explanation": "$\\vec A\\cdot\\vec B = AB\\cos\\theta = 0$ needs $\\theta = 90^\\circ$ and $|\\vec A\\times\\vec B| = AB\\sin\\theta = 0$ needs $\\theta = 0^\\circ$ or $180^\\circ$. The dot product measures 'how much along', the cross product 'how much across'."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is $\\vec A\\times\\vec B = -\\,\\vec B\\times\\vec A$ while $\\vec A\\cdot\\vec B = \\vec B\\cdot\\vec A$?",
+				"options": [
+					"Because the cross product has a smaller magnitude when the order is reversed, as the angle is measured the other way.",
+					"The cross product also carries a direction from the right-hand rule, which flips when the order is swapped.",
+					"Because the dot product is only defined for perpendicular vectors, so reversing the order changes nothing there.",
+					"Because the cross product is a scalar and the dot product is a vector, so only the scalar can be reordered freely."
+				],
+				"answer": 1,
+				"explanation": "The magnitude $AB\\sin\\theta$ (parallelogram area) is symmetric in $A$ and $B$, but the axis direction obtained by curling fingers from the first vector to the second reverses on swapping. The dot product is a plain number, so the order is irrelevant."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which pairing of product and later physical quantity is correct?",
+				"options": [
+					"Work $= \\vec F\\times d\\vec r$ (a vector) and torque $= \\vec r\\cdot\\vec F$ (a scalar), since torque is a rotation.",
+					"Both work and torque are dot products, because both are energy-like quantities measured in N m (joules).",
+					"Both work and torque are cross products, because both involve a force acting through some distance.",
+					"Work $= \\vec F\\cdot d\\vec r$ (a scalar) and torque $= \\vec r\\times\\vec F$ (a vector)."
+				],
+				"answer": 3,
+				"explanation": "Work is a scalar that counts only the part of the force along the displacement. Torque is a vector (an axis and a sense of rotation) and counts the part of the force perpendicular to $\\vec r$. They share the units N m but are different kinds of quantity."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Find the angle between $\\vec A = 2\\hat\\imath + \\hat\\jmath - \\hat k$ and $\\vec B = \\hat\\imath + 3\\hat\\jmath + 2\\hat k$. Give your answer in degrees.",
+				"answer": 70.89,
+				"tolerance": 0.02,
+				"unit": "degrees",
+				"explanation": "$\\vec A\\cdot\\vec B = 2+3-2 = 3$, $|\\vec A| = \\sqrt6$, $|\\vec B| = \\sqrt{14}$, so $\\cos\\theta = 0.3273$ and $\\theta = 70.9^\\circ$."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, describe what the dot product and the cross product of two vectors each measure geometrically, and why each is the right tool for the physical quantity it is used for later (work and torque).",
+				"rubric": "Full credit: dot = (length of one) x (projection of the other along it), only the parallel part matters, so it gives work; cross = area of the parallelogram, magnitude uses the perpendicular part and the direction is perpendicular to both (right-hand rule), so it gives torque with axis direction.",
+				"modelAnswer": "The dot product multiplies one vector's length by the component of the other along it, so it measures how much two vectors point the same way. Work is exactly the force-along-the-motion times distance. The cross product's magnitude is the area of the parallelogram they span, using only the perpendicular part, and its direction is perpendicular to both. Torque needs the perpendicular part of the force and a rotation axis, so it is a cross product."
+			}
+		],
+		"p1-l004-motion-1d": [
+			{
+				"kind": "mc",
+				"prompt": "A cart has negative velocity and negative acceleration (same sign). What is happening?",
+				"options": [
+					"It is at rest, since negative times negative cancels.",
+					"It is moving in the negative direction and slowing down.",
+					"It is moving in the positive direction and speeding up.",
+					"It is moving in the negative direction and speeding up."
+				],
+				"answer": 3,
+				"explanation": "Speeding up means velocity and acceleration have the same sign, regardless of which sign that is. Slowing down happens when $v$ and $a$ have opposite signs."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A ball thrown straight up is momentarily at rest at the top of its flight. What is its acceleration at that instant (no air resistance)?",
+				"options": [
+					"Zero, because the velocity is zero.",
+					"9.8 m/s$^2$ upward, since the ball was moving up.",
+					"9.8 m/s$^2$ downward, unchanged from the rest of the flight.",
+					"It is undefined at the turning point."
+				],
+				"answer": 2,
+				"explanation": "Acceleration is the rate of change of velocity, not the velocity itself. Velocity is passing through zero from positive to negative at a steady rate, so $a = -g$ the whole time."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A runner completes one lap of a 400 m track in 80 s. Her average velocity and average speed for the lap are",
+				"options": [
+					"5 m/s and 0 m/s.",
+					"5 m/s and 5 m/s.",
+					"0 m/s and 0 m/s.",
+					"0 m/s and 5 m/s."
+				],
+				"answer": 3,
+				"explanation": "Average velocity is displacement over time; she returns to the start, so the displacement is zero. Average speed is distance over time $= 400/80 = 5$ m/s."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A particle's position is $x(t) = t^3 - 6t^2 + 9t$ (m, with t in s). Find the total distance travelled (not the displacement) between $t = 0$ and $t = 4$ s. Give the answer in metres.",
+				"answer": 12.0,
+				"tolerance": 0.02,
+				"unit": "m",
+				"explanation": "$v = 3t^2-12t+9 = 3(t-1)(t-3)$, so the particle turns around at $t = 1$ s and $t = 3$ s. Positions: $x(0)=0$, $x(1)=4$, $x(3)=0$, $x(4)=4$. Distance $= 4+4+4 = 12$ m, while the displacement is only 4 m."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what the instantaneous velocity is in terms of average velocities, and what it represents graphically on a position-time graph. Why is it not the same thing as speed?",
+				"rubric": "Full credit: instantaneous velocity is the limit of average velocity as the time interval goes to zero (derivative dx/dt); it equals the slope of the tangent to x(t) and is signed (direction), while speed is its magnitude.",
+				"modelAnswer": "Average velocity $\\Delta x/\\Delta t$ is the slope of a chord on the x-t graph. Shrinking $\\Delta t \\to 0$, the chord becomes the tangent, and its slope is the instantaneous velocity $dx/dt$. Velocity carries a sign (direction of motion); speed is just its magnitude."
+			}
+		],
+		"p1-l005-constant-acceleration-free-fall": [
+			{
+				"kind": "mc",
+				"prompt": "A ball is thrown straight up at 20 m/s from the ground and returns to the ground. Ignoring air resistance, its speed just before landing is",
+				"options": [
+					"less than 20 m/s, because gravity has slowed it.",
+					"20 m/s, the same as the launch speed.",
+					"more than 20 m/s, because it has been accelerating for longer.",
+					"zero, because it comes to rest on the ground."
+				],
+				"answer": 1,
+				"explanation": "With constant $a$, $v^2 = v_0^2 + 2a\\Delta x$ and $\\Delta x = 0$ for the round trip gives $|v| = v_0$. Time going up equals time coming down; speed at each height is the same going up and down."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can't you use $v = v_0 + at$ with a single constant $a$ to describe a ball from release, through a bounce off the floor, and back up?",
+				"options": [
+					"The acceleration is not constant during the bounce, so the equations apply only to each free-flight piece.",
+					"Gravity switches off during the bounce, so no single value of $a$ is valid across the whole motion.",
+					"The equations only work for objects moving upward, so the downward part needs a different set.",
+					"Velocity cannot change sign inside a kinematic equation, so the rebound breaks the formula."
+				],
+				"answer": 0,
+				"explanation": "The constant-acceleration equations assume $a$ is a single constant over the interval. A bounce involves a very large, rapidly varying force, so you must apply the equations to each free-flight segment separately."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Taking 'up' as the positive direction, which signs describe a ball while it is rising (no air drag)?",
+				"options": [
+					"$v > 0$ and $a < 0$.",
+					"$v > 0$ and $a > 0$.",
+					"$v < 0$ and $a < 0$.",
+					"$v > 0$ and $a = 0$ until the top."
+				],
+				"answer": 0,
+				"explanation": "Gravity points down, so $a = -g$ throughout the flight. The velocity is positive while rising, passes through zero at the top, and is negative while falling. Opposite signs mean it is slowing down while rising."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A stone is thrown straight upward at 15.0 m/s from the edge of a 40.0 m cliff and falls to the ground at the foot of the cliff. Taking $g = 9.81$ m/s$^2$ and ignoring air resistance, how long is it in the air? Give the answer in seconds.",
+				"answer": 4.768,
+				"tolerance": 0.02,
+				"unit": "s",
+				"explanation": "Take up as positive: $-40 = 15t - \\tfrac12(9.81)t^2$. The positive root is $t = [15+\\sqrt{15^2+2(9.81)(40)}]/9.81 = 4.77$ s."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the relation $v^2 = v_0^2 + 2a\\Delta x$ is obtained from the other constant-acceleration equations, and why it can be read as a preview of the work-energy theorem.",
+				"rubric": "Full credit: eliminate $t$ between $v = v_0 + at$ and $x = x_0 + v_0t + \\tfrac12at^2$ (or integrate $a\\,dx = v\\,dv$); multiplying by $m/2$ gives $\\tfrac12mv^2 - \\tfrac12mv_0^2 = (ma)\\Delta x = F\\Delta x$, i.e. change in kinetic energy equals work.",
+				"modelAnswer": "Solve $v = v_0 + at$ for $t$ and substitute into the position equation, giving $v^2 = v_0^2 + 2a\\Delta x$. Multiply through by $m/2$: $\\tfrac12mv^2 - \\tfrac12mv_0^2 = (ma)\\Delta x = F\\Delta x$. The left side is the change in kinetic energy and the right side is the work done, so it is the work-energy theorem for constant force."
+			}
+		],
+		"p1-l006-integrating-acceleration": [
+			{
+				"kind": "mc",
+				"prompt": "An object's acceleration is $a(t) = a_0 e^{-bt}$ with $a_0, b > 0$, and it starts from rest. What does its velocity do as $t \\to \\infty$?",
+				"options": [
+					"It approaches the finite limit $a_0/b$: the speed gained so far is kept after the acceleration fades.",
+					"It falls back to zero, because the acceleration dies away and the velocity must follow it to zero.",
+					"It grows without bound, because the acceleration stays positive for all time even though it shrinks.",
+					"It oscillates about $a_0/b$, because the exponential decay overshoots and then corrects itself."
+				],
+				"answer": 0,
+				"explanation": "$v(t) = \\int_0^t a_0e^{-bt'}dt' = (a_0/b)(1 - e^{-bt})\\to a_0/b$. The total area under $a(t)$ is finite, so $v$ levels off. Zero acceleration means constant velocity, not zero velocity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "On a velocity-time graph the curve is above the axis from $t=0$ to $2$ s (area $+6$ m) and below the axis from $2$ to $3$ s (area $-2$ m). The displacement over 0 to 3 s and the distance travelled are",
+				"options": [
+					"8 m and 4 m.",
+					"4 m and 8 m.",
+					"4 m and 4 m.",
+					"6 m and 2 m."
+				],
+				"answer": 1,
+				"explanation": "Displacement is the signed area, $6 - 2 = 4$ m. Distance travelled adds the magnitudes, $6 + 2 = 8$ m. Area below the axis means motion in the negative direction."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two objects have exactly the same acceleration $a(t)$ for all time. Why can their velocities still differ at all later times?",
+				"options": [
+					"They cannot differ, because the same acceleration at every instant always gives the same velocity.",
+					"$v(t)$ is the integral of $a(t)$ plus a constant, and the initial velocity $v_0$ fixes that constant.",
+					"Acceleration determines the position rather than the velocity, so the velocities can differ freely.",
+					"The two objects must have different masses, since mass sets how acceleration turns into velocity."
+				],
+				"answer": 1,
+				"explanation": "$v(t) = v_0 + \\int_0^t a\\,dt'$. The integral supplies the change in velocity; the starting value ($v_0$, and likewise $x_0$ for position) comes from initial conditions."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An object starts at rest at the origin with acceleration $a(t) = a_0e^{-bt}$, where $a_0 = 6.0$ m/s$^2$ and $b = 2.0$ s$^{-1}$. How far has it travelled after $t = 1.0$ s? Give the answer in metres.",
+				"answer": 1.703,
+				"tolerance": 0.02,
+				"unit": "m",
+				"explanation": "$v(t) = (a_0/b)(1-e^{-bt})$ and $x(t) = (a_0/b)\\left[t - (1-e^{-bt})/b\\right]$. At $t=1$: $3[1 - (1-e^{-2})/2] = 1.703$ m."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the area under a velocity-time curve is the displacement, and how this idea lets you get x(t) from any a(t) without memorising special formulas.",
+				"rubric": "Full credit: in a small time $dt$ the displacement is $v\\,dt$ (a thin rectangle); summing (integrating) gives the area; areas below axis count negative. Applying it twice, $v=v_0+\\int a\\,dt$, $x = x_0 + \\int v\\,dt$, with constants from initial conditions, includes constant-$a$ formulas as a special case.",
+				"modelAnswer": "In a tiny interval $dt$ the velocity is nearly constant, so the displacement is $v\\,dt$, the area of a thin strip; adding all strips (integrating) gives the area, with the parts below the axis counting negative. Doing this twice, $v(t) = v_0 + \\int a\\,dt'$ and $x(t) = x_0 + \\int v\\,dt'$, works for any $a(t)$, and the familiar constant-acceleration formulas are just the special case $a = $ const."
+			}
+		],
+		"p1-l007-projectile-motion": [
+			{
+				"kind": "mc",
+				"prompt": "One ball is dropped from rest at the same moment a second ball is fired horizontally from the same height. Ignoring air resistance, which hits level ground first?",
+				"options": [
+					"The dropped ball, because it has less distance to travel.",
+					"They land at the same time.",
+					"The fired ball, because it has more energy.",
+					"It depends on how fast the fired ball is launched."
+				],
+				"answer": 1,
+				"explanation": "The vertical motion is independent of the horizontal motion: both start with zero vertical velocity and have the same vertical acceleration $g$, so the fall time is the same."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At the highest point of a projectile's path (no air resistance) the velocity and acceleration are",
+				"options": [
+					"velocity zero and acceleration zero, since the ball is momentarily at rest at the peak.",
+					"velocity horizontal and nonzero; acceleration still $g$ downward, unchanged.",
+					"velocity zero but acceleration $g$ downward, since only the vertical motion matters there.",
+					"velocity horizontal and nonzero, with the acceleration also horizontal, along the velocity."
+				],
+				"answer": 1,
+				"explanation": "Only the vertical velocity component vanishes at the top. The horizontal component $v_0\\cos\\theta$ is constant, and the acceleration is $-g\\hat\\jmath$ everywhere on the path."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A ball is launched from the top of a cliff at speed $v_0$. Compared with 45 degrees, the launch angle that maximises horizontal range is",
+				"options": [
+					"exactly 45 degrees, as always.",
+					"somewhat more than 45 degrees.",
+					"90 degrees, to stay in the air longest.",
+					"somewhat less than 45 degrees."
+				],
+				"answer": 3,
+				"explanation": "The $45^\\circ$ result assumes landing at launch height. With extra height the flight lasts longer at any angle, so it pays to put more of the speed into the horizontal component, favouring a flatter launch."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A projectile is launched on level ground at 25.0 m/s at $30^\\circ$ above the horizontal. Neglecting air resistance and using $g = 9.81$ m/s$^2$, what is its range? Give the answer in metres.",
+				"answer": 55.17,
+				"tolerance": 0.02,
+				"unit": "m",
+				"explanation": "$R = v_0^2\\sin2\\theta/g = (25)^2\\sin60^\\circ/9.81 = 55.2$ m. (The same range results at $60^\\circ$.)"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the trajectory of a projectile is a parabola, using the idea that horizontal and vertical motion are independent.",
+				"rubric": "Full credit: horizontal: $a_x=0$ so $x = v_{0x}t$; vertical: $a_y=-g$ so $y = v_{0y}t - \\tfrac12gt^2$; eliminating $t = x/v_{0x}$ gives $y$ quadratic in $x$ (a parabola); the two components do not affect each other because gravity acts only vertically.",
+				"modelAnswer": "Gravity acts only downward, so horizontally there is no acceleration ($x = v_{0x}t$) and vertically there is constant acceleration ($y = v_{0y}t-\\tfrac12gt^2$). Each component evolves independently; eliminating the time $t = x/v_{0x}$ gives $y = x\\tan\\theta - gx^2/(2v_0^2\\cos^2\\theta)$, which is quadratic in $x$, a parabola."
+			}
+		],
+		"p1-l008-circular-relative-motion": [
+			{
+				"kind": "mc",
+				"prompt": "A satellite moves in uniform circular motion (constant speed). In what direction does its acceleration point?",
+				"options": [
+					"Away from the centre (the 'centrifugal' direction), because the satellite tends to fly outward.",
+					"Along the velocity, because the speed is nonzero and the satellite is moving that way.",
+					"Toward the centre of the circle, because the velocity direction keeps turning inward.",
+					"There is no acceleration, because the speed is constant and a constant speed means no change."
+				],
+				"answer": 2,
+				"explanation": "Acceleration is the rate of change of the velocity vector. The speed is fixed, but the direction rotates, and the change $\\Delta\\vec v$ points toward the centre, so $a_c = v^2/r$ is directed inward."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A swimmer who can swim at 1.0 m/s relative to the water wants to reach the point directly opposite her on the far bank of a river flowing at 0.5 m/s. She should aim",
+				"options": [
+					"Straight across the river, since the shortest path is perpendicular to the banks.",
+					"Downstream, so that the current carries her faster toward the opposite bank.",
+					"She cannot reach it, because the current is always stronger than any swimmer.",
+					"Upstream at an angle, so that her upstream component cancels the current."
+				],
+				"answer": 3,
+				"explanation": "Her ground velocity is $\\vec v_{PG} = \\vec v_{PW} + \\vec v_{WG}$. To have no net downstream drift she needs a component $0.5$ m/s upstream, i.e. $\\sin\\theta = 0.5$ ($30^\\circ$ upstream of the cross-river line)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A car speeds up while going around a circular track. Which statement about its acceleration is correct?",
+				"options": [
+					"Only a tangential part, because the car's speed is changing and its path direction is fixed.",
+					"A radial part $dv/dt$ and a tangential part $v^2/r$, with the roles of the two swapped.",
+					"Only a radial part, because the path is a circle and so all the acceleration points to the centre.",
+					"A radial part $v^2/r$ (direction change) and a tangential part $dv/dt$ (speed change)."
+				],
+				"answer": 3,
+				"explanation": "Speeding up adds a tangential piece along the velocity, but the radial centripetal piece $v^2/r$ is always needed to bend the path, so the acceleration is the vector sum of both."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A laboratory centrifuge spins at 10,000 rpm. A sample sits 8.0 cm from the axis. What is its centripetal acceleration in multiples of $g$ ($g = 9.81$ m/s$^2$)? Give the answer as a number of $g$.",
+				"answer": 8943.0,
+				"tolerance": 0.02,
+				"unit": "g",
+				"explanation": "$\\omega = 10000\\cdot2\\pi/60 = 1047$ rad/s, $a_c = \\omega^2 r = 87730$ m/s$^2 = 8943\\,g$. This huge acceleration is how a centrifuge makes sedimentation fast."
+			},
+			{
+				"kind": "short",
+				"prompt": "A person on a spinning amusement-park ride feels pressed against the wall as though pushed outward. Explain what is really happening using Newton's first law.",
+				"rubric": "Full credit: in the ground (inertial) frame there is no outward force; the body tends to move in a straight line and the wall's inward normal force continually deflects it; the 'outward push' is the wall pressing on the rider (reaction/inertia), a fictitious force in the rotating frame.",
+				"modelAnswer": "Without a force the rider would continue in a straight line (first law). The wall pushes inward on the rider, bending the path into a circle; this inward normal force is the centripetal force and it is what the rider feels as pressure on the back. The apparent outward push is just inertia seen from the rotating frame; no real outward force acts on the rider."
+			}
+		],
+		"p1-l009-forces-first-law-fbd": [
+			{
+				"kind": "mc",
+				"prompt": "A hockey puck slides across frictionless ice at constant velocity. What can you say about the net force on it?",
+				"options": [
+					"The net force is zero only while the puck is at rest.",
+					"There must be a forward force equal to the puck's momentum.",
+					"The net force is forward, because the puck is moving forward.",
+					"The net force is zero; no forward force is needed to keep it moving."
+				],
+				"answer": 3,
+				"explanation": "Newton's first law: with zero net force a body keeps its velocity. Motion does not require a force; changing the motion does."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A block slides down a frictionless incline. Which forces belong on its free-body diagram?",
+				"options": [
+					"Gravity, the normal force, and an extra force pushing the block down the slope.",
+					"Gravity, the normal force, and a 'force of motion' acting in the direction of the velocity.",
+					"Only gravity (down) and the normal force (perpendicular to the incline surface).",
+					"Gravity, the normal force, and the components of the weight drawn as additional forces."
+				],
+				"answer": 2,
+				"explanation": "Only real interactions with other objects appear: Earth pulls (gravity) and the incline pushes (normal). The pull 'down the slope' is just a component of gravity, not an extra force, and there is no force of motion."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A coffee cup on a car's dashboard slides forward when the car brakes hard. In the ground frame, the right explanation is that",
+				"options": [
+					"the cup keeps its old velocity (no net force) while the car slows down beneath it.",
+					"the cup is pulled forward by the momentum the car has lost while braking.",
+					"the friction of the dashboard accelerates the cup forward as the car brakes hard.",
+					"a forward force acts on the cup whenever the car brakes, pushing it toward the windshield."
+				],
+				"answer": 0,
+				"explanation": "In an inertial (ground) frame the cup obeys the first law: with negligible friction, it continues at constant velocity. The 'forward push' is a fictitious force felt in the accelerating car's frame."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 15.0 kg sign hangs motionless from two identical cables, each making $40^\\circ$ with the horizontal. What is the tension in each cable? Use $g = 9.81$ m/s$^2$. Give the answer in newtons.",
+				"answer": 114.5,
+				"tolerance": 0.02,
+				"unit": "N",
+				"explanation": "Vertical equilibrium: $2T\\sin40^\\circ = mg$, so $T = (15)(9.81)/(2\\sin40^\\circ) = 114.5$ N. The tension exceeds $mg/2$ because only the vertical component supports the weight."
+			},
+			{
+				"kind": "short",
+				"prompt": "When solving an incline problem, explain why it is usually smart to tilt your coordinate axes to run along and perpendicular to the slope, and what is unchanged by this choice.",
+				"rubric": "Full credit: with axes along/perpendicular to the slope, the acceleration (and normal/friction) lie along axes so one equation has no acceleration; only gravity needs resolving; the physics (forces, acceleration) is the same in any axes; the choice only simplifies bookkeeping.",
+				"modelAnswer": "Along the incline, the acceleration and friction lie on an axis and the normal force is perpendicular to it, so only gravity must be resolved into components ($mg\\sin\\theta$ along, $mg\\cos\\theta$ perpendicular) and the perpendicular equation simply gives $N$. The physical forces and the acceleration are the same in any axes; tilting them only makes the algebra simpler."
+			}
+		],
+		"p1-l010-second-third-law": [
+			{
+				"kind": "mc",
+				"prompt": "A book rests on a table. Its weight (Earth pulling down on the book) and the normal force from the table (pushing up) are equal and opposite. Are they a Newton's third-law action-reaction pair?",
+				"options": [
+					"Yes, but only while the book is at rest, since only then are the two forces equal and opposite.",
+					"Yes. They are equal and opposite, which is exactly what the third law describes.",
+					"No. Both act on the book; the partner of Earth's pull on the book is the book's pull on Earth.",
+					"No. The third law applies only to objects that are moving, and the book is at rest."
+				],
+				"answer": 2,
+				"explanation": "A third-law pair always acts on two different bodies and is of the same type (here both gravitational). The weight and normal force are on the same body and are equal only because the book's acceleration is zero (second law)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A horse pulls a cart forward with force $F$ and the cart pulls back on the horse with force $F$. Why does the pair accelerate forward at all?",
+				"options": [
+					"It cannot; equal and opposite forces always cancel, so neither the horse nor the cart can accelerate.",
+					"The horse pulls slightly harder on the cart than the cart pulls back on the horse.",
+					"The forces act on different bodies, so they don't cancel; the ground pushes the horse forward.",
+					"The third law fails for a living animal, which can generate force without any reaction."
+				],
+				"answer": 2,
+				"explanation": "Only forces on a given body count for that body's acceleration. The cart gets forward net force (horse pull minus friction), and the horse gets forward net force from the ground (ground friction minus cart pull)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In which situation is it essential to use $\\vec F = d\\vec p/dt$ rather than $\\vec F = m\\vec a$?",
+				"options": [
+					"A body moving at constant velocity, because then the momentum form is the only valid one.",
+					"A body in free fall, because its weight changes as the body descends.",
+					"A body whose mass changes with time, like a rocket expelling gas or a raindrop gathering mist.",
+					"A body rotating about a fixed axis, since linear momentum is undefined for rotation."
+				],
+				"answer": 2,
+				"explanation": "$\\vec F = d(m\\vec v)/dt = m\\,d\\vec v/dt + \\vec v\\,dm/dt$. The second term vanishes for constant mass, giving $F = ma$, but it cannot be dropped when $m$ varies."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 70.0 kg person stands on a bathroom scale in an elevator that accelerates upward at 1.50 m/s$^2$. What does the scale read (the normal force)? Use $g = 9.81$ m/s$^2$. Give the answer in newtons.",
+				"answer": 791.7,
+				"tolerance": 0.02,
+				"unit": "N",
+				"explanation": "$N - mg = ma$, so $N = m(g+a) = 70.0(9.81+1.50) = 792$ N, about 15% more than the person's weight $mg = 687$ N. The scale measures the contact force, which is the 'apparent weight'."
+			},
+			{
+				"kind": "short",
+				"prompt": "A person walks forward by pushing backward on the floor. Explain, using Newton's second and third laws, what force actually accelerates her forward, and why the third-law pair does not cancel.",
+				"rubric": "Full credit: her foot pushes backward on the floor (action), the floor pushes forward on her foot (reaction, static friction); these act on different bodies; the external forward friction force on her gives her acceleration per the second law; the reaction acts on the Earth (negligible acceleration).",
+				"modelAnswer": "Her foot pushes back on the floor and by the third law the floor pushes forward on her foot with equal magnitude (static friction). These two forces act on different bodies so they cannot cancel; the forward force on her is the external force that, by the second law, accelerates her. The backward force acts on the Earth, which hardly accelerates because it is so massive."
+			}
+		],
+		"p1-l011-common-forces-problem-solving": [
+			{
+				"kind": "mc",
+				"prompt": "In an Atwood machine with masses $m_1$ and $m_2$, the tension is $T = 2m_1m_2g/(m_1+m_2)$. What does it become when $m_2 \\to \\infty$ and why does it make sense?",
+				"options": [
+					"$T\\to2m_1g$: the heavy mass is in free fall, so $m_1$ accelerates up at $g$ and $T=m_1(g+g)$.",
+					"$T\\to m_1g$: the light mass barely moves, so the string just holds up its weight.",
+					"$T\\to0$: a very heavy mass falls freely and the rope goes slack, as in free fall.",
+					"$T\\to\\infty$: the heavy mass has an enormous weight, so the rope tension must grow without limit."
+				],
+				"answer": 0,
+				"explanation": "The limit is a useful check: the heavy mass is essentially in free fall so $a\\to g$ upward for $m_1$, and $T - m_1g = m_1g$ gives $T = 2m_1g$. Finite, not infinite, because the acceleration of the heavy mass is limited."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the tension the same on both sides of an ideal pulley (massless, frictionless) in an Atwood machine?",
+				"options": [
+					"Because the rope stretches by the same amount on both sides, which forces the tensions to be equal.",
+					"Because the tension in a rope always equals the weight of the lighter mass hanging from it.",
+					"Because the two hanging masses are equal, so the pulley sees equal and opposite pulls from them.",
+					"With no mass or friction, any tension imbalance would give infinite angular acceleration, so the tensions match."
+				],
+				"answer": 3,
+				"explanation": "Applying $F_{net} = ma$ to a massless element with finite acceleration requires $F_{net} = 0$. If the pulley had mass or friction, the two tensions would differ by $I\\alpha/R$ (or friction)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A block sits on a frictionless incline of angle 30 degrees. The magnitude of the normal force on it, compared with its weight $mg$, is",
+				"options": [
+					"smaller, about $0.87\\,mg$.",
+					"equal to $mg$.",
+					"larger than $mg$.",
+					"zero, since the block is sliding."
+				],
+				"answer": 0,
+				"explanation": "The incline only has to cancel the component of gravity perpendicular to the surface: $N = mg\\cos\\theta = 0.87\\,mg$. The normal force is whatever it takes to prevent the block from penetrating the surface; it is not automatically equal to the weight."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In an Atwood machine, masses 2.00 kg and 5.00 kg hang over an ideal pulley. What is the tension in the string? Use $g = 9.81$ m/s$^2$. Give the answer in newtons.",
+				"answer": 28.03,
+				"tolerance": 0.02,
+				"unit": "N",
+				"explanation": "$a = \\frac{m_2-m_1}{m_1+m_2}g = 4.20$ m/s$^2$ and $T = m_1(g+a) = \\frac{2m_1m_2}{m_1+m_2}g = 28.0$ N. It lies between the two weights (19.6 N and 49.1 N), as it must."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe the problem-solving routine you would use on a mechanics problem with connected bodies, and explain why solving symbolically and then checking limiting cases is a better habit than plugging in numbers early.",
+				"rubric": "Full credit: draw a diagram and FBD for each body, choose axes and signs, write Newton's second law component equations plus constraint relations, solve symbolically, then check units and limits (e.g. m2 -> infinity, equal masses); symbolic results expose dependencies and errors and can be reused.",
+				"modelAnswer": "Draw a diagram and a free-body diagram for each body, choose coordinates and sign conventions, write $F=ma$ for each body along with any constraints (a rope fixes the accelerations), and solve algebraically. Keeping symbols lets you check units and test limits (equal masses give $a=0$; a huge mass gives free fall), which reveals mistakes immediately and shows how the answer depends on each variable."
+			}
+		],
+		"p1-l012-friction": [
+			{
+				"kind": "mc",
+				"prompt": "A crate rests on a rough floor. You push horizontally with 10 N and it does not move. The maximum static friction available is $\\mu_sN = 30$ N. What is the friction force on the crate?",
+				"options": [
+					"Equal to the kinetic friction $\\mu_kN$.",
+					"30 N, since that is the coefficient times the normal force.",
+					"0 N, since the crate is not moving.",
+					"10 N, in the direction opposite to your push."
+				],
+				"answer": 3,
+				"explanation": "The static friction force adjusts to whatever is needed to prevent slipping, up to a maximum of $\\mu_sN$. Here it just balances the 10 N push. The 30 N is only the limit."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A brick lies first on its large face, then on its small face, on the same table. The friction force needed to slide it at constant speed",
+				"options": [
+					"Larger on the large face, because more of the brick's surface is in contact with the table.",
+					"The same in both cases: the real contact area depends on the load, not the apparent area.",
+					"Larger on the small face, because the same weight is concentrated on a smaller area.",
+					"Zero on the large face, because the weight is spread out so thin that friction disappears."
+				],
+				"answer": 1,
+				"explanation": "$f_k = \\mu_kN$ does not contain the area. Bigger apparent area means less pressure per bit of surface, and the real contact area (asperity tips) grows in proportion to the normal load, so friction depends mostly on $N$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A block sits at rest on a rough incline whose angle $\\theta$ is below the angle of repose. What is the static friction force on it?",
+				"options": [
+					"$\\mu_s mg\\cos\\theta$, up the slope, because static friction always takes its maximum value.",
+					"Zero, since the block is at rest and so no friction force is needed to hold it there.",
+					"$mg\\cos\\theta$, up the slope, balancing the component of weight perpendicular to the incline.",
+					"$mg\\sin\\theta$, directed up the slope, balancing the downhill part of gravity."
+				],
+				"answer": 3,
+				"explanation": "Equilibrium along the slope demands $f_s = mg\\sin\\theta$. Only at the threshold of slipping does $f_s$ reach $\\mu_sN = \\mu_smg\\cos\\theta$, which is where $\\tan\\theta = \\mu_s$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A block begins to slide on a wooden plank when the plank is tilted to the critical angle. If the coefficient of static friction is $\\mu_s = 0.60$, what is this angle? Give the answer in degrees.",
+				"answer": 30.96,
+				"tolerance": 0.02,
+				"unit": "degrees",
+				"explanation": "At the threshold, $mg\\sin\\theta = \\mu_smg\\cos\\theta$, so $\\tan\\theta_c = \\mu_s$ and $\\theta_c = \\tan^{-1}(0.60) = 31.0^\\circ$. Notice the mass drops out."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is friction called an 'effective' force rather than a fundamental one, and why is it usually harder to start a heavy object sliding than to keep it sliding?",
+				"rubric": "Full credit: friction emerges from electromagnetic interactions of many microscopic contacts between rough surfaces (asperities adhering/deforming), not a new force law; the empirical laws $f\\le\\mu_sN$, $f=\\mu_kN$ summarise it; $\\mu_s>\\mu_k$ because stationary surfaces have time to bond/interlock, while once sliding the junctions break and re-form less effectively.",
+				"modelAnswer": "Friction is the macroscopic result of electromagnetic forces between atoms at the many tiny contact points where two rough surfaces touch (adhesion and deformation). The simple empirical laws are summaries of that complicated behavior. Static contacts have time to settle and bond, so the force needed to break them ($\\mu_s N$) exceeds the force that sustains sliding ($\\mu_k N$)."
+			}
+		],
+		"p1-l013-centripetal-drag": [
+			{
+				"kind": "mc",
+				"prompt": "A car rounds a banked curve at exactly the design speed with no friction at all. What provides the centripetal force?",
+				"options": [
+					"The component of weight along the slope.",
+					"A separate 'centripetal force' in addition to gravity and the normal force.",
+					"The horizontal component of the normal force from the road.",
+					"Static friction pointing toward the centre."
+				],
+				"answer": 2,
+				"explanation": "The only real forces are gravity and the normal force. The normal force tilts toward the centre of the turn, so its horizontal component is the net inward force; 'centripetal force' is the role, not a new force."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A ball on a string swings in a vertical circle. At the lowest point, the string tension compared with the ball's weight is",
+				"options": [
+					"Equal to the weight, because the ball is momentarily moving horizontally at the bottom.",
+					"Greater than the weight, since the net force must point up toward the centre.",
+					"Zero, because the ball is at the lowest point and gravity supplies all the force needed.",
+					"Less than the weight, since gravity helps the ball to curve around the circle."
+				],
+				"answer": 1,
+				"explanation": "At the bottom the net force must be upward and equal to $mv^2/r$: $T - mg = mv^2/r$, so $T = mg + mv^2/r > mg$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A sphere falls through a viscous liquid with linear drag $F = bv$. If its mass is doubled (same shape, same $b$), the terminal speed $v_t = mg/b$ and time constant $\\tau = m/b$",
+				"options": [
+					"both stay the same.",
+					"both double.",
+					"the terminal speed doubles; the time constant is unchanged.",
+					"the time constant doubles; the terminal speed is unchanged."
+				],
+				"answer": 1,
+				"explanation": "$v_t = mg/b$ and $\\tau = m/b$ both scale with $m$. A heavier particle settles faster at the end but needs longer to get there. In a centrifuge the effective $g$ is multiplied, so $v_t$ increases enormously."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "What is the maximum speed at which a car can round a flat circular curve of radius 50 m without sliding, if the coefficient of static friction between tyres and road is 0.70? Use $g = 9.81$ m/s$^2$. Give the answer in m/s.",
+				"answer": 18.53,
+				"tolerance": 0.02,
+				"unit": "m/s",
+				"explanation": "Friction supplies the centripetal force: $\\mu_s mg = mv^2/r$, so $v_{max} = \\sqrt{\\mu_s g r} = \\sqrt{0.70(9.81)(50)} = 18.5$ m/s (about 67 km/h). Mass cancels."
+			},
+			{
+				"kind": "short",
+				"prompt": "Contrast linear (Stokes) drag with quadratic drag: when does each dominate, and how does a terminal speed arise in either case? Mention where linear drag matters for molecules in solution.",
+				"rubric": "Full credit: linear drag $\\propto v$ at low Reynolds number (small, slow objects in viscous fluid, e.g. molecules, sedimentation, electrophoresis); quadratic $\\propto v^2$ for large fast objects in air; in both, drag grows with speed until it balances the driving force, so net force $=0$ and speed saturates ($v_t$); linear case gives exponential approach with $\\tau=m/b$.",
+				"modelAnswer": "Linear (Stokes) drag, $F=bv$, dominates for small or slow objects in viscous fluids (a protein sedimenting or migrating in electrophoresis); quadratic drag, $\\tfrac12C\\rho Av^2$, dominates for large fast objects in air. Either way the drag grows with speed until it equals the driving force (weight, electric force), the net force vanishes and the speed stops increasing: the terminal speed. With linear drag the approach is $v_t(1-e^{-t/\\tau})$."
+			}
+		],
+		"p1-l014-work-kinetic-energy": [
+			{
+				"kind": "mc",
+				"prompt": "A satellite moves in a perfect circle at constant speed around the Earth. How much work does the Earth's gravity do on it in one orbit?",
+				"options": [
+					"Zero, because the force is always perpendicular to the displacement.",
+					"Positive, because gravity keeps acting on it.",
+					"Negative, since gravity acts opposite to the motion.",
+					"Equal to $mg$ times the circumference."
+				],
+				"answer": 0,
+				"explanation": "Work is $\\vec F\\cdot d\\vec r$. For circular motion the centripetal force is perpendicular to the velocity, so $\\vec F\\cdot d\\vec r = 0$ at every instant. That is why the speed (kinetic energy) stays constant."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You lift a box slowly at constant speed through a height $h$. You do work $+mgh$, yet the box's kinetic energy does not change. Why is this consistent with $W_{net} = \\Delta K$?",
+				"options": [
+					"The work-energy theorem only applies to falling objects.",
+					"Gravity does $-mgh$ of work, so the net work is zero, matching $\\Delta K = 0$.",
+					"Your work is stored as kinetic energy that is invisible at constant speed.",
+					"Gravity does no work because the box is moving slowly."
+				],
+				"answer": 1,
+				"explanation": "The theorem uses the total (net) work of all forces. Your positive work and gravity's negative work cancel, so $\\Delta K = 0$; the lost 'work' is stored as gravitational potential energy."
+			},
+			{
+				"kind": "mc",
+				"prompt": "On a force-position graph, a force of +4 N acts from x = 0 to 2 m, then a force of -2 N acts from x = 2 m to 5 m. The net work done on the particle is",
+				"options": [
+					"+6 J.",
+					"+14 J.",
+					"-2 J.",
+					"+2 J."
+				],
+				"answer": 3,
+				"explanation": "Work is the signed area under $F(x)$: $+4\\cdot2 = +8$ J, then $-2\\cdot3 = -6$ J. Net $= +2$ J. Negative force while moving in +x removes kinetic energy."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A spring with $k = 200$ N/m is stretched from 0.050 m to 0.150 m beyond its natural length. How much work must be done on the spring? Give the answer in joules.",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"unit": "J",
+				"explanation": "$W = \\tfrac12k(x_f^2 - x_i^2) = \\tfrac12(200)(0.150^2-0.050^2) = 2.00$ J. The work is not proportional to the stretch: the last 10 cm costs far more than the first 5 cm."
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from Newton's second law in one dimension, show (in words or equations) why the net work done on a particle equals its change in kinetic energy.",
+				"rubric": "Full credit: $W=\\int F\\,dx = \\int m\\frac{dv}{dt}dx = \\int m\\,v\\,dv$ (since $dx = v\\,dt$), $=\\tfrac12mv_f^2 - \\tfrac12mv_i^2$; the net force's work becomes $\\Delta K$.",
+				"modelAnswer": "Write $F = m\\,dv/dt$ and use $dx = v\\,dt$: $W = \\int F\\,dx = \\int m\\frac{dv}{dt}\\,v\\,dt = \\int_{v_i}^{v_f} mv\\,dv = \\tfrac12mv_f^2 - \\tfrac12mv_i^2$. So the net work equals the change in $\\tfrac12mv^2$."
+			}
+		],
+		"p1-l015-power-potential-energy": [
+			{
+				"kind": "mc",
+				"prompt": "You measure the gravitational potential energy of a book relative to the floor. Your friend measures it relative to the ceiling. Which of the following do you and your friend disagree on?",
+				"options": [
+					"The numerical value of the potential energy; we agree on energy differences and on the force.",
+					"The force of gravity on the book, since the force depends on where the energy zero is placed.",
+					"How much speed the book gains in falling 1 m, because that depends on the starting value of $U$.",
+					"How much work gravity does as the book falls from the shelf to the floor, since work is measured from the zero."
+				],
+				"answer": 0,
+				"explanation": "Only differences in $U$ are physical: $F = -dU/dx$ and $\\Delta K = -\\Delta U$ do not depend on where $U=0$. A shift of the zero adds the same constant to every $U$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A particle's potential energy is $U(x)$. At a point where $dU/dx$ is large and positive, the force on the particle",
+				"options": [
+					"points in the positive $x$ direction because $U$ is positive.",
+					"is zero because $U$ is conservative.",
+					"points in the negative $x$ direction (toward lower $U$) and is large.",
+					"points along the tangent of the $U$ curve in the direction of increasing $U$."
+				],
+				"answer": 2,
+				"explanation": "$F_x = -dU/dx$: forces push 'downhill' on the potential-energy landscape, and the steeper the slope, the larger the force."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A car's engine delivers constant power $P$ on a level road. At higher speed, the forward driving force from the engine is",
+				"options": [
+					"larger, because the car has more momentum.",
+					"unchanged, because power is constant.",
+					"zero, because the car is at terminal speed.",
+					"smaller, because $P = Fv$ means $F = P/v$."
+				],
+				"answer": 3,
+				"explanation": "$P = \\vec F\\cdot\\vec v$, so at fixed power force and speed trade off; this is why gearboxes exist: low gear gives high force at low speed."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 70 kg hiker climbs a 500 m altitude gain in exactly one hour. Estimate the average mechanical power she must produce against gravity (ignore her body's inefficiency). Use $g = 9.81$ m/s$^2$. Give the answer in watts.",
+				"answer": 95.38,
+				"tolerance": 0.05,
+				"unit": "W",
+				"explanation": "$\\bar P = mgh/t = (70)(9.81)(500)/3600 = 95$ W. Muscles are only about 25% efficient, so she actually burns metabolic energy at roughly 382 W."
+			},
+			{
+				"kind": "short",
+				"prompt": "What does it mean for a force to have a potential energy function, and how is the force recovered from that function? Why does only the difference in potential energy have physical meaning?",
+				"rubric": "Full credit: for a conservative force the work done depends only on endpoints so we can define $\\Delta U = -\\int \\vec F\\cdot d\\vec r$; conversely $F_x = -dU/dx$ (force is minus the slope); the zero of $U$ is arbitrary (adding a constant doesn't change slope or $\\Delta U$), so only differences matter.",
+				"modelAnswer": "If the work done by a force depends only on the endpoints, we can store it as a function of position, $\\Delta U = -\\int\\vec F\\cdot d\\vec r$, and the force is recovered as minus the slope, $F_x = -dU/dx$. Adding a constant to $U$ changes neither the slope nor the differences $U_f - U_i$, so only differences (which set changes in kinetic energy) are physical."
+			}
+		],
+		"p1-l016-conservation-of-energy": [
+			{
+				"kind": "mc",
+				"prompt": "Which of the following forces is NOT conservative?",
+				"options": [
+					"Gravity near the Earth's surface.",
+					"Kinetic friction of a block sliding on a table.",
+					"The force of an ideal spring.",
+					"The Coulomb force between two fixed charges."
+				],
+				"answer": 1,
+				"explanation": "A conservative force does zero net work around any closed loop (path-independent). Kinetic friction always opposes the motion, so the farther the block slides the more energy is dissipated; going around a loop does negative work."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A frictionless roller-coaster car starts from rest at the top of a 30 m hill. Its speed at the bottom of a 30 m drop is the same whether the track is a steep straight slope or a long winding path. Why?",
+				"options": [
+					"Only the change in height matters when only conservative forces do work; the path is irrelevant.",
+					"Gravity does zero work on curved paths, so the winding track cannot change the car's speed.",
+					"The car's mass cancels out of the equation of motion, so every track gives the same result.",
+					"A longer path gives gravity more time to act and exactly compensates for the gentler slope."
+				],
+				"answer": 0,
+				"explanation": "Using $\\tfrac12mv^2 = mgh$ we get $v = \\sqrt{2gh}$ for any frictionless path with the same height drop. The path changes how long the trip takes, not the final speed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A block slides across a rough floor and comes to rest. Where has its kinetic energy gone?",
+				"options": [
+					"Into thermal energy of the block and floor (random molecular motion); total energy is conserved.",
+					"Into potential energy of the floor, which stores the energy until the block moves again.",
+					"It has been destroyed by friction, because friction removes energy from the universe.",
+					"It has been converted into momentum of the block, since momentum is conserved while kinetic energy is not."
+				],
+				"answer": 0,
+				"explanation": "Friction does negative work $\\Delta E_{mech} = W_{nc}$ but the energy appears as internal (thermal) energy. Energy bookkeeping across mechanical, thermal and chemical forms is exactly the logic behind enthalpy balances."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 2.00 kg block is released from rest 3.00 m up a rough incline (vertical height 3.00 m) and reaches the bottom with a speed of 6.00 m/s. How much mechanical energy was converted to thermal energy by friction? Use $g = 9.81$ m/s$^2$. Give the answer in joules.",
+				"answer": 22.86,
+				"tolerance": 0.02,
+				"unit": "J",
+				"explanation": "$E_{mech,initial} = mgh = 58.86$ J, $E_{mech,final} = \\tfrac12mv^2 = 36.0$ J, so $W_{nc} = -22.86$ J: 22.9 J became thermal energy."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how energy conservation lets you find a speed or height without solving the equation of motion, and why friction does not violate energy conservation.",
+				"rubric": "Full credit: for conservative forces K+U is constant, so compare two positions only through U(position), skipping details of path and time; with friction, mechanical energy decreases by the dissipated amount, which appears as thermal energy so the total of all energies (including thermal) is conserved.",
+				"modelAnswer": "When only conservative forces do work, $K+U$ has the same value at every point, so you only need the initial and final positions, not the path or the time. Friction removes mechanical energy, but the same amount shows up as thermal energy of the surfaces, so the total energy including heat is conserved; this accounting is the same idea as balancing enthalpy and heat in chemistry."
+			}
+		],
+		"p1-l017-potential-energy-diagrams": [
+			{
+				"kind": "mc",
+				"prompt": "A particle moves in a potential well and has total energy $E$. At a turning point (where $E = U(x)$), which statement is true?",
+				"options": [
+					"Its force is zero there, so the particle simply stays at rest at the turning point forever.",
+					"Its kinetic energy is zero, but the force is generally nonzero, so it turns back.",
+					"Its kinetic energy is at a maximum there, because the potential energy is at its maximum.",
+					"It cannot reach that point, because it would have no energy left to do anything there."
+				],
+				"answer": 1,
+				"explanation": "Turning points are where $K = E - U = 0$. The slope of $U$ there is typically nonzero, so $F = -dU/dx \\neq 0$ and the particle is pushed back into the allowed region."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For two atoms interacting through a Lennard-Jones curve, how does the force behave at separations greater than the minimum $r_{min}$ and less than $r_{min}$?",
+				"options": [
+					"Repulsive for $r > r_{min}$ and attractive for $r < r_{min}$, because the curve is steeper on the left.",
+					"Attractive at all separations, with the strongest pull exactly at $r_{min}$ where the energy is lowest.",
+					"Attractive for $r > r_{min}$ (pulling together) and repulsive for $r < r_{min}$ (pushing apart).",
+					"Zero at every separation except exactly at $r_{min}$, where the atoms finally feel each other."
+				],
+				"answer": 2,
+				"explanation": "$F = -dU/dr$. To the right of the minimum $U$ increases with $r$ so $F<0$ (toward smaller $r$, attraction). To the left $U$ falls steeply with increasing $r$ so $F>0$ (repulsion). The minimum is the equilibrium bond length."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two identical particles oscillate in wells that have the same minimum energy and the same depth, but well B is twice as sharply curved ($U'' $ is 2x larger). For small oscillations, the frequency in well B is",
+				"options": [
+					"twice that in well A.",
+					"the same as in well A.",
+					"half that in well A.",
+					"$\\sqrt2$ times that in well A."
+				],
+				"answer": 3,
+				"explanation": "Near a stable minimum $U \\approx \\tfrac12U''x^2$, an effective spring with $k = U''$. $\\omega = \\sqrt{k/m}$ scales as $\\sqrt{U''}$, so doubling the curvature raises the frequency by $\\sqrt2$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Treat the argon dimer with a Lennard-Jones potential, $\\varepsilon/k_B = 120$ K and $\\sigma = 3.40$ Angstrom. Near the minimum the effective spring constant is $k = 36\\cdot2^{2/3}\\varepsilon/\\sigma^2$. For the relative vibration (reduced mass $\\mu = m_{Ar}/2$ with $m_{Ar} = 39.948$ u) find the small-oscillation frequency $\\nu = \\omega/2\\pi$. Give the answer in THz.",
+				"answer": 0.7909,
+				"tolerance": 0.05,
+				"unit": "THz",
+				"explanation": "$\\varepsilon = 1.657e-21$ J, $k = 0.819$ N/m, $\\mu = 3.317e-26$ kg, $\\omega = \\sqrt{k/\\mu} = 4.969e+12$ rad/s and $\\nu = 0.791$ THz. This is the same recipe (curvature at the minimum divided by reduced mass) used for molecular vibrations."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the shape of a bond-energy curve near its minimum gives both the equilibrium bond length and the vibrational frequency, and what the depth of the well tells you.",
+				"rubric": "Full credit: equilibrium at $dU/dr=0$ (the bond length); expanding to second order gives a spring with $k=U''(r_0)$ and $\\omega=\\sqrt{k/\\mu}$ with reduced mass; stiffer (more curved) wells give higher frequencies; the depth is the dissociation (binding) energy relative to separated atoms.",
+				"modelAnswer": "The bond length is the separation where $dU/dr = 0$ (net force zero) at the minimum. Close to that minimum the curve looks like a parabola $\\tfrac12 k(r-r_0)^2$ with $k = U''(r_0)$, so small vibrations are simple harmonic with $\\omega = \\sqrt{k/\\mu}$; a more sharply curved well means a stiffer bond and higher frequency. The depth of the well, measured from the minimum up to $U(\\infty)$, is the energy needed to dissociate the bond."
+			}
+		],
+		"p1-l018-momentum-impulse": [
+			{
+				"kind": "mc",
+				"prompt": "A fielder catches a fast baseball by letting his hand move backward as the ball arrives, rather than holding the glove rigid. This reduces the force on his hand because",
+				"options": [
+					"the ball loses less momentum when the glove gives way, so less impulse is delivered to the hand.",
+					"the same momentum change is spread over a longer time, so the average force is smaller.",
+					"moving the glove back reduces the ball's effective mass, so it hits with less force.",
+					"the force on the hand is the same either way, but spread over more time it feels less painful."
+				],
+				"answer": 1,
+				"explanation": "Impulse $= F_{avg}\\Delta t = \\Delta p$. For a given $\\Delta p$, a longer stopping time means a proportionally smaller average force. The same idea underlies airbags and crumple zones."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A rifle (mass 4 kg) fires a bullet (mass 10 g) from rest. Compared with the bullet, the recoiling rifle has",
+				"options": [
+					"the same kinetic energy but a much smaller momentum.",
+					"the same speed but opposite direction.",
+					"the same magnitude of momentum but a much smaller kinetic energy.",
+					"a larger momentum, because it is heavier."
+				],
+				"answer": 2,
+				"explanation": "Momentum conservation gives equal and opposite momenta ($p$). Kinetic energy is $p^2/2m$, so the light bullet carries nearly all the kinetic energy and the heavy rifle very little."
+			},
+			{
+				"kind": "mc",
+				"prompt": "An explosion tears a stationary object into pieces with very large internal forces. Why is the total momentum of the pieces still zero?",
+				"options": [
+					"Because Newton's laws do not apply to explosions, so a separate rule fixes the momentum at zero.",
+					"Because the internal forces are so large that they average to zero over the short time of the blast.",
+					"Because the pieces all end up with equal masses, so their momenta must cancel in pairs.",
+					"Internal forces cancel in equal and opposite pairs; only external forces change the total momentum."
+				],
+				"answer": 3,
+				"explanation": "For each pair of particles $\\vec F_{12} = -\\vec F_{21}$ (third law), so the sum of internal forces is zero and $d\\vec P/dt = \\vec F_{ext}$. If no external force acts, the total momentum is constant."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 0.145 kg baseball moving at 40.0 m/s is hit straight back toward the pitcher, leaving the bat at 50.0 m/s. The bat and ball are in contact for 1.00 ms. What is the magnitude of the average force on the ball? Give the answer in newtons.",
+				"answer": 13050.0,
+				"tolerance": 0.02,
+				"unit": "N",
+				"explanation": "Take the incoming direction as negative: $\\Delta p = 0.145[50 - (-40)] = 13.05$ kg m/s. $F_{avg} = \\Delta p/\\Delta t = 13050$ N, roughly 9000 times the ball's weight."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how Newton's third law leads to conservation of total momentum for an isolated system, and use it to say why a stationary nucleus that decays into two fragments sends them off in opposite directions.",
+				"rubric": "Full credit: internal forces are equal and opposite so $d(\\vec p_1+\\vec p_2)/dt = 0$; the total momentum stays at its initial value (zero for the nucleus at rest), so $\\vec p_1 = -\\vec p_2$: opposite directions, equal magnitudes (the lighter one is faster).",
+				"modelAnswer": "For two interacting bodies $\\vec F_{12} = -\\vec F_{21}$, so $d\\vec p_1/dt + d\\vec p_2/dt = 0$ and total momentum is constant. A nucleus at rest starts with zero momentum, so the fragments must have equal and opposite momenta: opposite directions, with the lighter fragment moving faster. This works without knowing anything about the forces involved."
+			}
+		],
+		"p1-l019-collisions": [
+			{
+				"kind": "mc",
+				"prompt": "A billiard ball strikes an identical stationary ball head-on in a perfectly elastic 1D collision. Afterwards,",
+				"options": [
+					"both balls move forward, each with half of the original speed, sharing the motion equally.",
+					"the first ball stops and the second moves off at the first ball's original speed.",
+					"the first ball rebounds backward while the second ball moves forward at the same speed.",
+					"both balls come to rest, because the momentum of one ball is shared between them and cancels."
+				],
+				"answer": 1,
+				"explanation": "For equal masses, momentum and energy conservation give $v_{1f} = 0$, $v_{2f} = v_{1i}$: the balls exchange velocities. Check: $K$ is unchanged and $p$ is unchanged."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a scattering experiment where a small ball hits a larger fixed sphere (a billiard-ball model of molecular collisions), how does the deflection angle depend on the impact parameter $b$ (the perpendicular offset of the incoming line from the centre)?",
+				"options": [
+					"The deflection is the same for every impact parameter, since it is set only by the target's size.",
+					"A head-on hit gives no deflection at all, while a large $b$ gives strong backscatter.",
+					"Deflection depends only on the speed of the incoming particle, not on where it strikes.",
+					"A head-on hit ($b=0$) gives the largest deflection; larger $b$ gives less, and a miss gives none."
+				],
+				"answer": 3,
+				"explanation": "A glancing blow transfers little transverse momentum, while a head-on collision reverses the direction. Measuring the distribution of deflection angles is how we learn the size and shape of molecules in scattering experiments."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A 2 kg cart rolling at 6 m/s collides and sticks to a 4 kg cart at rest. Which quantity is conserved in this perfectly inelastic collision?",
+				"options": [
+					"Total momentum only; the kinetic energy that disappears goes into heat and deformation.",
+					"Total kinetic energy only, because the carts stay together and nothing is lost to the surroundings.",
+					"Both total momentum and total kinetic energy, as in every collision with no external force.",
+					"Neither, because the carts stick together and the combined cart starts from a new state."
+				],
+				"answer": 0,
+				"explanation": "No external horizontal force acts, so total momentum is conserved ($12 = 6v'$ gives $v' = 2$ m/s). The kinetic energy drops from 36 J to 12 J; the missing energy appears as heat and deformation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 2.0 kg cart moving at 6.0 m/s collides and sticks to a 4.0 kg cart at rest. What fraction of the initial kinetic energy is lost? Give the answer as a decimal fraction.",
+				"answer": 0.6667,
+				"tolerance": 0.02,
+				"explanation": "$v' = (2)(6)/6 = 2$ m/s; $K_i = 36$ J, $K_f = 12$ J, so $2/3 \\approx 0.667$ of the energy is lost. In general the lost fraction is $m_2/(m_1+m_2)$ for a target initially at rest."
+			},
+			{
+				"kind": "short",
+				"prompt": "A moving ball strikes an identical ball at rest in an elastic but off-centre (2D) collision. Explain why the two balls leave at right angles to each other.",
+				"rubric": "Full credit: momentum: $\\vec v = \\vec v_1' + \\vec v_2'$ (equal masses); energy: $v^2 = v_1'^2 + v_2'^2$; the vector triangle with $v^2 = v_1'^2 + v_2'^2$ is a right triangle (Pythagoras), so $\\vec v_1'\\perp\\vec v_2'$ (unless one is zero).",
+				"modelAnswer": "With equal masses, conservation of momentum says $\\vec v = \\vec v_1' + \\vec v_2'$, and conservation of energy says $v^2 = v_1'^2 + v_2'^2$. Squaring the first gives $v^2 = v_1'^2 + v_2'^2 + 2\\vec v_1'\\cdot\\vec v_2'$, so the dot product must vanish: the final velocities are perpendicular."
+			}
+		],
+		"p1-l020-center-of-mass": [
+			{
+				"kind": "mc",
+				"prompt": "A spinning, tumbling hammer is thrown through the air (ignore air resistance). The path of its centre of mass is",
+				"options": [
+					"a straight line, since the hammer is rigid.",
+					"a wobbly curve that depends on how it spins.",
+					"a smooth parabola, exactly as for a point mass, whatever the spin.",
+					"a parabola only if the hammer does not rotate."
+				],
+				"answer": 2,
+				"explanation": "$\\vec F_{ext} = M\\vec A_{cm}$: the CM responds only to the external force (gravity here), so it follows a parabola. All the complicated tumbling is internal motion about the CM."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A firework shell is moving along a parabola when it explodes into many fragments. Ignoring air resistance, the centre of mass of the fragments afterward",
+				"options": [
+					"stops at the point of the explosion, because the shell's motion ends when it breaks apart.",
+					"moves in a straight line at the shell's old velocity, since the explosion adds no net push.",
+					"keeps following the original parabola until the first fragment hits the ground.",
+					"moves upward, away from the Earth, because the blast pushes all the fragments outward."
+				],
+				"answer": 2,
+				"explanation": "The explosion's forces are internal, so they cannot change the motion of the CM; only gravity (external) acts on the system as a whole."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A heavy atom (mass $M$) and a light atom (mass $m \\ll M$) are bonded. The reduced mass $\\mu = mM/(m+M)$ that governs their relative vibration is approximately",
+				"options": [
+					"$M$, the mass of the heavier atom.",
+					"$m$, the mass of the lighter atom.",
+					"$(m+M)/2$, the average.",
+					"$\\sqrt{mM}$."
+				],
+				"answer": 1,
+				"explanation": "When $M\\gg m$, $\\mu \\to m$: the heavy atom barely moves, so the vibration is essentially that of the light atom. For HCl the reduced mass is close to the mass of H, which is why isotope substitution of H by D shifts the frequency."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In carbon monoxide the C and O nuclei are 1.128 Angstrom apart ($m_C = 12.011$ u, $m_O = 15.999$ u). How far is the centre of mass from the carbon nucleus? Give the answer in Angstrom.",
+				"answer": 0.6443,
+				"tolerance": 0.02,
+				"unit": "Angstrom",
+				"explanation": "$x_{cm} = m_O d/(m_C+m_O) = (15.999)(1.128)/(28.010) = 0.644$ Angstrom from the carbon (measured toward oxygen). The CM lies nearer the heavier atom."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the centre of mass is such a useful concept: what does $\\vec F_{ext} = M\\vec A_{cm}$ tell us, and how does the kinetic energy of a system of particles split up?",
+				"rubric": "Full credit: internal forces cancel in pairs so the whole system's total momentum changes only due to external force: CM behaves like a point mass $M$ acted on by $F_{ext}$; kinetic energy splits as $\\tfrac12MV_{cm}^2$ (motion of the CM) plus internal KE relative to the CM (rotation, vibration), which for two bodies uses reduced mass.",
+				"modelAnswer": "Because internal forces cancel in pairs, the total momentum changes only through external forces: the CM moves as if all the mass were concentrated there and all external forces acted on it. The kinetic energy separates cleanly into $\\tfrac12MV_{cm}^2$ plus the kinetic energy of motion relative to the CM (spin, vibration); for two bodies the latter involves the reduced mass $\\mu$."
+			}
+		],
+		"p1-l021-variable-mass-rockets": [
+			{
+				"kind": "mc",
+				"prompt": "How can a rocket accelerate in empty space when there is nothing to push against?",
+				"options": [
+					"It cannot; rockets only work in an atmosphere, where the exhaust pushes against the air.",
+					"It pushes against the Earth's gravitational field, which acts as a medium far from the planet.",
+					"It pushes against the surrounding vacuum, which still has a small residual pressure.",
+					"It expels exhaust backward, so by momentum conservation the rocket gains forward momentum."
+				],
+				"answer": 3,
+				"explanation": "The system (rocket + exhaust) has constant total momentum. Gas thrown backward has backward momentum, so the rocket must gain forward momentum. No external medium is needed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does dropping empty fuel tanks (staging) help a rocket reach orbital speed?",
+				"options": [
+					"Empty tanks produce backward thrust, so discarding them removes a drag on the rocket.",
+					"Dropping dead mass gives the remaining stage a better mass ratio for the same exhaust speed.",
+					"The rocket equation does not apply to the first stage, so splitting it avoids the limit.",
+					"Lighter rockets have a higher exhaust speed, so each lighter stage burns more efficiently."
+				],
+				"answer": 1,
+				"explanation": "In $\\Delta v = v_{ex}\\ln(m_i/m_f)$ the logarithm punishes carrying useless mass. Each stage starts with a fresh good ratio, because the structure of earlier stages is not carried along."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A raindrop falls through a stationary cloud of mist and gathers more mass as it falls. Why can't you simply write $mg = m\\,dv/dt$ for it?",
+				"options": [
+					"Because a raindrop is not subject to gravity once it is inside the cloud of mist.",
+					"Because $F=ma$ only works for rigid objects, and a growing raindrop is not rigid.",
+					"The mass is changing and the accreted mist started at rest, so $F=d(mv)/dt$ must be used.",
+					"Because the mist exerts drag that exactly cancels gravity, so the acceleration is zero."
+				],
+				"answer": 2,
+				"explanation": "The accreted mass has to be accelerated from rest to the drop's speed; this requires momentum, which comes at the cost of the drop's acceleration. Always apply momentum balance to a well-defined system."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A rocket stage burns propellant with effective exhaust speed 4.40 km/s (a typical liquid H$_2$/O$_2$ engine). What initial-to-final mass ratio $m_i/m_f$ is needed to achieve $\\Delta v = 9.40$ km/s (roughly what is needed to reach low-Earth orbit), ignoring gravity and drag? Give the ratio as a pure number.",
+				"answer": 8.469,
+				"tolerance": 0.02,
+				"explanation": "$m_i/m_f = e^{\\Delta v/v_{ex}} = e^{9.4/4.4} = 8.47$: about 88% of the launch mass must be propellant. The exponential is why staging matters."
+			},
+			{
+				"kind": "short",
+				"prompt": "Outline the reasoning that gives the rocket equation, and explain in words why the final speed depends on the logarithm of the mass ratio rather than linearly on it.",
+				"rubric": "Full credit: apply momentum conservation over a short interval: rocket mass $m$ ejects $|dm|$ at speed $v_{ex}$ relative to the rocket so $m\\,dv = v_{ex}|dm|$ (no gravity); integrate $dv = -v_{ex}\\,dm/m$ to get $v_{ex}\\ln(m_i/m_f)$; each fractional mass loss gives a fixed velocity increment, so equal factors in mass give equal $\\Delta v$ (logarithm).",
+				"modelAnswer": "In a short time the rocket (mass $m$) throws out mass $|dm|$ backward at speed $v_{ex}$ relative to itself, and momentum conservation gives $m\\,dv = v_{ex}|dm|$, i.e. $dv = -v_{ex}\\,dm/m$. Integrating from $m_i$ to $m_f$ yields $\\Delta v = v_{ex}\\ln(m_i/m_f)$. Each ejected slice of mass produces a velocity gain proportional to the fraction of the current mass it represents, so you get equal speed increments each time the mass is cut by the same factor: a logarithm."
+			}
+		],
+		"p1-l022-rotational-kinematics": [
+			{
+				"kind": "mc",
+				"prompt": "Two points on a rotating CD are at radii $r$ and $2r$ from the centre. Compared with the inner point, the outer point has",
+				"options": [
+					"the same angular velocity and the same linear speed.",
+					"twice the angular velocity and twice the linear speed.",
+					"the same angular velocity and twice the linear speed.",
+					"half the angular velocity and the same linear speed."
+				],
+				"answer": 2,
+				"explanation": "Every point on a rigid rotating body shares the same $\\omega$ and $\\alpha$ (that is why they are useful). The linear speed $v = \\omega r$ grows with distance from the axis."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A turntable spins at a constant angular velocity. Does a point on its rim accelerate?",
+				"options": [
+					"No, because the angular velocity is constant, so nothing about the motion is changing.",
+					"Yes, with a tangential acceleration equal to $\\omega r$, because the speed is nonzero.",
+					"No, because the velocity is tangent to the circle and acceleration needs a change in speed.",
+					"Yes: a centripetal acceleration $\\omega^2 r$ toward the axis, but no tangential acceleration."
+				],
+				"answer": 3,
+				"explanation": "Constant $\\omega$ means $\\alpha=0$ and no tangential acceleration, but the velocity vector still turns, so there is a radial acceleration $a_c=\\omega^2r$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a wheel rotating counterclockwise as seen from above, the angular velocity vector $\\vec\\omega$ points",
+				"options": [
+					"upward along the axis (right-hand rule), so that $\\vec v=\\vec\\omega\\times\\vec r$ is tangential.",
+					"downward along the axis, and the velocity of a point then points along $\\vec\\omega$ itself.",
+					"tangent to the rim, in the same direction as the velocity of the point on the rim.",
+					"radially outward from the axis, in the direction a loose particle would fly off."
+				],
+				"answer": 0,
+				"explanation": "The direction of $\\vec\\omega$ is along the rotation axis, with sense given by curling the fingers of the right hand in the direction of rotation. The cross product $\\vec\\omega\\times\\vec r$ gives the tangential velocity."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A flywheel spinning at 40.0 rad/s slows with a constant angular acceleration of -5.00 rad/s$^2$. How many complete revolutions does it make before stopping? Give the answer in revolutions.",
+				"answer": 25.46,
+				"tolerance": 0.02,
+				"unit": "rev",
+				"explanation": "$\\omega^2 = \\omega_0^2 + 2\\alpha\\Delta\\theta$ gives $\\Delta\\theta = 40^2/(2\\cdot5) = 160$ rad $= 25.5$ rev. This is the exact analogue of $v^2 = v_0^2 + 2a\\Delta x$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is the radian the natural unit for angles in physics, and why do we treat angular velocity as a vector even though a rotation is not a displacement in a straight line?",
+				"rubric": "Full credit: the radian is defined by $s = r\\theta$ (arc length per radius) so that $v=\\omega r$, $a_t = \\alpha r$ hold without conversion factors (derivatives of $\\sin\\theta$ etc.); angular velocity has a magnitude and a definite axis and sense (right-hand rule) and it relates to velocity by $\\vec v = \\vec\\omega\\times\\vec r$, so a vector description captures the axis.",
+				"modelAnswer": "The radian is the ratio arc/radius, so $s = r\\theta$, $v = \\omega r$ and $a_t=\\alpha r$ hold without conversion factors, and derivatives like $d(\\sin\\theta)/d\\theta = \\cos\\theta$ are clean. Angular velocity specifies how fast and about which axis (and in which sense) a body turns; with the right-hand rule it behaves like a vector, and the velocity of any point is $\\vec\\omega\\times\\vec r$."
+			}
+		],
+		"p1-l023-moment-of-inertia": [
+			{
+				"kind": "mc",
+				"prompt": "A solid disk and a thin hoop have the same mass and radius and spin at the same angular velocity. Which has more rotational kinetic energy, and why?",
+				"options": [
+					"The hoop, because all its mass is at the rim, so its $I=MR^2$ exceeds the disk's $\\tfrac12MR^2$.",
+					"The disk, because it has more of its mass near the axis, where the material is moving fastest.",
+					"They are equal, because mass and angular velocity are the same for the two bodies.",
+					"The disk, because $I$ is larger when mass is concentrated near the centre of the body."
+				],
+				"answer": 0,
+				"explanation": "$K = \\tfrac12I\\omega^2$ and $I = \\sum m_ir_i^2$ weights mass by the square of its distance from the axis. Moving mass outward raises $I$ and hence the energy needed to spin at a given $\\omega$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The moment of inertia of a uniform rod about its centre is $\\tfrac1{12}ML^2$, but about one end it is $\\tfrac13ML^2$. Why is the end value larger?",
+				"options": [
+					"Because rotating about the end makes the rod heavier, which adds to its inertia.",
+					"Because the centre of mass is not at the middle of a rod, so the two axes differ.",
+					"Because the moment of inertia depends only on the total mass, not on the axis chosen.",
+					"On average the mass is farther from an end axis; the parallel-axis term $Md^2$ adds to $I_{cm}$."
+				],
+				"answer": 3,
+				"explanation": "$I = I_{cm} + Md^2$ with $d = L/2$: $\\tfrac1{12}ML^2 + \\tfrac14ML^2 = \\tfrac13ML^2$. Among parallel axes, the one through the centre of mass always has the smallest $I$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A mass hangs from a string wound around a pulley and falls. If the pulley is a heavy disk instead of a light one, the mass falls",
+				"options": [
+					"faster, because the heavy pulley pulls harder on the string and drags the mass down.",
+					"at constant speed, because the heavier pulley balances the gravitational force exactly.",
+					"at the same rate, since the pulley does not touch the mass and cannot affect it.",
+					"more slowly, because part of the lost potential energy goes into rotating the pulley."
+				],
+				"answer": 3,
+				"explanation": "Energy conservation: $mgh = \\tfrac12mv^2 + \\tfrac12I\\omega^2$ with $\\omega = v/R$. A larger $I$ means more of the energy is stored as rotation, so $v$ is smaller at every height."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Hydrogen chloride (H$^{35}$Cl) has bond length 1.275 Angstrom. Treat it as a rigid rotor with $I = \\mu r^2$ and find the rotational constant $\\tilde B = \\hbar/(4\\pi cI)$ in cm$^{-1}$ ($m_H = 1.00783$ u, $m_{Cl} = 34.96885$ u). Give the answer in cm$^{-1}$.",
+				"answer": 10.59,
+				"tolerance": 0.03,
+				"unit": "cm^-1",
+				"explanation": "$\\mu = 0.9796$ u $= 1.627e-27$ kg, $I = \\mu r^2 = 2.644e-47$ kg m$^2$, $\\tilde B = 10.59$ cm$^{-1}$ (the experimental value is about 10.6 cm$^{-1}$). A larger moment of inertia gives closer-spaced rotational levels."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically what the moment of inertia measures and why, unlike mass, it depends on where the axis is placed. Then say how a heavier, longer molecule's rotational energy levels compare with those of a light, short one.",
+				"rubric": "Full credit: $I=\\sum m_ir_i^2$ measures resistance to angular acceleration (rotational inertia), weighted by squared distance from the axis, so it depends on the mass distribution and the chosen axis; rotational energies scale as $\\hbar^2/2I$, so a heavy/long molecule (large $I$) has smaller rotational constant and more closely spaced levels.",
+				"modelAnswer": "Moment of inertia is the rotational analogue of mass: how hard it is to change a body's rotation. Because it weights each piece of mass by $r^2$, it depends on how the mass is distributed relative to the chosen axis. In spectroscopy, rotational levels scale as $\\hbar^2/2I$, so a heavy, long molecule with a large $I$ has a small rotational constant and closely spaced rotational levels."
+			}
+		],
+		"p1-l024-torque-rotational-dynamics": [
+			{
+				"kind": "mc",
+				"prompt": "A 100 N force acts on a wheel along a line that passes exactly through the axle (the pivot). What torque does it produce about the axle?",
+				"options": [
+					"100 N m, regardless of the position.",
+					"100 N times the radius of the wheel.",
+					"Zero, because the lever arm is zero.",
+					"It depends on the angular velocity of the wheel."
+				],
+				"answer": 2,
+				"explanation": "$\\vec\\tau = \\vec r\\times\\vec F$ has magnitude $rF\\sin\\phi$, and for a force along the line through the pivot $\\phi=0$ (equivalently, lever arm = 0). Pushing straight at the hinge does not turn the door."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a massive-pulley Atwood machine, the tensions in the string on the two sides of the pulley are different. Why?",
+				"options": [
+					"The string stretches by different amounts on the two sides, giving unequal tensions.",
+					"The two masses have different weights, so each side's tension simply equals its weight.",
+					"A net torque $(T_2-T_1)R=I\\alpha$ is needed to give the pulley its angular acceleration.",
+					"Tension is always larger on the side of the smaller mass, since the lighter mass resists."
+				],
+				"answer": 2,
+				"explanation": "A pulley with rotational inertia needs a net torque to speed up its rotation. Only unequal tensions can supply it. In the massless limit $I\\to0$, the tensions equalise."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A motor delivers constant power. If it turns faster, what happens to the torque it delivers?",
+				"options": [
+					"The torque increases, because faster motion needs a stronger twist.",
+					"The torque decreases, because $P = \\tau\\omega$ means $\\tau = P/\\omega$.",
+					"The torque stays the same, since power is constant.",
+					"The torque becomes independent of $\\omega$."
+				],
+				"answer": 1,
+				"explanation": "$P = \\tau\\omega$ at fixed $P$ gives an inverse relation between torque and angular speed; a car in a higher gear (higher $\\omega$ of the engine for a given speed) delivers less torque to the wheels."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A mechanic pulls on a 0.30 m wrench with a 80 N force that makes a $60^\\circ$ angle with the wrench handle. What is the torque about the bolt? Give the answer in N m.",
+				"answer": 20.78,
+				"tolerance": 0.02,
+				"unit": "N m",
+				"explanation": "$\\tau = rF\\sin\\phi = (0.30)(80)\\sin60^\\circ = 20.8$ N m. Only the component of the force perpendicular to the wrench ($F\\sin60^\\circ$) turns the bolt."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the rotational form of Newton's second law and explain each of its parts by comparison with $F = ma$, including what plays the role of force and of mass.",
+				"rubric": "Full credit: $\\tau_{net} = I\\alpha$; torque ($r\\times F$, a force weighted by lever arm) replaces force, moment of inertia replaces mass (inertia depends on distribution of mass about the axis), angular acceleration replaces linear acceleration.",
+				"modelAnswer": "$\\tau_{net} = I\\alpha$: net torque plays the role of net force (a force's turning effect is the force times its lever arm), the moment of inertia plays the role of mass (resistance to change in rotation, depending on how mass is spread about the axis), and the angular acceleration plays the role of $a$."
+			}
+		],
+		"p1-l025-angular-momentum": [
+			{
+				"kind": "mc",
+				"prompt": "A spinning ice skater pulls her arms in and spins faster. What happens to her rotational kinetic energy, and why?",
+				"options": [
+					"It decreases, because the moment of inertia decreased and $K$ is proportional to $I$.",
+					"It stays the same, because angular momentum is conserved and so kinetic energy cannot change either.",
+					"It increases: her muscles do positive work pulling the arms in; angular momentum stays constant.",
+					"It increases, because her angular momentum grows as she spins faster."
+				],
+				"answer": 2,
+				"explanation": "$L = I\\omega$ is conserved (no external torque), so $\\omega\\propto1/I$. But $K = L^2/(2I)$ grows as $I$ shrinks; the extra energy comes from her muscles doing work as she pulls her arms in."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A planet orbits the Sun on an ellipse. It moves faster at perihelion (closest approach) because",
+				"options": [
+					"the Sun's pull is strongest at perihelion and always speeds the planet up along its path.",
+					"the planet's mass is larger at perihelion, so its kinetic energy is larger there.",
+					"angular momentum is conserved under the Sun's central pull, so smaller $r$ means larger $v$.",
+					"friction with interplanetary gas slows the planet down on the far side of its orbit."
+				],
+				"answer": 2,
+				"explanation": "The gravitational force on the planet is directed along the line to the Sun, so it exerts no torque about the Sun and $L$ is constant. This is Kepler's second law, equal areas in equal times."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A particle moves in a straight line at constant velocity, passing at a perpendicular distance $d$ from the origin. Its angular momentum $\\vec L = \\vec r\\times\\vec p$ about the origin is",
+				"options": [
+					"zero, because the particle is not rotating about anything, so there is nothing to have angular momentum.",
+					"constant and nonzero ($L=pd$), even though the particle is not circling anything.",
+					"changing, because the angle between $\\vec r$ and the path changes as the particle moves along.",
+					"zero, because no force acts on the particle and so no torque or angular momentum arises."
+				],
+				"answer": 1,
+				"explanation": "$|\\vec r\\times\\vec p| = p\\,r\\sin\\phi = pd$ at every point on the line, and no torque acts (no force), so $\\vec L$ is constant. Angular momentum depends on the choice of origin, not on circling."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A star like the Sun's core rotates once every 25 days with radius $7.0\\times10^8$ m. Suppose it collapses to a neutron star of radius $1.0\\times10^4$ m, conserving mass and angular momentum, and treat both as uniform spheres ($I\\propto MR^2$). What is the new rotation period? Give the answer in milliseconds.",
+				"answer": 0.4408,
+				"tolerance": 0.05,
+				"unit": "ms",
+				"explanation": "$L = I\\omega$ with $I\\propto R^2$ gives $\\omega_2/\\omega_1 = (R_1/R_2)^2 = 4.90e+09$, so $T_2 = T_1(R_2/R_1)^2 = 2.16e+06\\,\\mathrm{s}\\times2.04e-10 = 0.44$ ms. Real pulsars rotate in milliseconds to seconds."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a planet moving under a central force (like gravity) stays in a single plane and sweeps out equal areas in equal times. Use angular momentum.",
+				"rubric": "Full credit: central force $\\parallel \\vec r$ so $\\vec\\tau = \\vec r\\times\\vec F=0$ and $\\vec L$ is constant in magnitude and direction; $\\vec L=\\vec r\\times\\vec p$ is always perpendicular to $\\vec r$ and $\\vec v$ so motion stays in the plane perpendicular to $\\vec L$; area rate $dA/dt = L/2m$ is constant.",
+				"modelAnswer": "A central force points along $\\vec r$, so the torque $\\vec r\\times\\vec F$ is zero and $\\vec L$ is constant. Since $\\vec L = \\vec r\\times\\vec p$ is perpendicular to the position vector at all times and has fixed direction, the planet moves in the plane perpendicular to $\\vec L$. The area swept per unit time is $dA/dt = \\tfrac12 r v_\\perp = L/2m$, which is constant."
+			}
+		],
+		"p1-l026-rolling-motion": [
+			{
+				"kind": "mc",
+				"prompt": "A solid sphere, a solid cylinder and a hoop of identical mass and radius are released from rest at the top of an incline and roll without slipping. The finishing order (first to last) is",
+				"options": [
+					"cylinder, then sphere, then hoop; the order depends on the common mass and radius.",
+					"hoop, then cylinder, then sphere, because the hoop has the largest rotational inertia.",
+					"all tie, because gravity accelerates every object equally, regardless of its shape.",
+					"sphere, then cylinder, then hoop, independent of the common mass and radius."
+				],
+				"answer": 3,
+				"explanation": "$a = g\\sin\\theta/(1 + I/MR^2)$: $I/MR^2 = 2/5, 1/2, 1$ respectively. The smaller the share of energy that goes into rotation, the faster the translation. Mass and radius cancel."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A wheel rolls without slipping on a road. Relative to the road, the point of the wheel currently touching the ground is",
+				"options": [
+					"instantaneously at rest, while the top moves at twice the centre's speed.",
+					"moving backward at speed $v_{cm}$, because the wheel's rotation carries it back along the road.",
+					"moving forward at speed $v_{cm}$, the same as the centre, because it is rigidly attached.",
+					"moving forward at twice the centre's speed, because rolling doubles the speed of every point."
+				],
+				"answer": 0,
+				"explanation": "Velocity of a point = $\\vec v_{cm} + \\vec\\omega\\times\\vec r'$. At the bottom the rotation term is $-\\omega R = -v_{cm}$, cancelling $v_{cm}$; at the top it adds, giving $2v_{cm}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A ball rolls without slipping down a rough incline. What role does static friction play, and how much mechanical energy does it dissipate?",
+				"options": [
+					"It slows the ball down and converts its kinetic energy into heat at the contact point.",
+					"It is zero, because a ball that rolls without slipping feels no friction force of any kind.",
+					"It supplies the torque for spin-up but does no work, since the contact point is at rest.",
+					"It does negative work equal to $\\mu_k mg\\cos\\theta$ times the distance rolled, heating the surfaces."
+				],
+				"answer": 2,
+				"explanation": "Friction at the instantaneous contact point acts where the surface is stationary, so it does no work in pure rolling. It still matters: without it the ball would slide frictionlessly and not rotate at all."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A solid sphere ($I = \\tfrac25MR^2$) rolls without slipping down a $30^\\circ$ incline. What is the acceleration of its centre? Use $g = 9.81$ m/s$^2$. Give the answer in m/s$^2$.",
+				"answer": 3.504,
+				"tolerance": 0.02,
+				"unit": "m/s^2",
+				"explanation": "$a = g\\sin\\theta/(1+I/MR^2) = 9.81(0.5)/(1.4) = 3.50$ m/s$^2$, versus $4.91$ m/s$^2$ for a frictionless sliding block."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a hoop loses a race down an incline to a solid sphere even though they have the same mass and radius, in terms of how the energy is shared.",
+				"rubric": "Full credit: total KE $=\\tfrac12Mv^2 + \\tfrac12I\\omega^2$ with $\\omega=v/R$; the hoop has larger $I/MR^2$ so a larger share of the released PE goes to rotation, leaving less in translational KE so slower $v$ at every height.",
+				"modelAnswer": "As each rolls down it converts the same potential energy $Mgh$ into kinetic energy, but this splits between the centre-of-mass motion $\\tfrac12Mv^2$ and spin $\\tfrac12I\\omega^2$ (with $\\omega = v/R$ for rolling). The hoop has the larger $I/MR^2$, so more of the energy goes into spinning and less into forward motion; it moves more slowly at every height."
+			}
+		],
+		"p1-l027-gyroscope-statics": [
+			{
+				"kind": "mc",
+				"prompt": "A spinning top is tilted off vertical. Instead of toppling over immediately, its axis slowly circles around the vertical (precession). The reason is",
+				"options": [
+					"friction with the table pushes the top sideways, and that push keeps carrying its axis around in a circle.",
+					"gravity does not act on a spinning object, so nothing is left to topple it and the axis just wanders.",
+					"the spin makes the top heavier on one side, so gravity pulls that side around the vertical.",
+					"gravity's torque is perpendicular to $\\vec L$, so it changes the direction of $\\vec L$, not its magnitude."
+				],
+				"answer": 3,
+				"explanation": "$d\\vec L/dt = \\vec\\tau$ with $\\vec\\tau\\perp\\vec L$: $|\\vec L|$ is constant but $\\vec L$ swings around the vertical at rate $\\Omega = \\tau/L = mgr/I\\omega$. A faster spin means a larger $L$ and slower precession."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a body in static equilibrium you may take torques about any convenient point. Why is that allowed and which point is usually smart?",
+				"options": [
+					"Torque is always zero for a stationary object, so every pivot gives the same trivial equation and none is smarter.",
+					"With zero net force, torque is zero about every point if zero about one; pick a pivot on an unknown force.",
+					"Only the centre of mass is allowed as a pivot, because torque is defined about the centre of mass.",
+					"The pivot must be at the geometric centre of the body, since torque is defined from the body's centre."
+				],
+				"answer": 1,
+				"explanation": "Changing the reference point adds a term $\\vec r_{shift}\\times\\sum\\vec F$, which vanishes when the net force is zero. Choosing the pivot at an unknown force eliminates that unknown from the equation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A uniform ladder leans against a smooth (frictionless) wall and is held by friction at the floor. If the ladder is made more nearly vertical (steeper), the friction needed at the floor",
+				"options": [
+					"increases.",
+					"stays the same.",
+					"decreases.",
+					"becomes zero only when the ladder is horizontal."
+				],
+				"answer": 2,
+				"explanation": "Torques about the foot give $N_w L\\sin\\theta = \\tfrac12mgL\\cos\\theta$, so $N_w = \\tfrac12mg\\cot\\theta$, which is the required floor friction. Steeper (larger $\\theta$ from the floor) means smaller $\\cot\\theta$, hence less friction."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 2.00 m steel wire of diameter 1.00 mm ($Y = 200$ GPa) supports a 50.0 kg mass. How much does the wire stretch? Use $g = 9.81$ m/s$^2$. Give the answer in millimetres.",
+				"answer": 6.245,
+				"tolerance": 0.02,
+				"unit": "mm",
+				"explanation": "$F = mg = 490.5$ N, $A = \\pi(0.5\\,\\mathrm{mm})^2 = 7.854e-07$ m$^2$, stress $= 625$ MPa. $\\Delta L = FL_0/(AY) = 6.25$ mm: a small strain of about 3.1e-03."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain qualitatively why a gyroscope's response to a force is 'sideways' (precession) and why spinning it faster slows the precession.",
+				"rubric": "Full credit: torque from gravity changes $\\vec L$ by $d\\vec L = \\vec\\tau dt$ along the horizontal direction perpendicular to $\\vec L$, so the axis moves sideways; $\\Omega=\\tau/L$, so a larger $L$ (faster spin) produces a smaller change in direction per unit time.",
+				"modelAnswer": "The change in angular momentum is along the torque, $d\\vec L = \\vec\\tau\\,dt$. Gravity's torque is horizontal and perpendicular to $\\vec L$, so it swings the axis sideways instead of tipping it over. The rate of swing is $\\Omega = \\tau/L$: with larger $L$ the same torque produces a smaller change in direction, so a faster spin gives slower precession."
+			}
+		],
+		"p1-l028-universal-gravitation": [
+			{
+				"kind": "mc",
+				"prompt": "Astronauts on the International Space Station (altitude ~400 km) float freely. This is because",
+				"options": [
+					"the Earth's gravity is cancelled by the Moon's pull at that altitude, leaving almost no net force.",
+					"gravity is essentially zero that high above the surface, so nothing pulls the astronauts down.",
+					"they are in continuous free fall; gravity there is still about 90% of its surface value.",
+					"the air is too thin to press them down, so they feel no weight at that altitude."
+				],
+				"answer": 2,
+				"explanation": "At 400 km up, $g \\approx 8.7$ m/s$^2$. The station and its occupants fall together, orbiting fast enough that they continually 'miss' the Earth, so there is no contact force and they feel weightless."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Assume the Earth were a uniform ball. How would the gravitational acceleration at half the Earth's radius (inside) compare with its surface value?",
+				"options": [
+					"Half, because only the mass inside radius $r$ attracts: $g\\propto r$ inside a uniform ball.",
+					"The same as at the surface, because the enclosed mass shrinks exactly as the distance does.",
+					"Zero, because the shell of matter outside the point cancels everything, including the inner part.",
+					"Four times larger, since gravity follows $1/r^2$ and the distance to the centre is halved."
+				],
+				"answer": 0,
+				"explanation": "By the shell theorem, outer shells exert no net force; the enclosed mass is $M(r/R)^3$, so $g = G M (r/R)^3/r^2 = GMr/R^3$: linear in $r$ inside, and zero at the centre."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Gravity is about $10^{36}$ times weaker than the electrostatic force between two protons, yet gravity dominates the motion of planets and galaxies. Why?",
+				"options": [
+					"Because gravity becomes stronger than the electric force once the distances are astronomically large.",
+					"Bulk matter is electrically neutral so electric forces cancel, but gravity only attracts and adds up.",
+					"Because electric forces are completely shielded by the empty space between planets and stars.",
+					"Because planets and stars contain no charged particles, so no electric force can arise at all."
+				],
+				"answer": 1,
+				"explanation": "Positive and negative charges nearly cancel in bulk matter, leaving almost no net electric force at large scales. Gravity has only one sign, so every particle adds to it. In chemistry the opposite is true: at molecular scales the electrostatic interaction wins."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "What is the free-fall acceleration at the altitude of the International Space Station, 400 km above the surface? Use $g_0 = 9.81$ m/s$^2$ at the surface and $R_E = 6371$ km. Give the answer in m/s$^2$.",
+				"answer": 8.685,
+				"tolerance": 0.02,
+				"unit": "m/s^2",
+				"explanation": "$g(h) = g_0\\left(\\frac{R_E}{R_E+h}\\right)^2 = 9.81(6371/6771)^2 = 8.69$ m/s$^2$ (the linear approximation $g_0(1-2h/R_E) = 8.58$ is already off because $h/R$ is not tiny)."
+			},
+			{
+				"kind": "short",
+				"prompt": "State Newton's shell theorem and use it to explain why gravity grows linearly with distance from the centre inside a uniform planet but falls off as one over r squared outside it.",
+				"rubric": "Full credit: a uniform spherical shell attracts outside bodies as if its mass were at the centre and exerts no net force on a body inside it; so inside at radius $r$ only the enclosed mass $M(r/R)^3$ pulls (as if at centre), giving $g\\propto r$; outside, all of $M$ acts as if at centre giving $GM/r^2$.",
+				"modelAnswer": "The shell theorem says a uniform spherical shell attracts external bodies as though all its mass were at its centre and exerts no net force on anything inside. Outside the planet, all mass acts from the centre, so $g = GM/r^2$. Inside at radius $r$, only the mass within $r$, $M(r/R)^3$, matters, so $g = GM r/R^3$, growing linearly with $r$ from zero at the centre."
+			}
+		],
+		"p1-l029-gravitational-energy-orbits": [
+			{
+				"kind": "mc",
+				"prompt": "A satellite in a low circular orbit loses energy to atmospheric drag. What happens to its orbital speed as it spirals inward?",
+				"options": [
+					"It increases: the total energy $-GMm/2r$ falls as $r$ shrinks, while $K=GMm/2r$ rises.",
+					"It decreases, since drag is a backward force that takes kinetic energy from the satellite.",
+					"It stays the same, because a circular orbit has a fixed speed regardless of its radius.",
+					"It decreases to zero, and then the satellite falls straight down toward the planet."
+				],
+				"answer": 0,
+				"explanation": "For circular orbits $K = GMm/2r$ and $U = -GMm/r$. Drag removes total energy, the orbit shrinks, and the speed $\\sqrt{GM/r}$ rises. The work done by gravity on the inward spiral exceeds drag's removal of $K$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A satellite moves from one circular orbit to a larger circular orbit using a Hohmann transfer. Compared with the initial orbit, the satellite's final speed and total energy are",
+				"options": [
+					"higher speed and higher total energy.",
+					"lower speed and higher (less negative) total energy.",
+					"lower speed and lower total energy.",
+					"higher speed and lower total energy."
+				],
+				"answer": 1,
+				"explanation": "$v = \\sqrt{GM/r}$ falls with $r$, while $E = -GMm/2r$ increases toward zero. The engine burns put in energy, which is traded into potential energy; kinetic energy is actually smaller in the bigger orbit."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A spacecraft's total energy (kinetic plus gravitational, with $U\\to0$ at infinity) is positive. Its path is",
+				"options": [
+					"a hyperbola: the spacecraft is unbound and escapes to infinity with speed to spare.",
+					"a circle with a very large radius, because a larger orbit has more energy than a small one.",
+					"an ellipse; it is bound to the planet, though its orbit may be very large.",
+					"a spiral that eventually returns to the planet, because positive energy leaks away into heat."
+				],
+				"answer": 0,
+				"explanation": "$E<0$ means bound (ellipse or circle); $E=0$ is the parabolic borderline (escape with zero leftover speed at infinity); $E>0$ means hyperbolic and unbound. Setting $U(\\infty)=0$ makes the sign of $E$ meaningful."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "What is the speed of a satellite in a circular orbit 400 km above the Earth's surface? Use $G = 6.674\\times10^{-11}$ N m$^2$/kg$^2$, $M_E = 5.972\\times10^{24}$ kg, $R_E = 6371$ km. Give the answer in km/s.",
+				"answer": 7.672,
+				"tolerance": 0.02,
+				"unit": "km/s",
+				"explanation": "$v = \\sqrt{GM/r} = \\sqrt{(6.674\\times10^{-11})(5.972\\times10^{24})/(6.771\\times10^6)} = 7.67$ km/s, about 27,600 km/h; the period is ~92 min."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why do we choose the gravitational potential energy to be zero at infinite separation, and what does the sign of the total energy of a satellite tell you?",
+				"rubric": "Full credit: $U=-GMm/r$ follows from integrating the inverse-square force from infinity (natural reference since force vanishes there); with that choice negative total energy means the object cannot reach infinity (bound), positive means unbound, zero is the escape borderline; energy needed to escape equals $-E$.",
+				"modelAnswer": "Integrating the inverse-square force from infinity inward gives $U(r) = -GMm/r$; infinity is a natural zero because the force vanishes there. With that convention, $E<0$ means the object lacks the energy to reach infinity (a bound orbit), $E>0$ means it can escape, and the magnitude of a negative $E$ is the binding energy, the energy needed to free it."
+			}
+		],
+		"p1-l030-kepler-laws": [
+			{
+				"kind": "mc",
+				"prompt": "A comet moves much faster near perihelion than near aphelion. Which principle explains this directly?",
+				"options": [
+					"The comet gets heavier near the Sun, which gives it more momentum and so a larger speed.",
+					"Conservation of the comet's linear momentum, which keeps its speed fixed along the path.",
+					"Kepler's third law, which relates the comet's period to the semi-major axis of its orbit.",
+					"Conservation of angular momentum: $r v_\\perp$ is constant, so smaller $r$ means larger $v$."
+				],
+				"answer": 3,
+				"explanation": "Kepler's second law (equal areas in equal times) is angular momentum conservation, and holds for any central force. Energy conservation gives the same speeds when you know the potential, but it is the angular momentum that links $v$ and $r$ here."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Tides on Earth come from the Moon's gravity. The reason there are two tidal bulges (one facing the Moon and one on the opposite side) is that",
+				"options": [
+					"the Moon pulls the near side of the Earth and pushes the far side away from itself, making two bulges.",
+					"the Earth's rotation flings water outward on the side facing away from the Moon, making the second bulge.",
+					"the Moon's pull differs across the Earth, stretching it: strongest on the near side, weakest on the far side.",
+					"the Sun pulls the far side of the Earth while the Moon pulls the near side, making two bulges."
+				],
+				"answer": 2,
+				"explanation": "Relative to the Earth's centre, the near side is pulled toward the Moon and the far side is left behind (pulled less), stretching the Earth along the Earth-Moon line. Tides are a field-gradient effect, scaling like $1/r^3$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two stars orbit their common centre of mass. If the total mass of the pair doubles while their separation stays the same, the orbital period",
+				"options": [
+					"doubles.",
+					"decreases by a factor of $\\sqrt2$.",
+					"stays the same.",
+					"decreases by a factor of 2."
+				],
+				"answer": 1,
+				"explanation": "Kepler's third law for a binary: $T^2 = 4\\pi^2a^3/G(M_1+M_2)$, so $T\\propto(M_1+M_2)^{-1/2}$. More mass means stronger gravity, so the orbit is traversed faster."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Halley's comet has a semi-major axis of 17.8 AU. Using Kepler's third law in solar units ($T$ in years, $a$ in AU, $T^2 = a^3$), what is its orbital period? Give the answer in years.",
+				"answer": 75.1,
+				"tolerance": 0.02,
+				"unit": "years",
+				"explanation": "$T = a^{3/2} = 17.8^{1.5} = 75.1$ years, matching the observed ~76-year return interval (the small difference comes from planetary perturbations and rounding)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why Kepler's second law (equal areas) holds for any central force but Kepler's third law (T squared proportional to a cubed) depends on the force being an inverse-square law.",
+				"rubric": "Full credit: central force has zero torque so $L$ constant so $dA/dt = L/2m$ constant regardless of force law; for a circular orbit with $F=GMm/r^2$: $mv^2/r = GMm/r^2$ and $T=2\\pi r/v$ gives $T^2 = 4\\pi^2 r^3/GM$; a different force law gives a different scaling of $T$ with $r$.",
+				"modelAnswer": "The area law comes only from zero torque (a central force), so it applies to any force law. For the third law, set the inverse-square force equal to $mv^2/r$ to get $v^2 = GM/r$, and with $T = 2\\pi r/v$ obtain $T^2 = 4\\pi^2r^3/GM$. A different dependence of force on $r$ would yield a different relation between $T$ and $r$."
+			}
+		],
+		"p1-l031-shm": [
+			{
+				"kind": "mc",
+				"prompt": "A mass on an ideal spring oscillates with amplitude $A$. If the amplitude is doubled, the period",
+				"options": [
+					"is halved.",
+					"doubles.",
+					"stays the same.",
+					"increases by a factor of $\\sqrt2$."
+				],
+				"answer": 2,
+				"explanation": "$\\omega = \\sqrt{k/m}$ depends only on the spring and the mass. Larger amplitude means larger speeds that exactly compensate the longer path, so the period is independent of amplitude (isochronism of SHM)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "During SHM, where along the motion are the kinetic energy and potential energy each at a maximum?",
+				"options": [
+					"Kinetic energy is greatest at the turning points and potential energy greatest at equilibrium.",
+					"Both are constant throughout the motion, because the total energy of the system is constant.",
+					"Both are at their maximum at the equilibrium position, since that is where the speed is highest.",
+					"Kinetic energy is greatest at equilibrium, potential energy greatest at the turning points."
+				],
+				"answer": 3,
+				"explanation": "$E = \\tfrac12kA^2 = \\tfrac12mv^2 + \\tfrac12kx^2$. At $x=0$ all of the energy is kinetic; at $x=\\pm A$ the particle is momentarily at rest and all is potential. Energy sloshes between the two forms twice per period."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Replacing hydrogen by deuterium in a C-H bond leaves the force constant essentially unchanged but doubles the (approximate) reduced mass. The stretching wavenumber in the IR spectrum therefore",
+				"options": [
+					"doubles.",
+					"is unchanged, because the bond is the same.",
+					"decreases by a factor of about $\\sqrt2$.",
+					"increases by a factor of $\\sqrt2$."
+				],
+				"answer": 2,
+				"explanation": "$\\tilde\\nu = \\frac{1}{2\\pi c}\\sqrt{k/\\mu}\\propto\\mu^{-1/2}$. The electron distribution (which sets $k$) is nearly identical for the isotopes, so heavier D gives a lower frequency, a standard IR check for assignments."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The CO molecule has bond force constant $k = 1857$ N/m and reduced mass $\\mu = 6.857$ u. Find the vibrational wavenumber $\\tilde\\nu = \\frac{1}{2\\pi c}\\sqrt{k/\\mu}$ in cm$^{-1}$. ($1$ u $= 1.6605\\times10^{-27}$ kg.) Give the answer in cm$^{-1}$.",
+				"answer": 2144.0,
+				"tolerance": 0.02,
+				"unit": "cm^-1",
+				"explanation": "$\\mu = 1.138e-26$ kg, $\\omega = \\sqrt{k/\\mu} = 4.039e+14$ rad/s, $\\tilde\\nu = 2144$ cm$^{-1}$, close to the observed 2143 cm$^{-1}$ IR band of CO (the small difference reflects anharmonicity)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a restoring force proportional to the displacement, $F=-kx$, leads to sinusoidal motion whose period does not depend on the amplitude. How is the motion related to uniform circular motion?",
+				"rubric": "Full credit: $m\\ddot x = -kx$ means acceleration is proportional and opposite to displacement, solved by $x = A\\cos(\\omega t+\\phi)$ with $\\omega=\\sqrt{k/m}$ fixed by $k$ and $m$ only (amplitude is a free constant, since the equation is linear); SHM is the projection (shadow) of uniform circular motion on a diameter, the circle of radius $A$ with angular speed $\\omega$.",
+				"modelAnswer": "The equation $m\\ddot x=-kx$ is linear, and its solutions are $x=A\\cos(\\omega t+\\phi)$ with $\\omega=\\sqrt{k/m}$ set by the system alone while the amplitude $A$ is arbitrary, so the period doesn't depend on $A$. The motion is the shadow on a diameter of a point moving uniformly around a circle of radius $A$ with angular speed $\\omega$: maximum speed $A\\omega$ at the centre, zero at the ends."
+			}
+		],
+		"p1-l032-pendulums": [
+			{
+				"kind": "mc",
+				"prompt": "A simple pendulum swings with a small amplitude. If the mass of the bob is doubled (same string, same amplitude), the period",
+				"options": [
+					"is unchanged, since the gravitational force and the inertia both scale with the mass.",
+					"doubles, because a heavier bob has more inertia and so takes longer to swing back and forth.",
+					"is halved, because a heavier bob is pulled down harder and so swings through faster.",
+					"increases by a factor of $\\sqrt2$, as it would for a spring whose attached mass is doubled."
+				],
+				"answer": 0,
+				"explanation": "The restoring force is $mg\\sin\\theta$ and the inertia is $m$, so $m$ cancels in $\\ddot\\theta = -(g/L)\\sin\\theta$. This independence of mass reflects the equivalence of gravitational and inertial mass (Galileo)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A torsional pendulum (a disk hanging from a twisting wire) has a period $T = 2\\pi\\sqrt{I/\\kappa}$. If the disk's moment of inertia is quadrupled, the period",
+				"options": [
+					"quadruples.",
+					"stays the same.",
+					"doubles.",
+					"is halved."
+				],
+				"answer": 2,
+				"explanation": "For torsion the restoring torque is $-\\kappa\\theta$ (exactly linear), so the equation is $I\\ddot\\theta = -\\kappa\\theta$; $T\\propto\\sqrt I$. Unlike the gravity pendulum, a torsion pendulum is isochronous for all amplitudes (within the elastic limit)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A uniform rod of length $L$ is pivoted at one end and swings as a physical pendulum ($I=\\tfrac13ML^2$, $d=L/2$). Compared with a simple pendulum of the same length $L$, its period is",
+				"options": [
+					"shorter by a factor of $\\sqrt{1/3}$, because the moment of inertia is one third of $ML^2$.",
+					"longer, since the mass of a rod is spread out and so is on average farther from the pivot.",
+					"the same, since the length of the rod equals the length of the string in the simple pendulum.",
+					"shorter, by a factor $\\sqrt{2/3}$: it behaves like a simple pendulum of length $2L/3$."
+				],
+				"answer": 3,
+				"explanation": "$T = 2\\pi\\sqrt{I/(Mgd)} = 2\\pi\\sqrt{(\\tfrac13ML^2)/(Mg\\tfrac L2)} = 2\\pi\\sqrt{2L/3g}$. The mass is on average closer to the pivot than the end, giving a smaller effective length."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A simple pendulum is released from rest at an angle of $60^\\circ$ from the vertical. Its exact period is how many times the small-angle period $2\\pi\\sqrt{L/g}$? (The exact ratio is $\\frac{2}{\\pi}K(\\sin^2(\\theta_0/2))$ with $K$ the complete elliptic integral of the first kind.) Give the ratio as a pure number.",
+				"answer": 1.073,
+				"tolerance": 0.02,
+				"explanation": "The ratio is 1.0732: at $60^\\circ$ the period is about 7% longer than the small-angle formula, because the restoring force $mg\\sin\\theta$ is weaker than the linear approximation $mg\\theta$."
+			},
+			{
+				"kind": "short",
+				"prompt": "The pendulum equation is $\\ddot\\theta=-(g/L)\\sin\\theta$. Explain what approximation turns it into simple harmonic motion, why it is reasonable, and what happens to the period when the swing becomes large.",
+				"rubric": "Full credit: for small $\\theta$ (radians), $\\sin\\theta\\approx\\theta$, so $\\ddot\\theta = -(g/L)\\theta$, a linear restoring torque, giving SHM with $\\omega=\\sqrt{g/L}$; at larger amplitude $\\sin\\theta<\\theta$ so the restoring force is weaker than the linear model and the period increases with amplitude.",
+				"modelAnswer": "For small angles measured in radians, $\\sin\\theta\\approx\\theta$, which makes the restoring term linear and gives SHM with $\\omega=\\sqrt{g/L}$ and a period independent of amplitude. For large swings $\\sin\\theta$ is less than $\\theta$, so the restoring torque is weaker than the linear model predicts and the pendulum takes longer to complete a swing: the period grows with amplitude."
+			}
+		],
+		"p1-l033-damped-driven": [
+			{
+				"kind": "mc",
+				"prompt": "A damped oscillator (door closer, shock absorber) should return to equilibrium as fast as possible without overshooting. Which damping regime is ideal?",
+				"options": [
+					"Critical damping.",
+					"Underdamping (several oscillations).",
+					"Overdamping with very strong friction.",
+					"No damping."
+				],
+				"answer": 0,
+				"explanation": "Critical damping ($b = 2\\sqrt{km}$) returns to equilibrium fastest without oscillating. Overdamping also does not oscillate but creeps back more slowly; underdamping overshoots."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Reducing the damping of a driven oscillator (e.g., a higher-Q spectral resonance) makes the resonance peak",
+				"options": [
+					"shorter and broader.",
+					"taller and broader.",
+					"shifted but with the same height and width.",
+					"taller and narrower."
+				],
+				"answer": 3,
+				"explanation": "At resonance the amplitude is limited by damping: $A_{max}\\approx F_0/(b\\omega_0)$. The width is $\\Delta\\omega\\approx b/m = \\omega_0/Q$. Lower $b$ raises $Q$, increasing height and narrowing the band."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A driven damped oscillator is pushed at a frequency far below its natural frequency, $\\omega\\ll\\omega_0$. In steady state the displacement",
+				"options": [
+					"follows the driving force in phase, with a small amplitude about $F_0/k$.",
+					"lags the force by 90 degrees with a very large amplitude.",
+					"is opposite in phase to the force with amplitude much smaller than $F_0/k$.",
+					"is zero, since the system cannot respond at that frequency."
+				],
+				"answer": 0,
+				"explanation": "Very slow driving just moves the system quasi-statically: $kx\\approx F(t)$, so $x$ is in phase with $F$ with amplitude $F_0/k$. Near resonance the phase lag is $90^\\circ$ and far above it the displacement is opposite to the force."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A mass of 0.200 kg on a spring with $k = 80.0$ N/m has a damping coefficient $b = 0.0500$ kg/s. Find its quality factor $Q = \\omega_0 m/b$. Give the answer as a pure number.",
+				"answer": 80.0,
+				"tolerance": 0.02,
+				"explanation": "$\\omega_0 = \\sqrt{k/m} = 20.0$ rad/s, so $Q = (20.0)(0.200)/0.0500 = 80$. The energy decays by a factor $e$ in $Q/\\omega_0 = 4.0$ s, which is about $Q/2\\pi \\approx 13$ oscillations, and the resonance width is $\\omega_0/Q =0.25$ rad/s."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what the quality factor Q tells you about a damped oscillator and how it is connected to the width of a spectral line (such as an NMR or IR resonance).",
+				"rubric": "Full credit: $Q=\\omega_0/\\Delta\\omega$ is large for weak damping; it counts roughly how many oscillations occur before the energy decays (about $Q/2\\pi$); a system that rings for many cycles responds only to a narrow band of driving frequencies so the resonance (spectral line) is narrow with width $\\approx\\omega_0/Q = b/m$; short-lived (strongly damped) states give broad lines.",
+				"modelAnswer": "$Q = \\omega_0 m/b$ measures how weakly damped the oscillator is: roughly $Q/2\\pi$ oscillations occur before the energy falls to $1/e$. A system that rings for a long time responds only to drive frequencies very close to $\\omega_0$, so its resonance is narrow, with full width about $\\omega_0/Q$. In spectroscopy the same relation links the lifetime of an excited state to its linewidth: long-lived states give sharp lines and short-lived (strongly damped) ones give broad lines."
+			}
+		],
+		"p1-l034-fluid-statics": [
+			{
+				"kind": "mc",
+				"prompt": "Three containers of different shapes (a wide tank, a narrow tube, and a funnel) are filled with water to the same height. The pressure at the bottom of each is",
+				"options": [
+					"largest in the narrow tube, because all the water is concentrated in a small space.",
+					"largest in the wide tank, because it holds the most water pressing down on the bottom.",
+					"the same, because it depends only on depth and fluid density, not on the container shape.",
+					"smallest in the funnel, because the funnel's sloping sides carry part of the water's weight."
+				],
+				"answer": 2,
+				"explanation": "$p = p_0 + \\rho gh$ follows from balancing the weight of a column of fluid. The shape of the container is irrelevant: the fluid pressure at a point depends on depth (the hydrostatic paradox)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "An ice cube floats in a glass filled to the brim with water. When the ice melts completely, the water level",
+				"options": [
+					"stays the same (nothing overflows).",
+					"falls, because ice shrinks when it melts.",
+					"rises, so water spills out.",
+					"falls only if the ice is cold enough."
+				],
+				"answer": 0,
+				"explanation": "A floating object displaces water of weight equal to its own weight. When it melts, the water it becomes has exactly the same weight, hence the same volume as the displaced water. (Melting land ice, in contrast, does raise sea level.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A hydraulic lift multiplies force by 100 (area ratio 100:1). Why doesn't this violate energy conservation?",
+				"options": [
+					"The fluid creates the extra energy, since pressure in the fluid can be converted into work.",
+					"The small piston moves 100 times farther, so the work in equals the work out.",
+					"Pressure is not conserved in fluids, so the output force can exceed the input force freely.",
+					"The large piston has more mass, so it stores the extra energy as gravitational potential energy."
+				],
+				"answer": 1,
+				"explanation": "Pascal's principle transmits pressure, so $F_2 = F_1(A_2/A_1)$. Incompressibility ensures equal volumes displaced: $A_1d_1 = A_2d_2$. Thus $F_1d_1 = F_2d_2$: a force multiplier trades distance for force."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "What is the total (absolute) pressure at a depth of 10.0 m in fresh water, given atmospheric pressure of 101325 Pa? Use $\\rho = 1000$ kg/m$^3$ and $g = 9.81$ m/s$^2$. Give the answer in atmospheres.",
+				"answer": 1.968,
+				"tolerance": 0.02,
+				"unit": "atm",
+				"explanation": "$p = p_0 + \\rho gh = 101325 + (1000)(9.81)(10.0) = 199425$ Pa $= 1.968$ atm. Every 10 m of water adds about one atmosphere, which is why divers feel pressure so quickly."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain Archimedes' principle in terms of pressure: why is there a net upward force on a submerged object, and why does its size equal the weight of the displaced fluid?",
+				"rubric": "Full credit: pressure increases with depth so the upward force on the bottom of the object exceeds the downward force on the top; net upward force results; this net force is independent of the object's material and equals what the same volume of fluid would experience, which is exactly balanced by that fluid's weight, hence $F_B = \\rho_{fluid}Vg$.",
+				"modelAnswer": "Pressure grows with depth, so the fluid pushes up on the lower surface of a submerged object harder than it pushes down on the upper surface; the net upward force is the buoyant force. If the object were replaced by fluid of the same shape, that fluid would be in equilibrium, so the buoyant force on that region must equal its weight, $\\rho_{fluid}Vg$. The buoyant force depends only on the displaced volume, not on what the object is made of."
+			}
+		],
+		"p1-l035-fluid-dynamics": [
+			{
+				"kind": "mc",
+				"prompt": "Blood flows through an artery that narrows at a partial blockage (stenosis). Within the narrow section, the flow speed and the pressure are",
+				"options": [
+					"higher speed and lower pressure than in the wide section.",
+					"higher speed and higher pressure.",
+					"lower speed and lower pressure.",
+					"lower speed and higher pressure."
+				],
+				"answer": 0,
+				"explanation": "Continuity ($A_1v_1=A_2v_2$) forces a higher speed through the narrow section; Bernoulli ($p+\\tfrac12\\rho v^2$ constant at the same height) then requires a lower pressure. This low pressure can collapse the artery walls."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does the pressure drop in a Venturi throat (where the pipe narrows and the fluid moves faster)?",
+				"options": [
+					"The fluid gains kinetic energy per volume, $\\tfrac12\\rho v^2$, which is paid for by a drop in pressure.",
+					"The fluid is compressed as it squeezes through the throat, and the compression lowers the pressure.",
+					"Friction with the walls is larger in a narrow pipe, and the extra friction lowers the pressure there.",
+					"Speed and pressure are unrelated for an incompressible fluid, so the drop comes from the geometry alone."
+				],
+				"answer": 0,
+				"explanation": "Bernoulli's equation is the work-energy theorem applied to a fluid element: pressure differences do the work that changes the fluid's kinetic and potential energy per unit volume."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Reynolds number $Re = \\rho vL/\\eta$ for a swimming bacterium is tiny (about $10^{-5}$). What does this imply?",
+				"options": [
+					"Viscous forces dominate over inertia, so the bacterium stops almost immediately when it stops pushing.",
+					"The flow around it is turbulent, since the bacterium moves very fast compared with its size.",
+					"Inertia dominates, so the bacterium keeps gliding a long way after each stroke of its flagellum.",
+					"Pressure differences in the fluid are negligible, so the bacterium cannot be pushed by the water."
+				],
+				"answer": 0,
+				"explanation": "$Re$ is the ratio of inertial to viscous forces. At low $Re$ the motion is dominated by viscous drag; coasting distance is a fraction of an atomic diameter. That is the realm of molecules and cells, while swimming fish and airplanes live at high $Re$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Water drains from a small hole near the bottom of an open tank, 2.50 m below the water surface. Using Bernoulli's equation (Torricelli's theorem) find the speed of the jet. Use $g = 9.81$ m/s$^2$. Give the answer in m/s.",
+				"answer": 7.004,
+				"tolerance": 0.02,
+				"unit": "m/s",
+				"explanation": "With the surface and the hole both at atmospheric pressure and the surface speed negligible, $\\tfrac12\\rho v^2=\\rho gh$, so $v=\\sqrt{2gh} = 7.00$ m/s: the same speed as a free fall from height $h$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain Bernoulli's equation as a statement of energy conservation, and name two ways real flows can violate it.",
+				"rubric": "Full credit: along a streamline in steady, incompressible, inviscid flow, the sum of pressure energy $p$, kinetic energy $\\tfrac12\\rho v^2$ and potential energy $\\rho gy$ per unit volume is constant (work-energy theorem for a fluid element); violations: viscosity/friction (dissipates energy; needs pressure drop to drive flow), turbulence, compressibility (gases at high speed), or unsteady flow/heat added.",
+				"modelAnswer": "Per unit volume, the work done by pressure on a fluid element equals the change in its kinetic and potential energy: $p+\\tfrac12\\rho v^2+\\rho gy$ is constant along a streamline for steady, incompressible, frictionless flow. It fails when viscosity dissipates energy as heat (e.g., honey in a pipe needs a pressure drop even at constant speed), when turbulence develops, or when the fluid is compressible."
+			}
+		]
+	}
+}

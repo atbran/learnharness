@@ -1,0 +1,1357 @@
+{
+	"courseId": "m1-calculus",
+	"checks": {
+		"m1-l001-limits-intuition": [
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\lim_{x\\to0}\\frac{\\sqrt{x+9}-3}{x}$.",
+				"options": [
+					"$0$",
+					"$\\dfrac13$",
+					"$\\dfrac16$",
+					"The limit does not exist, because the expression is $0/0$ at $x=0$"
+				],
+				"answer": 2,
+				"explanation": "Multiply top and bottom by the conjugate $\\sqrt{x+9}+3$: the numerator becomes $x$, which cancels, leaving $\\frac{1}{\\sqrt{x+9}+3}\\to\\frac16$. A $0/0$ form is a signal to simplify, not a verdict that the limit fails."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is $\\displaystyle\\lim_{x\\to0}\\frac{|x|}{x}$?",
+				"options": [
+					"Does not exist: the one-sided limits are $-1$ and $+1$",
+					"$1$, since $|x|/x=1$ whenever $x\\neq0$",
+					"$0$, since the numerator $|x|$ tends to $0$",
+					"$-1$, because $|x|=-x$ near zero"
+				],
+				"answer": 0,
+				"explanation": "For $x>0$ the ratio is $1$; for $x<0$ it is $-1$. A two-sided limit exists only if both one-sided limits exist and agree, so here it fails (a jump)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate $\\displaystyle\\lim_{x\\to0}\\frac{\\sin 3x}{x}$ (with $x$ in radians) by evaluating the expression at small values such as $x=0.01$ and $x=0.001$. Give the number the values approach.",
+				"answer": 3.0,
+				"tolerance": 0.02,
+				"explanation": "At $x=0.01$: $\\sin(0.03)/0.01\\approx2.9996$; at $x=0.001$ it is $\\approx3.0000$. In fact $\\sin(3x)\\approx3x$ for small $x$, so the limit is $3$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which function has NO limit as $x\\to0$?",
+				"options": [
+					"$x\\sin(1/x)$",
+					"$x^2$",
+					"$|x|$",
+					"$\\sin(1/x)$"
+				],
+				"answer": 3,
+				"explanation": "$\\sin(1/x)$ oscillates between $-1$ and $1$ infinitely often near $0$ and never settles. $x\\sin(1/x)$ also oscillates, but the factor $x$ squeezes it to $0$, so its limit is $0$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Using the idea of a secant line, explain what the slope of a tangent line is, and explain why the value of a function AT $x=a$ is irrelevant to the limit as $x\\to a$.",
+				"rubric": "Full credit: the secant slope (f(a+h)-f(a))/h is defined only for h != 0; as h shrinks the secant line rotates to the tangent line and the slope approaches a limit (can't plug in h=0 because it is 0/0); a limit describes what values approach, not what happens at the point, so f(a) can be different or undefined (e.g. (x^2-4)/(x-2) at 2).",
+				"modelAnswer": "The slope of the secant through $(a,f(a))$ and $(a+h,f(a+h))$ is $\\frac{f(a+h)-f(a)}{h}$. As $h$ shrinks, the secant line pivots toward a limiting line, the tangent, and its slope approaches a limit. We can't just set $h=0$ because that gives $0/0$; the limit asks what the values approach. A limit is about nearby values, not the value at the point itself: $\\frac{x^2-4}{x-2}\\to4$ as $x\\to2$ although the function is undefined at $x=2$."
+			}
+		],
+		"m1-l002-limit-laws-continuity": [
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\lim_{x\\to0}\\frac{\\sin 5x}{2x}$.",
+				"options": [
+					"$5$",
+					"$\\dfrac52$",
+					"$\\dfrac12$",
+					"$1$"
+				],
+				"answer": 1,
+				"explanation": "Write $\\frac{\\sin5x}{2x}=\\frac52\\cdot\\frac{\\sin5x}{5x}$. With $u=5x\\to0$, $\\frac{\\sin u}{u}\\to1$, so the limit is $\\frac52$. The basic limit needs the argument of the sine to match the denominator."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At $x=1$, the function $f(x)=\\dfrac{x^2-1}{x-1}$ is undefined, yet $\\lim_{x\\to1}f(x)=2$. How is the discontinuity classified?",
+				"options": [
+					"Jump discontinuity",
+					"Infinite discontinuity (vertical asymptote)",
+					"No discontinuity: the limit exists, so $f$ is continuous at $1$",
+					"Removable: redefining $f(1)=2$ would make $f$ continuous"
+				],
+				"answer": 3,
+				"explanation": "Continuity at $a$ needs three things: $f(a)$ is defined, the limit exists, and they are equal. Here the first fails although the limit exists, so the 'hole' can be filled by defining $f(1)=2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The function $f(x)=1/x$ has $f(-1)=-1<0<1=f(1)$, yet there is no $x$ in $[-1,1]$ with $f(x)=0$. Why doesn't this contradict the intermediate value theorem?",
+				"options": [
+					"$f$ is not differentiable at $x=0$, and the theorem requires differentiability",
+					"$f$ is not continuous on $[-1,1]$ (it blows up at $0$)",
+					"$f(-1)$ and $f(1)$ have the same sign",
+					"The interval is not long enough"
+				],
+				"answer": 1,
+				"explanation": "The IVT requires continuity on the closed interval; differentiability is not needed. The jump from negative to positive happens through the asymptote at $0$, not through a continuous path crossing zero."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\displaystyle\\lim_{x\\to0}\\frac{\\sin4x}{\\sin2x}$.",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "Divide top and bottom by $x$: $\\frac{\\sin4x}{x}\\to4$ and $\\frac{\\sin2x}{x}\\to2$ (from $\\frac{\\sin u}{u}\\to1$), so the quotient tends to $4/2=2$ by the quotient limit law (the denominator limit is nonzero)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the limit $\\lim_{x\\to0}\\frac{\\sin x}{x}=1$ is the key to finding the derivative of $\\sin x$, and sketch how the squeeze theorem establishes it.",
+				"rubric": "Full credit: the difference quotient for sin is (sin(x+h)-sin x)/h = sin x (cos h -1)/h + cos x (sin h)/h so one needs lim sin h/h = 1 and lim (cos h-1)/h = 0; squeeze: for small positive h, area/geometry gives cos h < sin h / h < 1 and both bounds -> 1, so the middle -> 1 (even function so same from left).",
+				"modelAnswer": "The difference quotient is $\\frac{\\sin(x+h)-\\sin x}{h}=\\sin x\\,\\frac{\\cos h-1}{h}+\\cos x\\,\\frac{\\sin h}{h}$, so the derivative depends on knowing $\\frac{\\sin h}{h}\\to1$ and $\\frac{\\cos h-1}{h}\\to0$. The first follows from a geometric inequality on the unit circle: $\\cos h<\\frac{\\sin h}{h}<1$ for small $h>0$. Both bounds tend to $1$, so the squeeze theorem forces the middle to $1$; the expression is even in $h$, so the left-hand limit agrees."
+			}
+		],
+		"m1-l003-epsilon-delta": [
+			{
+				"kind": "mc",
+				"prompt": "Which statement is the correct $\\varepsilon$-$\\delta$ definition of $\\lim_{x\\to a}f(x)=L$?",
+				"options": [
+					"For every $\\varepsilon>0$ there exists $\\delta>0$ such that $0<|x-a|<\\delta$ implies $|f(x)-L|<\\varepsilon$",
+					"There exists $\\delta>0$ such that for every $\\varepsilon>0$, $0<|x-a|<\\delta$ implies $|f(x)-L|<\\varepsilon$",
+					"For every $\\delta>0$ there exists $\\varepsilon>0$ such that $0<|x-a|<\\varepsilon$ implies $|f(x)-L|<\\delta$",
+					"For every $\\varepsilon>0$ there exists $\\delta>0$ such that $|f(x)-L|<\\varepsilon$ implies $0<|x-a|<\\delta$"
+				],
+				"answer": 0,
+				"explanation": "The challenger picks the output tolerance $\\varepsilon$ first, then you must produce an input tolerance $\\delta$ that guarantees it. Swapping the order of quantifiers (one $\\delta$ for all $\\varepsilon$) or reversing the implication gives something much stronger or different."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Let $f(x)=3x-1$, so $\\lim_{x\\to2}f(x)=5$. For $\\varepsilon=0.06$, what is the LARGEST $\\delta$ that guarantees $|f(x)-5|<\\varepsilon$ whenever $0<|x-2|<\\delta$?",
+				"answer": 0.02,
+				"tolerance": 0.02,
+				"explanation": "$|f(x)-5|=|3x-6|=3|x-2|<0.06$ exactly when $|x-2|<0.02$. So $\\delta=\\varepsilon/3=0.02$; any smaller $\\delta$ also works."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $f(x)=x^2$ near $a=3$, a valid choice is $\\delta=\\min\\!\\left(1,\\ \\varepsilon/7\\right)$. What does it mean that '$\\delta$ depends on $\\varepsilon$'?",
+				"options": [
+					"One fixed $\\delta$ must work for every $\\varepsilon$ at once, so $\\delta$ is a single number",
+					"$\\delta$ can always be taken equal to $\\varepsilon$, whatever the function is",
+					"Smaller $\\varepsilon$ generally forces smaller $\\delta$: $\\delta$ is a function of $\\varepsilon$",
+					"$\\delta$ is determined by the input $x$ and has nothing to do with the choice of $\\varepsilon$"
+				],
+				"answer": 2,
+				"explanation": "For $|x-3|<1$ we have $|x+3|<7$, so $|x^2-9|=|x-3||x+3|<7|x-3|<\\varepsilon$ if $|x-3|<\\varepsilon/7$. The 'min' with $1$ makes the bound on $|x+3|$ legitimate."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does it mean for $\\lim_{x\\to a}f(x)$ NOT to equal $L$?",
+				"options": [
+					"For every $\\varepsilon>0$ there is a $\\delta>0$ such that some $x$ with $0<|x-a|<\\delta$ has $|f(x)-L|\\ge\\varepsilon$",
+					"There is some $\\varepsilon>0$ such that for every $\\delta>0$ some $x$ with $0<|x-a|<\\delta$ has $|f(x)-L|\\ge\\varepsilon$",
+					"For every $\\delta>0$, $|f(x)-L|\\ge\\varepsilon$ for all $x$ with $0<|x-a|<\\delta$",
+					"There is some $\\delta>0$ such that $|f(x)-L|\\ge\\varepsilon$ for every $\\varepsilon>0$"
+				],
+				"answer": 1,
+				"explanation": "Negating swaps each quantifier: 'for all $\\varepsilon$ exists $\\delta$ for all $x$' becomes 'exists $\\varepsilon$ such that for all $\\delta$ there exists an $x$' that violates the bound. One bad $\\varepsilon$ no $\\delta$ can fix is the whole story."
+			},
+			{
+				"kind": "short",
+				"prompt": "Write a short $\\varepsilon$-$\\delta$ proof that $\\lim_{x\\to1}(2x+3)=5$, explaining where the choice of $\\delta$ comes from.",
+				"rubric": "Full credit: scratch work |(2x+3)-5| = 2|x-1| < eps iff |x-1| < eps/2, so choose delta = eps/2; proof: given eps>0 let delta=eps/2; if 0<|x-1|<delta then |f(x)-5| = 2|x-1| < 2 delta = eps. Must state the choice of delta in terms of eps and verify the implication.",
+				"modelAnswer": "Scratch work: $|(2x+3)-5|=2|x-1|$, which is less than $\\varepsilon$ when $|x-1|<\\varepsilon/2$. Proof: let $\\varepsilon>0$ and choose $\\delta=\\varepsilon/2$. If $0<|x-1|<\\delta$ then $|(2x+3)-5|=2|x-1|<2\\delta=\\varepsilon$. Hence the limit is $5$. The key is that $\\delta$ is found by working backwards from the target inequality, then the proof runs forwards."
+			}
+		],
+		"m1-l004-derivative-definition": [
+			{
+				"kind": "mc",
+				"prompt": "Using the definition $f'(x)=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}$, what is the derivative of $f(x)=1/x$?",
+				"options": [
+					"$\\dfrac{1}{x^2}$",
+					"$-\\dfrac1x$",
+					"$\\ln x$",
+					"$-\\dfrac{1}{x^2}$"
+				],
+				"answer": 3,
+				"explanation": "$\\frac{1}{h}\\left(\\frac1{x+h}-\\frac1x\\right)=\\frac1h\\cdot\\frac{x-(x+h)}{x(x+h)}=\\frac{-1}{x(x+h)}\\to-\\frac1{x^2}$. The negative sign reflects that $1/x$ decreases for $x>0$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Find the equation of the tangent line to $y=\\sqrt x$ at $x=4$, then use it to estimate $\\sqrt{4.2}$. Give the estimate.",
+				"answer": 2.05,
+				"tolerance": 0.02,
+				"explanation": "$f'(x)=\\frac{1}{2\\sqrt x}$, so $f'(4)=\\frac14$ and the tangent is $y=2+\\tfrac14(x-4)$. At $x=4.2$: $y=2.05$ (exact $\\sqrt{4.2}=2.0494$)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The rate of a reaction at $t=20$ s is $\\dfrac{d[A]}{dt}=-3.0\\times10^{-3}$ M/s. What does this mean?",
+				"options": [
+					"$[A]$ has dropped by a total of $3.0$ mM during the first $20$ s of the reaction",
+					"$[A]$ is $3.0$ mM at $t=20$ s, and the minus sign is just a convention",
+					"At that instant $[A]$ is falling at $3.0$ mM per second (the tangent slope)",
+					"The average rate of change of $[A]$ over the whole experiment is $-3.0\\times10^{-3}$ M/s"
+				],
+				"answer": 2,
+				"explanation": "The derivative is an instantaneous rate, the limit of $\\Delta[A]/\\Delta t$ as $\\Delta t\\to0$. Its units (M/s) are concentration per time, and the sign tells you the direction of change."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement about $f(x)=|x|$ at $x=0$ is correct?",
+				"options": [
+					"$f$ is continuous at $0$ but not differentiable there (a corner)",
+					"$f$ is differentiable at $0$ with $f'(0)=0$, since $0$ is the minimum",
+					"$f$ is differentiable at $0$ but not continuous there",
+					"$f$ is neither continuous nor differentiable at $0$"
+				],
+				"answer": 0,
+				"explanation": "Differentiable implies continuous, but not the converse. The difference quotient $|h|/h$ is $+1$ from the right and $-1$ from the left, so the derivative doesn't exist; the graph has no single tangent at the corner."
+			},
+			{
+				"kind": "short",
+				"prompt": "For $f(x)=x^3-3x$, describe in words what the graph of $f'$ looks like and how its features (zeros, sign) correspond to features of the graph of $f$.",
+				"rubric": "Full credit: f'(x)=3x^2-3 is an upward parabola with zeros at x=-1 and x=1; f' >0 for |x|>1 where f is increasing and f'<0 between where f is decreasing; zeros of f' correspond to the local max at -1 and local min at 1 (horizontal tangents); f' minimum at x=0 where the graph of f is steepest downward.",
+				"modelAnswer": "$f'(x)=3x^2-3$ is an upward-opening parabola crossing zero at $x=\\pm1$. It is positive for $|x|>1$, where $f$ rises, and negative between, where $f$ falls. The zeros of $f'$ are the horizontal tangents of $f$: a local maximum at $x=-1$ and a local minimum at $x=1$. The most negative value of $f'$ is at $x=0$, where $f$ falls fastest."
+			}
+		],
+		"m1-l005-differentiation-rules": [
+			{
+				"kind": "mc",
+				"prompt": "Differentiate $f(x)=x^2e^x$.",
+				"options": [
+					"$(x^2+2x)e^x$",
+					"$2xe^x$",
+					"$2x^2e^x$",
+					"$x^2e^x$"
+				],
+				"answer": 0,
+				"explanation": "Product rule: $(x^2)'e^x+x^2(e^x)'=2xe^x+x^2e^x$. Multiplying the derivatives, $(fg)'=f'g'$, would give $2xe^x$, which is the classic wrong answer."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Differentiate $g(x)=\\dfrac{x^2+1}{x-1}$.",
+				"options": [
+					"$\\dfrac{2x}{1}=2x$",
+					"$\\dfrac{x^2+2x-1}{(x-1)^2}$",
+					"$\\dfrac{x^2-2x-1}{(x-1)^2}$",
+					"$\\dfrac{2x(x-1)+(x^2+1)}{(x-1)^2}$"
+				],
+				"answer": 2,
+				"explanation": "Quotient rule: $\\frac{f'g-fg'}{g^2}=\\frac{2x(x-1)-(x^2+1)}{(x-1)^2}=\\frac{x^2-2x-1}{(x-1)^2}$. The numerator is 'low d-high minus high d-low', and the order and sign matter."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Differentiate $h(x)=\\sqrt x+\\dfrac{1}{x^2}$.",
+				"options": [
+					"$\\dfrac{1}{2\\sqrt x}+\\dfrac{2}{x^3}$",
+					"$\\dfrac{1}{2\\sqrt x}-\\dfrac{2}{x^3}$",
+					"$\\dfrac{1}{2\\sqrt x}-\\dfrac{1}{2x}$",
+					"$\\sqrt{x}\\,-\\,2x$"
+				],
+				"answer": 1,
+				"explanation": "Rewrite as $x^{1/2}+x^{-2}$ and apply the power rule: $\\tfrac12x^{-1/2}-2x^{-3}$. The power rule works for any exponent once the expression is written as a power."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A particle's position is $x(t)=t^3-6t^2$ (metres, seconds). Find its acceleration at $t=4$ s in m/s$^2$.",
+				"answer": 12.0,
+				"tolerance": 0.02,
+				"unit": "m/s^2",
+				"explanation": "$v=x'=3t^2-12t$ and $a=v'=6t-12$, so $a(4)=12$ m/s$^2$. The second derivative is the rate of change of the rate of change."
+			},
+			{
+				"kind": "short",
+				"prompt": "Differentiate $f(x)=\\dfrac{x^2+1}{x}$ in two different ways and explain why they must agree. Then give an intuitive reason that $(fg)'$ is not $f'g'$.",
+				"rubric": "Full credit: quotient rule gives (2x*x-(x^2+1))/x^2 = 1-1/x^2; rewriting as x+1/x and using the power rule gives 1-1/x^2; they agree because both compute the derivative of the same function; (fg)' = f'g+fg' because a change in each factor contributes (e.g. rectangle area f*g changes by f'g dx + f g' dx); f'g' would only be the tiny corner term.",
+				"modelAnswer": "Quotient rule: $\\frac{2x\\cdot x-(x^2+1)\\cdot1}{x^2}=\\frac{x^2-1}{x^2}=1-\\frac1{x^2}$. Rewriting as $x+x^{-1}$ gives $1-x^{-2}$, the same. They must agree because they are the derivative of the same function, just computed by different routes, which makes a good check. For a product, picture a rectangle of sides $f$ and $g$: if both sides change, the area changes by about $f'g\\,dx+fg'\\,dx$ (each side's growth times the other side); the $f'g'$ term is a negligible corner of size $(dx)^2$."
+			}
+		],
+		"m1-l006-trig-chain-rule": [
+			{
+				"kind": "mc",
+				"prompt": "Differentiate $\\sin(x^2)$.",
+				"options": [
+					"$\\cos(x^2)$",
+					"$2x\\cos x$",
+					"$-2x\\sin(x^2)$",
+					"$2x\\cos(x^2)$"
+				],
+				"answer": 3,
+				"explanation": "Chain rule: derivative of the outer function evaluated at the inner function, times the derivative of the inner function: $\\cos(x^2)\\cdot2x$. Dropping the inner derivative is the most common slip."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Differentiate $(3x+1)^7$.",
+				"options": [
+					"$7(3x+1)^6$",
+					"$3(3x+1)^7$",
+					"$21(3x+1)^7$",
+					"$21(3x+1)^6$"
+				],
+				"answer": 3,
+				"explanation": "Outer: $7u^6$; inner derivative: $3$. Product: $21(3x+1)^6$. The exponent drops by one, and the inner factor $3$ must be included."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Using the quotient rule on $\\tan x=\\sin x/\\cos x$ (and similar steps for the others), which pair of derivatives is correct?",
+				"options": [
+					"$\\dfrac{d}{dx}\\tan x=\\sec x,\\quad \\dfrac{d}{dx}\\sec x=\\tan^2x$",
+					"$\\dfrac{d}{dx}\\tan x=\\sec^2x,\\quad \\dfrac{d}{dx}\\sec x=\\sec x\\tan x$",
+					"$\\dfrac{d}{dx}\\tan x=-\\sec^2x,\\quad \\dfrac{d}{dx}\\sec x=\\sec x\\tan x$",
+					"$\\dfrac{d}{dx}\\tan x=\\sec^2x,\\quad \\dfrac{d}{dx}\\sec x=-\\sec x\\tan x$"
+				],
+				"answer": 1,
+				"explanation": "$\\left(\\frac{\\sin}{\\cos}\\right)'=\\frac{\\cos^2+\\sin^2}{\\cos^2}=\\sec^2$ and $(\\cos^{-1})'=\\sin/\\cos^2=\\sec\\tan$. Signs go negative only for the 'co' functions $\\cot$ and $\\csc$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A mass oscillates as $x(t)=0.050\\cos(20t+0.3)$ metres ($t$ in seconds). Find the maximum magnitude of its acceleration in m/s$^2$.",
+				"answer": 20.0,
+				"tolerance": 0.02,
+				"unit": "m/s^2",
+				"explanation": "$x'=-0.050(20)\\sin(20t+0.3)$ and $x''=-0.050(20)^2\\cos(20t+0.3)=-\\omega^2x$. The maximum magnitude is $A\\omega^2=0.050\\times400=20$ m/s$^2$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain which limit facts are needed to derive $\\frac{d}{dx}\\sin x=\\cos x$ from the definition, and then show why $x(t)=A\\cos(\\omega t+\\phi)$ satisfies $x''=-\\omega^2x$ and what that equation says physically.",
+				"rubric": "Full credit: sin(x+h) expansion needs lim sin h / h = 1 and lim (cos h - 1)/h = 0; chain rule gives x' = -A omega sin(wt+phi), x'' = -A omega^2 cos(wt+phi) = -omega^2 x; physically the acceleration is proportional to and opposite to displacement: a restoring force proportional to displacement (Hooke's law) which gives oscillation at omega = sqrt(k/m).",
+				"modelAnswer": "Expanding $\\sin(x+h)=\\sin x\\cos h+\\cos x\\sin h$ shows the derivative needs $\\lim\\frac{\\sin h}{h}=1$ and $\\lim\\frac{\\cos h-1}{h}=0$, giving $\\cos x$. For $x=A\\cos(\\omega t+\\phi)$ the chain rule gives $x'=-A\\omega\\sin(\\omega t+\\phi)$ and $x''=-A\\omega^2\\cos(\\omega t+\\phi)=-\\omega^2x$. This says the acceleration is proportional to the displacement and opposite in direction: a restoring force $F=-kx$, which is why a spring oscillates with $\\omega=\\sqrt{k/m}$."
+			}
+		],
+		"m1-l007-implicit-inverse-exp-log": [
+			{
+				"kind": "mc",
+				"prompt": "On the circle $x^2+y^2=25$, what is $dy/dx$ at the point $(3,4)$?",
+				"options": [
+					"$\\dfrac34$",
+					"$-\\dfrac43$",
+					"$-\\dfrac34$",
+					"$\\dfrac43$"
+				],
+				"answer": 2,
+				"explanation": "Differentiate both sides: $2x+2y\\,y'=0\\Rightarrow y'=-x/y=-3/4$. The tangent at $(3,4)$ is perpendicular to the radius, whose slope is $4/3$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Using $(f^{-1})'(b)=\\dfrac{1}{f'(f^{-1}(b))}$ with $f(x)=e^x$, what is $\\dfrac{d}{dx}\\ln x$?",
+				"options": [
+					"$\\dfrac1x$",
+					"$x$",
+					"$\\dfrac1{x\\ln x}$",
+					"$e^x$"
+				],
+				"answer": 0,
+				"explanation": "With $f^{-1}(x)=\\ln x$ and $f'=e^{(\\cdot)}$: $(\\ln)'(x)=\\frac1{e^{\\ln x}}=\\frac1x$. The slope of the inverse at a point is the reciprocal of the slope of the original at the matching point."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Let $f(x)=x^3+x$. Using the inverse-function derivative formula, compute $(f^{-1})'(2)$.",
+				"answer": 0.25,
+				"tolerance": 0.02,
+				"explanation": "First find $f^{-1}(2)$: $f(1)=1+1=2$, so $a=1$. Then $f'(x)=3x^2+1$ gives $f'(1)=4$ and $(f^{-1})'(2)=1/4$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Differentiate $y=x^x$ for $x>0$.",
+				"options": [
+					"$x\\cdot x^{x-1}=x^x$",
+					"$x^x\\ln x$",
+					"$x^x(\\ln x+1)$",
+					"$x^{x}\\,x$"
+				],
+				"answer": 2,
+				"explanation": "Take logs first: $\\ln y=x\\ln x\\Rightarrow y'/y=\\ln x+1$. The power rule ($nx^{n-1}$) fails because the exponent isn't constant; the exponential rule ($b^x\\ln b$) fails because the base isn't constant."
+			},
+			{
+				"kind": "short",
+				"prompt": "The rate constant is $k=Ae^{-E_a/RT}$. Compute $\\frac{1}{k}\\frac{dk}{dT}$, and use it to explain in words why a reaction with a high activation energy is more sensitive to temperature changes.",
+				"rubric": "Full credit: d ln k/dT = E_a/(R T^2) (via chain rule on exponent); fractional change in k per kelvin is proportional to E_a, so larger E_a means the same temperature rise changes k by a larger percentage; decreases with T^2, so sensitivity falls at higher temperature. E.g. Ea = 50 kJ/mol at 298 K gives ~7% per kelvin.",
+				"modelAnswer": "$\\ln k=\\ln A-E_a/(RT)$, so $\\frac1k\\frac{dk}{dT}=\\frac{E_a}{RT^2}$. The fractional increase in $k$ per kelvin is proportional to $E_a$: a high barrier means the Boltzmann factor $e^{-E_a/RT}$ changes more steeply with $T$. It falls as $1/T^2$, so reactions are less temperature-sensitive when hot. For $E_a=50$ kJ/mol at $298$ K it is about $7\\%$ per kelvin, which is why a modest warming noticeably speeds up chemistry."
+			}
+		],
+		"m1-l008-rates-related-rates": [
+			{
+				"kind": "mc",
+				"prompt": "A particle has $x(t)=t^3-6t^2+9t$. At $t=0.5$ s its velocity is $+3.75$ m/s and its acceleration is $-9$ m/s$^2$. What is it doing?",
+				"options": [
+					"Moving in the positive direction but slowing down",
+					"Moving in the positive direction and speeding up",
+					"Moving in the negative direction and slowing down",
+					"Moving in the negative direction and speeding up"
+				],
+				"answer": 0,
+				"explanation": "Speeding up means velocity and acceleration have the same sign; slowing down means opposite signs. Here $v>0$ and $a<0$, so it is moving forward but decelerating. Negative acceleration doesn't automatically mean slowing down."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A $5.0$ m ladder leans against a wall. Its foot slides away from the wall at $0.50$ m/s. When the foot is $3.0$ m from the wall (so the top is $4.0$ m up), how fast is the top sliding down? Give the speed in m/s.",
+				"answer": 0.375,
+				"tolerance": 0.02,
+				"unit": "m/s",
+				"explanation": "$x^2+y^2=25\\Rightarrow x\\dot x+y\\dot y=0\\Rightarrow\\dot y=-\\frac{x}{y}\\dot x=-\\frac34(0.50)=-0.375$ m/s. The top moves down at about $0.375$ m/s."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A spherical balloon is inflated at a constant rate $dV/dt$. When its radius has doubled, how does $dr/dt$ compare with its earlier value?",
+				"options": [
+					"It is half as large",
+					"It is the same",
+					"It is twice as large",
+					"It is four times smaller"
+				],
+				"answer": 3,
+				"explanation": "$\\frac{dV}{dt}=4\\pi r^2\\frac{dr}{dt}$, so $\\frac{dr}{dt}=\\frac{dV/dt}{4\\pi r^2}$. Doubling $r$ quadruples $r^2$, so $dr/dt$ falls to a quarter: a larger surface needs more added volume for the same increase in radius."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A balloon at fixed $P=1.00$ atm and $T=298$ K is being filled so that its volume grows at $dV/dt=5.0$ mL/s. Using $n=PV/RT$ ($R=0.082057$ L atm mol$^{-1}$ K$^{-1}$), find the rate at which gas is being added, in $10^{-4}$ mol/s.",
+				"answer": 2.045,
+				"tolerance": 0.02,
+				"unit": "10^-4 mol/s",
+				"explanation": "$\\frac{dn}{dt}=\\frac{P}{RT}\\frac{dV}{dt}=\\frac{1.00}{(0.082057)(298)}(0.0050\\text{ L/s})\\approx2.05\\times10^{-4}$ mol/s."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe the general strategy for a related-rates problem, and explain why you must differentiate the constraint equation BEFORE substituting the numbers for the particular instant.",
+				"rubric": "Full credit: draw/define variables as functions of time; write an equation (constraint) relating them valid at all times; differentiate with respect to t using the chain rule; only then substitute the instantaneous values and solve for the unknown rate, then interpret with units. Substituting first turns changing variables into constants, whose derivatives would be zero, losing the relationship between rates.",
+				"modelAnswer": "Draw the picture and name the quantities, writing each as a function of time. Find an equation relating them that is true at every moment (Pythagoras for the ladder, $V=\\frac43\\pi r^3$ for the balloon). Differentiate with respect to $t$ using the chain rule, and only then plug in the values for the instant in question and solve for the unknown rate. If you substitute numbers first, the variables become constants and their derivatives vanish, destroying the link between the rates, which is exactly what the problem is asking you to use."
+			}
+		],
+		"m1-l009-linear-approximation-differentials": [
+			{
+				"kind": "numeric",
+				"prompt": "Use the linearisation of $f(x)=\\sqrt x$ at $a=4$ to estimate $\\sqrt{4.1}$.",
+				"answer": 2.025,
+				"tolerance": 0.02,
+				"explanation": "$L(x)=2+\\tfrac14(x-4)$, so $L(4.1)=2.025$. The exact value is $2.02485$; the linear estimate is excellent because $0.1$ is small."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The function $e^x$ has $(e^x)''>0$ everywhere. The linearisation at $0$ is $L(x)=1+x$. How does $L(0.1)$ compare with the true value $e^{0.1}$?",
+				"options": [
+					"Slightly larger: a tangent line always lies above the graph near the point of tangency",
+					"Slightly smaller: the graph is concave up, so it lies above its tangent line",
+					"Equal: the tangent line touches the graph at $0$, so the values agree nearby",
+					"It cannot be determined without evaluating $e^{0.1}$ on a calculator"
+				],
+				"answer": 1,
+				"explanation": "A concave-up curve bends away from its tangent line on both sides, staying above it. So $1+x$ underestimates $e^x$: $1.1<e^{0.1}=1.10517$. The error is about $\\tfrac12f''(a)h^2$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The radius of a sphere is measured as $r=5.00\\pm0.05$ cm. Use the differential $dV=4\\pi r^2\\,dr$ to estimate the uncertainty in the volume, in cm$^3$.",
+				"answer": 15.71,
+				"tolerance": 0.02,
+				"unit": "cm^3",
+				"explanation": "$dV=4\\pi(5.00)^2(0.05)\\approx15.7$ cm$^3$. Since $V\\approx524$ cm$^3$, that is $3\\%$, three times the $1\\%$ relative error in $r$ ($\\Delta V/V\\approx3\\Delta r/r$)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which expression is the second-order (quadratic) approximation of $(1+x)^p$ near $x=0$?",
+				"options": [
+					"$1+px+\\dfrac{p^2}{2}x^2$",
+					"$1+px+\\dfrac{p(p+1)}{2}x^2$",
+					"$1+px+px^2$",
+					"$1+px+\\dfrac{p(p-1)}{2}x^2$"
+				],
+				"answer": 3,
+				"explanation": "With $f(x)=(1+x)^p$: $f(0)=1$, $f'(0)=p$, $f''(0)=p(p-1)$, so $f\\approx1+px+\\tfrac12p(p-1)x^2$. For $p=\\tfrac12$ the quadratic term is $-x^2/8$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the tangent line is the best straight-line approximation to a function near a point, and what controls how large the error is.",
+				"rubric": "Full credit: the tangent line matches both the value and slope at the point, so the difference f(x)-L(x) vanishes faster than (x-a) (second order, ~ (1/2) f''(a) (x-a)^2); error grows with distance from the point squared and with the curvature f''; for df = f'(x)dx the idea is that a small change in x produces a change in f proportional to the local slope, valid to first order.",
+				"modelAnswer": "Of all lines, the tangent is the one that passes through the point with the same slope as the function, so the gap $f(x)-L(x)$ shrinks faster than the distance $|x-a|$ itself: the leading error is $\\tfrac12f''(a)(x-a)^2$. Thus the error is controlled by how far you move (squared) and by the curvature $f''$. This is the content of $df=f'(x)\\,dx$: for a small change in $x$, the change in $f$ is the slope times the change in $x$, accurate to first order."
+			}
+		],
+		"m1-l010-mvt-extrema-shape": [
+			{
+				"kind": "mc",
+				"prompt": "For $f(x)=x^3-3x$, which description of the graph is correct?",
+				"options": [
+					"Local min at $x=-1$, local max at $x=1$, inflection at $x=0$",
+					"No local extrema anywhere, because an odd function cannot have a turning point",
+					"Local max at $x=-1$, local min at $x=1$, inflection at $x=0$",
+					"Local max at $x=-1$, local min at $x=1$, and no inflection point since $f''$ never vanishes"
+				],
+				"answer": 2,
+				"explanation": "$f'=3x^2-3=0$ at $x=\\pm1$. $f''=6x$ is negative at $-1$ (max) and positive at $1$ (min) and changes sign at $0$, so $x=0$ is an inflection point."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A particle moves smoothly on a line, and its average velocity over $0\\le t\\le4$ s is $3$ m/s. What does the mean value theorem guarantee?",
+				"options": [
+					"At some instant in $(0,4)$ the velocity is exactly $3$ m/s",
+					"The velocity is exactly $3$ m/s at the midpoint $t=2$ s of the interval",
+					"The velocity is $3$ m/s at every instant, since the average is $3$",
+					"The velocity never exceeds $3$ m/s at any time in the interval"
+				],
+				"answer": 0,
+				"explanation": "The MVT says $f'(c)=\\frac{f(b)-f(a)}{b-a}$ for at least one $c$ between $a$ and $b$ (the theorem doesn't say where). Consequently, if $f'=0$ everywhere, then $f(b)=f(a)$ for all $a,b$, so $f$ is constant."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A potential energy curve $U(x)$ has $U'(x_0)=0$ and $U''(x_0)=-2$ J/m$^2$. What kind of equilibrium is $x_0$?",
+				"options": [
+					"Stable: a small displacement gives a restoring force back toward $x_0$",
+					"Neutral: the particle stays at whatever position it is displaced to",
+					"Not an equilibrium at all, because $U''\\neq0$ there",
+					"Unstable: a small displacement gives a force pushing it further away"
+				],
+				"answer": 3,
+				"explanation": "$F=-U'$. Near $x_0$, $F\\approx-U''(x_0)(x-x_0)=+2(x-x_0)$, which points away from $x_0$: a potential maximum. A minimum ($U''>0$) would give a restoring force, as in a chemical bond."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Lennard-Jones potential is $V(r)=4\\varepsilon\\left[(\\sigma/r)^{12}-(\\sigma/r)^6\\right]$. At what separation does it have its minimum? Give $r$ in units of $\\sigma$.",
+				"answer": 1.122,
+				"tolerance": 0.02,
+				"unit": "sigma",
+				"explanation": "$V'=0\\Rightarrow-12\\sigma^{12}r^{-13}+6\\sigma^6r^{-7}=0\\Rightarrow r^6=2\\sigma^6$, so $r=2^{1/6}\\sigma\\approx1.122\\sigma$. At this point $V=-\\varepsilon$, the well depth."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why $f'(c)=0$ is necessary but not sufficient for a local extremum, and how the first and second derivative tests settle the question.",
+				"rubric": "Full credit: a horizontal tangent at c is needed (Fermat) but f(x)=x^3 has f'(0)=0 and no extremum (inflection with horizontal tangent); first derivative test: extremum iff f' changes sign (+ to - max, - to + min); second derivative test: f''(c)>0 min, <0 max, =0 inconclusive; concavity gives the same information geometrically.",
+				"modelAnswer": "At a smooth local maximum or minimum the tangent must be horizontal, so $f'(c)=0$ is necessary. It isn't sufficient: for $f(x)=x^3$, $f'(0)=0$ but $f$ keeps increasing, so $0$ is a flat inflection point. The first derivative test asks whether $f'$ changes sign at $c$ ($+\\to-$ is a maximum, $-\\to+$ a minimum, no change means neither). The second derivative test uses concavity: $f''(c)>0$ (concave up) gives a minimum, $f''(c)<0$ a maximum, and $f''(c)=0$ is inconclusive."
+			}
+		],
+		"m1-l011-optimization-asymptotes": [
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\lim_{x\\to\\infty}\\frac{3x^2+x}{2x^2-5}$.",
+				"options": [
+					"$3$",
+					"$\\dfrac32$",
+					"$0$",
+					"$\\infty$"
+				],
+				"answer": 1,
+				"explanation": "Divide numerator and denominator by the highest power, $x^2$: $\\frac{3+1/x}{2-5/x^2}\\to\\frac32$. Equal degrees give the ratio of leading coefficients, a horizontal asymptote $y=3/2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "As $x\\to\\infty$, the graph of $f(x)=\\dfrac{x^2+1}{x}$ approaches which line?",
+				"options": [
+					"$y=0$",
+					"$y=1$",
+					"It approaches no line, since it grows without bound",
+					"$y=x$ (an oblique asymptote)"
+				],
+				"answer": 3,
+				"explanation": "$f(x)=x+\\frac1x$, and $\\frac1x\\to0$, so the graph hugs the line $y=x$. When the numerator's degree is one higher than the denominator's, long division gives an oblique asymptote."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A farmer has $100$ m of fencing to enclose a rectangular pen against a straight river (no fence needed along the river). What is the maximum possible area, in m$^2$?",
+				"answer": 1250.0,
+				"tolerance": 0.02,
+				"unit": "m^2",
+				"explanation": "With width $w$ perpendicular to the river and length $100-2w$: $A=w(100-2w)$, $A'=100-4w=0\\Rightarrow w=25$, $A=25\\times50=1250$ m$^2$. $A''<0$ and the endpoints give $A=0$, so it is the maximum."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Planck-type function $f(x)=x^3/(e^x-1)$ has a single maximum for $x>0$. Setting $f'(x)=0$ leads to $x=3(1-e^{-x})$. Solve this numerically and give the position of the maximum.",
+				"answer": 2.821,
+				"tolerance": 0.02,
+				"explanation": "Iterating $x\\leftarrow3(1-e^{-x})$ from $x=3$ converges to $x\\approx2.821$. This is the origin of Wien's displacement law ($h\\nu_{\\max}\\approx2.82\\,k_BT$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "A Boltzmann-weighted population has the form $N(E)\\propto\\sqrt E\\,e^{-E/k_BT}$. Explain physically why this has a peak rather than just decreasing or increasing, and find where the peak is.",
+				"rubric": "Full credit: sqrt(E) (growing number of available states) competes with e^{-E/kT} (decreasing Boltzmann probability per state): at low E the density of states factor dominates and N rises, at high E the exponential dominates and N falls; setting derivative to zero: 1/(2E) - 1/(kT) = 0 -> E = kT/2.",
+				"modelAnswer": "Two factors compete: the number of available states grows with energy (the $\\sqrt E$), while the probability of each state falls exponentially with $e^{-E/k_BT}$. At low energy the growing factor wins, so $N$ rises; at high energy the exponential wins, so $N$ falls; hence a maximum. Setting $\\frac{d}{dE}\\ln N=\\frac1{2E}-\\frac1{k_BT}=0$ gives $E=k_BT/2$."
+			}
+		],
+		"m1-l012-lhopital-newton": [
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\lim_{x\\to\\infty}\\frac{x^{100}}{e^{x}}$.",
+				"options": [
+					"$\\infty$, because $x^{100}$ is enormous compared with $e^x$",
+					"$0$: the exponential eventually outgrows any power",
+					"$100$, the exponent of the numerator",
+					"$1$, since top and bottom both grow without bound"
+				],
+				"answer": 1,
+				"explanation": "This is $\\infty/\\infty$. Each application of L'Hopital lowers the power by one ($100x^{99}/e^x$, then $100\\cdot99x^{98}/e^x$, ...) until a constant is left over $e^x\\to\\infty$. Exponentials beat powers, which beat logarithms."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which of these arguments is FLAWED?",
+				"options": [
+					"$\\displaystyle\\lim_{x\\to\\infty}\\frac{x+\\sin x}{x}$: $\\frac{1+\\cos x}{1}$ has no limit, so neither does the original",
+					"$\\displaystyle\\lim_{x\\to0}\\frac{1-\\cos x}{x^2}$ is $0/0$, so it equals $\\lim\\frac{\\sin x}{2x}=\\frac12$",
+					"$\\displaystyle\\lim_{x\\to0^+}x\\ln x$ is $0\\cdot\\infty$; rewrite as $\\frac{\\ln x}{1/x}\\to\\frac{1/x}{-1/x^2}=-x\\to0$",
+					"$\\displaystyle\\lim_{x\\to\\infty}\\frac{\\ln x}{x^{0.1}}$ is $\\infty/\\infty$, so it equals $\\lim\\frac{1/x}{0.1x^{-0.9}}=0$"
+				],
+				"answer": 0,
+				"explanation": "L'Hopital says: if $\\lim f'/g'$ exists, then $\\lim f/g$ equals it. If $\\lim f'/g'$ does not exist, the rule says nothing. Here $\\frac{x+\\sin x}{x}=1+\\frac{\\sin x}{x}\\to1$. Always check the hypotheses."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Wien's displacement law leads to $x=5(1-e^{-x})$. Apply ONE step of Newton's method to $g(x)=x-5(1-e^{-x})$ starting from $x_0=5$. Give $x_1$.",
+				"answer": 4.965,
+				"tolerance": 0.02,
+				"explanation": "$g(5)=5e^{-5}\\approx0.03369$ and $g'(x)=1-5e^{-x}$ gives $g'(5)\\approx0.96631$. So $x_1=5-0.03369/0.96631\\approx4.9651$. (The solution is $4.9651$: Newton converged almost immediately.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which situation can make Newton's method fail or converge slowly?",
+				"options": [
+					"Any function whose root is irrational, because the iterates can never land on it exactly",
+					"Any function with a negative derivative at the root, because the tangent then points the wrong way",
+					"A starting guess where $f'$ is nearly $0$, so the tangent is almost flat and sends the next guess far away",
+					"A starting guess very close to the true root, because the correction $f/f'$ is then too small to matter"
+				],
+				"answer": 2,
+				"explanation": "$x_{n+1}=x_n-f/f'$: when $f'(x_n)\\approx0$, the step is huge (and undefined if $f'=0$). Other failure modes include cycling and double roots, where convergence becomes only linear."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive Newton's method from the tangent line to $f$ at $x_n$, and explain why it converges extremely quickly near a simple root.",
+				"rubric": "Full credit: tangent line y = f(x_n) + f'(x_n)(x - x_n); set y=0 and solve: x_{n+1} = x_n - f(x_n)/f'(x_n), i.e. replace f by its tangent line and take the tangent's root; near a simple root the tangent approximates f very well (error second order), so the error is roughly squared at each step (digits of accuracy roughly double).",
+				"modelAnswer": "The tangent line at $x_n$ is $y=f(x_n)+f'(x_n)(x-x_n)$. Setting $y=0$ and solving for $x$ gives $x_{n+1}=x_n-f(x_n)/f'(x_n)$: replace $f$ by its tangent line and use the tangent's root as the next guess. Near a simple root the tangent line is an excellent approximation (it differs from $f$ only at second order), so the error shrinks roughly as its square each step, and the number of correct digits roughly doubles."
+			}
+		],
+		"m1-l013-antiderivatives-riemann": [
+			{
+				"kind": "mc",
+				"prompt": "Find $\\displaystyle\\int(3x^2+\\cos x)\\,dx$.",
+				"options": [
+					"$x^3-\\sin x+C$",
+					"$x^3+\\sin x+C$",
+					"$6x-\\sin x+C$",
+					"$x^3+\\sin x$"
+				],
+				"answer": 1,
+				"explanation": "Reverse each derivative: $\\frac{d}{dx}x^3=3x^2$ and $\\frac{d}{dx}\\sin x=\\cos x$. Always add $C$, because differentiation kills constants, and verify by differentiating."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A falling object has velocity $v(t)=9.8t+2$ m/s (downward positive) and starts at $x(0)=0$. Find its position at $t=3$ s in metres.",
+				"answer": 50.1,
+				"tolerance": 0.02,
+				"unit": "m",
+				"explanation": "Integrate: $x(t)=4.9t^2+2t+C$ and $x(0)=0$ gives $C=0$. So $x(3)=4.9(9)+6=50.1$ m."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Approximate $\\displaystyle\\int_0^2x^2\\,dx$ with a midpoint Riemann sum using $n=4$ rectangles.",
+				"answer": 2.625,
+				"tolerance": 0.02,
+				"explanation": "$\\Delta x=0.5$ and the midpoints are $0.25,0.75,1.25,1.75$: $0.5(0.0625+0.5625+1.5625+3.0625)=2.625$. The exact integral is $8/3\\approx2.667$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If you double the number of rectangles $n$ in a left Riemann sum for a smooth increasing function, roughly what happens to the error?",
+				"options": [
+					"It is roughly quartered (error $\\propto1/n^2$)",
+					"It stays the same",
+					"It is roughly doubled",
+					"It is roughly halved (error $\\propto1/n$)"
+				],
+				"answer": 3,
+				"explanation": "For left or right sums the error is proportional to the width $\\Delta x\\propto1/n$. Midpoint and trapezoid sums do better, with error $\\propto1/n^2$, because errors on each strip partially cancel."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is an antiderivative only determined up to an added constant, and what physical information fixes the constant for $v(t)=at+v_0$?",
+				"rubric": "Full credit: derivatives of constants are zero, so F and F + C have the same derivative; family of curves shifted vertically; for kinematics x(t) = a t^2/2 + v0 t + C and C is the initial position x(0) (and v0 itself is the constant from integrating a); initial conditions pick out one particular solution.",
+				"modelAnswer": "Adding a constant doesn't change the derivative, so every function $F+C$ has the same slope everywhere: the antiderivatives form a family of curves shifted vertically. For $v=at+v_0$, integrating gives $x=\\tfrac12at^2+v_0t+C$, and the constant is fixed by an initial condition, namely $C=x(0)$, the starting position. (Likewise, $v_0$ was the constant from integrating $a$.) Knowing how fast something moves doesn't say where it is until you are told where it started."
+			}
+		],
+		"m1-l014-definite-integral-ftc": [
+			{
+				"kind": "mc",
+				"prompt": "Find $\\dfrac{d}{dx}\\displaystyle\\int_0^{x^2}e^{-t^2}\\,dt$.",
+				"options": [
+					"$e^{-x^4}$",
+					"$e^{-x^2}$",
+					"$2x\\,e^{-x^4}$",
+					"$2x\\,e^{-x^2}$"
+				],
+				"answer": 2,
+				"explanation": "FTC part 1 gives $e^{-u^2}$ evaluated at the upper limit $u=x^2$, and the chain rule multiplies by $du/dx=2x$: $e^{-(x^2)^2}\\cdot2x=2xe^{-x^4}$. No antiderivative is needed."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\displaystyle\\int_0^2(3x^2-2x)\\,dx$.",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"explanation": "An antiderivative is $x^3-x^2$, so $F(2)-F(0)=(8-4)-0=4$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Suppose $\\int_0^3f(x)\\,dx=5$ and $\\int_0^1f(x)\\,dx=2$. What is $\\int_3^1f(x)\\,dx$?",
+				"options": [
+					"$-3$",
+					"$3$",
+					"$-7$",
+					"$7$"
+				],
+				"answer": 0,
+				"explanation": "Additivity: $\\int_1^3f=\\int_0^3f-\\int_0^1f=3$. Reversing the limits flips the sign, so $\\int_3^1f=-3$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $f(x)=\\sin x$ on $[0,2\\pi]$, what are the signed integral and the total (unsigned) area?",
+				"options": [
+					"Signed integral $0$; total area $4$",
+					"Signed integral $0$; total area $0$",
+					"Signed integral $4$; total area $4$",
+					"Signed integral $2$; total area $2$"
+				],
+				"answer": 0,
+				"explanation": "The positive hump on $[0,\\pi]$ has area $2$ and the negative hump on $[\\pi,2\\pi]$ has signed area $-2$. The signed integral cancels to $0$; the total area is $\\int|\\sin x|=4$. For displacement vs distance, compare these."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why differentiation and integration are inverse operations (the fundamental theorem of calculus).",
+				"rubric": "Full credit: the area function A(x)=integral_a^x f grows at a rate equal to the height f(x) (add a thin strip of width dx and height f), so A' = f (part 1); conversely the definite integral of a rate of change F' is the net change F(b)-F(a) (part 2); accumulating a rate recovers the quantity, differentiating the accumulation recovers the rate.",
+				"modelAnswer": "Let $A(x)=\\int_a^xf(t)\\,dt$ be the area accumulated up to $x$. Moving $x$ forward by $dx$ adds a thin strip of height $f(x)$ and width $dx$, so $A'(x)=f(x)$: the rate at which area accumulates is the height. Conversely, adding up (integrating) a rate of change $F'$ over an interval gives the total change $F(b)-F(a)$. Accumulating undoes differentiating, and differentiating undoes accumulating."
+			}
+		],
+		"m1-l015-net-change-substitution": [
+			{
+				"kind": "numeric",
+				"prompt": "A particle has velocity $v(t)=t^2-4t+3$ m/s for $0\\le t\\le4$ s. Find the total distance travelled (not the displacement), in metres.",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"unit": "m",
+				"explanation": "$v=(t-1)(t-3)$ changes sign at $t=1$ and $t=3$. $\\int_0^1v=\\tfrac43$, $\\int_1^3v=-\\tfrac43$, $\\int_3^4v=\\tfrac43$. The displacement is $\\tfrac43$ m, but the distance is $\\tfrac43+\\tfrac43+\\tfrac43=4$ m."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\int_0^2xe^{x^2}\\,dx$.",
+				"options": [
+					"$e^4-1$",
+					"$\\dfrac{e^2-1}{2}$",
+					"$\\dfrac{e^4-1}{2}$",
+					"$\\dfrac{e^4}{2}$"
+				],
+				"answer": 2,
+				"explanation": "Let $u=x^2$, $du=2x\\,dx$, so $x\\,dx=\\tfrac12du$, and the limits become $u=0$ to $u=4$: $\\tfrac12\\int_0^4e^u\\,du=\\tfrac12(e^4-1)$. Forgetting the $\\tfrac12$ or leaving the old limits are the standard slips."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which is the best way to evaluate $\\displaystyle\\int\\frac{dx}{x^2+4x+13}$?",
+				"options": [
+					"Substitute $u=x^2+4x+13$, to get a logarithm",
+					"Complete the square, $(x+2)^2+9$, and use the arctangent form",
+					"Factor the denominator into real linear factors and use partial fractions",
+					"Integrate by parts, with $u=1/x$"
+				],
+				"answer": 1,
+				"explanation": "The discriminant is $16-52<0$ so there are no real factors, and the numerator $1$ is not the derivative $2x+4$ of the denominator. Completing the square gives $\\frac13\\arctan\\frac{x+2}{3}+C$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "You slowly stretch a spring of constant $k=200$ N/m from $0.10$ m to $0.30$ m extension. How much work do you do on the spring, in joules?",
+				"answer": 8.0,
+				"tolerance": 0.02,
+				"unit": "J",
+				"explanation": "$W=\\int_{0.10}^{0.30}kx\\,dx=\\tfrac12k(0.30^2-0.10^2)=100(0.08)=8.0$ J. The force grows linearly, so the work is the area of a trapezoid under $F(x)$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the work done by a variable force is an integral, and why, for a gas, the work $\\int P\\,dV$ can differ between two paths with the same start and end states.",
+				"rubric": "Full credit: work = force times displacement summed over small steps where the force is roughly constant: W = integral F dx (area under F vs x); for gas, W = integral P dV is the area under the path on a P-V diagram; different paths between the same two states enclose different areas, so work is path dependent (not a state function), unlike the change in internal energy.",
+				"modelAnswer": "When the force varies, split the motion into tiny steps over which $F$ is nearly constant; each contributes $F\\,dx$, and summing them gives $W=\\int F\\,dx$, the area under the force curve. For a gas, $W=\\int P\\,dV$ is the area under the path on a $P$-$V$ diagram. Two different paths between the same initial and final states bound different areas, so the work depends on the path, unlike a state function such as internal energy."
+			}
+		],
+		"m1-l016-exp-log-inverse-trig-integrals": [
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\int\\frac{dx}{x^2+9}$.",
+				"options": [
+					"$\\arctan\\dfrac x3+C$",
+					"$\\dfrac12\\ln(x^2+9)+C$",
+					"$\\dfrac13\\arcsin\\dfrac x3+C$",
+					"$\\dfrac13\\arctan\\dfrac x3+C$"
+				],
+				"answer": 3,
+				"explanation": "The form is $\\int\\frac{dx}{a^2+x^2}=\\frac1a\\arctan\\frac xa$ with $a=3$. The factor $1/a$ is easy to lose; check by differentiating."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is $\\displaystyle\\int2^x\\,dx$?",
+				"options": [
+					"$2^x\\ln2+C$",
+					"$\\dfrac{2^{x+1}}{x+1}+C$",
+					"$2^x+C$",
+					"$\\dfrac{2^x}{\\ln2}+C$"
+				],
+				"answer": 3,
+				"explanation": "Since $\\frac{d}{dx}2^x=2^x\\ln2$, dividing by $\\ln 2$ gives the antiderivative. The power rule does not apply to a variable exponent."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "One mole of ideal gas expands isothermally and reversibly at $298$ K from $1.00$ L to $10.0$ L. Compute the work done BY the gas, $\\int_{V_1}^{V_2}P\\,dV$, in kJ ($R=8.314$ J mol$^{-1}$ K$^{-1}$).",
+				"answer": 5.705,
+				"tolerance": 0.02,
+				"unit": "kJ",
+				"explanation": "With $P=nRT/V$: $\\int P\\,dV=nRT\\ln(V_2/V_1)=(8.314)(298)\\ln10\\approx5705$ J $=5.71$ kJ. The sign convention $W=-nRT\\ln(V_2/V_1)$ gives the work done on the gas."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If $\\ln x$ is defined as $\\int_1^x\\frac{dt}{t}$, what are $\\ln1$ and the sign of $\\ln x$ for $0<x<1$?",
+				"options": [
+					"$\\ln1=1$, and $\\ln x<0$ for $0<x<1$, since the integrand is positive",
+					"$\\ln1=0$, and $\\ln x<0$ for $0<x<1$ (reversed limits)",
+					"$\\ln1=0$, and $\\ln x>0$ for $0<x<1$, because the area is positive",
+					"$\\ln1$ is undefined, because the interval of integration has zero width"
+				],
+				"answer": 1,
+				"explanation": "The integral from $1$ to $1$ is zero. For $x<1$ the limits are reversed, so the integral is minus a positive area. Properties like $\\ln xy=\\ln x+\\ln y$ follow from the additivity of integrals."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the isothermal work of an ideal gas depends only on the volume RATIO $V_2/V_1$, and what the sign of the work tells you for expansion versus compression.",
+				"rubric": "Full credit: integral of dV/V = ln(V2/V1) so only the ratio matters (scale invariance: doubling volume from 1 to 2 L does the same work as from 10 to 20 L at the same T since P halves each time); expansion: V2>V1, ln>0, gas does positive work on surroundings (work done on gas negative); compression: opposite sign.",
+				"modelAnswer": "Since $P=nRT/V$, $W=\\int P\\,dV=nRT\\int\\frac{dV}{V}=nRT\\ln\\frac{V_2}{V_1}$. Only the ratio matters because $\\int dV/V$ is scale-invariant: doubling the volume from $1$ to $2$ L costs the same as from $10$ to $20$ L, as the pressure halves in the same proportion. For expansion ($V_2>V_1$) the logarithm is positive: the gas does positive work on its surroundings (work done on the gas is negative). For compression the signs reverse."
+			}
+		],
+		"m1-l017-integral-applications": [
+			{
+				"kind": "numeric",
+				"prompt": "Find the area enclosed between the curves $y=x$ and $y=x^2$.",
+				"answer": 0.1667,
+				"tolerance": 0.02,
+				"explanation": "They intersect at $x=0$ and $1$, with $y=x$ on top: $\\int_0^1(x-x^2)\\,dx=\\tfrac12-\\tfrac13=\\tfrac16\\approx0.167$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The region under $y=\\sqrt x$ for $0\\le x\\le4$ is rotated about the $x$-axis. What is the volume?",
+				"options": [
+					"$\\dfrac{16\\pi}{3}$",
+					"$4\\pi$",
+					"$8\\pi$",
+					"$16\\pi$"
+				],
+				"answer": 2,
+				"explanation": "Disks of radius $\\sqrt x$: $V=\\pi\\int_0^4(\\sqrt x)^2dx=\\pi\\int_0^4x\\,dx=8\\pi$. Forgetting to square the radius gives the wrong value $16\\pi/3$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Find the average value of $f(x)=x^2$ on the interval $[0,3]$.",
+				"answer": 3.0,
+				"tolerance": 0.02,
+				"explanation": "$\\bar f=\\frac1{3-0}\\int_0^3x^2\\,dx=\\frac13\\cdot9=3$. Note this is not $f$ at the midpoint ($2.25$); the average of a curved function differs from its value at the midpoint."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A rod of length $L$ has linear density $\\rho(x)=\\rho_0\\,x/L$ (heavier toward the far end). Where is its centre of mass?",
+				"options": [
+					"$x=\\dfrac{2L}{3}$",
+					"$x=\\dfrac L2$",
+					"$x=\\dfrac L3$",
+					"$x=\\dfrac{3L}{4}$"
+				],
+				"answer": 0,
+				"explanation": "$M=\\int_0^L\\rho_0\\frac xL\\,dx=\\rho_0L/2$ and $\\int_0^Lx\\rho\\,dx=\\rho_0L^2/3$, so $x_{cm}=\\frac{L^2/3}{L/2}=\\frac{2L}3$, beyond the midpoint toward the heavy end."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the centre-of-mass formula $x_{cm}=\\int x\\rho\\,dx/\\int\\rho\\,dx$ is an average, and how the same idea gives the expectation value of position for a particle with probability density $P(x)$.",
+				"rubric": "Full credit: x_cm is the average of x weighted by mass density (fraction of mass at each x); dividing by total mass normalises the weight; for a probability density, weight is P(x) dx and the total is 1, so <x> = integral x P(x) dx; in general <f> = integral f P dx, a weighted average.",
+				"modelAnswer": "$x_{cm}$ is the average position with each location weighted by how much mass is there: $\\rho\\,dx/M$ is the fraction of the mass in a slice. Dividing by $\\int\\rho\\,dx$ normalises the weights to sum to $1$. A probability density plays the same role with total weight $1$: $\\langle x\\rangle=\\int xP(x)\\,dx$, and in general $\\langle f\\rangle=\\int f(x)P(x)\\,dx$, which is how quantum expectation values are computed."
+			}
+		],
+		"m1-l018-integration-by-parts": [
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\int xe^{2x}\\,dx$.",
+				"options": [
+					"$\\left(\\dfrac x2+\\dfrac14\\right)e^{2x}+C$",
+					"$\\dfrac{x^2}{2}e^{2x}+C$",
+					"$\\left(\\dfrac x2-\\dfrac14\\right)e^{2x}+C$",
+					"$\\left(x-\\dfrac12\\right)e^{2x}+C$"
+				],
+				"answer": 2,
+				"explanation": "Take $u=x$, $dv=e^{2x}dx$, so $v=\\tfrac12e^{2x}$: $\\tfrac x2e^{2x}-\\tfrac12\\int e^{2x}dx=\\tfrac x2e^{2x}-\\tfrac14e^{2x}$. Differentiating the result returns $xe^{2x}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $\\displaystyle\\int x^2\\sin x\\,dx$, which choice of $u$ and $dv$ makes progress (by LIATE)?",
+				"options": [
+					"$u=x^2$, $dv=\\sin x\\,dx$",
+					"$u=\\sin x$, $dv=x^2dx$",
+					"$u=x^2\\sin x$, $dv=dx$",
+					"$u=1$, $dv=x^2\\sin x\\,dx$"
+				],
+				"answer": 0,
+				"explanation": "Choose $u$ to become simpler on differentiation: $x^2\\to2x\\to2$, while $\\sin x$ just cycles. The other choices make $v$ or the new integral more complicated. Two rounds of parts finish the job."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\displaystyle\\int_0^{\\pi}x\\sin x\\,dx$.",
+				"answer": 3.142,
+				"tolerance": 0.02,
+				"explanation": "With $u=x$, $dv=\\sin x\\,dx$: $[-x\\cos x]_0^\\pi+\\int_0^\\pi\\cos x\\,dx=\\pi+0=\\pi\\approx3.1416$. The boundary term $uv$ must be evaluated at the limits."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Applying integration by parts twice to $I=\\int e^x\\sin x\\,dx$ gives $I=e^x\\sin x-e^x\\cos x-I$. What is $I$?",
+				"options": [
+					"$e^x(\\sin x-\\cos x)+C$",
+					"$0$",
+					"$\\dfrac{e^x(\\sin x+\\cos x)}{2}+C$",
+					"$\\dfrac{e^x(\\sin x-\\cos x)}{2}+C$"
+				],
+				"answer": 3,
+				"explanation": "The original integral reappears on the right. Solve algebraically: $2I=e^x(\\sin x-\\cos x)$. Verify by differentiating: $\\frac12e^x[(\\sin-\\cos)+(\\cos+\\sin)]=e^x\\sin x$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the integration-by-parts formula from the product rule, and explain the idea behind choosing $u$ and $dv$.",
+				"rubric": "Full credit: (uv)' = u'v + uv' -> integrate both sides: uv = integral v du + integral u dv -> integral u dv = uv - integral v du; strategy: trade a hard integral for an easier one by choosing u to simplify when differentiated (polynomials, logs, inverse trig) and dv to be something that can be integrated (exponentials, trig); LIATE heuristic.",
+				"modelAnswer": "From $(uv)'=u'v+uv'$, integrating both sides gives $uv=\\int v\\,du+\\int u\\,dv$, so $\\int u\\,dv=uv-\\int v\\,du$. It's useful when the new integral $\\int v\\,du$ is simpler than the original. So choose $u$ to be something that gets simpler when differentiated (polynomials, logarithms, inverse trig) and $dv$ to be something you can integrate easily (exponentials, sines and cosines): the LIATE ordering of preferences."
+			}
+		],
+		"m1-l019-trig-integrals-substitution": [
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\int\\sin^3x\\cos^2x\\,dx$.",
+				"options": [
+					"$\\dfrac{\\cos^3x}{3}-\\dfrac{\\cos^5x}{5}+C$",
+					"$\\dfrac{\\sin^4x}{4}\\cdot\\dfrac{\\cos^3x}{3}+C$",
+					"$-\\dfrac{\\cos^3x}{3}+\\dfrac{\\cos^5x}{5}+C$",
+					"$-\\dfrac{\\cos^3x}{3}+C$"
+				],
+				"answer": 2,
+				"explanation": "The power of sine is odd, so peel off one $\\sin x$ and write $\\sin^2=1-\\cos^2$: $\\int(1-u^2)u^2(-du)$ with $u=\\cos x$, which gives $-\\frac{u^3}3+\\frac{u^5}5$. Check by differentiating."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\displaystyle\\int_0^\\pi\\sin^2x\\,dx$.",
+				"answer": 1.571,
+				"tolerance": 0.02,
+				"explanation": "Both powers even, so use $\\sin^2x=\\tfrac12(1-\\cos2x)$: $\\left[\\tfrac x2-\\tfrac{\\sin2x}{4}\\right]_0^\\pi=\\tfrac\\pi2\\approx1.571$. This is also $\\pi\\times$ (average of $\\sin^2$) $=\\pi\\times\\tfrac12$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which substitution is suited to $\\displaystyle\\int\\frac{dx}{\\sqrt{x^2-4}}$?",
+				"options": [
+					"$x=2\\sec\\theta$, since $\\sec^2\\theta-1=\\tan^2\\theta$",
+					"$x=2\\sin\\theta$, since $1-\\sin^2\\theta=\\cos^2\\theta$ removes the radical",
+					"$x=2\\tan\\theta$, since $1+\\tan^2\\theta=\\sec^2\\theta$ removes the radical",
+					"$x=4\\sec\\theta$, since the number under the root is $4$"
+				],
+				"answer": 0,
+				"explanation": "Match the radical to an identity: $\\sqrt{a^2-x^2}\\to x=a\\sin\\theta$ ($1-\\sin^2=\\cos^2$); $\\sqrt{a^2+x^2}\\to x=a\\tan\\theta$ ($1+\\tan^2=\\sec^2$); $\\sqrt{x^2-a^2}\\to x=a\\sec\\theta$ ($\\sec^2-1=\\tan^2$), with $a=2$ here."
+			},
+			{
+				"kind": "mc",
+				"prompt": "To integrate $\\displaystyle\\int\\frac{dx}{\\sqrt{-x^2+2x+3}}$, completing the square gives $-x^2+2x+3=4-(x-1)^2$. What is the integral?",
+				"options": [
+					"$\\arcsin\\dfrac{x+1}{2}+C$",
+					"$\\arctan\\dfrac{x-1}{2}+C$",
+					"$\\dfrac12\\arcsin(x-1)+C$",
+					"$\\arcsin\\dfrac{x-1}{2}+C$"
+				],
+				"answer": 3,
+				"explanation": "With $u=x-1$ the integrand is $\\frac{1}{\\sqrt{2^2-u^2}}$, whose antiderivative is $\\arcsin(u/2)$. The shift is $x-1$, matching the completed square."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe the strategy for integrals of the form $\\sin^mx\\cos^nx$ and $\\tan^mx\\sec^nx$, and use it to explain how $\\int\\tan^3x\\sec x\\,dx$ is done.",
+				"rubric": "Full credit: for sin^m cos^n: if either power is odd, split off one factor and convert the rest with sin^2+cos^2=1 then u-substitute; if both even use power-reduction; for tan sec: if power of tan is odd save a sec x tan x factor (the derivative of sec) and convert remaining tan^2 = sec^2-1, set u=sec x; here tan^3 sec = (sec^2-1) sec tan dx -> u^3/3 - u = sec^3/3 - sec x + C.",
+				"modelAnswer": "For $\\sin^m\\cos^n$: if one power is odd, save one factor for $du$ and convert the rest using $\\sin^2+\\cos^2=1$; if both are even, use the power-reduction formulas. For $\\tan^m\\sec^n$ with $m$ odd, save a factor $\\sec x\\tan x$ (which is $d(\\sec x)$) and convert the leftover $\\tan^2=\\sec^2-1$. So $\\int\\tan^3x\\sec x\\,dx=\\int(\\sec^2x-1)\\sec x\\tan x\\,dx=\\int(u^2-1)\\,du=\\frac{\\sec^3x}{3}-\\sec x+C$."
+			}
+		],
+		"m1-l020-partial-fractions-strategy": [
+			{
+				"kind": "mc",
+				"prompt": "What is the correct partial-fraction form for $\\dfrac{x+1}{x(x-2)^2}$?",
+				"options": [
+					"$\\dfrac{A}{x}+\\dfrac{B}{(x-2)^2}$",
+					"$\\dfrac{A}{x}+\\dfrac{B}{x-2}+\\dfrac{C}{(x-2)^2}$",
+					"$\\dfrac{A}{x}+\\dfrac{Bx+C}{(x-2)^2}$",
+					"$\\dfrac{A}{x}+\\dfrac{B}{x-2}$"
+				],
+				"answer": 1,
+				"explanation": "A repeated linear factor $(x-2)^2$ needs a term for every power up to the multiplicity: one over $(x-2)$ and one over $(x-2)^2$. Omitting the first-power term leaves too few unknowns to match the numerator."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\displaystyle\\int_3^5\\frac{10}{(x-2)(x+3)}\\,dx$ by partial fractions.",
+				"answer": 1.622,
+				"tolerance": 0.02,
+				"explanation": "$\\frac{10}{(x-2)(x+3)}=\\frac{2}{x-2}-\\frac{2}{x+3}$ (cover-up). Integrating: $2\\ln\\frac{x-2}{x+3}\\Big|_3^5=2\\left(\\ln\\frac38-\\ln\\frac16\\right)=2\\ln\\frac94\\approx1.622$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Evaluate $\\displaystyle\\int\\frac{dx}{x(x^2+1)}$.",
+				"options": [
+					"$\\ln|x|+\\tfrac12\\ln(x^2+1)+C$",
+					"$\\ln|x|+\\arctan x+C$",
+					"$\\ln|x|-\\arctan x+C$",
+					"$\\ln|x|-\\tfrac12\\ln(x^2+1)+C$"
+				],
+				"answer": 3,
+				"explanation": "$\\frac{1}{x(x^2+1)}=\\frac1x-\\frac{x}{x^2+1}$. The second term has a numerator proportional to the derivative of the denominator, so it integrates to a logarithm, $-\\tfrac12\\ln(x^2+1)$, not an arctangent."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For the reaction $A+B\\to P$ with $d x/dt=k(a-x)(b-x)$ ($a\\neq b$), which decomposition lets you integrate it?",
+				"options": [
+					"$\\dfrac{1}{(a-x)(b-x)}=\\dfrac{1}{a-x}+\\dfrac{1}{b-x}$",
+					"$\\dfrac{1}{(a-x)(b-x)}=\\dfrac{1}{b-a}\\left[\\dfrac{1}{a-x}-\\dfrac{1}{b-x}\\right]$",
+					"$\\dfrac{1}{(a-x)(b-x)}=\\dfrac{1}{a-x}-\\dfrac{1}{b-x}$",
+					"$\\dfrac{1}{(a-x)(b-x)}=\\dfrac{1}{b-a}\\left[\\dfrac{1}{b-x}-\\dfrac{1}{a-x}\\right]$"
+				],
+				"answer": 1,
+				"explanation": "Recombine: $\\frac1{a-x}-\\frac1{b-x}=\\frac{(b-x)-(a-x)}{(a-x)(b-x)}=\\frac{b-a}{(a-x)(b-x)}$, so the prefactor $\\frac1{b-a}$ is needed and the sign order matters. Integrating yields logarithms, giving the familiar $\\ln\\frac{[B][A]_0}{[A][B]_0}$ rate law."
+			},
+			{
+				"kind": "short",
+				"prompt": "For each integral, name the technique you would try first and why: (a) $\\int xe^{x^2}dx$, (b) $\\int xe^{x}dx$, (c) $\\int\\frac{dx}{x^2-1}$, (d) $\\int\\sqrt{1-x^2}\\,dx$.",
+				"rubric": "Full credit: (a) u-substitution u=x^2 because x dx is (1/2)du, derivative of inner function present; (b) integration by parts, product of polynomial and exponential where differentiating x simplifies it; (c) partial fractions: rational function with a factorable denominator (x-1)(x+1); (d) trigonometric substitution x = sin theta to remove the radical. Reasoning must refer to the form of the integrand.",
+				"modelAnswer": "(a) Substitution, $u=x^2$: the integrand contains the inner function's derivative ($x\\,dx=\\tfrac12du$). (b) Integration by parts, $u=x$: a polynomial times an exponential, and differentiating the polynomial simplifies it. (c) Partial fractions: a rational function whose denominator factors as $(x-1)(x+1)$, giving $\\frac12\\left(\\frac1{x-1}-\\frac1{x+1}\\right)$. (d) Trigonometric substitution $x=\\sin\\theta$, which turns $\\sqrt{1-x^2}$ into $\\cos\\theta$. The form of the integrand is what suggests the technique."
+			}
+		],
+		"m1-l021-improper-numerical": [
+			{
+				"kind": "mc",
+				"prompt": "Which of these improper integrals converges?",
+				"options": [
+					"$\\displaystyle\\int_1^\\infty\\frac{dx}{x^{3/2}}$",
+					"$\\displaystyle\\int_1^\\infty\\frac{dx}{x}$",
+					"$\\displaystyle\\int_1^\\infty\\frac{dx}{\\sqrt x}$",
+					"$\\displaystyle\\int_0^1\\frac{dx}{x}$"
+				],
+				"answer": 0,
+				"explanation": "$\\int_1^\\infty x^{-p}dx$ converges exactly when $p>1$. Here $p=3/2$ gives $[-2x^{-1/2}]_1^\\infty=2$. The $p=1$ integral grows like $\\ln b$ and $p=1/2$ like $\\sqrt b$. Near $0$, $\\int_0^1dx/x$ also diverges logarithmically."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\displaystyle\\int_0^\\infty x^3e^{-2x}\\,dx$.",
+				"answer": 0.375,
+				"tolerance": 0.02,
+				"explanation": "Substitute $u=2x$: $\\int_0^\\infty\\frac{u^3}{8}e^{-u}\\frac{du}{2}=\\frac{3!}{16}=\\frac{6}{16}=0.375$. In general $\\int_0^\\infty x^ne^{-ax}dx=n!/a^{n+1}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is $\\displaystyle\\int_{-\\infty}^{\\infty}e^{-3x^2}\\,dx$, given $\\int_{-\\infty}^\\infty e^{-u^2}du=\\sqrt\\pi$?",
+				"options": [
+					"$\\sqrt{3\\pi}$",
+					"$\\pi/3$",
+					"$\\sqrt{\\pi/3}$",
+					"$3\\sqrt\\pi$"
+				],
+				"answer": 2,
+				"explanation": "Let $u=\\sqrt3\\,x$, so $dx=du/\\sqrt3$: the integral is $\\frac1{\\sqrt3}\\sqrt\\pi=\\sqrt{\\pi/3}$. A broader Gaussian (smaller coefficient) has a larger area; a narrower one (larger coefficient) has a smaller one."
+			},
+			{
+				"kind": "mc",
+				"prompt": "When the step size $h$ is halved, by roughly what factor do the errors of the trapezoid rule and Simpson's rule shrink?",
+				"options": [
+					"Trapezoid by $2$, Simpson by $4$ (errors $\\propto h$ and $h^2$)",
+					"Trapezoid by $4$, Simpson by $16$ (errors $\\propto h^2$ and $h^4$)",
+					"Trapezoid by $4$, Simpson by $8$ (errors $\\propto h^2$ and $h^3$)",
+					"Both by $4$ (both errors $\\propto h^2$)"
+				],
+				"answer": 1,
+				"explanation": "The trapezoid rule uses straight-line pieces (error $\\sim h^2$); Simpson's rule fits parabolas, which cancels the next error term, leaving $\\sim h^4$. That is why Simpson's rule needs far fewer points for the same accuracy."
+			},
+			{
+				"kind": "short",
+				"prompt": "Both $\\int_1^\\infty\\frac{dx}{x}$ and $\\int_1^\\infty\\frac{dx}{x^2}$ have integrands that tend to zero. Explain why one diverges and the other converges, and why this matters for normalising something like a hydrogen radial wavefunction.",
+				"rubric": "Full credit: tending to zero is not enough, it must go to zero fast enough that the area is finite; 1/x decays so slowly that the area grows like ln b without bound, whereas 1/x^2 gives area 1 - 1/b -> 1; a normalisable wavefunction needs |psi|^2 r^2 integrable at infinity, which the exponential decay e^{-2r/a} guarantees (integral of x^n e^{-x} = n! finite).",
+				"modelAnswer": "The area from $1$ to $b$ is $\\ln b$ for $1/x$, which grows without bound (slowly), but $1-1/b\\to1$ for $1/x^2$, which is finite. Merely tending to zero isn't enough: the tail has to shrink fast enough that its total area is finite. A wavefunction can only be normalised if $\\int|\\psi|^2dV$ is finite. Hydrogen's radial functions decay exponentially, $e^{-2r/a}$, so integrals like $\\int_0^\\infty r^ne^{-r}dr=n!$ converge easily, whereas power-law tails of the wrong kind would not."
+			}
+		],
+		"m1-l022-sequences-series": [
+			{
+				"kind": "mc",
+				"prompt": "What can be said about the sequence $a_n=(-1)^n\\dfrac{n}{n+1}$?",
+				"options": [
+					"It converges to $1$, since $|a_n|\\to1$",
+					"It converges to $0$, since the alternating signs cancel",
+					"It converges to $-1$, since the sign factor $(-1)^n$ dominates",
+					"It diverges: the terms alternate near $+1$ and $-1$"
+				],
+				"answer": 3,
+				"explanation": "$|a_n|\\to1$, but the sign flips each time, so the even terms approach $+1$ and the odd terms approach $-1$. A sequence converges only if it approaches a single value."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Find the sum of the telescoping series $\\displaystyle\\sum_{n=1}^\\infty\\frac{1}{n(n+2)}$.",
+				"answer": 0.75,
+				"tolerance": 0.02,
+				"explanation": "$\\frac1{n(n+2)}=\\frac12\\left(\\frac1n-\\frac1{n+2}\\right)$. In the partial sums all terms cancel except $\\tfrac12\\left(1+\\tfrac12-\\tfrac1{N+1}-\\tfrac1{N+2}\\right)\\to\\tfrac12\\cdot\\tfrac32=\\tfrac34$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which conclusion is VALID?",
+				"options": [
+					"$\\sum\\dfrac1n$ converges, because its terms tend to $0$",
+					"$\\sum\\dfrac{1}{n^2}$ diverges, because the divergence test is inconclusive",
+					"$\\sum\\dfrac{n}{n+1}$ diverges, because its terms tend to $1\\neq0$",
+					"$\\sum(-1)^n$ converges, because its partial sums stay bounded"
+				],
+				"answer": 2,
+				"explanation": "If $a_n\\not\\to0$ the series must diverge (the divergence test). If $a_n\\to0$ the test says nothing: $\\sum1/n$ diverges while $\\sum1/n^2$ converges. Bounded partial sums (here $-1,0,-1,0,\\dots$) don't imply convergence either."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which of these series converges?",
+				"options": [
+					"$\\displaystyle\\sum_{n=1}^\\infty\\frac{1}{n^{1.01}}$",
+					"$\\displaystyle\\sum_{n=1}^\\infty\\frac{1}{\\sqrt n}$",
+					"$\\displaystyle\\sum_{n=1}^\\infty\\frac{1}{n}$",
+					"$\\displaystyle\\sum_{n=1}^\\infty\\frac{1}{n^{0.99}}$"
+				],
+				"answer": 0,
+				"explanation": "By the integral test, the $p$-series $\\sum n^{-p}$ converges iff $p>1$. The borderline $p=1$ (harmonic) diverges, and so does everything with $p\\le1$; $p=1.01$ converges (very slowly)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the harmonic series $\\sum1/n$ diverges even though its terms go to zero, and say what the divergence test does and does not tell you.",
+				"rubric": "Full credit: group terms: 1/3+1/4>1/2, 1/5+...+1/8>1/2, etc. so partial sums exceed any bound (grows like ln N); or integral test with integral dx/x = ln x; the terms shrink but not fast enough; divergence test: if a_n does not tend to 0 then diverges; if a_n -> 0 the test is inconclusive (it can prove divergence but never convergence).",
+				"modelAnswer": "Group the terms: $\\tfrac13+\\tfrac14>\\tfrac12$, $\\tfrac15+\\dots+\\tfrac18>\\tfrac12$, and so on, so the partial sums keep adding at least $\\tfrac12$ per group and grow without bound (like $\\ln N$). The terms do shrink, but too slowly. The divergence test only works one way: if $a_n\\not\\to0$ the series diverges, but if $a_n\\to0$ it tells you nothing, as the harmonic series shows."
+			}
+		],
+		"m1-l023-convergence-tests": [
+			{
+				"kind": "mc",
+				"prompt": "Apply the ratio test to $\\displaystyle\\sum_{n=0}^\\infty\\frac{5^n}{n!}$. What happens?",
+				"options": [
+					"$\\left|\\frac{a_{n+1}}{a_n}\\right|=\\frac5{n+1}\\to0<1$, so it converges",
+					"$\\left|\\frac{a_{n+1}}{a_n}\\right|\\to5>1$ (the base), so the series diverges",
+					"$\\left|\\frac{a_{n+1}}{a_n}\\right|\\to1$ because $n+1\\approx n$, so the test is inconclusive",
+					"The test cannot be applied because the terms contain a factorial"
+				],
+				"answer": 0,
+				"explanation": "The factorial in the denominator makes the ratio shrink to $0$, so the series converges, and in fact to $e^5$. The ratio test is the natural tool for factorials and exponentials."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A student wants to test $\\sum\\frac{1}{n^2+1}$. Which comparison argument is correct?",
+				"options": [
+					"$\\frac1{n^2+1}<\\frac1{n^2}$ and $\\sum\\frac1{n^2}$ converges, so nothing can be concluded",
+					"$\\frac1{n^2+1}>\\frac1{n^2+n}$, and $\\sum\\frac1{n^2+n}$ diverges, so the given series diverges",
+					"$\\frac1{n^2+1}<\\frac1{n^2}$ and $\\sum\\frac1{n^2}$ converges, so the given series converges",
+					"$\\frac1{n^2+1}<\\frac1n$ and $\\sum\\frac1n$ diverges, so the given series diverges"
+				],
+				"answer": 2,
+				"explanation": "Direct comparison: if $0\\le a_n\\le b_n$ and $\\sum b_n$ converges then $\\sum a_n$ converges. Being smaller than a divergent series (as with $1/n$) proves nothing, and the claimed divergent benchmark in option 2 actually converges (it telescopes)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The alternating series $\\displaystyle\\sum_{n=1}^\\infty\\frac{(-1)^{n+1}}{n^2}$ is summed using only its first $4$ terms. What is the largest possible size of the truncation error (the bound from the first omitted term)?",
+				"answer": 0.04,
+				"tolerance": 0.02,
+				"explanation": "For an alternating series with decreasing terms, the error is at most the first omitted term: $a_5=1/5^2=0.04$. (The sum is $\\pi^2/12\\approx0.8225$ and $S_4=0.7986$, within the bound.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "The alternating harmonic series $\\displaystyle\\sum_{n=1}^\\infty\\frac{(-1)^{n+1}}{n}=\\ln2$ is:",
+				"options": [
+					"Absolutely convergent, so any rearrangement gives $\\ln2$",
+					"Conditionally convergent, so rearranging its terms can change the sum",
+					"Divergent, because the harmonic series diverges",
+					"Conditionally convergent, but rearranging can never change the sum"
+				],
+				"answer": 1,
+				"explanation": "The alternating test shows convergence, but $\\sum|a_n|=\\sum1/n$ diverges, so the convergence is conditional. Riemann showed a conditionally convergent series can be rearranged to sum to any value, a warning for manipulating infinite sums."
+			},
+			{
+				"kind": "short",
+				"prompt": "The ratio test gives $L=1$ for both $\\sum1/n$ and $\\sum1/n^2$. Explain what this means, and what you would do instead for those series.",
+				"rubric": "Full credit: when L=1 the ratio test is inconclusive, since a ratio -> 1 includes both convergent and divergent series (terms shrinking only polynomially, not geometrically); use another test: p-series/integral test (1/n diverges, 1/n^2 converges), or comparison. The ratio and root tests detect geometric-style decay.",
+				"modelAnswer": "If the ratio tends to $1$, the terms shrink more slowly than any geometric series, and the test cannot tell convergent from divergent: $\\sum1/n$ diverges while $\\sum1/n^2$ converges, yet both have $L=1$. The ratio and root tests only detect geometric (exponential) decay. For these polynomial-decay terms, use the $p$-series result (integral test) or comparison with a benchmark."
+			}
+		],
+		"m1-l024-power-series": [
+			{
+				"kind": "mc",
+				"prompt": "What is the interval of convergence of $\\displaystyle\\sum_{n=1}^\\infty\\frac{x^n}{n\\,2^n}$?",
+				"options": [
+					"$(-2,\\,2)$",
+					"$[-2,\\,2]$",
+					"$(-2,\\,2]$",
+					"$[-2,\\,2)$"
+				],
+				"answer": 3,
+				"explanation": "The ratio test gives $R=2$. At $x=2$ the series is the harmonic series (diverges); at $x=-2$ it is the alternating harmonic series (converges). Endpoints must be tested separately."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Integrating the geometric series $\\frac1{1+x}=1-x+x^2-\\cdots$ term by term gives a series for which function?",
+				"options": [
+					"$\\ln(1+x)=x+\\dfrac{x^2}{2}+\\dfrac{x^3}{3}+\\cdots$",
+					"$e^{-x}=1-x+\\dfrac{x^2}{2!}-\\cdots$",
+					"$\\dfrac{1}{(1+x)^2}=1-2x+3x^2-\\cdots$",
+					"$\\ln(1+x)=x-\\dfrac{x^2}{2}+\\dfrac{x^3}{3}-\\cdots$"
+				],
+				"answer": 3,
+				"explanation": "$\\int\\frac{dx}{1+x}=\\ln(1+x)$ and $\\int(1-t+t^2-\\cdots)dt=x-\\frac{x^2}2+\\frac{x^3}3-\\cdots$. (The last option is the derivative of the geometric series, not its integral.)"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Use the series $\\arctan x=x-\\frac{x^3}{3}+\\frac{x^5}{5}-\\frac{x^7}{7}+\\cdots$ at $x=1$ ($\\arctan 1=\\pi/4$) with the first $4$ terms to estimate $\\pi$.",
+				"answer": 2.895,
+				"tolerance": 0.02,
+				"explanation": "$4\\left(1-\\tfrac13+\\tfrac15-\\tfrac17\\right)=2.895$. The true value is $3.1416$, so the series converges very slowly at the endpoint $x=1$: the error (here $0.25$) is within the bound set by the first omitted term times $4$ ($4/9\\approx0.44$)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Differentiating $\\dfrac{1}{1-x}=\\sum_{n=0}^\\infty x^n$ term by term, for $|x|<1$, gives $\\sum_{n=1}^\\infty nx^{n-1}$. What function is this?",
+				"options": [
+					"$\\dfrac{1}{1-x}$",
+					"$\\dfrac{1}{(1-x)^2}$",
+					"$\\dfrac{x}{(1-x)^2}$",
+					"$-\\dfrac{1}{(1-x)^2}$"
+				],
+				"answer": 1,
+				"explanation": "$\\frac{d}{dx}(1-x)^{-1}=(1-x)^{-2}$ (positive, by the chain rule). Within the radius of convergence, series can be differentiated and integrated term by term."
+			},
+			{
+				"kind": "short",
+				"prompt": "What does the radius of convergence of a power series mean, why is term-by-term calculus legitimate only inside it, and why do the endpoints need separate checking?",
+				"rubric": "Full credit: R is the distance from the centre within which the series converges absolutely and outside which it diverges; the ratio test finds it; inside R the series behaves like a polynomial of infinite degree and can be differentiated/integrated term by term (uniform convergence); at |x - a| = R the ratio test is inconclusive (L=1), so convergence there depends on the specific terms and must be checked individually.",
+				"modelAnswer": "The radius $R$ is the distance from the centre within which the series converges and outside which it diverges (the ratio test usually finds it). Inside the radius the series behaves like a very well-behaved polynomial, so it can be differentiated and integrated term by term and the result converges there too. At the endpoints $|x-a|=R$ the ratio test gives $L=1$ and is inconclusive, so each endpoint needs its own test, and the answer can differ at the two ends."
+			}
+		],
+		"m1-l025-taylor-series": [
+			{
+				"kind": "mc",
+				"prompt": "What is the Maclaurin series of $e^{2x}$?",
+				"options": [
+					"$\\displaystyle\\sum_{n=0}^\\infty\\frac{2x^n}{n!}$",
+					"$\\displaystyle\\sum_{n=0}^\\infty\\frac{x^n}{2\\,n!}$",
+					"$\\displaystyle\\sum_{n=0}^\\infty\\frac{(2x)^n}{n!}=1+2x+2x^2+\\cdots$",
+					"$\\displaystyle\\sum_{n=0}^\\infty\\frac{(2x)^n}{(2n)!}$"
+				],
+				"answer": 2,
+				"explanation": "Substitute $2x$ for $x$ in $\\sum x^n/n!$. Equivalently, $c_n=f^{(n)}(0)/n!=2^n/n!$ since each derivative brings down another factor of $2$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Use the degree-$2$ Taylor polynomial of $\\ln x$ about $a=1$, $T_2(x)=(x-1)-\\tfrac12(x-1)^2$, to estimate $\\ln1.2$.",
+				"answer": 0.18,
+				"tolerance": 0.02,
+				"explanation": "$T_2(1.2)=0.2-\\tfrac12(0.04)=0.18$. The exact value is $0.18232$, so the quadratic term improves a lot on the linear estimate $0.2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In $e^{ix}=\\sum\\frac{(ix)^n}{n!}$, the terms with even $n$ (which are real) sum to which function?",
+				"options": [
+					"$\\cos x$",
+					"$\\sin x$",
+					"$\\cosh x$",
+					"$e^{x}$"
+				],
+				"answer": 0,
+				"explanation": "$i^{2k}=(-1)^k$, so the even terms are $1-\\frac{x^2}{2!}+\\frac{x^4}{4!}-\\cdots=\\cos x$. The odd terms carry a factor of $i$ and give $i\\sin x$, which proves Euler's formula. Without the $i$ the signs wouldn't alternate and you'd get $\\cosh x$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For which values of $x$ does the Maclaurin series of $\\ln(1+x)$ converge?",
+				"options": [
+					"All real $x$",
+					"$-1\\le x\\le1$",
+					"$-1<x\\le1$",
+					"$-1<x<1$"
+				],
+				"answer": 2,
+				"explanation": "The radius of convergence is $1$ because of the singularity of $\\ln(1+x)$ at $x=-1$. At $x=1$ the series is the alternating harmonic series (converges to $\\ln2$); at $x=-1$ it is minus the harmonic series (diverges)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is the $n$th Taylor polynomial called the best degree-$n$ polynomial approximation near $x=a$? What do the first few coefficients $f(a)$, $f'(a)$, $f''(a)/2$ encode?",
+				"rubric": "Full credit: it matches f and its first n derivatives at x=a, so error vanishes faster than (x-a)^n; no other degree-n polynomial does as well near a; coefficients: f(a) height, f'(a) slope, f''(a)/2 curvature (parabola shape), higher terms encode finer bends; accuracy decreases away from a.",
+				"modelAnswer": "The $n$th Taylor polynomial is the unique degree-$n$ polynomial that agrees with $f$ in value and in its first $n$ derivatives at $a$, so the error shrinks faster than $(x-a)^n$ as $x\\to a$; no other degree-$n$ polynomial hugs $f$ as closely there. The coefficients are, in order, the height ($f(a)$), the slope ($f'(a)$), the curvature (half of $f''(a)$), and ever finer bends. Accuracy always deteriorates as you move away from $a$."
+			}
+		],
+		"m1-l026-working-taylor-physics": [
+			{
+				"kind": "numeric",
+				"prompt": "Approximate $\\sin0.5$ by $0.5-\\dfrac{0.5^3}{3!}$. Use the alternating-series bound (first omitted term) to find the maximum size of the error, in units of $10^{-4}$.",
+				"answer": 2.604,
+				"tolerance": 0.02,
+				"unit": "10^-4",
+				"explanation": "The next term is $\\frac{0.5^5}{5!}=\\frac{0.03125}{120}\\approx2.6\\times10^{-4}$. The actual error is $\\sin0.5-0.47917=2.6\\times10^{-4}$, so the bound is tight here."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Using Maclaurin series, evaluate $\\displaystyle\\lim_{x\\to0}\\frac{\\sin x-x}{x^3}$.",
+				"options": [
+					"$-\\dfrac16$",
+					"$0$",
+					"$\\dfrac16$",
+					"$-\\dfrac13$"
+				],
+				"answer": 0,
+				"explanation": "$\\sin x-x=-\\frac{x^3}{6}+\\frac{x^5}{120}-\\cdots$, so dividing by $x^3$ gives $-\\frac16+\\frac{x^2}{120}\\to-\\frac16$. The series makes the cancellation of the leading terms transparent."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The relativistic kinetic energy is $mc^2(\\gamma-1)=\\tfrac12mv^2+\\tfrac38\\dfrac{mv^4}{c^2}+\\cdots$. For $v=0.1c$, about how large is the first correction relative to the Newtonian $\\tfrac12mv^2$?",
+				"options": [
+					"About $10\\%$",
+					"About $1\\%$",
+					"About $0.075\\%$",
+					"About $0.75\\%$"
+				],
+				"answer": 3,
+				"explanation": "The ratio is $\\frac{\\frac38mv^4/c^2}{\\frac12mv^2}=\\frac34\\frac{v^2}{c^2}=0.75\\times0.01=0.75\\%$. The expansion parameter is $v^2/c^2$, which is why Newtonian mechanics is excellent at everyday speeds."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A Morse potential $V(r)=D\\left[1-e^{-a(r-r_e)}\\right]^2$ has depth $D=4.75$ eV and $a=1.94\\times10^{10}$ m$^{-1}$ (roughly H$_2$). Expanding about $r_e$ gives $V\\approx\\tfrac12kx^2$ with $k=V''(r_e)=2Da^2$. Find $k$ in N/m ($1\\ \\mathrm{eV}=1.602\\times10^{-19}$ J).",
+				"answer": 572.8,
+				"tolerance": 0.02,
+				"unit": "N/m",
+				"explanation": "$k=2Da^2=2(7.61\\times10^{-19}\\text{ J})(3.76\\times10^{20}\\text{ m}^{-2})\\approx573$ N/m, close to the measured force constant of H$_2$ ($\\approx575$ N/m). Then $\\omega=\\sqrt{k/\\mu}$ gives the vibrational frequency."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why expanding a molecular potential $V(r)$ about its minimum $r_e$ gives a harmonic oscillator, why there is no linear term, and under what conditions this approximation is valid.",
+				"rubric": "Full credit: Taylor expand V(r) = V(r_e) + V'(r_e) x + (1/2) V''(r_e) x^2 + ...; V'(r_e)=0 at a minimum (no net force) so the linear term vanishes; the constant just sets the zero of energy; leading term (1/2) k x^2 with k = V''(r_e) gives SHM with omega = sqrt(k/mu); valid when displacements are small compared to the scale over which V curves (cubic terms negligible), i.e. low vibrational energy compared with the well depth.",
+				"modelAnswer": "Write $V(r_e+x)=V(r_e)+V'(r_e)x+\\tfrac12V''(r_e)x^2+\\cdots$. At the minimum $V'(r_e)=0$ (no net force), so there is no linear term, and the constant merely shifts the energy zero. What remains is $\\tfrac12kx^2$ with $k=V''(r_e)$, a harmonic oscillator with $\\omega=\\sqrt{k/\\mu}$. It is valid when $|x|$ is small enough that cubic and higher terms are negligible, i.e. for low-lying vibrational levels well below the dissociation energy."
+			}
+		],
+		"m1-l027-first-order-odes": [
+			{
+				"kind": "mc",
+				"prompt": "Solve $y'+2y=e^{-x}$ using an integrating factor. What is the general solution?",
+				"options": [
+					"$y=e^{-x}+Ce^{2x}$",
+					"$y=e^{-x}+Ce^{-2x}$",
+					"$y=e^{-2x}+Ce^{-x}$",
+					"$y=e^{-x}+C$"
+				],
+				"answer": 1,
+				"explanation": "The integrating factor is $\\mu=e^{2x}$, so $(e^{2x}y)'=e^{x}$, giving $e^{2x}y=e^x+C$ and $y=e^{-x}+Ce^{-2x}$. Check: for $y=e^{-x}$, $y'+2y=-e^{-x}+2e^{-x}=e^{-x}$; the term $Ce^{-2x}$ solves the homogeneous equation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The initial concentration of a reactant is halved. How do the half-lives change for a first-order and a second-order reaction?",
+				"options": [
+					"Both unchanged",
+					"Both doubled",
+					"First-order: doubled. Second-order: unchanged",
+					"First-order: unchanged. Second-order: doubled"
+				],
+				"answer": 3,
+				"explanation": "First order: $t_{1/2}=\\ln2/k$ has no concentration dependence. Second order: $t_{1/2}=1/(k[A]_0)$, so halving $[A]_0$ doubles it (reactions slow down as molecules become scarcer and meet less often). For zero order, $t_{1/2}=[A]_0/2k$ would halve."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A second-order reaction $2A\\to$ products obeys $\\dfrac{1}{[A]}=\\dfrac{1}{[A]_0}+kt$ with $[A]_0=0.50$ M and $k=0.20$ M$^{-1}$s$^{-1}$. Find $[A]$ at $t=10$ s, in M.",
+				"answer": 0.25,
+				"tolerance": 0.02,
+				"unit": "M",
+				"explanation": "$1/[A]=2.0+(0.20)(10)=4.0$ M$^{-1}$, so $[A]=0.25$ M."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Coffee at $90\\,^\\circ$C is placed in a $20\\,^\\circ$C room. After $10$ min it is $60\\,^\\circ$C. Assuming Newton's law of cooling, $T=T_{env}+(T_0-T_{env})e^{-kt}$, find its temperature after $20$ min in $^\\circ$C.",
+				"answer": 42.86,
+				"tolerance": 0.02,
+				"unit": "°C",
+				"explanation": "At $10$ min, $e^{-10k}=\\frac{60-20}{90-20}=\\frac47$. After $20$ min the excess is $70\\left(\\frac47\\right)^2\\approx22.9$ K, so $T\\approx42.9\\,^\\circ$C. The excess temperature falls by the same factor in every equal time interval."
+			},
+			{
+				"kind": "short",
+				"prompt": "For the logistic equation $dN/dt=rN(1-N/K)$, find the equilibria and use the sign of $dN/dt$ to explain which are stable and how a small population behaves over time.",
+				"rubric": "Full credit: equilibria where dN/dt=0: N=0 and N=K; for 0<N<K, dN/dt>0 (growth), for N>K, dN/dt<0 (decline); so N=0 is unstable (small populations grow away from it), N=K is stable (carrying capacity attracts both from above and below); small population grows roughly exponentially at first then levels off at K in an S-shaped curve.",
+				"modelAnswer": "Setting $rN(1-N/K)=0$ gives equilibria $N=0$ and $N=K$. For $0<N<K$, $dN/dt>0$, so $N$ increases; for $N>K$, $dN/dt<0$, so $N$ decreases. Hence $N=0$ is unstable (a small population moves away from it) and $N=K$ is stable (solutions on both sides flow toward it). A small population first grows nearly exponentially, then growth slows as $N\\to K$, giving an S-shaped curve. The same logic reads stability from any direction field."
+			}
+		]
+	}
+}

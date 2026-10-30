@@ -1,0 +1,836 @@
+{
+	"courseId": "s2-astro",
+	"checks": {
+		"s2-l001-distance-magnitudes-luminosity": [
+			{
+				"kind": "mc",
+				"prompt": "Star A has apparent magnitude $m=2$ and star B has $m=7$. Which statement is correct?",
+				"options": [
+					"B appears 100 times brighter than A, since larger magnitudes mean brighter.",
+					"A appears 5 times brighter than B, since the magnitude difference is 5.",
+					"A appears 100 times brighter than B.",
+					"A appears $10^5$ times brighter than B, since magnitudes are logarithmic base 10."
+				],
+				"answer": 2,
+				"explanation": "$m_1-m_2=-2.5\\log_{10}(F_1/F_2)$, so $\\Delta m=5$ gives $F_1/F_2=10^{2}=100$. The scale is historical (Hipparchus) and runs backward: brighter stars have smaller $m$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A star has apparent magnitude $m$ and absolute magnitude $M$ with $m-M<0$. What does this tell you about its distance?",
+				"options": [
+					"It is closer than 10 pc: $M$ is the magnitude it would have at 10 pc, and it looks brighter than that.",
+					"It is farther than 10 pc, because it looks brighter than its absolute value, so its light has travelled a long way.",
+					"It is exactly 10 pc away, because $m$ and $M$ differ only when the distance is not 10 pc.",
+					"Nothing: the distance cannot be inferred from magnitudes alone without a parallax measurement."
+				],
+				"answer": 0,
+				"explanation": "$m-M=5\\log_{10}(d/10\\ {\\rm pc})$ is negative only if $d<10$ pc. The absolute magnitude removes the inverse-square dimming so luminosities can be compared."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two stars appear equally bright, but star B is three times farther away than star A. How do their luminosities compare?",
+				"options": [
+					"B is three times more luminous than A.",
+					"B is one third as luminous as A.",
+					"They have equal luminosity since they look equally bright.",
+					"B is nine times more luminous than A."
+				],
+				"answer": 3,
+				"explanation": "$F=L/4\\pi d^2$ with equal $F$ gives $L_B/L_A=(d_B/d_A)^2=9$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A star has a parallax of 0.25 arcsec. Compute its distance in light-years (take 1 pc = 3.26 ly).",
+				"answer": 13.05,
+				"tolerance": 0.02,
+				"unit": "ly",
+				"explanation": "$d=1/p=1/0.25=4$ pc, and $4\\times3.26=13.0$ ly."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how you would determine a star's luminosity if you could measure its parallax and its apparent brightness, and why astronomers need both.",
+				"rubric": "Full credit requires: parallax gives distance d; apparent brightness gives flux F; luminosity from L = 4 pi d^2 F (or via distance modulus to absolute magnitude); brightness alone confuses a near faint star with a far luminous one.",
+				"modelAnswer": "The parallax angle gives the distance, $d=1/p$ (pc). The measured flux $F$ then gives the luminosity from the inverse-square law, $L=4\\pi d^2F$. Brightness alone cannot separate a faint nearby star from a luminous distant one, so a distance is needed to turn flux into an intrinsic property."
+			}
+		],
+		"s2-l002-blackbody-color-temperature": [
+			{
+				"kind": "mc",
+				"prompt": "A cool red star (3500 K) and a hot blue star (14000 K) are compared. By Wien's law, how do their peak wavelengths compare?",
+				"options": [
+					"The blue star's emission peaks at four times the red star's wavelength.",
+					"The blue star's emission peaks at one quarter of the red star's wavelength.",
+					"They peak at the same wavelength; only the total power differs.",
+					"The blue star's emission peaks at one sixteenth the wavelength, since $\\lambda_{\\max}\\propto1/T^4$."
+				],
+				"answer": 1,
+				"explanation": "$\\lambda_{\\max}T=2.898\\times10^{-3}$ m K, so temperature up by 4 means wavelength down by 4. The $T^4$ law applies to total power, not to the peak position."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Red giants are cool ($T_{\\rm eff}\\sim3500$ K) yet some are far more luminous than the Sun. How is that possible?",
+				"options": [
+					"Cooler stars radiate more per unit area, so cooler means brighter, as for a cooling ember.",
+					"$L=4\\pi R^2\\sigma T^4$: a huge radius (tens to hundreds of solar radii) more than compensates for the lower surface flux.",
+					"Red light is more energetic than blue light, so red stars have more luminosity per photon and therefore per unit area of surface.",
+					"Their luminosity does not follow the Stefan-Boltzmann law, because their atmospheres are not blackbodies."
+				],
+				"answer": 1,
+				"explanation": "Surface flux $\\sigma T^4$ falls steeply with falling $T$, but emitting area grows as $R^2$. On the HR diagram red giants sit in the upper right."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The $B-V$ colour index of a star is the same whether the star is nearby or far away (ignoring dust). Why?",
+				"options": [
+					"Because blue and visible light travel at the same speed, so they arrive in step from any distance.",
+					"Because colour is a property of the observer's eye and not of the star, so it cannot depend on distance, temperature or anything else.",
+					"Because distant stars are always hotter, which exactly offsets their dimming in the blue band.",
+					"It is a ratio of fluxes in two bands, and the inverse-square dimming is the same in both bands, so it cancels."
+				],
+				"answer": 3,
+				"explanation": "$B-V=-2.5\\log(F_B/F_V)+{\\rm const}$: the distance factor cancels, leaving a measure of the spectrum's shape, hence of the temperature."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A supergiant has luminosity $L=10^5L_\\odot$ and effective temperature $T_{\\rm eff}=3500$ K. Using $L=4\\pi R^2\\sigma T_{\\rm eff}^4$, compute its radius in solar radii.",
+				"answer": 860.0,
+				"tolerance": 0.03,
+				"unit": "R_sun",
+				"explanation": "$R=\\sqrt{L/(4\\pi\\sigma T^4)}=\\sqrt{3.83\\times10^{31}/[4\\pi(5.67\\times10^{-8})(3500)^4]}=6.0\\times10^{11}$ m $\\approx860\\,R_\\odot$ (a Betelgeuse-like star)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how Planck's idea of energy quantisation removes the 'ultraviolet catastrophe' of classical blackbody radiation.",
+				"rubric": "Full credit requires: classical equipartition gives kT to every mode and infinitely many high-frequency modes so intensity grows without bound; quantisation E = h nu means modes with h nu >> kT are rarely excited (exponentially suppressed by Boltzmann factor), cutting off the spectrum at high frequency; resulting peak ~ kT/h.",
+				"modelAnswer": "Classically every mode of the radiation field gets energy $kT$, and there are ever more high-frequency modes, so the predicted intensity diverges in the ultraviolet. If energy comes in quanta $h\\nu$, modes with $h\\nu\\gg kT$ are almost never excited (a Boltzmann factor $e^{-h\\nu/kT}$), so the spectrum is cut off at high frequency and peaks near $\\nu\\sim kT/h$, as observed."
+			}
+		],
+		"s2-l003-spectral-lines-hr-diagram": [
+			{
+				"kind": "mc",
+				"prompt": "Hydrogen is the most abundant element in a 3000 K star, yet its Balmer absorption lines are very weak. Why?",
+				"options": [
+					"Almost all hydrogen atoms are in the ground state ($n=1$).",
+					"Hydrogen is almost entirely ionised, leaving no atoms to absorb.",
+					"Cool stars do not contain hydrogen.",
+					"The Balmer lines are produced only in emission in cool stars."
+				],
+				"answer": 0,
+				"explanation": "Balmer absorption requires atoms in $n=2$. At 3000 K, $kT\\approx0.26$ eV versus a 10.2 eV excitation energy, so the $n=2$ population is negligible (and molecules like TiO dominate the spectrum)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "On the HR diagram, where are white dwarfs found, and why?",
+				"options": [
+					"At the upper right: cool but very luminous, so they must be huge.",
+					"On the main sequence, at the same luminosity as the Sun.",
+					"At the lower left: hot (blue-white) but very faint.",
+					"At the upper left: hot and luminous, so they are massive."
+				],
+				"answer": 2,
+				"explanation": "HR diagram: temperature increases to the left, luminosity upward. Low $L$ with high $T$ requires small $R$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute the wavelength of the first Balmer line (H$\\alpha$, $n_u=3\\to n_l=2$) from the Rydberg formula with $R_H=1.0974\\times10^7$ m$^{-1}$, in nm.",
+				"answer": 656.1,
+				"tolerance": 0.01,
+				"unit": "nm",
+				"explanation": "$1/\\lambda=R_H(1/4-1/9)=1.524\\times10^6$ m$^{-1}$, so $\\lambda=656.1$ nm (red)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "At $T=10{,}000$ K, compute the Boltzmann population ratio $N_2/N_1$ for the $n=2$ and $n=1$ levels of hydrogen, with degeneracies $g_1=2$, $g_2=8$ and excitation energy 10.2 eV. Give the answer in units of $10^{-5}$.",
+				"answer": 2.894,
+				"tolerance": 0.03,
+				"unit": "x10^-5",
+				"explanation": "$N_2/N_1=4e^{-10.2/(kT)}$ with $kT=0.8617$ eV, so $4e^{-11.84}=2.9\\times10^{-5}$: a tiny fraction, yet the atmosphere contains so many atoms that even this tiny fraction produces strong lines."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why Balmer lines peak in strength near 10,000 K (A stars) rather than in the hottest stars. Use the ideas of excitation (Boltzmann) and ionisation (Saha).",
+				"rubric": "Full credit requires: Balmer absorption needs atoms in n=2: Boltzmann excitation increases with T; but at higher T hydrogen is ionised (Saha), leaving few neutral atoms; product of n=2 fraction and neutral fraction peaks near 10,000 K; ionisation is like a gas-phase equilibrium constant favouring products at high T.",
+				"modelAnswer": "Balmer absorption needs neutral hydrogen atoms in $n=2$. Heating increases the $n=2$ population (Boltzmann), but at higher temperature the Saha equation (a gas-phase ionisation equilibrium) shifts H $\\rightleftharpoons$ H$^+$+e$^-$ toward ions, removing the absorbers. The product of the two effects peaks near 10,000 K; hotter O and B stars have ionised hydrogen, cooler stars have almost no $n=2$ atoms."
+			}
+		],
+		"s2-l004-hydrostatic-equilibrium-virial": [
+			{
+				"kind": "mc",
+				"prompt": "In a star in hydrostatic equilibrium, how must pressure vary with radius, and why?",
+				"options": [
+					"Pressure must be uniform, otherwise the star would drive winds.",
+					"Pressure must increase outward to push the gas away from the centre.",
+					"Pressure matters only at the centre; the outer layers float freely.",
+					"Pressure must increase inward ($dP/dr<0$)."
+				],
+				"answer": 3,
+				"explanation": "For a shell of thickness $dr$, $dP\\,dA=-g\\rho\\,dr\\,dA$ with $g=GM_r/r^2$: the pressure difference across the shell balances its weight."
+			},
+			{
+				"kind": "mc",
+				"prompt": "By the virial theorem a gravitating gas star has negative heat capacity. What happens when such a star radiates energy away without any nuclear source?",
+				"options": [
+					"It cools and expands, like an ordinary gas that loses energy to its surroundings.",
+					"It contracts, and half the released gravitational energy goes into heating the gas.",
+					"It cools and contracts, because losing energy always lowers the temperature.",
+					"Its temperature stays constant while the radius shrinks, like a gas condensing at a phase transition."
+				],
+				"answer": 1,
+				"explanation": "$2K+U=0$ gives $E=K+U=-K$: losing energy $\\Delta E<0$ means $K$ (temperature) increases. This negative heat capacity drives protostars to ignite their cores."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the Kelvin-Helmholtz timescale of the Sun, $\\tau_{KH}\\sim GM_\\odot^2/(R_\\odot L_\\odot)$, in millions of years.",
+				"answer": 31.41,
+				"tolerance": 0.03,
+				"unit": "Myr",
+				"explanation": "$GM_\\odot^2/R_\\odot=3.8\\times10^{41}$ J, divided by $L_\\odot=3.83\\times10^{26}$ W gives $\\approx10^{15}$ s $\\approx30$ Myr, far shorter than the 4.6 Gyr age: gravity cannot power the Sun, so nuclear fusion must."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the Sun's central pressure from the scaling $P_c\\sim GM_\\odot^2/R_\\odot^4$, in units of $10^{15}$ Pa.",
+				"answer": 1.127,
+				"tolerance": 0.1,
+				"unit": "x10^15 Pa",
+				"explanation": "$P_c\\sim(6.67\\times10^{-11})(1.99\\times10^{30})^2/(6.96\\times10^8)^4\\approx1.1\\times10^{15}$ Pa; the true central pressure ($2.5\\times10^{16}$ Pa) is higher because the Sun is centrally condensed, but the scaling is right in order of magnitude."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically why a contracting star heats up even though it is radiating energy away, using the virial theorem.",
+				"rubric": "Full credit requires: virial theorem 2K + U = 0 so E = K + U = -K = U/2; contraction lowers U (more negative); half of the released energy radiated, half goes into K (thermal energy), so T rises; total energy decreases while temperature rises: negative heat capacity.",
+				"modelAnswer": "For a self-gravitating gas $2K+U=0$, so the total energy is $E=K+U=-K$. When the star radiates, $E$ becomes more negative, which means $K$ (thermal energy) must increase: the star contracts, and half of the gravitational energy released goes into heating while the other half is radiated. Self-gravitating systems have negative heat capacity."
+			}
+		],
+		"s2-l005-equation-of-state-degeneracy": [
+			{
+				"kind": "mc",
+				"prompt": "Which star is more likely to have its interior pressure dominated by radiation rather than gas, and why?",
+				"options": [
+					"A 50 $M_\\odot$ star: higher interior temperature and lower density, so $P_{\\rm rad}\\propto T^4$ outgrows $P_{\\rm gas}\\propto\\rho T$.",
+					"A 0.5 $M_\\odot$ star, because it has less gas pressure and its cooler interior contains fewer particles to resist the photons, so the photons win out.",
+					"Both equally, since photons are present in every star and exert the same pressure.",
+					"A white dwarf, since it is the hottest of all stellar objects and the photons carry the most pressure."
+				],
+				"answer": 0,
+				"explanation": "$P_{\\rm rad}/P_{\\rm gas}\\propto T^3/\\rho$ rises steeply with mass; radiation pressure also limits the maximum mass of stars."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A white dwarf has cooled to nearly zero temperature but still resists gravity. What provides the pressure?",
+				"options": [
+					"Thermal pressure from residual heat, since the interior is still hot enough to resist gravity for billions of years of cooling.",
+					"Radiation pressure from trapped photons, which are confined by the star's high opacity.",
+					"Electron degeneracy pressure: squeezed electrons are forced into high-momentum states (Pauli), independent of temperature.",
+					"Nuclear fusion in the core, which continues at a slow rate after the star has cooled."
+				],
+				"answer": 2,
+				"explanation": "Confining electrons to spacing $\\Delta x\\sim n^{-1/3}$ requires $p\\gtrsim\\hbar/\\Delta x$ (uncertainty), and the exclusion principle stacks them in momentum space. The result $P\\propto\\rho^{5/3}$ is the free-electron gas of a metal."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A fully ionised mixture has mass fractions $X=0.70$ (hydrogen), $Y=0.28$ (helium) and $Z=0.02$ (metals). Using $\\mu^{-1}\\approx2X+\\tfrac34Y+\\tfrac12Z$, compute the mean molecular weight $\\mu$.",
+				"answer": 0.6173,
+				"tolerance": 0.02,
+				"explanation": "$\\mu^{-1}=2(0.70)+0.75(0.28)+0.5(0.02)=1.62$, so $\\mu=0.617$. Ionised hydrogen gives two particles per proton mass, hence $\\mu=1/2$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Near the Sun's centre, $\\rho=1.5\\times10^5$ kg/m$^3$, $T=1.57\\times10^7$ K and $\\mu=0.62$. Compute the ratio $P_{\\rm rad}/P_{\\rm gas}$, with $P_{\\rm gas}=\\rho kT/(\\mu m_H)$, $P_{\\rm rad}=aT^4/3$ and $a=7.566\\times10^{-16}$ J m$^{-3}$K$^{-4}$. Give the answer in units of $10^{-4}$.",
+				"answer": 4.887,
+				"tolerance": 0.05,
+				"unit": "x10^-4",
+				"explanation": "$P_{\\rm gas}=3.1\\times10^{16}$ Pa and $P_{\\rm rad}=1.5\\times10^{13}$ Pa, so the ratio is $4.9\\times10^{-4}$: gas pressure dominates in the Sun, radiation pressure is negligible."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain, using the Pauli principle and the uncertainty principle, why compressing electrons raises their pressure even at zero temperature.",
+				"rubric": "Full credit requires: electrons confined to small volume have large momentum uncertainty (p ~ hbar / spacing); Pauli exclusion prevents all from occupying the lowest state, so they fill states up to Fermi momentum p_F ~ hbar n^(1/3); the resulting kinetic energy/momentum flux is pressure independent of temperature; denser means larger p_F and higher pressure.",
+				"modelAnswer": "Compressing electrons to a number density $n$ confines each to a region of size $\\sim n^{-1/3}$, so the uncertainty principle requires a momentum $\\sim\\hbar n^{1/3}$. The Pauli principle forbids them all from sharing the lowest state, so they fill momentum states up to a Fermi momentum $p_F\\sim\\hbar n^{1/3}$. These fast electrons carry momentum flux, i.e. pressure, with no dependence on temperature, and the pressure rises as the density rises."
+			}
+		],
+		"s2-l006-nuclear-fusion-energy-sources": [
+			{
+				"kind": "mc",
+				"prompt": "How does the Sun fuse hydrogen at a core temperature of $1.5\\times10^7$ K when the Coulomb barrier between protons is of order MeV, far above $kT\\approx1$ keV?",
+				"options": [
+					"Protons at the Sun's centre are accelerated to MeV energies by magnetic fields in the core.",
+					"The Coulomb repulsion is screened to zero by the surrounding electrons, so there is effectively no barrier to overcome.",
+					"Quantum tunnelling through the barrier, combined with the Boltzmann tail of the thermal distribution.",
+					"The core temperature is actually $10^{10}$ K, and the quoted value is only the surface temperature."
+				],
+				"answer": 2,
+				"explanation": "The Boltzmann factor $e^{-E/kT}$ falls with $E$ while the tunnelling probability $e^{-\\sqrt{E_G/E}}$ rises; their product peaks sharply at $E\\sim5$-10 keV. It is analogous to an Arrhenius rate with a barrier."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The pp chain's rate scales roughly as $T^4$ and the CNO cycle's as $T^{16}$-$T^{20}$. What follows?",
+				"options": [
+					"The pp chain dominates in stars like the Sun.",
+					"CNO dominates in the Sun because it releases more energy per reaction.",
+					"The pp chain dominates in massive stars since CNO requires carbon-free gas.",
+					"They contribute equally at all stellar masses."
+				],
+				"answer": 0,
+				"explanation": "Below about $1.7\\times10^7$ K pp wins; above, the steeper CNO rate wins. The steepness makes energy generation concentrated at the centre, favouring convection."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using atomic masses $m(^1{\\rm H})=1.007825$ u and $m(^4{\\rm He})=4.002603$ u, compute the energy released in $4\\,^1{\\rm H}\\to{}^4{\\rm He}$ (ignore the neutrinos' share) in MeV (1 u $=931.494$ MeV$/c^2$).",
+				"answer": 26.73,
+				"tolerance": 0.02,
+				"unit": "MeV",
+				"explanation": "$\\Delta m=4(1.007825)-4.002603=0.028697$ u, so $E=26.73$ MeV; this is $0.71\\%$ of the rest mass."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Assume 10% of the Sun's mass is available as fuel and 0.7% of that mass is converted to energy at the present luminosity. Estimate the main-sequence lifetime $t=0.1M_\\odot(0.007)c^2/L_\\odot$ in billions of years.",
+				"answer": 10.36,
+				"tolerance": 0.03,
+				"unit": "Gyr",
+				"explanation": "$t=(0.1)(1.99\\times10^{30})(0.007)(3.00\\times10^8)^2/(3.83\\times10^{26})=3.3\\times10^{17}$ s $\\approx10$ Gyr."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why more massive stars live much shorter lives on the main sequence despite having more fuel.",
+				"rubric": "Full credit requires: fuel supply is proportional to mass M, but luminosity rises much faster (roughly M^3 to M^3.5) so lifetime t ~ M/L ~ M^-2 to M^-2.5; massive stars have higher central T and density, fusion rate rises steeply; they exhaust fuel faster.",
+				"modelAnswer": "Fuel available scales as $M$, but luminosity scales roughly as $M^3$ or $M^{3.5}$ because a larger mass compresses the core hotter, and fusion rates rise steeply with temperature. The lifetime $t\\sim M/L$ therefore falls as roughly $M^{-2}$ to $M^{-2.5}$: a 10 $M_\\odot$ star burns out in tens of millions of years, while a 0.5 $M_\\odot$ star lasts longer than the age of the universe."
+			}
+		],
+		"s2-l007-energy-transport-stellar-models": [
+			{
+				"kind": "mc",
+				"prompt": "In the Sun, energy is carried by radiation in the inner region but by convection in the outer ~30% by radius. Why does convection take over there?",
+				"options": [
+					"Because the outer region is hotter than the core.",
+					"Because there are no photons in the outer layers.",
+					"Because convection is always more efficient than radiation, so it operates wherever it is allowed.",
+					"Near the surface the gas is cooler and more opaque."
+				],
+				"answer": 3,
+				"explanation": "The radiative gradient $dT/dr\\propto\\kappa\\rho L/T^3r^2$ grows with opacity and falls with temperature. Convection occurs where it would exceed the adiabatic gradient, e.g. in cool envelopes or in cores with very steep energy generation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Vogt-Russell theorem says that the mass and chemical composition of a star determine its structure. What makes this plausible?",
+				"options": [
+					"Stars with the same mass always have the same radius by definition, whatever their age or composition.",
+					"The four structure equations (mass, hydrostatic equilibrium, energy generation, transport) with boundary conditions form a closed system with a unique solution.",
+					"The theorem says rotation and magnetic fields never matter, whatever the star's history, so any two stars of equal mass and age are physically identical twins.",
+					"It says all stars of the same colour have the same mass, which follows from the main sequence."
+				],
+				"answer": 1,
+				"explanation": "Four first-order ODEs for $M_r,P,L_r,T$ with conditions at the centre ($M_r=L_r=0$) and surface ($P,T\\to0$) fix a unique structure; numerical shooting integrates from both ends and matches."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Homology and the radiative diffusion equation give $L\\propto M^3$ roughly for main-sequence stars. What does this imply for lifetimes?",
+				"options": [
+					"Lifetime $t\\propto M^3$: more massive stars live longer.",
+					"Lifetime $t\\propto M/L\\propto M^{-2}$.",
+					"Lifetime is independent of mass.",
+					"Lifetime $t\\propto M^{-3}$ exactly, from the luminosity alone."
+				],
+				"answer": 1,
+				"explanation": "Fuel $\\propto M$, burn rate $\\propto L\\propto M^3$, so $t\\propto M^{-2}$ (about $M^{-2.5}$ with the observed $L\\propto M^{3.5}$)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Take $t_{\\rm MS}=10\\ {\\rm Gyr}\\times(M/M_\\odot)/(L/L_\\odot)$ and $L\\propto M^3$. Compute the main-sequence lifetime of a $5\\,M_\\odot$ star in Myr.",
+				"answer": 400.0,
+				"tolerance": 0.03,
+				"unit": "Myr",
+				"explanation": "$L=125\\,L_\\odot$, so $t=10\\ {\\rm Gyr}\\times5/125=0.4$ Gyr $=400$ Myr."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe in your own words how a numerical stellar model is built by 'shooting' from the centre and the surface, and what condition must be satisfied for a real star.",
+				"rubric": "Full credit requires: integrate the four ODEs outward from the centre with trial central P, T and inward from the surface with boundary conditions; the solutions must match at a fitting point (continuity of M, P, L, T); adjusting trial parameters until they do; for given mass and composition this gives a unique structure.",
+				"modelAnswer": "Guess central values of $P$ and $T$ and integrate the four equations outward (with $M_r=L_r=0$ at the centre); separately integrate inward from the surface using $P,T\\to0$. The two solutions must agree at a fitting point; the guessed parameters are adjusted until $M_r$, $L_r$, $P$ and $T$ all match. By Vogt-Russell, one solution exists for a given mass and composition."
+			}
+		],
+		"s2-l008-star-formation-and-evolution": [
+			{
+				"kind": "mc",
+				"prompt": "According to the Jeans criterion, which gas clouds are most prone to collapse and form stars?",
+				"options": [
+					"Hot, tenuous clouds, because high thermal energy pulls the gas together and makes it collapse.",
+					"Cold, tenuous clouds, because they have lower pressure and so little to resist gravity.",
+					"Only clouds that are already rotating, since rotation supplies the angular momentum needed.",
+					"Cold, dense clouds: the Jeans mass $\\propto T^{3/2}\\rho^{-1/2}$ is small."
+				],
+				"answer": 3,
+				"explanation": "Collapse needs gravity (binding energy $\\sim GM^2/R$) to beat thermal pressure ($\\sim MkT/\\mu m_H$). Lower $T$ and higher $\\rho$ lower the mass threshold."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do newly forming protostars descend nearly vertically on the HR diagram along the Hayashi track?",
+				"options": [
+					"They are fully convective with a cool surface fixed near $4000$ K.",
+					"They are cooling rapidly, so their temperature falls while luminosity is constant.",
+					"They are rapidly heating while the radius stays constant.",
+					"They are fusing hydrogen on the main sequence."
+				],
+				"answer": 0,
+				"explanation": "A fully convective star has a minimum surface temperature (the Hayashi limit), so contraction at fixed $T_{\\rm eff}$ lowers $L=4\\pi R^2\\sigma T^4$ vertically."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Compare the end of a 1 $M_\\odot$ star with that of a 10 $M_\\odot$ star.",
+				"options": [
+					"Both become white dwarfs, but the 10 $M_\\odot$ star does so faster.",
+					"The 1 $M_\\odot$ star explodes as a supernova and the 10 $M_\\odot$ star becomes a white dwarf instead.",
+					"The 1 $M_\\odot$ star ends as a white dwarf; the 10 $M_\\odot$ star dies in a core-collapse supernova.",
+					"Both end as black holes, the more massive one forming a larger hole."
+				],
+				"answer": 2,
+				"explanation": "The core of the Sun-like star never gets hot enough to burn carbon; electron degeneracy halts its collapse. A massive star's core passes the Chandrasekhar limit and collapses."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the Jeans mass of a dense cloud core with $T=10$ K, $\\mu=2.3$ and $\\rho_0=10^{-17}$ kg/m$^3$, using $M_J\\approx\\left(\\frac{5kT}{G\\mu m_H}\\right)^{3/2}\\left(\\frac{3}{4\\pi\\rho_0}\\right)^{1/2}$. Give the answer in solar masses.",
+				"answer": 10.83,
+				"tolerance": 0.05,
+				"unit": "M_sun",
+				"explanation": "$\\left(5kT/G\\mu m_H\\right)^{3/2}=1.39\\times10^{23}$ and $\\left(3/4\\pi\\rho_0\\right)^{1/2}=1.55\\times10^{8}$, so $M_J=2.2\\times10^{31}$ kg $\\approx11\\,M_\\odot$, the typical mass scale of fragmenting cloud cores."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the main-sequence turnoff of a star cluster tells you the cluster's age.",
+				"rubric": "Full credit requires: stars in a cluster formed together; more massive stars have shorter main-sequence lifetimes (t ~ M^-2.5) so leave the MS first; the most massive stars still on the MS mark the turnoff; their lifetime equals the cluster age; a lower (redder) turnoff means an older cluster.",
+				"modelAnswer": "All stars in a cluster formed at about the same time. The more massive ones exhaust hydrogen first, so the main sequence is 'peeled off' from the top. The luminosity (mass) of the stars at the turnoff gives their main-sequence lifetime, which must equal the cluster's age; a redder, fainter turnoff means an older cluster."
+			}
+		],
+		"s2-l009-white-dwarfs-chandrasekhar": [
+			{
+				"kind": "mc",
+				"prompt": "A white dwarf accretes mass from a companion. How does its radius change, and why is this counterintuitive?",
+				"options": [
+					"It grows ($R\\propto M^{1/3}$) like a planet.",
+					"It stays constant because degeneracy pressure does not depend on density.",
+					"It grows because the gas heats up.",
+					"It shrinks ($R\\propto M^{-1/3}$): more mass means more gravity."
+				],
+				"answer": 3,
+				"explanation": "Balancing $P_c\\sim GM^2/R^4$ against $P\\propto(M/R^3)^{5/3}$ gives $R\\propto M^{-1/3}$: the more massive a white dwarf, the smaller it is."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do Type Ia supernovae serve as good standard candles?",
+				"options": [
+					"They come from massive stars, which all have identical masses and therefore explode with identical energy each time.",
+					"They result from white dwarfs reaching nearly the same mass (the Chandrasekhar limit) and igniting.",
+					"They always occur in the same galaxy, so the distance to every one of them is the same.",
+					"Their light is polarised in a standard way that reveals the intrinsic brightness."
+				],
+				"answer": 1,
+				"explanation": "Reaching about $1.4\\,M_\\odot$ triggers runaway carbon fusion, leaving a repeatable explosion (after correcting for light-curve width)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A white dwarf has mass $0.6\\,M_\\odot$ and radius $8.7\\times10^6$ m (about 1.4 Earth radii). Compute its mean density in kg/m$^3$, in units of $10^8$.",
+				"answer": 4.327,
+				"tolerance": 0.02,
+				"unit": "x10^8 kg/m^3",
+				"explanation": "$\\rho=M/(\\tfrac43\\pi R^3)=1.19\\times10^{30}/(2.76\\times10^{21})=4.3\\times10^{8}$ kg/m$^3$: a teaspoon would weigh several tonnes."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using $M_{\\rm Ch}\\simeq5.83\\,M_\\odot/\\mu_e^2$, compute the Chandrasekhar mass, in solar masses, for an iron core of $^{56}$Fe ($\\mu_e=56/26$).",
+				"answer": 1.257,
+				"tolerance": 0.02,
+				"unit": "M_sun",
+				"explanation": "$\\mu_e=2.154$, so $M_{\\rm Ch}=5.83/4.64=1.26\\,M_\\odot$, smaller than the 1.46 $M_\\odot$ for carbon/oxygen ($\\mu_e=2$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why electron degeneracy pressure cannot support a white dwarf above a maximum mass.",
+				"rubric": "Full credit requires: at higher mass the density rises and electrons become relativistic; degeneracy pressure softens from rho^(5/3) to rho^(4/3), which scales with density the same as gravity needs; beyond the limit gravity wins at all radii; mass about 1.4 solar masses; collapse follows.",
+				"modelAnswer": "As mass increases, the star shrinks and the electrons are squeezed to relativistic momenta. Relativistic degeneracy pressure grows only as $\\rho^{4/3}$ instead of $\\rho^{5/3}$, which is just too soft to keep up with gravity. Above about $1.4\\,M_\\odot$ gravity wins at every radius and the star collapses."
+			}
+		],
+		"s2-l010-supernovae-neutron-stars-black-holes": [
+			{
+				"kind": "mc",
+				"prompt": "Why is the neutron-star radius (about 10 km) so much smaller than a white dwarf's (about 6000 km) for similar mass?",
+				"options": [
+					"Neutron degeneracy replaces electron degeneracy.",
+					"Neutron stars are held up by thermal pressure, which is larger.",
+					"Neutron stars are much heavier, so they pull themselves together.",
+					"Neutrons are lighter than electrons."
+				],
+				"answer": 0,
+				"explanation": "Degeneracy pressure at fixed density is $\\propto1/m$, so heavier neutrons need a much higher density to support the same star: $\\sim10^{17}$ kg/m$^3$, comparable to the nucleus."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A supernova spectrum shows no hydrogen but strong silicon lines near maximum light. Which type is it, and what is its likely origin?",
+				"options": [
+					"Type II, the core collapse of a massive star with hydrogen envelope.",
+					"Type Ic, the collapse of a star with its hydrogen and helium envelopes both stripped away.",
+					"Type Ia, the thermonuclear explosion of a white dwarf, not a core-collapse event.",
+					"Type II, the core collapse of a star in a binary system."
+				],
+				"answer": 2,
+				"explanation": "Classification is by spectra: hydrogen lines mean Type II; no hydrogen with silicon means Ia; no hydrogen and little silicon (with or without helium) means Ib/c, which are core-collapse explosions of stripped massive stars."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the gravitational binding energy released when a $1.4\\,M_\\odot$ iron core collapses to a neutron star of radius 10 km, $E\\sim GM^2/R$, in units of $10^{46}$ J.",
+				"answer": 5.175,
+				"tolerance": 0.03,
+				"unit": "x10^46 J",
+				"explanation": "$E\\approx(6.67\\times10^{-11})(2.8\\times10^{30})^2/10^4=5.2\\times10^{46}$ J. A supernova's light and kinetic energy are only about $10^{44}$ J, i.e. $<1\\%$; roughly 99% leaves as neutrinos."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute the Schwarzschild radius $R_S=2GM/c^2$ of a $10\\,M_\\odot$ black hole, in kilometres.",
+				"answer": 29.54,
+				"tolerance": 0.02,
+				"unit": "km",
+				"explanation": "$R_S=2(6.67\\times10^{-11})(1.99\\times10^{31})/(3.00\\times10^8)^2=2.95\\times10^4$ m $\\approx29.5$ km (about 3 km per solar mass)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what a pulsar is and how its period $P$ and period derivative $\\dot P$ allow estimates of its surface magnetic field and age.",
+				"rubric": "Full credit requires: rotating magnetised neutron star whose magnetic axis is misaligned with spin axis, beams of radio emission sweep past Earth like a lighthouse; magnetic dipole radiation removes rotational energy so P increases slowly; B ~ 3.2e19 sqrt(P Pdot) gauss from dipole spin-down torque; characteristic age ~ P/(2 Pdot).",
+				"modelAnswer": "A pulsar is a rapidly rotating, strongly magnetised neutron star whose radio beams, offset from the rotation axis, sweep over Earth once per rotation, like a lighthouse. The star slows as magnetic dipole radiation carries off rotational energy, so $P$ grows. The spin-down torque gives $B\\sim3.2\\times10^{19}\\sqrt{P\\dot P}$ G, and the age is roughly $P/(2\\dot P)$."
+			}
+		],
+		"s2-l011-galaxies-rotation-curves-dark-matter": [
+			{
+				"kind": "mc",
+				"prompt": "Outside the visible disk of a spiral galaxy, we would expect orbital speeds to fall as $v\\propto r^{-1/2}$ (Keplerian). Instead, rotation curves stay flat. What does this imply?",
+				"options": [
+					"Gravity weakens more slowly than $1/r^2$ outside galaxies, for no further reason.",
+					"Stars at large radius are more massive, so they orbit faster.",
+					"The enclosed mass keeps growing roughly in proportion to $r$ ($M\\propto v^2r/G$).",
+					"The visible stars must contain much more mass than we thought."
+				],
+				"answer": 2,
+				"explanation": "For circular orbits $v^2=GM(<r)/r$. A flat $v$ means $M(<r)\\propto r$. Gravitational lensing and cluster dynamics point to the same unseen mass."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do errors in the cosmic distance ladder compound as we go to larger distances?",
+				"options": [
+					"Each rung (parallax, Cepheids, Type Ia supernovae) is calibrated using the one below it.",
+					"Because the speed of light changes at large distances, which distorts the flux measurements.",
+					"Because more distant objects are always fainter and so impossible to calibrate accurately by any method.",
+					"They don't; each rung is independent of the others and has its own calibration."
+				],
+				"answer": 0,
+				"explanation": "Parallax calibrates the Cepheid period-luminosity relation, which calibrates Type Ia supernova peak luminosity, which then measures distances to galaxies far into the Hubble flow."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Sun orbits the galactic centre at $v=220$ km/s at $r=8.0$ kpc. Compute the mass enclosed within the Sun's orbit, $M=v^2r/G$, in units of $10^{10}M_\\odot$.",
+				"answer": 9.001,
+				"tolerance": 0.03,
+				"unit": "x10^10 M_sun",
+				"explanation": "$M=(2.2\\times10^5)^2(2.47\\times10^{20})/(6.67\\times10^{-11})=1.8\\times10^{41}$ kg $=9\\times10^{10}\\,M_\\odot$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "If the rotation speed stays flat at 220 km/s out to $r=50$ kpc, compute the enclosed mass there in units of $10^{11}M_\\odot$.",
+				"answer": 5.625,
+				"tolerance": 0.03,
+				"unit": "x10^11 M_sun",
+				"explanation": "$M\\propto r$: $9.0\\times10^{10}\\times50/8=5.6\\times10^{11}\\,M_\\odot$, several times the visible mass (a few $10^{10}M_\\odot$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "List two independent lines of evidence for dark matter besides galaxy rotation curves and say what each shows.",
+				"rubric": "Full credit requires two of: galaxy cluster dynamics (virial theorem velocities too high for visible mass); gravitational lensing (mass map from distortion exceeds visible); Bullet Cluster (lensing mass offset from hot X-ray gas, showing mass is collisionless and separate from baryons); CMB acoustic peaks / structure formation. Each with what it shows.",
+				"modelAnswer": "Galaxy clusters: the galaxies' speeds are too high for the visible mass to bind them, implying several times more mass. Gravitational lensing: the bending of background light by clusters maps total mass, which far exceeds the luminous matter. The Bullet Cluster shows that after a collision the lensing mass lies with the galaxies, apart from the dominant hot gas, so the unseen mass is collisionless and separate from ordinary matter."
+			}
+		],
+		"s2-l012-hubble-law-robertson-walker": [
+			{
+				"kind": "mc",
+				"prompt": "Distant galaxies recede from us with speed proportional to distance. Does this place the Milky Way at the centre of the universe?",
+				"options": [
+					"Yes, because only the centre has everything receding.",
+					"Yes, but only at large scales.",
+					"No, because galaxies move randomly and the apparent recession pattern is just a coincidence.",
+					"No: in uniform expansion ($r=a(t)x$) every observer sees the same law, $v=Hr$."
+				],
+				"answer": 3,
+				"explanation": "For any two comoving points the separation grows as $a(t)$, so $v=\\dot a x=(\\dot a/a)r$ holds for any observer. Isotropy about every point implies homogeneity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A distant galaxy is observed at redshift $z=1$. What does this tell us about the universe's size when the light was emitted?",
+				"options": [
+					"The universe was twice its present size, since the wavelength doubled.",
+					"The universe was half its present size (the wavelength was stretched by $1+z=a_0/a_e=2$).",
+					"The galaxy was receding at the speed of light when it emitted the light, so the light was stretched.",
+					"The galaxy was exactly 1 Mpc away, since $z=1$ corresponds to 1 Mpc."
+				],
+				"answer": 1,
+				"explanation": "Cosmological redshift is not an ordinary Doppler shift through space; it is the stretching of wavelengths by the scale factor, $1+z=a(t_0)/a(t_e)$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the Hubble time $1/H_0$ for $H_0=70$ km/s/Mpc, in billions of years (1 Mpc $=3.086\\times10^{19}$ km, 1 yr $=3.156\\times10^7$ s).",
+				"answer": 13.97,
+				"tolerance": 0.02,
+				"unit": "Gyr",
+				"explanation": "$1/H_0=3.086\\times10^{19}/70=4.41\\times10^{17}$ s $=14.0$ Gyr, close to the actual age of the universe."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A galaxy has redshift $z=0.020$. For small $z$, $d\\approx cz/H_0$. Compute its distance for $H_0=70$ km/s/Mpc, in Mpc.",
+				"answer": 85.65,
+				"tolerance": 0.02,
+				"unit": "Mpc",
+				"explanation": "$d=(3.00\\times10^5\\ {\\rm km/s})(0.02)/70=85.7$ Mpc."
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from uniform expansion, in which every distance is $r=a(t)x$ with $x$ a fixed comoving coordinate, derive Hubble's law and say what $H$ is.",
+				"rubric": "Full credit requires: differentiate r = a(t) x at fixed x: v = adot x = (adot/a) r; so v = H r with H = adot/a, the fractional expansion rate; applies to every observer; H depends on time and H0 is its present value.",
+				"modelAnswer": "For galaxies at fixed comoving positions, $v=dr/dt=\\dot a\\,x=(\\dot a/a)\\,a x=Hr$, with $H=\\dot a/a$ the fractional rate of change of the scale factor. The law holds for any observer, and $H_0$ is its present value."
+			}
+		],
+		"s2-l013-friedmann-equations": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the energy density of radiation fall faster with expansion ($\\propto a^{-4}$) than that of non-relativistic matter ($\\propto a^{-3}$)?",
+				"options": [
+					"Because photons are destroyed by expansion, so their number density falls faster.",
+					"Both are diluted by the volume increase $a^3$, but photons also lose energy as their wavelengths stretch, giving an extra $1/a$.",
+					"Because radiation has no mass, it is not affected by gravity and so is diluted by more than the volume factor alone, whatever its energy.",
+					"Because matter is replenished from dark matter as space expands, while photons are not."
+				],
+				"answer": 1,
+				"explanation": "The fluid equation gives $\\rho\\propto a^{-3(1+w)}$: $w=0$ for dust, $w=1/3$ for radiation, so $a^{-4}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The acceleration equation is $\\ddot a/a=-(4\\pi G/3c^2)(\\varepsilon+3P)$. What is needed for the expansion to accelerate?",
+				"options": [
+					"A large positive pressure, which pushes outward on the surrounding space and so accelerates it.",
+					"A large positive energy density alone, since gravity is attractive only for matter without pressure.",
+					"A pressure equal to one third of the energy density, as for radiation, which pushes harder than dust.",
+					"A negative pressure with $P<-\\varepsilon/3$, such as a cosmological constant ($w=-1$)."
+				],
+				"answer": 3,
+				"explanation": "Ordinary matter and radiation have $\\varepsilon+3P>0$ and decelerate the expansion. A cosmological constant has $P=-\\varepsilon$, making $\\varepsilon+3P=-2\\varepsilon<0$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The density parameter $\\Omega=\\rho/\\rho_c$ is measured to be greater than 1. What does that mean for the geometry?",
+				"options": [
+					"Positive curvature (a closed universe, $k>0$).",
+					"Negative curvature (an open universe).",
+					"Flat geometry.",
+					"Nothing: $\\Omega$ does not relate to geometry."
+				],
+				"answer": 0,
+				"explanation": "The Friedmann equation gives $\\Omega-1=kc^2/(H^2R_0^2a^2)$: sign of $k$ follows sign of $\\Omega-1$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute the critical density $\\rho_c=3H_0^2/(8\\pi G)$ for $H_0=70$ km/s/Mpc in units of $10^{-27}$ kg/m$^3$.",
+				"answer": 9.204,
+				"tolerance": 0.02,
+				"unit": "x10^-27 kg/m^3",
+				"explanation": "$H_0=2.27\\times10^{-18}$ s$^{-1}$, so $\\rho_c=9.2\\times10^{-27}$ kg/m$^3$, about 5.5 hydrogen atoms per cubic metre."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how the Newtonian argument for a test shell in an expanding sphere gives the Friedmann equation, and how the density relative to the critical density determines the fate.",
+				"rubric": "Full credit requires: energy conservation for a shell: kinetic energy (1/2) m rdot^2 minus gravitational potential -GMm/r = constant U; the sign of constant (curvature k): density > critical gives negative total energy (bound) so expansion turns around; < critical gives positive energy and unbound; equal gives marginal; equivalent to ball thrown from planet at escape speed.",
+				"modelAnswer": "A shell at radius $r$ in a uniform sphere obeys $\\tfrac12\\dot r^2-GM/r=U$ (constant), exactly like a ball thrown upward. Written with $r=a x$ and $M=\\tfrac43\\pi\\rho r^3$, this is the Friedmann equation with the constant playing the role of curvature. If $\\rho>\\rho_c$ the total energy is negative (bound, would recollapse); if $\\rho<\\rho_c$ it is positive (expands forever); at $\\rho=\\rho_c$ it is exactly marginal (flat)."
+			}
+		],
+		"s2-l014-model-universes-benchmark": [
+			{
+				"kind": "mc",
+				"prompt": "Which single-component flat universe has accelerating expansion, and why?",
+				"options": [
+					"A matter-dominated universe, $a\\propto t^{2/3}$, whose expansion speeds up with time.",
+					"A radiation-dominated universe, $a\\propto t^{1/2}$, whose expansion speeds up with time.",
+					"A universe dominated by a cosmological constant, $a\\propto e^{Ht}$.",
+					"All three accelerate; only the rate differs between them."
+				],
+				"answer": 2,
+				"explanation": "For $a\\propto t^{p}$ with $p<1$ the expansion decelerates ($\\ddot a<0$). Only $w<-1/3$ gives acceleration."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A flat matter-only universe with $H_0=70$ km/s/Mpc has age $2/(3H_0)\\approx9.3$ Gyr, yet some stars are over 12 Gyr old. What does this suggest?",
+				"options": [
+					"The stars' ages are wrong by definition.",
+					"The Hubble constant must be 0.",
+					"A matter-only universe is much older than 12 Gyr.",
+					"A matter-only universe is too young."
+				],
+				"answer": 3,
+				"explanation": "With $\\Omega_m\\approx0.3$, $\\Omega_\\Lambda\\approx0.7$ the integral for the age gives about 13.8 Gyr, consistent with old stars and with the CMB."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute the age of a flat matter-only universe, $t_0=2/(3H_0)$, for $H_0=70$ km/s/Mpc, in Gyr.",
+				"answer": 9.312,
+				"tolerance": 0.02,
+				"unit": "Gyr",
+				"explanation": "$1/H_0=14.0$ Gyr, so $t_0=2/3\\times14.0=9.3$ Gyr."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Matter and radiation densities scale as $a^{-3}$ and $a^{-4}$. With $\\Omega_m=0.31$ and $\\Omega_r=9.2\\times10^{-5}$ today, the two are equal at $a_{\\rm eq}=\\Omega_r/\\Omega_m$. Compute $1+z_{\\rm eq}=1/a_{\\rm eq}$.",
+				"answer": 3370.0,
+				"tolerance": 0.02,
+				"explanation": "$1+z_{\\rm eq}=\\Omega_m/\\Omega_r=0.31/9.2\\times10^{-5}=3.4\\times10^{3}$, before recombination ($z\\approx1100$): the early universe was radiation-dominated, then matter-dominated."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe the order in which radiation, matter and the cosmological constant dominated the energy budget of the universe, and explain why the cosmological constant dominates last.",
+				"rubric": "Full credit requires: order radiation -> matter -> Lambda; radiation density falls as a^-4, matter a^-3, Lambda constant; going back in time radiation grows fastest and dominates early; as expansion dilutes both, a constant eventually wins (recently, z ~ 0.3); consequence: expansion becomes exponential and accelerating, fate is eternal expansion.",
+				"modelAnswer": "Radiation dominated first, then matter, and now a cosmological constant. Radiation dilutes as $a^{-4}$, matter as $a^{-3}$, and a cosmological constant not at all, so as the universe expands the faster-diluting components fall behind. Once $\\Lambda$ wins, the expansion becomes exponential and accelerates, and the universe expands forever."
+			}
+		],
+		"s2-l015-distances-supernovae-dark-energy": [
+			{
+				"kind": "mc",
+				"prompt": "The luminosity distance and angular-diameter distance are related by $d_L=(1+z)^2d_A$. What is the main physical origin of this relation?",
+				"options": [
+					"The speed of light changes with redshift, which stretches the distances.",
+					"In an expanding universe both distances are tied to the comoving distance $a_0r$.",
+					"Light is absorbed by intergalactic dust.",
+					"The relation holds only for flat space; curved space gives a different power of $(1+z)$."
+				],
+				"answer": 1,
+				"explanation": "At small $z$, $d_L\\approx d_A\\approx cz/H_0$. Photon energy and arrival rate each fall by $1/(1+z)$, giving the $(1+z)^2$ flux reduction relative to the geometric $a_0r$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Distant Type Ia supernovae appeared fainter than expected in a decelerating universe. What did this reveal?",
+				"options": [
+					"They are farther than expected for their redshift.",
+					"The supernovae were intrinsically fainter in the past, so nothing was learned.",
+					"The universe is contracting.",
+					"The speed of light was larger in the past."
+				],
+				"answer": 0,
+				"explanation": "Compared with a matter-only universe, acceleration means more time (and distance) elapsed for a given redshift. The 1998 results gave $\\Omega_\\Lambda\\approx0.7$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute the deceleration parameter $q_0=\\Omega_m/2-\\Omega_\\Lambda$ for $\\Omega_m=0.30$, $\\Omega_\\Lambda=0.70$ (include the sign).",
+				"answer": -0.55,
+				"tolerance": 0.02,
+				"explanation": "$q_0=0.15-0.70=-0.55$. Negative $q_0$ means accelerating expansion."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A supernova has redshift $z=0.050$. For small redshift, $d_L\\approx cz/H_0$. Compute its luminosity distance for $H_0=70$ km/s/Mpc, in Mpc.",
+				"answer": 214.1,
+				"tolerance": 0.02,
+				"unit": "Mpc",
+				"explanation": "$d_L\\approx(2.998\\times10^5)(0.05)/70=214$ Mpc."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the cosmological constant can be interpreted as vacuum energy, and what the 'cosmological constant problem' is.",
+				"rubric": "Full credit requires: a constant energy density with P = -epsilon c^2 (w=-1) that doesn't dilute with expansion is the same as vacuum energy; quantum field zero-point energy gives a naive estimate roughly 120 orders of magnitude larger than the observed dark-energy density; unexplained cancellation or mechanism needed.",
+				"modelAnswer": "A cosmological constant is an energy density that does not dilute as space expands, which requires pressure $P=-\\varepsilon$, exactly the property of vacuum energy. The cosmological constant problem is that a naive sum of quantum zero-point energies gives a value about 120 orders of magnitude larger than the observed dark-energy density, and we do not know why the actual value is so small."
+			}
+		],
+		"s2-l016-cmb": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the CMB remain a blackbody spectrum as the universe expands, with temperature $T\\propto1/a$?",
+				"options": [
+					"Because photons are continuously re-emitted by matter in thermal equilibrium today.",
+					"Because the universe has been in thermal contact with stars all along.",
+					"Expansion stretches every photon's wavelength by the same factor $a$.",
+					"The spectrum would change shape; the CMB being a blackbody is a coincidence."
+				],
+				"answer": 2,
+				"explanation": "A Planck spectrum with $\\lambda\\to\\lambda a$ and the number density diluted by $a^{-3}$ is again a Planck spectrum with $T\\to T/a$. This is why $T(z)=T_0(1+z)$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What do the acoustic peaks in the CMB angular power spectrum tell us?",
+				"options": [
+					"Only the temperature of the CMB, since the peaks are just a measure of its average value.",
+					"The positions of nearby galaxies, since the peaks mark where galaxies are clustered today.",
+					"The first peak's position gives the geometry (flat), the peak heights the baryon density, and the overall pattern the dark-matter density.",
+					"The peaks come from the motion of the Earth and the Sun through the CMB and carry no information about the early universe or its contents at all."
+				],
+				"answer": 2,
+				"explanation": "Sound waves in the photon-baryon plasma froze at recombination. The sound horizon is a standard ruler: its apparent angular size depends on curvature. Baryons load the oscillations, and dark matter changes their driving."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The CMB temperature today is $T_0=2.725$ K. Compute the temperature of the universe at recombination, $z=1100$, in kelvin.",
+				"answer": 3000.0,
+				"tolerance": 0.02,
+				"unit": "K",
+				"explanation": "$T=T_0(1+z)=2.725\\times1101=3000$ K, which is about 0.26 eV."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Sun moves through the CMB rest frame at about 370 km/s, producing a dipole of amplitude $\\Delta T\\approx T_0v/c$. Compute $\\Delta T$ in millikelvin.",
+				"answer": 3.363,
+				"tolerance": 0.03,
+				"unit": "mK",
+				"explanation": "$\\Delta T=2.725\\times(3.7\\times10^5)/(3.00\\times10^8)=3.4\\times10^{-3}$ K $=3.4$ mK, a hundred times larger than the $10^{-5}$ intrinsic anisotropies."
+			},
+			{
+				"kind": "short",
+				"prompt": "Recombination occurs near 3000 K (about 0.26 eV), though hydrogen needs 13.6 eV to ionise. Explain why, using the idea behind the Saha equation.",
+				"rubric": "Full credit requires: huge photon to baryon ratio (~10^9); even when kT << 13.6 eV the exponential tail of the Planck distribution still contains enough photons above 13.6 eV to re-ionise atoms; neutral atoms form only when the number of such photons per baryon falls below one, at kT ~ 0.26 eV; Saha equation: ionisation equilibrium favouring ions until the entropy factor (photon number) is overcome.",
+				"modelAnswer": "The Saha equation is an ionisation equilibrium whose entropy factor depends on the number of photons per baryon, about $10^9$. Even at $kT\\ll13.6$ eV the Planck tail has more than enough ionising photons for each atom. Hydrogen only stays neutral when the tail has fallen enough that fewer than one such photon is present per atom, which happens near $kT\\approx0.26$ eV, i.e. 3000 K."
+			}
+		],
+		"s2-l017-nucleosynthesis-inflation": [
+			{
+				"kind": "mc",
+				"prompt": "Why is the primordial deuterium bottleneck important for the timing of Big Bang nucleosynthesis?",
+				"options": [
+					"Deuterium (2.2 MeV binding) is photodisintegrated by the enormous number of photons per baryon until $kT\\approx0.07$ MeV.",
+					"Deuterium is not stable, so it has no role in forming helium, which forms by direct fusion of four protons.",
+					"Nuclei form immediately at $10^{10}$ K, with no delay, because the density is highest then.",
+					"Deuterium formation releases so many photons that the plasma is reheated and further reactions are stopped until it cools."
+				],
+				"answer": 0,
+				"explanation": "The abundance is set by a Saha-like balance with very few baryons per photon. Once deuterium survives, nearly all neutrons are rapidly locked into $^4$He."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the horizon problem of the hot Big Bang, and how does inflation solve it?",
+				"options": [
+					"The universe has no horizon, so its size is unlimited.",
+					"Distant galaxies recede faster than light, which special relativity forbids, so inflation slows the expansion down at early times to fix it.",
+					"CMB photons have no horizon because they travel at the speed of light.",
+					"Regions of the CMB sky more than about 2 degrees apart were never in causal contact, yet have the same temperature."
+				],
+				"answer": 3,
+				"explanation": "Exponential expansion by $e^{60}$ takes a region that was in causal contact before inflation to far beyond today's observable universe, explaining the uniformity (and, similarly, flatness and the absence of monopoles)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Neutrons and protons are in equilibrium until freeze-out at $kT\\approx0.80$ MeV, with $n/p=e^{-Q/kT}$ and $Q=1.29$ MeV. Compute $n/p$.",
+				"answer": 0.1994,
+				"tolerance": 0.02,
+				"explanation": "$n/p=e^{-1.29/0.80}=e^{-1.61}=0.199$ (about 1/5). Neutron decay before deuterium forms reduces it to about 1/7."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "After neutron decay $n/p\\approx1/7$. Assuming all neutrons end up in $^4$He, compute the helium mass fraction $Y_p=2(n/p)/(1+n/p)$.",
+				"answer": 0.25,
+				"tolerance": 0.02,
+				"explanation": "$Y_p=2(1/7)/(8/7)=0.25$: about a quarter of the baryon mass is helium, matching observation. Each He-4 nucleus uses 2 neutrons and 2 protons."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how a period of quasi-exponential expansion, $a\\propto e^{Ht}$ for about 60 e-folds, solves the flatness and horizon problems.",
+				"rubric": "Full credit requires: flatness: during exponential expansion H nearly constant while a grows enormously, so |Omega - 1| ∝ 1/(aH)^2 is driven toward zero; horizon: a causally connected region before inflation is stretched by e^60 ~ 10^26 to a size larger than the observable universe, so CMB regions share common causal history; also dilutes monopoles; quantum fluctuations of the scalar field seed density perturbations.",
+				"modelAnswer": "During inflation $a$ grows by a factor $e^{60}\\sim10^{26}$ while $H$ stays almost constant, so the curvature term $kc^2/(aH)^2$ in the Friedmann equation is driven toward zero, and the universe is made almost exactly flat. A tiny region that was in causal contact (and so reached a common temperature) is stretched beyond the size of today's observable universe, so all CMB patches share a common history. Quantum fluctuations of the inflaton field are stretched into the density perturbations that seed galaxies."
+			}
+		]
+	}
+}

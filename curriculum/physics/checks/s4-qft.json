@@ -1,0 +1,1326 @@
+{
+	"courseId": "s4-qft",
+	"checks": {
+		"s4-l001-why-qft": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the single-particle picture of relativistic quantum mechanics break down?",
+				"options": [
+					"The Klein-Gordon equation is not Lorentz invariant, so a relativistic wavefunction cannot be defined consistently.",
+					"The relation $E^2=p^2c^2+m^2c^4$ has no solutions for a massive particle, so no relativistic wave equation exists.",
+					"Confining a particle within its Compton wavelength costs energy $\\sim mc^2$, enough to create pairs.",
+					"Relativistic particles have no position at all, so the wavefunction picture fails for massless particles like photons only."
+				],
+				"answer": 2,
+				"explanation": "Squeezing a particle into a region smaller than $\\hbar/mc$ gives it momentum uncertainty $\\gtrsim mc$, hence energy $\\gtrsim mc^2$, enough to produce extra particle-antiparticle pairs. A theory with a fixed number of particles can no longer be consistent, so one needs fields."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Klein-Gordon conserved density $i(\\phi^*\\dot\\phi-\\dot\\phi^*\\phi)$ can be negative, so it cannot be a probability density. How does QFT resolve this?",
+				"options": [
+					"It becomes a charge density, with particles positive and antiparticles negative; no probability is needed.",
+					"It is always zero for positive-energy solutions, so the Klein-Gordon field carries no probability at all.",
+					"The density is complex, and taking its absolute value in QFT restores a standard probability interpretation.",
+					"The density is not actually conserved, and QFT repairs this by adding a source term that creates probability."
+				],
+				"answer": 0,
+				"explanation": "The negative-energy solutions that gave negative 'probability' are reinterpreted as antiparticles. The conserved quantity is then a charge (particles minus antiparticles), which can be of either sign without any inconsistency."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using $\\hbar c = 197.327$ MeV fm and $m_ec^2 = 0.511$ MeV, compute the (reduced) Compton wavelength $\\hbar/(m_ec)$ of the electron, in femtometres.",
+				"answer": 386.2,
+				"tolerance": 0.02,
+				"unit": "fm",
+				"explanation": "$\\hbar/(m_ec) = \\hbar c/(m_ec^2) = 386.2$ fm. That is several hundred times the proton radius, so any process that localizes an electron more finely than this (high-energy scattering) needs QFT; atomic physics (Bohr radius $\\sim5\\times10^4$ fm) does not."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In natural units ($\\hbar=c=1$) a cross-section can be quoted as $1\\ \\mathrm{GeV^{-2}}$. Convert it to millibarn, using $\\hbar c = 0.19733$ GeV fm and $1\\ \\mathrm{mb} = 0.1\\ \\mathrm{fm^2}$.",
+				"answer": 0.3894,
+				"tolerance": 0.02,
+				"unit": "mb",
+				"explanation": "$1\\ \\mathrm{GeV^{-2}} = (\\hbar c)^2 = 0.03894\\ \\mathrm{GeV^2\\,fm^2}\\times \\mathrm{GeV^{-2}} = 0.03894\\ \\mathrm{fm^2} = 0.3894$ mb. This is the standard particle-physics conversion: $1\\ \\mathrm{GeV^{-2}} \\approx 0.389$ mb."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, explain why combining quantum mechanics, special relativity and locality pushes us to a theory of fields in which particle number is not fixed. Where else in physics do you see a 'field' of oscillators whose quanta behave like particles?",
+				"rubric": "Full credit: (1) relativity allows $E\\sim mc^2$ conversions, so interactions at high energy can create/destroy particles, requiring variable particle number; (2) locality plus relativity means causal propagation and antiparticles; a field with a degree of freedom at each point is the natural arena; (3) example: photons as quanta of the EM field, or phonons as quanta of lattice vibrations.",
+				"modelAnswer": "Special relativity allows energy to turn into mass, so when particles collide at energies of order $mc^2$ new particles can appear and old ones vanish; a theory with a fixed number of particles cannot describe that. Requiring interactions to be local and causal leads to fields, with an oscillator at each point whose excitations are the particles and whose antiparticle states appear automatically. Photons are the quanta of the electromagnetic field, and phonons are the quanta of vibrations of a crystal lattice, an everyday example of the same idea."
+			}
+		],
+		"s4-l002-classical-field-theory": [
+			{
+				"kind": "mc",
+				"prompt": "Why can one add a total derivative $\\partial_\\mu K^\\mu$ to the Lagrangian density without changing the physics?",
+				"options": [
+					"It changes the equations of motion only by a constant, which can be absorbed into the definition of the field.",
+					"It makes the Lagrangian density non-Lorentz-invariant, but the physical predictions are unchanged anyway.",
+					"It adds a source term, so the field equations pick up a conserved current, but the dynamics stays the same.",
+					"It changes the action only by a boundary term, which drops out of the variation."
+				],
+				"answer": 3,
+				"explanation": "$\\int d^4x\\,\\partial_\\mu K^\\mu$ is a surface term. Since $\\delta\\phi=0$ on the boundary in the least-action derivation, it drops out, just as adding $dF/dt$ to a mechanical Lagrangian does not change Newton's laws."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Varying the Maxwell action $\\int -\\tfrac14F_{\\mu\\nu}F^{\\mu\\nu}\\,d^4x$ with respect to $A_\\nu$ gives which equations?",
+				"options": [
+					"All four Maxwell equations, since $\\nu=0$ and $\\nu=1,2,3$ give the electric and magnetic laws.",
+					"The inhomogeneous pair $\\partial_\\mu F^{\\mu\\nu}=0$; the other two follow from $F=dA$ itself.",
+					"Only Gauss's law; Ampere's law and the others must be added by hand as separate postulates.",
+					"The Lorentz force law, with Maxwell's equations taken as separate inputs to the theory."
+				],
+				"answer": 1,
+				"explanation": "Because $F_{\\mu\\nu}$ is built from a potential, $\\nabla\\cdot\\mathbf B=0$ and Faraday's law hold identically (Bianchi identity). The action then supplies the equations that involve sources. Adding $-A_\\mu J^\\mu$ gives $\\partial_\\mu F^{\\mu\\nu}=J^\\nu$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does a chain of masses coupled by springs lead to the idea that a field is a collection of oscillators?",
+				"options": [
+					"The field $\\phi(x)$ is the position of a single particle as a function of $x$, and the wave equation is its trajectory.",
+					"$\\phi(x)$ is the displacement of the oscillator at $x$, and neighbour coupling gives the gradient term and wave equation.",
+					"In the continuum limit each oscillator becomes independent, so $\\phi(x)$ obeys $\\ddot\\phi=-\\omega^2\\phi$ with no gradient term.",
+					"The continuum limit of the chain gives a diffusion equation $\\dot\\phi=D\\phi''$ rather than a wave equation."
+				],
+				"answer": 1,
+				"explanation": "Kinetic energy of the masses becomes $\\tfrac12\\dot\\phi^2$ per unit length, and the spring energy $\\tfrac12 k(\\phi_{j+1}-\\phi_j)^2$ becomes $\\tfrac12(\\nabla\\phi)^2$. The resulting equation $\\ddot\\phi=v^2\\nabla^2\\phi$ is the wave equation; the Klein-Gordon mass term adds a restoring force on each oscillator."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $\\mathcal L=\\tfrac12\\dot\\phi^2-\\tfrac12(\\nabla\\phi)^2-\\tfrac12m^2\\phi^2$ (natural units), find the Hamiltonian density $\\mathcal H=\\pi\\dot\\phi-\\mathcal L$ at a point where $\\dot\\phi=2$, $|\\nabla\\phi|=1$, $\\phi=3$ and $m=2$.",
+				"answer": 20.5,
+				"tolerance": 0.02,
+				"explanation": "$\\pi=\\partial\\mathcal L/\\partial\\dot\\phi=\\dot\\phi=2$, so $\\mathcal H=\\tfrac12\\pi^2+\\tfrac12(\\nabla\\phi)^2+\\tfrac12m^2\\phi^2 = 2+0.5+18 = 20.5$. All three terms are positive, so the energy of a field configuration is bounded below."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Klein-Gordon Lagrangian density is $\\tfrac12\\dot\\phi^2-\\tfrac12(\\nabla\\phi)^2-\\tfrac12m^2\\phi^2$. Explain in words what each term represents physically, and why the gradient term is needed.",
+				"rubric": "Full credit: (1) $\\tfrac12\\dot\\phi^2$ is kinetic energy density of the oscillator at each point; (2) $\\tfrac12 m^2\\phi^2$ is the restoring (potential) energy of each oscillator, the mass term; (3) $\\tfrac12(\\nabla\\phi)^2$ is the coupling to neighbours (spring energy), which makes disturbances propagate as waves; without it each point would oscillate independently.",
+				"modelAnswer": "Think of an oscillator at every point in space. The first term is each oscillator's kinetic energy, and the mass term is the restoring energy that pulls it back toward $\\phi=0$. The gradient term is the energy stored in stretching between neighbouring oscillators (like springs between masses); it couples the neighbours so a disturbance spreads as a wave. Without it every point would oscillate independently, and there would be no propagation."
+			}
+		],
+		"s4-l003-noether-symmetries-currents": [
+			{
+				"kind": "mc",
+				"prompt": "A complex scalar field has a Lagrangian invariant under $\\phi\\to e^{i\\alpha}\\phi$. What does Noether's theorem give?",
+				"options": [
+					"A conserved total number of quanta, particles plus antiparticles, since the phase rotation preserves particle number.",
+					"A conserved energy, since the phase change leaves $|\\phi|$ and the field's magnitude unchanged.",
+					"A conserved momentum, since the phase factor is the same at every point of space.",
+					"A conserved charge $Q=\\int j^0\\,d^3x$ that counts particles minus antiparticles."
+				],
+				"answer": 3,
+				"explanation": "The current is $j^\\mu=i(\\phi^*\\partial^\\mu\\phi-\\phi\\,\\partial^\\mu\\phi^*)$. Pair creation or annihilation changes particle number but not the difference, which is why $U(1)$ charge is conserved even when particle number is not."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The energy-momentum tensor $T^{\\mu\\nu}$ has two indices. What does the second index $\\nu$ label?",
+				"options": [
+					"It labels the translation direction: $\\nu=0$ gives energy and $\\nu=1,2,3$ give momentum.",
+					"The two helicity states of the field, each of which is conserved separately.",
+					"The rotations and boosts of the Lorentz group, each of which supplies its own current.",
+					"A normalization convention; only the $T^{00}$ component is actually conserved."
+				],
+				"answer": 0,
+				"explanation": "Translation invariance in each of the four spacetime directions gives $\\partial_\\mu T^{\\mu\\nu}=0$. The conserved charges are $P^\\nu=\\int T^{0\\nu}d^3x$: the Hamiltonian and total momentum."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A classical plane wave of the free massive scalar field, $\\phi=A\\cos(\\mathbf k\\cdot\\mathbf x-\\omega t)$ with $\\omega^2=k^2+m^2$, has time-averaged energy density $\\langle\\tfrac12\\dot\\phi^2+\\tfrac12(\\nabla\\phi)^2+\\tfrac12m^2\\phi^2\\rangle$. For $A=2$ and $\\omega=3$ (natural units), what is it?",
+				"answer": 18.0,
+				"tolerance": 0.02,
+				"explanation": "Using $\\langle\\cos^2\\rangle=\\tfrac12$: energy density $=\\tfrac14A^2(\\omega^2+k^2+m^2)=\\tfrac12A^2\\omega^2 = 18$. The energy scales as (amplitude)$^2\\times$(frequency)$^2$; quantum mechanically this is $N\\hbar\\omega$ per volume for $N$ quanta."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Invariance under the Lorentz group (not just translations) gives which conserved quantities?",
+				"options": [
+					"Only angular momentum is conserved; boosts give nothing, since they change the energy of the system.",
+					"Boosts give conserved helicity and rotations give conserved spin, and the Lorentz group has no other charges.",
+					"Rotations give angular momentum and boosts give three more charges: six conserved quantities in all.",
+					"Lorentz invariance gives energy and momentum conservation, the same quantities as translation invariance."
+				],
+				"answer": 2,
+				"explanation": "The Lorentz group has six generators (three rotations, three boosts), and Noether's theorem gives a conserved charge for each. The boost charges $K^i=\\int(x^iT^{00}-tT^{0i})d^3x$ say that the centre of energy moves uniformly."
+			},
+			{
+				"kind": "short",
+				"prompt": "Noether's theorem gives a current with $\\partial_\\mu j^\\mu=0$ rather than just a conserved total charge. Explain what the extra, local information means physically, and why it is stronger than global conservation.",
+				"rubric": "Full credit: (1) local conservation means charge density changes only through a flow (current) into/out of the region: $\\partial_t\\rho+\\nabla\\cdot\\mathbf j=0$; (2) so charge cannot vanish in one place and reappear far away; (3) this is stronger than a global statement and is consistent with relativity/causality (no simultaneity needed), and total $Q$ follows by integration if the current falls off at infinity.",
+				"modelAnswer": "The equation $\\partial_t j^0+\\nabla\\cdot\\mathbf j=0$ says that the amount of charge in any region changes only because charge flows across its boundary. A merely global law would allow charge to disappear here and reappear far away at the same instant, which relativity forbids, since 'at the same instant' depends on the observer. Integrating over all space gives the global conservation of $Q$ if the current vanishes at infinity."
+			}
+		],
+		"s4-l004-second-quantisation": [
+			{
+				"kind": "mc",
+				"prompt": "A mode already holds $n$ identical bosons. Compared with an empty mode, the probability of adding one more is larger by what factor, and why?",
+				"options": [
+					"A factor of 1, because identical bosons do not interact, so the mode's occupation cannot matter.",
+					"A factor of $n$, because each of the existing bosons independently stimulates the new one.",
+					"A factor of $1/(n+1)$, because the mode fills up and the exclusion principle blocks further additions.",
+					"$n+1$, because $|\\langle n+1|a^\\dagger|n\\rangle|^2=n+1$ (Bose enhancement)."
+				],
+				"answer": 3,
+				"explanation": "The matrix element is $\\sqrt{n+1}$, so rates for adding a boson scale as $n+1$. The 1 is spontaneous emission and the $n$ is stimulated emission; this enhancement underlies lasers and Bose-Einstein condensation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the second-quantized one-body operator $\\hat T=\\sum_{ij}t_{ij}a_i^\\dagger a_j$ do?",
+				"options": [
+					"It creates a particle in orbital $i$ and a hole in orbital $j$, so it changes the particle number by two.",
+					"It moves a particle from orbital $j$ to orbital $i$ with amplitude $t_{ij}$, for any particle number.",
+					"It counts the particles in orbitals $i$ and $j$, so its eigenvalues are integers.",
+					"It is valid only for a single particle; for $N$ particles one needs a separate operator for each pair."
+				],
+				"answer": 1,
+				"explanation": "$a_i^\\dagger a_j$ removes a particle from state $j$ and puts one in state $i$, conserving particle number. The same formula with fermionic operators is the one-electron part of the electronic Hamiltonian of quantum chemistry."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A carbonyl C=O stretch has a vibrational wavenumber of $1700\\ \\mathrm{cm^{-1}}$. Treating it as a harmonic oscillator $H=\\hbar\\omega(a^\\dagger a+\\tfrac12)$, what is its zero-point energy in kJ/mol? ($hc\\tilde\\nu$ with $h=6.626\\times10^{-34}$ J s, $c=2.998\\times10^{10}$ cm/s, $N_A=6.022\\times10^{23}$.)",
+				"answer": 10.17,
+				"tolerance": 0.02,
+				"unit": "kJ/mol",
+				"explanation": "$E_0=\\tfrac12 hc\\tilde\\nu = 10.17$ kJ/mol. This is the energy left in the vibrational ground state; it is why a C-D bond (lower zero-point energy) is stronger than a C-H bond, the source of kinetic isotope effects."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is a phonon?",
+				"options": [
+					"A small particle that travels between atoms, carrying a fixed mass like a tiny bullet inside the crystal.",
+					"The quantum of vibration of one atom about its lattice site, so a crystal of $N$ atoms contains exactly $N$ phonons.",
+					"A quantum of a collective normal mode shared by all the atoms, with energy $\\hbar\\omega_k$.",
+					"A quasi-particle that exists only at zero temperature and disappears when the crystal is heated."
+				],
+				"answer": 2,
+				"explanation": "A chain of coupled oscillators decouples into independent normal modes, each a harmonic oscillator. Exciting a mode by one quantum creates one phonon. Their numbers are not fixed: heating creates more, which is the same structure as the photon in the EM field."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words what Fock space is and why it is the natural arena when the number of particles can change, compared with describing the system by a wavefunction $\\psi(x_1,\\dots,x_N)$.",
+				"rubric": "Full credit: (1) Fock space is spanned by occupation-number states $|n_1,n_2,\\ldots\\rangle$, a direct sum over all particle numbers; (2) creation/annihilation operators map between sectors with different $N$, so processes that change particle number are described by operators; (3) a wavefunction $\\psi(x_1..x_N)$ fixes $N$ and requires manually symmetrizing/antisymmetrizing; occupation numbers build in identical-particle statistics.",
+				"modelAnswer": "Fock space is built from states labelled by how many particles occupy each mode, summed over all total particle numbers $N=0,1,2,\\ldots$. Creation and annihilation operators connect sectors with different $N$, so emission and absorption are described by ordinary operators. A wavefunction $\\psi(x_1,\\dots,x_N)$ has a fixed $N$ and must be symmetrized or antisymmetrized by hand; in occupation-number language the identical-particle statistics is automatically built in."
+			}
+		],
+		"s4-l005-canonical-quantisation-scalar": [
+			{
+				"kind": "mc",
+				"prompt": "Why can each Fourier mode of the Klein-Gordon field be treated as a harmonic oscillator?",
+				"options": [
+					"Momentum space decouples the equation into independent oscillators with $\\omega_p=\\sqrt{p^2+m^2}$.",
+					"Modes of different $\\mathbf p$ are coupled by the mass term, so only the collective sum oscillates at frequency $m$.",
+					"Each mode oscillates at $\\omega_p=|\\mathbf p|$ whatever the mass; the mass only sets the normalization.",
+					"The modes are oscillators only in the nonrelativistic limit, where $\\omega_p\\approx m+p^2/2m$."
+				],
+				"answer": 0,
+				"explanation": "The Klein-Gordon equation is linear and translation invariant, so Fourier modes do not mix. The oscillator frequency is exactly the relativistic energy: $\\hbar\\omega_p=E_p$, which is why the quanta behave as relativistic particles."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Hamiltonian contains a zero-point energy $\\tfrac12\\sum_p\\omega_p$, which is infinite. What is the standard treatment and its caveat?",
+				"options": [
+					"A constant that does not affect dynamics, so normal ordering removes it; it matters only with gravity.",
+					"It is real physical energy that has been measured to be infinite, and normal ordering is a trick that hides this.",
+					"It makes the vacuum unstable, because zero-point energy spontaneously creates particles out of nothing.",
+					"It shifts the masses of the particles, so normal ordering would change the particle spectrum."
+				],
+				"answer": 0,
+				"explanation": "Normal ordering puts $a^\\dagger$ to the left of $a$, so $\\langle0|H|0\\rangle=0$. Measurable effects like the Casimir force depend on energy changes with boundary conditions, not the absolute value. Gravity couples to absolute energy, hence the cosmological-constant problem."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A scalar quantum with $m = 0.13957$ GeV (the charged-pion mass) is created in the state $a^\\dagger_{\\mathbf p}|0\\rangle$ with $|\\mathbf p| = 0.5$ GeV. What is its energy $\\omega_p$ in GeV?",
+				"answer": 0.5191,
+				"tolerance": 0.01,
+				"unit": "GeV",
+				"explanation": "$E=\\sqrt{p^2+m^2}=\\sqrt{0.25+0.01948} = 0.5191$ GeV. The state is an eigenstate of both $H$ and $\\mathbf P$, with relativistically normalized $\\langle\\mathbf p|\\mathbf q\\rangle=2E_p(2\\pi)^3\\delta^3(\\mathbf p-\\mathbf q)$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does imposing $[\\phi(\\mathbf x),\\pi(\\mathbf y)]=i\\delta^3(\\mathbf x-\\mathbf y)$ accomplish?",
+				"options": [
+					"It requires the field operators to anticommute, so that particles obey the exclusion principle.",
+					"It only fixes units by setting $\\hbar=1$; the particle interpretation comes from adding interactions.",
+					"It makes each mode's amplitude and momentum conjugate, so $[a,a^\\dagger]\\neq0$ and quanta are integers.",
+					"It makes the field commute with the Hamiltonian, so that particle number is conserved in interacting theories."
+				],
+				"answer": 2,
+				"explanation": "The equal-time commutator is the field-theory version of $[x,p]=i\\hbar$. In terms of the mode operators it becomes $[a_{\\mathbf p},a_{\\mathbf q}^\\dagger]=(2\\pi)^3\\delta^3(\\mathbf p-\\mathbf q)$, so energy comes in integer quanta $\\omega_p$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why all quanta of a given free scalar field are identical, have the same mass, and obey Bose statistics. Where in the construction do these facts come from?",
+				"rubric": "Full credit: (1) every particle is an excitation of the same mode oscillators with $\\omega_p=\\sqrt{p^2+m^2}$ fixed by the field equation, so the mass is the same for all; (2) states are built from the same operators $a_p^\\dagger$ acting on the vacuum, so there is nothing to tell them apart; (3) commutation relations $[a^\\dagger_p,a^\\dagger_q]=0$ imply symmetry under exchange, hence Bose statistics.",
+				"modelAnswer": "Every quantum is created by applying some $a_{\\mathbf p}^\\dagger$ to the vacuum, and all of these refer to the same field with the same dispersion relation $\\omega_p=\\sqrt{p^2+m^2}$; so all quanta share the same mass and there is no further label to distinguish them. Because the creation operators commute, $a_{\\mathbf p}^\\dagger a_{\\mathbf q}^\\dagger|0\\rangle=a_{\\mathbf q}^\\dagger a_{\\mathbf p}^\\dagger|0\\rangle$, the two-particle state is symmetric under exchange, which is Bose statistics."
+			}
+		],
+		"s4-l006-complex-scalar-antiparticles": [
+			{
+				"kind": "mc",
+				"prompt": "Why does quantizing a complex scalar field need two sets of operators, and what do they describe?",
+				"options": [
+					"The $c$ operators create heavier partners of the particles, with the same charge but a different mass.",
+					"A complex field is not its own conjugate: $b$ makes particles and $c$ makes antiparticles of opposite charge.",
+					"The second set describes the second spin state of the same particle, as for spin-up and spin-down electrons.",
+					"The $c$ operators describe negative-energy particles that never appear in physical states."
+				],
+				"answer": 1,
+				"explanation": "A complex field has two real components, so twice as many oscillators. The two combinations carry opposite $U(1)$ charge and the same mass, which is what 'particle' and 'antiparticle' mean."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How do relativity and causality force the existence of antiparticles?",
+				"options": [
+					"Antiparticles are needed to give the field a conserved energy; causality plays no role in the argument.",
+					"Antiparticles cancel the vacuum energy exactly, which is what makes physical amplitudes finite.",
+					"Without antiparticles particles would on average travel faster than light, which they never do.",
+					"Particle and antiparticle amplitudes outside the light cone cancel, so spacelike measurements commute."
+				],
+				"answer": 3,
+				"explanation": "For a spacelike separation, there is no invariant ordering of the events, so 'particle goes from $x$ to $y$' is the same as 'antiparticle goes from $y$ to $x$'. Only if both exist with equal mass and opposite charge do the amplitudes cancel in $[\\phi(x),\\phi(y)]$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In positron emission tomography an electron-positron pair annihilates at rest into two photons of 511 keV each. What is the wavelength of each photon, in picometres? ($hc=1239.84$ eV nm.)",
+				"answer": 2.426,
+				"tolerance": 0.02,
+				"unit": "pm",
+				"explanation": "$\\lambda=hc/E=2.426$ pm, equal to the electron's (non-reduced) Compton wavelength $h/m_ec$. The two photons leave back to back (momentum conservation), so a ring of detectors locates the annihilation along a line."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a complex scalar with $U(1)$ symmetry, which quantity is conserved in any interaction respecting the symmetry?",
+				"options": [
+					"$N_{\\rm particle}+N_{\\rm antiparticle}$, the total number of quanta, since quanta can be created only by a source.",
+					"$N_{\\rm particle}$ alone, since particles and antiparticles are distinct species that never convert into each other.",
+					"$N_{\\rm particle}-N_{\\rm antiparticle}$: pairs can be created or annihilated, but this difference never changes.",
+					"Nothing; the $U(1)$ symmetry is lost once the field is quantized."
+				],
+				"answer": 2,
+				"explanation": "Noether charge $Q=\\int(c^\\dagger c-b^\\dagger b)$ is the difference. A particle-antiparticle pair has $Q=0$, so it can come from, or turn into, photons; this is what happens in PET."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the integration measure $d^3p/(2E_p)$ is Lorentz invariant, even though $d^3p$ alone is not.",
+				"rubric": "Full credit: (1) $\\int d^4p\\,\\delta(p^2-m^2)\\theta(p^0)$ is manifestly invariant (all factors are scalars; $\\theta(p^0)$ is invariant for timelike/null $p$); (2) performing the $p^0$ integral using the delta function gives $d^3p/(2E_p)$; (3) alternatively, $d^3p$ and $E_p$ transform in the same way under boosts (volume element contracts as $E$ grows). This is why the normalization factor $1/\\sqrt{2\\omega_p}$ appears in the field expansion.",
+				"modelAnswer": "Start from the invariant integral $\\int d^4p\\,\\delta(p^2-m^2)\\,\\theta(p^0)$: every ingredient is a Lorentz scalar. Doing the $p^0$ integral with the delta function, $\\delta(p_0^2-E_p^2)$ contributes $1/(2E_p)$ at $p^0=E_p$, leaving $d^3p/(2E_p)$. So the combination is invariant: under a boost $d^3p$ changes by the same factor that $E_p$ does. This is why one-particle states are normalized with $2E_p$."
+			}
+		],
+		"s4-l007-causality-propagators": [
+			{
+				"kind": "mc",
+				"prompt": "The amplitude $\\langle0|\\phi(x)\\phi(y)|0\\rangle$ is nonzero for spacelike separation (it falls like $e^{-m r}$). Why is causality still respected?",
+				"options": [
+					"The commutator vanishes outside the light cone: the nonzero amplitudes cancel in it.",
+					"Each amplitude $\\langle0|\\phi(x)\\phi(y)|0\\rangle$ is actually zero outside the light cone, so particles cannot propagate there.",
+					"The commutator vanishes only for massless fields; massive fields do violate causality at short distances.",
+					"The commutator vanishes at timelike separations too, so no measurement can influence any other."
+				],
+				"answer": 0,
+				"explanation": "Causality requires observables at spacelike separation to commute, not that individual amplitudes vanish. The particle propagating $x\\to y$ and the antiparticle propagating $y\\to x$ cancel exactly in the commutator."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the role of the $i\\epsilon$ in the Feynman propagator $i/(p^2-m^2+i\\epsilon)$?",
+				"options": [
+					"It makes the propagator real, ensuring that probabilities computed from it are positive.",
+					"It gives the particle a small mass, regulating the infrared behaviour of the integral.",
+					"It selects the retarded Green's function, so the field responds only to sources in the past.",
+					"It moves the poles off the real axis, so the $p^0$ integral is defined and time ordered."
+				],
+				"answer": 3,
+				"explanation": "Poles at $p^0=\\pm(\\omega_p-i\\epsilon)$ lie below the positive real axis and above the negative one. For $t>0$ we close the contour below and pick up the positive-frequency pole; for $t<0$ we close above, getting the time-ordered correlator."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a Feynman diagram, an internal (virtual) line carries momentum with $p^2\\neq m^2$. What does this mean?",
+				"options": [
+					"Virtual particles are real particles briefly borrowing energy, and a fast enough detector could observe them.",
+					"A term in the perturbative expansion, not a real particle; it need not satisfy $p^2=m^2$.",
+					"Virtual particles travel faster than light, which is why their momentum does not satisfy $p^2=m^2$.",
+					"Energy is not conserved at the vertices, so off-shell lines are where energy appears from nothing."
+				],
+				"answer": 1,
+				"explanation": "Only external lines are on shell. Internal lines integrate over all $p$ with weight $1/(p^2-m^2)$, which is largest near the mass shell, where a real particle can be nearly produced (a resonance)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A virtual pion of mass $m=0.14$ GeV is exchanged with a spacelike four-momentum squared $p^2=-0.5\\ \\mathrm{GeV^2}$. Evaluate $1/(p^2-m^2)$ in $\\mathrm{GeV^{-2}}$.",
+				"answer": -1.925,
+				"tolerance": 0.02,
+				"unit": "GeV⁻²",
+				"explanation": "$1/(p^2-m^2)=1/(-0.5-0.0196)=-1.925\\ \\mathrm{GeV^{-2}}$, negative for spacelike momentum transfer. It is always finite there, since $p^2-m^2$ cannot vanish for spacelike $p$."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Feynman propagator satisfies $(\\partial^2+m^2)D_F(x-y)=-i\\delta^{(4)}(x-y)$. Explain physically what it means that $D_F$ is a Green's function of the Klein-Gordon operator.",
+				"rubric": "Full credit: (1) $D_F$ is the field's response to a unit point source at $y$ (a delta-function disturbance); (2) in momentum space this makes it the algebraic inverse of $(-p^2+m^2)$, hence $i/(p^2-m^2)$; (3) any source $J$ then produces $\\int D_F J$, and in perturbation theory the propagator is the amplitude for a quantum to travel between two points.",
+				"modelAnswer": "A Green's function is the response of the field to a point source: kick the field at $y$ and $D_F(x-y)$ tells you how it responds at $x$. In momentum space the differential operator becomes the number $-(p^2-m^2)$, so the Green's function is just its inverse, $i/(p^2-m^2)$. A general source is a superposition of point sources, so its response is $\\int D_F(x-y)J(y)$. In Feynman diagrams each internal line carries this response, i.e. the amplitude for a quantum to propagate between two vertices."
+			}
+		],
+		"s4-l008-yukawa-exchange-forces": [
+			{
+				"kind": "numeric",
+				"prompt": "The range of a force mediated by a particle of mass $m$ is about its reduced Compton wavelength $\\hbar/(mc)$. Estimate the range of the nuclear force from exchange of a charged pion ($m_\\pi c^2 = 139.57$ MeV, $\\hbar c = 197.327$ MeV fm), in femtometres.",
+				"answer": 1.414,
+				"tolerance": 0.02,
+				"unit": "fm",
+				"explanation": "$\\hbar c/(m_\\pi c^2) = 1.41$ fm. Yukawa predicted the pion's mass from the measured range of the nuclear force of roughly 1-2 fm, years before its discovery."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does scalar exchange attract like sources while photon exchange repels like charges?",
+				"options": [
+					"The photon is massless, and masslessness is what makes the force between like charges repulsive.",
+					"It is set by the exchanged boson's spin: even spin attracts like sources, spin 1 repels like charges.",
+					"Scalar forces attract because $g^2>0$, while photon forces repel because the coupling $e^2$ is negative.",
+					"Both repel like sources; scalar exchange only appears attractive inside nuclei where screening occurs."
+				],
+				"answer": 1,
+				"explanation": "For a static source, the potential from a Yukawa coupling is $-g^2e^{-mr}/(4\\pi r)$, always attractive. For the photon the time component of the vector field has the opposite sign of propagator, giving $+e^2/(4\\pi r)$ between like charges."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Debye-Hückel screening in electrolytes and Thomas-Fermi screening in metals give potentials like $e^{-\\kappa r}/r$. Why do they resemble the Yukawa potential?",
+				"options": [
+					"Photons acquire a real mass in an electrolyte, so the Yukawa field theory applies literally.",
+					"Screening arises from virtual pion exchange between the ions, as in nuclear forces.",
+					"The resemblance is a coincidence; Debye-Hückel potentials are not Yukawa-like.",
+					"Both obey a screened Poisson equation, so $1/\\kappa$ plays the role of $1/m$."
+				],
+				"answer": 3,
+				"explanation": "Mobile charges rearrange to cancel the field at long distance. Linearizing gives the screened Poisson equation, exactly the static Klein-Gordon equation with $m\\to\\kappa$. The Debye length is typically 1 nm in 0.1 M salt solution."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The weak force is mediated by the $W$ boson ($m_W\\approx80$ GeV). At momentum transfers $q\\ll m_W$, why does it look like a pointlike contact interaction of strength $G_F$?",
+				"options": [
+					"The amplitude $g^2/(q^2+m_W^2)\\approx g^2/m_W^2$ is nearly constant, i.e. a contact interaction.",
+					"The weak coupling $g$ is tiny, much smaller than $e$, at all energies, so the interaction is always pointlike.",
+					"The $W$ becomes massless at low energy, so the force has infinite range but a small coupling.",
+					"The exchange gives a long-range $1/r$ potential, and the weakness comes only from a small charge."
+				],
+				"answer": 0,
+				"explanation": "The range of the force is $\\hbar/m_Wc\\approx2\\times10^{-3}$ fm, far smaller than any atomic or nuclear scale. The weakness at low energies reflects the $1/m_W^2$ suppression, not a tiny coupling: $g$ is actually larger than $e$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the Fourier transform of the propagator $-g^2/(|\\mathbf q|^2+m^2)$ gives the Yukawa potential, and why this connects the range of a force to the mass of the exchanged particle.",
+				"rubric": "Full credit: (1) the static potential in momentum space is the propagator evaluated at $q^0=0$, $\\tilde V(\\mathbf q)=-g^2/(\\mathbf q^2+m^2)$; (2) Fourier transforming gives $V(r)=-g^2e^{-mr}/(4\\pi r)$; (3) the pole at $|\\mathbf q|=im$ gives exponential decay with length $1/m$; heavier exchanged particle means shorter range (uncertainty principle: virtual quantum of energy $\\sim m$ lives $\\sim1/m$); massless gives Coulomb.",
+				"modelAnswer": "For a static source, the exchanged particle carries no energy, so the potential in momentum space is the propagator at $q^0=0$: $\\tilde V(\\mathbf q)=-g^2/(|\\mathbf q|^2+m^2)$. Fourier transforming to position space (the pole at $|\\mathbf q|=im$ dominates) gives $V(r)=-g^2e^{-mr}/(4\\pi r)$. The exponential has length scale $1/m$, so a heavier exchanged particle produces a shorter-range force; for $m=0$ one recovers the long-range $1/r$ Coulomb form."
+			}
+		],
+		"s4-l009-interaction-picture-s-matrix": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the Dyson series need the time-ordering symbol $T$?",
+				"options": [
+					"It makes $H_I$ Hermitian, which is needed for the evolution operator to be unitary.",
+					"It enforces energy conservation at each order in the series.",
+					"Interactions at different times do not commute, so $T$ must put later times to the left.",
+					"It selects the retarded part of the interaction and discards the advanced contributions."
+				],
+				"answer": 2,
+				"explanation": "If $H_I(t_1)$ and $H_I(t_2)$ commuted, $U$ would be a plain exponential of the integral. In general, $T$ orders the factors so that later interactions act after earlier ones, as the Schrödinger equation demands. It also keeps the expansion Lorentz-covariant."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In four spacetime dimensions a scalar field has mass dimension 1 and the Lagrangian density has dimension 4. What is the mass dimension of the coupling $g$ in the interaction $\\frac{g}{6!}\\phi^6$?",
+				"answer": -2.0,
+				"tolerance": 0.001,
+				"explanation": "$[g]+6\\cdot1=4$, so $[g]=-2$. A negative-dimension coupling signals a non-renormalizable interaction: its effects grow with energy as $(gE^2)$, so the theory is useful only below a scale $\\sim|g|^{-1/2}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The S-matrix element has the form $\\langle f|S-1|i\\rangle=i\\mathcal A\\,(2\\pi)^4\\delta^{(4)}(\\sum p)$. Why the delta function?",
+				"options": [
+					"It normalizes the states so probabilities add to one; $\\mathcal A$ carries no physical content.",
+					"It arises from the time ordering, which enforces energy conservation only in the initial state.",
+					"It restricts scattering to forward directions, and $\\mathcal A$ gives the angular dependence.",
+					"Translation invariance conserves four-momentum; $\\mathcal A$ is the dynamics."
+				],
+				"answer": 3,
+				"explanation": "The time integral $\\int dt$ of the phases gives $2\\pi\\delta(E_f-E_i)$ and the space integral gives $(2\\pi)^3\\delta^3(\\mathbf p_f-\\mathbf p_i)$. The remaining $\\mathcal A$ contains everything specific to the dynamics and is what Feynman diagrams compute."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What are 'asymptotic states', and what does the LSZ reduction do?",
+				"options": [
+					"In and out states are eigenstates of the full Hamiltonian at all times, so no free theory is needed.",
+					"Early and late wavepackets are separated and free; LSZ extracts S-matrix elements from correlator poles.",
+					"LSZ applies only to massless particles, because only they reach the asymptotic region.",
+					"LSZ shows the S-matrix is the time-ordered correlator itself, with no need for poles or wavepackets."
+				],
+				"answer": 1,
+				"explanation": "The interacting field creates multi-particle states that are not simply $a^\\dagger|0\\rangle$. LSZ says the S-matrix element equals the amputated Green's function, times factors for the residues of the single-particle poles."
+			},
+			{
+				"kind": "short",
+				"prompt": "A coupling with negative mass dimension, like $g$ in $g\\phi^6$, is 'non-renormalizable'. Explain in your own words, using dimensional analysis, why this signals that the theory can only be valid below some energy scale.",
+				"rubric": "Full credit: (1) $[g]<0$ means $g\\sim1/\\Lambda^n$ for some mass scale $\\Lambda$; (2) dimensionless amplitudes then scale like $(E/\\Lambda)^n$, which grows with energy, so at $E\\sim\\Lambda$ perturbation theory (and unitarity) breaks down; (3) so the theory is an effective theory valid for $E\\ll\\Lambda$ with new physics at or below $\\Lambda$ (e.g., Fermi theory failing at $m_W$).",
+				"modelAnswer": "A coupling of dimension $-n$ can be written as $g=1/\\Lambda^n$ with $\\Lambda$ a mass scale. Any dimensionless quantity such as an amplitude must then involve $(E/\\Lambda)^n$, which grows with the energy $E$ of the process. Once $E$ approaches $\\Lambda$ the interaction is no longer a small perturbation and the predictions are unreliable, so the theory only makes sense as a low-energy approximation, with new physics expected at or below $\\Lambda$. Fermi's theory of the weak interaction is the classic example, failing near $m_W$."
+			}
+		],
+		"s4-l010-wicks-theorem": [
+			{
+				"kind": "mc",
+				"prompt": "Why does $\\langle0|T\\{\\phi_1\\phi_2\\phi_3\\phi_4\\}|0\\rangle$ in a free scalar theory consist only of products of propagators?",
+				"options": [
+					"Free fields are Gaussian, so only the terms with all fields at the same spacetime point survive.",
+					"Time ordering already puts all creation operators on the left, so every term vanishes except the identity.",
+					"Wick's theorem gives normal-ordered terms plus contractions, and the vacuum kills the normal-ordered ones.",
+					"Interactions are needed to pair up the fields, so in a free theory the four-point function is zero."
+				],
+				"answer": 2,
+				"explanation": "Each normal-ordered term has an annihilation operator on the right or a creation operator on the left, which gives zero on the vacuum. What remains are the fully contracted terms $D_{12}D_{34}+D_{13}D_{24}+D_{14}D_{23}$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "How many distinct complete pairings (full contractions) contribute to $\\langle0|T\\{\\phi_1\\phi_2\\phi_3\\phi_4\\phi_5\\phi_6\\}|0\\rangle$ in a free scalar theory?",
+				"answer": 15.0,
+				"tolerance": 0.001,
+				"explanation": "Fix field 1; it can pair with any of 5 others, then the remaining 4 fields can pair in 3 ways, then 2 fields in 1 way: $5\\cdot3\\cdot1=15=(2n-1)!!$ for $n=3$. The count grows as $(2n-1)!!$, the origin of the combinatorial factors in perturbation theory."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do disconnected vacuum bubbles not contribute to scattering probabilities?",
+				"options": [
+					"They multiply every amplitude by the same factor, which cancels on normalization.",
+					"They vanish by energy conservation because they have no external legs.",
+					"Normal ordering sets them to zero by moving the annihilation operators to the right.",
+					"They are absorbed into the renormalization of the coupling constant."
+				],
+				"answer": 0,
+				"explanation": "A sum over diagrams factorizes as (connected pieces) $\\times\\exp(\\text{bubbles})$. The exponential is the same for every process and cancels when we divide by $\\langle0|S|0\\rangle$. Normal ordering of $H_I$ separately removes self-contractions at one vertex (tadpoles)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In Yukawa theory, which diagrams contribute to the second-order amplitude for nucleon-nucleon scattering?",
+				"options": [
+					"The $t$- and $u$-channel meson-exchange diagrams, each with one meson line joining the nucleons.",
+					"A single diagram only, since the two nucleons are distinguishable by their momenta.",
+					"Three diagrams: the $s$-, $t$- and $u$-channel exchanges all appear at second order.",
+					"None at second order; nucleon-nucleon scattering first appears at fourth order in the coupling."
+				],
+				"answer": 0,
+				"explanation": "Each contraction pattern linking the incoming nucleons to the outgoing ones through a meson propagator is a diagram; for identical nucleons there are two ways to connect incoming to outgoing lines. There is no $s$-channel since a meson cannot be formed from two nucleons here."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how Wick's theorem turns a calculation about operators into counting pairings, and what each pairing physically represents.",
+				"rubric": "Full credit: (1) any time-ordered product of free fields equals the sum over all ways of contracting pairs (propagators) plus normal-ordered remainders; (2) vacuum expectation value kills terms with leftover operators, leaving products of propagators over complete pairings; (3) each propagator is the amplitude for a quantum to travel between two spacetime points, so a pairing is a way particles can propagate, a Feynman diagram.",
+				"modelAnswer": "Wick's theorem says a time-ordered product of free fields equals its normal-ordered version plus all possible contractions, where each contraction replaces a pair of fields by their propagator. In a vacuum expectation value the normal-ordered parts vanish, so the answer is a sum over complete pairings, each a product of propagators. Every propagator is the amplitude for a quantum to go from one point to another, so each pairing is one way the particles can travel, which is exactly a Feynman diagram."
+			}
+		],
+		"s4-l011-feynman-rules-momentum-space": [
+			{
+				"kind": "numeric",
+				"prompt": "Four equal-mass particles ($m=0.14$ GeV) scatter $2\\to2$ with $s=0.50\\ \\mathrm{GeV^2}$ and $t=-0.20\\ \\mathrm{GeV^2}$. Using $s+t+u=\\sum_im_i^2$, find $u$ in $\\mathrm{GeV^2}$.",
+				"answer": -0.2216,
+				"tolerance": 0.02,
+				"unit": "GeV²",
+				"explanation": "$u=4m^2-s-t=0.0784-0.50+0.20=-0.2216\\ \\mathrm{GeV^2}$. Only two of $s,t,u$ are independent, as expected: a $2\\to2$ process has just energy and scattering angle as free kinematic variables."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The tree-level $2\\to2$ amplitude in $\\phi^4$ theory is $\\mathcal A=-\\lambda$, independent of energy and angle. What does this mean?",
+				"options": [
+					"The result is angle-independent only because the particles are identical; distinguishable particles would show structure.",
+					"It is constant because the loop integrals cancel at tree level, leaving only the bare coupling.",
+					"A pointlike contact interaction with no internal propagator, so it cannot depend on momentum transfer.",
+					"It must in fact depend on momenta; a constant amplitude would violate Lorentz invariance."
+				],
+				"answer": 2,
+				"explanation": "The four-point vertex has no momentum dependence and there is nothing else in the diagram. The $s$, $t$, $u$ dependence only arises with exchange of intermediate particles or at loop level."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How are tree and loop diagrams related to the classical limit?",
+				"options": [
+					"Loops are the classical limit, and tree diagrams are the quantum corrections.",
+					"Loops count powers of $\\hbar$: tree diagrams are the classical theory, loops are quantum corrections.",
+					"The loop-counting parameter is the number of external legs, which fixes the power of the coupling.",
+					"Tree and loop diagrams contribute equally at every order in the coupling."
+				],
+				"answer": 1,
+				"explanation": "Restoring $\\hbar$, each propagator carries $\\hbar$ and each vertex $1/\\hbar$, so a diagram scales as $\\hbar^{L-1}$ with $L$ the loop count. Tree-level amplitudes solve the classical field equations."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In $\\phi^4$ theory the one-loop 'bubble' diagram, with two propagators joining the same pair of vertices, carries a symmetry factor $1/2$. Why?",
+				"options": [
+					"Only half of the momentum flows through each of the two lines in the loop.",
+					"The loop carries spin $1/2$, so each trip around contributes a factor $1/2$.",
+					"The two outgoing particles are identical, so the amplitude is halved.",
+					"The two internal lines are interchangeable, which would double count the diagram."
+				],
+				"answer": 3,
+				"explanation": "The symmetry factor is $1/|\\mathrm{Aut}|$, the inverse of the number of ways of relabelling the internal lines and vertices that leave the diagram unchanged. It corrects the $1/n!$ and $1/4!$ factors from the expansion."
+			},
+			{
+				"kind": "short",
+				"prompt": "For a $2\\to2$ process, what are the Mandelstam variables $s$, $t$, $u$ physically, and why is $s+t+u$ fixed by the masses?",
+				"rubric": "Full credit: (1) $s=(p_1+p_2)^2$ is the squared total centre-of-mass energy; $t=(p_1-p_3)^2$ and $u=(p_1-p_4)^2$ are squared momentum transfers (related to scattering angle); all Lorentz invariants; (2) in the CM frame the 2→2 kinematics has two free variables (energy and angle) so only two of three are independent; (3) $s+t+u=\\sum m^2$ follows from momentum conservation.",
+				"modelAnswer": "$s=(p_1+p_2)^2$ is the square of the total centre-of-mass energy, while $t=(p_1-p_3)^2$ and $u=(p_1-p_4)^2$ are squared four-momentum transfers, which are related to the scattering angle. All three are Lorentz invariants. Energy-momentum conservation leaves only two free kinematic variables for a $2\\to2$ process (the CM energy and scattering angle), which is why the three are linked by $s+t+u=\\sum m_i^2$."
+			}
+		],
+		"s4-l012-cross-sections-decay-rates": [
+			{
+				"kind": "numeric",
+				"prompt": "A heavy scalar of mass $M=10$ GeV decays into two distinguishable scalars of mass $m=1$ GeV with constant amplitude $\\mathcal A=g=1$ GeV. Using $\\Gamma=|\\mathcal A|^2p/(8\\pi M^2)$, where $p$ is the daughter momentum in the rest frame, find $\\Gamma$ in GeV.",
+				"answer": 0.001949,
+				"tolerance": 0.02,
+				"unit": "GeV",
+				"explanation": "$p=\\sqrt{M^2/4-m^2}=4.899$ GeV, so $\\Gamma = 1.949e-03$ GeV, a lifetime of $\\hbar/\\Gamma\\approx3.4e-22$ s. The width is quadratic in the coupling and falls with $M^2$ for fixed $g$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How is the relativistic decay-rate formula $d\\Gamma=\\frac1{2M}|\\mathcal A|^2d\\Pi$ related to Fermi's golden rule?",
+				"options": [
+					"It replaces the golden rule, which fails for relativistic particles because it assumes a nonrelativistic Hamiltonian.",
+					"It is the golden rule with the density of states set to one, since relativistic states are continuous.",
+					"It is the golden rule: rate = |matrix element|$^2\\times$ final-state density, in relativistic normalization.",
+					"It gives rates proportional to $|\\mathcal A|$ rather than $|\\mathcal A|^2$ because amplitudes are normalized relativistically."
+				],
+				"answer": 2,
+				"explanation": "Fermi's golden rule is $\\Gamma=2\\pi|\\langle f|H|i\\rangle|^2\\rho$. In QFT the states have $2E$ per particle in their normalization, which moves into the definition of $d\\Pi$ and the $1/2M$ factor; the physics is the same."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In an X-ray or neutron scattering experiment, how does the measured count rate relate to the cross-section $\\sigma$?",
+				"options": [
+					"Rate $\\approx$ flux $\\times$ number of scatterers $\\times\\ \\sigma$; $\\sigma$ is an effective target area.",
+					"The rate depends on $\\sigma$ only through the beam energy, and intensity does not matter.",
+					"$\\sigma$ is the geometric area of the target atom, fixed by atomic size, not by the interaction.",
+					"The rate scales as $\\sigma^2$ because both the incoming and outgoing particles carry the interaction."
+				],
+				"answer": 0,
+				"explanation": "Doubling the beam intensity or the sample thickness doubles the rate; $\\sigma$ is the property of the interaction. The differential form $d\\sigma/d\\Omega$ is what crystallographers measure as a function of angle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the optical theorem say, and why is it a consequence of unitarity?",
+				"options": [
+					"The total cross-section equals the elastic forward cross-section, since scattered probability cannot disappear.",
+					"The forward amplitude must be real, because forward scattering does not change the state.",
+					"The cross-section is proportional to the real part of the amplitude at 90 degrees.",
+					"The total cross-section is tied to the imaginary part of the forward amplitude, a consequence of unitarity."
+				],
+				"answer": 3,
+				"explanation": "Unitarity means probability is conserved, $S^\\dagger S=1$. Scattering out of the incident beam reduces the forward intensity through interference between the incident and scattered waves, which fixes $\\sigma_{\\rm tot}=\\mathrm{Im}\\,\\mathcal A(\\theta=0)/(2E_{\\rm cm}p_{\\rm cm})$ in terms of the forward amplitude."
+			},
+			{
+				"kind": "short",
+				"prompt": "In four spacetime dimensions the dimensionless-looking amplitude for $2\\to2$ scattering gives $d\\sigma/d\\Omega\\sim|\\mathcal A|^2/(64\\pi^2s)$. Use dimensional analysis to explain why this has the units of an area, and what it implies for how $\\sigma$ behaves at high energy for a dimensionless coupling.",
+				"rubric": "Full credit: (1) in natural units, $s$ has dimensions of mass$^2$ and a $2\\to2$ amplitude is dimensionless, so $\\sigma\\sim1/s\\sim$ mass$^{-2}$, which is an area ($\\hbar c$ converts it); (2) for a dimensionless coupling, $\\sigma$ falls like $1/s$ at high energy as there is no other scale; (3) a cross-section that grows with energy would signal a dimensionful (non-renormalizable) coupling.",
+				"modelAnswer": "In natural units $\\mathcal A$ is dimensionless for $2\\to2$ scattering and $s=E_{\\rm cm}^2$ has dimension mass$^2$, so $\\sigma\\sim|\\mathcal A|^2/s$ has dimension mass$^{-2}$. Since $\\hbar c$ converts inverse energy to length, that is an area. With a dimensionless coupling and no other scale, $\\sigma$ must fall as $1/s$ at high energy; a cross-section that grows with energy would indicate a dimensionful coupling and eventually a violation of unitarity."
+			}
+		],
+		"s4-l013-dirac-equation-gamma-matrices": [
+			{
+				"kind": "mc",
+				"prompt": "Why must the Dirac equation involve matrices rather than numbers?",
+				"options": [
+					"Spin $1/2$ is inserted by hand, and the gamma matrices are chosen to reproduce the Pauli matrices.",
+					"Coefficients must satisfy $\\{\\gamma^\\mu,\\gamma^\\nu\\}=2\\eta^{\\mu\\nu}$, which numbers cannot; matrices can.",
+					"The equation is nonlinear, and it cannot be solved with commuting numbers.",
+					"The gamma matrices commute for different spacetime indices, so numbers would work if they were complex."
+				],
+				"answer": 1,
+				"explanation": "Demanding $(i\\gamma^\\mu\\partial_\\mu)^2=-\\partial^2$ requires $\\gamma^\\mu\\gamma^\\nu+\\gamma^\\nu\\gamma^\\mu=2\\eta^{\\mu\\nu}$. The smallest representation in 3+1 dimensions is $4\\times4$, which accounts for two spin states of particle and antiparticle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Under a Lorentz boost, which statement about bilinears of the Dirac spinor is correct?",
+				"options": [
+					"$\\psi^\\dagger\\psi$ is a scalar, since it is the probability density that every observer agrees on.",
+					"$\\bar\\psi\\psi$ is a scalar; $\\psi^\\dagger\\psi$ is only the time component of a four-vector.",
+					"$\\bar\\psi\\psi$ is the time component of a four-vector, while $\\bar\\psi\\gamma^\\mu\\psi$ is a scalar.",
+					"Both $\\bar\\psi\\psi$ and $\\psi^\\dagger\\psi$ are Lorentz scalars; $\\gamma^\\mu$ is only an index placeholder."
+				],
+				"answer": 1,
+				"explanation": "Boosts act on spinors with a non-unitary matrix, so $\\psi^\\dagger\\psi$ is not invariant. Probability density is the time component of a current, which transforms like the time component of a vector (a density gets contracted in a boosted frame)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why are relativistic effects responsible for gold's yellow colour and mercury's liquidity?",
+				"options": [
+					"Gold's nucleus is radioactive, which alters its optical properties and mercury's melting point.",
+					"Electrons tunnel between atoms in gold and mercury, which changes the colour and prevents solidification.",
+					"Relativistic effects are negligible for gold and mercury; their properties follow from ordinary nonrelativistic shell filling.",
+					"Relativistic 6s contraction and 5d expansion shift gold's absorption to the visible and weaken mercury's bonding."
+				],
+				"answer": 3,
+				"explanation": "The 1s electron of gold moves at about $Z\\alpha c\\approx0.58c$, and the relativistic mass increase contracts s orbitals. Outer 6s is contracted (lowering the energy) and 5d expanded, so the d-to-s gap falls to blue-light energies. In Hg the contracted 6s$^2$ shell is inert, giving weak metal bonding."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 1s electron in an atom with nuclear charge $Z$ moves with speed of order $v\\approx Z\\alpha c$. For gold ($Z=79$, $\\alpha=1/137.036$) find the Lorentz factor $\\gamma=1/\\sqrt{1-v^2/c^2}$.",
+				"answer": 1.224,
+				"tolerance": 0.02,
+				"explanation": "$v/c=79/137.036=0.5765$, so $\\gamma=1.224$. The 1s orbital radius scales as $1/\\gamma$, about 20% smaller than the nonrelativistic value; the effect decreases for outer shells but is still significant for 6s."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Dirac equation uses four-component spinors. Explain how these four components encode both the electron's spin and the existence of the positron.",
+				"rubric": "Full credit: (1) at rest the solutions split into two positive-energy (spin up/down) and two negative-energy (spin up/down) solutions; (2) the positive-energy pair is the electron, the negative-energy pair is reinterpreted (in QFT) as the antiparticle's creation; (3) four components needed because $\\gamma^\\mu$ must be at least $4\\times4$ to satisfy the Clifford algebra; spin-1/2 emerges from Lorentz transformation of the spinor.",
+				"modelAnswer": "The four components are two spin states (up and down) for each of two energy signs. The positive-energy pair describes the electron in its two spin states; the negative-energy pair, once the field is quantized, describes the positron in its two spin states. The need for four components comes from the Clifford algebra $\\{\\gamma^\\mu,\\gamma^\\nu\\}=2\\eta^{\\mu\\nu}$, which cannot be satisfied by smaller matrices in 3+1 dimensions. The spin-1/2 nature appears through how the spinor transforms under rotations and boosts."
+			}
+		],
+		"s4-l014-dirac-solutions-chirality": [
+			{
+				"kind": "mc",
+				"prompt": "What is the relationship between helicity and chirality?",
+				"options": [
+					"They coincide for massless fermions; for massive ones helicity is frame dependent, chirality is not conserved.",
+					"They are identical for any mass; both are names for the spin projection along the momentum.",
+					"Chirality is the spin projection along the momentum and is frame dependent, while helicity is Lorentz invariant.",
+					"Both are conserved for massive fermions, since the mass term preserves chirality."
+				],
+				"answer": 0,
+				"explanation": "Chirality is the eigenvalue of $\\gamma^5$, a Lorentz-invariant property. The mass term $m\\bar\\psi\\psi$ couples left- and right-chiral components, so a massive particle's chirality oscillates, while helicity of a massive particle flips if you boost past it."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does quantum field theory resolve the negative-energy solutions of the Dirac equation?",
+				"options": [
+					"They are simply discarded, because they correspond to unphysical solutions that never occur in nature.",
+					"They are electrons with negative mass moving backwards in time, which slowly fall into the vacuum.",
+					"They are reinterpreted as positive-energy antiparticles, and the vacuum is the lowest-energy state.",
+					"They describe the same electrons in a different gauge, so they cause no instability."
+				],
+				"answer": 2,
+				"explanation": "The hole picture (Dirac sea) gives the same physics: a missing negative-energy electron is a positron. The field-theory version needs no sea; $d$ annihilation operators for negative-energy modes become creation operators for antiparticles."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the nonrelativistic limit of the Dirac equation say about the electron's $g$-factor?",
+				"options": [
+					"It gives $g=1$ from orbital motion, and $g=2$ is obtained only after adding Thomas precession by hand.",
+					"It gives no definite $g$; the value $g=2$ is an input chosen to match experiment.",
+					"It gives $g=0$ for a point particle, and $g=2$ arises purely from loop corrections.",
+					"It gives the Pauli equation with $g=2$; QED loops add small corrections $a_e=\\alpha/2\\pi+\\cdots$."
+				],
+				"answer": 3,
+				"explanation": "Squaring the Dirac equation produces $(\\boldsymbol\\sigma\\cdot\\boldsymbol\\pi)^2$ with a $-e\\hbar\\,\\boldsymbol\\sigma\\cdot\\mathbf B/2m$ term, which has twice the coupling expected for orbital magnetism. Spin-orbit coupling, important in heavy-element chemistry, also follows."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using $\\sum_su^s(p)\\bar u^s(p)=\\slashed p+m$ with $\\mathrm{tr}\\,\\slashed p=0$ and $\\mathrm{tr}\\,\\mathbb 1=4$, evaluate $\\sum_s\\bar u^s u^s$ for an electron ($m=0.511$ MeV), in MeV.",
+				"answer": 2.044,
+				"tolerance": 0.02,
+				"unit": "MeV",
+				"explanation": "$\\sum_s\\bar u^su^s=\\mathrm{tr}(\\slashed p+m)=4m=2.044$ MeV. Each spin state contributes $\\bar uu=2m$ (the relativistic normalization), independent of the momentum."
+			},
+			{
+				"kind": "short",
+				"prompt": "The weak interaction couples only to left-handed fermions. Explain what 'left-handed' means for a massless fermion, and why a mass term causes trouble for a theory that treats left and right differently.",
+				"rubric": "Full credit: (1) for massless fermions chirality = helicity: left-handed means spin antiparallel to momentum, a Lorentz-invariant statement; $\\psi_L=\\tfrac12(1-\\gamma^5)\\psi$; (2) the mass term $m\\bar\\psi\\psi=m(\\bar\\psi_L\\psi_R+\\bar\\psi_R\\psi_L)$ links L and R components; (3) if L and R transform differently under the gauge symmetry (as in the weak force), this term is not gauge-invariant, so masses must come from elsewhere (the Higgs).",
+				"modelAnswer": "For a massless fermion the left-handed (chirality) component has its spin pointing opposite to its momentum, and this is the same in every frame because nothing can overtake the particle. Chirality components are projected out with $\\tfrac12(1\\mp\\gamma^5)$. A mass term $m\\bar\\psi\\psi$ connects left and right components. If the left- and right-handed fields transform differently under the weak gauge symmetry, a bare mass term is forbidden, so the masses have to come from the Higgs mechanism."
+			}
+		],
+		"s4-l015-quantising-dirac-field": [
+			{
+				"kind": "mc",
+				"prompt": "Why must the Dirac field be quantized with anticommutators rather than commutators?",
+				"options": [
+					"Commutators would violate Lorentz invariance of the Dirac equation, which anticommutators preserve.",
+					"With commutators antiparticle quanta would lower the energy, making $H$ unbounded below.",
+					"Anticommutators are needed to make the Hamiltonian Hermitian.",
+					"Commutators would make the norm of one-particle states infinite, which anticommutators fix."
+				],
+				"answer": 1,
+				"explanation": "Writing $H$ in terms of modes gives $E_p(b^\\dagger b-d\\,d^\\dagger)$. Only with $\\{d,d^\\dagger\\}=1$ does $-d\\,d^\\dagger = d^\\dagger d - \\text{const}$, making every excitation positive energy. This is the spin-statistics connection."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What would go wrong if a scalar field were quantized with anticommutators?",
+				"options": [
+					"Scalars have no spin, so the exclusion principle is irrelevant and anticommutators would be meaningless.",
+					"Anticommutators would give the scalar field negative-energy states and make the vacuum unstable.",
+					"It would not commute at spacelike separation, violating causality; integer spin needs commutators.",
+					"Nothing; a scalar can be quantized either way, and nature simply chose bosons."
+				],
+				"answer": 2,
+				"explanation": "The spin-statistics theorem follows from Lorentz invariance, positivity of energy and causality together. For the Dirac field it is the anticommutator that vanishes outside the light cone for the bilinears that appear in observables."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In a minimal-basis calculation, 4 electrons occupy 8 spin orbitals. How many distinct Slater determinants (Fock-space basis states with $N=4$) can be formed?",
+				"answer": 70.0,
+				"tolerance": 0.001,
+				"explanation": "Choosing which 4 of the 8 spin orbitals are occupied: $\\binom84=70$. Because $(a^\\dagger_i)^2=0$, each orbital is occupied or empty, and the determinant sign comes from $a^\\dagger_ia^\\dagger_j=-a^\\dagger_ja^\\dagger_i$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Dirac propagator is $S_F(p)=i(\\slashed p+m)/(p^2-m^2+i\\epsilon)$. What is its relation to the Dirac operator?",
+				"options": [
+					"It is the inverse of $\\slashed p-m$ (up to $i$), with poles on the mass shell $p^2=m^2$.",
+					"It equals the scalar propagator times the identity matrix, with no gamma-matrix structure.",
+					"It has poles at $p^2=0$ because fermions are effectively massless at high energy.",
+					"It is the inverse of $\\slashed p+m$ and so has poles at $p^2=-m^2$."
+				],
+				"answer": 0,
+				"explanation": "Multiplying numerator and denominator by $\\slashed p+m$ shows $1/(\\slashed p-m)=(\\slashed p+m)/(p^2-m^2)$. The gamma-matrix numerator carries spin information; the denominator is the same mass-shell condition."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how the anticommutation relations of the fermion field operators give the Pauli exclusion principle, and how this shows up as Slater determinants in electronic-structure theory.",
+				"rubric": "Full credit: (1) $\\{a^\\dagger_i,a^\\dagger_j\\}=0$ implies $(a^\\dagger_i)^2=0$: cannot occupy the same state twice; (2) also $a_i^\\dagger a_j^\\dagger|0\\rangle=-a^\\dagger_ja^\\dagger_i|0\\rangle$, so the two-particle state is antisymmetric under exchange; (3) the antisymmetric products of orbitals are exactly Slater determinants, so the occupation-number states $a_i^\\dagger a_j^\\dagger\\ldots|0\\rangle$ are Slater determinants.",
+				"modelAnswer": "Anticommutation means $a_i^\\dagger a_i^\\dagger=-a_i^\\dagger a_i^\\dagger$, so $(a_i^\\dagger)^2=0$: a state cannot be occupied twice, which is the Pauli principle. It also means $a_i^\\dagger a_j^\\dagger|0\\rangle=-a_j^\\dagger a_i^\\dagger|0\\rangle$, so a two-electron state flips sign on exchange. A product of creation operators acting on the vacuum is precisely an antisymmetrized product of orbitals, i.e. a Slater determinant, so Fock space with fermionic operators is the language of quantum-chemistry wavefunctions."
+			}
+		],
+		"s4-l016-discrete-symmetries-bilinears": [
+			{
+				"kind": "mc",
+				"prompt": "What does 'parity violation in the weak interaction' mean physically?",
+				"options": [
+					"The weak force couples only to left-handed chirality, so mirror processes differ (e.g. $^{60}$Co beta decay).",
+					"Parity is violated by every interaction at short distance, but only weak decays are sensitive enough to show it.",
+					"Parity violation means angular momentum is not conserved in weak decays.",
+					"Electromagnetism violates parity slightly, and the weak force only amplifies the effect."
+				],
+				"answer": 0,
+				"explanation": "Wu's experiment (1957) showed an asymmetry in the direction of beta emission relative to spin, which is a pseudoscalar correlation $\\mathbf s\\cdot\\mathbf p$. Mirror reflection would flip $\\mathbf p$ but not $\\mathbf s$, so the observed asymmetry would be reversed in the mirror world."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the CPT theorem state, and what follows from it?",
+				"options": [
+					"CPT holds only if C, P and T are each separately conserved, which is why weak decays violate it.",
+					"CPT implies antiparticles have opposite mass to particles, to compensate their opposite charge.",
+					"Local Lorentz-invariant QFTs are CPT invariant, so particle and antiparticle masses are equal.",
+					"CPT invariance fails in weak decays, which is what drives the matter-antimatter asymmetry."
+				],
+				"answer": 2,
+				"explanation": "Weak interactions violate C and P separately, and (slightly) CP, but CPT is intact. Tests of equal $K^0$, $\\bar K^0$ masses and of antihydrogen spectra look for any CPT violation, so far none."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The weak charged current is $V-A$: a mixture of a vector and an axial-vector bilinear. Why does it violate parity?",
+				"options": [
+					"Because neutrinos are massless, parity is automatically violated in any process involving them.",
+					"$V$ and $A$ transform with opposite signs under parity, so $V-A$ is not a parity eigenstate.",
+					"Because the weak current is a pseudoscalar, and pseudoscalars change sign under parity.",
+					"Because the vector and axial vector currents are conserved only in the absence of the weak force."
+				],
+				"answer": 1,
+				"explanation": "Under parity the spatial part of the vector current flips sign but that of the axial current does not. An interaction built from $V$ alone or $A$ alone conserves parity; the interference between $V$ and $A$ terms does not, giving the left-handed coupling."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The sixteen independent $4\\times4$ matrix structures $\\Gamma$ in $\\bar\\psi\\Gamma\\psi$ fall into scalar (1), pseudoscalar (1), vector (4), axial-vector (4) and tensor bilinears. How many independent tensor components ($\\bar\\psi\\sigma^{\\mu\\nu}\\psi$, antisymmetric in $\\mu\\nu$) are there?",
+				"answer": 6.0,
+				"tolerance": 0.001,
+				"explanation": "$16-1-1-4-4=6$, matching the number of independent components of an antisymmetric $4\\times4$ tensor, $4\\cdot3/2=6$. Together these 16 matrices form a basis for all $4\\times4$ matrices."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, describe what the discrete symmetries C, P and T each do to a particle process, and why the observation that nature violates CP matters for the matter-antimatter asymmetry of the universe.",
+				"rubric": "Full credit: (1) C swaps particles with antiparticles; P reflects space (mirror); T reverses the direction of time; (2) weak interactions violate C and P maximally, and CP slightly (kaons, B mesons); (3) Sakharov: to produce a matter excess from a symmetric start requires CP violation (plus baryon-number violation and departure from equilibrium); the Standard Model amount is too small, suggesting new physics.",
+				"modelAnswer": "C replaces every particle with its antiparticle, P reflects space like a mirror, and T runs the process backward in time. The weak force violates C and P, and CP too, in kaon and B-meson decays. A universe that began with equal matter and antimatter can end with an excess of matter only if the laws treat matter and antimatter differently (CP violation), in addition to baryon-number violation and a departure from thermal equilibrium (Sakharov's conditions). The CP violation measured in the Standard Model seems too small to explain the observed asymmetry."
+			}
+		],
+		"s4-l017-quantising-em-field": [
+			{
+				"kind": "mc",
+				"prompt": "What does the gauge freedom $A_\\mu\\to A_\\mu+\\partial_\\mu\\alpha$ mean for quantizing the electromagnetic field?",
+				"options": [
+					"The electric and magnetic fields themselves are ambiguous, so only the potential is observable.",
+					"The photon has mass in some gauges and not in others.",
+					"Gauge fixing is a physical approximation that changes predictions at higher order.",
+					"$F_{\\mu\\nu}$ is unchanged, so some components of $A_\\mu$ are redundant and a gauge must be fixed."
+				],
+				"answer": 3,
+				"explanation": "Only gauge-invariant quantities are measurable. In Coulomb gauge ($\\nabla\\cdot\\mathbf A=0$, $A^0=0$ in vacuum) the redundant components are eliminated and only the two transverse ones are dynamical."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How many independent polarization states does a photon have, and why not three?",
+				"options": [
+					"Three, as for any spin-1 particle, one for each of $m=-1,0,+1$.",
+					"Four, one for each component of $A_\\mu$, including time-like and longitudinal photons.",
+					"Two (helicity $\\pm1$): a massless spin-1 particle has no longitudinal polarization.",
+					"One, because photons are bosons and bosons have a single polarization state."
+				],
+				"answer": 2,
+				"explanation": "Massive spin-1 particles have three polarizations (W, Z), but for a massless particle the longitudinal mode decouples. In covariant gauges the unphysical polarizations are present in the propagator but cancel in physical amplitudes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can an excited atom emit a photon spontaneously, even in empty space?",
+				"options": [
+					"Vacuum fluctuations: the emission amplitude $\\propto\\sqrt{n+1}$ is nonzero even for $n=0$.",
+					"It is caused by thermal photons in the surroundings, and vanishes at zero temperature.",
+					"It is stimulated by a classical background field that always permeates space.",
+					"A classical radiating dipole already explains it, so quantization changes nothing."
+				],
+				"answer": 0,
+				"explanation": "Absorption goes as $n$ and emission as $n+1$: stimulated emission $\\propto n$ plus spontaneous emission $\\propto1$. Photon spin 1 gives the dipole selection rules, $\\Delta\\ell=\\pm1$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Thermal radiation at $T=300$ K fills a mode of frequency $10$ GHz. What is the mean photon number $n=1/(e^{h\\nu/k_BT}-1)$ in that mode? (Use $h=6.626\\times10^{-34}$ J s, $k_B=1.381\\times10^{-23}$ J/K.)",
+				"answer": 624.6,
+				"tolerance": 0.02,
+				"explanation": "$h\\nu/k_BT=1.60e-03$, so $n\\approx k_BT/h\\nu\\approx625$. At microwave frequencies stimulated emission ($\\propto n$) dominates spontaneous emission; at visible frequencies $n\\sim10^{-40}$ and spontaneous emission is all there is."
+			},
+			{
+				"kind": "short",
+				"prompt": "The photon propagator in Feynman gauge is $-i\\eta_{\\mu\\nu}/(k^2+i\\epsilon)$, which seems to include unphysical timelike and longitudinal photons. Explain why they do not affect physical predictions.",
+				"rubric": "Full credit: (1) the $\\eta_{\\mu\\nu}$ numerator includes four polarization components, two of which are unphysical (timelike with negative norm, longitudinal); (2) conservation of the electromagnetic current (the Ward identity $k_\\mu\\mathcal M^\\mu=0$) means the unphysical polarizations' contributions cancel against each other; (3) so only the two transverse polarizations contribute to observable rates.",
+				"modelAnswer": "The covariant propagator with $-\\eta_{\\mu\\nu}$ numerator treats all four components of $A_\\mu$ as photons, including a timelike one with negative norm and a longitudinal one. They are harmless because the electromagnetic current is conserved: contracting the amplitude with the photon momentum gives zero, $k_\\mu\\mathcal M^\\mu=0$ (Ward identity). The contributions of the timelike and longitudinal polarizations then cancel, leaving only the two transverse ones in physical cross-sections."
+			}
+		],
+		"s4-l018-qed-lagrangian-feynman-rules": [
+			{
+				"kind": "mc",
+				"prompt": "What does requiring local $U(1)$ invariance, $\\psi\\to e^{i\\alpha(x)}\\psi$, accomplish for the QED Lagrangian?",
+				"options": [
+					"It fixes the numerical value of $e$ to be $\\sqrt{4\\pi/137}$, as required for consistency of the symmetry.",
+					"Global $U(1)$ invariance alone already requires the photon field and its coupling to charge.",
+					"It gives the photon a mass term, which must then be cancelled by hand to restore the symmetry.",
+					"It forces a gauge field and covariant derivative, fixing the coupling's form but not the value of $e$."
+				],
+				"answer": 3,
+				"explanation": "The derivative of $e^{i\\alpha(x)}$ gives an extra $\\partial_\\mu\\alpha$ term, which is absorbed by $A_\\mu\\to A_\\mu-\\partial_\\mu\\alpha/e$ in $D_\\mu=\\partial_\\mu+ieA_\\mu$. A photon mass term $A_\\mu A^\\mu$ is not gauge invariant, so gauge invariance forces $m_\\gamma=0$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the content of the Ward identity $k_\\mu\\mathcal M^\\mu=0$ in QED?",
+				"options": [
+					"It shows that electric charge is quantized in integer multiples of $e$.",
+					"Replacing a photon polarization by its momentum gives zero, so gauge-dependent terms drop out of amplitudes.",
+					"It says unphysical photon polarizations contribute to cross-sections with a positive sign, as extra probability.",
+					"It is a rule that applies only to tree diagrams and fails at one loop."
+				],
+				"answer": 1,
+				"explanation": "The identity follows from current conservation, which is the Noether consequence of the $U(1)$ symmetry. It guarantees that the unphysical photon polarizations decouple, at all orders in perturbation theory."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using $\\alpha=e^2/4\\pi=1/137.036$ (natural units, Heaviside-Lorentz), find the dimensionless electric charge $e$ that appears in the QED vertex $-ie\\gamma^\\mu$.",
+				"answer": 0.3028,
+				"tolerance": 0.01,
+				"explanation": "$e=\\sqrt{4\\pi\\alpha}=0.3028$. Because this is much less than 1, each additional photon exchange costs a factor $\\alpha\\approx0.007$, which is why perturbation theory works so well in QED."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How many tree-level diagrams contribute to Compton scattering $e^-\\gamma\\to e^-\\gamma$ at order $e^2$?",
+				"options": [
+					"One, since the photons are identical, so the two orderings are the same diagram.",
+					"Two: absorb-then-emit ($s$-channel) and emit-then-absorb ($u$-channel).",
+					"Three: $s$-, $t$- and $u$-channel, where the $t$-channel uses a three-photon vertex.",
+					"Four, including diagrams with a closed electron loop at lowest order."
+				],
+				"answer": 1,
+				"explanation": "The two diagrams differ by the order of photon absorption/emission along the electron line. There is no photon-photon-photon vertex in QED (photons are neutral), and a closed electron loop would be higher order in $e$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why requiring the Lagrangian to be invariant under position-dependent phase rotations of the electron field leads to the existence of the photon and its coupling to charge.",
+				"rubric": "Full credit: (1) a position-dependent phase makes $\\partial_\\mu\\psi$ transform with an extra inhomogeneous term $i\\partial_\\mu\\alpha\\,\\psi$, so the free Lagrangian is not invariant; (2) introducing $A_\\mu$ with a compensating transformation and $D_\\mu=\\partial_\\mu+ieA_\\mu$ cancels this term; (3) hence the interaction $-e\\bar\\psi\\gamma^\\mu\\psi A_\\mu$ with a massless vector field is dictated by the symmetry: the photon is the field that lets us compare phases at nearby points.",
+				"modelAnswer": "If the phase of $\\psi$ can be chosen independently at every point, the derivative $\\partial_\\mu\\psi$ picks up an extra term $i\\partial_\\mu\\alpha\\,\\psi$ and the kinetic term is no longer invariant. To fix this one introduces a vector field $A_\\mu$ that transforms as $A_\\mu\\to A_\\mu-\\partial_\\mu\\alpha/e$ and replaces $\\partial_\\mu$ by $D_\\mu=\\partial_\\mu+ieA_\\mu$. The photon is thus the field that compensates for local phase changes (it tells us how to compare phases at nearby points), and the electron-photon coupling is dictated by the symmetry."
+			}
+		],
+		"s4-l019-compton-scattering": [
+			{
+				"kind": "mc",
+				"prompt": "What is the low-energy (Thomson) limit of Compton scattering?",
+				"options": [
+					"The cross-section grows with energy as $\\omega^4$ (Rayleigh scattering), since it comes from bound-electron oscillation.",
+					"Thomson scattering applies only to bound electrons, while free electrons have a different cross-section.",
+					"At high energy the cross-section rises, because the photon has more energy to hand to the electron.",
+					"For $\\hbar\\omega\\ll m_ec^2$ recoil is negligible and $\\sigma_T=8\\pi\\alpha^2/3m_e^2$ is energy independent."
+				],
+				"answer": 3,
+				"explanation": "The Klein-Nishina formula reduces to Thomson scattering by a classical charge when the photon energy is small compared with $m_ec^2$; at higher energies recoil reduces the cross-section."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In X-ray crystallography, what are the roles of Thomson and Compton scattering?",
+				"options": [
+					"Thomson scattering is coherent and gives the Bragg pattern; Compton scattering is incoherent background.",
+					"Compton scattering is the coherent process that gives Bragg peaks, while Thomson scattering forms a smooth background.",
+					"Both are coherent, but Compton scattering dominates at X-ray wavelengths and the Bragg peaks are very weak.",
+					"Neither matters: Bragg peaks arise from scattering off the nuclei only."
+				],
+				"answer": 0,
+				"explanation": "Coherent scattering from the periodic electron density gives sharp Bragg peaks whose intensities encode the structure. Incoherent (Compton) scattering from each electron has random relative phases, so it only adds an unwanted smooth background."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A photon Compton-scatters off a free electron at rest through $180^\\circ$ (backscattering). Using $\\Delta\\lambda=\\frac{h}{m_ec}(1-\\cos\\theta)$ with $h/m_ec=2.426$ pm, what is the wavelength shift in picometres?",
+				"answer": 4.853,
+				"tolerance": 0.02,
+				"unit": "pm",
+				"explanation": "$\\Delta\\lambda=2\\times2.426=4.853$ pm, the maximum shift, independent of the initial wavelength. For $\\sim70$ pm X-rays (Mo K$\\alpha$) this is a 7% change, easily visible; for visible light it is negligible, which is why classical wave theory worked there."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using the Clifford algebra to simplify $\\gamma^\\mu\\gamma^\\nu\\gamma_\\mu=-2\\gamma^\\nu$ and $\\mathrm{tr}(\\gamma^\\nu\\gamma_\\nu)=4\\eta^\\nu{}_\\nu=16$, evaluate $\\mathrm{tr}(\\gamma^\\mu\\gamma^\\nu\\gamma_\\mu\\gamma_\\nu)$.",
+				"answer": -32.0,
+				"tolerance": 0.001,
+				"explanation": "$\\gamma^\\mu\\gamma^\\nu\\gamma_\\mu=-2\\gamma^\\nu$, so the trace is $-2\\,\\mathrm{tr}(\\gamma^\\nu\\gamma_\\nu)=-2\\cdot16=-32$. Such contractions are the workhorse for spin-summed $|\\mathcal A|^2$, which reduces to traces of products of gamma matrices."
+			},
+			{
+				"kind": "short",
+				"prompt": "Classical wave theory predicts that scattered X-rays have the same wavelength as the incident ones, while Compton found a shift depending on the scattering angle but not on the initial wavelength. Explain how the photon picture accounts for this.",
+				"rubric": "Full credit: (1) treat photon as a particle with $E=hc/\\lambda$, $p=h/\\lambda$ colliding elastically with a free electron at rest; (2) conserving energy and momentum, the electron recoils, so the photon loses energy and the wavelength increases; (3) the shift $\\Delta\\lambda=(h/m_ec)(1-\\cos\\theta)$ depends only on angle and the electron's Compton wavelength, not on the initial $\\lambda$; classical scattering by an oscillating charge gives same frequency.",
+				"modelAnswer": "A classical wave driving an electron makes it oscillate at the same frequency, so the scattered wave has the same wavelength. If the light is made of photons with $E=hc/\\lambda$ and $p=h/\\lambda$, a collision with a free electron at rest transfers some momentum to it, so the scattered photon has less energy and a longer wavelength. Energy and momentum conservation give $\\Delta\\lambda=(h/m_ec)(1-\\cos\\theta)$, which depends only on the angle and the electron's Compton wavelength, exactly as observed."
+			}
+		],
+		"s4-l020-annihilation-coulomb-crossing": [
+			{
+				"kind": "numeric",
+				"prompt": "Using $\\sigma(e^+e^-\\to\\mu^+\\mu^-)=4\\pi\\alpha^2/(3s)$, with $\\alpha=1/137.036$ and $1\\ \\mathrm{GeV^{-2}}=0.3894\\ \\mathrm{mb}$, find the cross-section at $\\sqrt s=10$ GeV in nanobarns.",
+				"answer": 0.8685,
+				"tolerance": 0.02,
+				"unit": "nb",
+				"explanation": "$\\sigma=4\\pi\\alpha^2/(3s)=2.231e-06\\ \\mathrm{GeV^{-2}}=0.869$ nb (using $1\\ \\mathrm{mb}=10^6$ nb). It falls as $1/s$ because $\\alpha$ is dimensionless and $s$ is the only scale."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does crossing symmetry say?",
+				"options": [
+					"Processes related by swapping particles have identical cross-sections at the same energy.",
+					"Crossing conserves quantum numbers such as charge, so a process and its antiparticle process have the same rate.",
+					"A particle moved between initial and final states flips its momentum, so one amplitude covers related processes.",
+					"Crossing swaps helicities, so $s$-channel and $t$-channel amplitudes are equal."
+				],
+				"answer": 2,
+				"explanation": "Crossing relates $s$- and $t$-channel kinematics through $s\\leftrightarrow t$. Moller, Bhabha and $e^+e^-\\to\\mu^+\\mu^-$ scattering follow from one analytic function. The cross-sections differ because the physical regions of $s,t,u$ differ."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the angular distribution of $e^+e^-\\to\\mu^+\\mu^-$ proportional to $1+\\cos^2\\theta$ at high energy?",
+				"options": [
+					"The intermediate photon is a scalar, so the distribution should be isotropic; $\\cos^2\\theta$ is a small mass correction.",
+					"It is forward-peaked because of the $t$-channel exchange of a light particle.",
+					"It is $\\sin^2\\theta$, because the photon is transverse to the beam and so no muons go along the beam axis.",
+					"Helicity conservation gives the virtual photon $J_z=\\pm1$, so spin-1 terms $(1\\pm\\cos\\theta)^2$ sum to $1+\\cos^2\\theta$."
+				],
+				"answer": 3,
+				"explanation": "Only $e^-_Le^+_R$ and $e^-_Re^+_L$ annihilate (opposite helicities). The muon pair then has $J_z=\\pm1$ along the beam. The amplitude for the muon to go at angle $\\theta$ is $\\propto(1\\pm\\cos\\theta)$, and summing the squares gives $1+\\cos^2\\theta$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What features does scattering of an electron by a static nucleus (Mott scattering) have?",
+				"options": [
+					"It is isotropic, since a static nucleus has no preferred direction for the electron to scatter into.",
+					"$t$-channel photon exchange: Rutherford scattering at low speed, backscatter suppressed at high speed.",
+					"It follows $1/\\sin^2(\\theta/2)$ because the nucleus is heavy and the exchanged photon is massless.",
+					"Backscattering is enhanced at relativistic speeds because of the electron's spin."
+				],
+				"answer": 1,
+				"explanation": "The Mott factor $(1-\\beta^2\\sin^2(\\theta/2))$ multiplies the Rutherford cross-section. For $\\beta\\to1$ backscattering at $180^\\circ$ would require flipping the helicity, which a vector coupling to a massless particle cannot do."
+			},
+			{
+				"kind": "short",
+				"prompt": "The ratio $R=\\sigma(e^+e^-\\to\\text{hadrons})/\\sigma(e^+e^-\\to\\mu^+\\mu^-)$ equals $N_c\\sum_fQ_f^2$ and is observed to step up as the collision energy crosses new quark thresholds. Explain what this says about quarks.",
+				"rubric": "Full credit: (1) hadron production proceeds through $e^+e^-\\to q\\bar q$, which is the same as the muon process with charge $Q_f$ and a factor for each colour; (2) $R$ counts $\\sum_f Q_f^2$ for quark flavours light enough to be produced, so it steps up at each threshold (u,d,s: 2; adding c: 10/3; adding b: 11/3 for $N_c=3$); (3) the measured values need $N_c=3$ (without colour R would be 2/3, 10/9...); evidence for fractional charges and three colours.",
+				"modelAnswer": "At energies well above the thresholds, hadron production is $e^+e^-\\to q\\bar q$ followed by hadronization, so its rate relative to muon pairs is $Q_f^2$ for each flavour that can be produced, times the number of colours $N_c$. As the energy crosses the charm and bottom thresholds a new flavour becomes available and $R$ steps up (to $10/3$ and then $11/3$ for $N_c=3$). The measured values match $N_c=3$ and fractional quark charges; without colour they would be a factor of 3 too small."
+			}
+		],
+		"s4-l021-loops-divergences-regularisation": [
+			{
+				"kind": "numeric",
+				"prompt": "The superficial degree of divergence of a QED diagram is $D=4-E_b-\\tfrac32E_f$, with $E_b$ and $E_f$ the numbers of external boson (photon) and fermion legs. What is $D$ for the photon self-energy (vacuum polarization), which has two external photons and no external fermions?",
+				"answer": 2.0,
+				"tolerance": 0.001,
+				"explanation": "$D=4-2-0=2$: naively quadratically divergent. Gauge invariance (the Ward identity) reduces this to a logarithmic divergence. The electron self-energy has $D=4-\\tfrac32\\cdot2=1$ and the vertex has $D=4-1-3=0$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What distinguishes a renormalizable theory from a non-renormalizable one?",
+				"options": [
+					"A renormalizable theory has no divergent diagrams at all.",
+					"Non-renormalizable theories are mathematically inconsistent and cannot describe anything.",
+					"All couplings have non-negative mass dimension, so divergences do not worsen with order.",
+					"Renormalizable means all couplings have negative mass dimension, so higher orders are suppressed."
+				],
+				"answer": 2,
+				"explanation": "With a negative-dimension coupling each extra order brings higher powers of momentum, so new divergences need new counterterms, ad infinitum. Such a theory can still make predictions as a low-energy effective theory, with new physics at the scale set by the coupling."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A one-loop integral $\\int\\!\\frac{d^4k}{(2\\pi)^4}\\frac{1}{(k^2+\\Delta)^2}$ with momentum cutoff $\\Lambda$ gives $\\frac1{16\\pi^2}\\ln(\\Lambda^2/\\Delta)$. How should the dependence on $\\Lambda$ be understood?",
+				"options": [
+					"The $\\Lambda$ dependence is absorbed into the bare parameters; physical dependence is finite.",
+					"$\\Lambda$ must be sent to infinity because spacetime is exactly continuous, and the infinite result is physical.",
+					"The logarithm shows the theory is wrong at every energy, not only at high energies.",
+					"Dimensional regularization gives different physics from a cutoff, so one must be chosen by experiment."
+				],
+				"answer": 0,
+				"explanation": "The divergent piece is a constant independent of external momenta, so it can be absorbed into a redefinition of the coupling or mass. Differences between processes, such as the $\\ln\\Delta$ dependence (running), are universal."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In what sense is the physical electron 'dressed', and how does this relate to the effective mass of an electron in a solid?",
+				"options": [
+					"The measured mass includes the virtual-quanta cloud, like $m^*$ in a solid.",
+					"The bare mass is directly measurable, and the cloud of virtual quanta adds only small noise.",
+					"Dressing happens only in solids; free electrons in vacuum are not dressed.",
+					"Dressing makes the electron's mass infinite, so the physical electron mass cannot be measured."
+				],
+				"answer": 0,
+				"explanation": "A conduction electron drags a polarization cloud (phonons, other electrons) and moves as a quasiparticle with $m^*\\neq m_e$. In QED the electron is similarly accompanied by virtual photons and pairs; what we call $m_e$ is the whole dressed object."
+			},
+			{
+				"kind": "short",
+				"prompt": "Name the three divergent one-loop diagrams of QED and explain in your own words what a loop integral is summing over, and why this can diverge.",
+				"rubric": "Full credit: (1) electron self-energy, vertex correction, vacuum polarization (photon self-energy); (2) the loop momentum is unconstrained by external momenta, so the amplitude sums over all possible momenta of the virtual particles; (3) integrating over arbitrarily large momenta (short distances) gives divergences unless the integrand falls fast enough; regularization introduces a cutoff or dimensional parameter to handle it.",
+				"modelAnswer": "The three are the electron self-energy, the vertex correction and vacuum polarization. In a loop, momentum conservation at the vertices does not fix the momentum circulating around the loop, so the amplitude includes a sum over every possible momentum of the virtual particles. The integrand does not fall off fast enough at large momentum (short distance), so the integral diverges. A regulator, such as a cutoff or a shift of the dimension, makes the sum finite, so the dependence can be analysed and absorbed into the parameters."
+			}
+		],
+		"s4-l022-renormalising-qed-running-coupling": [
+			{
+				"kind": "numeric",
+				"prompt": "Schwinger's one-loop result for the electron's anomalous magnetic moment is $a_e=(g-2)/2=\\alpha/2\\pi$. With $\\alpha=1/137.036$, give $a_e$ in units of $10^{-3}$.",
+				"answer": 1.1614,
+				"tolerance": 0.01,
+				"unit": "×10⁻³",
+				"explanation": "$a_e=\\alpha/2\\pi=1.1614\\times10^{-3}$. The measured value is $1.15965\\times10^{-3}$; the difference is accounted for by higher-order QED terms, making this the best-tested prediction in physics."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Take $Q=m_Z=91.19$ GeV and include only the electron loop in $\\alpha(Q^2)=\\alpha\\big/\\big[1-\\frac{\\alpha}{3\\pi}\\ln(Q^2/m_e^2)\\big]$ with $\\alpha=1/137.036$ and $m_e=0.511$ MeV. What is $1/\\alpha(Q)$? (The measured value, about 128, includes all other charged fermions too.)",
+				"answer": 134.5,
+				"tolerance": 0.01,
+				"explanation": "$\\ln(Q^2/m_e^2)=24.18$ and $\\frac{\\alpha}{3\\pi}\\ln=0.0187$, so $1/\\alpha(Q)=134.5$. Adding muon, tau and quark loops brings it to about 128, a 7% rise in $\\alpha$ from $Q=0$ to the $Z$ mass."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does renormalization treat the 'bare' charge versus the measured charge?",
+				"options": [
+					"The bare charge is the true charge at zero distance; the physical charge is only its screened approximation.",
+					"Renormalization discards infinite terms arbitrarily to leave a finite answer, with no physical justification.",
+					"Only the physical charge, measured at long distance, is observable; counterterms absorb the bare one.",
+					"Counterterms change the predictions of the theory by an infinite amount."
+				],
+				"answer": 2,
+				"explanation": "Measured charge $e$ is the charge as seen at distances $\\gtrsim\\hbar/m_ec$. Vacuum polarization means a probe at higher $Q$ penetrates the polarized cloud and sees a larger effective charge, which gives the running. Predictions relate measurable quantities to each other, with the bare parameters eliminated."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the Lamb shift and why does it matter?",
+				"options": [
+					"The splitting arises from spin-orbit coupling that is already contained in the Dirac equation.",
+					"$2S_{1/2}$ and $2P_{1/2}$ are degenerate in Dirac theory; QED effects split them by about 1 GHz.",
+					"It is due to the finite size of the proton, with QED corrections negligible.",
+					"It is caused by the electron's relativistic mass increase in the 2S orbital."
+				],
+				"answer": 1,
+				"explanation": "Lamb and Retherford measured about 1057 MHz in 1947, which stimulated the development of renormalization by Bethe, Feynman, Schwinger and Tomonaga. The effects of the quantized field's fluctuations on the electron are the physical origin."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically why the effective strength of the electromagnetic interaction increases at higher momentum transfer (shorter distance), using the picture of the vacuum as a polarizable medium.",
+				"rubric": "Full credit: (1) virtual electron-positron pairs around a charge are polarized (positrons attracted, electrons repelled), screening the bare charge, like a dielectric; (2) at long distance one sees the screened (smaller) charge; (3) probing at shorter distance/higher $Q$ penetrates the cloud and sees more of the bare charge, so $\\alpha(Q)$ increases (1/137 at low energy to ~1/128 at $m_Z$).",
+				"modelAnswer": "Near a charge the vacuum is full of virtual electron-positron pairs. The positive members are pulled toward a negative charge and the negative members pushed away, so the cloud partially cancels (screens) the charge, just like the polarization of a dielectric. A long-distance probe sees only the screened charge. A probe with higher momentum transfer penetrates the cloud and sees more of the underlying charge, so the effective coupling grows with $Q$: from $1/137$ at low energy to about $1/128$ at the $Z$ mass."
+			}
+		],
+		"s4-l023-renormalisation-group-eft": [
+			{
+				"kind": "numeric",
+				"prompt": "In $\\phi^4$ theory $\\mu\\,d\\lambda/d\\mu=3\\lambda^2/16\\pi^2$, whose solution is $\\lambda(\\mu)=\\lambda_0/[1-\\frac{3\\lambda_0}{16\\pi^2}\\ln(\\mu/\\mu_0)]$. If $\\lambda=1$ at $\\mu_0=1$ TeV, what is $\\lambda$ at $\\mu=10$ TeV?",
+				"answer": 1.046,
+				"tolerance": 0.01,
+				"explanation": "$\\lambda=1/[1-0.01899\\cdot2.3026]=1.0457$, a 4.6% increase for a decade of energy. The coupling blows up (Landau pole) only at $\\ln(\\mu/\\mu_0)=16\\pi^2/3\\approx53$, a ridiculously high energy, but it shows that $\\phi^4$ is an effective theory."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The one-loop beta function of $\\phi^4$ is positive. What does that imply?",
+				"options": [
+					"The coupling decreases with energy (asymptotic freedom), so the theory is well defined at all scales.",
+					"The coupling stays constant, so $\\phi^4$ theory is scale invariant.",
+					"The coupling grows toward low energy, so the theory becomes strongly coupled at long distances.",
+					"The coupling grows with energy and shrinks at low energy, giving a Landau pole in the UV."
+				],
+				"answer": 3,
+				"explanation": "$\\beta>0$ means $\\lambda$ increases with $\\mu$. Running couplings in QED behave likewise. Yang-Mills theories (QCD) have $\\beta<0$, so the coupling weakens at high energy and strengthens at low energy."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In Wilson's picture, what is the fate of irrelevant operators at low energy, and what does this say about short-distance details?",
+				"options": [
+					"Irrelevant operators dominate at low energy, so short-distance details matter most there.",
+					"Relevant operators are those forbidden by the symmetries, so only irrelevant ones appear.",
+					"Irrelevant operators are suppressed by powers of $E/\\Lambda$ at low energy.",
+					"Whether an operator is relevant depends on the field basis, so no general statement is possible."
+				],
+				"answer": 2,
+				"explanation": "Integrating out modes between $\\Lambda$ and a lower cutoff generates all operators allowed by symmetry; those with coupling dimension $-n$ come with $(E/\\Lambda)^n$ and fade away. That is why many different microscopic theories flow to the same long-distance physics."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How do Fermi theory of the weak interaction and pseudopotentials in chemistry illustrate effective field theory?",
+				"options": [
+					"Both replace short-distance physics by a simple effective interaction.",
+					"Fermi theory is exact at all energies, and the $W$ boson is a later computational convenience.",
+					"Pseudopotentials reproduce the exact core orbitals, and Fermi theory the exact $W$ propagator.",
+					"Fermi theory fails at low energy and works only above the $W$ mass."
+				],
+				"answer": 0,
+				"explanation": "At $E\\ll m_W$ the $W$ propagator is replaced by a contact interaction with $G_F\\sim g^2/m_W^2$; it breaks down near $m_W$. A pseudopotential gives the valence electrons the correct scattering from the core while ignoring the core's oscillating orbitals, valid at valence energies."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Ising model near its critical point, a liquid-gas critical point and a ferromagnet share the same critical exponents. Explain how the renormalization group accounts for this universality.",
+				"rubric": "Full credit: (1) coarse-graining (integrating out short-distance modes) generates a flow in the space of couplings; (2) near a critical point the flow approaches a fixed point; (3) only a few relevant operators (set by dimensionality and symmetry) matter at the fixed point, while microscopic details are irrelevant and flow away, so systems with different microscopic details share the same fixed point and exponents.",
+				"modelAnswer": "Repeatedly averaging over short-distance details moves the system along a flow in the space of couplings. Close to a critical point this flow is attracted to a fixed point, at which the long-distance behaviour is scale invariant. At the fixed point only a few directions (relevant operators, determined by the dimensionality and symmetry of the order parameter) matter; the rest are irrelevant and die out. Different materials with the same dimensionality and symmetry therefore flow to the same fixed point and have the same critical exponents, regardless of their microscopic details."
+			}
+		],
+		"s4-l024-spontaneous-symmetry-breaking": [
+			{
+				"kind": "numeric",
+				"prompt": "A complex scalar has potential $V(\\phi)=-\\tfrac12\\mu^2|\\phi|^2+\\tfrac14\\lambda|\\phi|^4$. For $\\mu=100$ GeV and $\\lambda=0.5$, find the vacuum value $v=\\langle|\\phi|\\rangle=\\mu/\\sqrt\\lambda$ in GeV.",
+				"answer": 141.4,
+				"tolerance": 0.01,
+				"unit": "GeV",
+				"explanation": "Minimizing, $-\\tfrac12\\mu^2+\\tfrac12\\lambda v^2=0$ gives $v=\\mu/\\sqrt\\lambda=141.4$ GeV. The minimum is a circle (the Mexican-hat valley), and the field picks one point on it."
+			},
+			{
+				"kind": "mc",
+				"prompt": "After choosing a vacuum point of the Mexican-hat potential, what is true of the excitations?",
+				"options": [
+					"The symmetry is explicitly broken, so both modes are massive.",
+					"Both modes are massless, since the potential is flat in every direction at the minimum.",
+					"The Lagrangian itself loses its symmetry, and no massless mode remains.",
+					"The Lagrangian keeps its symmetry, the vacuum does not; one massless and one massive mode."
+				],
+				"answer": 3,
+				"explanation": "The potential is symmetric, only the state is not. Moving along the valley costs no energy, which is the massless Goldstone mode; climbing the wall of the hat gives the massive radial (Higgs-like) mode."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Pions are light but not massless. How does this fit with Goldstone's theorem?",
+				"options": [
+					"Goldstone's theorem fails in QCD because of confinement, so the pions get their mass from gluon exchange.",
+					"Chiral symmetry is only approximate (small quark masses), so pions are pseudo-Goldstone bosons.",
+					"The pions are unrelated to symmetry breaking; their small mass is an accident of the quark masses.",
+					"The pions are exactly massless, and the observed 140 MeV comes from electromagnetic effects."
+				],
+				"answer": 1,
+				"explanation": "The spontaneously broken chiral symmetry would give massless pions if $m_u=m_d=0$. The small explicit breaking from the quark masses gives $m_\\pi^2\\propto(m_u+m_d)$, so $m_\\pi\\approx140$ MeV, far below typical hadron masses of $\\sim1$ GeV."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does Landau's free energy $F=a(T-T_c)m^2+bm^4$ relate to the field theory potential?",
+				"options": [
+					"Landau theory is purely classical and unrelated to the field-theory potential.",
+					"The quadratic coefficient changes sign at $T_c$ (like $\\mu^2<0$); the order parameter is the vev.",
+					"The order parameter is the temperature, and the vacuum value corresponds to the critical temperature.",
+					"The quartic term changes sign at $T_c$, which produces the Mexican hat."
+				],
+				"answer": 1,
+				"explanation": "Above $T_c$ the minimum is at $m=0$; below it, $m=\\pm\\sqrt{a(T_c-T)/2b}$. With a continuous symmetry (O(2) or Heisenberg) the minima form a manifold, and the Goldstone modes are spin waves (magnons). The quartic coefficient stays positive to keep the energy bounded."
+			},
+			{
+				"kind": "short",
+				"prompt": "State Goldstone's theorem and explain physically why a massless excitation appears when a continuous symmetry is spontaneously broken.",
+				"rubric": "Full credit: (1) one massless boson for each broken generator of a continuous global symmetry; (2) the broken symmetry rotates the vacuum into other degenerate vacua, so a uniform, slow, long-wavelength twist along the vacuum manifold costs almost no energy (flat direction), giving a gapless mode; (3) examples: magnons in ferromagnets, phonons as Goldstones of broken translations, pions.",
+				"modelAnswer": "For every broken generator of a continuous global symmetry there is a massless boson. The reason is that the symmetry connects the chosen vacuum to a continuous family of equally good vacua, so there is a flat direction in field space. A long-wavelength disturbance that rotates the field slowly along that valley costs vanishingly little energy as the wavelength grows, which is the signature of a massless mode. Examples are magnons in a ferromagnet, acoustic phonons (broken translations) and the pions of broken chiral symmetry."
+			}
+		],
+		"s4-l025-nonabelian-gauge-theory-qcd": [
+			{
+				"kind": "numeric",
+				"prompt": "For SU($N$) gauge theory the quark colour factor is $C_F=(N^2-1)/(2N)$. Evaluate it for QCD ($N=3$).",
+				"answer": 1.333,
+				"tolerance": 0.01,
+				"explanation": "$C_F=(9-1)/6=1.3333$. The effective strength of one-gluon exchange between a quark and antiquark in a colour singlet is $C_F\\alpha_s$, so the colour factor strengthens the attraction by $4/3$ compared with a U(1)-like exchange of the same coupling."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The one-loop QCD beta function coefficient is $11-\\tfrac23n_f$. What is the largest integer number of quark flavours $n_f$ for which QCD remains asymptotically free (coefficient positive)?",
+				"answer": 16.0,
+				"tolerance": 0.001,
+				"explanation": "$11-\\tfrac23n_f>0$ requires $n_f<16.5$, so $n_f\\le16$. Nature has six flavours, so the gluon anti-screening wins comfortably. For $n_f=5$ the coefficient is $7.67$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does asymptotic freedom arise in QCD but not in QED?",
+				"options": [
+					"Quark loops anti-screen and gluon loops screen, as in QED, so the coupling shrinks at high $Q$.",
+					"Gluons are massless like photons, so the running is the same as in QED and the coupling grows with $Q$.",
+					"Gluon loops cancel quark loops exactly, so the coupling is constant and fixed by colour symmetry.",
+					"Gluon self-interactions anti-screen more than quark loops screen, so the coupling shrinks at high $Q$."
+				],
+				"answer": 3,
+				"explanation": "The gauge bosons carry colour and so interact with themselves; the term $gf^{abc}A^b_\\mu A^c_\\nu$ in $F^a_{\\mu\\nu}$ is the origin. The photon is neutral, so QED has only screening and the coupling grows with $Q$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does confinement mean for quarks?",
+				"options": [
+					"Colour flux forms a tube with linearly rising energy; stretching it creates new quark pairs.",
+					"The force between quarks vanishes at large distance, like Coulomb, so quarks are free at long range.",
+					"Quarks are too heavy to be freed, so confinement is simply a mass effect.",
+					"Gluons are massive like the $W$ bosons, so the force is short ranged and quarks cannot be pulled out."
+				],
+				"answer": 0,
+				"explanation": "The linear potential $V(r)\\approx\\sigma r$ with string tension $\\sigma\\approx1$ GeV/fm means that, at $r\\sim1$ fm, the stored energy exceeds a pair's rest mass, so the string breaks and produces hadrons (jets)."
+			},
+			{
+				"kind": "short",
+				"prompt": "The photon carries no charge but the gluon carries colour. Explain how this difference shows up in the field strength tensors of QED and QCD, and what it implies physically.",
+				"rubric": "Full credit: (1) QED: $F_{\\mu\\nu}=\\partial_\\mu A_\\nu-\\partial_\\nu A_\\mu$, linear, photons do not interact directly; QCD: extra term $gf^{abc}A^b_\\mu A^c_\\nu$ in $F^a_{\\mu\\nu}$ from non-commuting generators; (2) $F^2$ then contains cubic and quartic gluon self-interactions; (3) gluons interact with each other, so gluon loops contribute, leading to anti-screening, asymptotic freedom and confinement.",
+				"modelAnswer": "In QED the field strength is $F_{\\mu\\nu}=\\partial_\\mu A_\\nu-\\partial_\\nu A_\\mu$, which is linear in $A$, so photons do not interact with each other. In QCD the gauge group is non-abelian, and $F^a_{\\mu\\nu}=\\partial_\\mu A^a_\\nu-\\partial_\\nu A^a_\\mu+gf^{abc}A^b_\\mu A^c_\\nu$ has an extra term, so $-\\tfrac14F^2$ contains cubic and quartic gluon self-couplings. Gluons carry colour and interact with each other, which produces anti-screening, asymptotic freedom and confinement."
+			}
+		],
+		"s4-l026-higgs-mechanism-electroweak": [
+			{
+				"kind": "mc",
+				"prompt": "In the abelian Higgs model, what happens to the Goldstone boson and how do the degrees of freedom add up?",
+				"options": [
+					"The Goldstone boson remains as an extra massless particle alongside the massive gauge boson.",
+					"The gauge boson's mass is added by hand, and the Goldstone is removed by a choice of gauge.",
+					"It is eaten as the gauge boson's longitudinal mode: $2+2$ degrees of freedom before, $3+1$ after.",
+					"Degrees of freedom are lost: four before and three after, as the Goldstone is destroyed."
+				],
+				"answer": 2,
+				"explanation": "In unitary gauge the Goldstone field disappears from the Lagrangian and reappears as the third polarization of the vector, whose mass is $m_A=ev$. The physical content is the same in any gauge; only the bookkeeping differs."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In the electroweak theory $m_Z=m_W/\\cos\\theta_W$. Given $m_W=80.38$ GeV and $\\sin^2\\theta_W=0.2229$ (on-shell definition), find $m_Z$ in GeV.",
+				"answer": 91.18,
+				"tolerance": 0.01,
+				"unit": "GeV",
+				"explanation": "$\\cos\\theta_W=\\sqrt{1-0.2229}=0.8815$, so $m_Z=91.18$ GeV, matching the measured 91.19 GeV. The relation follows from $W^3$ and $B$ mixing, and the photon is the orthogonal massless combination."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How do fermions acquire mass in the electroweak theory?",
+				"options": [
+					"Fermion masses come from the gauge bosons they exchange, so heavier fermions couple more strongly to $W$ and $Z$.",
+					"Bare mass terms are allowed in the electroweak theory, and the Higgs only explains the masses of gauge bosons.",
+					"Fermions get mass from the Higgs only if neutrinos are massless; otherwise the mechanism fails.",
+					"Left and right fermions differ under SU(2), forbidding $m\\bar\\psi\\psi$; Yukawa couplings give $m=yv/\\sqrt2$."
+				],
+				"answer": 3,
+				"explanation": "The coupling of the Higgs boson to a fermion is $m_f/v$, proportional to its mass: $y_t\\approx1$ for the top quark and $\\sim3\\times10^{-6}$ for the electron. The Higgs particle of 125 GeV was discovered at the LHC in 2012."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How is the Meissner effect in a superconductor an analogue of the Higgs mechanism?",
+				"options": [
+					"Perfect conductivity alone expels magnetic fields, with no need for a condensate.",
+					"The Cooper-pair condensate acts as the Higgs vev: the photon gets an effective mass, so magnetic fields decay inside.",
+					"The photon becomes massless inside the superconductor, so magnetic fields penetrate unimpeded.",
+					"The Meissner effect arises from spontaneous breaking of translation symmetry, which gives phonons rather than photon mass."
+				],
+				"answer": 1,
+				"explanation": "A perfect conductor would freeze in the magnetic flux but not expel it. A charged condensate breaks the $U(1)$ of electromagnetism spontaneously, so the photon has mass $m_\\gamma\\sim\\hbar/\\lambda_Lc$ and the London penetration depth $\\lambda_L\\sim10^{-7}$ m sets the range."
+			},
+			{
+				"kind": "short",
+				"prompt": "The electroweak theory has the symmetry $SU(2)\\times U(1)$, yet it has one massless gauge boson (the photon) and three massive ones ($W^\\pm,Z$). Explain how a single Higgs doublet vev can do this.",
+				"rubric": "Full credit: (1) the Higgs doublet gets a vev in its neutral component, which breaks $SU(2)\\times U(1)_Y$ to a $U(1)$ subgroup; (2) three of the four generators are broken, giving masses to $W^\\pm$ and $Z$ (three Goldstones eaten); (3) one combination of $W^3$ and $B$ leaves the vev invariant (electric charge $Q=T_3+Y$ of the vev is zero), so the photon stays massless and electromagnetism is unbroken.",
+				"modelAnswer": "The Higgs doublet's vev sits in its neutral component. Three of the four generators of $SU(2)\\times U(1)_Y$ act nontrivially on this vev and are broken, so the corresponding gauge bosons ($W^\\pm$ and one combination of $W^3$ and $B$, the $Z$) get masses by eating three Goldstones. The vev has zero electric charge $Q=T_3+Y$, so the $U(1)_{\\rm em}$ generated by $Q$ is unbroken, and its gauge boson, the other combination of $W^3$ and $B$, remains massless: the photon."
+			}
+		]
+	}
+}

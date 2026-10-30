@@ -1,0 +1,935 @@
+{
+	"courseId": "m4-odes",
+	"checks": {
+		"m4-l001-direction-fields-separable": [
+			{
+				"kind": "mc",
+				"prompt": "For a second-order reaction with rate law $dc/dt=-kc^2$, which plot of concentration data against time is a straight line, and what does its slope give?",
+				"options": [
+					"$\\ln c$ against $t$, with slope $-k$.",
+					"$1/c$ against $t$, with slope $+k$.",
+					"$c$ against $t$, with slope $-k$.",
+					"$1/c^2$ against $t$, with slope $k$."
+				],
+				"answer": 1,
+				"explanation": "Separating gives $-dc/c^2=k\\,dt$, so $1/c=1/c_0+kt$. A straight $\\ln c$ plot signals first order, and a straight $c$ plot signals zero order, so linearity of the right transformed plot reveals the order."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two solution curves of $y'=f(x,y)$ (with $f$ smooth) are drawn on a direction field. Why can't they cross?",
+				"options": [
+					"All solutions of an ODE are parallel curves, so they never meet.",
+					"Solutions are always straight lines, and distinct lines cannot meet.",
+					"Crossing would make the solution discontinuous at the crossing point.",
+					"It would need two slopes at one point, but $f$ gives only one."
+				],
+				"answer": 3,
+				"explanation": "The direction field assigns one slope to each point; an initial condition $(x_0,y_0)$ therefore determines a unique curve through it. Solutions can only merge or touch if $f$ is not smooth enough for uniqueness."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A first-order reaction has rate constant $k=0.0462\\ \\text{min}^{-1}$. What is its half-life in minutes?",
+				"answer": 15.003186,
+				"tolerance": 0.02,
+				"unit": "min",
+				"explanation": "$t_{1/2}=\\ln2/k=0.693/0.0462\\approx15.0$ min, independent of the starting concentration."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A second-order reaction $\\text{A}\\to$ products has $k=0.20\\ \\text{M}^{-1}\\text{s}^{-1}$ and $[\\text{A}]_0=0.50$ M. Using $1/c=1/c_0+kt$, find the concentration after 20 s in M.",
+				"answer": 0.166667,
+				"tolerance": 0.02,
+				"unit": "M",
+				"explanation": "$1/c=2+0.20\\cdot20=6$ M$^{-1}$, so $c=0.167$ M. The half-life $1/(kc_0)=10$ s lengthens as the reaction proceeds."
+			},
+			{
+				"kind": "short",
+				"prompt": "How do zero-, first- and second-order integrated rate laws differ in their half-lives, and why does the first-order half-life not depend on the initial concentration?",
+				"rubric": "Full credit requires: zero order $t_{1/2}=c_0/2k$ (grows with c0); first order $t_{1/2}=\\ln2/k$ (constant) because the rate is proportional to the amount present so halving the amount halves the rate (exponential decay); second order $t_{1/2}=1/(kc_0)$ (shrinks with c0, lengthens as reaction proceeds).",
+				"modelAnswer": "For zero order the rate is constant, so a larger sample takes longer to lose half: $t_{1/2}=c_0/2k$. For first order the rate is proportional to the amount present, so each half-life removes the same fraction no matter how much there is; the solution is $c_0e^{-kt}$ and $t_{1/2}=\\ln2/k$. For second order the rate falls faster than the amount, so $t_{1/2}=1/(kc_0)$ gets longer as the concentration drops. Plotting $c$, $\\ln c$ or $1/c$ against $t$ and seeing which is straight identifies the order."
+			}
+		],
+		"m4-l002-linear-first-order": [
+			{
+				"kind": "mc",
+				"prompt": "Which differential form is exact?",
+				"options": [
+					"$2xy\\,dx+x^2\\,dy=0$, since $M_y=N_x$.",
+					"$y\\,dx-x\\,dy=0$, since the coefficients are simple and symmetric.",
+					"$x\\,dx+x\\,dy=0$, since every term contains the same factor $x$.",
+					"$y^2\\,dx+x\\,dy=0$, since the powers of $x$ and $y$ match up."
+				],
+				"answer": 0,
+				"explanation": "$M\\,dx+N\\,dy=0$ is exact when $M_y=N_x$, which means it is $d\\Phi$ for a potential function $\\Phi=x^2y$ (the same condition as for a conservative field). The others fail: $M_y\\ne N_x$ ($1$ vs $-1$; $0$ vs $1$; $2y$ vs $1$)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $y'+2y=6$ with any initial value, what happens at long times?",
+				"options": [
+					"Every solution grows without bound, because the forcing is constant.",
+					"The solution oscillates about $y=3$ forever without settling down.",
+					"Every solution approaches $y=3$; the transient $Ce^{-2t}$ dies out.",
+					"The solution depends on the initial condition forever, since $C$ is fixed."
+				],
+				"answer": 2,
+				"explanation": "The general solution is $y=3+Ce^{-2t}$: a steady-state part set by the forcing, plus a transient fixed by the initial data that dies out on the time scale $1/2$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A well-mixed tank holds 100 L of pure water. Brine with 2 g/L enters at 5 L/min and the mixture leaves at 5 L/min. The salt concentration obeys $c'=0.05(2-c)$ (min$^{-1}$). Find $c(20\\ \\text{min})$ in g/L.",
+				"answer": 1.264241,
+				"tolerance": 0.02,
+				"unit": "g/L",
+				"explanation": "With $\\tau=V/Q=20$ min, $c=2(1-e^{-t/\\tau})$, so $c(20)=2(1-e^{-1})\\approx1.26$ g/L. The same equation describes a CSTR approaching steady state."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the same tank (time constant $\\tau=20$ min), how many minutes does it take for the concentration to reach 90% of its final value?",
+				"answer": 46.051702,
+				"tolerance": 0.02,
+				"unit": "min",
+				"explanation": "$1-e^{-t/\\tau}=0.9$ gives $t=\\tau\\ln10\\approx46$ min, about 2.3 time constants."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe the integrating-factor method for $y'+p(x)y=q(x)$, and explain how substitutions (such as Bernoulli's) turn some nonlinear equations into this form.",
+				"rubric": "Full credit requires: multiply by $\\mu=e^{\\int p}$ so the left side becomes $(\\mu y)'$ and integrate; $y=\\mu^{-1}\\int\\mu q$; Bernoulli $y'+py=qy^n$ becomes linear in $v=y^{1-n}$; idea of substitution is to change variables to reach a solvable (linear/separable) form.",
+				"modelAnswer": "Multiply the equation by $\\mu(x)=e^{\\int p\\,dx}$; then $\\mu y'+\\mu py=(\\mu y)'$ is an exact derivative, so $\\mu y=\\int\\mu q\\,dx+C$ and $y=\\mu^{-1}(\\int\\mu q+C)$. For a Bernoulli equation $y'+py=qy^n$, setting $v=y^{1-n}$ turns it into a linear equation for $v$ that can be solved the same way. More generally, a good substitution rewrites a hard equation in terms of a variable where it becomes linear or separable."
+			}
+		],
+		"m4-l003-autonomous-numerical": [
+			{
+				"kind": "mc",
+				"prompt": "For the logistic equation $y'=y(1-y)$, how are the equilibria $y=0$ and $y=1$ classified?",
+				"options": [
+					"$y=0$ is stable and $y=1$ is unstable, since populations decline.",
+					"Both are stable, because $f$ equals zero at each of them.",
+					"$y=0$ is unstable and $y=1$ is stable, as $f'(0)>0>f'(1)$.",
+					"Both are unstable, because the population grows between them."
+				],
+				"answer": 2,
+				"explanation": "Near $y^*$, $\\delta'\\approx f'(y^*)\\delta$, so a positive slope makes small deviations grow and a negative one makes them shrink. Populations near zero grow away from extinction and level off at the carrying capacity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Euler's method with step $h$ is applied to $y'=-ky$ ($k>0$). When $hk>2$, what happens to the numerical solution?",
+				"options": [
+					"It oscillates with growing size, though the true solution decays.",
+					"It decays faster than the true solution but remains stable throughout.",
+					"It converges to the true solution as long as the step is positive.",
+					"It sticks at zero, because the step overshoots exactly to the origin."
+				],
+				"answer": 0,
+				"explanation": "Each Euler step multiplies $y$ by $(1-hk)$. For $hk>2$, $|1-hk|>1$ and the sign alternates, so the numerical solution blows up even though the true solution decays."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Apply Euler's method to $y'=-2y$, $y(0)=1$ with $h=0.1$ for three steps. What is the numerical $y(0.3)$?",
+				"answer": 0.512,
+				"tolerance": 0.02,
+				"explanation": "Each step multiplies by $1-0.2=0.8$, so $y=0.8^3=0.512$. The exact value $e^{-0.6}=0.549$ shows the first-order error."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Euler's method has global error $O(h)$. If the error at $t=1$ is $0.020$ with $h=0.1$, what is the expected error with $h=0.025$?",
+				"answer": 0.005,
+				"tolerance": 0.1,
+				"explanation": "First-order accuracy means the error scales linearly with $h$: reducing $h$ by a factor of 4 reduces the error by about 4, giving $\\approx0.005$. (Local error per step is $O(h^2)$, but the errors accumulate over $1/h$ steps.)"
+			},
+			{
+				"kind": "short",
+				"prompt": "Using a phase line for $y'=f(y)$, explain why a solution can never cross an equilibrium, and what happens near a semi-stable point.",
+				"rubric": "Full credit requires: equilibria are themselves solutions and uniqueness forbids crossing; between equilibria f has a fixed sign so solutions move monotonically toward one equilibrium; semi-stable: f touches zero without changing sign (double root), so solutions approach from one side and leave on the other.",
+				"modelAnswer": "An equilibrium is itself a constant solution, and by uniqueness two different solutions cannot meet, so any other solution must stay on one side of it. Between two equilibria $f$ has a single sign, so $y$ moves monotonically and approaches an equilibrium (or runs off to infinity). At a semi-stable point $f$ touches zero without changing sign (e.g. $y'=y^2$), so solutions are drawn in from one side but pushed away on the other."
+			}
+		],
+		"m4-l004-complex-exponentials-first-order": [
+			{
+				"kind": "mc",
+				"prompt": "A first-order system $y'+ky=\\cos\\omega t$ is driven at frequencies much higher than $k$. How do the steady-state amplitude and phase lag behave?",
+				"options": [
+					"The gain rises with $\\omega$ and the phase lag tends to $0^\\circ$ as well.",
+					"The gain stays constant in $\\omega$ and the phase lag is exactly $180^\\circ$.",
+					"The gain falls like $1/\\omega$ and the phase lag tends to $0^\\circ$ too.",
+					"The gain falls like $1/\\omega$ and the lag tends to $90^\\circ$."
+				],
+				"answer": 3,
+				"explanation": "The complex amplitude is $1/(k+i\\omega)$, with magnitude $1/\\sqrt{k^2+\\omega^2}$ and phase lag $\\arctan(\\omega/k)$. When $\\omega\\gg k$ the system cannot follow the fast driving: the response is small and lags by almost a quarter cycle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "To solve $y'+ky=\\cos\\omega t$ by complex replacement, which steps are correct?",
+				"options": [
+					"Solve $z'+kz=e^{i\\omega t}$ for $z$ and then take the modulus $|z|$.",
+					"Solve $z'+kz=e^{i\\omega t}$ with $z=Ce^{i\\omega t}$, then take $\\text{Re}\\,z$.",
+					"Replace $\\cos\\omega t$ by $i\\sin\\omega t$ and solve for the imaginary part.",
+					"Replace $\\omega$ by $i\\omega$ in the equation and take the real part."
+				],
+				"answer": 1,
+				"explanation": "Since $\\cos\\omega t=\\text{Re}\\,e^{i\\omega t}$ and the equation is linear with real coefficients, the real part of the complex solution solves the original equation. The magnitude of $C$ is the gain and its argument is minus the phase lag."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Write $2\\cos t+3\\sin t$ as $R\\cos(t-\\phi)$. Give the amplitude $R$.",
+				"answer": 3.605551,
+				"tolerance": 0.02,
+				"explanation": "$R=\\sqrt{A^2+B^2}=\\sqrt{4+9}=\\sqrt{13}\\approx3.606$ and $\\phi=\\arctan(3/2)\\approx56.3^\\circ$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A first-order system $y'+2y=\\cos3t$ is driven in steady state. Find the gain, i.e. the amplitude of the steady-state response.",
+				"answer": 0.27735,
+				"tolerance": 0.02,
+				"explanation": "$|1/(2+3i)|=1/\\sqrt{13}\\approx0.277$, and the response lags by $\\arctan(3/2)\\approx56^\\circ$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the complex-replacement method for a sinusoidally driven first-order equation, and what the gain and phase lag mean for a low-pass filter such as an RC circuit.",
+				"rubric": "Full credit requires: replace cos with Re e^{iwt}; try z = C e^{iwt}; algebra gives C = 1/(k + iw); |C| = gain, arg = phase; low-pass: low frequencies pass (gain ~ 1/k), high frequencies attenuated ~1/w with lag approaching 90 degrees; cutoff at w = k = 1/RC.",
+				"modelAnswer": "Because the equation is linear with real coefficients, we solve the complex version $z'+kz=e^{i\\omega t}$ and take the real part. Trying $z=Ce^{i\\omega t}$ turns calculus into algebra: $C(i\\omega+k)=1$, so $C=1/(k+i\\omega)$. Its magnitude is the gain and its angle is the phase lag. For an RC filter $k=1/RC$: slow signals pass with gain $\\approx1/k$ and almost no lag, while signals faster than $k$ are attenuated like $1/\\omega$ and lag by nearly $90^\\circ$."
+			}
+		],
+		"m4-l005-characteristic-equation": [
+			{
+				"kind": "mc",
+				"prompt": "What is the general solution of $y''+4y'+13y=0$?",
+				"options": [
+					"$y=e^{-2t}(A\\cos3t+B\\sin3t)$.",
+					"$y=e^{2t}(A\\cos3t+B\\sin3t)$.",
+					"$y=e^{-2t}(A\\cos13t+B\\sin13t)$.",
+					"$y=Ae^{-2t}+Be^{-3t}$."
+				],
+				"answer": 0,
+				"explanation": "The characteristic equation $r^2+4r+13=0$ has roots $r=-2\\pm3i$. The real part gives the decay rate and the imaginary part the oscillation frequency."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two solutions $y_1,y_2$ of a second-order linear homogeneous ODE have Wronskian $W=0$ at one point. What follows?",
+				"options": [
+					"They are independent everywhere except at that one isolated point.",
+					"Nothing follows, since $W$ may vanish at isolated points for independent solutions.",
+					"They are dependent: $W$ is either never zero or identically zero.",
+					"Both must be the zero solution, since the Wronskian vanishes there."
+				],
+				"answer": 2,
+				"explanation": "For solutions of the same linear ODE, $W(t)=W(t_0)e^{-\\int p}$ never vanishes unless it is zero everywhere, which happens exactly when the solutions are proportional. So one point suffices to test independence."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Solve $y''+2y'+5y=0$ with $y(0)=1$, $y'(0)=0$. Give $y(0.5)$.",
+				"answer": 0.582899,
+				"tolerance": 0.02,
+				"explanation": "Roots $-1\\pm2i$ give $y=e^{-t}(A\\cos2t+B\\sin2t)$ with $A=1$ and $-A+2B=0\\Rightarrow B=\\tfrac12$. So $y(0.5)=e^{-0.5}(\\cos1+\\tfrac12\\sin1)\\approx0.5829$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Solve $y''+6y'+9y=0$ with $y(0)=1$, $y'(0)=0$ (repeated root). Give $y(1)$.",
+				"answer": 0.199148,
+				"tolerance": 0.02,
+				"explanation": "The repeated root $-3$ gives $y=(A+Bt)e^{-3t}$. $A=1$ and $-3A+B=0\\Rightarrow B=3$, so $y(1)=4e^{-3}\\approx0.199$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why do the solutions of $ay''+by'+cy=0$ form a two-dimensional vector space, and how do complex roots produce oscillation?",
+				"rubric": "Full credit requires: linear homogeneous so sums and multiples of solutions are solutions; two initial conditions (y(0), y'(0)) fix a unique solution, so two independent solutions span; complex roots $-\\gamma\\pm i\\omega$ -> $e^{-\\gamma t}$ times cos/sin: real part decay, imaginary part oscillation.",
+				"modelAnswer": "Superposition holds because the equation is linear and homogeneous: any combination of solutions is a solution. A second-order equation needs two pieces of initial data, $y(0)$ and $y'(0)$, and each choice gives a unique solution, so the solutions form a two-dimensional space spanned by two independent ones (the Wronskian tests independence). If the characteristic roots are complex, $r=-\\gamma\\pm i\\omega$, then $e^{rt}=e^{-\\gamma t}(\\cos\\omega t\\pm i\\sin\\omega t)$; taking real and imaginary parts gives a decaying oscillation with decay rate $\\gamma$ and frequency $\\omega$."
+			}
+		],
+		"m4-l006-damped-oscillator": [
+			{
+				"kind": "mc",
+				"prompt": "A series RLC circuit obeys $L\\ddot q+R\\dot q+q/C=V(t)$. Which mapping onto a spring-mass-dashpot $m\\ddot x+c\\dot x+kx=F$ is correct?",
+				"options": [
+					"$L\\leftrightarrow k$, $R\\leftrightarrow c$, $C\\leftrightarrow m$.",
+					"$L\\leftrightarrow m$, $R\\leftrightarrow c$, $1/C\\leftrightarrow k$.",
+					"$L\\leftrightarrow c$, $R\\leftrightarrow m$, $1/C\\leftrightarrow k$.",
+					"$L\\leftrightarrow m$, $R\\leftrightarrow k$, $C\\leftrightarrow c$."
+				],
+				"answer": 1,
+				"explanation": "Inductance resists changes in current like mass resists changes in velocity; the resistor dissipates energy like a dashpot; the capacitor stores energy like a spring, with stiffness $1/C$. So $\\omega_0=1/\\sqrt{LC}$ and $\\gamma=R/2L$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Of the three damping regimes, which returns a displaced oscillator to equilibrium fastest without overshooting?",
+				"options": [
+					"Overdamping, because more friction removes the energy more quickly.",
+					"Underdamping, because it passes through equilibrium again and again.",
+					"They are all equal, because each loses the same amount of energy.",
+					"Critical damping, the boundary between ringing and creeping."
+				],
+				"answer": 3,
+				"explanation": "Too much friction slows the slow root of the characteristic equation (the system creeps back); too little allows ringing. Critical damping ($\\zeta=1$) is the sweet spot, which is why door closers and galvanometers are tuned to it."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A mass-spring-dashpot has $m=0.2$ kg, $k=80$ N/m and $c=0.4$ kg/s. Find the quality factor $Q=\\sqrt{mk}/c$.",
+				"answer": 10.0,
+				"tolerance": 0.02,
+				"explanation": "$\\omega_0=\\sqrt{k/m}=20$ rad/s and $\\gamma=c/2m=1$ s$^{-1}$, so $Q=\\omega_0/2\\gamma=\\sqrt{mk}/c=4/0.4=10$. High $Q$ means many oscillations before the energy decays."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the same system, find the damped angular frequency $\\omega_d=\\sqrt{\\omega_0^2-\\gamma^2}$ in rad/s.",
+				"answer": 19.974984,
+				"tolerance": 0.02,
+				"unit": "rad/s",
+				"explanation": "$\\omega_d=\\sqrt{400-1}\\approx19.97$ rad/s. For high $Q$ the damped frequency is almost the natural frequency."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe the three damping regimes in terms of the roots of the characteristic equation, and explain how the decay rate of a vibrating mode relates to the width of its spectral line.",
+				"rubric": "Full credit requires: underdamped = complex roots (oscillation inside decaying envelope), critical = repeated real root, overdamped = two distinct negative real roots; faster decay (shorter lifetime) -> broader Lorentzian line, width ~ decay rate (FWHM ~ 2γ), Q = ω0/FWHM.",
+				"modelAnswer": "If the discriminant $c^2-4mk$ is negative the roots are complex, giving oscillation inside a decaying envelope (underdamped); if it is zero there is a repeated real root (critical); if positive there are two negative real roots and no oscillation (overdamped). A mode whose amplitude decays as $e^{-\\gamma t}$ is not a pure frequency: its Fourier transform is a Lorentzian of width about $2\\gamma$ in $\\omega$ (full width at half maximum), so faster damping (lower $Q$) means a broader line, and $Q=\\omega_0/\\Delta\\omega$."
+			}
+		],
+		"m4-l007-inhomogeneous": [
+			{
+				"kind": "mc",
+				"prompt": "If $y_1$ and $y_2$ both solve the inhomogeneous equation $L[y]=f$ (with $L$ linear), what can you say about $y_1-y_2$?",
+				"options": [
+					"It solves $L[y]=2f$, since the two forcing terms add up.",
+					"It solves the homogeneous equation $L[y]=0$, so $y=y_p+y_h$.",
+					"It must vanish identically, because the solution is unique.",
+					"It solves the same equation $L[y]=f$, just like each of them."
+				],
+				"answer": 1,
+				"explanation": "$L[y_1-y_2]=f-f=0$. Hence any two particular solutions differ by a homogeneous solution, and the general solution is one particular solution plus the full homogeneous family."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $y''-3y'+2y=e^{2t}$, why does the trial $y_p=Ae^{2t}$ fail, and what is the fix?",
+				"options": [
+					"The coefficient is zero, so use $Ae^{4t}$ as the trial instead.",
+					"The forcing is exponential, so the trial must be $A\\cos2t$.",
+					"It does not fail; $y_p=Ae^{2t}$ works with $A=1/P(2)$.",
+					"$e^{2t}$ is already a homogeneous solution, so use $Ate^{2t}$."
+				],
+				"answer": 3,
+				"explanation": "$P(s)=s^2-3s+2$ has $P(2)=0$, so $1/P(2)$ is infinite: this is the resonance case. Multiplying by $t$ restores a particular solution, $y_p=te^{2t}/P'(2)$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Use the exponential-response formula $y_p=e^{st}/P(s)$ for $y''+3y'+2y=10e^{t}$. What is the coefficient of $e^t$ in $y_p$?",
+				"answer": 1.666667,
+				"tolerance": 0.02,
+				"explanation": "$P(1)=1+3+2=6$, so $y_p=(10/6)e^t\\approx1.667e^t$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $y''+4y=8\\cos t$, the steady particular solution is $y_p=C\\cos t$. Find $C$.",
+				"answer": 2.666667,
+				"tolerance": 0.02,
+				"explanation": "Substituting $y_p=C\\cos t$: $(-1+4)C=8$, so $C=8/3\\approx2.667$. (The complex-replacement answer: $8/P(i)=8/3$.)"
+			},
+			{
+				"kind": "short",
+				"prompt": "When does undetermined coefficients fail, and how does variation of parameters work in outline?",
+				"rubric": "Full credit requires: UC works only for forcing built from polynomials, exponentials, sinusoids (closed under differentiation) e.g. fails for tan t or 1/t; variation of parameters: assume $y_p=u_1y_1+u_2y_2$ with unknown functions, impose a condition, solve the 2x2 system for $u_1',u_2'$ using the Wronskian, integrate.",
+				"modelAnswer": "Undetermined coefficients guesses a trial function with the same form as the forcing, which only works if the forcing's derivatives stay in a finite family (polynomials, exponentials, sines and cosines). For forcing such as $\\tan t$ or $1/t$ there is no finite family. Variation of parameters instead lets the constants in $y_h=c_1y_1+c_2y_2$ become functions $u_1(t),u_2(t)$, imposes $u_1'y_1+u_2'y_2=0$ and the ODE to get a $2\\times2$ linear system for $u_1',u_2'$ (solved with the Wronskian), and integrates."
+			}
+		],
+		"m4-l008-resonance": [
+			{
+				"kind": "mc",
+				"prompt": "A damped driven oscillator $\\ddot x+2\\gamma\\dot x+\\omega_0^2x=f\\cos\\omega t$ is swept in frequency. Where is the steady-state amplitude peak?",
+				"options": [
+					"Slightly below $\\omega_0$, at $\\sqrt{\\omega_0^2-2\\gamma^2}$.",
+					"Exactly at $\\omega_0$ for every value of the damping constant.",
+					"Slightly above $\\omega_0$, at $\\sqrt{\\omega_0^2+2\\gamma^2}$ for light damping.",
+					"At $\\omega=0$, where the response to a static force is largest."
+				],
+				"answer": 0,
+				"explanation": "Amplitude is $f/\\sqrt{(\\omega_0^2-\\omega^2)^2+4\\gamma^2\\omega^2}$; minimising the denominator gives $\\omega^2=\\omega_0^2-2\\gamma^2$. For light damping the shift is negligible."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How is the width of a resonance curve related to the quality factor $Q$?",
+				"options": [
+					"About $\\omega_0Q$: higher $Q$ means a broader and flatter peak.",
+					"Independent of $Q$, set only by the amplitude of the driving force.",
+					"About $\\omega_0/Q$: higher $Q$ means a narrower peak.",
+					"Equal to $Q$ itself when both are measured in rad/s."
+				],
+				"answer": 2,
+				"explanation": "$Q=\\omega_0/2\\gamma$ and the half-power width is $2\\gamma$, so $\\Delta\\omega=\\omega_0/Q$. A sharp spectral line corresponds to a long-lived excitation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $\\ddot x+2\\gamma\\dot x+\\omega_0^2x=3\\cos\\omega t$ with $\\gamma=0.05$ s$^{-1}$ and $\\omega_0=10$ rad/s, find the steady-state amplitude at $\\omega=9$ rad/s.",
+				"answer": 0.157718,
+				"tolerance": 0.02,
+				"explanation": "Amplitude $=3/\\sqrt{(100-81)^2+4(0.0025)(81)}=3/\\sqrt{361.8}\\approx0.158$. On resonance ($\\omega=10$) it would be $3/(2\\gamma\\omega_0)=3$, nearly 20 times larger."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the same oscillator, find the quality factor $Q=\\omega_0/2\\gamma$.",
+				"answer": 100.0,
+				"tolerance": 0.02,
+				"explanation": "$Q=10/(2\\cdot0.05)=100$, so the resonance has width about $\\omega_0/Q=0.1$ rad/s."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does damping keep the response bounded at resonance, whereas an undamped oscillator driven at $\\omega_0$ grows without limit? How long does the transient last?",
+				"rubric": "Full credit requires: at $\\omega=\\omega_0$ with no damping the force always pushes in phase, so energy input is never removed and amplitude grows like $t\\cos\\omega_0t$; with damping, loss rate grows with amplitude (~velocity squared) until it matches the input power, giving a finite steady-state amplitude $f/2\\gamma\\omega_0$; transient decays like $e^{-\\gamma t}$, i.e. lasts a few $1/\\gamma$.",
+				"modelAnswer": "If the driver pushes exactly in step with the motion and nothing removes energy, every cycle adds more energy and the amplitude grows linearly in time ($t\\cos\\omega_0t$). With damping, the power lost to friction rises with amplitude, so the amplitude stops growing when the power lost equals the power supplied: $A\\approx f/2\\gamma\\omega_0$. The transient, the homogeneous solution, decays like $e^{-\\gamma t}$, so after a few time constants $1/\\gamma$ only the steady state at the driving frequency remains."
+			}
+		],
+		"m4-l009-laplace-basics": [
+			{
+				"kind": "mc",
+				"prompt": "What is $\\mathcal{L}\\{y''\\}$ in terms of $Y(s)=\\mathcal{L}\\{y\\}$?",
+				"options": [
+					"$s^2Y(s)$, because derivatives become powers of $s$.",
+					"$s^2Y(s)-y(0)-y'(0)$.",
+					"$s^2Y(s)-s\\,y(0)-y'(0)$.",
+					"$s^2Y(s)+s\\,y(0)+y'(0)$."
+				],
+				"answer": 2,
+				"explanation": "Applying $\\mathcal{L}\\{f'\\}=sF-f(0)$ twice gives $s(sY-y(0))-y'(0)$. The initial conditions enter automatically, which is why Laplace transforms solve initial-value problems directly."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The transform of the solution of a driven damped oscillator has poles at $s=-2$ and $s=\\pm3i$. What does the solution contain?",
+				"options": [
+					"A decaying transient $e^{-2t}$ plus a sustained sinusoid at $3$ rad/s.",
+					"Only a decaying transient, since one of the poles is negative.",
+					"A sinusoid that grows like $e^{3t}$, since 3 appears in the pole.",
+					"A constant offset, because poles on the imaginary axis cancel."
+				],
+				"answer": 0,
+				"explanation": "Each pole $s_k$ contributes $e^{s_kt}$. Poles in the left half-plane decay (transient); poles on the imaginary axis, here from the driving force, give undamped oscillation (steady state)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute $\\mathcal{L}\\{e^{-2t}\\sin3t\\}$ evaluated at $s=1$.",
+				"answer": 0.166667,
+				"tolerance": 0.02,
+				"explanation": "The shift theorem gives $\\dfrac{3}{(s+2)^2+9}$; at $s=1$ this is $3/18=1/6\\approx0.167$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Solve $y'+2y=e^{-t}$ with $y(0)=0$ using Laplace transforms and give $y(1)$.",
+				"answer": 0.232544,
+				"tolerance": 0.02,
+				"explanation": "$(s+2)Y=1/(s+1)$ so $Y=\\dfrac{1}{(s+1)(s+2)}=\\dfrac1{s+1}-\\dfrac1{s+2}$, giving $y=e^{-t}-e^{-2t}$ and $y(1)\\approx0.2325$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the Laplace transform turns a linear ODE with initial conditions into an algebra problem, and how you read the transient and steady-state behaviour from the poles of the answer.",
+				"rubric": "Full credit requires: derivative rule brings in initial data and converts differentiation into multiplication by $s$; solve algebraically for $Y(s)$ (a rational function); invert via partial fractions; each pole $s_k$ gives $e^{s_kt}$ — left half-plane poles decay (transient), imaginary-axis poles from forcing persist (steady state).",
+				"modelAnswer": "Because $\\mathcal{L}\\{y'\\}=sY-y(0)$, the ODE becomes a polynomial equation in $s$ for $Y(s)$, with the initial conditions already built in. Solving gives $Y(s)$ as a rational function; partial fractions split it into simple terms whose inverses are known. Each pole $s_k$ turns into a term $e^{s_kt}$: poles with negative real part are decaying transients (from the system itself), while poles on the imaginary axis (from sinusoidal forcing) give the steady-state oscillation."
+			}
+		],
+		"m4-l010-step-delta-impulse": [
+			{
+				"kind": "mc",
+				"prompt": "What is $\\int_0^\\infty\\cos t\\;\\delta(t-\\pi)\\,dt$?",
+				"options": [
+					"$0$, because the delta is zero everywhere except at one point.",
+					"$1$, because the integral of the delta is 1.",
+					"$\\pi$, the location of the spike.",
+					"$-1$, by the sifting property: the delta picks out $\\cos\\pi$."
+				],
+				"answer": 3,
+				"explanation": "$\\int f(t)\\delta(t-a)\\,dt=f(a)$: the delta weights the integrand at one point. The integral of the delta alone is 1, but the integrand $\\cos t$ is evaluated at $a=\\pi$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A mass $m$ at rest is struck by a hammer delivering total impulse $J$ at $t=0$. Modelled as $m\\ddot x=J\\delta(t)$, what is the effect?",
+				"options": [
+					"The position jumps to $J/m$ while the velocity is unchanged.",
+					"The velocity jumps to $J/m$, while the position stays continuous.",
+					"Both position and velocity jump by the amount $J$ at $t=0$.",
+					"Nothing happens for $t>0$, because the delta vanishes there."
+				],
+				"answer": 1,
+				"explanation": "Integrating $m\\ddot x=J\\delta$ across $t=0$ gives $m\\Delta\\dot x=J$, so the kick changes the velocity (momentum) but not the position. The delta's whole effect is an instantaneous initial condition for $t>0$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The unit impulse response of $w''+2w'+5w=\\delta(t)$ is $w(t)=\\tfrac12e^{-t}\\sin2t$ for $t>0$. Evaluate $w(1)$.",
+				"answer": 0.167256,
+				"tolerance": 0.02,
+				"explanation": "$w(1)=\\tfrac12e^{-1}\\sin2=0.5\\cdot0.3679\\cdot0.9093\\approx0.167$. It satisfies $w(0)=0$, $w'(0)=1$ (a unit velocity kick)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A force equals 1 for $1<t<3$ and 0 otherwise, i.e. $u(t-1)-u(t-3)$. Evaluate its Laplace transform $(e^{-s}-e^{-3s})/s$ at $s=1$.",
+				"answer": 0.318092,
+				"tolerance": 0.02,
+				"explanation": "At $s=1$: $e^{-1}-e^{-3}=0.3679-0.0498\\approx0.318$. The $t$-shift rule $\\mathcal{L}\\{u(t-a)g(t-a)\\}=e^{-as}G(s)$ turns each switch-on time into an exponential."
+			},
+			{
+				"kind": "short",
+				"prompt": "How are the unit step response and the unit impulse response of a linear system related, and why is the delta function the derivative of the step?",
+				"rubric": "Full credit requires: delta is the derivative of the unit step u(t) (a jump of 1 in zero time, integrating to 1); by linearity and time invariance, the response to the derivative of an input is the derivative of the response, so impulse response w(t) = d/dt (step response); the step is the integral of the delta.",
+				"modelAnswer": "The step jumps from 0 to 1 at $t=0$, so its slope is zero everywhere except at the jump, where it is infinite but integrates to 1: that is $\\delta(t)$. Since the system is linear and time-invariant, differentiating the input differentiates the output, so the impulse response $w(t)$ is the time derivative of the step response (and the step response is the integral of $w$). A physical kick is a delta-function force whose area is the momentum transferred."
+			}
+		],
+		"m4-l011-convolution-transfer": [
+			{
+				"kind": "mc",
+				"prompt": "For a linear time-invariant system with impulse response $w(t)$, why is the response to a forcing $f(t)$ (zero initial data) equal to $\\int_0^t w(t-\\tau)f(\\tau)\\,d\\tau$?",
+				"options": [
+					"Because $f$ is a sum of impulses, each giving a delayed response.",
+					"Because $w$ and $f$ are multiplied together at each time point.",
+					"Because the system responds only to the value of $f$ right now.",
+					"Because the Laplace transform of a product is a product of transforms."
+				],
+				"answer": 0,
+				"explanation": "Convolution is superposition of delayed, scaled impulse responses. (In the Laplace domain this becomes the product $Y=W\\cdot F$, but the time-domain picture is the reason.)"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A system has transfer function $1/(s^2+0.02s+100)$. What does this tell you?",
+				"options": [
+					"Unstable, since a transfer function with poles is always unbounded.",
+					"Heavily damped, because the coefficient $0.02$ is a damping term.",
+					"Stable, but with a sharp, lightly damped resonance near $\\omega=10$.",
+					"No resonance at all, because the poles are complex rather than real."
+				],
+				"answer": 2,
+				"explanation": "Stability needs all poles in the left half-plane; the small real part $-0.01$ means very slow decay and a sharp peak of height about $1/(0.02\\cdot10)=5$ near $\\omega=10$ ($Q\\approx500$)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compute $(t*e^{-t})(t)=\\int_0^t\\tau\\,e^{-(t-\\tau)}d\\tau$ at $t=2$.",
+				"answer": 1.135335,
+				"tolerance": 0.02,
+				"explanation": "Via Laplace: $\\mathcal{L}=\\frac1{s^2}\\cdot\\frac1{s+1}$, whose inverse is $t-1+e^{-t}$. At $t=2$: $1+e^{-2}\\approx1.135$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $y''+2y'+5y=f(t)$ driven sinusoidally at $\\omega=2$, find the magnitude of the transfer function $|1/P(i\\omega)|$ with $P(s)=s^2+2s+5$.",
+				"answer": 0.242536,
+				"tolerance": 0.02,
+				"explanation": "$P(2i)=-4+4i+5=1+4i$, so $|1/P|=1/\\sqrt{17}\\approx0.243$: the steady-state gain at that frequency."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the convolution $y=w*f$ is the first example of a Green's function solution, and what the poles of the transfer function tell you.",
+				"rubric": "Full credit requires: solution as superposition over sources of the response to a point source ($w$ plays the role of Green's function, which is the impulse response); general idea: solve once for a delta source, then build any forcing by integrating; poles of $1/P(s)$ give stability (left half-plane) and resonance frequency/width (imaginary part = frequency, real part = damping).",
+				"modelAnswer": "The impulse response $w(t)$ is the system's reaction to a unit point source. Any forcing is a continuous superposition of point sources, so the response is $y(t)=\\int w(t-\\tau)f(\\tau)d\\tau$: solve once for the delta and build everything else by integrating. This is the idea of a Green's function, which returns for the Poisson and wave equations. The transfer function $1/P(s)$ has poles at the characteristic roots: they are all in the left half-plane for a stable system, and a pole at $-\\gamma\\pm i\\omega_0$ means resonance near $\\omega_0$ with width set by $\\gamma$."
+			}
+		],
+		"m4-l012-systems-eigen": [
+			{
+				"kind": "mc",
+				"prompt": "Writing $y''+5y'+6y=0$ as $u'=Au$ with $u=(y,y')^T$, what is $A$?",
+				"options": [
+					"$\\begin{pmatrix}0&1\\\\6&5\\end{pmatrix}$.",
+					"$\\begin{pmatrix}0&1\\\\-6&-5\\end{pmatrix}$.",
+					"$\\begin{pmatrix}0&1\\\\-5&-6\\end{pmatrix}$.",
+					"$\\begin{pmatrix}0&-6\\\\1&-5\\end{pmatrix}$."
+				],
+				"answer": 1,
+				"explanation": "With $u_1=y$, $u_2=y'$: $u_1'=u_2$ and $u_2'=-6u_1-5u_2$. Its eigenvalues satisfy $\\lambda^2+5\\lambda+6=0$, the characteristic equation of the original ODE."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two equal masses are coupled by springs, and the system is released in the eigenvector $(1,-1)$ of the force matrix. How do the masses move?",
+				"options": [
+					"One mass oscillates while the other stays at rest for all time.",
+					"They oscillate at different frequencies and slowly exchange energy.",
+					"They move together in the same direction at the same moment.",
+					"Both oscillate at one frequency, equal and opposite: a normal mode."
+				],
+				"answer": 3,
+				"explanation": "In an eigenmode all coordinates share one time dependence $e^{i\\omega t}$ with a fixed amplitude ratio given by the eigenvector. General motion is the superposition of these independent modes."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Solve $u'=\\begin{pmatrix}-2&1\\\\1&-2\\end{pmatrix}u$ with $u(0)=(2,0)$ (e.g. exchange between two sites). Give $u_1(1)$.",
+				"answer": 0.417667,
+				"tolerance": 0.02,
+				"explanation": "Eigenvalues $-1$ (vector $(1,1)$) and $-3$ (vector $(1,-1)$), $u(0)=(1,1)+(1,-1)$, so $u_1=e^{-t}+e^{-3t}$ and $u_1(1)\\approx0.4177$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two unit masses $m=1$ kg are each attached to a wall by a spring $k=4$ N/m and to each other by a spring $k_c=1$ N/m. The out-of-phase mode has $\\omega^2=k+2k_c$. Find its angular frequency in rad/s.",
+				"answer": 2.44949,
+				"tolerance": 0.02,
+				"unit": "rad/s",
+				"explanation": "$\\omega^2=(4+2)/1=6$, so $\\omega=\\sqrt6\\approx2.449$ rad/s, versus $\\omega=\\sqrt{k/m}=2$ rad/s for the in-phase mode. The coupling spring only works in the out-of-phase mode."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the eigenvalue method for $u'=Au$ and why the general solution is a superposition of $e^{\\lambda_it}v_i$.",
+				"rubric": "Full credit requires: try $u=e^{\\lambda t}v$ giving $Av=\\lambda v$ (eigenpair); each eigenpair is a solution; linearity -> superposition; constants fit to initial data by expanding $u(0)$ in the eigenvectors; independent eigenvectors (distinct eigenvalues) give n independent solutions, a full basis.",
+				"modelAnswer": "Substituting $u=e^{\\lambda t}v$ gives $\\lambda e^{\\lambda t}v=Ae^{\\lambda t}v$, i.e. $Av=\\lambda v$, so each eigenpair gives a solution that keeps its direction and just grows or decays. Since the system is linear, any combination $\\sum c_ie^{\\lambda_it}v_i$ is a solution, and $n$ independent eigenvectors give $n$ independent solutions, enough to match any initial vector: write $u(0)=\\sum c_iv_i$. In a coupled-spring system the eigenvectors are the normal modes."
+			}
+		],
+		"m4-l013-phase-portraits": [
+			{
+				"kind": "mc",
+				"prompt": "For $u'=Au$ with $A=\\begin{pmatrix}1&2\\\\3&2\\end{pmatrix}$, what is the type of the origin?",
+				"options": [
+					"A stable node, since the trace is positive and all entries are positive.",
+					"A saddle: $\\det A=-4<0$ gives real eigenvalues of opposite sign.",
+					"A spiral sink, since the matrix is not symmetric.",
+					"A centre, since the trace of the matrix is non-zero."
+				],
+				"answer": 1,
+				"explanation": "$\\det<0$ always gives a saddle (eigenvalues $4$ and $-1$ here): trajectories approach along the stable eigendirection and are flung away along the unstable one. The trace-determinant plane classifies the origin without finding eigenvalues."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Jacobian of a linearised reaction network at its steady state has eigenvalues $+0.05\\pm1.2i$. What does the linearisation predict?",
+				"options": [
+					"A stable spiral, with oscillations dying out toward the steady state.",
+					"A centre, with sustained oscillation of constant amplitude forever.",
+					"A saddle, with trajectories fleeing along one direction only.",
+					"An unstable spiral; oscillations grow and may saturate on a limit cycle."
+				],
+				"answer": 3,
+				"explanation": "The imaginary part gives oscillation (angular frequency 1.2), the positive real part gives amplitude growth like $e^{0.05t}$. Negative real parts would give damped oscillation; zero real part would give a centre (and the linearisation would then be inconclusive for the full nonlinear system)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $u'=\\begin{pmatrix}0&1\\\\-4&-2\\end{pmatrix}u$, the eigenvalues are $-1\\pm i\\omega$. Find $\\omega$ (rad/s).",
+				"answer": 1.732051,
+				"tolerance": 0.02,
+				"unit": "rad/s",
+				"explanation": "$\\lambda^2+2\\lambda+4=0$ gives $\\lambda=-1\\pm i\\sqrt3$, so $\\omega=\\sqrt3\\approx1.732$. Trace $-2<0$, det $4>0$ and $\\tau^2-4\\Delta=-12<0$: a spiral sink."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $u'=\\begin{pmatrix}0&1\\\\-1&-b\\end{pmatrix}u$ (a damped oscillator with $b>0$), the origin is a spiral for small $b$ and a node for large $b$. At what value of $b$ does the transition occur?",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "Trace $=-b$, det $=1$; the discriminant $\\tau^2-4\\Delta=b^2-4$ changes sign at $b=2$ (critical damping). Below it, the eigenvalues are complex."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the trace and determinant classify the origin of a $2\\times2$ linear system, and what distinguishes a spiral sink from a centre physically.",
+				"rubric": "Full credit requires: eigenvalues from $\\lambda^2-\\tau\\lambda+\\Delta=0$; Δ<0 saddle; Δ>0: τ²>4Δ node (stable if τ<0), τ²<4Δ spiral (stable if τ<0), τ=0 centre; centre = pure imaginary eigenvalues (sustained oscillation, no damping), spiral sink = negative real part gives decay while rotating.",
+				"modelAnswer": "The eigenvalues satisfy $\\lambda^2-\\tau\\lambda+\\Delta=0$, so $\\tau$ (trace) and $\\Delta$ (determinant) decide everything: $\\Delta<0$ gives a saddle; for $\\Delta>0$ the sign of $\\tau$ decides stability, and whether $\\tau^2-4\\Delta$ is positive (real eigenvalues: node) or negative (complex: spiral) decides rotation; $\\tau=0$ with $\\Delta>0$ gives pure imaginary eigenvalues, a centre. A spiral sink oscillates while decaying (damped oscillation), but a centre keeps oscillating at constant amplitude (no damping)."
+			}
+		],
+		"m4-l014-matrix-exponential": [
+			{
+				"kind": "mc",
+				"prompt": "For the reversible reaction $\\text{A}\\rightleftharpoons\\text{B}$ with rate constants $k_f,k_r$, the rate matrix has eigenvalues $0$ and $-(k_f+k_r)$. What do they mean?",
+				"options": [
+					"The null eigenvector is equilibrium; $-(k_f+k_r)$ is the relaxation rate.",
+					"Zero means no reaction occurs; the other eigenvalue is directly the half-life.",
+					"They are the forward and reverse rate constants, listed separately.",
+					"Zero means the reaction is zero order; the other fixes the order in A."
+				],
+				"answer": 0,
+				"explanation": "A steady state satisfies $Au=0$ (null eigenvector). Deviations from equilibrium decay as $e^{-(k_f+k_r)t}$, so the relaxation time is $1/(k_f+k_r)$, faster than either direction alone."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $u'=Au+f(t)$ with $u(0)=u_0$, which expression is the solution?",
+				"options": [
+					"$u(t)=e^{At}u_0+f(t)$.",
+					"$u(t)=e^{At}\\left(u_0+\\int_0^tf(s)\\,ds\\right)$.",
+					"$u(t)=e^{At}u_0+\\int_0^te^{A(t-s)}f(s)\\,ds$.",
+					"$u(t)=e^{At}u_0\\cdot e^{\\int f}$."
+				],
+				"answer": 2,
+				"explanation": "Each forcing impulse $f(s)ds$ at time $s$ is propagated by the homogeneous solution for the remaining time $t-s$, and the contributions are summed (variation of parameters / convolution with $e^{At}$)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $\\text{A}\\rightleftharpoons\\text{B}$ with $k_f=2\\ \\text{s}^{-1}$ and $k_r=3\\ \\text{s}^{-1}$, what fraction of the material is B at equilibrium?",
+				"answer": 0.4,
+				"tolerance": 0.02,
+				"explanation": "At equilibrium $k_f[\\text{A}]=k_r[\\text{B}]$, so $[\\text{B}]/([\\text{A}]+[\\text{B}])=k_f/(k_f+k_r)=0.4$. This is the null eigenvector $(3,2)/5$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the same reaction, what is the relaxation time constant $1/(k_f+k_r)$ in seconds?",
+				"answer": 0.2,
+				"tolerance": 0.02,
+				"unit": "s",
+				"explanation": "The nonzero eigenvalue is $-(2+3)=-5\\ \\text{s}^{-1}$, so any perturbation relaxes with time constant $0.2$ s. This is what temperature-jump experiments measure."
+			},
+			{
+				"kind": "short",
+				"prompt": "Define $e^{At}$ and explain why $u=e^{At}u_0$ solves $u'=Au$, and how the eigenbasis makes it computable.",
+				"rubric": "Full credit requires: $e^{At}=I+At+(At)^2/2!+\\cdots$; term-by-term derivative gives $Ae^{At}$ and $e^{A0}=I$; if $A=S\\Lambda S^{-1}$ then $e^{At}=Se^{\\Lambda t}S^{-1}$ with $e^{\\Lambda t}$ diagonal (decoupled normal coordinates).",
+				"modelAnswer": "Define $e^{At}=\\sum (At)^k/k!$. Differentiating term by term gives $\\frac{d}{dt}e^{At}=Ae^{At}$, and at $t=0$ it equals $I$, so $u=e^{At}u_0$ solves $u'=Au$ with $u(0)=u_0$. If $A$ is diagonalisable, $A=S\\Lambda S^{-1}$ gives $A^k=S\\Lambda^kS^{-1}$ and so $e^{At}=Se^{\\Lambda t}S^{-1}$, where $e^{\\Lambda t}$ is just the diagonal matrix of $e^{\\lambda_it}$: in the eigenbasis (normal coordinates) the coupled equations become independent."
+			}
+		],
+		"m4-l015-linearization": [
+			{
+				"kind": "mc",
+				"prompt": "In the Lotka-Volterra predator-prey model the linearisation at the coexistence point has purely imaginary eigenvalues. What can you conclude?",
+				"options": [
+					"A stable spiral, since imaginary eigenvalues guarantee a steady decay.",
+					"Both populations must die out, because the eigenvalues are imaginary.",
+					"Linearisation is inconclusive; a conserved quantity shows the orbits close.",
+					"A saddle, since a coexistence point always has a stable direction."
+				],
+				"answer": 2,
+				"explanation": "Zero real part is exactly the borderline case where higher-order terms decide. Lotka-Volterra has a conserved function $V(x,y)=dx-c\\ln x+by-a\\ln y$, so orbits are closed curves: a genuine nonlinear centre."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A pendulum $\\ddot\\theta=-\\sin\\theta-0.5\\dot\\theta$ is written as $x'=y$, $y'=-\\sin x-0.5y$. At the inverted position $(\\pi,0)$ the Jacobian is $\\begin{pmatrix}0&1\\\\1&-0.5\\end{pmatrix}$. What is the point?",
+				"options": [
+					"A saddle, since the determinant is $-1<0$ at the upright position.",
+					"A stable spiral, because friction is present in the equation.",
+					"A stable node, because the trace of the Jacobian is negative.",
+					"A centre, because the pendulum swings back and forth about it."
+				],
+				"answer": 0,
+				"explanation": "$\\cos\\pi=-1$ flips the sign of the restoring term, making $\\det J<0$. Friction cannot stabilise the inverted pendulum: small deviations grow along the unstable eigendirection."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The competition model $x'=x(3-x-2y)$, $y'=y(2-y-x)$ has a critical point at $(1,1)$ with Jacobian $\\begin{pmatrix}-1&-2\\\\-1&-1\\end{pmatrix}$. Find the positive eigenvalue.",
+				"answer": 0.414214,
+				"tolerance": 0.02,
+				"explanation": "$\\lambda^2+2\\lambda-1=0$ gives $\\lambda=-1\\pm\\sqrt2$, i.e. $0.414$ and $-2.414$. One positive eigenvalue makes $(1,1)$ a saddle: coexistence is unstable."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Small oscillations around the Lotka-Volterra coexistence point have angular frequency $\\omega=\\sqrt{ac}$ for prey growth rate $a=1\\ \\text{yr}^{-1}$ and predator death rate $c=1.5\\ \\text{yr}^{-1}$. Find the period in years.",
+				"answer": 5.130199,
+				"tolerance": 0.02,
+				"unit": "yr",
+				"explanation": "The Jacobian has eigenvalues $\\pm i\\sqrt{ac}$, so $\\omega=\\sqrt{1.5}=1.225\\ \\text{yr}^{-1}$ and the period is $2\\pi/\\omega\\approx5.13$ years."
+			},
+			{
+				"kind": "short",
+				"prompt": "When does linearisation fail to classify an equilibrium, and how can a conserved quantity or Lyapunov function fill the gap?",
+				"rubric": "Full credit requires: fails when an eigenvalue has zero real part (centre, degenerate) so nonlinear terms decide; conserved quantity: level curves are closed orbits (nonlinear centre); Lyapunov function V ≥ 0 with dV/dt ≤ 0 along trajectories implies stability (strict decrease: asymptotic).",
+				"modelAnswer": "Linearisation classifies a hyperbolic equilibrium (no eigenvalue with zero real part), but with purely imaginary eigenvalues the small nonlinear terms decide whether orbits spiral in, spiral out or close. Then we need a global argument: a conserved quantity $V$ has closed level curves, proving closed orbits, and a Lyapunov function (positive near the equilibrium and non-increasing along trajectories) proves stability even where the linear analysis is silent."
+			}
+		],
+		"m4-l016-limit-cycles-chaos": [
+			{
+				"kind": "mc",
+				"prompt": "Why can a two-dimensional autonomous system $x'=f(x,y)$, $y'=g(x,y)$ not be chaotic?",
+				"options": [
+					"Two variables are too few to include any nonlinear terms.",
+					"Every 2D system has only linear solutions, which are never chaotic.",
+					"Chaos needs time-dependent forcing, never an autonomous equation.",
+					"Poincare-Bendixson: bounded planar orbits tend to equilibria or cycles."
+				],
+				"answer": 3,
+				"explanation": "In the plane, a closed curve separates inside from outside, trapping trajectories and forcing simple long-term behaviour. Chaos in autonomous flows needs at least three dimensions (e.g. the Lorenz system), or forcing of a 2D system."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A parameter $\\mu$ in a reaction network is raised, and the Jacobian eigenvalues at the steady state move from $-0.2\\pm i$ to $+0.1\\pm i$. What happens?",
+				"options": [
+					"A saddle-node bifurcation, in which two steady states collide.",
+					"A Hopf bifurcation, which can give birth to a limit cycle.",
+					"Nothing, because the imaginary part stays the same throughout.",
+					"Chaos sets in immediately, since the steady state became unstable."
+				],
+				"answer": 1,
+				"explanation": "A complex pair crossing the imaginary axis is the signature of a Hopf bifurcation. In the supercritical case the nonlinear terms then limit the growth, giving a stable cycle."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Near a supercritical Hopf bifurcation the amplitude obeys $r'=\\mu r-r^3$. For $\\mu=0.25$, what is the radius of the stable limit cycle?",
+				"answer": 0.5,
+				"tolerance": 0.02,
+				"explanation": "Setting $r'=0$ with $r\\ne0$: $r^2=\\mu$, so $r=\\sqrt{0.25}=0.5$. The amplitude grows as $\\sqrt\\mu$ past the bifurcation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A van der Pol oscillator $\\ddot x+\\varepsilon(x^2-1)\\dot x+x=0$ with small $\\varepsilon$ has limit-cycle amplitude near 2 and nearly harmonic motion with $\\omega\\approx1$ rad/s. What is its period in seconds?",
+				"answer": 6.283185,
+				"tolerance": 0.05,
+				"unit": "s",
+				"explanation": "For $\\varepsilon\\to0$ the limit cycle is nearly a circle of radius 2 traversed at $\\omega=1$, so $T\\approx2\\pi\\approx6.28$ s. Unlike a centre, the amplitude is fixed by the nonlinearity, not by the initial condition."
+			},
+			{
+				"kind": "short",
+				"prompt": "What feature must a chemical oscillator such as the Brusselator or Belousov-Zhabotinsky reaction have, and how is a limit cycle different from the oscillations of a linear centre?",
+				"rubric": "Full credit requires: positive feedback (autocatalysis) combined with delayed negative feedback and a sustained far-from-equilibrium supply; limit cycle is an isolated closed orbit that attracts nearby trajectories so amplitude and period are set by the system; linear centre has a continuum of orbits whose amplitude depends on initial condition and is structurally unstable.",
+				"modelAnswer": "Oscillating reactions need autocatalysis (a species promoting its own production, positive feedback) together with a slower negative feedback, and they must be kept far from equilibrium by a supply of reactants. The result is a limit cycle: an isolated closed orbit that nearby trajectories approach, so amplitude and period are properties of the system rather than of the starting point. A linear centre has a whole family of orbits, with amplitude set by the initial condition, and is destroyed by any small damping."
+			}
+		],
+		"m4-l017-reduction-cauchy-euler": [
+			{
+				"kind": "mc",
+				"prompt": "What is the general solution of the Cauchy-Euler equation $x^2y''+4xy'+2y=0$ for $x>0$?",
+				"options": [
+					"$y=c_1x^{-1}+c_2x^{-2}$.",
+					"$y=c_1x+c_2x^2$.",
+					"$y=c_1e^{-x}+c_2e^{-2x}$.",
+					"$y=c_1x^{-1}+c_2x^{2}$."
+				],
+				"answer": 0,
+				"explanation": "Trying $y=x^r$ gives the indicial equation $r(r-1)+4r+2=0$ with roots $-1,-2$. Equidimensional equations have power-law solutions because the equation is invariant under $x\\to cx$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $y''+\\dfrac{2}{x}y'+q(x)y=0$, Abel's formula says the Wronskian of any two solutions is proportional to:",
+				"options": [
+					"$Cx^{2}$, with $C$ a constant.",
+					"$Ce^{-2x}$, with $C$ a constant.",
+					"$Cx^{-2}$, with $C$ a constant.",
+					"$C$ alone, independent of $x$."
+				],
+				"answer": 2,
+				"explanation": "$W'=-pW$ with $p=2/x$ gives $W=Cx^{-2}$. The Wronskian is determined by $p$ alone, so you can test independence of two solutions without knowing $q$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The radial Laplace equation in three dimensions is $R''+\\dfrac2rR'-\\dfrac{l(l+1)}{r^2}R=0$. For $l=2$ the two solutions are $r^a$ and $r^b$. Give the negative exponent $b$.",
+				"answer": -3.0,
+				"tolerance": 0.02,
+				"explanation": "Trying $R=r^s$: $s(s-1)+2s-6=s^2+s-6=0$ gives $s=2,-3$. In general $r^l$ (regular at the origin) and $r^{-(l+1)}$ (decaying), the origin of multipole fields falling as $1/r^{l+1}$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Solve $x^2y''-3xy'+4y=0$ with $y(1)=1$, $y'(1)=0$ (repeated root $r=2$, so $y=x^2(A+B\\ln x)$). Give $y(e)$.",
+				"answer": -7.389056,
+				"tolerance": 0.02,
+				"explanation": "$A=1$; $y'(1)=2A+B=0\\Rightarrow B=-2$. So $y=x^2(1-2\\ln x)$ and $y(e)=e^2(1-2)=-e^2\\approx-7.389$."
+			},
+			{
+				"kind": "short",
+				"prompt": "What is the idea of reduction of order, and why does the radial part of a 3D problem often turn out to be a Cauchy-Euler equation?",
+				"rubric": "Full credit requires: with one known solution $y_1$, set $y=v(x)y_1$ so the equation becomes first order in $v'$; this yields the second independent solution; radial Laplace equation has no preferred length scale (scale invariance $r\\to cr$ because the equation contains only $r^2R''$, $rR'$, $R$ terms), hence power-law solutions.",
+				"modelAnswer": "If you know one solution $y_1$, write $y=v(x)y_1$; the terms in $v$ itself cancel, leaving a first-order equation for $v'$ that can be integrated to get a second, independent solution. The radial Laplace equation has no built-in length scale, so it is unchanged when $r\\to cr$ (each term is of the form $r^2R''$, $rR'$ or $R$), which is exactly the Cauchy-Euler structure; its solutions are therefore powers $r^s$, such as $r^l$ and $r^{-(l+1)}$."
+			}
+		],
+		"m4-l018-power-series": [
+			{
+				"kind": "mc",
+				"prompt": "A power-series solution about $x=0$ of $(1+x^2)y''+2xy'-2y=0$ has radius of convergence at least:",
+				"options": [
+					"Infinity, since the coefficients are all polynomials in $x$.",
+					"At least $1$, since the nearest singularities are at $x=\\pm i$.",
+					"Zero, because $x=0$ is where the $2x$ term vanishes.",
+					"At least $2$, the coefficient multiplying $y$ in the equation."
+				],
+				"answer": 1,
+				"explanation": "In standard form $y''+\\frac{2x}{1+x^2}y'-\\frac{2}{1+x^2}y=0$, the coefficients blow up where $1+x^2=0$, i.e. $x=\\pm i$. Singularities in the complex plane limit the real-axis radius of convergence."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why are the energy levels of the quantum harmonic oscillator quantised in the series solution of the Hermite-type equation?",
+				"options": [
+					"The recurrence has only integer coefficients, which forces integer energies.",
+					"The series is arbitrary and the energies are simply fixed by hand.",
+					"The potential is symmetric, which makes the energies integer multiples.",
+					"Only a terminating series stays normalisable; others grow like $e^{x^2}$."
+				],
+				"answer": 3,
+				"explanation": "Normalisability demands the series terminates, which requires $\\varepsilon=2n+1$, giving $E_n=(n+\\tfrac12)\\hbar\\omega$. Quantisation comes from boundary conditions (normalisability), not from the equation alone."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Substitute $y=\\sum a_nx^n$ into $y''+y=0$ to get $a_{n+2}=-\\dfrac{a_n}{(n+2)(n+1)}$. With $a_0=1$, what is $a_4$?",
+				"answer": 0.041667,
+				"tolerance": 0.02,
+				"explanation": "$a_2=-1/2$ and $a_4=-a_2/12=1/24$, the coefficient of $x^4$ in $\\cos x$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Legendre polynomial $P_3(x)=\\tfrac12(5x^3-3x)$ solves Legendre's equation for $l=3$. Evaluate $P_3(0.5)$.",
+				"answer": -0.4375,
+				"tolerance": 0.02,
+				"explanation": "$P_3(0.5)=\\tfrac12(0.625-1.5)=-0.4375$. The series terminates for integer $l$, producing polynomials."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why requiring a series solution of Legendre's equation to stay finite at $x=\\pm1$ forces $l$ to be an integer, and why that is physically meaningful.",
+				"rubric": "Full credit requires: generic series has both even and odd parts diverging logarithmically at $x=\\pm1$ (cos θ = ±1, the poles of the sphere); finiteness forces the series to terminate -> polynomial P_l for integer l; physical meaning: angular momentum quantisation (l integer), spherical harmonics; boundary condition + recurrence relation gives discrete values.",
+				"modelAnswer": "The recurrence relation gives an infinite series whose terms behave like a harmonic series, so it diverges at $x=\\pm1$ (the north and south poles, $\\cos\\theta=\\pm1$) unless it terminates. Termination requires $l(l+1)$ to take the values $0,2,6,12,\\dots$, i.e. $l$ a non-negative integer, producing the polynomials $P_l$. This is the origin of quantised angular momentum: only integer $l$ gives wavefunctions that are well-behaved on the whole sphere."
+			}
+		],
+		"m4-l019-frobenius-bessel": [
+			{
+				"kind": "mc",
+				"prompt": "For Bessel's equation of order zero, $x^2y''+xy'+x^2y=0$, the indicial equation at $x=0$ is $r^2=0$. What does this repeated root imply for the second solution?",
+				"options": [
+					"No second solution exists, since the indicial equation has one root.",
+					"A $\\ln x$ term appears; the solution $Y_0$ is singular at the origin.",
+					"The second solution is $x^{-1}J_0$, a power series times $J_0$.",
+					"The second solution is also an ordinary power series in $x$."
+				],
+				"answer": 1,
+				"explanation": "When the indicial roots are equal (or differ by an integer) the Frobenius method gives only one pure power series, and the second solution picks up a logarithm. Physical boundary conditions (finite displacement at the centre of a drum) pick out $J_0$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do the vibration frequencies of a circular drum with fixed rim at radius $a$ correspond to zeros of Bessel functions?",
+				"options": [
+					"The drum head vibrates sinusoidally in time, itself a Bessel function.",
+					"The zeros of $J_m$ equal the integers, giving harmonic overtones.",
+					"The tension of the drum is quantised by the clamping of the rim.",
+					"The rim condition $J_m(ka)=0$ allows only discrete values of $k$."
+				],
+				"answer": 3,
+				"explanation": "Separating variables in polar coordinates gives sines/cosines in $\\theta$ and Bessel functions in $r$. The boundary condition $u(a)=0$ quantises $k$ as zeros of $J_m$ divided by $a$, as for the quantum states of a particle in a spherical well."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The frequencies of a circular drum are proportional to the zeros $j_{m,n}$ of $J_m$. Find the ratio of the frequency of the $(m=1,n=1)$ mode to the fundamental $(m=0,n=1)$, i.e. $j_{1,1}/j_{0,1}$.",
+				"answer": 1.593341,
+				"tolerance": 0.02,
+				"explanation": "$j_{0,1}\\approx2.405$ and $j_{1,1}\\approx3.832$, so the ratio is $1.593$. Unlike a string, the overtones of a drum are not integer multiples, which is why drums sound unpitched."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Frobenius series $J_0(x)=1-\\dfrac{x^2}{4}+\\dfrac{x^4}{64}-\\dfrac{x^6}{2304}+\\cdots$ solves Bessel's equation of order 0. Evaluate $J_0(1)$.",
+				"answer": 0.765198,
+				"tolerance": 0.02,
+				"explanation": "$1-0.25+0.015625-0.000434\\approx0.7652$. Near the origin $J_0\\approx1$; the function then oscillates with slowly decaying amplitude."
+			},
+			{
+				"kind": "short",
+				"prompt": "Outline the Frobenius method, and explain how it applies to the radial hydrogen equation to give the Laguerre polynomials and quantised energies.",
+				"rubric": "Full credit requires: assume $y=x^r\\sum a_nx^n$, indicial equation from the lowest power fixes $r$, recurrence for $a_n$; hydrogen radial equation: behaviour $r^l$ at origin (indicial) and $e^{-r/n}$ at infinity; the series must terminate or the wavefunction blows up like $e^{r}$, which forces energies $E_n=-13.6/n^2$ eV; the terminating polynomials are Laguerre polynomials.",
+				"modelAnswer": "At a regular singular point we substitute $y=x^r\\sum a_nx^n$. The lowest power gives the indicial equation for $r$, and the higher powers give a recurrence for $a_n$ (a logarithm may be needed for a second solution). For hydrogen, the indicial exponent gives $R\\sim r^l$ at small $r$; factoring off $e^{-\\kappa r}$ leaves a series that would grow like $e^{2\\kappa r}$ unless it terminates. Termination requires $\\kappa=1/(na_0)$ for an integer $n$, giving polynomial (Laguerre) factors and energies $E_n=-13.6\\ \\text{eV}/n^2$."
+			}
+		],
+		"m4-l020-numerical-methods": [
+			{
+				"kind": "mc",
+				"prompt": "A kinetic scheme has a fast mode with rate $10^3\\ \\text{s}^{-1}$ and a slow mode with rate $1\\ \\text{s}^{-1}$. After a few milliseconds only the slow mode matters. Why is explicit Euler still inefficient?",
+				"options": [
+					"Stability needs $h<2/10^3$ for the fast mode, even after it has decayed.",
+					"Euler cannot represent two time scales in one problem at all.",
+					"The slow mode needs $h<2/1$ to be accurate, which is the real issue.",
+					"The fast mode makes the numerical solution oscillate permanently."
+				],
+				"answer": 0,
+				"explanation": "Stiff problems have widely separated time scales: the fast mode forces tiny steps for stability of an explicit method, though it contributes nothing to the solution. Implicit methods (backward Euler, BDF) are stable for any step on decaying modes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "To integrate a planetary orbit for billions of steps, why might you prefer a symplectic method such as leapfrog over RK4?",
+				"options": [
+					"They have a higher order of accuracy per step than RK4 does.",
+					"RK4 cannot be applied to second-order equations such as orbits.",
+					"Their energy error stays bounded instead of drifting steadily.",
+					"They are exact for the Kepler problem, whatever the step size."
+				],
+				"answer": 2,
+				"explanation": "RK4 is more accurate per step but its small dissipative error accumulates secularly. Symplectic integrators preserve the geometric structure of Hamiltonian flow, so energy errors remain bounded for very long times."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A method has global error $O(h^4)$ (RK4). By what factor does the error decrease when the step size is halved?",
+				"answer": 16.0,
+				"tolerance": 0.02,
+				"explanation": "Error $\\propto h^4$, so halving $h$ divides the error by $2^4=16$. For forward Euler the factor is 2, and for midpoint 4: the slope of a log-log error plot gives the order."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Take one RK4 step of size $h=0.5$ for $y'=-y$, $y(0)=1$. What is $y_1$?",
+				"answer": 0.606771,
+				"tolerance": 0.02,
+				"explanation": "RK4 for this equation gives $1-h+h^2/2-h^3/6+h^4/24=0.6068$, versus the exact $e^{-0.5}=0.6065$. One Euler step would give $0.5$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why do chemical kinetics problems with very different rate constants cause trouble for explicit solvers, and how do implicit methods help?",
+				"rubric": "Full credit requires: stiffness = fast decaying mode(s) and slow mode(s); explicit stability limit h < ~2/λ_fast forces tiny steps long after fast mode has decayed; implicit methods are stable for decaying modes at any h so step is chosen for accuracy of the slow dynamics, at the cost of solving an (often linear) system each step.",
+				"modelAnswer": "If a scheme has a fast step with rate $\\sim10^6\\ \\text{s}^{-1}$ and a slow one with rate $\\sim1\\ \\text{s}^{-1}$, an explicit method must take steps shorter than about $2/10^6$ s to stay stable, even after the fast species has long since equilibrated and the interesting behaviour is on the slow scale. Implicit methods evaluate the derivative at the new time point, which keeps decaying modes decaying whatever the step, so the step is limited by the accuracy needed for the slow dynamics; the price is solving an algebraic system at each step."
+			}
+		]
+	}
+}
