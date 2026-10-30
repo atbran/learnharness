@@ -387,7 +387,10 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 	const fullHours = Object.fromEntries(index.program.courseList.map((c) => [c.id, c.hours]));
 	const parallel = Math.max(1, Math.min(6, opts.parallelCourses ?? 3));
 	const plan = simulateSchedule(index, fullHours, index.program.hoursPerWeek, parallel);
-	const projectionPace = recentMinutes > 0 ? Math.max(1, recentHoursPerWeek) : hoursPerWeek;
+	// A pace needs history: in the first two weeks a few logged minutes
+	// would project decades, so the plan's pace stands in.
+	const settled = Date.parse(today) - Date.parse(startDate) >= 14 * DAY;
+	const projectionPace = settled && recentMinutes > 0 ? Math.max(1, recentHoursPerWeek) : hoursPerWeek;
 	const weeksSoFar = Math.max(0, Math.floor((Date.parse(today) - Date.parse(startDate)) / (7 * DAY)));
 	const projection = simulateSchedule(index, remainingHours, projectionPace, parallel).map((w) =>
 		remainingHours[w.courseId]! <= 1e-9 ? { ...w, startWeek: 0, endWeek: 0 } : { ...w, startWeek: w.startWeek + weeksSoFar, endWeek: w.endWeek + weeksSoFar },
