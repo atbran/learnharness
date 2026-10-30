@@ -480,6 +480,36 @@
 		],
 		"m3-l015-four-subspaces-dimensions-bases": [
 			{
+				"kind": "numeric",
+				"prompt": "A $5\\times8$ matrix has rank 3. What is the dimension of its left nullspace $N(A^T)$?",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "$\\dim N(A^T)=m-r=5-3=2$. Together: $\\dim C(A)=3$, $\\dim N(A)=5$, $\\dim C(A^T)=3$, $\\dim N(A^T)=2$.",
+				"equations": [
+					"\\dim C(A^T)=r,\\ \\dim N(A^T)=m-r"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "A $3\\times5$ matrix has rank 2. Which statement about its four fundamental subspaces is correct?",
+				"options": [
+					"$C(A)$ and $N(A)$ lie in $\\mathbb R^3$ (dimensions 2 and 3); $C(A^T)$ and $N(A^T)$ lie in $\\mathbb R^5$ (dimensions 2 and 1).",
+					"$C(A)$ and $N(A^T)$ lie in $\\mathbb R^3$ (dimensions 2 and 1); $C(A^T)$ and $N(A)$ lie in $\\mathbb R^5$ (dimensions 2 and 3).",
+					"$C(A)$ and $N(A^T)$ lie in $\\mathbb R^3$ (dimensions 2 and 2); $C(A^T)$ and $N(A)$ lie in $\\mathbb R^5$ (dimensions 2 and 3).",
+					"$C(A)$ and $N(A^T)$ lie in $\\mathbb R^5$ (dimensions 2 and 3); $C(A^T)$ and $N(A)$ lie in $\\mathbb R^3$ (dimensions 2 and 1)."
+				],
+				"answer": 1,
+				"explanation": "Columns of $A$ have 3 components, so $C(A)$ and $N(A^T)$ live in $\\mathbb R^3$ with dimensions $r=2$ and $m-r=1$. Inputs $x$ have 5 components, so $N(A)$ and $C(A^T)$ live in $\\mathbb R^5$ with dimensions $n-r=3$ and $r=2$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the row space and the column space of an $m\\times n$ matrix have the same dimension $r$, and use that fact to get $\\dim N(A)$ and $\\dim N(A^T)$.",
+				"rubric": "Full credit requires: (1) elimination finds $r$ pivots; the pivot columns of $A$ are a basis for $C(A)$ and the nonzero rows of $R$ are a basis for $C(A^T)$, so both dimensions equal $r$; (2) $A$ has $n-r$ free variables, so $\\dim N(A)=n-r$; (3) applying the same counts to $A^T$ (an $n\\times m$ matrix of the same rank $r$) gives $\\dim N(A^T)=m-r$.",
+				"modelAnswer": "Row operations do not change the row space, and $R$ has $r$ nonzero rows, which are independent, so $\\dim C(A^T)=r$; the $r$ pivot columns of $A$ are independent and span $C(A)$, so $\\dim C(A)=r$ too. The other $n-r$ columns are free, giving $n-r$ special solutions, so $\\dim N(A)=n-r$. $A^T$ is an $n\\times m$ matrix of rank $r$, so its nullspace $N(A^T)$ has dimension $m-r$."
+			}
+		],
+		"m3-l015b-bases-four-subspaces-from-r-and-e": [
+			{
 				"kind": "mc",
 				"prompt": "Row-reducing $A$ to $R=EA$ leaves some zero rows at the bottom of $R$. The matching rows of $E$ give a basis for which subspace?",
 				"options": [
@@ -493,19 +523,19 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "A $5\\times8$ matrix has rank 3. What is the dimension of its left nullspace $N(A^T)$?",
-				"answer": 2.0,
+				"prompt": "For $A=\\begin{pmatrix}1&2\\\\2&4\\\\3&6\\end{pmatrix}$ the left nullspace contains a vector of the form $y=(y_1,1,0)$. Find $y_1$.",
+				"answer": -2.0,
 				"tolerance": 0.02,
-				"explanation": "$\\dim N(A^T)=m-r=5-3=2$. Together: $\\dim C(A)=3$, $\\dim N(A)=5$, $\\dim C(A^T)=3$, $\\dim N(A^T)=2$.",
+				"explanation": "Row 2 minus 2 times row 1 is zero, so $y=(-2,1,0)$ satisfies $y^TA=0$. It is the second row of $E$ in $EA=R$.",
 				"equations": [
-					"\\dim C(A^T)=r,\\ \\dim N(A^T)=m-r"
+					"y^TA=0"
 				]
 			},
 			{
 				"kind": "short",
-				"prompt": "For an $m\\times n$ matrix of rank $r$, state the dimensions of the four fundamental subspaces and explain how to find a basis for each of them using $R$ and the elimination matrix $E$ with $EA=R$.",
-				"rubric": "Full credit requires: (1) $\\dim C(A)=\\dim C(A^T)=r$, $\\dim N(A)=n-r$, $\\dim N(A^T)=m-r$; (2) bases for $C(A)$ and $N(A)$ from pivot columns and special solutions, and for $C(A^T)$ from the nonzero rows of $R$; (3) a basis for $N(A^T)$ from the rows of $E$ that correspond to zero rows of $R$ (since $y^TA=0$ there).",
-				"modelAnswer": "$\\dim C(A)=\\dim C(A^T)=r$, $\\dim N(A)=n-r$ and $\\dim N(A^T)=m-r$. Pivot columns of $A$ give a basis for $C(A)$, special solutions give $N(A)$, and the nonzero rows of $R$ give $C(A^T)$. The rows of $E$ that produce zero rows of $R$ satisfy $y^TA=0$, so they give a basis for $N(A^T)$."
+				"prompt": "Describe how to find a basis for each of the four fundamental subspaces of $A$ from the reduced form $R$ and the elimination matrix $E$ with $EA=R$.",
+				"rubric": "Full credit requires: (1) bases for $C(A)$ from the pivot columns of $A$, for $N(A)$ from the special solutions, and for $C(A^T)$ from the nonzero rows of $R$; (2) a basis for $N(A^T)$ from the rows of $E$ that correspond to zero rows of $R$, since $y^TA=0$ there (found by row-reducing $[A\\ I]$ to $[R\\ E]$).",
+				"modelAnswer": "Pivot columns of $A$ give a basis for $C(A)$, the special solutions give $N(A)$, and the nonzero rows of $R$ give $C(A^T)$. Row-reducing $[A\\ I]$ to $[R\\ E]$ also produces $E$: a row of $E$ that gives a zero row of $R$ satisfies $y^TA=0$, so those $m-r$ rows form a basis for $N(A^T)$."
 			}
 		],
 		"m3-l016-rank-nullity-rank-one-matrices": [
@@ -631,6 +661,40 @@
 					"p=\\hat x\\,a",
 					"a^T(b-p)=0"
 				]
+			}
+		],
+		"m3-l019b-projection-onto-subspace": [
+			{
+				"kind": "mc",
+				"prompt": "The matrix $P=A(A^TA)^{-1}A^T$ projects onto $C(A)$. What does $P$ do to a vector $y$ in the left nullspace $N(A^T)$?",
+				"options": [
+					"It returns $y$ unchanged, because $P^2=P$ means projections never change a vector.",
+					"It sends $y$ to a nonzero vector of $C(A)$, the closest point in the subspace.",
+					"It sends $y$ to $0$, because $y$ is perpendicular to every column of $A$.",
+					"It sends $y$ to $-y$, because $y$ is on the opposite side of the subspace."
+				],
+				"answer": 2,
+				"explanation": "$Py=A(A^TA)^{-1}(A^Ty)=0$ because $A^Ty=0$. Projection keeps the $C(A)$ part of a vector and kills the part in $N(A^T)$; only vectors already in $C(A)$ are unchanged.",
+				"equations": [
+					"P=A(A^TA)^{-1}A^T"
+				]
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Project $b=(6,0,0)$ onto the column space of $A=\\begin{pmatrix}1&0\\\\1&1\\\\1&2\\end{pmatrix}$. Give the third component of the projection $p$.",
+				"answer": -1.0,
+				"tolerance": 0.02,
+				"explanation": "$A^TA=\\begin{pmatrix}3&3\\\\3&5\\end{pmatrix}$ and $A^Tb=(6,0)$, so $\\hat x=(5,-3)$ and $p=A\\hat x=(5,2,-1)$. The third component is $-1$.",
+				"equations": [
+					"A^TA\\hat x=A^Tb",
+					"p=A\\hat x"
+				]
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the closest point $p=A\\hat x$ in $C(A)$ to $b$ satisfies $A^TA\\hat x=A^Tb$, and how this gives the projection matrix $P$.",
+				"rubric": "Full credit requires: (1) the error $e=b-A\\hat x$ must be perpendicular to $C(A)$, i.e. to every column of $A$; (2) that says $A^T(b-A\\hat x)=0$, so $A^TA\\hat x=A^Tb$; (3) when $A^TA$ is invertible, $\\hat x=(A^TA)^{-1}A^Tb$ and $p=A\\hat x=Pb$ with $P=A(A^TA)^{-1}A^T$.",
+				"modelAnswer": "The closest point is the one for which the error is perpendicular to the whole subspace, so $e=b-A\\hat x$ is orthogonal to every column of $A$: $A^T(b-A\\hat x)=0$. That is $A^TA\\hat x=A^Tb$, so $\\hat x=(A^TA)^{-1}A^Tb$ and $p=A\\hat x=A(A^TA)^{-1}A^Tb$, which is $Pb$."
 			}
 		],
 		"m3-l020-normal-equations-geometry": [
@@ -779,6 +843,33 @@
 			},
 			{
 				"kind": "mc",
+				"prompt": "In a $3\\times3$ matrix, row 3 is replaced by (row 3) $-\\,4\\times$ (row 1). What happens to the determinant?",
+				"options": [
+					"It is multiplied by $-4$, because a multiple of a row was subtracted.",
+					"It becomes $0$, because the new row 3 depends on row 1.",
+					"It is unchanged, because adding a multiple of one row to another preserves $\\det$.",
+					"It changes sign, because two rows of the matrix were involved."
+				],
+				"answer": 2,
+				"explanation": "By linearity in row 3, the new determinant is $\\det A-4\\det$(a matrix with rows 1 and 3 equal)$=\\det A-0$. This is why elimination does not change the determinant."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A $3\\times3$ matrix $A$ has $\\det A=5$. Matrix $B$ is obtained from $A$ by exchanging rows 1 and 3 and then multiplying row 2 by 3. What is $\\det B$?",
+				"answer": -15.0,
+				"tolerance": 0.02,
+				"explanation": "A row exchange flips the sign ($-5$), and multiplying one row by 3 multiplies the determinant by 3, so $\\det B=3\\cdot(-5)=-15$."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the three defining properties of the determinant and show how they imply that a row exchange flips the sign and that $\\det A=0$ for a matrix with two equal rows.",
+				"rubric": "Full credit requires: det I = 1; sign flips on exchange (or: linear in each row separately); stated consequences: two equal rows -> exchanging them changes nothing but flips sign, so det = -det = 0.",
+				"modelAnswer": "The defining properties are: (1) $\\det I = 1$; (2) the sign reverses when two rows are exchanged; (3) the determinant is linear in each row separately. If two rows are equal, exchanging them leaves the matrix unchanged but must flip the sign of the determinant, so $\\det A=-\\det A$, giving $\\det A=0$. Row-subtraction then shows the determinant is unchanged by elimination, so it equals the product of the pivots."
+			}
+		],
+		"m3-l024b-determinant-pivots-product-rule": [
+			{
+				"kind": "mc",
 				"prompt": "Why does $\\det A=0$ exactly when $A$ is not invertible?",
 				"options": [
 					"The determinant counts the nonzero entries, so it vanishes only for the zero matrix.",
@@ -801,10 +892,17 @@
 				]
 			},
 			{
+				"kind": "numeric",
+				"prompt": "Compute $\\det A$ for $A=\\begin{pmatrix}0&2&1\\\\1&1&0\\\\2&0&3\\end{pmatrix}$ by elimination (the first pivot is zero, so a row exchange is needed).",
+				"answer": -8.0,
+				"tolerance": 0.02,
+				"explanation": "Exchange rows 1 and 2 (sign $-1$): rows $(1,1,0),(0,2,1),(2,0,3)$. Eliminate: row 3 minus 2 times row 1 gives $(0,-2,3)$, then plus row 2 gives $(0,0,4)$. Pivots $1,2,4$ give $8$, and the exchange gives $\\det A=-8$."
+			},
+			{
 				"kind": "short",
-				"prompt": "State the three defining properties of the determinant and show how they imply that a row exchange flips the sign and that $\\det A=0$ for a matrix with two equal rows.",
-				"rubric": "Full credit requires: det I = 1; sign flips on exchange (or: linear in each row separately); stated consequences: two equal rows -> exchanging them changes nothing but flips sign, so det = -det = 0.",
-				"modelAnswer": "The defining properties are: (1) $\\det I = 1$; (2) the sign reverses when two rows are exchanged; (3) the determinant is linear in each row separately. If two rows are equal, exchanging them leaves the matrix unchanged but must flip the sign of the determinant, so $\\det A=-\\det A$, giving $\\det A=0$. Row-subtraction then shows the determinant is unchanged by elimination, so it equals the product of the pivots."
+				"prompt": "Explain why $\\det(AB)=\\det A\\,\\det B$ implies $\\det A^{-1}=1/\\det A$, and what this says about a singular matrix.",
+				"rubric": "Full credit requires: (1) $AA^{-1}=I$, so $\\det A\\,\\det A^{-1}=\\det I=1$; (2) therefore $\\det A^{-1}=1/\\det A$, which only makes sense if $\\det A\\ne0$; (3) a singular matrix has $\\det A=0$ and no inverse, so $\\det A\\ne0$ is the test for invertibility.",
+				"modelAnswer": "Taking determinants of $AA^{-1}=I$ and using the product rule gives $\\det A\\cdot\\det A^{-1}=\\det I=1$, so $\\det A^{-1}=1/\\det A$. That requires $\\det A\\ne0$: a singular matrix has $\\det A=0$, and no number can multiply 0 to give 1, which is consistent with it having no inverse."
 			}
 		],
 		"m3-l025-computing-determinants-cofactors-big-formula": [
@@ -988,12 +1086,12 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "Using $A=S\\Lambda S^{-1}$ for the Fibonacci matrix, $F_k=(\\varphi^k-\\psi^k)/\\sqrt5$. Estimate $F_{30}$ (use $\\varphi^{30}/\\sqrt5$, rounded).",
-				"answer": 832040.0,
+				"prompt": "The matrix $A=\\begin{pmatrix}3&1\\\\0&2\\end{pmatrix}$ has eigenvalues $3$ and $2$ with eigenvectors $(1,0)$ and $(1,-1)$. Use $A^k=S\\Lambda^kS^{-1}$ to find the $(1,2)$ entry of $A^5$.",
+				"answer": 211.0,
 				"tolerance": 0.02,
-				"explanation": "$\\varphi=(1+\\sqrt5)/2\\approx1.618$ is the dominant eigenvalue, and $\\varphi^{30}/\\sqrt5\\approx832{,}040$ (the $\\psi^k$ term is negligible). Growth rate is set by the largest eigenvalue.",
+				"explanation": "$S=\\begin{pmatrix}1&1\\\\0&-1\\end{pmatrix}$, so $A^k=\\begin{pmatrix}3^k&3^k-2^k\\\\0&2^k\\end{pmatrix}$. For $k=5$ the $(1,2)$ entry is $243-32=211$.",
 				"equations": [
-					"F_k=\\frac{\\varphi^k-\\psi^k}{\\sqrt5},\\quad\\varphi=\\frac{1+\\sqrt5}{2}"
+					"A^k=S\\Lambda^kS^{-1}"
 				]
 			},
 			{
@@ -1004,6 +1102,36 @@
 				"equations": [
 					"A=S\\Lambda S^{-1}"
 				]
+			}
+		],
+		"m3-l030b-linear-recurrences-fibonacci": [
+			{
+				"kind": "numeric",
+				"prompt": "Using $A=S\\Lambda S^{-1}$ for the Fibonacci matrix, $F_k=(\\varphi^k-\\psi^k)/\\sqrt5$. Estimate $F_{30}$ (use $\\varphi^{30}/\\sqrt5$, rounded).",
+				"answer": 832040.0,
+				"tolerance": 0.02,
+				"explanation": "$\\varphi=(1+\\sqrt5)/2\\approx1.618$ is the dominant eigenvalue, and $\\varphi^{30}/\\sqrt5\\approx832{,}040$ (the $\\psi^k$ term is negligible). Growth rate is set by the largest eigenvalue.",
+				"equations": [
+					"F_k=\\frac{\\varphi^k-\\psi^k}{\\sqrt5},\\quad\\varphi=\\frac{1+\\sqrt5}{2}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "For the Fibonacci system $u_{k+1}=\\begin{pmatrix}1&1\\\\1&0\\end{pmatrix}u_k$ the eigenvalues are $\\varphi\\approx1.618$ and $\\psi\\approx-0.618$. What does $F_{k+1}/F_k$ approach as $k\\to\\infty$?",
+				"options": [
+					"$\\psi\\approx-0.618$, the smaller eigenvalue, because it controls the long-time behaviour.",
+					"$\\varphi\\approx1.618$, the dominant eigenvalue, because the other term dies out.",
+					"$1$, because each term is the sum of the two terms before it.",
+					"$2$, because each term roughly doubles the previous one."
+				],
+				"answer": 1,
+				"explanation": "$F_k=(\\varphi^k-\\psi^k)/\\sqrt5$ and $|\\psi|<1$, so $\\psi^k\\to0$ and $F_{k+1}/F_k\\to\\varphi$, the golden ratio."
+			},
+			{
+				"kind": "short",
+				"prompt": "Show how the recurrence $F_{k+2}=F_{k+1}+F_k$ becomes a first-order system $u_{k+1}=Au_k$, and explain how the eigenvalues of $A$ give a closed form for $F_k$ and its growth rate.",
+				"rubric": "Full credit requires: (1) $u_k=(F_{k+1},F_k)$ and $A=\\begin{pmatrix}1&1\\\\1&0\\end{pmatrix}$ (adding the trivial equation $F_{k+1}=F_{k+1}$); (2) expand $u_0=c_1x_1+c_2x_2$ so $u_k=c_1\\lambda_1^kx_1+c_2\\lambda_2^kx_2$ with $\\lambda=(1\\pm\\sqrt5)/2$; (3) $F_k$ grows like $\\varphi^k$ because the other eigenvalue has size less than 1.",
+				"modelAnswer": "Let $u_k=(F_{k+1},F_k)$. Then $F_{k+2}=F_{k+1}+F_k$ and $F_{k+1}=F_{k+1}$ give $u_{k+1}=\\begin{pmatrix}1&1\\\\1&0\\end{pmatrix}u_k$. Its eigenvalues are $\\lambda=(1\\pm\\sqrt5)/2$; writing $u_0$ as a combination of the eigenvectors gives $u_k=c_1\\lambda_1^kx_1+c_2\\lambda_2^kx_2$, so $F_k=(\\varphi^k-\\psi^k)/\\sqrt5$. Since $|\\psi|<1$, $F_k$ grows like $\\varphi^k/\\sqrt5$."
 			}
 		],
 		"m3-l031-convergence-markov-matrices": [
@@ -1599,6 +1727,24 @@
 			},
 			{
 				"kind": "numeric",
+				"prompt": "A linear transformation rotates the plane counterclockwise by $30^\\circ$. What is the $x$-component of the image of the vector $(0,1)$?",
+				"answer": -0.5,
+				"tolerance": 0.02,
+				"explanation": "The second column of the rotation matrix is the image of $(0,1)$: $(-\\sin\\theta,\\cos\\theta)=(-0.5,0.866)$, so the $x$-component is $-\\sin30^\\circ=-0.5$.",
+				"equations": [
+					"R(\\theta)=\\begin{pmatrix}\\cos\\theta&-\\sin\\theta\\\\\\sin\\theta&\\cos\\theta\\end{pmatrix}"
+				]
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how to test whether a map $T$ is linear. Show why the shift $T(v)=v+(1,0)$ fails the test, while every $T(v)=Av$ passes.",
+				"rubric": "Full credit requires: (1) linearity means $T(v+w)=T(v)+T(w)$ and $T(cv)=cT(v)$ (together $T(cv+dw)=cT(v)+dT(w)$); (2) the shift fails, e.g. $T(0)=(1,0)\\ne0$ or $T(2v)\\ne2T(v)$; (3) $A(cv+dw)=cAv+dAw$ follows from the rules of matrix multiplication.",
+				"modelAnswer": "A map is linear if it respects addition and scaling: $T(v+w)=T(v)+T(w)$ and $T(cv)=cT(v)$. The shift fails because $T(0)=(1,0)$ is not the zero vector, and $T(2v)=2v+(1,0)\\ne2T(v)$. Matrix maps pass because $A(cv+dw)=cAv+dAw$."
+			}
+		],
+		"m3-l049b-matrix-of-t-in-bases": [
+			{
+				"kind": "numeric",
 				"prompt": "Let $D=d/dx$ act on polynomials of degree $\\le2$ with basis $\\{1,x,x^2\\}$. The matrix of $D$ has columns $D(1),D(x),D(x^2)$ written in the basis. Give the entry in row 2, column 3.",
 				"answer": 2.0,
 				"tolerance": 0.02,
@@ -1608,10 +1754,25 @@
 				]
 			},
 			{
+				"kind": "mc",
+				"prompt": "The linear map $T$ projects the plane onto the line $y=x$. Using the basis $v_1=(1,1)$, $v_2=(1,-1)$ for both input and output, what is the matrix of $T$?",
+				"options": [
+					"$\\begin{pmatrix}1/2&1/2\\\\1/2&1/2\\end{pmatrix}$, the projection matrix in the standard basis.",
+					"$\\begin{pmatrix}0&0\\\\0&1\\end{pmatrix}$, keeping only the second basis vector.",
+					"$\\begin{pmatrix}1&0\\\\0&0\\end{pmatrix}$, keeping $v_1$ and killing $v_2$.",
+					"$\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}$, since a projection does not change the plane."
+				],
+				"answer": 2,
+				"explanation": "$T(v_1)=v_1$ gives the first column $(1,0)$, and $T(v_2)=0$ gives the second column $(0,0)$. In the eigenvector basis the projection is diagonal; the $1/2$ matrix is the same map in the standard basis.",
+				"equations": [
+					"[T]_{\\mathcal B}\\;\\text{columns}=[T(v_j)]_{\\mathcal B}"
+				]
+			},
+			{
 				"kind": "short",
-				"prompt": "Explain how to build the matrix of a linear transformation from its action on a basis, and how the kernel and range relate to the nullspace and column space.",
-				"rubric": "Full credit requires: column j = coordinates of $T(\\text{basis vector}_j)$ in the output basis (linearity then determines T everywhere); kernel = vectors mapped to 0 = nullspace of the matrix; range = span of the images = column space; the matrix depends on the chosen bases.",
-				"modelAnswer": "Because $T$ is linear, knowing what it does to each input basis vector determines it completely: write each image $T(v_j)$ in the output basis and use those coordinates as column $j$. Then the coordinates of $T(x)$ are $A$ times the coordinates of $x$. The kernel (inputs sent to zero) is the nullspace of $A$, and the range (all outputs) is spanned by the images, i.e. the column space; the entries change with the choice of bases but these subspaces are intrinsic."
+				"prompt": "Explain why a linear transformation is determined by what it does to a basis, and how to build its matrix column by column.",
+				"rubric": "Full credit requires: (1) every $v=c_1v_1+\\dots+c_nv_n$, so linearity gives $T(v)=c_1T(v_1)+\\dots+c_nT(v_n)$ and the values $T(v_j)$ fix $T$; (2) column $j$ of the matrix holds the coordinates of $T(v_j)$ in the output basis; (3) a different choice of bases gives a different matrix for the same $T$.",
+				"modelAnswer": "Any input is a combination $c_1v_1+\\dots+c_nv_n$ of basis vectors, and linearity gives $T(v)=c_1T(v_1)+\\dots+c_nT(v_n)$, so knowing each $T(v_j)$ determines $T$ everywhere. Write each $T(v_j)$ in the output basis; those coordinates are column $j$ of the matrix. Changing either basis changes the matrix but not the transformation."
 			}
 		],
 		"m3-l050-composition-kernel-range": [
