@@ -1,0 +1,789 @@
+{
+	"courseId": "e1-dsp",
+	"checks": {
+		"e1-l001-signals-sampling-digitising": [
+			{
+				"kind": "mc",
+				"prompt": "A spectrometer amplifier outputs a smooth voltage. The ADC reads it every 10 µs and rounds each reading to one of 65 536 levels. Which statement is correct?",
+				"options": [
+					"Sampling alone makes the data digital, and rounding is only a cosmetic detail of the output",
+					"Both steps discretise time, while the amplitude values pass through the ADC with no change",
+					"Sampling makes time discrete and rounding makes amplitude discrete: two separate steps with separate errors",
+					"Rounding to 65 536 levels removes the need to choose a sampling interval at all"
+				],
+				"answer": 2,
+				"explanation": "Sampling picks the times at which we look; quantisation limits how finely each reading is recorded. Aliasing belongs to the first, rounding noise to the second."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An NMR FID is recorded as 16 384 complex points with a spectral width of 8000 Hz, so the dwell time is 1/(8000 Hz). How long is the acquisition? (Answer in seconds.)",
+				"answer": 2.048,
+				"tolerance": 0.02,
+				"explanation": "Dwell = 1/8000 = 125 µs, and 16 384 × 125 µs = 2.048 s. The record length sets the best possible resolution (about 1/T = 0.5 Hz).",
+				"unit": "s"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two instruments record the same decaying waveform, one with 50 µs spacing and one with 100 µs. The lists of numbers look similar. What does the list x[n] alone not tell you?",
+				"options": [
+					"The real time spacing, so frequencies in Hz cannot be read off without T_s",
+					"The amplitudes, because x[n] stores only the shape and not the voltage size at each point",
+					"The order of the readings, because the sequence index n carries no time ordering at all",
+					"Whether the signal is real, because digital lists cannot hold a real-valued waveform"
+				],
+				"answer": 0,
+				"explanation": "The index n is just a count. Converting to seconds or hertz needs the sampling interval T_s; the same numbers mean different frequencies at different T_s."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, explain the difference between a continuous signal, a sampled sequence and a digitised signal, and why you must know T_s to interpret the sequence.",
+				"rubric": "Full credit: (1) continuous = defined for every t; (2) sampled = values only at t=nT_s; (3) digitised = those values also rounded to finite levels; (4) states that frequency/time axes need T_s because x[n] only has an index.",
+				"modelAnswer": "A continuous signal has a value at every instant. Sampling keeps only the values at t = nT_s, giving a list indexed by n. Digitising also rounds each value to one of a finite set of levels. The list carries no clock, so to say what frequency a feature has in hertz, or how long the record is, you need T_s."
+			}
+		],
+		"e1-l002-sampling-theorem-nyquist": [
+			{
+				"kind": "mc",
+				"prompt": "Which statement is the correct reading of the sampling theorem?",
+				"options": [
+					"Sampling at exactly the signal's top frequency always keeps every feature, since one point per cycle is enough",
+					"Sampling at twice the average frequency of the signal suffices, whatever the highest component present is",
+					"Sampling faster than 2 f_max reveals extra detail that the original signal did not contain above f_max",
+					"A signal with no content above f_max is fully determined by samples taken faster than 2 f_max"
+				],
+				"answer": 3,
+				"explanation": "The condition is on the highest frequency present and on the signal being band-limited. Faster sampling cannot create information the signal never had."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A lock-in output is digitised every 25 µs. What is the Nyquist frequency? (Answer in kHz.)",
+				"answer": 20,
+				"tolerance": 0.02,
+				"explanation": "f_s = 1/25 µs = 40 kHz, so f_N = f_s/2 = 20 kHz. Components above that fold back into the recorded band.",
+				"unit": "kHz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Real data acquisition systems usually sample at 2.5 to 10 times the highest wanted frequency, not exactly 2 times. Why?",
+				"options": [
+					"The theorem is only an approximation, so exact reconstruction never works even for ideal band-limited signals",
+					"Real anti-alias filters roll off gradually, and sinc reconstruction needs infinitely many perfect samples",
+					"Sampling slower than ten times leaves gaps in time where the signal's amplitude cannot be defined",
+					"Faster sampling increases the ADC bit depth, which is what actually limits the dynamic range"
+				],
+				"answer": 1,
+				"explanation": "The theorem is exact for ideal band-limited signals. Practical filters have transition bands, so you need headroom between the wanted band and f_s/2."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain, using the idea that sampling makes the spectrum repeat every f_s, why a signal with energy above f_s/2 cannot be recovered from its samples.",
+				"rubric": "Full credit: (1) sampling in time replicates the spectrum at multiples of f_s; (2) if the signal extends beyond f_s/2 the copies overlap; (3) overlapping frequencies add and cannot be separated afterwards.",
+				"modelAnswer": "Sampling in time copies the whole spectrum to every multiple of f_s. If the signal has content above f_s/2, the copy from one side overlaps the original from the other. Once added together, the overlapping parts cannot be separated, so the original cannot be recovered."
+			}
+		],
+		"e1-l003-aliasing-antialias": [
+			{
+				"kind": "numeric",
+				"prompt": "A 7 kHz tone is sampled at 10 kHz. At what frequency does it appear in the recorded data? (Answer in kHz.)",
+				"answer": 3,
+				"tolerance": 0.02,
+				"explanation": "The nearest multiple of f_s is 10 kHz, so f_app = |7 - 10| = 3 kHz. It is indistinguishable from a genuine 3 kHz tone.",
+				"unit": "kHz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A recording shows an unexpected low-frequency component. Why can you not remove an alias by filtering the digital data afterwards?",
+				"options": [
+					"Digital filters only work above the Nyquist frequency, so low-frequency content is always beyond their reach",
+					"Once sampled, the alias is identical to a genuine low-frequency tone, so the two cannot be told apart",
+					"The alias carries a different phase that every digital filter is built to leave untouched, by design",
+					"The alias is created later inside the filter itself, so it can only be removed before the signal reaches it"
+				],
+				"answer": 1,
+				"explanation": "Aliasing is a many-to-one mapping: several true frequencies give identical samples. The information distinguishing them is gone at the ADC, so filtering must happen before it."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do modern instruments often sample at several times the needed rate and then digitally filter and decimate?",
+				"options": [
+					"It adds bit depth automatically, so the digitiser's dynamic range improves in all cases without any other change",
+					"It removes the need for any analogue filter, because sampling fast guarantees no signal exists above f_s/2",
+					"It makes the Nyquist frequency lower, which keeps strong interferers out of the wanted band",
+					"The analogue anti-alias filter can then be simple and cheap, with the sharp cut-off done digitally"
+				],
+				"answer": 3,
+				"explanation": "Oversampling pushes f_s/2 far above the wanted band, so the analogue filter only needs a gentle slope. A steep digital filter then removes the rest."
+			},
+			{
+				"kind": "short",
+				"prompt": "A 50 Hz mains hum is recorded with a 60 Hz sampling rate and shows up as a 10 Hz oscillation. Explain why, and what should have been done.",
+				"rubric": "Full credit: (1) 50 Hz exceeds f_s/2 = 30 Hz; (2) it folds to |50-60| = 10 Hz; (3) fix is an analogue anti-alias filter or higher f_s before digitising, not digital cleaning afterwards.",
+				"modelAnswer": "50 Hz is above the Nyquist frequency of 30 Hz, so it folds back to |50 - 60| = 10 Hz and looks like a real 10 Hz signal. The fix is to filter before the ADC or sample faster so that 50 Hz is below f_s/2, then remove it digitally as a known 50 Hz line."
+			}
+		],
+		"e1-l004-quantisation-adc-bit-depth": [
+			{
+				"kind": "mc",
+				"prompt": "A spectrometer's digitiser is upgraded from 12 bits to 16 bits with the same full-scale range. By roughly how much does the ideal quantisation noise floor fall?",
+				"options": [
+					"About 24 dB, a factor of 16 in amplitude",
+					"About 4 dB, roughly one decibel gained for each additional bit",
+					"About 12 dB, a factor of 4 in amplitude",
+					"About 48 dB, a factor of 250 in amplitude"
+				],
+				"answer": 0,
+				"explanation": "Each bit halves Δ, which is 6.02 dB in amplitude. Four more bits give about 24 dB, i.e. Δ is 2^4 = 16 times smaller."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 16-bit ADC spans -5 V to +5 V. What is the RMS quantisation noise Δ/√12? (Answer in µV.)",
+				"answer": 44.05,
+				"tolerance": 0.02,
+				"explanation": "Δ = 10 V / 65 536 = 152.6 µV, and Δ/√12 = 44.05 µV. This is the floor from rounding alone.",
+				"unit": "µV"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A weak analyte signal sits beside an enormous solvent peak in a recorded FID. Why can a low-bit digitiser hide the analyte?",
+				"options": [
+					"The weak signal is always shorter in time than the solvent peak, so it falls between the samples",
+					"Quantisation noise grows with signal size, so the solvent peak drowns the analyte in rounding noise",
+					"The big peak sets the full scale, so one LSB can be as large as the weak signal",
+					"Digitisers cannot represent two different amplitudes in the same record at the same time"
+				],
+				"answer": 2,
+				"explanation": "Full scale must fit the largest signal. The step size Δ then fixes the smallest resolvable amplitude, so dynamic range and bit depth decide what weak features survive."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why rounding to the nearest ADC level behaves like added noise of RMS Δ/√12, and why that noise falls by 6 dB per bit.",
+				"rubric": "Full credit: (1) rounding error is roughly uniform in ±Δ/2; (2) uniform distribution has RMS Δ/√12; (3) each extra bit halves Δ, so noise halves = 6 dB.",
+				"modelAnswer": "The rounding error for a busy signal is effectively random and uniformly spread between -Δ/2 and +Δ/2, which gives RMS Δ/√12. Adding one bit halves the step Δ, so the noise amplitude halves, which is about 6 dB lower."
+			}
+		],
+		"e1-l005-lti-impulse-response": [
+			{
+				"kind": "mc",
+				"prompt": "Which detector model is NOT linear?",
+				"options": [
+					"A gain stage, y = 2x, which scales every input by a fixed factor",
+					"A running difference, y[n] = x[n] - x[n-1], which compares neighbouring samples",
+					"A three-point moving average, which adds shifted copies of the input and scales",
+					"A square-law detector, y = x²"
+				],
+				"answer": 3,
+				"explanation": "Doubling the input quadruples a square-law output, so superposition fails. The others only scale, shift and add."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A detector has impulse response $h[n]=0.5^n$ for $n\\ge 0$ (zero before). Its response to a unit step applied at $n=0$ is the running sum of $h$. What is the step response at $n=4$?",
+				"answer": 1.9375,
+				"tolerance": 0.02,
+				"explanation": "The step is a sum of impulses, so $y[4]=\\sum_{k=0}^{4}0.5^k=1.9375$ (heading to 2 as n grows)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is one measurement of the response to a sharp spike enough to predict the output for any input of an LTI system?",
+				"options": [
+					"The response to a spike contains all frequencies equally, so the output equals the input for any signal",
+					"Any input is a sum of scaled, shifted spikes, so the output is the same sum of scaled, shifted responses",
+					"Linear systems only ever respond to spikes, so other inputs are first converted to spikes by the system",
+					"The spike response is the long-time average of the system, which fixes the output for every input"
+				],
+				"answer": 1,
+				"explanation": "Linearity gives superposition and time invariance gives shifting. Together the spike response h[n] fixes the output for all inputs."
+			},
+			{
+				"kind": "short",
+				"prompt": "Define a linear time-invariant system and the impulse response in your own words, and give one way a real detector might violate LTI.",
+				"rubric": "Full credit: (1) linear = superposition/scaling; (2) time-invariant = delayed input gives delayed output; (3) impulse response = output for a unit spike; (4) a valid violation (saturation, drift, gain change).",
+				"modelAnswer": "Linear means scaling and adding inputs scales and adds outputs. Time-invariant means delaying the input just delays the output. The impulse response is the output for a single unit spike and describes the system fully. A detector that saturates at high count rates is not linear, and one whose gain drifts with time is not time-invariant."
+			}
+		],
+		"e1-l006-convolution": [
+			{
+				"kind": "numeric",
+				"prompt": "A Gaussian line of FWHM 4.0 Hz is measured with an instrument whose response is also Gaussian, FWHM 3.0 Hz. What FWHM do you observe? (Answer in Hz.)",
+				"answer": 5.0,
+				"tolerance": 0.02,
+				"explanation": "Gaussian variances add, and FWHM is proportional to σ, so the FWHMs add in quadrature: √(4² + 3²) = 5.0 Hz.",
+				"unit": "Hz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A Lorentzian line (FWHM 0.8 Hz) is convolved with a Lorentzian broadening function (FWHM 0.5 Hz). What is the result?",
+				"options": [
+					"A Lorentzian with FWHM 0.94 Hz",
+					"A Gaussian with FWHM 1.3 Hz",
+					"A Lorentzian with FWHM 1.3 Hz",
+					"A Lorentzian with FWHM 0.4 Hz"
+				],
+				"answer": 2,
+				"explanation": "Lorentzians are closed under convolution and their widths add linearly (0.8 + 0.5 = 1.3 Hz). Gaussians instead add in quadrature."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Convolving the sequence [1, 2, 3] with [1, 1] gives which output?",
+				"options": [
+					"[1, 3, 5, 3]",
+					"[1, 2, 3, 1]",
+					"[2, 3, 4]",
+					"[1, 3, 6, 3]"
+				],
+				"answer": 0,
+				"explanation": "Output = 1·[1,2,3] shifted 0 plus 1·[1,2,3] shifted 1 = [1, 2+1, 3+2, 3] = [1, 3, 5, 3]. The output is longer by one sample."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain convolution as 'superposing scaled and shifted copies of the impulse response' using a spectrum of sharp lines and a broad instrument function.",
+				"rubric": "Full credit: (1) each input spike produces a copy of h scaled by its height and shifted to its position; (2) output is the sum of these copies; (3) sharp lines become copies of the instrument function; closely spaced lines overlap.",
+				"modelAnswer": "Each sharp line in the true spectrum acts as a spike. The instrument turns every spike into a copy of its response function, scaled by the line's height and placed at the line's position. The recorded spectrum is the sum of all those copies, so lines become instrument-shaped peaks and nearby ones can overlap and blur together."
+			}
+		],
+		"e1-l007-dft-frequency-bins": [
+			{
+				"kind": "numeric",
+				"prompt": "A real signal of N = 2048 points is sampled at 8192 Hz. At what frequency does DFT bin k = 300 sit? (Answer in Hz.)",
+				"answer": 1200,
+				"tolerance": 0.02,
+				"explanation": "Bin spacing is f_s/N = 4 Hz, so f_300 = 300 × 4 = 1200 Hz.",
+				"unit": "Hz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a real signal with N = 1024 points, how should you interpret X[900]?",
+				"options": [
+					"It is a distinct high-frequency component that is independent of X[124] and carries new information",
+					"It is the amplitude of a frequency above the Nyquist limit, so it can be safely discarded as noise",
+					"It is the complex conjugate of X[124]: the same information as a negative-frequency mirror",
+					"It is the DC level of the signal, because index 900 wraps close to the start of the record"
+				],
+				"answer": 2,
+				"explanation": "For real input X[N-k] = X[k]*. Bins above N/2 are the negative-frequency mirror of those below, so only N/2 independent complex values exist."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the DFT value X[k] actually measure?",
+				"options": [
+					"How strongly the data correlate with a complex sinusoid at frequency k f_s/N",
+					"The average value of the data in the k-th block of the record in time",
+					"The amplitude of the k-th sample after the signal has been passed through a filter",
+					"The rate at which the data change between sample k and the next one"
+				],
+				"answer": 0,
+				"explanation": "X[k] is an inner product (projection) of the data with e^{2πikn/N}. A large magnitude means a lot of that frequency, and its phase says where the oscillation starts."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words what the DFT computes, how a bin index maps to a frequency in hertz, and what the DFT implicitly assumes about the record beyond its ends.",
+				"rubric": "Full credit: (1) projections onto complex sinusoids; (2) f_k = k f_s/N; (3) record treated as one period of a periodic signal.",
+				"modelAnswer": "The DFT compares the N data points with N complex sinusoids and reports how much of each is present. Bin k corresponds to k f_s/N hertz. It treats the record as one period of a signal that repeats forever, so the end is assumed to join the start."
+			}
+		],
+		"e1-l008-fft-resolution-zero-padding": [
+			{
+				"kind": "mc",
+				"prompt": "For N = 2^20 points (about 10^6), roughly how many times fewer multiplications does the FFT need than the direct DFT?",
+				"options": [
+					"About 20 times fewer, because the FFT trades some accuracy for speed",
+					"About 2 times fewer, since only half the bins are independent for real data",
+					"About 10^6 times fewer, because the FFT is free once data are in memory",
+					"About 5 × 10^4 times fewer, with an identical result"
+				],
+				"answer": 3,
+				"explanation": "Direct DFT ~ N² while the FFT ~ N log2 N, a ratio of N / log2 N = 2^20/20 ≈ 52 000. The FFT is exact, not an approximation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 16 384-point record is sampled at 2000 Hz. What is the frequency spacing between FFT bins? (Answer in Hz.)",
+				"answer": 0.1221,
+				"tolerance": 0.02,
+				"explanation": "Δf = f_s/N = 2000/16384 = 0.1221 Hz, equal to 1/T for T = 8.19 s.",
+				"unit": "Hz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two NMR-like peaks are 0.8 Hz apart, but the FID was recorded for only 1 s. After zero-padding the FID to 8 times its length, what do you see?",
+				"options": [
+					"Two clearly separated peaks, because the padded record has 8 times more frequency points",
+					"A smoother-looking spectrum, but the peaks stay unresolved because resolution is about 1/T = 1 Hz",
+					"Two peaks resolved only if the spectral width is also increased by the same factor of 8",
+					"A single peak that is 8 times narrower than before, since padding sharpens every line"
+				],
+				"answer": 1,
+				"explanation": "Zero-padding adds interpolated points between the same underlying information. Only a longer acquisition (larger T) narrows the lines."
+			},
+			{
+				"kind": "short",
+				"prompt": "A colleague says 'I'll just sample 10 times faster to get better frequency resolution.' Explain why that does not work and what does.",
+				"rubric": "Full credit: (1) resolution Δf ≈ 1/T; (2) faster sampling raises f_s/Nyquist range and adds more bins spread over a wider range; (3) acquire for longer.",
+				"modelAnswer": "Frequency resolution is about 1/T, the inverse of the record duration. Sampling faster only extends the highest frequency you can see (and gives more points per second); the bins stay 1/T apart unless the record is longer. To resolve closer peaks you must record for longer."
+			}
+		],
+		"e1-l009-windowing-leakage": [
+			{
+				"kind": "mc",
+				"prompt": "A pure sinusoid fits a non-integer number of cycles in the record. Why does its FFT show energy spread across many bins?",
+				"options": [
+					"The sinusoid is not pure and has real frequency content spread over many frequencies in the signal",
+					"The record end does not join the start, which equals a sharp window that convolves the line with a sinc",
+					"The FFT algorithm approximates the DFT with rounding errors that grow near the tone's frequency",
+					"The sampling rate is too high, so the extra points are filled with noise between the bins"
+				],
+				"answer": 1,
+				"explanation": "Cutting a segment is multiplying by a rectangular window. In frequency, the line is convolved with a sinc whose side lobes appear as leakage."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A Hann window has an equivalent noise bandwidth of 1.5 bins. For a 4 s record, bins are 0.25 Hz apart. What is the Hann ENBW? (Answer in Hz.)",
+				"answer": 0.375,
+				"tolerance": 0.02,
+				"explanation": "ENBW = 1.5 × 0.25 Hz = 0.375 Hz. Windows with low side lobes always pay with a wider effective bandwidth.",
+				"unit": "Hz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "You want to see a weak peak close to a very strong one. Which window choice makes sense?",
+				"options": [
+					"A rectangular window, because it has the narrowest main lobe and therefore the best behaviour at all separations",
+					"No window and a longer zero-padding, which removes leakage by construction at no cost",
+					"A window with the widest main lobe possible, since a wide lobe always averages out the neighbour",
+					"A low-side-lobe window such as Hann or Blackman, accepting a wider main lobe"
+				],
+				"answer": 3,
+				"explanation": "The strong peak's side lobes can bury the weak one. Hann/Blackman push side lobes down by 30-60 dB at the cost of wider peaks."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the trade-off between resolution and leakage when you choose a window, and why leakage exists at all.",
+				"rubric": "Full credit: (1) finite record = rectangular window = sinc side lobes; (2) tapering lowers side lobes; (3) but widens main lobe, lowering resolution.",
+				"modelAnswer": "Taking a finite record is like multiplying by a rectangular window, which in frequency means each line is convolved with a sinc that has side lobes: leakage. A tapered window lowers the side lobes but widens the main lobe, so close peaks are harder to separate. You choose between sharp peaks with leakage and cleaner baselines with broader peaks."
+			}
+		],
+		"e1-l010-convolution-theorem-deconvolution": [
+			{
+				"kind": "mc",
+				"prompt": "What does the convolution theorem say about smoothing a spectrum with a Gaussian kernel?",
+				"options": [
+					"Smoothing in one domain is multiplication in the other, so a Gaussian kernel acts as a low-pass filter on the Fourier transform",
+					"Smoothing in one domain is addition in the other, so the Gaussian shifts all frequencies by the same amount",
+					"Smoothing does not change the Fourier transform at all, because convolution preserves each frequency amplitude exactly",
+					"Smoothing keeps only the highest frequencies, because convolution is a high-pass operation by definition"
+				],
+				"answer": 0,
+				"explanation": "Convolution in time (or in the spectrum) becomes multiplication in the transform domain. A Gaussian's transform is a Gaussian, which suppresses high frequencies."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In a deconvolution the instrument response has |H| = 0.02 at some frequency. By what factor is noise at that frequency amplified by simple division Y/H?",
+				"answer": 50,
+				"tolerance": 0.02,
+				"explanation": "Dividing by 0.02 multiplies the noise component by 1/0.02 = 50. Wherever |H| is tiny, noise dominates the naive result."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does naive deconvolution (dividing spectra) often give garbage on real, noisy data?",
+				"options": [
+					"The convolution theorem only holds for noiseless data, so any noise makes the division invalid in principle",
+					"The division always produces complex numbers, which cannot be turned back into a real signal",
+					"H(f) is nearly zero at high frequencies, so the division magnifies the noise there",
+					"Real instruments are non-linear, so no frequency-domain method can ever be applied to them"
+				],
+				"answer": 2,
+				"explanation": "Instrument responses roll off at high frequency, so 1/H blows up there and takes noise with it. Regularisation (Wiener, Tikhonov) limits this."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the FFT lets you convolve a long record with a long kernel quickly, and what regularisation does in deconvolution.",
+				"rubric": "Full credit: (1) FFT both, multiply, inverse FFT, O(N log N) vs O(N²); (2) regularisation adds a small term in the denominator to stop 1/H from exploding where H is small; (3) accepts some blur to avoid noise.",
+				"modelAnswer": "Transform both signals with the FFT, multiply the spectra and transform back. That costs about N log N operations compared with N² for direct convolution. In deconvolution, regularisation adds a small term to the denominator so that frequencies where the response is tiny are not amplified; you give up a little sharpness to keep noise under control."
+			}
+		],
+		"e1-l011-moving-average-fir": [
+			{
+				"kind": "mc",
+				"prompt": "Why does a symmetric FIR filter (such as a moving average) not shift the position of a peak, only delay the whole trace?",
+				"options": [
+					"Symmetric filters have zero effect on phase, so the output equals the input at every frequency",
+					"The filter averages points on both sides, which pulls the peak maximum toward the centre of the window",
+					"Symmetric filters only change amplitude, so a peak can be broadened but never delayed in time",
+					"Linear phase gives every frequency the same time delay, so the peak shape is not skewed"
+				],
+				"answer": 3,
+				"explanation": "A symmetric impulse response has linear phase: a constant delay of (M-1)/2 samples for all frequencies. Shape is preserved apart from the amplitude change."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A moving average of M = 10 points is applied to data sampled at 1000 Hz. At what frequency is its first zero (null)? (Answer in Hz.)",
+				"answer": 100,
+				"tolerance": 0.02,
+				"explanation": "The first null is at f_s/M = 1000/10 = 100 Hz. Frequencies at multiples of this are removed completely.",
+				"unit": "Hz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A 16-point moving average cuts white-noise RMS by a factor of 4. Why is it still considered a mediocre low-pass filter?",
+				"options": [
+					"Its noise reduction only works for noise below 4 Hz and fails at every other frequency present",
+					"Its side lobes fall off slowly (about -13 dB), so out-of-band noise leaks through and peaks get broadened",
+					"It amplifies the signal by 16 in the pass band, which adds clipping to any strong spectral lines",
+					"It cannot be implemented in real time, because every point needs all future samples to be known"
+				],
+				"answer": 1,
+				"explanation": "The frequency response is a sinc with low side lobes attenuation, so stop-band rejection is poor, while the window length trades noise against peak broadening."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why averaging M neighbouring points reduces white noise by √M but also broadens a spectral peak, and how you would choose M.",
+				"rubric": "Full credit: (1) independent noise adds in quadrature (√M) while signal sums to M, so noise relative to signal drops by √M; (2) averaging smears features narrower than the window; (3) choose M well below the peak width.",
+				"modelAnswer": "Independent noise values add in quadrature, so the average's noise falls as 1/√M, while a smooth signal is nearly unchanged. But averaging also mixes neighbouring points of the peak, which lowers and widens it. Choose M much smaller than the peak width (e.g. a fifth of the FWHM) so the shape is barely changed."
+			}
+		],
+		"e1-l012-savitzky-golay": [
+			{
+				"kind": "numeric",
+				"prompt": "Five data points are 2, 3, 7, 3, 2. Apply the 5-point quadratic Savitzky–Golay coefficients (-3, 12, 17, 12, -3)/35 to find the smoothed value at the centre.",
+				"answer": 5.114,
+				"tolerance": 0.02,
+				"explanation": "(-3·2 + 12·3 + 17·7 + 12·3 - 3·2)/35 = 179/35 = 5.114. A 5-point moving average would give 3.4, so the peak is flattened much more."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does Savitzky–Golay keep peak heights better than a moving average with the same window?",
+				"options": [
+					"It uses a longer window internally, which hides the noise behind the peak and keeps its height",
+					"It weights every point equally, which avoids favouring noise at the centre of the window",
+					"It fits a polynomial in the window, so curvature is preserved rather than averaged away",
+					"It subtracts the noise measured in the baseline region, so only the peak itself is smoothed"
+				],
+				"answer": 2,
+				"explanation": "A moving average assumes the data are locally constant and flattens curvature. A quadratic or higher-order fit follows peak curvature, so height and width survive."
+			},
+			{
+				"kind": "mc",
+				"prompt": "When does Savitzky–Golay smoothing start to distort a spectral line?",
+				"options": [
+					"When the window is wide compared with the line, so the polynomial cannot follow its shape",
+					"When the polynomial order is higher than 1, because only straight-line fits give accurate smoothing",
+					"When there is any noise at all, because the least-squares fit then becomes ill-posed in general",
+					"When the data are sampled finely, because a fit needs at least ten points per decade of data"
+				],
+				"answer": 0,
+				"explanation": "A polynomial of low order cannot match a line much narrower than the window. Choose window about a FWHM or smaller, or raise the order."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe in words what a Savitzky–Golay filter does at each point, and why it is a FIR filter even though it is defined by least squares.",
+				"rubric": "Full credit: (1) fit polynomial to window; (2) take fitted value (or its derivative) at centre; (3) the result is a fixed weighted sum of the window points, i.e. fixed coefficients.",
+				"modelAnswer": "At each point it fits a low-order polynomial to the points in a sliding window and reports the fitted value at the centre (or the fit's derivative). Because the least-squares solution is linear in the data, it reduces to a fixed set of weights applied to the window, which is exactly a FIR filter."
+			}
+		],
+		"e1-l013-iir-recursive-filters": [
+			{
+				"kind": "numeric",
+				"prompt": "A recursive low-pass emulates an RC filter with τ = 0.2 s. It is run at 100 Hz (T_s = 0.01 s). What is α = 1 - exp(-T_s/τ)?",
+				"answer": 0.04877,
+				"tolerance": 0.02,
+				"explanation": "α = 1 - e^{-0.05} = 0.0488: each new sample contributes about 5 percent and the rest comes from the previous output, i.e. a long memory (20 samples)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the main reason to prefer an IIR (recursive) filter over a FIR filter in an instrument?",
+				"options": [
+					"It always has perfectly linear phase, so no peak is distorted by the filter in any circumstances",
+					"It never becomes unstable, because the feedback is removed by the choice of filter coefficients",
+					"It achieves a sharp response with far fewer operations, at the cost of non-linear phase",
+					"It needs no memory of past samples, so it uses no storage at all for the filter state"
+				],
+				"answer": 2,
+				"explanation": "Feedback gives long memory with few coefficients. The price is non-linear phase (peaks get skewed) and the need to check stability."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A recursive filter is y[n] = 1.1 y[n-1] + x[n]. After a single input spike, what happens to the output?",
+				"options": [
+					"It grows without limit, like 1.1^n: the filter is unstable",
+					"It decays to zero, because the feedback factor is close to 1",
+					"It settles to a constant, because 1.1 is more than 1",
+					"It oscillates with constant amplitude, because the factor is real"
+				],
+				"answer": 0,
+				"explanation": "The impulse response is 1.1^n. A single-pole filter is stable only if the feedback coefficient has magnitude below 1."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why feedback makes the impulse response 'infinite' and how this relates to an RC circuit's exponential decay.",
+				"rubric": "Full credit: (1) output feeds back to input so each sample echoes forever; (2) with |feedback|<1 it decays geometrically, like exp(-t/τ); (3) RC = continuous analogue.",
+				"modelAnswer": "Because each output is fed back and multiplied by (1-α), an input spike keeps re-entering the loop and produces ever-smaller echoes forever. For |1-α| < 1 these decay geometrically, which is the sampled version of the exponential decay exp(-t/τ) of an RC low-pass circuit."
+			}
+		],
+		"e1-l014-z-transform-poles-zeros": [
+			{
+				"kind": "mc",
+				"prompt": "For H(z) = 1/(1 - 0.8 z^-1), where is the pole and what does that say about the filter?",
+				"options": [
+					"At z = 0.8, which is not on the unit circle, so the filter has no frequency response",
+					"At z = -0.8, inside the unit circle, so the filter is a high-pass filter",
+					"At z = 1.25, outside the unit circle, so the filter is unstable",
+					"At z = 0.8, inside the unit circle, so the filter is stable"
+				],
+				"answer": 3,
+				"explanation": "Poles are where the denominator is zero: 1 - 0.8/z = 0 gives z = 0.8. Poles with |z| < 1 mean a decaying impulse response."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For H(z) = 1/(1 - 0.8 z^-1), what is the gain at DC (z = 1)?",
+				"answer": 5,
+				"tolerance": 0.02,
+				"explanation": "H(1) = 1/(1 - 0.8) = 5. A pole near the unit circle at the DC point produces a strong low-frequency boost."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "You want a digital notch filter to remove 50 Hz hum at f_s = 1000 Hz by putting zeros on the unit circle at angles ±ω0. What is ω0 in radians?",
+				"answer": 0.3142,
+				"tolerance": 0.02,
+				"explanation": "ω0 = 2π f/f_s = 2π·50/1000 = 0.3142 rad. Zeros at e^{±iω0} make H vanish exactly at 50 Hz.",
+				"unit": "rad"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how evaluating H(z) around the unit circle gives the frequency response, and why a pole close to the circle makes a sharp resonance.",
+				"rubric": "Full credit: (1) z = e^{iω} corresponds to a sinusoid of frequency ω; (2) |H| there is the gain at that frequency; (3) distance to a nearby pole is small so |H| is large.",
+				"modelAnswer": "A sinusoid at frequency f corresponds to z = e^{iω} with ω = 2πf/f_s, so walking around the unit circle sweeps through all frequencies and |H(e^{iω})| is the gain. A pole close to that circle makes the denominator very small near its angle, so the gain peaks sharply there."
+			}
+		],
+		"e1-l015-noise-white-shot-1f": [
+			{
+				"kind": "numeric",
+				"prompt": "An ICP-MS isotope is counted over a long enough time to collect N ions, and counting (shot) noise dominates. How many ions are needed for a relative standard deviation of 1 percent?",
+				"answer": 10000,
+				"tolerance": 0.02,
+				"explanation": "RSD = σ/μ = √N/N = 1/√N. For 1 percent, N = (1/0.01)² = 10 000 counts."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement about the spectra of the main noise types is correct?",
+				"options": [
+					"White noise has more power at low frequencies, while 1/f noise is flat in frequency across the band",
+					"White noise is flat in frequency, while 1/f noise has more power at low frequencies",
+					"Both white and 1/f noise are flat, differing only in amplitude",
+					"Shot noise is 1/f noise because it comes from counting discrete ions at the detector"
+				],
+				"answer": 1,
+				"explanation": "White noise has equal power at all frequencies. 1/f noise (flicker, drift) increases toward low frequency, which is why slow drifts dominate long measurements."
+			},
+			{
+				"kind": "mc",
+				"prompt": "After averaging for a long time, the noise of a measurement stops decreasing. What is the most likely explanation?",
+				"options": [
+					"The detector has run out of counts, so no more information can be extracted from the signal",
+					"Low-frequency drift (1/f) noise dominates, and averaging cannot remove what is correlated in time",
+					"The Nyquist frequency has been reached, so further averaging cannot improve the signal at all",
+					"Averaging is always limited to 100 repeats by the statistics of independent random samples"
+				],
+				"answer": 1,
+				"explanation": "Averaging cuts uncorrelated noise as 1/√N. Slow drifts do not average out because successive samples are correlated, so the noise floor flattens."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the origin of shot noise in counting experiments and why SNR grows only as √N, giving one consequence for measuring a trace element by ICP-MS.",
+				"rubric": "Full credit: (1) discrete random arrivals follow Poisson statistics; (2) σ = √N so SNR = N/√N = √N; (3) consequence: low counts mean poor precision, need longer integration or more signal.",
+				"modelAnswer": "Ions arrive at random, so the number counted in a fixed time is Poisson distributed with standard deviation √N. The SNR is therefore N/√N = √N. For a trace element producing few counts, precision is poor unless you integrate longer or increase sensitivity, and quadrupling the counting time only doubles the SNR."
+			}
+		],
+		"e1-l016-signal-averaging": [
+			{
+				"kind": "numeric",
+				"prompt": "A single NMR scan has SNR = 4. How many scans must be coherently averaged to reach SNR = 20?",
+				"answer": 25,
+				"tolerance": 0.02,
+				"explanation": "SNR grows as √N, so N = (20/4)² = 25 scans. Ten times the SNR would need 100 times the scans."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In pulse-FT NMR, why must scans be added coherently (with fixed phase) rather than as magnitudes?",
+				"options": [
+					"Magnitudes are always larger than complex values, so adding magnitudes would inflate the signal",
+					"Random noise cancels exactly in the sum of N scans, leaving only the signal at the end",
+					"Complex addition removes the phase correction needed afterwards, saving a processing step",
+					"The signal adds linearly (N) while the random noise adds only as √N, but only if signal phases agree"
+				],
+				"answer": 3,
+				"explanation": "Coherent addition preserves the signal's sign, so it grows as N while noise grows as √N. Magnitude averaging adds the noise bias too."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Averaging 100 scans should improve SNR tenfold over a single scan, but you measure only about threefold. What best explains this?",
+				"options": [
+					"Part of the noise is baseline drift that is correlated between scans and does not average away",
+					"The first 10 scans carry nearly all the signal, so later scans add no information at all",
+					"Averaging only works up to about 50 scans, after which the √N law is cancelled by the statistics",
+					"The detector has a limited dynamic range, which is exhausted at 100 accumulated scans"
+				],
+				"answer": 0,
+				"explanation": "√N applies to independent noise. Drifts, interference and instability are correlated across scans and set a floor."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the √N law for averaging and why it is both a blessing and a curse for a spectroscopist.",
+				"rubric": "Full credit: (1) independent noise adds in quadrature, signal adds linearly, so SNR ∝ √N; (2) a blessing because repeats help; (3) a curse because 10x SNR costs 100x time, with a limit set by drift.",
+				"modelAnswer": "When you add N repeats, the signal grows as N and independent noise as √N, so SNR improves as √N. It is a blessing because repeating always helps, but a curse because a tenfold gain costs a hundredfold more time, and drift or correlated noise eventually stops the improvement."
+			}
+		],
+		"e1-l017-lock-in-detection": [
+			{
+				"kind": "mc",
+				"prompt": "What does a lock-in amplifier do to a weak signal that has been modulated at frequency f_ref?",
+				"options": [
+					"It amplifies all frequencies equally until the signal rises above the noise at the input",
+					"It averages the raw signal over many cycles, without using any reference frequency",
+					"It multiplies by a reference at f_ref and low-pass filters, keeping only the narrow band around f_ref",
+					"It filters out every frequency below f_ref with a sharp high-pass filter at the front end"
+				],
+				"answer": 2,
+				"explanation": "Multiplication shifts the signal at f_ref to DC, and a low-pass filter with long time constant keeps only a tiny band around it, rejecting noise elsewhere."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A measurement bandwidth of 10 kHz is reduced to the lock-in ENBW = 1/(4τ) with τ = 1 s. By what factor does the RMS white noise fall? (Take noise ∝ √bandwidth.)",
+				"answer": 200,
+				"tolerance": 0.02,
+				"explanation": "ENBW = 1/(4·1 s) = 0.25 Hz, and the noise falls by √(10 000/0.25) = 200."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The phase between your signal and the lock-in reference drifts. Which output stays constant?",
+				"options": [
+					"X, because the in-phase channel always keeps the signal regardless of phase drift",
+					"Y, because the quadrature channel is designed to follow phase as it changes in time",
+					"Neither, because the lock-in can only function when the phase is perfectly fixed",
+					"R = √(X² + Y²), the magnitude, while X and Y individually change"
+				],
+				"answer": 3,
+				"explanation": "X = (A/2) cosφ and Y = (A/2) sinφ, so X² + Y² = (A/2)², independent of φ. Phase drift moves signal between X and Y but not out of R."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is it advantageous to chop or modulate the signal at a few kHz before lock-in detection, instead of just measuring the DC signal for a long time?",
+				"rubric": "Full credit: (1) low-frequency noise (1/f, drift) is strong near DC; (2) modulation moves the signal to a frequency where the noise is lower (white level); (3) narrow bandwidth around f_ref rejects the rest.",
+				"modelAnswer": "Most noise and drift (1/f) is concentrated at very low frequency, including DC. By modulating the signal to a few kHz, we move it into a region where noise is much lower (nearly white), and the lock-in then looks only in a very narrow band around that frequency, so far more noise is rejected than by long DC averaging."
+			}
+		],
+		"e1-l018-ft-nmr-fid-apodisation-phase": [
+			{
+				"kind": "mc",
+				"prompt": "Why does a phase-corrected absorption-mode NMR spectrum require both a constant and a frequency-linear phase adjustment?",
+				"options": [
+					"Quadrature detection splits each peak in two, and each half needs its own phase shift to match the other",
+					"Receiver phase gives a constant offset, and the pre-sampling delay a phase linear in frequency",
+					"The Fourier transform always produces dispersive lines, so one phase shift cannot convert any line to absorption",
+					"The solvent peak has a different phase from the sample, so two separate corrections are needed in every spectrum"
+				],
+				"answer": 1,
+				"explanation": "The constant term comes from the pulse and receiver phase, and a delay t0 before the first point gives a phase of 2πνt0, linear in frequency. Both must be removed to get symmetric absorption lines."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A sample has T2* = 0.25 s, so its natural Lorentzian FWHM is 1/(πT2*). You apply exponential line broadening of 2.0 Hz. What is the final FWHM? (Answer in Hz.)",
+				"answer": 3.273,
+				"tolerance": 0.02,
+				"explanation": "Natural FWHM = 1/(π·0.25) = 1.273 Hz. Exponential multiplication adds a Lorentzian of 2.0 Hz, and Lorentzian widths add: 3.273 Hz.",
+				"unit": "Hz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "An NMR processor doubles the FID length by zero-filling. What does this achieve?",
+				"options": [
+					"Twice the resolution, because every frequency interval is divided in two by the added points",
+					"Higher SNR, because the added zeros lower the noise in the transformed spectrum on average",
+					"A smoother, more finely interpolated spectrum, but no true improvement in resolution",
+					"Removal of the truncation wiggles at the end of the FID, as it hides the cut-off in time"
+				],
+				"answer": 2,
+				"explanation": "Zero-filling interpolates between the same bins. Resolution is set by acquisition time, and the noise level is unchanged."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why applying exponential line broadening increases SNR but reduces resolution, and when you would choose Gaussian weighting instead.",
+				"rubric": "Full credit: (1) late FID points are mostly noise, so weighting them down cuts noise; (2) multiplication by exp(-t/τ) convolves lines with a Lorentzian, broadening them; (3) Gaussian/resolution enhancement narrows lines at the cost of SNR.",
+				"modelAnswer": "The end of the FID is mostly noise, so multiplying by a decaying exponential suppresses noise and raises SNR. But multiplication in time is convolution in frequency, so each line is broadened by an extra Lorentzian. Resolution enhancement (e.g. Gaussian or sine-bell weighting) does the opposite, narrowing lines to separate multiplets but costing SNR."
+			}
+		],
+		"e1-l019-ft-ir-interferogram": [
+			{
+				"kind": "numeric",
+				"prompt": "An FT-IR needs a resolution of 4 cm^-1. What maximum optical retardation δ_max is needed? (Answer in cm; use Δν̃ = 1/δ_max.)",
+				"answer": 0.25,
+				"tolerance": 0.02,
+				"explanation": "δ_max = 1/Δν̃ = 1/4 cm^-1 = 0.25 cm. Better resolution means a longer mirror travel.",
+				"unit": "cm"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The interferogram is sampled once per fringe of a HeNe laser (632.8 nm optical-path step). What is the Nyquist wavenumber? (Answer in cm^-1.)",
+				"answer": 7901,
+				"tolerance": 0.02,
+				"explanation": "Step Δδ = 632.8 nm = 6.328×10^-5 cm, so ν̃_N = 1/(2Δδ) = 7901 cm^-1, enough to cover the mid-IR without aliasing.",
+				"unit": "cm^-1"
+			},
+			{
+				"kind": "mc",
+				"prompt": "The interferogram is abruptly cut off at δ_max. Why do strong IR bands show ringing, and what is done about it?",
+				"options": [
+					"The cut-off is a box window giving sinc side lobes; apodisation reduces them but broadens lines",
+					"The mirror vibrates at the end of its travel, and a correction is applied during the Fourier transform to remove it",
+					"The HeNe laser fringes alias at the end of the scan, and the spectrum is filtered to remove the aliased peaks",
+					"Absorption bands make the beam coherent, and the ringing disappears if more scans are accumulated"
+				],
+				"answer": 0,
+				"explanation": "Truncation is multiplication by a rectangular window, giving a sinc line shape. Triangular or Happ-Genzel apodisation lowers side lobes at some cost in resolution."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in words why an FT-IR spectrometer can measure all wavelengths at once, and what the Fellgett advantage is.",
+				"rubric": "Full credit: (1) every wavelength contributes a cosine to the interferogram while the mirror scans; (2) the detector sees all at once; (3) with a detector-noise-limited setup, SNR improves ≈√M over scanning one resolution element at a time.",
+				"modelAnswer": "As the mirror moves, each wavenumber creates its own cosine fringe pattern, and the detector records the sum of all of them simultaneously. The Fourier transform separates them afterwards. When detector noise dominates, measuring M spectral elements at once instead of one at a time improves SNR by about √M, the Fellgett (multiplex) advantage."
+			}
+		],
+		"e1-l020-baseline-peaks-deconvolution": [
+			{
+				"kind": "numeric",
+				"prompt": "An ICP-MS blank gives a standard deviation of 2.5 counts/s, and the calibration slope is 1000 counts/s per µg/L. What is the detection limit using LOD = 3σ/S? (Answer in µg/L.)",
+				"answer": 0.0075,
+				"tolerance": 0.02,
+				"explanation": "LOD = 3 × 2.5 / 1000 = 0.0075 µg/L (7.5 ng/L). The same 3σ rule underlies S/N ≥ 3 for picking peaks.",
+				"unit": "µg/L"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A spectrum has a sloping baseline. Where should the baseline be fitted?",
+				"options": [
+					"To the whole spectrum including peaks, because the peaks average out in the least-squares fit",
+					"To the highest points only, so that the corrected baseline lies above the noise",
+					"To regions with no peaks, using a low-order polynomial or spline anchored there",
+					"To the peak tops, because they have the strongest signal and give the best fit"
+				],
+				"answer": 2,
+				"explanation": "Fitting through peaks drags the baseline up under them and subtracts real signal. Anchor on peak-free regions and check the residual."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the derivative of raw noisy data a poor basis for peak picking?",
+				"options": [
+					"Differentiation amplifies high-frequency noise, so you smooth first (e.g. Savitzky–Golay derivative)",
+					"Derivatives of a peak are always zero, so zero crossings cannot mark its position at all",
+					"Derivatives only work for baseline-corrected data, and have no use for noisy data",
+					"Derivatives are only defined for continuous functions, so sampled data cannot be differentiated in any way"
+				],
+				"answer": 0,
+				"explanation": "A derivative multiplies each frequency by f, so noise at high f grows. Smoothing or a Savitzky-Golay derivative controls this."
+			},
+			{
+				"kind": "short",
+				"prompt": "Outline a sensible pipeline from raw spectrum to a list of peaks, naming one way each step can go wrong.",
+				"rubric": "Full credit: baseline correction (can remove broad peaks), smoothing (broadens/lowers peaks), peak detection with threshold (misses weak peaks or picks noise), optional fitting (wrong line shape).",
+				"modelAnswer": "First correct the baseline using peak-free anchor regions, which can go wrong if anchors sit on a broad peak and subtract real signal. Then smooth (e.g. Savitzky-Golay), which can broaden or lower narrow peaks if the window is too wide. Then pick local maxima above about 3 times the noise, which can miss weak peaks or pick up noise spikes. Finally fit Lorentzian/Gaussian/Voigt shapes to overlapping peaks, which fails if the assumed line shape is wrong."
+			}
+		]
+	}
+}

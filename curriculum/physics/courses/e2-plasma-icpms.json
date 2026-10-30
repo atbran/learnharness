@@ -1,0 +1,657 @@
+{
+	"id": "e2-plasma-icpms",
+	"code": "E2",
+	"title": "Plasma Physics for ICP-MS",
+	"track": "elective",
+	"depth": "elective",
+	"hours": 15,
+	"prereqs": [
+		"p5-em",
+		"p7-statmech"
+	],
+	"subject": "Plasma & Instrumentation",
+	"summary": "Fourteen short lessons on the physics inside an ICP-MS: what makes a plasma (quasineutrality, Debye shielding, plasma frequency, collisions), why argon ionises most elements (Saha equation, ionisation potential, LTE and electron density), how RF induction and the skin effect build the annular torch plasma, how the interface samples it (supersonic expansion, sheaths and the Bohm criterion), and how ions are focused and filtered (space charge, mass bias, the quadrupole Mathieu stability diagram, collision/reaction cells and polyatomic interferences). Concept first; calculation is a minority of the work.",
+	"books": [
+		{
+			"bookId": "chen-plasma",
+			"role": "primary"
+		},
+		{
+			"bookId": "thomas-icpms",
+			"role": "primary"
+		}
+	],
+	"units": [
+		{
+			"id": "e2-u01-plasma-fundamentals",
+			"title": "Plasma Fundamentals",
+			"summary": "What a plasma is and why the argon ICP behaves as one: quasineutrality, Debye length, plasma frequency, collisions, then Saha ionisation (why ionisation efficiency tracks the first ionisation potential) and LTE versus non-LTE temperatures.",
+			"lessons": [
+				{
+					"id": "e2-l001-what-is-a-plasma",
+					"title": "What a Plasma Is: Ionisation, Quasineutrality and the ICP",
+					"minutes": 40,
+					"objectives": [
+						"Define a plasma as a quasineutral gas of charged and neutral particles showing collective behaviour, and state the three criteria (Debye length much smaller than size, many particles per Debye sphere, collective response faster than collisions).",
+						"Estimate the degree of ionisation of an atmospheric-pressure argon ICP from its electron density and gas temperature, and explain why a 0.1 percent ionised gas still counts as a plasma.",
+						"Explain quasineutrality: why n_e ≈ Σ Z n_i on scales larger than the Debye length."
+					],
+					"keyEquations": [
+						"n_e\\approx\\sum_j Z_jn_j",
+						"n_{gas}=P/(k_BT)",
+						"x=n_e/(n_e+n_0)"
+					],
+					"readings": [
+						{
+							"bookId": "chen-plasma",
+							"ref": "1.2",
+							"title": "Definition of Plasma"
+						},
+						{
+							"bookId": "chen-plasma",
+							"ref": "1.6",
+							"title": "Criteria for Plasmas"
+						},
+						{
+							"bookId": "chen-plasma",
+							"ref": "1.1",
+							"title": "Occurrence of Plasmas in Nature",
+							"optional": true
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 2",
+							"title": "An Overview of ICP-MS",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "USYD Senior Plasma Physics Lectures",
+							"title": "Lecture 1 - Definition of a plasma, examples, plasma temperature, Debye shielding, plasma criteria",
+							"url": "https://www.youtube.com/watch?v=yulBSCAEyMM"
+						},
+						{
+							"source": "NPTEL (nptelhrd)",
+							"title": "Mod-01 Lec-01 Introduction to Plasmas",
+							"url": "https://www.youtube.com/watch?v=wO2HS7hcSb8"
+						}
+					],
+					"demoIdeas": [
+						"Chart of plasmas on a log n_e versus T_e map with the ICP, flame, fluorescent lamp, solar corona and fusion plasma marked."
+					]
+				},
+				{
+					"id": "e2-l002-debye-shielding",
+					"title": "Debye Shielding and the Plasma Parameter",
+					"minutes": 45,
+					"objectives": [
+						"Explain Debye shielding: a test charge is screened over a distance λ_D because mobile charges rearrange (Boltzmann distribution of electrons), giving a Yukawa-type potential.",
+						"Compute the Debye length and the number of particles in a Debye sphere for ICP conditions, and say how each scales with n and T.",
+						"Explain why λ_D much smaller than the torch size justifies quasineutrality in the bulk, and why it fails near boundaries (sheaths)."
+					],
+					"keyEquations": [
+						"\\lambda_D=\\sqrt{\\dfrac{\\varepsilon_0k_BT_e}{n_ee^2}}",
+						"\\phi(r)=\\dfrac{q}{4\\pi\\varepsilon_0r}e^{-r/\\lambda_D}",
+						"N_D=\\tfrac43\\pi n\\lambda_D^3"
+					],
+					"readings": [
+						{
+							"bookId": "chen-plasma",
+							"ref": "1.4",
+							"title": "Debye Shielding"
+						},
+						{
+							"bookId": "chen-plasma",
+							"ref": "1.5",
+							"title": "The Plasma Parameter"
+						},
+						{
+							"bookId": "chen-plasma",
+							"ref": "1.3",
+							"title": "Concept of Temperature",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Plasma Physics and Applications (IIT Roorkee)",
+							"title": "1b Rigorous definition of plasma: Debye length",
+							"url": "https://www.youtube.com/watch?v=L_C1lSoZ8xg"
+						},
+						{
+							"source": "USYD Senior Plasma Physics Lectures",
+							"title": "Lecture 1 - Definition of a plasma, examples, plasma temperature, Debye shielding, plasma criteria",
+							"url": "https://www.youtube.com/watch?v=yulBSCAEyMM"
+						}
+					],
+					"demoIdeas": [
+						"Plot screened versus bare Coulomb potential with sliders for n_e and T_e; count particles inside the Debye sphere."
+					]
+				},
+				{
+					"id": "e2-l003-plasma-frequency-rf-response",
+					"title": "Plasma Oscillations and the Plasma Frequency",
+					"minutes": 40,
+					"objectives": [
+						"Derive the electron plasma frequency from the restoring force on a displaced slab of electrons, and compute it for ICP densities.",
+						"Explain why ω_p sets the response time of the plasma and why RF at 27 or 40 MHz (far below ω_p) is reflected rather than propagated."
+					],
+					"keyEquations": [
+						"\\ddot{\\xi}=-\\omega_p^2\\xi",
+						"\\omega_p=\\sqrt{\\dfrac{n_ee^2}{\\varepsilon_0m_e}}",
+						"f_p\\approx 8.98\\sqrt{n_e[\\mathrm{m^{-3}}]}\\ \\mathrm{Hz}"
+					],
+					"readings": [
+						{
+							"bookId": "chen-plasma",
+							"ref": "4.3",
+							"title": "Plasma Oscillations"
+						},
+						{
+							"bookId": "griffiths-em",
+							"ref": "9.4.1",
+							"title": "Electromagnetic Waves in Conductors",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL (nptelhrd)",
+							"title": "Mod-01 Lec-02 Plasma Response to fields: Fluid Equations",
+							"url": "https://www.youtube.com/watch?v=CiBmD0Zr07s"
+						}
+					],
+					"demoIdeas": [
+						"Animated slab of electrons displaced against a fixed ion background oscillating at ω_p, with a density slider."
+					]
+				},
+				{
+					"id": "e2-l004-collisions-atmospheric-plasma",
+					"title": "Collisions: Why an Atmospheric ICP Is Collisional",
+					"minutes": 40,
+					"objectives": [
+						"Estimate mean free path and collision frequency for electrons in 1 atm argon and compare ν with the RF frequency.",
+						"Explain why a highly collisional plasma has resistive (Ohmic) RF heating and near-thermal energy sharing, in contrast with low-pressure collisionless plasmas."
+					],
+					"keyEquations": [
+						"\\lambda_{mfp}=\\dfrac{1}{n_0\\sigma}",
+						"\\nu=\\dfrac{\\bar v_e}{\\lambda_{mfp}}",
+						"\\sigma_{dc}=\\dfrac{n_ee^2}{m_e\\nu}"
+					],
+					"readings": [
+						{
+							"bookId": "chen-plasma",
+							"ref": "5.1",
+							"title": "Diffusion and Mobility in Weakly Ionized Gases"
+						},
+						{
+							"bookId": "chen-plasma",
+							"ref": "5.6",
+							"title": "Collisions in Fully Ionized Plasmas",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Electron trajectory in an oscillating field with a collision-frequency slider showing the transition from free oscillation to collision-damped drift."
+					]
+				},
+				{
+					"id": "e2-l005-saha-ionisation",
+					"title": "The Saha Equation: Why Argon Ionises Most Elements",
+					"minutes": 45,
+					"objectives": [
+						"State the Saha equation and explain each factor (thermal de Broglie volume, statistical weights, Boltzmann factor exp(-IP/kT), and the 1/n_e dependence).",
+						"Estimate the ionisation fraction of an element from its first ionisation potential at ICP conditions, and explain why argon (15.76 eV) ionises most metals strongly but poorly ionises elements like As, Se, Hg and the halogens.",
+						"Predict how raising n_e (easily ionised matrix) or T changes analyte ionisation."
+					],
+					"keyEquations": [
+						"\\dfrac{n_in_e}{n_0}=\\dfrac{2g_i}{g_0}\\left(\\dfrac{2\\pi m_ek_BT}{h^2}\\right)^{3/2}e^{-E_i/k_BT}",
+						"\\dfrac{n_i}{n_0}\\approx\\dfrac{1}{n_e}\\left(\\dfrac{2\\pi m_ek_BT}{h^2}\\right)^{3/2}e^{-E_i/k_BT}"
+					],
+					"readings": [
+						{
+							"bookId": "chen-plasma",
+							"ref": "1.1",
+							"title": "Occurrence of Plasmas in Nature"
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 3",
+							"title": "Principles of Ion Formation"
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 5",
+							"title": "Plasma Source",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Wladimir Lyra (NMSU ASTR 503)",
+							"title": "ASTR 503 - Class 18 - Video 4 - Saha Equation",
+							"url": "https://www.youtube.com/watch?v=aAjSmmU5gLE"
+						},
+						{
+							"source": "Stellar Spectroscopy Lectures",
+							"title": "Lecture 3.E: Saha Equation and Ionization Fractions",
+							"url": "https://www.youtube.com/watch?v=eFnto88bfA8"
+						}
+					],
+					"demoIdeas": [
+						"Periodic-table heat-map of Saha ionisation fraction versus IP with sliders for T and n_e; overlay the argon 15.76 eV limit."
+					]
+				},
+				{
+					"id": "e2-l006-lte-temperatures-electron-density",
+					"title": "LTE, Excitation and Ionisation Temperatures, Electron Density",
+					"minutes": 45,
+					"objectives": [
+						"Explain local thermodynamic equilibrium (LTE) and why the ICP is only near-LTE, with T_e greater than the gas and rotational temperatures.",
+						"Use the Boltzmann factor to compute relative level populations and explain what a Boltzmann plot measures (electron density n_e enters through Saha and is measured separately, e.g. by Stark broadening)."
+					],
+					"keyEquations": [
+						"\\dfrac{N_2}{N_1}=\\dfrac{g_2}{g_1}e^{-\\Delta E/k_BT_{exc}}",
+						"\\ln\\!\\left(\\dfrac{I\\lambda}{gA}\\right)=-\\dfrac{E_u}{k_BT_{exc}}+C"
+					],
+					"readings": [
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 5",
+							"title": "Plasma Source"
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 3",
+							"title": "Principles of Ion Formation",
+							"optional": true
+						},
+						{
+							"bookId": "chen-plasma",
+							"ref": "1.3",
+							"title": "Concept of Temperature",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Boltzmann plot builder: choose emission lines, add noise and non-LTE overpopulation, and read off T_exc from the slope."
+					]
+				}
+			]
+		},
+		{
+			"id": "e2-u02-icp-source-interface",
+			"title": "The ICP Source and the Interface",
+			"summary": "RF inductive coupling and skin depth in the torch and load coil, the annular channel, sample introduction and atomisation, then the sampler/skimmer interface: supersonic expansion, sheaths and the Bohm criterion, and secondary discharge.",
+			"lessons": [
+				{
+					"id": "e2-l007-rf-inductive-coupling-skin-depth",
+					"title": "RF Inductive Coupling and the Skin Depth",
+					"minutes": 45,
+					"objectives": [
+						"Explain inductive heating: an oscillating axial magnetic field from the load coil induces an azimuthal electric field, driving eddy currents that heat the plasma like the secondary of a one-turn transformer.",
+						"Compute the skin depth for given frequency and conductivity, and explain why higher RF frequency gives a thinner heated annulus.",
+						"Explain why the current, and hence heating, is concentrated near the outer wall of the plasma."
+					],
+					"keyEquations": [
+						"\\nabla\\times\\mathbf{E}=-\\partial_t\\mathbf{B}",
+						"\\delta=\\sqrt{\\dfrac{2}{\\omega\\mu_0\\sigma}}=\\dfrac{1}{\\sqrt{\\pi f\\mu_0\\sigma}}",
+						"P=\\int\\sigma E^2\\,dV"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "9.4.1",
+							"title": "Electromagnetic Waves in Conductors"
+						},
+						{
+							"bookId": "griffiths-em",
+							"ref": "7.2.1",
+							"title": "Faraday's Law",
+							"optional": true
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 5",
+							"title": "Plasma Source"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Matt Yedlin (UBC ELEC 311)",
+							"title": "ELEC311 - Skin Depth and Power",
+							"url": "https://www.youtube.com/watch?v=mXXiBm_IWUc"
+						},
+						{
+							"source": "Jacob Stewart (CHM 214)",
+							"title": "Chapter 21: Inductively Coupled Plasma Atomization",
+							"url": "https://www.youtube.com/watch?v=wLZ6Yr4Fc9o"
+						}
+					],
+					"demoIdeas": [
+						"Cross-section of a cylindrical plasma showing the eddy-current density profile J(r) ~ exp(-(R-r)/δ) with sliders for f and σ."
+					]
+				},
+				{
+					"id": "e2-l008-torch-load-coil-gas-flows",
+					"title": "Torch, Load Coil and the Three Gas Flows",
+					"minutes": 40,
+					"objectives": [
+						"Describe the torch (three concentric tubes), the load coil, and the roles of the plasma, auxiliary and nebuliser gas flows.",
+						"Explain how the plasma is ignited (Tesla spark seeds electrons, then inductive coupling takes over) and why the aerosol channel forms.",
+						"Estimate the volumetric expansion of gas heated to plasma temperature and its effect on residence time."
+					],
+					"keyEquations": [
+						"V_2/V_1=T_2/T_1\\ (\\text{constant }P)",
+						"t_{res}=L/\\bar v"
+					],
+					"readings": [
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 5",
+							"title": "Plasma Source"
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 2",
+							"title": "An Overview of ICP-MS",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "UAlberta Science",
+							"title": "Inductively coupled plasma-mass spectrometry",
+							"url": "https://www.youtube.com/watch?v=OvnR4RMlY3A"
+						},
+						{
+							"source": "Agilent Technologies",
+							"title": "The Principles of ICP MS",
+							"url": "https://www.youtube.com/watch?v=tP5ZKUTWiuQ"
+						}
+					],
+					"demoIdeas": [
+						"Torch cross-section diagram with toggles for each gas flow, showing how the plasma lifts, the channel forms and the quartz is cooled."
+					]
+				},
+				{
+					"id": "e2-l009-sample-introduction-atomisation",
+					"title": "Sample Introduction: from Droplet to Ion",
+					"minutes": 45,
+					"objectives": [
+						"Trace the sequence nebulisation, spray-chamber filtering, desolvation, vaporisation, atomisation and ionisation of an analyte in the plasma, and its approximate timescale.",
+						"Compute how many analyte atoms per second reach the plasma from a given concentration, uptake rate and transport efficiency.",
+						"Explain why solvent load and the matrix affect plasma temperature and oxide formation."
+					],
+					"keyEquations": [
+						"\\dot N=\\dfrac{c\\,\\dot V_{up}\\,\\varepsilon}{M}N_A",
+						"\\text{M(aq)}\\rightarrow\\text{MX(s)}\\rightarrow\\text{MX(g)}\\rightarrow\\text{M(g)}\\rightarrow\\text{M}^+"
+					],
+					"readings": [
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 4",
+							"title": "Sample Introduction"
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 5",
+							"title": "Plasma Source",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "AMSEC WWU",
+							"title": "ICPMS Theory and Background",
+							"url": "https://www.youtube.com/watch?v=0WvpeylD5sI"
+						},
+						{
+							"source": "Agilent Technologies",
+							"title": "The Principles of ICP MS",
+							"url": "https://www.youtube.com/watch?v=tP5ZKUTWiuQ"
+						}
+					],
+					"demoIdeas": [
+						"Droplet journey animation along the axial channel with a timeline for desolvation, vaporisation, atomisation and ionisation."
+					]
+				},
+				{
+					"id": "e2-l010-interface-supersonic-expansion",
+					"title": "The Interface: Sampler, Skimmer and Supersonic Expansion",
+					"minutes": 40,
+					"objectives": [
+						"Describe the interface (sampler and skimmer cones) as a pressure step from 760 Torr to about 1 mTorr, and explain supersonic free-jet expansion with its zone of silence.",
+						"Estimate the Mach-disk distance and explain why the skimmer tip must sit inside the zone of silence.",
+						"Explain why rapid expansion freezes the plasma chemistry (ion composition) and cools the gas."
+					],
+					"keyEquations": [
+						"x_M\\approx 0.67\\,d\\sqrt{P_0/P_1}",
+						"M>1:\\ v>c_s=\\sqrt{\\gamma k_BT/m}"
+					],
+					"readings": [
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 6",
+							"title": "Interface Region"
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 7",
+							"title": "Ion-Focusing System",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Agilent Technologies",
+							"title": "Troubleshooting and maintenance of ICP-MS Systems for optimal performance: Part 4: Interface Region",
+							"url": "https://www.youtube.com/watch?v=kwFAnkdn5Xg"
+						}
+					],
+					"demoIdeas": [
+						"Jet-expansion sketch with sliders for orifice size and back-pressure showing the Mach-disk position relative to the skimmer."
+					]
+				},
+				{
+					"id": "e2-l011-sheaths-bohm-secondary-discharge",
+					"title": "Sheaths, the Bohm Criterion and Secondary Discharge (Light)",
+					"minutes": 40,
+					"objectives": [
+						"Explain why a plasma forms a positive space-charge sheath at a surface (faster electrons leave first) and that ions must enter the sheath at the Bohm speed c_s = √(kT_e/M).",
+						"Compute the Bohm speed for Ar+ at ICP electron temperatures.",
+						"Explain how capacitive coupling to the coil causes a plasma potential and secondary discharge at the sampler, and why a shield or centre-tap reduces it."
+					],
+					"keyEquations": [
+						"c_s=\\sqrt{k_BT_e/M}",
+						"V_f\\approx\\dfrac{k_BT_e}{2e}\\ln\\dfrac{M}{2\\pi m_e}",
+						"\\lambda_D\\ \\text{sets the sheath thickness}"
+					],
+					"readings": [
+						{
+							"bookId": "chen-plasma",
+							"ref": "8.2",
+							"title": "Sheaths"
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 6",
+							"title": "Interface Region"
+						}
+					],
+					"lectures": [
+						{
+							"source": "USYD Senior Plasma Physics Lectures",
+							"title": "Lecture 13 - Sheaths, Bohm criterion, Bohm velocity",
+							"url": "https://www.youtube.com/watch?v=awswTPqZYAc"
+						},
+						{
+							"source": "NPTEL IIT Bombay",
+							"title": "Week 11 : Lecture 22A: Plasma Sheath-mathematical modelling",
+							"url": "https://www.youtube.com/watch?v=TJkSsZEYWEk"
+						}
+					],
+					"demoIdeas": [
+						"1D sheath: plot potential, electron and ion density near a wall, with Te slider; mark the Bohm point at the sheath edge."
+					]
+				}
+			]
+		},
+		{
+			"id": "e2-u03-ion-optics-mass-analysis",
+			"title": "Ion Optics and Mass Analysis",
+			"summary": "Space charge and mass bias in the ion beam, the quadrupole mass filter as a Mathieu-equation stability problem (a link to the M4/M5 ODE work), and collision/reaction cells for polyatomic interferences such as ArO+ on Fe and ArCl+ on As, plus matrix effects.",
+			"lessons": [
+				{
+					"id": "e2-l012-space-charge-mass-bias",
+					"title": "Ion Optics, Space Charge and Mass Bias",
+					"minutes": 40,
+					"objectives": [
+						"Explain how the ion lens removes electrons and shapes the beam, and why the remaining positive beam spreads by space-charge repulsion.",
+						"Explain why light ions are lost preferentially (equal velocity after expansion, so lower momentum) and how this produces mass bias and matrix suppression.",
+						"Apply internal-standard correction for drift and matrix suppression, and say how to choose the standard."
+					],
+					"keyEquations": [
+						"p=mv\\ (\\text{similar }v\\text{ after expansion})",
+						"c_{corr}=c_{raw}\\,\\dfrac{I_{IS,cal}}{I_{IS,sample}}"
+					],
+					"readings": [
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 7",
+							"title": "Ion-Focusing System"
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 6",
+							"title": "Interface Region",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "PerkinElmer",
+							"title": "ICP-MS Masterclass – Understanding Matrix Interferences and strategies for dealing with them",
+							"url": "https://www.youtube.com/watch?v=uWQbeez4_lU"
+						}
+					],
+					"demoIdeas": [
+						"2D beam simulation: ions of different mass in a charged beam with a slider for beam current, showing the radial spread of light versus heavy ions."
+					]
+				},
+				{
+					"id": "e2-l013-quadrupole-mathieu-stability",
+					"title": "The Quadrupole Mass Filter: Mathieu Equation and Stability Diagram",
+					"minutes": 45,
+					"objectives": [
+						"Write the ion's equation of motion in the quadrupole field and reduce it to the Mathieu equation with parameters a and q; link to periodic-coefficient linear ODEs (Floquet stability) from M4/M5.",
+						"Read the stability diagram: the first stability region has its apex near (a, q) = (0.237, 0.706), and the scan line a/q = 2U/V selects a narrow mass window.",
+						"Compute the RF amplitude needed to place a given mass at the apex and explain RF-only (high-pass) operation."
+					],
+					"keyEquations": [
+						"\\dfrac{d^2u}{d\\xi^2}+(a_u-2q_u\\cos2\\xi)u=0,\\ \\xi=\\Omega t/2",
+						"a=\\dfrac{8eU}{mr_0^2\\Omega^2},\\quad q=\\dfrac{4eV}{mr_0^2\\Omega^2}",
+						"(a,q)_{apex}=(0.237,0.706)"
+					],
+					"readings": [
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 8",
+							"title": "Mass Analyzers: Quadrupole Technology"
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 7",
+							"title": "Ion-Focusing System",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Waters Corporation",
+							"title": "Fundamentals of MS (4 of 7) - Quadrupoles",
+							"url": "https://www.youtube.com/watch?v=6_mavZ_WKoU"
+						},
+						{
+							"source": "Zachary Kilpatrick",
+							"title": "Mar 17: Mathieu Eqn -- Stability Boundaries",
+							"url": "https://www.youtube.com/watch?v=qIwxnW9R_1g"
+						},
+						{
+							"source": "SciDive",
+							"title": "Mastering Quadrupole Mass Filters: Theory and SIMION Simulations",
+							"url": "https://www.youtube.com/watch?v=jTHPqUJnhCg"
+						}
+					],
+					"demoIdeas": [
+						"Stability diagram with a movable scan line a/q = 2U/V; show ion trajectories in x and y for masses inside and outside the window."
+					]
+				},
+				{
+					"id": "e2-l014-collision-reaction-cells-interferences",
+					"title": "Collision/Reaction Cells, Polyatomic Interferences and Matrix Effects",
+					"minutes": 45,
+					"objectives": [
+						"Explain how polyatomic ions (ArO+ on Fe-56, ArCl+ on As-75, Ar2+ on Se-80) arise from plasma gas and matrix, and why a unit-resolution quadrupole cannot separate them.",
+						"Compute the resolving power needed to separate an analyte from a polyatomic interference from exact masses.",
+						"Compare kinetic energy discrimination (He) and reactive gases (NH3, O2 mass shift, H2), and explain matrix effects (space charge, easily ionised elements)."
+					],
+					"keyEquations": [
+						"R=\\dfrac{m}{\\Delta m}",
+						"\\mathrm{As}^++\\mathrm{O}_2\\rightarrow\\mathrm{AsO}^++\\mathrm{O}",
+						"\\mathrm{ArO}^++\\mathrm{NH}_3\\rightarrow\\mathrm{NH}_3^++\\mathrm{ArO}"
+					],
+					"readings": [
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 11",
+							"title": "Mass Analyzers: Collision/Reaction Cell and Interface Technology"
+						},
+						{
+							"bookId": "thomas-icpms",
+							"ref": "Ch. 15",
+							"title": "Review of Interferences"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Agilent Technologies",
+							"title": "ICP-MS Interference Management Using the Agilent Octopole Reaction System (ORS)",
+							"url": "https://www.youtube.com/watch?v=X3cSJ7CaDGU"
+						},
+						{
+							"source": "PerkinElmer",
+							"title": "ICP-MS Masterclass – Understanding Matrix Interferences and strategies for dealing with them",
+							"url": "https://www.youtube.com/watch?v=uWQbeez4_lU"
+						},
+						{
+							"source": "Analytical Resources Core at CSU",
+							"title": "ARC Seminar Series: Inductively Coupled Plasma Mass Spectrometry (ICP-MS)",
+							"url": "https://www.youtube.com/watch?v=QqcmceJoz5o"
+						}
+					],
+					"demoIdeas": [
+						"Mass-spectrum overlay near m/z 56 and 75 showing the analyte and polyatomic peaks, with a resolution slider and a cell-gas toggle."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "e2-final",
+			"kind": "final",
+			"title": "E2 Final: Plasma Physics for ICP-MS",
+			"covers": [
+				"e2-u01-plasma-fundamentals",
+				"e2-u02-icp-source-interface",
+				"e2-u03-ion-optics-mass-analysis"
+			],
+			"minutes": 75,
+			"passMark": 0.7
+		}
+	]
+}

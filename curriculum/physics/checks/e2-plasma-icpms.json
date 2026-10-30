@@ -1,0 +1,548 @@
+{
+	"courseId": "e2-plasma-icpms",
+	"checks": {
+		"e2-l001-what-is-a-plasma": [
+			{
+				"kind": "mc",
+				"prompt": "An argon ICP at 1 atm and about 7000 K is only roughly 0.1 percent ionised. Why is it still called a plasma?",
+				"options": [
+					"It must be fully ionised, and the 0.1 percent figure is only the value in the cool edge region",
+					"Argon neutrals are excited by the high temperature, and excited atoms behave like charged particles",
+					"Enough free charges exist for long-range electromagnetic forces to give collective behaviour",
+					"The temperature of 7000 K alone is high enough to make any gas a plasma, whatever its ionisation"
+				],
+				"answer": 2,
+				"explanation": "A plasma needs sufficient charge density for collective Coulomb interactions to matter (Debye length small, many particles in a Debye sphere), not total ionisation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The ICP has n_e = 10^15 cm^-3 (10^21 m^-3). Treating the total particle density as the ideal-gas value at 1 atm and 7000 K, what percentage of the gas is ionised (n_e divided by total density)?",
+				"answer": 0.0954,
+				"tolerance": 0.05,
+				"explanation": "n_total = P/kT = 101 325/(1.381e-23 × 7000) = 1.05×10^24 m^-3, so the fraction is 10^21/1.05×10^24 = 9.5×10^-4, i.e. 0.095 percent.",
+				"unit": "%"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does a plasma stay close to charge-neutral over distances larger than the Debye length?",
+				"options": [
+					"Any net charge produces a huge electric field that pulls the mobile electrons back to cancel it",
+					"Positive and negative charges are produced in exactly equal numbers at every single point by the discharge",
+					"Neutral atoms continually recombine with any excess charge, so the net charge cannot build up at all",
+					"The applied RF field forces equal numbers of ions and electrons through every volume element of the torch"
+				],
+				"answer": 0,
+				"explanation": "A tiny charge imbalance creates a very large field, and light electrons respond within a plasma period (~picoseconds), restoring neutrality."
+			},
+			{
+				"kind": "short",
+				"prompt": "State, in your own words, what conditions a gas must satisfy to be called a plasma, and give the ICP's approximate ionisation and electron density.",
+				"rubric": "Full credit: (1) quasineutral; (2) collective behaviour via long-range Coulomb forces: Debye length small compared with system size, many particles in a Debye sphere; (3) ICP numbers about 0.1 percent ionised, n_e ~10^15 cm^-3 (accept order of magnitude).",
+				"modelAnswer": "A plasma is a quasineutral gas in which enough charges are present that long-range electric and magnetic forces produce collective behaviour: the Debye length is much smaller than the system, many particles sit in a Debye sphere, and the plasma responds faster than collisions disturb it. An argon ICP is only about 0.1 percent ionised, with n_e around 10^15 cm^-3, but that is enough."
+			}
+		],
+		"e2-l002-debye-shielding": [
+			{
+				"kind": "numeric",
+				"prompt": "Take ICP conditions n_e = 10^21 m^-3 and T_e = 8000 K. What is the Debye length λ_D = √(ε0 k T/(n e²))? (Answer in nm.)",
+				"answer": 195,
+				"tolerance": 0.03,
+				"explanation": "λ_D = √(8.854e-12 × 1.381e-23 × 8000 /(1e21 × (1.602e-19)²)) = 1.95×10^-7 m ≈ 195 nm, tiny compared with a torch of ~18 mm.",
+				"unit": "nm"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the same plasma (λ_D = 195 nm, n_e = 10^21 m^-3), how many electrons lie in a Debye sphere, N_D = (4π/3) n λ_D³?",
+				"answer": 31.1,
+				"tolerance": 0.05,
+				"explanation": "N_D = 4.19 × 10^21 × (1.95×10^-7)³ ≈ 31. A few tens of particles is enough for collective screening, so the plasma is only weakly coupled."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If the electron density in a plasma rises a hundredfold at fixed temperature, what happens to the Debye length?",
+				"options": [
+					"It shrinks a hundredfold, because λ_D is inversely proportional to the density",
+					"It grows tenfold, because more charges push each other out to larger distances",
+					"It stays the same, because it depends only on temperature and not on how many charges there are",
+					"It shrinks tenfold, because screening is done by more mobile charges per volume"
+				],
+				"answer": 3,
+				"explanation": "λ_D ∝ √(T/n): a hundredfold density increase shrinks it by 10. Hotter plasma has larger λ_D because thermal motion resists confinement of the screening cloud."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically why a test charge in a plasma has a potential that dies off faster than Coulomb's law, and what sets the screening distance.",
+				"rubric": "Full credit: (1) mobile electrons (and ions) rearrange around the charge; (2) opposite charges cluster, cancelling its field beyond a distance; (3) the distance λ_D is set by the balance of thermal energy kT and electrostatic energy (depends on T/n).",
+				"modelAnswer": "Mobile charges crowd around the test charge: electrons are drawn toward a positive charge and repelled from a negative one. This cloud cancels the field at larger distances, giving a potential that decays like exp(-r/λ_D). The scale λ_D is where thermal energy kT, which spreads the cloud out, balances the electrostatic attraction, so it grows with T and shrinks with n."
+			}
+		],
+		"e2-l003-plasma-frequency-rf-response": [
+			{
+				"kind": "numeric",
+				"prompt": "What is the electron plasma frequency f_p = ω_p/2π for n_e = 10^21 m^-3? (Use f_p ≈ 8.98√n Hz; answer in GHz.)",
+				"answer": 284,
+				"tolerance": 0.03,
+				"explanation": "f_p = 8.98 × √(10^21) = 8.98 × 3.16×10^10 = 2.84×10^11 Hz = 284 GHz.",
+				"unit": "GHz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "An ICP is driven at 27.12 MHz, while f_p ≈ 284 GHz. What does this ratio imply for the RF field entering the plasma?",
+				"options": [
+					"The RF is far below the plasma frequency, so it passes through the plasma freely without being absorbed",
+					"The RF is far below the plasma frequency, so electrons screen it and it enters only a thin skin",
+					"The RF is resonant with the plasma, so it excites strong plasma oscillations throughout the plasma volume",
+					"The RF is too high for the electrons to follow, so it reaches all the way to the centre of the torch"
+				],
+				"answer": 1,
+				"explanation": "For ω < ω_p the electrons respond fast enough to cancel the field (the wave is evanescent). The RF energy therefore enters only within a skin depth."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does ω_p scale as √n_e, and why do ions not matter much for the fast oscillation?",
+				"options": [
+					"Each electron oscillates by itself independent of the others, with ω_p from its thermal speed",
+					"Displaced electrons feel a restoring field proportional to n_e, and ions are too heavy to follow",
+					"The oscillation is a sound wave whose speed rises with the density of the gas of heavy neutrals",
+					"Ions and electrons oscillate together at the same frequency, so the ion mass enters the answer too"
+				],
+				"answer": 1,
+				"explanation": "A displacement ξ produces a field E = n e ξ/ε0 and force -n e² ξ/ε0 on the electrons, so ω_p² ∝ n_e/m_e. Ion plasma frequency is smaller by √(m_e/M)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe, in words, how a plasma oscillation arises and why it is the plasma's fastest natural response time.",
+				"rubric": "Full credit: (1) electrons displaced from ions create charge separation and an electric field; (2) the field pulls electrons back, they overshoot; (3) repeated oscillation at ω_p with period ~10^-11 s, faster than other processes in an ICP.",
+				"modelAnswer": "If electrons are shifted relative to the heavy ions, a charge separation and electric field appear, pulling the electrons back. They overshoot, and the cycle repeats at ω_p. Because the restoring force is large and electrons are light, the period is of order picoseconds, the shortest time on which the plasma can respond to disturbances."
+			}
+		],
+		"e2-l004-collisions-atmospheric-plasma": [
+			{
+				"kind": "numeric",
+				"prompt": "In argon at 1 atm and 7000 K (n_0 = 1.05×10^24 m^-3), take an electron-neutral cross-section σ = 10^-19 m². What is the mean free path λ = 1/(n_0 σ)? (Answer in µm.)",
+				"answer": 9.54,
+				"tolerance": 0.03,
+				"explanation": "λ = 1/(1.05×10^24 × 10^-19) = 9.5×10^-6 m, about 10 µm, a thousandth of the torch's diameter.",
+				"unit": "µm"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Electrons with mean speed 5.56×10^5 m/s and λ = 9.54 µm collide at ν = v/λ. How many collisions occur per cycle of the 27.12 MHz RF field?",
+				"answer": 2148,
+				"tolerance": 0.03,
+				"explanation": "ν = 5.56×10^5/9.54×10^-6 = 5.83×10^10 s^-1, and ν/f = 5.83×10^10/2.712×10^7 ≈ 2150 collisions per RF cycle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "With ν far larger than the RF angular frequency, how do electrons respond to the RF field?",
+				"options": [
+					"They oscillate freely 90 degrees out of phase with the field, so on average no power is absorbed at all",
+					"They are unaffected by the field because collisions randomise their motion completely at every instant",
+					"They gain energy only at the walls of the torch, where the collisions with the quartz are most frequent",
+					"Their motion is collision-damped, so current follows the field and RF energy becomes Ohmic heat"
+				],
+				"answer": 3,
+				"explanation": "For ν ≫ ω the electron velocity is set by instantaneous E and the collision rate (a resistive plasma: J = σE in phase), so E·J > 0 and the power goes into heating."
+			},
+			{
+				"kind": "short",
+				"prompt": "Contrast how a low-pressure (mTorr) plasma and an atmospheric ICP differ in collisionality, and give one consequence of the ICP's high collision rate for analytical chemistry.",
+				"rubric": "Full credit: (1) low pressure: mean free path long, electrons rarely collide, non-Maxwellian distributions; (2) ICP: ~10^3 collisions per RF cycle, short mean free path; (3) consequence such as near-thermal equilibrium, efficient energy transfer to gas, reproducible atomisation/ionisation of analytes.",
+				"modelAnswer": "At mTorr pressures a particle can fly centimetres before colliding, so distributions can be far from thermal. In an atmospheric ICP an electron collides thousands of times per RF cycle with a mean free path of ~10 µm. Energy is shared rapidly with the gas and the plasma stays close to thermal equilibrium, which makes atomisation and ionisation of analytes efficient and reproducible."
+			}
+		],
+		"e2-l005-saha-ionisation": [
+			{
+				"kind": "numeric",
+				"prompt": "Use n_i/n_0 = (1/n_e)(2π m_e kT/h²)^{3/2} exp(-IP/kT) with n_e = 10^21 m^-3 and T = 7500 K (the prefactor over n_e is 1.57×10^6). For arsenic (IP = 9.79 eV), what percentage of As atoms are ionised, 100·r/(1+r)?",
+				"answer": 29.3,
+				"tolerance": 0.05,
+				"explanation": "kT = 0.646 eV, so exp(-9.79/0.646) = 2.6×10^-7. Then r = 1.57×10^6 × 2.6×10^-7 = 0.414, and the ionised fraction r/(1+r) = 29 percent.",
+				"unit": "%"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement best explains why the argon ICP gives high sensitivity for most metals but a weaker response for As, Se and Hg?",
+				"options": [
+					"Their ionisation potentials are high (~10 eV), so exp(-IP/kT) gives only partial ionisation",
+					"These elements form oxides that cannot enter the plasma, so no free atoms of them are ever produced",
+					"Their atoms are too heavy to be carried by the nebuliser gas flow into the central channel of the plasma",
+					"Argon ionises only elements below its own mass, so heavier elements are excluded by the Saha equation"
+				],
+				"answer": 0,
+				"explanation": "Ionisation depends exponentially on IP/kT. At ~7500 K, elements below ~8 eV are nearly fully ionised, whereas 10 eV elements are partly ionised and halogens (>11 eV) hardly at all."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A sample matrix with a high concentration of sodium (IP 5.1 eV) is introduced. According to Saha, what happens to analyte ionisation?",
+				"options": [
+					"Na lowers the temperature so ionisation drops, because it absorbs all the RF energy in the plasma",
+					"Nothing happens, as Saha equilibrium is independent of what other elements are present in the plasma",
+					"Na adds electrons, raising n_e and slightly suppressing ionisation of the analyte",
+					"Na donates electrons to the analyte atoms, which raises their ionisation by providing charge transfer"
+				],
+				"answer": 2,
+				"explanation": "n_i/n_0 ∝ 1/n_e. Easily ionised matrix elements increase n_e and shift each element's balance toward neutrals, a matrix effect (also temperature and space-charge effects)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the ionisation potential of argon (15.76 eV) is well suited for ICP-MS, and what would change with a helium plasma (24.6 eV).",
+				"rubric": "Full credit: (1) Ar IP exceeds the IPs of nearly all elements, so most are ionised efficiently while Ar itself stays mostly neutral; (2) He's higher IP/temperature would ionise elements with high IPs such as halogens more efficiently; (3) but helium plasma is harder to sustain.",
+				"modelAnswer": "Argon's first ionisation potential of 15.76 eV is higher than almost any element's, so the plasma ionises the analyte atoms efficiently (Saha) while argon itself is only ~0.1 percent ionised. A helium plasma, with a 24.6 eV IP, could ionise high-IP elements such as the halogens much better, but it is harder to sustain and operate."
+			}
+		],
+		"e2-l006-lte-temperatures-electron-density": [
+			{
+				"kind": "numeric",
+				"prompt": "Two energy levels with equal statistical weights are 3.0 eV apart. At an excitation temperature of 7500 K (kT = 0.646 eV), what is N_upper/N_lower?",
+				"answer": 0.00964,
+				"tolerance": 0.03,
+				"explanation": "exp(-3.0/0.646) = exp(-4.64) = 9.6×10^-3: even at ICP temperatures only about 1 percent of atoms sit in a state 3 eV above the ground state."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Measured ICP electron (ionisation) temperatures exceed the rotational gas temperature by 1000 K or more. What does this imply?",
+				"options": [
+					"The plasma is in perfect LTE, because both temperatures are high enough to be considered equal",
+					"The gas thermometer reading is wrong, since all temperatures in a plasma must always be identical",
+					"The plasma is cold, because the gas temperature determines its true thermodynamic state in every case",
+					"The plasma is not in complete LTE, so no single temperature describes all of its processes"
+				],
+				"answer": 3,
+				"explanation": "In LTE, all processes (Maxwell velocities, Boltzmann excitation, Saha ionisation) share one T. Different measured temperatures show departures from LTE, e.g. hotter electrons than heavy particles."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A Boltzmann plot of ln(Iλ/gA) against upper-level energy for several lines of one species is a straight line with slope -1/kT_exc. What does strong curvature of the plot tell you?",
+				"options": [
+					"The detector response is non-linear, which is the only possible cause of a curved Boltzmann plot",
+					"The level populations are not Boltzmann-distributed, so the plasma departs from LTE",
+					"The excitation temperature is infinite, because the points no longer lie on any straight line",
+					"The species concentration is too high, which always produces a curve in the plot of the line intensities"
+				],
+				"answer": 1,
+				"explanation": "A single temperature gives a straight line. Curvature signals over- or under-populated levels, i.e. non-LTE (or self-absorption/measurement problems)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what 'local thermodynamic equilibrium' means, and why in the ICP different temperatures (rotational, excitation, ionisation, electron) are reported.",
+				"rubric": "Full credit: (1) LTE = collisions dominate radiation so all populations follow Maxwell, Boltzmann and Saha at one local T; (2) in the ICP, electrons gain energy from the RF field and transfer it slowly to heavy particles, radiative losses and gradients; (3) so measured temperatures differ.",
+				"modelAnswer": "In LTE collisional processes dominate, so one local temperature fixes the velocity distribution, level populations (Boltzmann) and ionisation balance (Saha). In the ICP the RF energy goes first to electrons and moves more slowly to heavy particles while radiation escapes, so electrons and excited levels are somewhat hotter than the gas. Different diagnostics therefore give different temperatures."
+			}
+		],
+		"e2-l007-rf-inductive-coupling-skin-depth": [
+			{
+				"kind": "numeric",
+				"prompt": "The ICP is driven at 27.12 MHz and has an effective conductivity of about 1000 S/m. What is the skin depth δ = 1/√(π f μ0 σ)? (Answer in mm.)",
+				"answer": 3.06,
+				"tolerance": 0.03,
+				"explanation": "π f μ0 σ = π × 27.12×10^6 × 1.2566×10^-6 × 1000 = 1.07×10^5, so δ = 1/327 m = 3.06 mm, a sizeable fraction of the torch radius.",
+				"unit": "mm"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which sequence describes how RF power from the load coil reaches the plasma?",
+				"options": [
+					"The coil emits RF radiation that heats the gas through absorption by molecular vibrations, as a microwave oven does",
+					"The coil charges the gas like a capacitor and sparks occur between the coil turns and the plasma edge",
+					"Changing coil current makes a changing axial B, inducing a circulating E that drives heating eddy currents",
+					"The coil heats the quartz torch, which then conducts the heat inward by thermal conduction to the argon"
+				],
+				"answer": 2,
+				"explanation": "By Faraday's law a time-varying B induces a closed-loop E field. Charged particles follow it, forming a ring current (the secondary), and Ohmic dissipation heats the gas."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If the RF frequency is raised from 27 to 40 MHz at the same conductivity, how does the heated region change?",
+				"options": [
+					"The skin depth shrinks by about 20 percent and the power is concentrated closer to the outer edge",
+					"The skin depth grows by 50 percent and the power spreads deeper into the central channel",
+					"The skin depth is unchanged, because it depends only on conductivity and not on frequency",
+					"The skin depth falls to zero, so the plasma can no longer be heated at all at the higher frequency"
+				],
+				"answer": 0,
+				"explanation": "δ ∝ 1/√f, so δ falls by √(27.12/40.68) = 0.82. The same power flows in a thinner layer, which also helps the central channel stay cool."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the ICP is a 'doughnut' (hot annulus, cooler central channel), referring to skin depth and eddy currents.",
+				"rubric": "Full credit: (1) induced E and eddy currents flow in circles around the axis; (2) skin effect confines them within about δ of the surface; (3) so heating happens in the outer ring and the centre is cooler, which lets aerosol pass.",
+				"modelAnswer": "The induced electric field drives currents in circles around the torch axis. Because RF fields only penetrate a skin depth, the currents flow in a ring near the outside of the plasma, so the heating is concentrated in that annulus. The centre is cooler and less dense, forming a channel through which the sample aerosol can travel without extinguishing the plasma."
+			}
+		],
+		"e2-l008-torch-load-coil-gas-flows": [
+			{
+				"kind": "numeric",
+				"prompt": "A nebuliser flow of 1.0 L/min at 298 K is heated to 6000 K at constant pressure. What volume flow does it occupy? (Answer in L/min.)",
+				"answer": 20.1,
+				"tolerance": 0.03,
+				"explanation": "At constant pressure V ∝ T, so V = 1.0 × 6000/298 = 20.1 L/min. The gas speeds up about twentyfold, so residence time in the hot region is only milliseconds.",
+				"unit": "L/min"
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the main job of the outer (plasma/coolant) argon flow, typically ~15 L/min?",
+				"options": [
+					"Carrying the sample aerosol up the central channel of the torch",
+					"Keeping the plasma lifted away from the injector tip so it sits higher",
+					"Sustaining the plasma and cooling the quartz so it does not melt",
+					"Supplying the oxygen needed to burn the sample matrix in the plasma"
+				],
+				"answer": 2,
+				"explanation": "The tangential outer flow forms and stabilises the annular plasma, insulates it from the quartz wall and cools it. The auxiliary flow positions the plasma, and the nebuliser flow carries the aerosol."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can the sample aerosol be injected into a plasma that is far hotter than the sample, without extinguishing it?",
+				"options": [
+					"The skin effect leaves a cooler central channel, and the aerosol flows through it at modest rate",
+					"The aerosol is vaporised before it arrives, so no energy is taken from the plasma",
+					"The sample is so dilute that it adds no load to the plasma at any flow rate",
+					"The aerosol is carried in the plasma's outer annulus, which is always too cool to be extinguished"
+				],
+				"answer": 0,
+				"explanation": "The doughnut shape (skin effect) provides a lower-density, cooler central path. The aerosol punches a hole through it and is heated mainly from the surrounding annulus."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe in your own words how the three argon flows and the RF coil work together to produce and shape a stable ICP, including how it is ignited.",
+				"rubric": "Full credit: (1) tangential outer flow forms and cools; (2) auxiliary flow lifts the plasma; (3) nebuliser flow carries aerosol through the central channel; (4) a Tesla spark supplies seed electrons and RF induction then sustains the discharge.",
+				"modelAnswer": "A Tesla spark provides initial free electrons in the argon, and the RF field in the coil accelerates them to ionise the gas in a cascade until a self-sustaining ring discharge forms. The outer (plasma) flow, injected tangentially, stabilises the plasma and cools the quartz, the auxiliary flow positions the plasma relative to the injector, and the nebuliser flow carries the aerosol through the cooler central channel."
+			}
+		],
+		"e2-l009-sample-introduction-atomisation": [
+			{
+				"kind": "numeric",
+				"prompt": "A 1 µg/L iron solution is nebulised at 1.0 mL/min with 2 percent transport efficiency. How many Fe atoms per second reach the plasma? (Fe = 55.85 g/mol; answer in atoms/s.)",
+				"answer": 3590000000.0,
+				"tolerance": 0.05,
+				"explanation": "Delivered liquid = 0.02 mL/min = 2×10^-5 L/min; Fe mass = 2×10^-5 µg/min = 3.3×10^-13 g/s; atoms = 3.3×10^-13/55.85 × 6.022×10^23 = 3.6×10^9 atoms/s.",
+				"unit": "atoms/s"
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the correct order of events for a dissolved analyte entering the plasma?",
+				"options": [
+					"Droplet, ionisation, atomisation, vaporisation, then desolvation to a solid particle",
+					"Droplet, atomisation, desolvation, ionisation, then vaporisation into the gas",
+					"Droplet, vaporisation, desolvation, ionisation, then atomisation into free atoms",
+					"Droplet, desolvation to a dry particle, vaporisation, atomisation, then ionisation"
+				],
+				"answer": 3,
+				"explanation": "Each step needs more energy: evaporate the solvent, vaporise the dried particle, break its bonds into atoms, and finally remove an electron."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the nebuliser aerosol passed through a (often cooled) spray chamber before the plasma?",
+				"options": [
+					"To increase the aerosol concentration so that more sample reaches the plasma in total",
+					"To remove large droplets and cut solvent load, which would cool the plasma and add oxides",
+					"To pre-ionise the analyte so that the plasma has less work to do on the atoms",
+					"To make the aerosol electrically charged so that it follows the RF field into the plasma"
+				],
+				"answer": 1,
+				"explanation": "Only the smallest droplets (a few percent) are transported. Large droplets would not be fully desolvated and would cool and destabilise the plasma, and water vapour promotes MO+ formation."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why plasma conditions must provide enough residence time and temperature to complete desolvation, vaporisation, atomisation and ionisation, and what happens if they do not.",
+				"rubric": "Full credit: (1) each step takes time and heat; (2) the aerosol spends only ~milliseconds in the plasma; (3) incomplete steps give refractory oxides, poor ionisation, matrix effects/low sensitivity or drift.",
+				"modelAnswer": "Each step needs heat and time, and the aerosol passes through the hot region in only a few milliseconds. If the temperature or residence time is too low, particles are not fully vaporised or atomised, refractory oxides survive, ionisation is incomplete and sensitivity drops or drifts, especially with heavy or high-solvent matrices."
+			}
+		],
+		"e2-l010-interface-supersonic-expansion": [
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the Mach disk position x_M = 0.67·d·√(P0/P1) for a sampler orifice d = 1.0 mm, upstream pressure 760 Torr and downstream pressure 2.5 Torr. (Answer in mm.)",
+				"answer": 11.7,
+				"tolerance": 0.05,
+				"explanation": "√(760/2.5) = 17.4, so x_M = 0.67 × 1.0 × 17.4 = 11.7 mm. The skimmer tip sits a few mm from the sampler, well inside the zone of silence.",
+				"unit": "mm"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does a supersonic expansion preserve the ion populations created in the plasma?",
+				"options": [
+					"The gas is heated further by the expansion, which re-ionises any recombining ions to keep them",
+					"Rapid expansion cools the gas and cuts its density, so collisions and recombination stop",
+					"The sampler cone holds the ions at constant temperature by conduction through its thin copper wall",
+					"The expansion filters out neutral atoms electrostatically, leaving a pure beam of the original ions"
+				],
+				"answer": 1,
+				"explanation": "In a free jet the density falls by orders of magnitude within microseconds, so collisions cease and the composition is 'frozen' as it was in the plasma."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What happens if the skimmer is placed beyond the Mach disk?",
+				"options": [
+					"It samples cleaner, cooler gas, which boosts the ion transmission by a large factor",
+					"It samples exactly the same gas as before, because the disk position does not affect transmission",
+					"It stops the plasma by reflecting the RF field back into the torch through the sampler",
+					"It samples shocked, turbulent gas, which scatters ions and degrades transmission"
+				],
+				"answer": 3,
+				"explanation": "Inside the zone of silence flow is smooth and supersonic. At and beyond the Mach disk a shock heats and scatters the gas, so the skimmer should intercept the core before it."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how the interface turns an atmospheric-pressure plasma into a low-pressure ion beam, and why two cones are used.",
+				"rubric": "Full credit: (1) sampler orifice admits plasma gas into a first low-pressure region (~2 Torr) producing a supersonic jet; (2) skimmer takes the core of the jet into the next stage at ~1 mTorr; (3) staged pumping handles the gas load while keeping ions.",
+				"modelAnswer": "The plasma gas passes through the ~1 mm sampler orifice into a roughly 2 Torr region, expanding supersonically. The skimmer then takes only the central core of this jet into a high-vacuum region at around 1 mTorr. Two cones with differential pumping handle the huge gas load stage by stage while passing most of the ions."
+			}
+		],
+		"e2-l011-sheaths-bohm-secondary-discharge": [
+			{
+				"kind": "numeric",
+				"prompt": "What is the Bohm speed c_s = √(kT_e/M) for Ar+ (M = 39.95 u) when kT_e = 0.8 eV? (Answer in m/s.)",
+				"answer": 1390,
+				"tolerance": 0.03,
+				"explanation": "c_s = √(0.8 × 1.602×10^-19/(39.95 × 1.661×10^-27)) = √(1.93×10^6) = 1390 m/s: ions enter the sheath at about a kilometre per second.",
+				"unit": "m/s"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does a surface in contact with plasma become negative relative to the plasma, forming a sheath?",
+				"options": [
+					"Electrons are faster than ions, so they reach the surface first until it charges negative",
+					"Ions are lighter than electrons and reach the surface first, which makes the surface positive",
+					"The metal cone has a work function that attracts electrons to it from the plasma without any other effect",
+					"The sheath is formed by the RF field, and it would not exist for a surface in a DC plasma"
+				],
+				"answer": 0,
+				"explanation": "At equal temperature argon-plasma electrons move about 270 times faster. A floating surface charges negative until the electron flux is reduced to equal the ion flux, repelling electrons and leaving a positive space-charge sheath."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In an ICP-MS interface, what is the practical consequence of capacitive coupling between the load coil and the plasma?",
+				"options": [
+					"The plasma becomes colder, so ionisation efficiencies for all of the elements are lowered",
+					"The RF power is increased in the central channel, which makes the plasma more stable",
+					"The plasma potential rises, causing a secondary discharge and a broad ion energy spread",
+					"Nothing, because capacitive coupling is cancelled exactly by the inductive coupling of the coil"
+				],
+				"answer": 2,
+				"explanation": "Capacitive coupling raises plasma potential by tens of volts relative to the grounded cone. The resulting secondary discharge erodes cones and spreads ion energies, so shields or balanced coils are used."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words what the Bohm criterion says and why a sheath is needed at the edge of a quasineutral plasma.",
+				"rubric": "Full credit: (1) quasineutral bulk meets a boundary where electron loss creates a potential drop (sheath); (2) ions must be accelerated to at least c_s in a presheath to enter the sheath stably; (3) c_s = √(kTe/M).",
+				"modelAnswer": "A quasineutral plasma meeting a wall loses fast electrons, so the wall charges negative and a sheath forms that repels electrons. For a stable sheath the ions must reach the sheath edge with at least the Bohm speed c_s = √(kT_e/M), so they are accelerated in a quasineutral presheath first. This sets the ion flux to the wall."
+			}
+		],
+		"e2-l012-space-charge-mass-bias": [
+			{
+				"kind": "numeric",
+				"prompt": "An internal standard (Rh-103) gives 82 percent of its calibration-standard intensity in a sample, indicating matrix suppression. The analyte's raw result is 41.0 µg/L. What is the corrected concentration? (Answer in µg/L.)",
+				"answer": 50.0,
+				"tolerance": 0.02,
+				"explanation": "Corrected = raw / (fractional IS recovery) = 41.0 / 0.82 = 50.0 µg/L.",
+				"unit": "µg/L"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does space charge hurt light ions (e.g. Li) more than heavy ions (e.g. U) in the ion beam?",
+				"options": [
+					"Light ions carry less charge than heavy ions, so they are repelled more strongly by the rest of the beam",
+					"Heavy ions shield light ions from the beam's field, so light ions are pushed to the beam edge",
+					"Light ions are formed in smaller numbers, so any loss in the beam affects them proportionally more",
+					"All ions leave the expansion at similar speed, so light ions have less momentum and are pushed aside"
+				],
+				"answer": 3,
+				"explanation": "In a supersonic expansion all species reach about the gas speed, so momentum ∝ m. The same Coulomb push deflects a light ion more, so it is lost from the beam."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How should an internal standard be selected to correct matrix suppression?",
+				"options": [
+					"Pick the lightest available isotope, since its suppression is the largest and easiest to measure",
+					"Pick an element of similar mass and similar ionisation potential that is not in the sample",
+					"Pick any element at much higher concentration than the analyte, so its signal is large and stable",
+					"Pick the analyte's own isotope with the largest natural abundance, as it always responds the same way"
+				],
+				"answer": 1,
+				"explanation": "Space-charge losses depend on mass and ionisation depends on IP, so a standard close in both mimics the analyte's response to the matrix."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how a heavy, high-concentration matrix element can suppress the signal of a light analyte, using the idea of space charge.",
+				"rubric": "Full credit: (1) the matrix adds many positive ions to the beam, increasing space charge; (2) mutual repulsion pushes ions radially off axis; (3) light analyte ions are affected most and are lost at apertures, so signal drops.",
+				"modelAnswer": "A concentrated heavy matrix puts a large number of positive ions into the beam. Their mutual repulsion drives ions radially outward, and light analyte ions, which have the least momentum, are deflected most and are lost at the apertures. The analyte signal is suppressed even though its own concentration is unchanged."
+			}
+		],
+		"e2-l013-quadrupole-mathieu-stability": [
+			{
+				"kind": "numeric",
+				"prompt": "A quadrupole has r0 = 4.0 mm and RF frequency 3.0 MHz. For singly charged m = 56 u, what zero-to-peak RF amplitude V puts the ion at the apex q = 0.706? (q = 4eV/(m r0² Ω²), Ω = 2πf; answer in V.)",
+				"answer": 582,
+				"tolerance": 0.03,
+				"explanation": "V = q m r0² Ω²/(4e) = 0.706 × 9.30×10^-26 kg × (4×10^-3)² × (1.885×10^7)²/(4 × 1.602×10^-19) = 582 V. The DC voltage at the apex is U ≈ 0.168 V ≈ 98 V.",
+				"unit": "V"
+			},
+			{
+				"kind": "mc",
+				"prompt": "At a fixed scan line a/q = 2U/V, why does the quadrupole transmit only a narrow range of m/z?",
+				"options": [
+					"Heavier ions are slower and need more time, so only a narrow range of masses reaches the detector",
+					"The field is shielded for most masses, so those ions fly through the rods without interacting with them",
+					"a and q scale as 1/m, so only ions with (a, q) inside the stability region stay bounded",
+					"Only ions with exactly one electron charge are stable, so all other charge states are removed"
+				],
+				"answer": 2,
+				"explanation": "Each mass sits at a different point along the scan line. Only masses where the line lies inside the stability region have bounded oscillations in both x and y; others grow exponentially and hit a rod."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the Mathieu equation a natural fit with the ODE tools of M4/M5?",
+				"options": [
+					"It is a linear ODE with a periodic coefficient, so stability is decided by Floquet exponents",
+					"It is a linear ODE with constant coefficients, so solutions are plain exponentials of the form e^{λt}",
+					"It is a nonlinear ODE, and its stability is decided by finding fixed points in the phase plane",
+					"It is an algebraic equation, so the stable ion masses follow directly without integration of any ODE"
+				],
+				"answer": 0,
+				"explanation": "The cos 2ξ term makes the coefficient periodic. Solutions are bounded (oscillatory with a real Floquet frequency) or grow exponentially, depending on (a, q)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in words how a quadrupole separates ions by mass using only electric fields, and what happens with RF only (U = 0).",
+				"rubric": "Full credit: (1) combined DC+RF makes ions oscillate; for a given U/V only one m/z range has bounded (stable) motion in both x and y; (2) other masses hit rods; (3) with RF only, all masses above a low-mass cutoff are stable, so it acts as an ion guide/high-pass filter.",
+				"modelAnswer": "The rods carry a DC plus RF voltage, so ions oscillate transversely. For a fixed U/V, only ions within a narrow m/z window have bounded oscillations in both transverse directions; others grow in amplitude and hit a rod. Scanning V (with U) moves the window across masses. With RF only, ions above a low-mass cutoff are stable, so the device guides ions without selecting a mass."
+			}
+		],
+		"e2-l014-collision-reaction-cells-interferences": [
+			{
+				"kind": "numeric",
+				"prompt": "Exact masses: 40Ar 39.96238, 16O 15.99491, 56Fe 55.93494 u. What resolving power R = m/Δm is needed to separate 56Fe+ from 40Ar16O+? (Give R to the nearest unit.)",
+				"answer": 2503,
+				"tolerance": 0.03,
+				"explanation": "m(ArO) = 55.95729, Δm = 0.02235 u, so R = 55.93494/0.02235 = 2503, far beyond a unit-resolution quadrupole (R of a few hundred) but within reach of a sector-field instrument."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Exact masses: 40Ar 39.96238, 35Cl 34.96885, 75As 74.92159 u. What resolving power is needed to separate 75As+ from 40Ar35Cl+?",
+				"answer": 7772,
+				"tolerance": 0.03,
+				"explanation": "m(ArCl) = 74.93123, Δm = 0.00964 u, so R = 74.92159/0.00964 = 7772, which is why As is classically hard in chloride matrices."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does a helium-filled cell with kinetic energy discrimination (KED) reduce ArCl+ on As+?",
+				"options": [
+					"Helium reacts chemically with ArCl+ to neutralise it, while As+ does not react with helium at all",
+					"Helium increases the mass of ArCl+ so it moves out of the mass window of the quadrupole beyond",
+					"Polyatomics lose more energy in collisions, so a small energy barrier blocks them but passes As+",
+					"Helium cools the plasma, so ArCl+ is no longer formed in the plasma in the first place"
+				],
+				"answer": 2,
+				"explanation": "KED relies on physics, not chemistry: a polyatomic has a larger cross-section than an atomic ion of the same mass, so it loses more energy in He collisions and cannot cross the exit energy barrier."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how ArO+ interferes with iron at m/z 56 and how a reaction cell with NH3 (or a mass-shift gas) removes the interference.",
+				"rubric": "Full credit: (1) ArO+ (40+16) is formed from plasma argon and oxygen in water/air and has m/z 56 like 56Fe+; (2) the quadrupole cannot resolve them; (3) reaction gas such as NH3 removes ArO+ by charge transfer/reaction, or analyte shifts mass as an oxide, so the target mass is free.",
+				"modelAnswer": "Argon from the plasma combines with oxygen from water or air to make ArO+ at m/z 56, the same nominal mass as the main iron isotope, and a quadrupole cannot tell them apart. In a reaction cell NH3 reacts with ArO+ (charge transfer, neutralising it) far faster than with Fe+, so the m/z 56 signal contains iron only. Alternatively a gas such as O2 shifts the analyte to a clean mass as an oxide."
+			}
+		]
+	}
+}

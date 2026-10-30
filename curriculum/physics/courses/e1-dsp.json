@@ -1,0 +1,993 @@
+{
+	"id": "e1-dsp",
+	"code": "E1",
+	"title": "Signal Processing for Scientists (DSP)",
+	"track": "elective",
+	"depth": "elective",
+	"hours": 20,
+	"prereqs": [
+		"m5-methods",
+		"m6-complex"
+	],
+	"subject": "Signal Processing",
+	"summary": "Twenty short lessons on the signal processing behind every digital instrument: sampling, aliasing and ADC bit depth; convolution and LTI systems; the DFT/FFT with its resolution, zero-padding and windowing traps; FIR and IIR filters, moving-average and Savitzky-Golay smoothing, and a light z-transform; noise, averaging and lock-in detection; and then the applications a chemist already uses: FT-NMR (FID, apodisation, phase correction), FT-IR (interferogram), deconvolution, baseline correction and peak picking. Concept first; calculation is a minority of the work.",
+	"books": [
+		{
+			"bookId": "smith-dsp",
+			"role": "primary"
+		},
+		{
+			"bookId": "lyons-dsp",
+			"role": "secondary"
+		},
+		{
+			"bookId": "boas",
+			"role": "reference"
+		}
+	],
+	"units": [
+		{
+			"id": "e1-u01-sampling-digitisation",
+			"title": "Sampling and Digitisation",
+			"summary": "How a continuous voltage becomes a list of numbers and what is lost: the sampling theorem, aliasing (folded peaks, mains hum) and quantisation (ADC bit depth and dynamic range in NMR receivers and detectors).",
+			"lessons": [
+				{
+					"id": "e1-l001-signals-sampling-digitising",
+					"title": "Signals, Sampling and Digitising: the Big Picture",
+					"minutes": 35,
+					"objectives": [
+						"Distinguish a continuous signal x(t), a sampled sequence x[n]=x(nT_s) and a digitised (quantised) sequence, naming the instrument stage that produces each.",
+						"Convert between sampling interval, sampling rate and record length, e.g. NMR dwell time and number of points to acquisition time."
+					],
+					"keyEquations": [
+						"x[n]=x(nT_s)",
+						"f_s=1/T_s",
+						"T_{acq}=N\\,T_s"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 3",
+							"title": "ADC and DAC"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 1",
+							"title": "The Breadth and Depth of DSP",
+							"optional": true
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 2",
+							"title": "Periodic Sampling",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 1: Signals",
+							"url": "https://www.youtube.com/watch?v=hVOA8VtKLgk"
+						},
+						{
+							"source": "Steve Brunton",
+							"title": "Fourier Analysis [Data-Driven Science and Engineering] (playlist)",
+							"url": "https://www.youtube.com/playlist?list=PLMrJAkhIeNNT_Xh3Oy0Y4LTj0Oxo8GqsC"
+						}
+					],
+					"demoIdeas": [
+						"Slider for sampling rate over a continuous waveform: show the sample dots, the recorded sequence and the record length N T_s."
+					]
+				},
+				{
+					"id": "e1-l002-sampling-theorem-nyquist",
+					"title": "The Sampling Theorem and the Nyquist Frequency",
+					"minutes": 40,
+					"objectives": [
+						"State the sampling theorem and explain, using the picture of spectral copies repeating every f_s, why f_s > 2 f_max is needed.",
+						"Compute the minimum sampling rate and Nyquist frequency for a given bandwidth.",
+						"Explain why ideal (sinc) reconstruction recovers a band-limited signal, and why real systems sample well above 2 f_max."
+					],
+					"keyEquations": [
+						"f_N=f_s/2",
+						"X_s(f)=\\sum_{k}X(f-kf_s)",
+						"x(t)=\\sum_n x[n]\\,\\mathrm{sinc}\\!\\big((t-nT_s)/T_s\\big)"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 3",
+							"title": "ADC and DAC"
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 2",
+							"title": "Periodic Sampling"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 13: The Sampling Theorem",
+							"url": "https://www.youtube.com/watch?v=_Z7ErH7UTMs"
+						},
+						{
+							"source": "MIT OCW 6.003 Signals and Systems (Fall 2011)",
+							"title": "Lecture 21: Sampling",
+							"url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/lecture-21-sampling/"
+						}
+					],
+					"demoIdeas": [
+						"Show a spectrum and its periodic copies as f_s is lowered until the copies overlap; overlay the reconstructed signal."
+					]
+				},
+				{
+					"id": "e1-l003-aliasing-antialias",
+					"title": "Aliasing in Practice: Folded Peaks, Hum and Anti-Alias Filters",
+					"minutes": 40,
+					"objectives": [
+						"Predict the apparent frequency of a tone above the Nyquist frequency.",
+						"Explain why aliasing cannot be removed after digitising and why an analogue anti-alias filter (or oversampling plus digital filtering) comes first.",
+						"Recognise aliasing in instrument data: mains hum, folded peaks in a too-narrow spectral width, stroboscopic effects."
+					],
+					"keyEquations": [
+						"f_{app}=\\left|f-f_s\\,\\mathrm{round}(f/f_s)\\right|"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 3",
+							"title": "ADC and DAC"
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 2",
+							"title": "Periodic Sampling"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DIP Lecture 8: Frequency domain filtering; sampling and aliasing",
+							"url": "https://www.youtube.com/watch?v=tmERrPh1E4c"
+						},
+						{
+							"source": "AwesomeAcoustics",
+							"title": "What is aliasing and the Nyquist theorem?",
+							"url": "https://www.youtube.com/watch?v=IZJQXlbm2dU"
+						}
+					],
+					"demoIdeas": [
+						"Rotating-wheel/stroboscope style demo and a frequency-sweep plot showing apparent frequency folding back from f_s/2."
+					]
+				},
+				{
+					"id": "e1-l004-quantisation-adc-bit-depth",
+					"title": "Quantisation, ADC Bit Depth and Dynamic Range",
+					"minutes": 40,
+					"objectives": [
+						"Explain quantisation error as noise of RMS Δ/√12, where Δ is one least-significant bit, and use SQNR ≈ 6.02N + 1.76 dB.",
+						"Choose a bit depth for a required dynamic range and explain why a huge peak (solvent line, major isotope) limits what weak signals a digitiser can see."
+					],
+					"keyEquations": [
+						"\\Delta=V_{FS}/2^{N}",
+						"\\sigma_q=\\Delta/\\sqrt{12}",
+						"\\mathrm{SQNR}\\approx 6.02N+1.76\\ \\mathrm{dB}"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 3",
+							"title": "ADC and DAC"
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 12",
+							"title": "Digital Data Formats and Their Effects"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.003 Signals and Systems (Fall 2011)",
+							"title": "Lecture 22: Sampling and Quantization",
+							"url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/lecture-22-sampling-and-quantization/"
+						},
+						{
+							"source": "Brent Petersen",
+							"title": "Brent Petersen 6 dB/bit SNR from ADCs",
+							"url": "https://www.youtube.com/watch?v=5pVh2-A1Rnc"
+						}
+					],
+					"demoIdeas": [
+						"Quantise a sine wave with a bit-depth slider; plot the staircase, the error signal and the noise floor in the FFT."
+					]
+				}
+			]
+		},
+		{
+			"id": "e1-u02-systems-fourier",
+			"title": "Linear Systems and the Fourier Transform",
+			"summary": "LTI systems and convolution (instrument response, line broadening), then the DFT and FFT: what a frequency bin means, why resolution is 1/T, what zero-padding does not do, how windowing controls leakage, and the convolution theorem with deconvolution.",
+			"lessons": [
+				{
+					"id": "e1-l005-lti-impulse-response",
+					"title": "Linear Time-Invariant Systems and the Impulse Response",
+					"minutes": 40,
+					"objectives": [
+						"Test whether a simple system (square-law detector, moving average, running difference) is linear and time-invariant.",
+						"Explain why the impulse response completely characterises an LTI system, and relate it to an instrument or detector response."
+					],
+					"keyEquations": [
+						"x[n]=\\sum_k x[k]\\,\\delta[n-k]",
+						"h[n]=\\mathcal{S}\\{\\delta[n]\\}",
+						"\\mathcal{S}\\{ax_1+bx_2\\}=a\\mathcal{S}\\{x_1\\}+b\\mathcal{S}\\{x_2\\}"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 5",
+							"title": "Linear Systems"
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 1",
+							"title": "Discrete Sequences and Systems",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 2: Linear, time-invariant systems",
+							"url": "https://www.youtube.com/watch?v=yIYcT7U2OaA"
+						},
+						{
+							"source": "MIT OCW 6.003 Signals and Systems (Fall 2011)",
+							"title": "Lecture 2: Discrete-Time (DT) Systems",
+							"url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/lecture-2-discrete-time-dt-systems/"
+						}
+					],
+					"demoIdeas": [
+						"Feed a spike, a step and a sum of two spikes into a system; check superposition and shift-invariance interactively."
+					]
+				},
+				{
+					"id": "e1-l006-convolution",
+					"title": "Convolution: Superposing Responses and Broadening Lines",
+					"minutes": 45,
+					"objectives": [
+						"Compute the convolution of short sequences by hand, as a sum of scaled and shifted copies of the impulse response.",
+						"Explain line broadening as convolution of a spectrum with an instrument function, including how Gaussian and Lorentzian widths combine."
+					],
+					"keyEquations": [
+						"y[n]=\\sum_k x[k]\\,h[n-k]",
+						"x*h=h*x",
+						"\\sigma_{tot}^2=\\sigma_1^2+\\sigma_2^2\\ \\text{(Gaussians)}",
+						"\\Gamma_{tot}=\\Gamma_1+\\Gamma_2\\ \\text{(Lorentzians)}"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 6",
+							"title": "Convolution"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 7",
+							"title": "Properties of Convolution",
+							"optional": true
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.13",
+							"title": "Convolution",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 3: Convolution and its properties",
+							"url": "https://www.youtube.com/watch?v=kVSUnbgul7g"
+						},
+						{
+							"source": "MIT OCW 6.003 Signals and Systems (Fall 2011)",
+							"title": "Lecture 8: Convolution",
+							"url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/lecture-8-convolution/"
+						}
+					],
+					"demoIdeas": [
+						"Animated flip-and-slide convolution of a stick spectrum with an adjustable Gaussian or Lorentzian instrument function."
+					]
+				},
+				{
+					"id": "e1-l007-dft-frequency-bins",
+					"title": "The DFT: What a Frequency Bin Means",
+					"minutes": 40,
+					"objectives": [
+						"Describe the DFT as the projection of N samples onto N complex sinusoids, and relate bin index k to frequency k f_s / N.",
+						"Explain the conjugate symmetry of the DFT of a real signal (negative frequencies) and the periodic extension assumed by the DFT."
+					],
+					"keyEquations": [
+						"X[k]=\\sum_{n=0}^{N-1}x[n]\\,e^{-2\\pi i kn/N}",
+						"f_k=k\\,f_s/N",
+						"X[N-k]=X[k]^*\\ \\text{(real }x)",
+						"\\sum_n|x[n]|^2=\\tfrac1N\\sum_k|X[k]|^2"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 8",
+							"title": "The Discrete Fourier Transform"
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 3",
+							"title": "The Discrete Fourier Transform"
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.7",
+							"title": "Complex Form of Fourier Series",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown",
+							"title": "But what is the Fourier Transform? A visual introduction.",
+							"url": "https://www.youtube.com/watch?v=spUNpyF58BY"
+						},
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 10: The Discrete Fourier Transform",
+							"url": "https://www.youtube.com/watch?v=jnxTpxB7HR8"
+						},
+						{
+							"source": "Steve Brunton",
+							"title": "The Discrete Fourier Transform (DFT)",
+							"url": "https://www.youtube.com/watch?v=nl9TZanwbBk"
+						}
+					],
+					"demoIdeas": [
+						"Wind a signal around a circle at a chosen frequency and show the centre of mass (the DFT bin) as the winding frequency sweeps."
+					]
+				},
+				{
+					"id": "e1-l008-fft-resolution-zero-padding",
+					"title": "The FFT, Frequency Resolution and Zero-Padding",
+					"minutes": 40,
+					"objectives": [
+						"Explain that the FFT is an exact fast algorithm for the DFT (about N log2 N operations) and say why that matters.",
+						"Show that frequency resolution is set by record length (Δf ≈ 1/T), not by sampling rate or zero-padding.",
+						"Describe what zero-padding does (interpolates the spectrum) and does not do (separate unresolved peaks)."
+					],
+					"keyEquations": [
+						"\\Delta f=f_s/N=1/T_{acq}",
+						"N^2\\ \\text{vs}\\ N\\log_2N"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 12",
+							"title": "The Fast Fourier Transform"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 9",
+							"title": "Applications of the DFT"
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 4",
+							"title": "The Fast Fourier Transform",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Steve Brunton",
+							"title": "The Fast Fourier Transform (FFT)",
+							"url": "https://www.youtube.com/watch?v=E8HeD-MUrjY"
+						},
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 11: Radix-2 Fast Fourier Transforms",
+							"url": "https://www.youtube.com/watch?v=1mVbZLHLaf0"
+						},
+						{
+							"source": "Mike X Cohen",
+							"title": "Frequency resolution and zero-padding",
+							"url": "https://www.youtube.com/watch?v=oh7WvhlkxnU"
+						}
+					],
+					"demoIdeas": [
+						"Two sinusoids close in frequency: sliders for record length and zero-padding factor, showing when the peaks resolve."
+					]
+				},
+				{
+					"id": "e1-l009-windowing-leakage",
+					"title": "Windowing and Spectral Leakage",
+					"minutes": 40,
+					"objectives": [
+						"Explain spectral leakage as multiplication by a finite window, i.e. convolution of the true spectrum with the window's transform.",
+						"Compare windows by main-lobe width and side-lobe level and choose one for a given task."
+					],
+					"keyEquations": [
+						"x_w[n]=x[n]\\,w[n]",
+						"w_{\\mathrm{Hann}}[n]=\\tfrac12\\big(1-\\cos\\tfrac{2\\pi n}{N-1}\\big)",
+						"\\mathrm{ENBW}=N\\sum w^2\\big/\\big(\\sum w\\big)^2\\ \\text{bins}"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 9",
+							"title": "Applications of the DFT"
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 3",
+							"title": "The Discrete Fourier Transform"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 11",
+							"title": "Fourier Transform Pairs",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Simcenter Physical Testing",
+							"title": "Windows and Spectral Leakage",
+							"url": "https://www.youtube.com/watch?v=pD7f6X9-_Kg"
+						},
+						{
+							"source": "Iain Explains Signals, Systems, and Digital Comms",
+							"title": "What is Windowing in Signal Processing?",
+							"url": "https://www.youtube.com/watch?v=1Hd72RpMFlQ"
+						}
+					],
+					"demoIdeas": [
+						"Tone whose frequency is swept between bins; compare rectangular, Hann and Blackman windows on a log-magnitude plot."
+					]
+				},
+				{
+					"id": "e1-l010-convolution-theorem-deconvolution",
+					"title": "The Convolution Theorem, FFT Convolution and Deconvolution",
+					"minutes": 40,
+					"objectives": [
+						"State the convolution theorem and use it to explain why smoothing is multiplication of the spectrum and why FFT convolution is fast.",
+						"Explain deconvolution as division in the frequency domain and why it amplifies noise wherever the response is small; describe regularisation (Wiener)."
+					],
+					"keyEquations": [
+						"\\mathcal{F}\\{x*h\\}=X\\,H",
+						"\\hat X=Y/H",
+						"\\hat X=\\frac{H^*}{|H|^2+\\lambda}\\,Y"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 18",
+							"title": "FFT Convolution"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 17",
+							"title": "Custom Filters"
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.13",
+							"title": "Convolution",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Steve Brunton",
+							"title": "The Fourier Transform and Convolution Integrals",
+							"url": "https://www.youtube.com/watch?v=mOiY1fOROOg"
+						},
+						{
+							"source": "Alex Miller",
+							"title": "Deconvolution Explanation",
+							"url": "https://www.youtube.com/watch?v=05d782Y5KYA"
+						}
+					],
+					"demoIdeas": [
+						"Blur a noisy two-line spectrum with a Gaussian, then deconvolve with and without regularisation, adjusting the noise level."
+					]
+				}
+			]
+		},
+		{
+			"id": "e1-u03-filters",
+			"title": "Digital Filters",
+			"summary": "Smoothing as convolution: moving-average and Savitzky-Golay filters (FIR), recursive RC-style filters (IIR), and a light look at the z-transform with its poles and zeros.",
+			"lessons": [
+				{
+					"id": "e1-l011-moving-average-fir",
+					"title": "Moving-Average and FIR Filters",
+					"minutes": 40,
+					"objectives": [
+						"Write a FIR filter as convolution with a finite impulse response, and derive the moving average's frequency response (a sinc-like shape with nulls at multiples of f_s/M).",
+						"Explain why white-noise RMS falls by √M but the filter is a poor low-pass, and what linear phase (symmetric taps) buys you: no peak shift, only a delay."
+					],
+					"keyEquations": [
+						"y[n]=\\frac1M\\sum_{k=0}^{M-1}x[n-k]",
+						"|H(f)|=\\left|\\frac{\\sin(\\pi f M/f_s)}{M\\sin(\\pi f/f_s)}\\right|",
+						"\\sigma_{out}=\\sigma_{in}/\\sqrt{M}"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 15",
+							"title": "Moving Average Filters"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 14",
+							"title": "Introduction to Digital Filters"
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 5",
+							"title": "Finite Impulse Response Filters",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Kiyono Lab",
+							"title": "Frequency response of moving average filter",
+							"url": "https://www.youtube.com/watch?v=mY3FrNodi4A"
+						},
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 16: FIR filter design using least-squares",
+							"url": "https://www.youtube.com/watch?v=qo6H7p37aDw"
+						}
+					],
+					"demoIdeas": [
+						"Noisy peak with a moving-average window slider; show smoothed trace, the sinc frequency response and the peak broadening."
+					]
+				},
+				{
+					"id": "e1-l012-savitzky-golay",
+					"title": "Savitzky–Golay Smoothing and Derivatives",
+					"minutes": 35,
+					"objectives": [
+						"Describe Savitzky–Golay as a sliding least-squares polynomial fit that reduces to a fixed FIR filter, and compute the 5-point quadratic smoothing result from the coefficients (-3, 12, 17, 12, -3)/35.",
+						"Explain why Savitzky–Golay preserves peak height and width better than a moving average of the same window, and when it fails (window wider than the feature)."
+					],
+					"keyEquations": [
+						"y[n]=\\sum_{j=-m}^{m}c_j\\,x[n+j]",
+						"c=\\tfrac1{35}(-3,\\,12,\\,17,\\,12,\\,-3)"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 15",
+							"title": "Moving Average Filters",
+							"optional": true
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 14",
+							"title": "Introduction to Digital Filters"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 17",
+							"title": "Custom Filters",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Kiyono Lab",
+							"title": "The idea of the Savitzky–Golay filter",
+							"url": "https://www.youtube.com/watch?v=1SvDZPvUo_I"
+						},
+						{
+							"source": "AltaiPlot",
+							"title": "Savitzky-Golay Filter: Smoothing Spectra without Peak Distortion",
+							"url": "https://www.youtube.com/watch?v=KMpOR2vODbM"
+						}
+					],
+					"demoIdeas": [
+						"Noisy Lorentzian peak: compare moving average and Savitzky-Golay with sliders for window width and polynomial order."
+					]
+				},
+				{
+					"id": "e1-l013-iir-recursive-filters",
+					"title": "Recursive (IIR) Filters and the RC Filter",
+					"minutes": 40,
+					"objectives": [
+						"Write a one-pole recursive low-pass, relate its coefficient to an RC time constant, and compute α from τ and the sampling interval.",
+						"Contrast FIR and IIR filters (cost, phase, stability) and recognise an unstable feedback loop."
+					],
+					"keyEquations": [
+						"y[n]=\\alpha x[n]+(1-\\alpha)\\,y[n-1]",
+						"\\alpha=1-e^{-T_s/\\tau}",
+						"f_c=1/(2\\pi\\tau)"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 19",
+							"title": "Recursive Filters"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 21",
+							"title": "Filter Comparison",
+							"optional": true
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 6",
+							"title": "Infinite Impulse Response Filters",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 18: IIR filter design",
+							"url": "https://www.youtube.com/watch?v=JCIxD6ep1rM"
+						},
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 6: Frequency Response",
+							"url": "https://www.youtube.com/watch?v=QqDbYI4YcfM"
+						}
+					],
+					"demoIdeas": [
+						"Step and noisy-signal response of a recursive low-pass with a τ slider; show the exponential impulse response and the cut-off."
+					]
+				},
+				{
+					"id": "e1-l014-z-transform-poles-zeros",
+					"title": "The z-Transform, Poles and Zeros (Light)",
+					"minutes": 35,
+					"objectives": [
+						"Write the transfer function H(z) of a simple FIR or IIR filter and read off its poles and zeros; connect |H| on the unit circle to the frequency response.",
+						"Explain stability (poles inside the unit circle) and how zeros on the unit circle make notch filters, linking to the Laplace s-plane picture."
+					],
+					"keyEquations": [
+						"X(z)=\\sum_n x[n]\\,z^{-n}",
+						"H(z)=\\frac{1}{1-a\\,z^{-1}}",
+						"H(e^{i\\omega}),\\ \\omega=2\\pi f/f_s"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 31",
+							"title": "The z-Transform"
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 6",
+							"title": "Infinite Impulse Response Filters",
+							"optional": true
+						},
+						{
+							"bookId": "boas",
+							"ref": "Ch. 2",
+							"title": "Complex Numbers",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 8: Introduction to the z-Transform",
+							"url": "https://www.youtube.com/watch?v=ikbLAwtYE3s"
+						},
+						{
+							"source": "Rich Radke (RPI) DSP lectures",
+							"title": "DSP Lecture 9: Inverse z-Transform; Poles and Zeros",
+							"url": "https://www.youtube.com/watch?v=kqEMuUsBIJU"
+						},
+						{
+							"source": "MIT OCW 6.003 Signals and Systems (Fall 2011)",
+							"title": "Lecture 5: Z-Transform",
+							"url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/resources/lecture-5-z-transform/"
+						}
+					],
+					"demoIdeas": [
+						"Drag poles and zeros on the z-plane and watch the frequency-response magnitude and impulse response update."
+					]
+				}
+			]
+		},
+		{
+			"id": "e1-u04-noise-applications",
+			"title": "Noise, Detection and Spectroscopic Applications",
+			"summary": "White, shot and 1/f noise, averaging and lock-in detection, then the instrument pipelines a chemist knows: FT-NMR, FT-IR, baseline correction, peak picking and detection limits.",
+			"lessons": [
+				{
+					"id": "e1-l015-noise-white-shot-1f",
+					"title": "Noise: White, Shot and 1/f",
+					"minutes": 40,
+					"objectives": [
+						"Distinguish white noise, shot (counting) noise and 1/f noise by their spectra and physical origin, with ICP-MS and spectrometer examples.",
+						"Compute SNR for counting data (SNR = √N) and explain why 1/f noise limits how far averaging helps."
+					],
+					"keyEquations": [
+						"\\mathrm{SNR}=\\mu/\\sigma",
+						"\\sigma_{shot}=\\sqrt{N}",
+						"S(f)\\propto 1/f^{\\alpha}"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 2",
+							"title": "Statistics, Probability and Noise"
+						},
+						{
+							"bookId": "boas",
+							"ref": "Ch. 15",
+							"title": "Probability and Statistics",
+							"optional": true
+						},
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 11",
+							"title": "Signal Averaging",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Texas Instruments",
+							"title": "1/F flicker noise",
+							"url": "https://www.youtube.com/watch?v=TaCG5DV4joQ"
+						}
+					],
+					"demoIdeas": [
+						"Generate white and 1/f noise traces and show their spectra on log-log axes; add the running average to compare."
+					]
+				},
+				{
+					"id": "e1-l016-signal-averaging",
+					"title": "Signal Averaging and Its Limits",
+					"minutes": 35,
+					"objectives": [
+						"Show that averaging N coherent scans improves SNR by √N and compute the number of scans needed for a target SNR.",
+						"Explain when averaging fails: drifting baselines, non-coherent phase, correlated or 1/f noise."
+					],
+					"keyEquations": [
+						"\\sigma_{avg}=\\sigma/\\sqrt{N}",
+						"\\mathrm{SNR}_N=\\sqrt{N}\\,\\mathrm{SNR}_1",
+						"N=(\\mathrm{SNR}_{target}/\\mathrm{SNR}_1)^2"
+					],
+					"readings": [
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 11",
+							"title": "Signal Averaging"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 2",
+							"title": "Statistics, Probability and Noise"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Accumulate scans of a noisy FID or spectrum: show SNR vs number of scans on a log-log plot with the √N line and a drifting-noise case."
+					]
+				},
+				{
+					"id": "e1-l017-lock-in-detection",
+					"title": "Lock-In (Phase-Sensitive) Detection",
+					"minutes": 40,
+					"objectives": [
+						"Explain the lock-in principle: multiply by a reference at the modulation frequency and low-pass filter, giving a DC output proportional to the signal amplitude times cos(phase).",
+						"Compute the noise-bandwidth reduction for a given time constant, and explain why modulating the signal moves it away from 1/f noise.",
+						"Explain why two quadrature outputs give a phase-independent magnitude R = √(X²+Y²)."
+					],
+					"keyEquations": [
+						"V_{X}=\\tfrac12 A\\cos\\phi",
+						"R=\\sqrt{X^2+Y^2},\\ \\theta=\\arctan(Y/X)",
+						"\\Delta f_{ENBW}=\\frac{1}{4\\tau}\\ \\text{(single pole)}"
+					],
+					"readings": [
+						{
+							"bookId": "lyons-dsp",
+							"ref": "Ch. 8",
+							"title": "Quadrature Signals",
+							"optional": true
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 2",
+							"title": "Statistics, Probability and Noise",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Zurich Instruments",
+							"title": "Principles of Lock-in Detection",
+							"url": "https://www.youtube.com/watch?v=ZIjBRA2S0NQ"
+						},
+						{
+							"source": "NPTEL-NOC IITM",
+							"title": "Lock in detection",
+							"url": "https://www.youtube.com/watch?v=bUJKHM2JJi4"
+						}
+					],
+					"demoIdeas": [
+						"Buried signal in noise: sliders for reference phase, time constant and modulation frequency, with X, Y and R traces."
+					]
+				},
+				{
+					"id": "e1-l018-ft-nmr-fid-apodisation-phase",
+					"title": "FT-NMR: FID, Apodisation, Zero-Filling and Phase Correction",
+					"minutes": 45,
+					"objectives": [
+						"Describe the FID as a sum of decaying complex exponentials and the spectrum as its Fourier transform; relate T2* to Lorentzian linewidth 1/(πT2*).",
+						"Explain apodisation (exponential/Gaussian weighting) as a SNR-versus-resolution trade-off, and zero-filling as interpolation only.",
+						"Explain zero- and first-order phase correction as removing a constant plus linear-in-frequency phase error to obtain pure absorption lines."
+					],
+					"keyEquations": [
+						"s(t)=\\sum_j A_je^{i\\omega_jt}e^{-t/T_2^*}",
+						"\\Delta\\nu_{1/2}=\\frac{1}{\\pi T_2^*}",
+						"\\phi(\\nu)=\\phi_0+\\phi_1(\\nu-\\nu_0)"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 9",
+							"title": "Applications of the DFT"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 29",
+							"title": "The Complex Fourier Transform",
+							"optional": true
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.12",
+							"title": "Fourier Transforms",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL IIT Bombay",
+							"title": "Lecture 15 : Practical aspects of Fourier Transform NMR spectra",
+							"url": "https://www.youtube.com/watch?v=y8bRD6As6G4"
+						},
+						{
+							"source": "Adjunct Professor",
+							"title": "PHYS 501 - Conceptual Video 6 - Fourier Transform in NMR Spectroscopy",
+							"url": "https://www.youtube.com/watch?v=ehSpSJ1WKIE"
+						},
+						{
+							"source": "Principles and Applications of NMR Spectroscopy",
+							"title": "Free induction decay and Fourier transformation of FID",
+							"url": "https://www.youtube.com/watch?v=QmVtRIJaMhk"
+						}
+					],
+					"demoIdeas": [
+						"Synthetic FID with two lines: sliders for T2*, exponential line broadening, zero-filling and phase (zero and first order)."
+					]
+				},
+				{
+					"id": "e1-l019-ft-ir-interferogram",
+					"title": "FT-IR: the Interferogram and Its Transform",
+					"minutes": 40,
+					"objectives": [
+						"Explain the interferogram I(δ) as the cosine transform of the source spectrum, and relate resolution to maximum optical retardation (Δν̃ = 1/δ_max).",
+						"Explain how laser fringe sampling sets the Nyquist wavenumber, and why apodisation trades resolution for line shape (sinc ringing).",
+						"State the multiplex (Fellgett) advantage and when it applies."
+					],
+					"keyEquations": [
+						"I(\\delta)=\\int_0^\\infty B(\\tilde\\nu)\\cos(2\\pi\\tilde\\nu\\delta)\\,d\\tilde\\nu",
+						"\\Delta\\tilde\\nu\\approx 1/\\delta_{max}",
+						"\\tilde\\nu_{N}=\\frac{1}{2\\Delta\\delta}"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 9",
+							"title": "Applications of the DFT",
+							"optional": true
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 8",
+							"title": "The Discrete Fourier Transform"
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.12",
+							"title": "Fourier Transforms",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "UNSW Physics",
+							"title": "9 Fourier Transform Spectroscopy v2",
+							"url": "https://www.youtube.com/watch?v=XycHQffqq_8"
+						},
+						{
+							"source": "Keynote Chemistry",
+							"title": "The Fourier Transform in FTIR Spectroscopy",
+							"url": "https://www.youtube.com/watch?v=8mwEbIWkLRA"
+						}
+					],
+					"demoIdeas": [
+						"Michelson interferogram of a two-line source: slider for maximum retardation and apodisation shape, with the transformed spectrum."
+					]
+				},
+				{
+					"id": "e1-l020-baseline-peaks-deconvolution",
+					"title": "Baseline Correction, Peak Picking and Line-Shape Fitting",
+					"minutes": 40,
+					"objectives": [
+						"Explain a baseline as a slowly varying component and correct it by fitting polynomials or splines to peak-free regions, noting how it can distort peaks.",
+						"Pick peaks robustly: smooth, use derivative zero-crossings or local maxima above a noise-based threshold (S/N ≥ 3), and relate this to a detection limit.",
+						"Distinguish deconvolution (undoing instrument blurring) from peak fitting (modelling overlapping lines with Lorentzian/Gaussian/Voigt shapes)."
+					],
+					"keyEquations": [
+						"\\mathrm{LOD}=3\\sigma_{blank}/S",
+						"L(\\nu)=\\frac{\\Gamma/2\\pi}{(\\nu-\\nu_0)^2+(\\Gamma/2)^2}",
+						"V=L*G"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 15",
+							"title": "Moving Average Filters",
+							"optional": true
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 2",
+							"title": "Statistics, Probability and Noise"
+						},
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 17",
+							"title": "Custom Filters",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Engineering Educator Academy",
+							"title": "Numerical Differentiation of Noisy Data (DoG and Savitzky–Golay Filters)",
+							"url": "https://www.youtube.com/watch?v=h3WtjTuvhbU"
+						}
+					],
+					"demoIdeas": [
+						"Spectrum with sloping baseline and two overlapping peaks: toggle baseline anchors, smoothing and a threshold slider and watch picked peaks change."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "e1-final",
+			"kind": "final",
+			"title": "E1 Final: Signal Processing for Scientists",
+			"covers": [
+				"e1-u01-sampling-digitisation",
+				"e1-u02-systems-fourier",
+				"e1-u03-filters",
+				"e1-u04-noise-applications"
+			],
+			"minutes": 90,
+			"passMark": 0.7
+		}
+	]
+}
