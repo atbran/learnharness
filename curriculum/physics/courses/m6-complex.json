@@ -1,0 +1,650 @@
+{
+	"id": "m6-complex",
+	"code": "M6",
+	"title": "Complex Analysis for Physicists",
+	"track": "math",
+	"depth": "core",
+	"hours": 30,
+	"prereqs": [
+		"m2-multivariable"
+	],
+	"subject": "Complex Analysis",
+	"summary": "Complex numbers and functions, analyticity, contour integration, Laurent series and the residue theorem, with the physics payoffs: real integrals, Fourier and Laplace inversion, causality and Kramers-Kronig, conformal maps for 2D potential flow and electrostatics, and saddle-point ideas behind Stirling. Chemistry hooks: AC impedance, response functions, dispersion relations in spectroscopy.",
+	"books": [
+		{
+			"bookId": "boas",
+			"role": "primary"
+		}
+	],
+	"units": [
+		{
+			"id": "m6-u01-complex-numbers",
+			"title": "Complex Numbers and Elementary Functions",
+			"summary": "Algebra and geometry of the complex plane, Euler's formula, roots, multivalued logarithms, and why complex exponentials are the physicist's tool for oscillations and impedance.",
+			"lessons": [
+				{
+					"id": "m6-l001-complex-algebra-euler",
+					"title": "Complex Algebra, Polar Form and Euler's Formula",
+					"minutes": 80,
+					"objectives": [
+						"Perform addition, multiplication, division and conjugation of complex numbers in Cartesian and polar form and interpret each as a geometric operation.",
+						"Derive Euler's formula from the power series of exp, cos and sin.",
+						"Use de Moivre's theorem to compute powers and to find all n-th roots of a complex number, plotting them as vertices of a regular polygon.",
+						"Derive trigonometric identities (multiple-angle, product-to-sum) by expanding exp(i n theta)."
+					],
+					"keyEquations": [
+						"z=x+iy=re^{i\\theta}",
+						"e^{i\\theta}=\\cos\\theta+i\\sin\\theta",
+						"z^{1/n}=r^{1/n}e^{i(\\theta+2\\pi k)/n},\\ k=0,\\dots,n-1",
+						"|z_1z_2|=|z_1||z_2|"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "2.3",
+							"title": "The Complex Plane"
+						},
+						{
+							"bookId": "boas",
+							"ref": "2.5",
+							"title": "Complex Algebra"
+						},
+						{
+							"bookId": "boas",
+							"ref": "2.9",
+							"title": "Euler's Formula"
+						},
+						{
+							"bookId": "boas",
+							"ref": "2.10",
+							"title": "Powers and Roots of Complex Numbers"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "The Complex Numbers",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part1_lec1_300k.mp4"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 6: Complex Numbers and Complex Exponentials",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-6-complex-numbers-and-complex-exponentials/"
+						},
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 1 notes: Complex Algebra and the Complex Plane",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic1/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "The Physics of Euler's Formula",
+							"url": "https://www.3blue1brown.com/lessons/complex-exponents/"
+						}
+					],
+					"demoIdeas": [
+						"Complex-plane calculator: multiply two points and see rotation-plus-scaling; draw the n-th roots of any number."
+					]
+				},
+				{
+					"id": "m6-l002-elementary-functions-logs",
+					"title": "Elementary Functions, Logarithms and Branch Points",
+					"minutes": 90,
+					"objectives": [
+						"Write exp, sin, cos, sinh and cosh of a complex argument in terms of real functions and verify standard identities.",
+						"Define the complex logarithm ln z = ln r + i(theta + 2 pi k) and explain its multivaluedness and the principal branch.",
+						"Evaluate complex powers z^a = exp(a ln z) and inverse trigonometric functions such as arcsin 2.",
+						"Locate branch points of simple functions (sqrt z, ln z, sqrt of (z^2 - 1)) and describe a branch cut.",
+						"Explain how the multivaluedness is seen by walking once around a branch point."
+					],
+					"keyEquations": [
+						"\\ln z=\\ln|z|+i(\\arg z+2\\pi k)",
+						"z^a=e^{a\\ln z}",
+						"\\sin z=\\frac{e^{iz}-e^{-iz}}{2i}",
+						"\\cos(ix)=\\cosh x"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "2.11",
+							"title": "The Exponential and Trigonometric Functions"
+						},
+						{
+							"bookId": "boas",
+							"ref": "2.12",
+							"title": "Hyperbolic Functions"
+						},
+						{
+							"bookId": "boas",
+							"ref": "2.13",
+							"title": "Logarithms"
+						},
+						{
+							"bookId": "boas",
+							"ref": "2.14",
+							"title": "Complex Roots and Powers"
+						},
+						{
+							"bookId": "boas",
+							"ref": "2.15",
+							"title": "Inverse Trigonometric and Hyperbolic Functions"
+						}
+					],
+					"demoIdeas": [
+						"Domain-colouring plots of exp, ln, sqrt and sin, with a loop the learner drags around the origin to show the phase jumping by 2 pi."
+					]
+				},
+				{
+					"id": "m6-l003-series-applications",
+					"title": "Complex Series and Applications: Phasors and Impedance",
+					"minutes": 70,
+					"objectives": [
+						"Find the radius and disk of convergence of a complex power series and relate it to the nearest singularity.",
+						"Sum geometric series in the complex plane, e.g. sum of cos(n theta) via Re sum e^{in theta}.",
+						"Use phasors to solve a driven RLC steady state, defining the complex impedance Z = R + i(omega L - 1/(omega C)).",
+						"Connect to chemistry: impedance spectroscopy and Nyquist plots in electrochemistry are plots of Z in the complex plane."
+					],
+					"keyEquations": [
+						"\\sum_{n=0}^\\infty z^n=\\frac1{1-z},\\ |z|<1",
+						"Z=R+i\\omega L+\\frac1{i\\omega C}",
+						"V=ZI"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "2.6",
+							"title": "Complex Infinite Series"
+						},
+						{
+							"bookId": "boas",
+							"ref": "2.7",
+							"title": "Complex Power Series; Disk of Convergence"
+						},
+						{
+							"bookId": "boas",
+							"ref": "2.16",
+							"title": "Some Applications"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Sequences and Series",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part1_lec4_300k.mp4"
+						}
+					],
+					"demoIdeas": [
+						"Nyquist-plot builder: assemble R, L, C in series/parallel and see Z(omega) traced in the complex plane."
+					]
+				}
+			]
+		},
+		{
+			"id": "m6-u02-analytic",
+			"title": "Analytic Functions and Conformal Mapping",
+			"summary": "Complex differentiability, the Cauchy-Riemann equations, harmonic functions, and conformal maps for 2D electrostatics and fluid flow.",
+			"lessons": [
+				{
+					"id": "m6-l004-analytic-cauchy-riemann",
+					"title": "Complex Functions, Derivatives and the Cauchy-Riemann Equations",
+					"minutes": 90,
+					"objectives": [
+						"Regard f(z) as a map from the plane to the plane and describe the image of simple regions under z^2, 1/z and e^z.",
+						"Derive the Cauchy-Riemann equations from the requirement that the limit defining f'(z) is independent of direction.",
+						"Test whether a given function is analytic and find its derivative, and explain why z-bar and |z|^2 are not.",
+						"Find the harmonic conjugate v of a harmonic u and construct the analytic function f = u + iv.",
+						"State that the real and imaginary parts of an analytic function satisfy Laplace's equation, linking to electrostatics and steady flow."
+					],
+					"keyEquations": [
+						"f'(z)=\\lim_{h\\to0}\\frac{f(z+h)-f(z)}h",
+						"u_x=v_y,\\ u_y=-v_x",
+						"\\nabla^2u=\\nabla^2v=0",
+						"f'=u_x+iv_x"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "14.1",
+							"title": "Introduction"
+						},
+						{
+							"bookId": "boas",
+							"ref": "14.2",
+							"title": "Analytic Functions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Functions of a Complex Variable",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part1_lec2_300k.mp4"
+						},
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 2 notes: Analytic Functions",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic2/"
+						},
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 5 notes: Harmonic Functions",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic5/"
+						}
+					],
+					"demoIdeas": [
+						"Pick f(z): see a polar grid mapped to its image; angles preserved wherever f' is nonzero."
+					]
+				},
+				{
+					"id": "m6-l005-conformal-mapping",
+					"title": "Conformal Maps and 2D Potential Problems",
+					"minutes": 80,
+					"objectives": [
+						"Show that an analytic map with f' != 0 preserves angles and scales lengths locally by |f'|.",
+						"Use the linear fractional (Mobius) transformations, w = (az + b)/(cz + d), to map circles/lines to circles/lines.",
+						"Solve a 2D Laplace problem by mapping a complicated region to a simple one, such as a half-plane or the unit disk.",
+						"Interpret an analytic function as a complex potential for 2D electrostatics or ideal fluid flow, with equipotentials and stream/field lines as orthogonal families."
+					],
+					"keyEquations": [
+						"w=f(z),\\ f'\\neq0\\Rightarrow\\text{conformal}",
+						"w=\\frac{az+b}{cz+d}",
+						"\\Omega(z)=\\phi+i\\psi",
+						"\\bar{\\mathbf v}=\\overline{\\Omega'(z)}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "14.9",
+							"title": "Mapping"
+						},
+						{
+							"bookId": "boas",
+							"ref": "14.10",
+							"title": "Some Applications of Conformal Mapping"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Conformal Mappings",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part1_lec3_300k.mp4"
+						},
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 10 notes: Conformal Transformations",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic10/"
+						},
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 6 notes: Two-Dimensional Hydrodynamics and Complex Potentials",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic6/"
+						}
+					],
+					"demoIdeas": [
+						"Joukowski map: turn a circle into an airfoil and watch the stream lines of flow around the circle map to flow around the wing."
+					]
+				}
+			]
+		},
+		{
+			"id": "m6-u03-cauchy",
+			"title": "Cauchy's Theorem, Integral Formula and Series",
+			"summary": "Integration in the complex plane and its remarkable consequences: path independence, derivatives of all orders, and Taylor and Laurent expansions.",
+			"lessons": [
+				{
+					"id": "m6-l006-contour-integrals-cauchy",
+					"title": "Contour Integrals and Cauchy's Theorem",
+					"minutes": 90,
+					"objectives": [
+						"Parametrise a contour and evaluate integral of f(z) dz directly for circles, line segments and arcs.",
+						"State Cauchy's theorem and explain it as the Green/Stokes theorem plus the Cauchy-Riemann equations.",
+						"Show that integral over a circle of z^n dz is 2 pi i for n = -1 and zero otherwise, and explain the pole as the source of nonzero values.",
+						"Deform a contour freely across analytic regions and handle a region with holes by multiple contours.",
+						"Use the ML-inequality to bound a contour integral."
+					],
+					"keyEquations": [
+						"\\int_Cf(z)\\,dz=\\int_a^bf(z(t))z'(t)\\,dt",
+						"\\oint_Cf\\,dz=0\\ \\text{(analytic inside } C)",
+						"\\oint_{|z|=r}z^n\\,dz=2\\pi i\\,\\delta_{n,-1}",
+						"\\left|\\int_Cf\\,dz\\right|\\le ML"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "14.3",
+							"title": "Contour Integrals"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Integrating Complex Functions",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part1_lec5_300k.mp4"
+						},
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 3 notes: Cauchy's Theorem",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic3/"
+						}
+					],
+					"demoIdeas": [
+						"Contour deformation: drag a closed curve over a plane with colored singularities; integral value updates and jumps by 2 pi i when crossing a pole."
+					]
+				},
+				{
+					"id": "m6-l007-cauchy-integral-formula",
+					"title": "Cauchy's Integral Formula and Its Consequences",
+					"minutes": 80,
+					"objectives": [
+						"State and apply Cauchy's integral formula f(a) = (1/2 pi i) oint f(z)/(z - a) dz and its derivative version.",
+						"Use it to evaluate integrals such as oint e^z/(z - a)^n dz.",
+						"Prove that an analytic function has derivatives of all orders and is locally a convergent power series.",
+						"State Liouville's theorem and the maximum-modulus principle, and give the fundamental theorem of algebra as a corollary."
+					],
+					"keyEquations": [
+						"f(a)=\\frac1{2\\pi i}\\oint\\frac{f(z)}{z-a}dz",
+						"f^{(n)}(a)=\\frac{n!}{2\\pi i}\\oint\\frac{f(z)}{(z-a)^{n+1}}dz",
+						"|f^{(n)}(a)|\\le\\frac{n!M}{R^n}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "14.3",
+							"title": "Contour Integrals"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 4 notes: Cauchy Integral Formula",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic4/"
+						}
+					]
+				},
+				{
+					"id": "m6-l008-laurent-singularities",
+					"title": "Taylor and Laurent Series; Classifying Singularities",
+					"minutes": 90,
+					"objectives": [
+						"Expand a function in a Taylor series about an analytic point and find its radius of convergence from the nearest singularity.",
+						"Compute Laurent expansions in different annuli for a rational function such as 1/(z(z - 1)) using geometric series and partial fractions.",
+						"Classify an isolated singularity as removable, a pole of order m or essential from its Laurent series.",
+						"Explain why the coefficient of 1/(z - a) is called the residue, using integration of the Laurent series term by term."
+					],
+					"keyEquations": [
+						"f(z)=\\sum_{n=-\\infty}^\\infty a_n(z-a)^n",
+						"a_n=\\frac1{2\\pi i}\\oint\\frac{f(z)}{(z-a)^{n+1}}dz",
+						"e^{1/z}=\\sum_{n\\ge0}\\frac1{n!\\,z^n}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "14.4",
+							"title": "Laurent Series"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 7 notes: Taylor and Laurent Series",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic7/"
+						},
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Sequences and Series",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part1_lec4_300k.mp4"
+						}
+					],
+					"demoIdeas": [
+						"Annulus picker: choose the region around poles and see which Laurent series converges there."
+					]
+				}
+			]
+		},
+		{
+			"id": "m6-u04-residues",
+			"title": "Residues and Real Integrals",
+			"summary": "The residue theorem as a machine for evaluating contour integrals and, by closing contours, definite integrals of real functions.",
+			"lessons": [
+				{
+					"id": "m6-l009-residue-theorem",
+					"title": "The Residue Theorem and Computing Residues",
+					"minutes": 90,
+					"objectives": [
+						"State the residue theorem and derive it from Cauchy's theorem by shrinking small circles around the poles.",
+						"Compute the residue at a simple pole as lim (z - a) f(z), or p(a)/q'(a) for f = p/q.",
+						"Compute the residue at a pole of order m by the derivative formula, and by Laurent expansion when that is easier.",
+						"Evaluate contour integrals of rational functions and of functions such as e^z/(z^2 + 1) by summing residues inside the contour."
+					],
+					"keyEquations": [
+						"\\oint_Cf\\,dz=2\\pi i\\sum_k\\operatorname{Res}(f,a_k)",
+						"\\operatorname{Res}_{z=a}\\frac pq=\\frac{p(a)}{q'(a)}",
+						"\\operatorname{Res}=\\frac1{(m-1)!}\\lim_{z\\to a}\\frac{d^{m-1}}{dz^{m-1}}\\left[(z-a)^mf\\right]"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "14.5",
+							"title": "The Residue Theorem"
+						},
+						{
+							"bookId": "boas",
+							"ref": "14.6",
+							"title": "Methods of Finding Residues"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 8 notes: Residue Theorem",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic8/"
+						}
+					],
+					"demoIdeas": [
+						"Residue calculator: place poles, pick a contour, and see which residues contribute and their sum times 2 pi i."
+					]
+				},
+				{
+					"id": "m6-l010-real-integrals",
+					"title": "Evaluating Real Definite Integrals",
+					"minutes": 100,
+					"objectives": [
+						"Evaluate integral over 0 to 2 pi of rational functions of sin and cos by substituting z = e^{i theta}.",
+						"Evaluate improper integrals of rational functions over the real line by closing in the upper or lower half-plane, and show the arc contribution vanishes using the ML-inequality.",
+						"Evaluate Fourier integrals integral f(x) e^{ikx} dx using Jordan's lemma and choose the half-plane from the sign of k.",
+						"Handle poles on the real axis with indentation and define the Cauchy principal value.",
+						"Compute at least one famous integral this way (the Lorentzian transform integral 1/(1 + x^2), or integral sin(x)/x)."
+					],
+					"keyEquations": [
+						"\\int_0^{2\\pi}R(\\cos\\theta,\\sin\\theta)\\,d\\theta=\\oint R\\,\\frac{dz}{iz}",
+						"\\int_{-\\infty}^{\\infty}\\frac{e^{ikx}}{x^2+a^2}dx=\\frac\\pi ae^{-a|k|}",
+						"\\mathrm{P}\\!\\!\\int\\frac{f(x)}{x-a}dx"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "14.7",
+							"title": "Evaluation of Definite Integrals by Use of the Residue Theorem"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 9 notes: Definite Integrals Using the Residue Theorem",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic9/"
+						}
+					],
+					"demoIdeas": [
+						"Semicircle contour that grows with radius R, with the arc integral plotted going to zero.",
+						"Fourier transform of a Lorentzian computed by residues vs numerically."
+					]
+				},
+				{
+					"id": "m6-l011-branch-cuts-keyhole",
+					"title": "Branch Cuts, Keyhole Contours and Principal Values",
+					"minutes": 90,
+					"objectives": [
+						"Choose a branch cut for sqrt z, ln z or z^a and track the argument around a contour.",
+						"Evaluate integral of x^{a-1}/(1 + x) from 0 to infinity with a keyhole contour, obtaining pi / sin(pi a).",
+						"Evaluate integrals with a logarithm by integrating a cut-plane function over a keyhole.",
+						"Use the Sokhotski-Plemelj formula 1/(x - a +/- i eps) = P/(x - a) -/+ i pi delta(x - a) and explain its role in the iepsilon prescription of physics."
+					],
+					"keyEquations": [
+						"\\int_0^\\infty\\frac{x^{a-1}}{1+x}dx=\\frac\\pi{\\sin\\pi a}",
+						"\\frac1{x\\pm i\\varepsilon}=\\mathrm P\\frac1x\\mp i\\pi\\delta(x)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "14.7",
+							"title": "Evaluation of Definite Integrals by Use of the Residue Theorem"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 9 notes: Definite Integrals Using the Residue Theorem",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic9/"
+						}
+					],
+					"demoIdeas": [
+						"Keyhole contour animation: pieces of the integral along each side of the cut and the small/large circles."
+					]
+				}
+			]
+		},
+		{
+			"id": "m6-u05-extensions",
+			"title": "Physics Applications and Extensions (Grad Touch)",
+			"summary": "The point at infinity, the argument principle, inversion of transforms, Kramers-Kronig dispersion relations and the saddle-point method behind Stirling's formula.",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "m6-l012-infinity-argument",
+					"title": "The Point at Infinity and the Argument Principle",
+					"minutes": 70,
+					"objectives": [
+						"Compute the residue at infinity and use it to evaluate an integral by summing the residues outside a contour.",
+						"State the argument principle: the winding of f along a contour equals the number of zeros minus the number of poles inside.",
+						"Use the argument principle to count the zeros of a polynomial in a region.",
+						"Relate stability analysis (zeros of the characteristic polynomial in the right half-plane, Nyquist criterion) to winding numbers."
+					],
+					"keyEquations": [
+						"\\operatorname{Res}_\\infty f=-\\operatorname{Res}_{w=0}\\tfrac1{w^2}f(1/w)",
+						"\\frac1{2\\pi i}\\oint\\frac{f'}{f}dz=N_0-N_p"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "14.8",
+							"title": "The Point at Infinity; Residues at Infinity"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 11 notes: Argument Principle",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic11/"
+						}
+					]
+				},
+				{
+					"id": "m6-l013-transforms-causality-kk",
+					"title": "Inverse Laplace and Fourier Transforms, Causality and Kramers-Kronig",
+					"minutes": 90,
+					"objectives": [
+						"Invert a Laplace transform with the Bromwich integral by closing to the left and summing residues at the poles.",
+						"Explain why a causal response function is analytic in the upper half of the complex frequency plane.",
+						"Derive the Kramers-Kronig relations connecting the real and imaginary parts of a causal response function from Cauchy's integral formula.",
+						"Interpret them for a spectroscopic response: the refractive index (dispersion) and absorption coefficient of a material are Kramers-Kronig pairs.",
+						"Describe how a pole's position in the complex plane gives the resonance frequency and the width (lifetime) of an excitation."
+					],
+					"keyEquations": [
+						"f(t)=\\frac1{2\\pi i}\\int_{c-i\\infty}^{c+i\\infty}F(s)e^{st}ds",
+						"\\chi'(\\omega)=\\frac1\\pi\\mathrm P\\!\\!\\int\\frac{\\chi''(\\omega')}{\\omega'-\\omega}d\\omega'",
+						"\\chi''(\\omega)=-\\frac1\\pi\\mathrm P\\!\\!\\int\\frac{\\chi'(\\omega')}{\\omega'-\\omega}d\\omega'"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "14.7",
+							"title": "Evaluation of Definite Integrals by Use of the Residue Theorem",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 12 notes: Laplace Transform",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic12/"
+						}
+					],
+					"demoIdeas": [
+						"Damped-oscillator susceptibility: pole positions in the complex plane next to the real and imaginary parts on the real axis, showing the Kramers-Kronig pair."
+					]
+				},
+				{
+					"id": "m6-l014-gamma-saddle",
+					"title": "Analytic Continuation, the Gamma Function and the Saddle-Point Idea",
+					"minutes": 70,
+					"objectives": [
+						"Explain analytic continuation and why an analytic function on a region has at most one continuation.",
+						"Continue the Gamma function to the whole plane except for poles at non-positive integers, and give the residue at z = -n.",
+						"Describe the method of steepest descent (saddle point) for integrals of the form integral e^{n h(z)} dz and use it to derive Stirling's formula.",
+						"Connect to chemistry: the saddle-point approximation is how the thermodynamic limit is taken in the partition function and how transition-state saddle points are treated."
+					],
+					"keyEquations": [
+						"\\Gamma(z+1)=z\\Gamma(z)",
+						"\\operatorname{Res}_{z=-n}\\Gamma=\\frac{(-1)^n}{n!}",
+						"\\int e^{nh(z)}dz\\approx e^{nh(z_0)}\\sqrt{\\frac{2\\pi}{-n\\,h''(z_0)}}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "11.11",
+							"title": "Stirling's Formula",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.04 (Spring 2018, Orloff)",
+							"title": "Topic 13 notes: Analytic Continuation and the Gamma Function",
+							"url": "https://ocw.mit.edu/courses/18-04-complex-variables-with-applications-spring-2018/resources/mit18_04s18_topic13/"
+						}
+					],
+					"demoIdeas": [
+						"Saddle-point visualiser: surface plot of Re h(z) for the Gamma integrand with the steepest-descent path through the saddle."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "m6-midterm",
+			"kind": "midterm",
+			"title": "M6 Midterm: Complex Numbers, Analytic Functions, Cauchy's Theorem",
+			"covers": [
+				"m6-u01-complex-numbers",
+				"m6-u02-analytic",
+				"m6-u03-cauchy"
+			],
+			"minutes": 100,
+			"passMark": 0.7
+		},
+		{
+			"id": "m6-final",
+			"kind": "final",
+			"title": "M6 Final: Complex Analysis for Physicists",
+			"covers": [
+				"m6-u01-complex-numbers",
+				"m6-u02-analytic",
+				"m6-u03-cauchy",
+				"m6-u04-residues",
+				"m6-u05-extensions"
+			],
+			"minutes": 150,
+			"passMark": 0.7
+		}
+	]
+}

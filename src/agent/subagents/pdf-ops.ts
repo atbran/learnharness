@@ -237,3 +237,84 @@ export function renderDir(filePath: string): string {
 	}
 	return path.join("/tmp", `lh-pdf-${h.toString(16).padStart(8, "0")}`);
 }
+// ─── Whole-book extraction (the bookshelf's deterministic ingest) ───────────
+
+export interface BookOutlineEntry {
+	title: string;
+	/** 0 = top level (parts/chapters), deeper = sections. */
+	level: number;
+	/** 1-based PDF page index; null when the destination doesn't resolve. */
+	page: number | null;
+}
+
+export interface BookExtract {
+	pageCount: number;
+	meta: { title: string | null; author: string | null };
+	/** label = the printed page label ("xii", "66"), when the PDF has them. */
+	pages: { page: number; label: string | null; text: string }[];
+	outline: BookOutlineEntry[];
+}
+
+/** Page text with line breaks preserved (hasEOL), unlike itemsToText —
+ *  section headings stay on their own lines, which the ref resolver and
+ *  snippet chunker rely on. */
+function itemsToLines(items: unknown[]): string {
+	let out = "";
+	for (const it of items) {
+		if (!it || typeof it !== "object") continue;
+		const { str, hasEOL } = it as { str?: unknown; hasEOL?: unknown };
+		if (typeof str === "string") out += str;
+		if (hasEOL === true) out += "\n";
+	}
+	return out.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n");
+}
+
+/** One pass over the whole PDF: per-page text, page labels, outline, and
+ *  metadata. Deterministic, no LLM. `onProgress(done, total)` per page. */
+export async function pdfBookExtract(filePath: string, onProgress?: (done: number, total: number) => void): Promise<BookExtract> {
+	const { doc, task } = await openDocument(filePath);
+	try {
+		const labels = ((await doc.getPageLabels().catch(() => null)) ?? null) as string[] | null;
+		const metaRaw = (await doc.getMetadata().catch(() => null)) as { info?: Record<string, unknown> } | null;
+		const info = metaRaw?.info ?? {};
+		const pages: BookExtract["pages"] = [];
+		for (let i = 1; i <= doc.numPages; i++) {
+			const page = await doc.getPage(i);
+			const content = await page.getTextContent();
+			pages.push({ page: i, label: labels?.[i - 1] ?? null, text: itemsToLines(content.items as unknown[]) });
+			page.cleanup();
+			onProgress?.(i, doc.numPages);
+		}
+		const outline: BookOutlineEntry[] = [];
+		type OutlineNode = { title: string; dest: unknown; items?: OutlineNode[] };
+		const resolvePage = async (dest: unknown): Promise<number | null> => {
+			try {
+				const explicit = typeof dest === "string" ? await doc.getDestination(dest) : dest;
+				if (!Array.isArray(explicit) || !explicit[0]) return null;
+				const ref = explicit[0];
+				const index = typeof ref === "number" ? ref : await doc.getPageIndex(ref);
+				return index + 1;
+			} catch {
+				return null;
+			}
+		};
+		const walk = async (nodes: OutlineNode[] | null | undefined, level: number) => {
+			for (const n of nodes ?? []) {
+				outline.push({ title: String(n.title ?? "").trim(), level, page: await resolvePage(n.dest) });
+				await walk(n.items, level + 1);
+			}
+		};
+		await walk((await doc.getOutline().catch(() => null)) as OutlineNode[] | null, 0);
+		return {
+			pageCount: doc.numPages,
+			meta: {
+				title: typeof info.Title === "string" && info.Title.trim() ? info.Title.trim() : null,
+				author: typeof info.Author === "string" && info.Author.trim() ? info.Author.trim() : null,
+			},
+			pages,
+			outline,
+		};
+	} finally {
+		await task.destroy();
+	}
+}

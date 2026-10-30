@@ -1,0 +1,1255 @@
+{
+	"id": "m5-methods",
+	"code": "M5",
+	"title": "Mathematical Methods: Fourier, PDEs, Special Functions, Green's Functions, Variational Calculus, Tensors",
+	"track": "math",
+	"depth": "core",
+	"hours": 60,
+	"prereqs": [
+		"m2-multivariable",
+		"m4-odes"
+	],
+	"subject": "Math Methods",
+	"summary": "The working toolkit of theoretical physics, following Boas: Fourier series and transforms, the delta function, separation of variables for the Laplace, heat and wave equations in Cartesian, cylindrical and spherical coordinates, gamma, Legendre, Bessel and Hermite/Laguerre functions, Sturm-Liouville theory, Green's functions, the calculus of variations and tensors. Chemistry hooks: FT-NMR/FTIR, particle in a box, hydrogen orbitals (Legendre/Laguerre), vibrating-membrane analogues, the variational principle.",
+	"books": [
+		{
+			"bookId": "boas",
+			"role": "primary"
+		},
+		{
+			"bookId": "jackson",
+			"role": "reference"
+		}
+	],
+	"units": [
+		{
+			"id": "m5-u01-fourier-series",
+			"title": "Fourier Series",
+			"summary": "Expanding periodic functions in sines and cosines: coefficients, convergence, symmetry, Parseval, and applications to sound and driven systems.",
+			"lessons": [
+				{
+					"id": "m5-l001-fourier-coefficients",
+					"title": "Periodic Functions and Fourier Coefficients",
+					"minutes": 90,
+					"objectives": [
+						"Decide whether a function is periodic and find its fundamental period.",
+						"Derive a_n and b_n from the orthogonality of sines and cosines on a period, stating each orthogonality integral.",
+						"Compute the Fourier series of a square wave, sawtooth and triangle wave.",
+						"State the Dirichlet conditions and what the series converges to at a jump discontinuity.",
+						"Describe the Gibbs phenomenon qualitatively."
+					],
+					"keyEquations": [
+						"f(x)=\\tfrac{a_0}{2}+\\sum_{n\\ge1}\\left(a_n\\cos nx+b_n\\sin nx\\right)",
+						"a_n=\\frac1\\pi\\int_{-\\pi}^{\\pi}f(x)\\cos nx\\,dx",
+						"b_n=\\frac1\\pi\\int_{-\\pi}^{\\pi}f(x)\\sin nx\\,dx",
+						"\\int_{-\\pi}^{\\pi}\\sin mx\\sin nx\\,dx=\\pi\\delta_{mn}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "7.2",
+							"title": "Simple Harmonic Motion and Wave Motion; Periodic Functions"
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.5",
+							"title": "Fourier Coefficients"
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.6",
+							"title": "Dirichlet Conditions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 15: Introduction to Fourier Series",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-15-introduction-to-fourier-series/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit III: Fourier series basics",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iii-fourier-series-and-laplace-transform/fourier-series-basics/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 28: Fourier Series (part 1)",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-28-fourier-series-part-1/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "But what is a Fourier series? From heat flow to circle drawings",
+							"url": "https://www.3blue1brown.com/lessons/fourier-series/"
+						}
+					],
+					"demoIdeas": [
+						"Add harmonics one at a time to a square wave, with the Gibbs overshoot highlighted.",
+						"Fourier-series drawing machine: epicycles tracing a user-drawn closed curve."
+					]
+				},
+				{
+					"id": "m5-l002-symmetry-complex-intervals",
+					"title": "Even/Odd Symmetry, Other Intervals and Complex Form",
+					"minutes": 80,
+					"objectives": [
+						"Use even/odd symmetry to predict that a series contains only cosines or only sines and to halve the work.",
+						"Rescale to an interval of length 2L and write the coefficient formulas.",
+						"Construct half-range cosine and sine expansions of a function on [0, L], and say which boundary conditions each corresponds to (Neumann or Dirichlet).",
+						"Write the complex form with c_n = (1/2L) integral f e^{-i n pi x/L} dx and convert between the real and complex coefficients."
+					],
+					"keyEquations": [
+						"f(x)=\\sum_{n=-\\infty}^{\\infty}c_ne^{in\\pi x/L}",
+						"c_n=\\frac1{2L}\\int_{-L}^{L}f(x)e^{-in\\pi x/L}dx",
+						"c_n=\\tfrac12(a_n-ib_n)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "7.7",
+							"title": "Complex Form of Fourier Series"
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.8",
+							"title": "Other Intervals"
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.9",
+							"title": "Even and Odd Functions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 16: Continuation: More General Periods",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-16-continuation-more-general-periods/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit III: Operations on Fourier series",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iii-fourier-series-and-laplace-transform/operations-on-fourier-series/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 29: Fourier Series (part 2)",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-29-fourier-series-part-2/"
+						}
+					]
+				},
+				{
+					"id": "m5-l003-parseval-applications",
+					"title": "Parseval's Theorem and Applications of Fourier Series",
+					"minutes": 70,
+					"objectives": [
+						"State and apply Parseval's theorem to relate the power in a signal to the sum of squared coefficients.",
+						"Sum a numerical series such as sum 1/n^2 using Parseval or a series evaluated at a point.",
+						"Solve a driven damped oscillator with a periodic (non-sinusoidal) force by Fourier-expanding the forcing and superposing the responses.",
+						"Explain the harmonic content of a musical tone and why a note's timbre depends on the relative amplitudes of its overtones."
+					],
+					"keyEquations": [
+						"\\frac1{2L}\\int_{-L}^{L}|f|^2dx=\\sum_n|c_n|^2",
+						"\\sum_{n=1}^\\infty\\frac1{n^2}=\\frac{\\pi^2}6",
+						"y_p=\\sum_n\\frac{c_n e^{in\\omega t}}{P(in\\omega)}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "7.3",
+							"title": "Applications of Fourier Series"
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.10",
+							"title": "An Application to Sound"
+						},
+						{
+							"bookId": "boas",
+							"ref": "7.11",
+							"title": "Parseval's Theorem"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 17: Finding Particular Solutions via Fourier Series",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-17-finding-particular-solutions-via-fourier-series/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit III: ODEs with periodic input, resonance",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iii-fourier-series-and-laplace-transform/odes-with-periodic-input-resonance/"
+						}
+					],
+					"demoIdeas": [
+						"Drive a damped oscillator with a square wave and show which harmonic resonates when the fundamental is tuned near 1/3 of the natural frequency."
+					]
+				}
+			]
+		},
+		{
+			"id": "m5-u02-transforms",
+			"title": "Fourier Transforms and the Delta Function",
+			"summary": "From series to integrals: the Fourier transform, its key theorems, convolution, and the Dirac delta; the mathematics of spectroscopy and of position/momentum duality.",
+			"lessons": [
+				{
+					"id": "m5-l004-fourier-transform",
+					"title": "The Fourier Transform",
+					"minutes": 90,
+					"objectives": [
+						"Obtain the Fourier transform as the limit of the complex Fourier series as the period goes to infinity.",
+						"Compute transforms of a box function, a decaying exponential and a Gaussian, and state that the Gaussian transforms into a Gaussian.",
+						"Apply the shift, scaling, differentiation and modulation properties.",
+						"Derive the bandwidth-duration (uncertainty) relation Delta x Delta k >= 1/2 for a Gaussian, previewing the QM uncertainty principle.",
+						"Connect to chemistry: an FID in FT-NMR and an interferogram in FTIR are time-domain signals whose Fourier transforms are the spectra; the lineshape is the transform of the decay."
+					],
+					"keyEquations": [
+						"\\hat f(k)=\\int_{-\\infty}^\\infty f(x)e^{-ikx}\\,dx",
+						"f(x)=\\frac1{2\\pi}\\int\\hat f(k)e^{ikx}\\,dk",
+						"\\widehat{e^{-x^2/2\\sigma^2}}=\\sigma\\sqrt{2\\pi}\\,e^{-\\sigma^2k^2/2}",
+						"\\widehat{f'}(k)=ik\\hat f(k)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "7.12",
+							"title": "Fourier Transforms"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 33: Filters, Fourier Integral Transform",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-33-filters-fourier-integral-transform/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 34: Fourier Integral Transform (part 2)",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-34-fourier-integral-transform-part-2/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "But what is the Fourier Transform? A visual introduction",
+							"url": "https://www.3blue1brown.com/lessons/fourier-transforms/"
+						}
+					],
+					"demoIdeas": [
+						"Time-frequency duality: drag the width of a Gaussian pulse and watch its transform narrow, with a cosine-modulated version shifting the peak.",
+						"FID to spectrum: synthesize a few decaying sinusoids and display the FT as an NMR-style spectrum."
+					]
+				},
+				{
+					"id": "m5-l005-convolution-parseval",
+					"title": "Convolution, Plancherel and Filtering",
+					"minutes": 75,
+					"objectives": [
+						"State the convolution theorem and use it to evaluate a convolution as a product in Fourier space.",
+						"State Parseval/Plancherel for transforms: integral |f|^2 dx = (1/2 pi) integral |f-hat|^2 dk.",
+						"Describe low-pass and high-pass filtering as multiplication in frequency space.",
+						"Explain the sampling theorem: why a band-limited signal is determined by samples at the Nyquist rate and what aliasing is."
+					],
+					"keyEquations": [
+						"\\widehat{f*g}=\\hat f\\,\\hat g",
+						"(f*g)(x)=\\int f(y)g(x-y)\\,dy",
+						"\\int|f|^2dx=\\frac1{2\\pi}\\int|\\hat f|^2dk"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "7.13",
+							"title": "Convolution"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 31: Fast Fourier Transform, Convolution",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-31-fast-fourier-transform-convolution/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 32: Convolution (part 2), Filtering",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-32-convolution-part-2-filtering/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 36: Sampling Theorem",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-36-sampling-theorem/"
+						}
+					],
+					"demoIdeas": [
+						"Audio-style demo: a noisy signal, its spectrum, and a cutoff slider for a low-pass filter."
+					]
+				},
+				{
+					"id": "m5-l006-delta-function",
+					"title": "The Dirac Delta Function and Generalised Functions",
+					"minutes": 60,
+					"objectives": [
+						"State the sifting property and the scaling rule delta(ax) = delta(x)/|a|, and compute delta(g(x)) for a function g with simple zeros.",
+						"Represent delta as the limit of narrow Gaussians or Lorentzians, and as (1/2 pi) integral e^{ikx} dk.",
+						"Differentiate the step function and use integration by parts to define derivatives of delta.",
+						"Use delta functions to represent point charges, point masses and instantaneous kicks."
+					],
+					"keyEquations": [
+						"\\int f(x)\\delta(x-a)\\,dx=f(a)",
+						"\\delta(x)=\\frac1{2\\pi}\\int e^{ikx}dk",
+						"\\delta(g(x))=\\sum_i\\frac{\\delta(x-x_i)}{|g'(x_i)|}",
+						"\\theta'(x)=\\delta(x)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.11",
+							"title": "The Dirac Delta Function"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 4: Delta Function Day",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-4-delta-function-day/"
+						},
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 16 summary: Delta functions and distributions (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture16/"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "m5-u03-pdes",
+			"title": "Partial Differential Equations: Separation of Variables",
+			"summary": "The three workhorse PDEs (Laplace, diffusion, wave), their boundary conditions and the method of separation of variables in Cartesian coordinates.",
+			"lessons": [
+				{
+					"id": "m5-l007-pde-intro",
+					"title": "Partial Differential Equations: Types and Boundary Conditions",
+					"minutes": 80,
+					"objectives": [
+						"Write the Laplace, Poisson, diffusion, wave and Schrodinger equations and identify the physical situation for each.",
+						"Classify a second-order linear PDE as elliptic, parabolic or hyperbolic and relate that to its qualitative behaviour.",
+						"State the Dirichlet, Neumann and Robin boundary conditions and which problems are well posed with each.",
+						"Explain superposition, and why linear homogeneous problems are amenable to separation of variables."
+					],
+					"keyEquations": [
+						"\\nabla^2u=0",
+						"\\partial_tu=D\\nabla^2u",
+						"\\partial_t^2u=v^2\\nabla^2u",
+						"i\\hbar\\partial_t\\psi=-\\tfrac{\\hbar^2}{2m}\\nabla^2\\psi+V\\psi"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "13.1",
+							"title": "Introduction"
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown",
+							"title": "But what is a partial differential equation?",
+							"url": "https://www.3blue1brown.com/lessons/pdes/"
+						},
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 1 summary: Overview of linear PDEs and analogies with matrix algebra (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture1/"
+						}
+					],
+					"demoIdeas": [
+						"Side-by-side playground showing a localised bump evolving under diffusion, waves and Schrodinger time evolution."
+					]
+				},
+				{
+					"id": "m5-l008-laplace-rectangle",
+					"title": "Laplace's Equation and Separation of Variables in a Rectangle",
+					"minutes": 90,
+					"objectives": [
+						"Separate u(x, y) = X(x) Y(y) and obtain two ODEs linked by a separation constant, justifying the sign choice from the boundary conditions.",
+						"Solve the Dirichlet problem on a rectangle with nonzero data on one side, using sin(n pi x/a) sinh(n pi y/a).",
+						"Impose the inhomogeneous boundary condition by Fourier-sine expansion and extract the coefficients using orthogonality.",
+						"Handle several nonzero sides by superposing solutions.",
+						"Relate a harmonic function's mean-value and maximum principle to the physical picture of a steady-state temperature."
+					],
+					"keyEquations": [
+						"u(x,y)=X(x)Y(y)\\Rightarrow\\frac{X''}X=-\\frac{Y''}Y=-k^2",
+						"u=\\sum_nb_n\\sin\\frac{n\\pi x}a\\sinh\\frac{n\\pi y}a",
+						"b_n\\sinh\\frac{n\\pi b}a=\\frac2a\\int_0^af(x)\\sin\\frac{n\\pi x}a\\,dx"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "13.2",
+							"title": "Laplace's Equation; Steady-State Temperature in a Rectangular Plate"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 2 summary: Poisson's equation and eigenfunctions in 1d: Fourier sine series (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture2/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 23: Laplace's Equation",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-23-laplaces-equation/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 24: Laplace's Equation (part 2)",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-24-laplaces-equation-part-2/"
+						}
+					],
+					"demoIdeas": [
+						"Heat-map of a rectangle with sliders for edge temperatures and number of Fourier modes retained."
+					]
+				},
+				{
+					"id": "m5-l009-heat-equation",
+					"title": "The Diffusion (Heat) Equation",
+					"minutes": 90,
+					"objectives": [
+						"Separate the 1D heat equation to obtain X'' + lambda X = 0 and T' = -D lambda T, and find the eigenvalues for Dirichlet and Neumann ends.",
+						"Expand an initial profile in eigenfunctions and write the series solution; explain why high-frequency modes decay fastest.",
+						"Handle inhomogeneous boundary conditions by subtracting the steady-state solution.",
+						"Interpret the Gaussian heat kernel and the root-t scaling of diffusion distance.",
+						"Connect to chemistry: Fick's second law, and the free-particle/particle-in-a-box Schrodinger equation which has the same separated structure with an imaginary factor."
+					],
+					"keyEquations": [
+						"u_t=Du_{xx}",
+						"u(x,t)=\\sum_nb_ne^{-D(n\\pi/L)^2t}\\sin\\frac{n\\pi x}L",
+						"G(x,t)=\\frac1{\\sqrt{4\\pi Dt}}e^{-x^2/4Dt}",
+						"\\langle x^2\\rangle=2Dt"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "13.3",
+							"title": "The Diffusion or Heat Flow Equation; the Schrodinger Equation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown",
+							"title": "Solving the heat equation",
+							"url": "https://www.3blue1brown.com/lessons/heat-equation/"
+						},
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 22 summary: Von Neumann analysis and the heat equation (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture22/"
+						}
+					],
+					"demoIdeas": [
+						"Diffusion of an initial temperature profile with mode-by-mode decay shown below the main plot.",
+						"Particle in a box: stationary states and a wavepacket as a sum of separated solutions."
+					]
+				},
+				{
+					"id": "m5-l010-wave-equation",
+					"title": "The Wave Equation and the Vibrating String",
+					"minutes": 90,
+					"objectives": [
+						"Derive the 1D wave equation for a string under tension and identify the wave speed.",
+						"Separate variables for fixed ends, find the normal-mode frequencies and shapes, and write the general solution given initial displacement and velocity.",
+						"Obtain d'Alembert's travelling-wave solution and use it to follow a pulse reflecting at a fixed or free end.",
+						"Relate standing waves to superposition of left- and right-moving waves.",
+						"Connect to chemistry: standing waves on a string as the model for particle-in-a-box wavefunctions and vibrational overtones."
+					],
+					"keyEquations": [
+						"u_{tt}=v^2u_{xx}",
+						"u=\\sum_n\\left(A_n\\cos\\omega_nt+B_n\\sin\\omega_nt\\right)\\sin\\frac{n\\pi x}L,\\ \\omega_n=\\frac{n\\pi v}L",
+						"u=f(x-vt)+g(x+vt)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "13.4",
+							"title": "The Wave Equation; the Vibrating String"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 8 summary: Music and wave equations, Separation of variables, in time and space (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture8/"
+						},
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 25 summary: Traveling waves: D'Alembert's solution (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture25/"
+						}
+					],
+					"demoIdeas": [
+						"Plucked string: choose the initial shape and see the animation and the mode amplitudes bar chart.",
+						"d'Alembert pulse splitting into left/right movers and reflecting."
+					]
+				}
+			]
+		},
+		{
+			"id": "m5-u04-special-functions",
+			"title": "Special Functions",
+			"summary": "Gamma and beta functions, then the orthogonal families (Legendre, Bessel, Hermite, Laguerre) that appear when separating variables in curvilinear coordinates and in quantum mechanics.",
+			"lessons": [
+				{
+					"id": "m5-l011-gamma-beta",
+					"title": "Gamma, Beta and Error Functions; Stirling's Formula",
+					"minutes": 80,
+					"objectives": [
+						"Use Gamma(n+1) = n Gamma(n), Gamma(1/2) = sqrt(pi) and the reflection formula to evaluate gamma functions at integers and half-integers.",
+						"Express integrals as beta functions and evaluate them with B(p, q) = Gamma(p) Gamma(q) / Gamma(p+q).",
+						"Compute Gaussian integrals of the form integral x^{2n} e^{-a x^2} dx using Gamma.",
+						"Use Stirling's formula to approximate n! and ln n!.",
+						"Connect to chemistry: Stirling's approximation underlies the Boltzmann/entropy derivation of statistical mechanics."
+					],
+					"keyEquations": [
+						"\\Gamma(z)=\\int_0^\\infty t^{z-1}e^{-t}dt",
+						"\\Gamma(n+1)=n!",
+						"B(p,q)=\\frac{\\Gamma(p)\\Gamma(q)}{\\Gamma(p+q)}",
+						"n!\\approx\\sqrt{2\\pi n}\\,(n/e)^n",
+						"\\operatorname{erf}(x)=\\tfrac2{\\sqrt\\pi}\\int_0^xe^{-t^2}dt"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "11.2",
+							"title": "The Factorial Function"
+						},
+						{
+							"bookId": "boas",
+							"ref": "11.3",
+							"title": "Definition of the Gamma Function; Recursion Relation"
+						},
+						{
+							"bookId": "boas",
+							"ref": "11.6",
+							"title": "Beta Functions"
+						},
+						{
+							"bookId": "boas",
+							"ref": "11.9",
+							"title": "The Error Function"
+						},
+						{
+							"bookId": "boas",
+							"ref": "11.11",
+							"title": "Stirling's Formula"
+						}
+					],
+					"demoIdeas": [
+						"Gamma function plot on the real line with poles at non-positive integers; overlay n! and Stirling's approximation with relative error."
+					]
+				},
+				{
+					"id": "m5-l012-legendre",
+					"title": "Legendre Polynomials",
+					"minutes": 90,
+					"objectives": [
+						"Write Legendre's equation, state that regular solutions on [-1, 1] require integer l, and list P_0 to P_3.",
+						"Use Rodrigues' formula and the generating function 1/sqrt(1 - 2xt + t^2) to derive recurrence relations and special values.",
+						"Prove orthogonality and state the normalisation integral P_l P_m dx = 2/(2l+1) delta_lm.",
+						"Expand a function (e.g. a step) in a Legendre series using orthogonality.",
+						"Recognise the generating function as the multipole expansion of 1/|r - r'|, previewing P5."
+					],
+					"keyEquations": [
+						"(1-x^2)y''-2xy'+l(l+1)y=0",
+						"P_l(x)=\\frac1{2^ll!}\\frac{d^l}{dx^l}(x^2-1)^l",
+						"\\frac1{\\sqrt{1-2xt+t^2}}=\\sum_lP_l(x)t^l",
+						"\\int_{-1}^1P_lP_m\\,dx=\\frac2{2l+1}\\delta_{lm}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "12.2",
+							"title": "Legendre's Equation"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.4",
+							"title": "Rodrigues' Formula"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.5",
+							"title": "Generating Function for Legendre Polynomials"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.7",
+							"title": "Orthogonality of Legendre Polynomials"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.9",
+							"title": "Legendre Series"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Orthogonal Functions",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part3_lec8_300k.mp4"
+						}
+					],
+					"demoIdeas": [
+						"Legendre polynomial plotter with degree slider, and a partial-sum approximation of a user-drawn function."
+					]
+				},
+				{
+					"id": "m5-l013-associated-legendre-ylm",
+					"title": "Associated Legendre Functions and Spherical Harmonics",
+					"minutes": 90,
+					"objectives": [
+						"Write the associated Legendre equation and the P_l^m from derivatives of P_l.",
+						"Separate Laplace's equation in spherical coordinates into radial, polar and azimuthal parts and identify the separation constants l(l+1) and m^2.",
+						"State and use Y_lm = N P_l^m(cos theta) e^{i m phi} as an orthonormal basis on the sphere.",
+						"Expand a function on a sphere and use orthogonality to find coefficients.",
+						"Connect to chemistry: Y_lm are the angular parts of hydrogen orbitals; l = 0, 1, 2, 3 are s, p, d, f and m labels the orbital orientation."
+					],
+					"keyEquations": [
+						"P_l^m(x)=(1-x^2)^{|m|/2}\\frac{d^{|m|}}{dx^{|m|}}P_l(x)",
+						"Y_{lm}(\\theta,\\phi)=\\sqrt{\\tfrac{2l+1}{4\\pi}\\tfrac{(l-m)!}{(l+m)!}}\\,P_l^m(\\cos\\theta)e^{im\\phi}",
+						"\\int Y_{lm}^*Y_{l'm'}\\,d\\Omega=\\delta_{ll'}\\delta_{mm'}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "12.10",
+							"title": "The Associated Legendre Functions"
+						}
+					],
+					"demoIdeas": [
+						"3D spherical-harmonic viewer: choose l and m; show real orbital shapes (px, dz2, ...) with phase-colored lobes."
+					]
+				},
+				{
+					"id": "m5-l014-bessel",
+					"title": "Bessel Functions",
+					"minutes": 90,
+					"objectives": [
+						"Write Bessel's equation and the series for J_n; sketch J_0, J_1, J_2 and locate their first zeros.",
+						"Use the recurrence relations (x^n J_n)' = x^n J_{n-1} and J_{n-1} + J_{n+1} = (2n/x) J_n.",
+						"State orthogonality with weight x on [0, a] using zeros of J_n.",
+						"Know the asymptotic form J_n(x) ~ sqrt(2/(pi x)) cos(x - n pi/2 - pi/4), and the existence of N_n (Y_n), I_n, K_n and Hankel functions.",
+						"Identify spherical Bessel functions as the radial solutions of the free-particle problem in 3D."
+					],
+					"keyEquations": [
+						"x^2y''+xy'+(x^2-n^2)y=0",
+						"J_n(x)=\\sum_k\\frac{(-1)^k}{k!(n+k)!}\\left(\\frac x2\\right)^{2k+n}",
+						"\\int_0^axJ_n(\\alpha_{nj}x/a)J_n(\\alpha_{nk}x/a)dx=\\tfrac{a^2}2J_{n+1}(\\alpha_{nj})^2\\delta_{jk}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "12.12",
+							"title": "Bessel Functions"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.13",
+							"title": "Differential Equations with Bessel Function Solutions"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.14",
+							"title": "Other Kinds of Bessel Functions"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.16",
+							"title": "Orthogonality of Bessel Functions"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.17",
+							"title": "Approximate Formulas for Bessel Functions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 9 summary: Separation of variables in cylindrical geometries: Bessel functions (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture9/"
+						}
+					],
+					"demoIdeas": [
+						"Bessel function explorer with zeros marked and an overlay of the asymptotic form."
+					]
+				},
+				{
+					"id": "m5-l015-hermite-laguerre",
+					"title": "Hermite and Laguerre Functions: Quantum Hooks",
+					"minutes": 60,
+					"objectives": [
+						"Derive the Hermite polynomials as the terminating series solutions that make the harmonic-oscillator wavefunctions normalisable.",
+						"State orthogonality of H_n with weight e^{-x^2}, and use it to expand a function in Hermite functions.",
+						"Introduce the associated Laguerre polynomials from the radial hydrogen equation, and relate their degree to the number of radial nodes.",
+						"Connect to chemistry: oscillator eigenfunctions (vibrational levels) and hydrogen radial wavefunctions are the Hermite and Laguerre families respectively."
+					],
+					"keyEquations": [
+						"y''-2xy'+2ny=0",
+						"\\int H_mH_ne^{-x^2}dx=\\sqrt\\pi\\,2^nn!\\,\\delta_{mn}",
+						"xy''+(1-x)y'+ny=0"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "12.19",
+							"title": "Hermite Functions; Quantum Mechanical Harmonic Oscillator"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.20",
+							"title": "Laguerre Functions; the Hydrogen Atom"
+						}
+					],
+					"demoIdeas": [
+						"Harmonic oscillator eigenfunctions with probability density, and classical turning points marked."
+					]
+				}
+			]
+		},
+		{
+			"id": "m5-u05-curvilinear-pdes",
+			"title": "PDEs in Cylindrical and Spherical Coordinates",
+			"summary": "Applying separation of variables with Bessel and Legendre functions: heat in a cylinder, the vibrating drum, and potentials with spherical symmetry.",
+			"lessons": [
+				{
+					"id": "m5-l016-cylinder",
+					"title": "Steady-State Problems in a Cylinder",
+					"minutes": 80,
+					"objectives": [
+						"Write the Laplacian in cylindrical coordinates and separate Laplace's equation as R(r) Phi(phi) Z(z).",
+						"Choose the regular Bessel (I or J) solution from boundary behaviour at r = 0 and pick the correct sign of the separation constant for the z-dependence.",
+						"Solve a Dirichlet problem for a finite cylinder with data on the end cap, expanding in Bessel functions using orthogonality.",
+						"Compute the coefficients as integrals with weight r."
+					],
+					"keyEquations": [
+						"\\nabla^2u=u_{rr}+\\tfrac1ru_r+\\tfrac1{r^2}u_{\\phi\\phi}+u_{zz}",
+						"u=\\sum_nA_nJ_0(\\alpha_nr/a)\\,\\frac{\\sinh(\\alpha_nz/a)}{\\sinh(\\alpha_nh/a)}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "13.5",
+							"title": "Steady-State Temperature in a Cylinder"
+						}
+					],
+					"demoIdeas": [
+						"Cutaway temperature map of a cylinder with adjustable cap temperature profile and number of Bessel terms."
+					]
+				},
+				{
+					"id": "m5-l017-drum",
+					"title": "Vibrating Circular Membrane",
+					"minutes": 80,
+					"objectives": [
+						"Separate the 2D wave equation in polar coordinates to get the eigenvalue problem and the normal-mode frequencies w_mn = v alpha_mn / a.",
+						"Sketch nodal circles and nodal diameters for the lowest few modes.",
+						"Explain why the overtones of a drum are not integer multiples of the fundamental, in contrast to a string.",
+						"Expand an initial displacement in the (m, n) modes and write the time-dependent solution."
+					],
+					"keyEquations": [
+						"u=J_m(\\alpha_{mn}r/a)\\cos(m\\phi)\\cos(\\omega_{mn}t)",
+						"\\omega_{mn}=\\frac{v\\,\\alpha_{mn}}a",
+						"\\alpha_{01}\\approx2.405,\\ \\alpha_{11}\\approx3.832"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "13.6",
+							"title": "Vibration of a Circular Membrane"
+						}
+					],
+					"demoIdeas": [
+						"Animated drum with selectable (m, n) mode showing nodal lines; sand-pattern (Chladni-style) rendering."
+					]
+				},
+				{
+					"id": "m5-l018-sphere-poisson",
+					"title": "Laplace and Poisson Equations in a Sphere",
+					"minutes": 80,
+					"objectives": [
+						"Separate Laplace's equation in spherical coordinates and write the general axially symmetric solution sum (A_l r^l + B_l r^{-(l+1)}) P_l(cos theta).",
+						"Solve for the potential inside and outside a sphere with specified surface data by matching and orthogonality.",
+						"Solve a Poisson problem by splitting into a particular solution and a harmonic one.",
+						"State the physical content of l = 0, 1, 2 terms (monopole, dipole, quadrupole)."
+					],
+					"keyEquations": [
+						"u=\\sum_l\\left(A_lr^l+B_lr^{-l-1}\\right)P_l(\\cos\\theta)",
+						"\\nabla^2u=-\\rho/\\varepsilon_0",
+						"A_l=\\frac{2l+1}{2a^l}\\int_{-1}^1f(\\cos\\theta)P_l\\,d(\\cos\\theta)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "13.7",
+							"title": "Steady-State Temperature in a Sphere"
+						},
+						{
+							"bookId": "boas",
+							"ref": "13.8",
+							"title": "Poisson's Equation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 17 summary: Green's function of the Laplacian in 3d for infinite space, the method of images (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture17/"
+						}
+					],
+					"demoIdeas": [
+						"Potential map for a sphere with user-specified surface distribution expressed as a handful of Legendre coefficients."
+					]
+				}
+			]
+		},
+		{
+			"id": "m5-u06-sturm-green",
+			"title": "Sturm-Liouville Theory and Green's Functions (Grad Touch)",
+			"summary": "The general theory behind all the orthogonal families, and the Green's function as the response to a point source: the central tool of electrodynamics and many-body physics.",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "m5-l019-sturm-liouville",
+					"title": "Sturm-Liouville Theory and Eigenfunction Expansions",
+					"minutes": 90,
+					"objectives": [
+						"Put a second-order linear eigenvalue problem in Sturm-Liouville form (p y')' + q y + lambda w y = 0, finding the weight w.",
+						"Prove that the operator is self-adjoint under suitable boundary conditions, so that eigenvalues are real and eigenfunctions with distinct eigenvalues are orthogonal with weight w.",
+						"Recognise Legendre, Bessel, Hermite and Laguerre as Sturm-Liouville cases with their weights.",
+						"Expand a function in eigenfunctions and state completeness as sum_n phi_n(x) phi_n(x') w = delta(x - x').",
+						"Relate to QM: Hermitian operators, orthonormal eigenstates, completeness."
+					],
+					"keyEquations": [
+						"\\frac{d}{dx}\\!\\left(p\\frac{dy}{dx}\\right)+qy+\\lambda wy=0",
+						"\\int\\phi_m\\phi_nw\\,dx=0,\\ \\lambda_m\\ne\\lambda_n",
+						"\\sum_n\\phi_n(x)\\phi_n(x')w(x')=\\delta(x-x')"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "12.6",
+							"title": "Complete Sets of Orthogonal Functions"
+						},
+						{
+							"bookId": "boas",
+							"ref": "3.14",
+							"title": "General Vector Spaces",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 5 summary: Diagonalizability of infinite-dimensional Hermitian operators (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture5/"
+						},
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 7 summary: Sturm-Liouville operators (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture7/"
+						},
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Orthogonal Functions",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part3_lec8_300k.mp4"
+						}
+					]
+				},
+				{
+					"id": "m5-l020-green-ode",
+					"title": "Green's Functions for Boundary-Value Problems in ODEs",
+					"minutes": 90,
+					"objectives": [
+						"Define the Green's function G(x, x') for L y = f by L G = delta(x - x') with the homogeneous boundary conditions, and write y(x) = integral G f.",
+						"Construct G from two homogeneous solutions that satisfy the left and right boundary conditions respectively, matching continuity and the jump condition in G'.",
+						"Verify symmetry G(x, x') = G(x', x) for self-adjoint L (reciprocity).",
+						"Write G as an eigenfunction expansion sum phi_n(x) phi_n(x')/lambda_n.",
+						"Interpret G physically as the response at x to a unit point source at x'."
+					],
+					"keyEquations": [
+						"Ly=f,\\ LG(x,x')=\\delta(x-x')",
+						"y(x)=\\int G(x,x')f(x')\\,dx'",
+						"G=\\frac{y_1(x_<)y_2(x_>)}{p\\,W}",
+						"G(x,x')=\\sum_n\\frac{\\phi_n(x)\\phi_n(x')}{\\lambda_n}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.12",
+							"title": "A Brief Introduction to Green Functions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 14 summary: Green's functions with Dirichlet boundaries (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture14/"
+						},
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 15 summary: Reciprocity and positivity of Green's functions (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture15/"
+						}
+					],
+					"demoIdeas": [
+						"Loaded string: place a point load and see the deflection (the Green's function), then superpose several loads."
+					]
+				},
+				{
+					"id": "m5-l021-green-pde",
+					"title": "Green's Functions for Poisson's Equation and the Method of Images",
+					"minutes": 80,
+					"objectives": [
+						"State the free-space Green's function of the Laplacian in 3D, G = -1/(4 pi |r - r'|), and relate it to Coulomb's law.",
+						"Use the method of images to build the Green's function for a half-space with a Dirichlet (grounded) boundary.",
+						"Write the solution of Poisson's equation as phi(r) = integral G rho and explain how boundary terms enter via Green's second identity.",
+						"Connect the Legendre generating function to the multipole expansion of G."
+					],
+					"keyEquations": [
+						"\\nabla^2G(\\mathbf r,\\mathbf r')=\\delta^3(\\mathbf r-\\mathbf r')",
+						"G_0=-\\frac1{4\\pi|\\mathbf r-\\mathbf r'|}",
+						"G_D=G_0(\\mathbf r,\\mathbf r')-G_0(\\mathbf r,\\mathbf r'_{\\rm image})"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "13.8",
+							"title": "Poisson's Equation"
+						},
+						{
+							"bookId": "boas",
+							"ref": "13.9",
+							"title": "Integral Transform Solutions of PDEs",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 17 summary: Green's function of the Laplacian in 3d for infinite space, the method of images (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture17/"
+						},
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 18 summary: The method of images, interfaces, and surface integral equations (written notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture18/"
+						}
+					],
+					"demoIdeas": [
+						"Point charge near a grounded plane/sphere: show field lines produced by the real plus image charges."
+					]
+				}
+			]
+		},
+		{
+			"id": "m5-u07-transform-pdes",
+			"title": "Integral-Transform Methods for PDEs",
+			"summary": "Fourier and Laplace transforms as an alternative to separation of variables on unbounded domains.",
+			"lessons": [
+				{
+					"id": "m5-l022-transform-pdes",
+					"title": "Solving PDEs with Fourier and Laplace Transforms",
+					"minutes": 60,
+					"objectives": [
+						"Solve the heat equation on an infinite line by Fourier transform in x and invert to obtain the Gaussian kernel.",
+						"Solve a semi-infinite problem by a sine or cosine transform, choosing between them from the boundary condition.",
+						"Use the Laplace transform in t to turn a PDE initial-value problem into an ODE in x.",
+						"Compare the transform and separation-of-variables approaches and say when each is natural."
+					],
+					"keyEquations": [
+						"\\hat u_t=-Dk^2\\hat u\\Rightarrow\\hat u=\\hat u_0e^{-Dk^2t}",
+						"u=G*u_0",
+						"\\mathcal F_s\\{u_{xx}\\}=-k^2\\hat u_s+k\\,u(0)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "13.9",
+							"title": "Integral Transform Solutions of PDEs"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 34: Fourier Integral Transform (part 2)",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-34-fourier-integral-transform-part-2/"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "m5-u08-variational",
+			"title": "Calculus of Variations",
+			"summary": "Finding the function that extremises an integral: the Euler-Lagrange equation, geodesics and constrained problems; the mathematical foundation of Lagrangian mechanics and the variational method in QM.",
+			"lessons": [
+				{
+					"id": "m5-l023-euler-equation",
+					"title": "The Euler-Lagrange Equation",
+					"minutes": 80,
+					"objectives": [
+						"Derive the Euler-Lagrange equation by varying the path and integrating by parts with fixed endpoints.",
+						"Find the shortest path between two points in the plane and on a cylinder or sphere (geodesics).",
+						"Solve the minimum-surface-of-revolution (catenary) and brachistochrone problems using the first integral when f has no explicit x (the Beltrami identity).",
+						"Check whether an extremum is a minimum using the second variation in simple cases."
+					],
+					"keyEquations": [
+						"I[y]=\\int_a^bf(y,y',x)\\,dx",
+						"\\frac{\\partial f}{\\partial y}-\\frac d{dx}\\frac{\\partial f}{\\partial y'}=0",
+						"f-y'\\frac{\\partial f}{\\partial y'}=\\text{const}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "9.2",
+							"title": "The Euler Equation"
+						},
+						{
+							"bookId": "boas",
+							"ref": "9.3",
+							"title": "Using the Euler Equation"
+						},
+						{
+							"bookId": "boas",
+							"ref": "9.4",
+							"title": "The Brachistochrone Problem; Cycloid"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford Theoretical Minimum (Leonard Susskind)",
+							"title": "Classical Mechanics course page, lecture 3: Lagrangian, least action, Euler-Lagrange equations",
+							"url": "https://theoreticalminimum.com/courses/classical-mechanics/2011/fall"
+						},
+						{
+							"source": "MIT OCW 8.033 (Fall 2006)",
+							"title": "Lecture 8 slides: Euler-Lagrange and the brachistochrone (notes)",
+							"url": "https://ocw.mit.edu/courses/8-033-relativity-fall-2006/resources/lecture8_euler/"
+						}
+					],
+					"demoIdeas": [
+						"Brachistochrone race: bead on a straight line, circular arc and cycloid with a timer.",
+						"Interactive path-perturbation: drag a path away from the geodesic and see the action change."
+					]
+				},
+				{
+					"id": "m5-l024-lagrange-constraints",
+					"title": "Several Variables, Lagrange's Equations and Constraints",
+					"minutes": 75,
+					"objectives": [
+						"Extend the Euler equation to several dependent variables and derive Lagrange's equations for a simple mechanical system, previewing P4.",
+						"Solve an isoperimetric problem using a Lagrange multiplier (the shape of a hanging chain, the maximum area for a given perimeter).",
+						"Handle holonomic constraints in the variational formulation.",
+						"Explain the analogy between Lagrange multipliers in calculus and in the variational setting."
+					],
+					"keyEquations": [
+						"\\frac{\\partial L}{\\partial q_i}-\\frac d{dt}\\frac{\\partial L}{\\partial\\dot q_i}=0",
+						"\\delta\\!\\int(f+\\lambda g)\\,dx=0",
+						"L=T-V"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "9.6",
+							"title": "Several Dependent Variables; Lagrange's Equations"
+						},
+						{
+							"bookId": "boas",
+							"ref": "9.7",
+							"title": "Isoperimetric Problems"
+						}
+					]
+				},
+				{
+					"id": "m5-l025-variational-notation-principles",
+					"title": "Variational Notation and Variational Principles in Physics",
+					"minutes": 60,
+					"objectives": [
+						"Use delta notation for first variations and apply it to Fermat's principle to derive Snell's law.",
+						"Show that the Euler-Lagrange equation for the functional of a field gives the wave equation or the Laplace equation.",
+						"State the variational principle in quantum mechanics (the ground-state energy is the minimum of <psi|H|psi>/<psi|psi>) and apply a one-parameter trial function.",
+						"Connect to chemistry: the Rayleigh-Ritz variational method and the Hartree-Fock method are both direct applications."
+					],
+					"keyEquations": [
+						"\\delta\\!\\int n\\,ds=0",
+						"E[\\psi]=\\frac{\\langle\\psi|H|\\psi\\rangle}{\\langle\\psi|\\psi\\rangle}\\ge E_0",
+						"\\delta I=\\int\\left(\\tfrac{\\partial f}{\\partial y}-\\tfrac d{dx}\\tfrac{\\partial f}{\\partial y'}\\right)\\delta y\\,dx"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "9.8",
+							"title": "Variational Notation"
+						}
+					],
+					"demoIdeas": [
+						"Variational ground state: a Gaussian trial function with width slider for the hydrogen atom, with E(alpha) curve and its minimum."
+					]
+				}
+			]
+		},
+		{
+			"id": "m5-u09-tensors",
+			"title": "Tensors and Index Notation",
+			"summary": "Index notation, Cartesian tensors and transformation laws: the machinery behind stress, inertia, the electromagnetic field tensor and relativity.",
+			"lessons": [
+				{
+					"id": "m5-l026-index-notation",
+					"title": "Index Notation, Kronecker Delta and Levi-Civita Symbol",
+					"minutes": 80,
+					"objectives": [
+						"Use the Einstein summation convention, free and dummy indices correctly.",
+						"State and use the contraction identity epsilon_ijk epsilon_ilm = delta_jl delta_km - delta_jm delta_kl.",
+						"Prove the vector identity A x (B x C) = B (A.C) - C (A.B) and the identities curl grad = 0 and div curl = 0 in index notation.",
+						"Write dot product, cross product, determinant and trace in index notation."
+					],
+					"keyEquations": [
+						"\\epsilon_{ijk}\\epsilon_{ilm}=\\delta_{jl}\\delta_{km}-\\delta_{jm}\\delta_{kl}",
+						"(\\mathbf A\\times\\mathbf B)_i=\\epsilon_{ijk}A_jB_k",
+						"\\partial_i\\delta_{ij}=0"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "Ch. 10",
+							"title": "Tensor Analysis"
+						}
+					],
+					"lectures": [
+						{
+							"source": "eigenchris",
+							"title": "Tensors for Beginners (-1): Motivation",
+							"url": "https://www.youtube.com/watch?v=8ptMTLzV4-I"
+						},
+						{
+							"source": "eigenchris",
+							"title": "Tensors for Beginners playlist",
+							"url": "https://www.youtube.com/playlist?list=PLJHszsWbB6hrkmmq57lX8BV-o-YIOFsiG"
+						}
+					],
+					"demoIdeas": [
+						"Index-contraction practice: random expressions with free/dummy indices that the learner simplifies and checks."
+					]
+				},
+				{
+					"id": "m5-l027-cartesian-tensors",
+					"title": "Cartesian Tensors, Transformation Laws and Physical Examples",
+					"minutes": 80,
+					"objectives": [
+						"Define a Cartesian tensor of rank r by its transformation law under rotations T'_{ij} = R_{ia} R_{jb} T_{ab}.",
+						"Show that the moment-of-inertia tensor, stress tensor and polarisability are rank-2 tensors, and diagonalise one to find principal axes.",
+						"Distinguish tensors from pseudotensors under reflection, giving the cross product and magnetic field as examples.",
+						"Use the quotient rule to decide whether a quantity is a tensor.",
+						"Connect to chemistry: the polarisability and the NMR chemical-shift/quadrupole tensors are rank-2 and have principal axes."
+					],
+					"keyEquations": [
+						"T'_{ij}=R_{ia}R_{jb}T_{ab}",
+						"I_{ij}=\\int\\rho\\,(r^2\\delta_{ij}-x_ix_j)\\,dV",
+						"L_i=I_{ij}\\omega_j"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "Ch. 10",
+							"title": "Tensor Analysis"
+						}
+					],
+					"lectures": [
+						{
+							"source": "eigenchris",
+							"title": "Tensors for Beginners 1: Forward and Backward Transformations (REMAKE)",
+							"url": "https://www.youtube.com/watch?v=bpuE_XmWQ8Y"
+						}
+					],
+					"demoIdeas": [
+						"Inertia ellipsoid of a molecule built from atom positions, with principal axes and rotation to the principal frame."
+					]
+				}
+			]
+		},
+		{
+			"id": "m5-u10-general-tensors",
+			"title": "General Tensors (Grad Touch)",
+			"summary": "Non-Cartesian tensors, covariant and contravariant components, the metric tensor and covariant differentiation: the preparation for general relativity and for curvilinear vector calculus.",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "m5-l028-general-tensors-metric",
+					"title": "Covariant and Contravariant Components, Metric and Christoffel Symbols",
+					"minutes": 80,
+					"objectives": [
+						"Distinguish contravariant and covariant components, and raise and lower indices with the metric g_ij.",
+						"Compute the metric tensor and its inverse for polar, cylindrical and spherical coordinates, and use it for line element, volume element and gradient.",
+						"Compute the Christoffel symbols for polar coordinates and state what the covariant derivative adds to the partial derivative.",
+						"Write the Laplacian in curvilinear coordinates as (1/sqrt g) d_i (sqrt g g^{ij} d_j u), recovering the cylindrical and spherical forms used earlier in this course."
+					],
+					"keyEquations": [
+						"ds^2=g_{ij}\\,dx^idx^j",
+						"V_i=g_{ij}V^j",
+						"\\Gamma^k_{ij}=\\tfrac12g^{kl}(\\partial_ig_{jl}+\\partial_jg_{il}-\\partial_lg_{ij})",
+						"\\nabla^2u=\\tfrac1{\\sqrt g}\\partial_i\\!\\left(\\sqrt g\\,g^{ij}\\partial_ju\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "Ch. 10",
+							"title": "Tensor Analysis"
+						}
+					],
+					"lectures": [
+						{
+							"source": "eigenchris",
+							"title": "Tensors for Beginners playlist",
+							"url": "https://www.youtube.com/playlist?list=PLJHszsWbB6hrkmmq57lX8BV-o-YIOFsiG"
+						}
+					],
+					"demoIdeas": [
+						"Polar-coordinate grid: basis vectors vary from point to point; show the Christoffel symbols as the rate of change of the basis."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "m5-midterm",
+			"kind": "midterm",
+			"title": "M5 Midterm: Fourier Methods, Separation of Variables, Special Functions",
+			"covers": [
+				"m5-u01-fourier-series",
+				"m5-u02-transforms",
+				"m5-u03-pdes",
+				"m5-u04-special-functions"
+			],
+			"minutes": 110,
+			"passMark": 0.7
+		},
+		{
+			"id": "m5-final",
+			"kind": "final",
+			"title": "M5 Final: Mathematical Methods",
+			"covers": [
+				"m5-u01-fourier-series",
+				"m5-u02-transforms",
+				"m5-u03-pdes",
+				"m5-u04-special-functions",
+				"m5-u05-curvilinear-pdes",
+				"m5-u06-sturm-green",
+				"m5-u07-transform-pdes",
+				"m5-u08-variational",
+				"m5-u09-tensors",
+				"m5-u10-general-tensors"
+			],
+			"minutes": 180,
+			"passMark": 0.7
+		}
+	]
+}

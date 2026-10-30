@@ -54,3 +54,4 @@ export { customProviderGet, customProviderMutation } from "./custom-provider-htt
 // The physics program (curriculum spine, progress ledger, lesson briefs).
 export * from "./curriculum.ts";
 export { resolveLecture, type ResolvedLecture } from "./lectures.ts";
+export * from "./bookshelf.ts";

@@ -1,0 +1,1104 @@
+{
+	"id": "s4-qft",
+	"code": "S4",
+	"title": "Quantum Field Theory",
+	"track": "survey",
+	"depth": "survey",
+	"hours": 55,
+	"prereqs": [
+		"p6-quantum",
+		"p5-em",
+		"p4-classical"
+	],
+	"subject": "Particles & Fields",
+	"summary": "A first, calculation-oriented introduction to relativistic quantum field theory: fields as oscillators, canonical quantization, propagators and Feynman diagrams, the Dirac equation, tree-level QED, a conceptual treatment of renormalization and the renormalization group, and gauge symmetry and the Higgs mechanism.",
+	"books": [
+		{
+			"bookId": "lancaster-blundell",
+			"role": "primary"
+		},
+		{
+			"bookId": "tong-qft",
+			"role": "primary"
+		}
+	],
+	"units": [
+		{
+			"id": "s4-u01-from-oscillators-to-fields",
+			"title": "From oscillators to fields",
+			"summary": "Why relativity plus quantum mechanics forces a field description; Lagrangian field theory and Noether's theorem; second quantization (the Fock-space formalism also used in quantum chemistry).",
+			"lessons": [
+				{
+					"id": "s4-l001-why-qft",
+					"title": "Why quantum field theory?",
+					"minutes": 80,
+					"objectives": [
+						"Explain why single-particle relativistic quantum mechanics fails: Klein-Gordon negative probability densities and negative energies, and pair creation at energies around mc^2.",
+						"State the argument that combining locality, special relativity, and quantum mechanics leads naturally to fields with variable particle number and antiparticles.",
+						"Work in natural units (hbar = c = 1) and convert mass, length, time, energy, and cross-section between natural and SI units.",
+						"Compute a Compton wavelength and use it to say when a process needs QFT (for instance, photons as quantized electromagnetic oscillators; phonons in a crystal as the same idea)."
+					],
+					"keyEquations": [
+						"E^2 = p^2c^2+m^2c^4",
+						"\\lambda_C = \\frac{\\hbar}{mc}",
+						"(\\partial_\\mu\\partial^\\mu + m^2)\\phi = 0"
+					],
+					"readings": [
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 0",
+							"title": "Overture"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 6",
+							"title": "A first stab at relativistic quantum mechanics"
+						},
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 0",
+							"title": "Introduction",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 3: Why Quantum Field Theory",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture03_2023feb13_mp4/"
+						}
+					],
+					"demoIdeas": [
+						"Pair-creation threshold explorer: photon energy versus electron-positron production, with Compton wavelength vs. confinement length."
+					]
+				},
+				{
+					"id": "s4-l002-classical-field-theory",
+					"title": "Classical field theory and the Lagrangian density",
+					"minutes": 90,
+					"objectives": [
+						"Derive the Euler-Lagrange equations for a field from the principle of least action.",
+						"Write the Lagrangian density for a real scalar field and derive the Klein-Gordon equation from it.",
+						"Write the Maxwell Lagrangian -(1/4) F^2 and recover Maxwell's equations from it.",
+						"Compute the canonical momentum pi = partial L / partial (partial_t phi) and the Hamiltonian density.",
+						"Take the continuum limit of a chain of coupled oscillators to obtain the wave equation (the origin of 'fields as oscillators')."
+					],
+					"keyEquations": [
+						"\\partial_\\mu\\frac{\\partial\\mathcal L}{\\partial(\\partial_\\mu\\phi)}-\\frac{\\partial\\mathcal L}{\\partial\\phi}=0",
+						"\\mathcal L=\\tfrac12\\partial_\\mu\\phi\\,\\partial^\\mu\\phi-\\tfrac12m^2\\phi^2",
+						"\\mathcal H = \\pi\\dot\\phi-\\mathcal L"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 1",
+							"title": "Classical Field Theory"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 1",
+							"title": "Lagrangians"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 5",
+							"title": "Continuous systems"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 7",
+							"title": "Examples of Lagrangians, or how to write down a theory"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 1: Classical Field Theories and Principle of Locality",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture01_2023feb06_mp4/"
+						}
+					],
+					"demoIdeas": [
+						"Chain of coupled masses and springs whose normal modes approach a continuous string as N grows."
+					]
+				},
+				{
+					"id": "s4-l003-noether-symmetries-currents",
+					"title": "Symmetries, Noether's theorem, and conserved currents",
+					"minutes": 90,
+					"objectives": [
+						"State and derive Noether's theorem for a continuous symmetry of a field theory, giving a conserved current j^mu with partial_mu j^mu = 0.",
+						"Derive the energy-momentum tensor T^{mu nu} from spacetime translation invariance and compute the Hamiltonian and momentum of a scalar field.",
+						"Find the conserved U(1) charge of a complex scalar field.",
+						"Explain how the Lorentz group acts on fields and which conserved quantities Lorentz invariance gives (angular momentum and boosts)."
+					],
+					"keyEquations": [
+						"T^{\\mu\\nu} = \\frac{\\partial\\mathcal L}{\\partial(\\partial_\\mu\\phi)}\\partial^\\nu\\phi-\\eta^{\\mu\\nu}\\mathcal L",
+						"\\partial_\\mu j^\\mu=0,\\quad Q=\\int d^3x\\,j^0"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 1",
+							"title": "Classical Field Theory"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 10",
+							"title": "Symmetry"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 9",
+							"title": "Quantum mechanical transformations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 2: Symmetries and Conservation Laws",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture02_2023feb08_mp4/"
+						}
+					],
+					"demoIdeas": [
+						"Complex scalar field on a 1D lattice with a U(1) phase rotation: visualize the conserved charge density flowing as a current."
+					]
+				},
+				{
+					"id": "s4-l004-second-quantisation",
+					"title": "Second quantization and Fock space",
+					"minutes": 90,
+					"objectives": [
+						"Quantize the harmonic oscillator with ladder operators a and a-dagger, [a, a-dagger] = 1, and build number eigenstates.",
+						"Construct the Fock space of many identical bosons from occupation numbers and show how creation and annihilation operators change particle number.",
+						"Write one-body operators in second-quantized form sum_ij t_ij a_i-dagger a_j and explain how this is the language of quantum-chemistry electronic Hamiltonians (fermionic version anticipated).",
+						"Show that a chain of coupled oscillators has normal modes whose quanta are phonons."
+					],
+					"keyEquations": [
+						"[a,a^\\dagger]=1,\\qquad H=\\hbar\\omega\\left(a^\\dagger a+\\tfrac12\\right)",
+						"\\hat T=\\sum_{ij}\\langle i|t|j\\rangle\\,a^\\dagger_i a_j",
+						"a^\\dagger|n\\rangle=\\sqrt{n+1}\\,|n+1\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 2",
+							"title": "Simple harmonic oscillators"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 3",
+							"title": "Occupation number representation"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 4",
+							"title": "Making second quantization work"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Fock-space explorer: apply a and a-dagger to superpositions of number states and watch occupation probabilities change."
+					]
+				}
+			]
+		},
+		{
+			"id": "s4-u02-free-scalar-field",
+			"title": "The free scalar field",
+			"summary": "Canonical quantization of the Klein-Gordon field: particles as excitations, antiparticles, causality, the Feynman propagator, and force from particle exchange (Yukawa).",
+			"lessons": [
+				{
+					"id": "s4-l005-canonical-quantisation-scalar",
+					"title": "Canonical quantization of the real scalar field",
+					"minutes": 90,
+					"objectives": [
+						"Expand the Klein-Gordon field in Fourier modes and identify each mode as a harmonic oscillator with frequency omega_p = sqrt(p^2 + m^2).",
+						"Impose the equal-time commutator [phi(x), pi(y)] = i delta^3(x - y) and derive [a_p, a_q-dagger] = (2 pi)^3 delta^3(p - q).",
+						"Write H as an integral of omega_p a-dagger a plus a divergent zero-point energy and remove the latter by normal ordering.",
+						"Construct one-particle states |p> = a_p-dagger |0>, compute their energy and momentum, and use relativistic normalization."
+					],
+					"keyEquations": [
+						"\\phi(x)=\\int\\frac{d^3p}{(2\\pi)^3}\\frac{1}{\\sqrt{2\\omega_p}}\\left(a_pe^{ip\\cdot x}+a_p^\\dagger e^{-ip\\cdot x}\\right)",
+						"[a_p,a_q^\\dagger]=(2\\pi)^3\\delta^{(3)}(\\mathbf p-\\mathbf q)",
+						"H=\\int\\frac{d^3p}{(2\\pi)^3}\\,\\omega_p\\,a_p^\\dagger a_p"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 2",
+							"title": "Free Fields"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 11",
+							"title": "Canonical quantization of fields"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 12",
+							"title": "Examples of canonical quantization"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 4: Canonical Quantization of a Free Scalar Field Theory",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture04_2023feb15_mp4/"
+						}
+					],
+					"demoIdeas": [
+						"Mode-sum visualizer: build a localized wave packet from a_p-dagger superpositions and watch it propagate."
+					]
+				},
+				{
+					"id": "s4-l006-complex-scalar-antiparticles",
+					"title": "The complex scalar field, antiparticles, and charge",
+					"minutes": 80,
+					"objectives": [
+						"Quantize a complex scalar field with two sets of operators and identify particles and antiparticles with opposite charge.",
+						"Compute the conserved charge Q = integral of (a-dagger a - b-dagger b) and the eigenvalues on one-particle states.",
+						"Show how time dependence follows in the Heisenberg picture and compute the Lorentz-invariant measure d^3p / (2 E_p).",
+						"Explain why relativity and causality require antiparticles, and cite positron emission tomography (annihilation into 511 keV photons) as a chemical application."
+					],
+					"keyEquations": [
+						"\\phi = \\int\\frac{d^3p}{(2\\pi)^3}\\frac{1}{\\sqrt{2\\omega_p}}\\left(b_pe^{ip\\cdot x}+c_p^\\dagger e^{-ip\\cdot x}\\right)",
+						"Q = \\int\\frac{d^3p}{(2\\pi)^3}\\left(c_p^\\dagger c_p - b_p^\\dagger b_p\\right)",
+						"\\frac{d^3p}{2E_p}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 2",
+							"title": "Free Fields"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 12",
+							"title": "Examples of canonical quantization"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 15",
+							"title": "Discrete transformations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 5: Complex Scalar Field Theory and Anti-Particle",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture05_2023feb21_mp4/"
+						}
+					],
+					"demoIdeas": []
+				},
+				{
+					"id": "s4-l007-causality-propagators",
+					"title": "Causality and the Feynman propagator",
+					"minutes": 100,
+					"objectives": [
+						"Compute the commutator [phi(x), phi(y)] and show it vanishes for spacelike separations.",
+						"Define the Feynman propagator as the time-ordered vacuum correlator and derive its momentum-space form i/(p^2 - m^2 + i epsilon) by contour integration, explaining the role of the i epsilon prescription (complex analysis from M6).",
+						"Interpret the propagator as a Green's function of the Klein-Gordon operator.",
+						"Distinguish on-shell from off-shell (virtual) momenta."
+					],
+					"keyEquations": [
+						"D_F(x-y)=\\langle0|T\\phi(x)\\phi(y)|0\\rangle=\\int\\frac{d^4p}{(2\\pi)^4}\\frac{i}{p^2-m^2+i\\epsilon}e^{-ip\\cdot(x-y)}",
+						"(\\partial^2+m^2)D_F(x-y)=-i\\,\\delta^{(4)}(x-y)"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 2",
+							"title": "Free Fields"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 16",
+							"title": "Propagators and Green's functions"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 17",
+							"title": "Propagators and fields"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 6: Propagators and Green Functions",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture06_2023feb22_mp4/"
+						}
+					],
+					"demoIdeas": [
+						"Complex p0-plane showing poles shifted by i epsilon and the contour closed in the upper or lower half-plane depending on the sign of t."
+					]
+				},
+				{
+					"id": "s4-l008-yukawa-exchange-forces",
+					"title": "Forces from particle exchange: the Yukawa potential",
+					"minutes": 80,
+					"objectives": [
+						"Show that a static source coupled to a massive scalar field produces the Yukawa potential V(r) = -g^2 e^{-mr} / (4 pi r).",
+						"Relate the range of the force to the exchanged particle's mass, 1/m, and estimate the pion-exchange range (about 1.4 fm).",
+						"Contrast scalar exchange (attractive between like sources) with photon exchange (m = 0, Coulomb).",
+						"Recognize the screened Coulomb potential of Debye-Huckel theory in electrolytes and Thomas-Fermi screening in metals as the same mathematical form."
+					],
+					"keyEquations": [
+						"V(r)=-\\frac{g^2}{4\\pi}\\frac{e^{-mr}}{r}",
+						"\\tilde V(\\mathbf q)=-\\frac{g^2}{|\\mathbf q|^2+m^2}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 3",
+							"title": "Interacting Fields"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 16",
+							"title": "Propagators and Green's functions",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Yukawa versus Coulomb potential plot with a mass slider and a toy Debye-length slider for an electrolyte."
+					]
+				}
+			]
+		},
+		{
+			"id": "s4-u03-interacting-fields-feynman-diagrams",
+			"title": "Interacting fields and Feynman diagrams",
+			"summary": "The S-matrix, Dyson series, Wick's theorem, Feynman rules in position and momentum space, and cross sections: the working machinery of perturbative QFT.",
+			"lessons": [
+				{
+					"id": "s4-l009-interaction-picture-s-matrix",
+					"title": "The interaction picture and the S-matrix",
+					"minutes": 90,
+					"objectives": [
+						"Derive the interaction picture and the Dyson series U = T exp(-i integral of H_I dt).",
+						"Define the S-matrix and relate its elements to the invariant amplitude A through (2 pi)^4 delta^4(sum p).",
+						"Write interaction Hamiltonians for phi^4 and Yukawa theories and identify their couplings and mass dimensions.",
+						"Explain asymptotic in and out states and the idea of LSZ reduction."
+					],
+					"keyEquations": [
+						"U(t,t_0)=T\\exp\\!\\left(-i\\!\\int_{t_0}^{t}H_I(t')\\,dt'\\right)",
+						"\\langle f|S-1|i\\rangle=i\\mathcal A\\,(2\\pi)^4\\delta^{(4)}\\!\\left(\\textstyle\\sum p\\right)",
+						"\\mathcal H_I=\\frac{\\lambda}{4!}\\phi^4"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 3",
+							"title": "Interacting Fields"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 18",
+							"title": "The S-matrix"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 7: Interacting Theories and S-Matrix",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture07_2023feb27_mp4/"
+						}
+					],
+					"demoIdeas": []
+				},
+				{
+					"id": "s4-l010-wicks-theorem",
+					"title": "Wick's theorem and contractions",
+					"minutes": 90,
+					"objectives": [
+						"State Wick's theorem relating time-ordered products to normal-ordered products plus contractions.",
+						"Compute a four-point time-ordered correlator in free scalar theory by listing contractions.",
+						"Map the contractions in the second-order nucleon-nucleon scattering amplitude in Yukawa theory onto diagrams.",
+						"Explain why normal ordering removes tadpoles and vacuum bubbles cancel in the S-matrix."
+					],
+					"keyEquations": [
+						"T\\{\\phi_1\\phi_2\\}=N\\{\\phi_1\\phi_2\\}+D_F(x_1-x_2)",
+						"\\langle0|T\\phi_1\\phi_2\\phi_3\\phi_4|0\\rangle=D_{12}D_{34}+D_{13}D_{24}+D_{14}D_{23}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 3",
+							"title": "Interacting Fields"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 19",
+							"title": "Expanding the S-matrix: Feynman diagrams"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 10: Time-Ordered Correlation Functions in Field Theory",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture10_2023mar08_v2_mp4/"
+						}
+					],
+					"demoIdeas": [
+						"Wick contraction generator: choose a product of fields and list all pairings, drawing each as a diagram."
+					]
+				},
+				{
+					"id": "s4-l011-feynman-rules-momentum-space",
+					"title": "Feynman rules in momentum space",
+					"minutes": 90,
+					"objectives": [
+						"State the Feynman rules for phi^4 and Yukawa theories: vertices, propagators, momentum conservation, loop integrals.",
+						"Draw all diagrams at a given order and assign symmetry factors.",
+						"Distinguish connected from disconnected, and tree from loop, diagrams.",
+						"Compute the tree-level 2 -> 2 amplitude in phi^4 (A = -lambda) and identify the s, t, and u channels with Mandelstam variables."
+					],
+					"keyEquations": [
+						"s=(p_1+p_2)^2,\\ t=(p_1-p_3)^2,\\ u=(p_1-p_4)^2",
+						"s+t+u=\\textstyle\\sum_i m_i^2",
+						"\\frac{i}{p^2-m^2+i\\epsilon},\\quad -i\\lambda"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 3",
+							"title": "Interacting Fields"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 19",
+							"title": "Expanding the S-matrix: Feynman diagrams"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 11: Computation of Correlation Functions in Perturbation Theory and Feynman Diagrams",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture11_2023mar13_mp4/"
+						},
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 12: More on Perturbation Theory and Feynman Diagrams",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture12_2023mar15_mp4/"
+						}
+					],
+					"demoIdeas": [
+						"Feynman diagram builder: pick a theory and order, list all topologically distinct diagrams, and show symmetry factors and the algebraic expression."
+					]
+				},
+				{
+					"id": "s4-l012-cross-sections-decay-rates",
+					"title": "Cross sections and decay rates",
+					"minutes": 90,
+					"objectives": [
+						"Define decay rates and cross sections from |A|^2 and relativistic phase space.",
+						"Derive the center-of-mass differential cross section dsigma/dOmega = |A|^2 p_f / (64 pi^2 s p_i).",
+						"Compute the decay rate of a heavy scalar into two lighter scalars.",
+						"Connect to the Fermi golden rule from P6 and to unitarity (optical theorem, stated).",
+						"Relate cross section to the measurable scattering rate in an experiment such as X-ray or neutron scattering."
+					],
+					"keyEquations": [
+						"d\\Gamma=\\frac{1}{2m}|\\mathcal A|^2\\,d\\Pi_f",
+						"\\frac{d\\sigma}{d\\Omega}\\Big|_{\\rm CM}=\\frac{|\\mathcal A|^2}{64\\pi^2s}\\frac{|\\mathbf p_f|}{|\\mathbf p_i|}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 3",
+							"title": "Interacting Fields"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 20",
+							"title": "Scattering theory"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 23: Cross Section and Decay Rate",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture23_2023may03_mp4/"
+						}
+					],
+					"demoIdeas": []
+				}
+			]
+		},
+		{
+			"id": "s4-u04-dirac-field",
+			"title": "The Dirac equation and fermion fields",
+			"summary": "Spin-1/2 particles: the Dirac equation, gamma matrices, spinor solutions and antiparticles, quantization with anticommutators, and discrete symmetries.",
+			"lessons": [
+				{
+					"id": "s4-l013-dirac-equation-gamma-matrices",
+					"title": "The Dirac equation and gamma matrices",
+					"minutes": 90,
+					"objectives": [
+						"Derive the Dirac equation by demanding a first-order equation whose square is the Klein-Gordon equation.",
+						"Use the Clifford algebra {gamma^mu, gamma^nu} = 2 eta^{mu nu} and build the Weyl (chiral) representation.",
+						"Show how spinors transform under Lorentz transformations and why psi-bar psi is a scalar and psi-bar gamma^mu psi a vector.",
+						"Write the Dirac Lagrangian and relate it to relativistic effects in chemistry: spin-orbit coupling and the g = 2 electron, which make gold yellow and mercury liquid."
+					],
+					"keyEquations": [
+						"(i\\gamma^\\mu\\partial_\\mu-m)\\psi=0",
+						"\\{\\gamma^\\mu,\\gamma^\\nu\\}=2\\eta^{\\mu\\nu}",
+						"\\mathcal L=\\bar\\psi\\,(i\\slashed{\\partial}-m)\\,\\psi"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 4",
+							"title": "The Dirac Equation"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 36",
+							"title": "The Dirac equation"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 37",
+							"title": "How to transform a spinor"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 13: Introducing the Dirac Equation",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture13_2023mar20_mp4/"
+						},
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 14: Lorentz Covariance of the Dirac Equation",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture14_2023mar22_mp4/"
+						}
+					],
+					"demoIdeas": []
+				},
+				{
+					"id": "s4-l014-dirac-solutions-chirality",
+					"title": "Dirac solutions, chirality, and antiparticles",
+					"minutes": 90,
+					"objectives": [
+						"Solve the Dirac equation for plane waves, u(p) and v(p), and compute spin sums sum u u-bar = pslash + m.",
+						"Define helicity and chirality (gamma^5) and write left- and right-handed Weyl spinors; analyze the massless limit.",
+						"Interpret negative-energy solutions as antiparticles (hole picture) and explain why this resolves the instability.",
+						"Take the nonrelativistic limit to get the Pauli equation with g = 2."
+					],
+					"keyEquations": [
+						"\\sum_s u^s(p)\\bar u^s(p)=\\slashed p+m",
+						"\\gamma^5=i\\gamma^0\\gamma^1\\gamma^2\\gamma^3",
+						"\\psi_{L,R}=\\tfrac12(1\\mp\\gamma^5)\\psi"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 4",
+							"title": "The Dirac Equation"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 36",
+							"title": "The Dirac equation"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 37",
+							"title": "How to transform a spinor"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 15: Classical Solutions of Dirac Equations",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture15_2023apr03_mp4/"
+						},
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 17: Chiral and Majorana Spinors",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture17_2023apr10_mp4/"
+						}
+					],
+					"demoIdeas": [
+						"Dirac spinor plotter: choose momentum and spin, display the four-component spinor and the spin direction."
+					]
+				},
+				{
+					"id": "s4-l015-quantising-dirac-field",
+					"title": "Quantizing the Dirac field",
+					"minutes": 90,
+					"objectives": [
+						"Expand the Dirac field in creation and annihilation operators and impose anticommutation relations.",
+						"Show that commutators would give an unbounded-below Hamiltonian, so anticommutators (Fermi statistics) are required.",
+						"Derive the Dirac propagator S_F = i(pslash + m)/(p^2 - m^2 + i epsilon).",
+						"Connect the anticommutation rules to the Pauli exclusion principle and Slater determinants in electronic-structure theory."
+					],
+					"keyEquations": [
+						"\\{a^r_p,a^{s\\dagger}_q\\}=(2\\pi)^3\\delta^{rs}\\delta^{(3)}(\\mathbf p-\\mathbf q)",
+						"S_F(p)=\\frac{i(\\slashed p+m)}{p^2-m^2+i\\epsilon}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 5",
+							"title": "Quantizing the Dirac Field"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 38",
+							"title": "The quantum Dirac field"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 16: Quantization of the Dirac Theory",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture16_2023apr05_mp4/"
+						},
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 19: Path Integrals of Fermions",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture19_2023apr19_mp4/"
+						}
+					],
+					"demoIdeas": []
+				},
+				{
+					"id": "s4-l016-discrete-symmetries-bilinears",
+					"title": "Discrete symmetries and fermion bilinears",
+					"minutes": 80,
+					"objectives": [
+						"Define the actions of C, P, and T on scalar and Dirac fields.",
+						"Classify the fermion bilinears (scalar, pseudoscalar, vector, axial vector, tensor) by their Lorentz and parity transformation.",
+						"State the CPT theorem and note the violation of parity (and C) in weak interactions as the link to S1."
+					],
+					"keyEquations": [
+						"\\psi(t,\\mathbf x)\\xrightarrow{P}\\gamma^0\\psi(t,-\\mathbf x)",
+						"\\bar\\psi\\gamma^\\mu\\psi\\xrightarrow{P}\\bar\\psi\\gamma_\\mu\\psi"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 5",
+							"title": "Quantizing the Dirac Field"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 15",
+							"title": "Discrete transformations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 18: Discrete Symmetries",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture18_2023apr12_mp4/"
+						}
+					],
+					"demoIdeas": []
+				}
+			]
+		},
+		{
+			"id": "s4-u05-qed",
+			"title": "Quantum electrodynamics",
+			"summary": "Quantizing the photon, local U(1) gauge invariance, QED Feynman rules, and tree-level processes: Compton scattering, e+e- annihilation, and Coulomb scattering.",
+			"lessons": [
+				{
+					"id": "s4-l017-quantising-em-field",
+					"title": "Quantizing the electromagnetic field",
+					"minutes": 90,
+					"objectives": [
+						"Explain gauge redundancy of A_mu and the need to fix a gauge (Lorenz or Coulomb gauge).",
+						"Quantize the photon field in Coulomb gauge and count its two physical polarizations.",
+						"State the photon propagator in Feynman gauge -i eta_{mu nu}/(k^2 + i epsilon) and the polarization sum.",
+						"Relate the quantized radiation field to spontaneous emission and the selection rules used in spectroscopy."
+					],
+					"keyEquations": [
+						"F_{\\mu\\nu}=\\partial_\\mu A_\\nu-\\partial_\\nu A_\\mu",
+						"\\mathcal L=-\\tfrac14F_{\\mu\\nu}F^{\\mu\\nu}",
+						"D_{\\mu\\nu}(k)=\\frac{-i\\eta_{\\mu\\nu}}{k^2+i\\epsilon}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 6",
+							"title": "Quantum Electrodynamics"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 14",
+							"title": "Gauge fields and gauge theory"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 13",
+							"title": "Fields with many components and massive electromagnetism",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 20: Maxwell Theory and its Canonical Quantization",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture20_2023apr24_mp4/"
+						},
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 21: Quantum Maxwell Theory (continued)",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture21_2023apr26_mp4/"
+						}
+					],
+					"demoIdeas": []
+				},
+				{
+					"id": "s4-l018-qed-lagrangian-feynman-rules",
+					"title": "The QED Lagrangian and Feynman rules",
+					"minutes": 90,
+					"objectives": [
+						"Obtain the QED Lagrangian by minimal coupling D_mu = partial_mu + i e A_mu and show that local U(1) invariance fixes the interaction.",
+						"State the QED Feynman rules (vertex -i e gamma^mu, fermion and photon propagators, external spinors and polarizations).",
+						"Draw all lowest-order diagrams for a given process.",
+						"Explain the Ward identity and why gauge-dependent terms drop out of physical amplitudes."
+					],
+					"keyEquations": [
+						"\\mathcal L=\\bar\\psi(i\\slashed D-m)\\psi-\\tfrac14F_{\\mu\\nu}F^{\\mu\\nu},\\quad D_\\mu=\\partial_\\mu+ieA_\\mu",
+						"\\psi\\to e^{i\\alpha(x)}\\psi,\\quad A_\\mu\\to A_\\mu-\\tfrac1e\\partial_\\mu\\alpha",
+						"k_\\mu\\mathcal M^\\mu=0"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 6",
+							"title": "Quantum Electrodynamics"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 39",
+							"title": "A rough guide to quantum electrodynamics"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 22: Quantum Electrodynamics",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture22_2023may01_mp4/"
+						}
+					],
+					"demoIdeas": []
+				},
+				{
+					"id": "s4-l019-compton-scattering",
+					"title": "Compton scattering at tree level",
+					"minutes": 100,
+					"objectives": [
+						"Use trace identities for gamma matrices to compute spin-summed |A|^2.",
+						"Compute the tree-level amplitude for electron-photon scattering and obtain the Klein-Nishina cross section.",
+						"Recover the Thomson cross section sigma_T = 8 pi alpha^2 / (3 m^2) in the low-energy limit and the Compton shift Delta lambda = (h/mc)(1 - cos theta).",
+						"Relate the result to X-ray scattering and Thomson scattering used in chemical crystallography."
+					],
+					"keyEquations": [
+						"\\mathrm{tr}(\\gamma^\\mu\\gamma^\\nu)=4\\eta^{\\mu\\nu}",
+						"\\mathrm{tr}(\\gamma^\\mu\\gamma^\\nu\\gamma^\\rho\\gamma^\\sigma)=4\\left(\\eta^{\\mu\\nu}\\eta^{\\rho\\sigma}-\\eta^{\\mu\\rho}\\eta^{\\nu\\sigma}+\\eta^{\\mu\\sigma}\\eta^{\\nu\\rho}\\right)",
+						"\\Delta\\lambda=\\frac{h}{m_ec}(1-\\cos\\theta),\\quad \\sigma_T=\\frac{8\\pi\\alpha^2}{3m_e^2}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 6",
+							"title": "Quantum Electrodynamics"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 40",
+							"title": "QED scattering: three famous cross-sections"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 24: Elementary Processes in QED (I)",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture24_2023may08_mp4/"
+						}
+					],
+					"demoIdeas": []
+				},
+				{
+					"id": "s4-l020-annihilation-coulomb-crossing",
+					"title": "Electron-positron annihilation, Coulomb scattering, and crossing",
+					"minutes": 100,
+					"objectives": [
+						"Compute the cross section for e+ e- -> mu+ mu- at high energy and the angular distribution (1 + cos^2 theta).",
+						"Use crossing symmetry to relate different QED processes (e.g., Bhabha and Moller scattering) to a single amplitude.",
+						"Compute Coulomb (Mott) scattering of an electron off a static nucleus from t-channel photon exchange.",
+						"State the R-ratio and its relation to the number of quark colors (link to S1)."
+					],
+					"keyEquations": [
+						"\\sigma(e^+e^-\\to\\mu^+\\mu^-)=\\frac{4\\pi\\alpha^2}{3s}",
+						"\\frac{d\\sigma}{d\\Omega}=\\frac{\\alpha^2}{4s}(1+\\cos^2\\theta)",
+						"R=N_c\\sum_fQ_f^2"
+					],
+					"readings": [
+						{
+							"bookId": "tong-qft",
+							"ref": "Ch. 6",
+							"title": "Quantum Electrodynamics"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 40",
+							"title": "QED scattering: three famous cross-sections"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 25: Elementary Processes in QED (II)",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture25_2023may10_mp4/"
+						}
+					],
+					"demoIdeas": [
+						"Angular distribution plotter for e+e- -> mu+mu- with adjustable energy and a helicity-amplitude breakdown."
+					]
+				}
+			]
+		},
+		{
+			"id": "s4-u06-renormalisation",
+			"title": "Renormalization (conceptual)",
+			"summary": "What divergences mean physically: power counting, regularization, charge renormalization and the running coupling, the renormalization group, and effective field theory (connecting to critical phenomena in P7).",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "s4-l021-loops-divergences-regularisation",
+					"title": "Loop integrals, divergences, and regularization",
+					"minutes": 90,
+					"objectives": [
+						"Compute the superficial degree of divergence of a diagram by power counting and classify theories as renormalizable or not by the mass dimension of their couplings.",
+						"Evaluate a one-loop integral with a momentum cutoff and show a logarithmic divergence, then use Feynman parameters and Wick rotation to evaluate it in dimensional regularization.",
+						"Identify the divergent one-loop diagrams of QED: electron self-energy, vertex correction, and vacuum polarization.",
+						"Explain the physical idea of quasiparticle 'dressing' (compare the effective mass of an electron in a solid)."
+					],
+					"keyEquations": [
+						"D=4-E_b-\\tfrac32E_f",
+						"\\int\\frac{d^4k_E}{(2\\pi)^4}\\frac{1}{(k^2+\\Delta)^2}\\sim\\frac{1}{16\\pi^2}\\ln\\frac{\\Lambda^2}{\\Delta}"
+					],
+					"readings": [
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 32",
+							"title": "Renormalization: the problem and its solution"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 31",
+							"title": "Renormalization, quasiparticles and the Fermi surface",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.323 Relativistic Quantum Field Theory I (Liu, Spring 2023)",
+							"title": "Lecture 26: Quantum Fluctuations and Renormalization",
+							"url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/resources/ocw_8323_lecture26_2023may12_mp4/"
+						}
+					],
+					"demoIdeas": []
+				},
+				{
+					"id": "s4-l022-renormalising-qed-running-coupling",
+					"title": "Renormalizing QED and the running coupling",
+					"minutes": 90,
+					"objectives": [
+						"Explain charge renormalization through vacuum polarization: bare versus physical charge and the role of counterterms.",
+						"State the one-loop running coupling alpha(Q^2) and its measured value near 1/128 at the Z mass.",
+						"Describe the Lamb shift and the electron anomalous magnetic moment a_e = alpha/(2 pi) (Schwinger) as precision tests.",
+						"Interpret vacuum polarization as screening by virtual pairs, analogous to dielectric polarization in matter (Griffiths EM, P5)."
+					],
+					"keyEquations": [
+						"\\alpha(Q^2)=\\frac{\\alpha}{1-\\frac{\\alpha}{3\\pi}\\ln\\frac{Q^2}{m_e^2}}",
+						"a_e=\\frac{g-2}{2}=\\frac{\\alpha}{2\\pi}+\\cdots"
+					],
+					"readings": [
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 33",
+							"title": "Renormalization in action: propagators and Feynman diagrams"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 41",
+							"title": "The renormalization of QED and two great results"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": []
+				},
+				{
+					"id": "s4-l023-renormalisation-group-eft",
+					"title": "The renormalization group and effective field theory",
+					"minutes": 90,
+					"objectives": [
+						"Compute the one-loop beta function of phi^4 theory and interpret the sign of the running.",
+						"Explain Wilson's picture: integrating out high-momentum modes, relevant versus irrelevant operators, and fixed points.",
+						"Connect the renormalization group to critical phenomena and universality in the Ising model (P7).",
+						"Explain why low-energy physics is insensitive to short-distance details, with examples (Fermi theory of the weak interaction; effective Hamiltonians and pseudopotentials in chemistry)."
+					],
+					"keyEquations": [
+						"\\mu\\frac{d\\lambda}{d\\mu}=\\frac{3\\lambda^2}{16\\pi^2}",
+						"\\beta(g)=\\mu\\frac{dg}{d\\mu}"
+					],
+					"readings": [
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 34",
+							"title": "The renormalization group"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 35",
+							"title": "Ferromagnetism: a renormalization group tutorial"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 21",
+							"title": "Statistical physics: a crash course",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Block-spin RG flow for the 2D Ising model, showing flow to the ordered, disordered, or critical fixed point."
+					]
+				}
+			]
+		},
+		{
+			"id": "s4-u07-gauge-symmetry-higgs",
+			"title": "Gauge symmetry and the Higgs mechanism (conceptual)",
+			"summary": "Spontaneous symmetry breaking, non-abelian gauge theory and QCD, and the Higgs mechanism of the electroweak theory, linking to S1.",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "s4-l024-spontaneous-symmetry-breaking",
+					"title": "Spontaneous symmetry breaking and Goldstone bosons",
+					"minutes": 90,
+					"objectives": [
+						"Analyze a scalar potential with negative mass squared (Mexican hat), find the vacuum manifold, and expand around a chosen vacuum.",
+						"State and illustrate Goldstone's theorem: one massless boson per broken continuous global symmetry generator.",
+						"Give examples: ferromagnet (magnons), chiral symmetry breaking in QCD (pions), and superfluid phonons.",
+						"Connect the order parameter and Landau free energy of P7 to the field-theory potential."
+					],
+					"keyEquations": [
+						"V(\\phi)=-\\tfrac12\\mu^2|\\phi|^2+\\tfrac14\\lambda|\\phi|^4",
+						"\\langle|\\phi|\\rangle=v=\\mu/\\sqrt\\lambda"
+					],
+					"readings": [
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 26",
+							"title": "Broken symmetry"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Mexican-hat potential in 3D with a ball in the potential showing radial (massive) and angular (massless Goldstone) oscillations."
+					]
+				},
+				{
+					"id": "s4-l025-nonabelian-gauge-theory-qcd",
+					"title": "Non-abelian gauge theory and QCD",
+					"minutes": 90,
+					"objectives": [
+						"Construct an SU(N) gauge theory: covariant derivative, field strength with its self-interaction term.",
+						"State the QCD beta function and explain asymptotic freedom and confinement qualitatively.",
+						"Compute simple color factors and relate quarks and gluons to the particle spectrum of S1."
+					],
+					"keyEquations": [
+						"F^a_{\\mu\\nu}=\\partial_\\mu A^a_\\nu-\\partial_\\nu A^a_\\mu+g f^{abc}A^b_\\mu A^c_\\nu",
+						"\\beta(g)=-\\frac{g^3}{16\\pi^2}\\left(11-\\tfrac23n_f\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 46",
+							"title": "Non-abelian gauge theory"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": []
+				},
+				{
+					"id": "s4-l026-higgs-mechanism-electroweak",
+					"title": "The Higgs mechanism and the electroweak theory",
+					"minutes": 90,
+					"objectives": [
+						"Show in the abelian Higgs model how the gauge boson acquires mass while the Goldstone boson is eaten, and count degrees of freedom.",
+						"Describe the SU(2) x U(1) electroweak theory: W and Z masses, the weak mixing angle, and how the photon stays massless.",
+						"Explain the discovery of the Higgs boson (about 125 GeV) and how fermion masses arise from Yukawa couplings.",
+						"Use the Meissner effect in superconductors as an analogy for giving the photon an effective mass."
+					],
+					"keyEquations": [
+						"m_W=\\tfrac12gv,\\qquad m_Z=\\frac{m_W}{\\cos\\theta_W}",
+						"\\mathcal L\\supset|D_\\mu\\phi|^2-V(\\phi)"
+					],
+					"readings": [
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 47",
+							"title": "The Weinberg–Salam model"
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 14",
+							"title": "Gauge fields and gauge theory",
+							"optional": true
+						},
+						{
+							"bookId": "lancaster-blundell",
+							"ref": "Ch. 44",
+							"title": "Superconductors",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": []
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "s4-midterm",
+			"kind": "midterm",
+			"title": "S4 Midterm: Fields, Propagators, Feynman Diagrams",
+			"covers": [
+				"s4-u01-from-oscillators-to-fields",
+				"s4-u02-free-scalar-field",
+				"s4-u03-interacting-fields-feynman-diagrams"
+			],
+			"minutes": 110,
+			"passMark": 0.7
+		},
+		{
+			"id": "s4-final",
+			"kind": "final",
+			"title": "S4 Final: Quantum Field Theory",
+			"covers": [
+				"s4-u01-from-oscillators-to-fields",
+				"s4-u02-free-scalar-field",
+				"s4-u03-interacting-fields-feynman-diagrams",
+				"s4-u04-dirac-field",
+				"s4-u05-qed",
+				"s4-u06-renormalisation",
+				"s4-u07-gauge-symmetry-higgs"
+			],
+			"minutes": 170,
+			"passMark": 0.7
+		}
+	]
+}

@@ -1,0 +1,3188 @@
+{
+	"id": "p6-quantum",
+	"code": "P6",
+	"title": "Quantum Mechanics",
+	"track": "physics",
+	"depth": "core",
+	"hours": 130,
+	"prereqs": [
+		"p3-modern",
+		"m3-linear-algebra",
+		"m5-methods"
+	],
+	"subject": "Quantum",
+	"summary": "Undergraduate quantum mechanics at Griffiths-Schroeter depth (wave mechanics, formalism, hydrogen, angular momentum and spin, identical particles, perturbation theory, variational and WKB methods, time-dependent theory, scattering) plus three grad-touch units from Sakurai on kets, pictures, rotations, Wigner-Eckart, symmetries, density matrices, and Bell's theorem. Chemistry hooks run throughout: orbitals, vibrations, spin and NMR, selection rules, variational MO theory.",
+	"books": [
+		{
+			"bookId": "griffiths-qm",
+			"role": "primary"
+		},
+		{
+			"bookId": "sakurai",
+			"role": "secondary"
+		},
+		{
+			"bookId": "boas",
+			"role": "reference"
+		},
+		{
+			"bookId": "strang-la",
+			"role": "reference"
+		}
+	],
+	"units": [
+		{
+			"id": "p6-u01-wavefunction",
+			"title": "The Wave Function and Statistical Interpretation",
+			"summary": "Wave mechanics from scratch: the Schrödinger equation, Born's probabilistic reading of the wave function, expectation values, the momentum operator, and the Heisenberg uncertainty principle; the ideas behind every later chemistry-facing use of orbitals as probability amplitudes.",
+			"lessons": [
+				{
+					"id": "p6-l001-schrodinger-born",
+					"title": "The Schrödinger equation and Born's statistical interpretation",
+					"minutes": 90,
+					"objectives": [
+						"State the time-dependent Schrödinger equation for one particle in a potential V(x,t) and identify each term (kinetic, potential, time derivative).",
+						"Explain Born's rule: |Psi(x,t)|^2 dx is the probability of finding the particle in dx, and say why the wave function itself must be complex.",
+						"Contrast the quantum description with a classical trajectory, and describe what a position measurement does to Psi (collapse) in the Copenhagen reading.",
+						"Compare the discrete-orbit picture from Bohr's atom with the probability-cloud picture of an orbital the chemist already uses."
+					],
+					"keyEquations": [
+						"i\\hbar\\,\\partial_t\\Psi=-\\frac{\\hbar^2}{2m}\\partial_x^2\\Psi+V\\Psi",
+						"P(a\\le x\\le b)=\\int_a^b|\\Psi(x,t)|^2\\,dx"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "1.1",
+							"title": "The Schrödinger Equation"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "1.2",
+							"title": "The Statistical Interpretation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "8.04 Quantum Physics I: lecture video gallery",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/video_galleries/lecture-videos/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Interpretation of the wavefunction",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/interpretation-of-the-wavefunction/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Necessity of complex numbers",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/necessity-of-complex-numbers/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 3: The Wave Function",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-3/"
+						},
+						{
+							"source": "Open Yale Courses PHYS 201 (Shankar)",
+							"title": "Lecture 19: Quantum Mechanics I: Key Experiments and Wave-Particle Duality",
+							"url": "https://oyc.yale.edu/physics/phys-201/lecture-19"
+						}
+					],
+					"demoIdeas": [
+						"Plot Re, Im and |Psi|^2 of a plane-wave superposition as time advances; toggle Born-rule sampling to build up a histogram of position measurements."
+					]
+				},
+				{
+					"id": "p6-l002-probability-normalization",
+					"title": "Probability, normalization, and expectation values",
+					"minutes": 90,
+					"objectives": [
+						"Compute the mean, variance, and standard deviation of a discrete and a continuous probability distribution.",
+						"Normalize a given wave function by fixing the constant A in Psi, and show that the normalization is preserved in time by the Schrödinger equation.",
+						"Compute <x>, <x^2>, and sigma_x for a given Psi(x) by evaluating the integral of Psi* x^n Psi.",
+						"Explain why a non-normalizable wave function cannot represent a physical state."
+					],
+					"keyEquations": [
+						"\\int_{-\\infty}^{\\infty}|\\Psi|^2dx=1",
+						"\\langle x\\rangle=\\int\\Psi^*x\\Psi\\,dx",
+						"\\sigma_x^2=\\langle x^2\\rangle-\\langle x\\rangle^2",
+						"\\frac{d}{dt}\\int|\\Psi|^2dx=0"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "1.3",
+							"title": "Probability"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "1.4",
+							"title": "Normalization"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Expectation values of operators",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/expectation-values-of-operators/"
+						}
+					],
+					"demoIdeas": [
+						"Interactive histogram: vary a Gaussian or triangular |Psi|^2 and read off <x>, sigma_x live while the area is forced to 1."
+					]
+				},
+				{
+					"id": "p6-l003-momentum-ehrenfest-uncertainty",
+					"title": "Momentum operator, Ehrenfest's theorem, and the uncertainty principle",
+					"minutes": 90,
+					"objectives": [
+						"Derive d<x>/dt = <p>/m and identify the momentum operator -i hbar d/dx from it.",
+						"Compute <p> and <p^2> for a given Psi(x) and the expectation value of any operator Q(x,p) by inserting the operators between Psi* and Psi.",
+						"Quote the Heisenberg relation sigma_x sigma_p >= hbar/2, and illustrate it with a Gaussian packet and de Broglie's relation p = h/lambda.",
+						"State Ehrenfest's theorem d<p>/dt = -<dV/dx> and say when it reduces to Newton's second law.",
+						"Estimate the ground-state size of a confined particle (an electron in a molecule, a nucleus in an atom) from the uncertainty principle alone."
+					],
+					"keyEquations": [
+						"\\hat p=-i\\hbar\\,\\partial_x",
+						"\\frac{d\\langle x\\rangle}{dt}=\\frac{\\langle p\\rangle}{m}",
+						"\\frac{d\\langle p\\rangle}{dt}=-\\left\\langle\\frac{\\partial V}{\\partial x}\\right\\rangle",
+						"\\sigma_x\\sigma_p\\ge\\frac{\\hbar}{2}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "1.5",
+							"title": "Momentum"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "1.6",
+							"title": "The Uncertainty Principle"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Momentum operator, energy operator, and a differential equation",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/momentum-operator-energy-operator-and-a-differential-equation/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Defining uncertainty",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/defining-uncertainty/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Widths and uncertainties",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/widths-and-uncertainties/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 4: Expectations, Momentum, and Uncertainty",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-4/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 5: Operators and the Schrödinger Equation",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-5/"
+						}
+					],
+					"demoIdeas": [
+						"Gaussian packet widget: drag the position width and watch the momentum-space width change inversely, with sigma_x sigma_p displayed against hbar/2."
+					]
+				},
+				{
+					"id": "p6-l004-probability-current-fourier",
+					"title": "Probability current, plane waves, and a Fourier toolkit",
+					"minutes": 75,
+					"objectives": [
+						"Derive the continuity equation d rho/dt + dJ/dx = 0 for rho = |Psi|^2 and write the probability current J in terms of Psi and Psi*.",
+						"Evaluate J for a plane wave and for a real wave function, and interpret the result as a velocity times density.",
+						"Compute the Fourier transform of a Gaussian and of a rectangular pulse and interpret the width trade-off as the origin of the uncertainty principle.",
+						"State Plancherel's theorem and the Dirac delta representation as an integral over plane waves."
+					],
+					"keyEquations": [
+						"\\partial_t\\rho+\\partial_xJ=0",
+						"J=\\frac{\\hbar}{m}\\,\\mathrm{Im}\\left(\\Psi^*\\partial_x\\Psi\\right)",
+						"\\phi(k)=\\frac{1}{\\sqrt{2\\pi}}\\int\\psi(x)e^{-ikx}dx",
+						"\\delta(x)=\\frac{1}{2\\pi}\\int e^{ikx}dk"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "2.4",
+							"title": "The Free Particle",
+							"optional": true
+						},
+						{
+							"bookId": "boas",
+							"ref": "Ch. 7",
+							"title": "Fourier Series and Transforms",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Probability current and current conservation",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/probability-current-and-current-conservation/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Fourier transforms and delta functions",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/fourier-transforms-and-delta-functions/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Wavepackets and Fourier representation",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/wavepackets-and-fourier-representation/"
+						},
+						{
+							"source": "Susskind, Quantum Mechanics: The Theoretical Minimum (2012)",
+							"title": "Lecture 9: Fourier analysis applied to quantum mechanics and the uncertainty principle",
+							"url": "https://theoreticalminimum.com/courses/quantum-mechanics/2012/winter/lecture-9"
+						}
+					],
+					"demoIdeas": [
+						"Fourier-pair visualiser: draw a wave packet in x, see its |phi(k)|^2, and shrink one while the other broadens."
+					]
+				}
+			]
+		},
+		{
+			"id": "p6-u02-stationary-states",
+			"title": "Time-Independent Schrödinger Equation in One Dimension",
+			"summary": "Separation of variables, stationary states, and the exactly solvable 1D systems: infinite well, harmonic oscillator (the model for molecular vibrations and IR spectra), free particle, delta function, finite well, and barriers with tunneling (STM, proton transfer).",
+			"lessons": [
+				{
+					"id": "p6-l005-stationary-states",
+					"title": "Stationary states and separation of variables",
+					"minutes": 90,
+					"objectives": [
+						"Separate the Schrödinger equation for a time-independent V into a spatial equation and a phase factor exp(-iEt/hbar).",
+						"Show that stationary states have time-independent probability density and expectation values, and that energy is definite (sigma_H = 0).",
+						"Write the general solution as a linear combination of stationary states and compute the c_n by orthogonality and completeness.",
+						"Compute <H> and the probabilities |c_n|^2 for a superposition and explain what time dependence arises (beating at (E_n - E_m)/hbar).",
+						"Relate the TISE to the eigenvalue equations the chemist knows (Hamiltonian as an operator, orbital energies)."
+					],
+					"keyEquations": [
+						"\\Psi(x,t)=\\psi(x)e^{-iEt/\\hbar}",
+						"-\\frac{\\hbar^2}{2m}\\psi''+V\\psi=E\\psi",
+						"\\Psi(x,t)=\\sum_nc_n\\psi_n(x)e^{-iE_nt/\\hbar}",
+						"\\sum_n|c_n|^2=1,\\ \\langle H\\rangle=\\sum_n|c_n|^2E_n"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "2.1",
+							"title": "Stationary States"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "8.04 Quantum Physics I: lecture video gallery",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/video_galleries/lecture-videos/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Stationary states: key equations",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/stationary-states-key-equations/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Eigenstates of the Hamiltonian",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/eigenstates-of-the-hamiltonian/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 6: Time Evolution and the Schrödinger Equation",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-6/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 7: More on Energy Eigenstates",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-7/"
+						},
+						{
+							"source": "Open Yale Courses PHYS 201 (Shankar)",
+							"title": "Lecture 22: Quantum Mechanics IV: Measurement Theory, States of Definite Energy",
+							"url": "https://oyc.yale.edu/physics/phys-201/lecture-22"
+						}
+					],
+					"demoIdeas": [
+						"Superpose two stationary states of the infinite well; animate Re Psi and |Psi|^2 to see sloshing at the beat frequency."
+					]
+				},
+				{
+					"id": "p6-l006-infinite-square-well",
+					"title": "The infinite square well",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l005-stationary-states"
+					],
+					"objectives": [
+						"Solve the TISE in 0<x<a with psi(0)=psi(a)=0 and derive E_n = n^2 pi^2 hbar^2 / (2 m a^2) and psi_n = sqrt(2/a) sin(n pi x/a).",
+						"Verify that the psi_n are orthonormal and complete, and obtain the Fourier-coefficient formula for expanding an arbitrary initial state.",
+						"Compute <x>, <x^2>, <p>, <p^2>, and the uncertainty product for a stationary state.",
+						"Expand a non-stationary initial state (e.g. a quadratic bump) in the psi_n, and find the probabilities of measuring each energy.",
+						"Use the particle-in-a-box energy levels for a conjugated polyene (HOMO-LUMO gap) as a first spectroscopy estimate."
+					],
+					"keyEquations": [
+						"E_n=\\frac{n^2\\pi^2\\hbar^2}{2ma^2}",
+						"\\psi_n(x)=\\sqrt{\\tfrac{2}{a}}\\sin\\left(\\tfrac{n\\pi x}{a}\\right)",
+						"c_n=\\sqrt{\\tfrac{2}{a}}\\int_0^a\\sin\\left(\\tfrac{n\\pi x}{a}\\right)\\Psi(x,0)\\,dx"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "2.2",
+							"title": "The Infinite Square Well"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Infinite square well energy eigenstates",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/infinite-square-well-energy-eigenstates/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Nodes and symmetries of the infinite square well eigenstates",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/nodes-and-symmetries-of-the-infinite-square-well-eigenstates/"
+						},
+						{
+							"source": "Open Yale Courses PHYS 201 (Shankar)",
+							"title": "Lecture 23: Quantum Mechanics V: Particle in a Box",
+							"url": "https://oyc.yale.edu/physics/phys-201/lecture-23"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 5: Quantum Mechanics: Free Particle and Particle in 1D box",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/quantum-mechanics-free-particle-and-particle-in-1d-box/"
+						}
+					],
+					"demoIdeas": [
+						"Sliders for n and well width a; overlay |psi_n|^2, the energy ladder, and the time evolution of a chosen superposition."
+					]
+				},
+				{
+					"id": "p6-l007-oscillator-ladder-operators",
+					"title": "The harmonic oscillator I: ladder operators",
+					"minutes": 100,
+					"objectives": [
+						"Factor the oscillator Hamiltonian as H = hbar omega (a_+ a_- + 1/2) and verify [a_-, a_+] = 1.",
+						"Prove that a_+ and a_- raise and lower the energy by hbar omega, and deduce the ground-state condition a_- psi_0 = 0.",
+						"Solve a_- psi_0 = 0 to get the Gaussian ground state and generate psi_1, psi_2 with a_+ and the normalization constants.",
+						"Compute <x>, <p>, <x^2>, <p^2> and <T>, <V> in psi_n using ladder operators only; verify the virial split <T> = <V> = E_n/2.",
+						"Connect E_n = (n + 1/2) hbar omega to molecular vibrational levels and zero-point energy in IR spectroscopy."
+					],
+					"keyEquations": [
+						"H=\\hbar\\omega\\left(a_+a_-+\\tfrac12\\right)",
+						"a_\\pm=\\frac{1}{\\sqrt{2\\hbar m\\omega}}\\left(\\mp ip+m\\omega x\\right)",
+						"E_n=\\left(n+\\tfrac12\\right)\\hbar\\omega",
+						"a_+\\psi_n=\\sqrt{n+1}\\,\\psi_{n+1},\\ a_-\\psi_n=\\sqrt n\\,\\psi_{n-1}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "2.3.1",
+							"title": "Algebraic Method"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Algebraic solution of the harmonic oscillator",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/algebraic-solution-of-the-harmonic-oscillator/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Creation and annihilation operators acting on energy eigenstates",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/creation-and-annihilation-operators-acting-on-energy-eigenstates/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Number operator and commutators",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/number-operator-and-commutators/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 9: Operator Methods for the Harmonic Oscillator",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-9/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 9: The Harmonic Oscillator: Creation and Annihilation Operators",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/the-harmonic-oscillator-creation-and-annihilation-operators/"
+						}
+					],
+					"demoIdeas": [
+						"Ladder-climb widget: click a_+ / a_- and see the stationary state change, its energy bar move, and its normalization factor."
+					]
+				},
+				{
+					"id": "p6-l008-oscillator-analytic-hermite",
+					"title": "The harmonic oscillator II: analytic solution and Hermite polynomials",
+					"minutes": 90,
+					"objectives": [
+						"Reduce the oscillator TISE to Hermite's equation in the dimensionless variable xi, find the series recursion, and show that normalizability forces truncation (quantized E).",
+						"Write psi_n(x) in terms of Hermite polynomials and sketch the first few, noting nodes and parity.",
+						"Compare the quantum probability density to the classical oscillator's for large n (correspondence principle).",
+						"Explain the Morse-potential correction to harmonic vibrations for diatomic molecules and its effect on overtone spacing."
+					],
+					"keyEquations": [
+						"\\psi_n(x)=\\left(\\frac{m\\omega}{\\pi\\hbar}\\right)^{1/4}\\frac{1}{\\sqrt{2^nn!}}H_n(\\xi)e^{-\\xi^2/2}",
+						"\\xi=\\sqrt{\\tfrac{m\\omega}{\\hbar}}\\,x",
+						"\\frac{d^2\\psi}{d\\xi^2}=(\\xi^2-K)\\psi"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "2.3.2",
+							"title": "Analytic Method"
+						},
+						{
+							"bookId": "boas",
+							"ref": "Ch. 12",
+							"title": "Series Solutions of Differential Equations; Legendre, Bessel, Hermite, and Laguerre Functions",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Harmonic oscillator: Differential equation",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/harmonic-oscillator-differential-equation/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Recursion relation for the solution",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/recursion-relation-for-the-solution/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Correspondence principle: amplitude as a function of position",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/correspondence-principle-amplitude-as-a-function-of-position/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 8: Quantum Harmonic Oscillator",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-8/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 8: Quantum Mechanical Harmonic Oscillator",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/quantum-mechanical-harmonic-oscillator/"
+						}
+					],
+					"demoIdeas": [
+						"Plot psi_n and |psi_n|^2 against the classical probability density for n = 0..30; let the learner see the correspondence principle emerge."
+					]
+				},
+				{
+					"id": "p6-l009-free-particle-wavepackets",
+					"title": "The free particle, wave packets, and group velocity",
+					"minutes": 90,
+					"objectives": [
+						"Explain why the plane wave exp(i(kx - omega t)) is not normalizable and how a wave packet built from phi(k) fixes this.",
+						"Write the general free-particle solution as a Fourier integral and compute its phase and group velocities (v_phase = v_group/2).",
+						"Compute the spreading of a Gaussian packet and the time-dependent width sigma(t) using the Gaussian integral.",
+						"Explain how dispersion (omega depends nonlinearly on k) causes spreading and relate to the uncertainty principle."
+					],
+					"keyEquations": [
+						"\\Psi(x,t)=\\frac{1}{\\sqrt{2\\pi}}\\int\\phi(k)e^{i(kx-\\frac{\\hbar k^2}{2m}t)}dk",
+						"v_{\\rm group}=\\frac{d\\omega}{dk}=\\frac{\\hbar k}{m},\\ v_{\\rm phase}=\\frac{\\hbar k}{2m}",
+						"\\phi(k)=\\frac{1}{\\sqrt{2\\pi}}\\int\\Psi(x,0)e^{-ikx}dx"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "2.4",
+							"title": "The Free Particle"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "The wave for a free particle",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/the-wave-for-a-free-particle/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Time evolution of a free particle wavepacket",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/time-evolution-of-a-free-particle-wavepacket/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Group velocity and stationary phase approximation",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/group-velocity-and-stationary-phase-approximation/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 11: Dispersion of the Gaussian and the Finite Well",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-11/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 11: Wavepacket Dynamics for Harmonic Oscillator and PIB",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/wavepacket-dynamics-for-harmonic-oscillator-and-pib/"
+						}
+					],
+					"demoIdeas": [
+						"Free Gaussian wave-packet simulation with adjustable k0 and width; show spreading and the group vs phase velocity markers."
+					]
+				},
+				{
+					"id": "p6-l010-delta-function-potential",
+					"title": "The delta-function potential: bound state and scattering",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l009-free-particle-wavepackets"
+					],
+					"objectives": [
+						"Derive the boundary condition on the derivative of psi across a delta function: Delta psi' = (2 m alpha/hbar^2) psi(0).",
+						"Find the single bound state of the attractive delta well, with E = -m alpha^2/(2 hbar^2), and its normalization.",
+						"Solve the scattering problem for E > 0 and compute the reflection and transmission coefficients R and T.",
+						"Explain why R + T = 1 and why a bound state exists for any 1D attractive potential."
+					],
+					"keyEquations": [
+						"V(x)=-\\alpha\\,\\delta(x)",
+						"\\Delta\\left(\\frac{d\\psi}{dx}\\right)=-\\frac{2m\\alpha}{\\hbar^2}\\psi(0)",
+						"\\psi(x)=\\frac{\\sqrt{m\\alpha}}{\\hbar}e^{-m\\alpha|x|/\\hbar^2},\\ E=-\\frac{m\\alpha^2}{2\\hbar^2}",
+						"T=\\frac{1}{1+\\frac{m\\alpha^2}{2\\hbar^2E}}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "2.5",
+							"title": "The Delta-Function Potential"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Delta function potential I: Preliminaries",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/delta-function-potential-i-preliminaries/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Delta function potential I: Solving for the bound state",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/delta-function-potential-i-solving-for-the-bound-state/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 12: The Dirac Well and Scattering off the Finite Step",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-12/"
+						}
+					],
+					"demoIdeas": [
+						"Vary alpha and E; show the cusp in psi, the bound-state decay length, and R, T as functions of E."
+					]
+				},
+				{
+					"id": "p6-l011-finite-square-well",
+					"title": "The finite square well",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l010-delta-function-potential"
+					],
+					"objectives": [
+						"Set up and solve the even and odd bound-state equations in a well of depth V0 and width 2a, stating the continuity conditions at x = +/-a.",
+						"Reduce the transcendental equations to z tan z = sqrt(z0^2 - z^2) and -z cot z = sqrt(z0^2 - z^2), and solve them graphically or numerically.",
+						"State how many bound states exist for a given dimensionless well strength z0, and what happens in the wide/deep and narrow/shallow limits.",
+						"Explain why the energy levels are below those of the infinite well and why psi leaks into the classically forbidden region."
+					],
+					"keyEquations": [
+						"z\\tan z=\\sqrt{z_0^2-z^2}",
+						"z_0=\\frac{a}{\\hbar}\\sqrt{2mV_0}",
+						"\\kappa=\\sqrt{-2mE}/\\hbar,\\ \\ell=\\sqrt{2m(E+V_0)}/\\hbar"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "2.6",
+							"title": "The Finite Square Well"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Finite square well. Setting up the problem",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/finite-square-well/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Finite square well energy eigenstates",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/finite-square-well-energy-eigenstates/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 11: Dispersion of the Gaussian and the Finite Well",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-11/"
+						}
+					],
+					"demoIdeas": [
+						"Graphical solver: intersect the tan z curve and the circle of radius z0; change z0 and see bound-state count and wave functions update."
+					]
+				},
+				{
+					"id": "p6-l012-barriers-tunneling",
+					"title": "Steps, barriers, and tunneling",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l011-finite-square-well"
+					],
+					"objectives": [
+						"Compute R and T for a potential step for E > V0 and E < V0 using continuity of psi and psi'.",
+						"Compute the transmission probability through a rectangular barrier, including the approximate result T ~ exp(-2 kappa L) for a thick barrier.",
+						"Explain resonant transmission over a well and the Ramsauer-Townsend effect.",
+						"Estimate a tunneling probability for an electron through a nm-scale gap and connect to scanning tunneling microscopy and proton tunneling in chemistry (kinetic isotope effects)."
+					],
+					"keyEquations": [
+						"T\\approx e^{-2\\kappa L},\\ \\kappa=\\frac{\\sqrt{2m(V_0-E)}}{\\hbar}",
+						"R+T=1",
+						"J=\\frac{\\hbar k}{m}|A|^2"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "2.5",
+							"title": "The Delta-Function Potential",
+							"optional": true
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "2.6",
+							"title": "The Finite Square Well",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Scattering states and the step potential",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/scattering-states-and-the-step-potential/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Reflection and transmission coefficients",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/reflection-and-transmission-coefficients/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Resonant transmission",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/resonant-transmission/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 13: More on Scattering",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-13/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 14: Resonance and the S-Matrix",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-14/"
+						}
+					],
+					"demoIdeas": [
+						"Send a Gaussian packet at a barrier; adjust barrier height/width and see the reflected and transmitted packets and T(E) curve."
+					]
+				}
+			]
+		},
+		{
+			"id": "p6-u03-formalism",
+			"title": "Formalism of Quantum Mechanics",
+			"summary": "Hilbert space, Hermitian operators, eigenvalue postulates, generalized uncertainty relations, and Dirac notation: the linear-algebra backbone behind all later chemistry (matrix quantum chemistry, basis sets, spectroscopy).",
+			"lessons": [
+				{
+					"id": "p6-l013-hilbert-observables",
+					"title": "Hilbert space, observables, and Hermitian operators",
+					"minutes": 90,
+					"objectives": [
+						"Define the Hilbert space of square-integrable functions and the inner product, and check the Schwarz inequality for a pair of functions.",
+						"Show that observables are represented by Hermitian operators, and check Hermiticity of x, p, and H.",
+						"Compute the Hermitian conjugate of a product and decide when an operator is Hermitian by integration by parts.",
+						"Compute commutators like [x,p], [x^2,p], and [L_i, L_j] using the identities [A,BC] = [A,B]C + B[A,C]."
+					],
+					"keyEquations": [
+						"\\langle f|g\\rangle=\\int f^*g\\,dx",
+						"\\langle f|\\hat Qg\\rangle=\\langle\\hat Qf|g\\rangle",
+						"[\\hat x,\\hat p]=i\\hbar",
+						"[A,BC]=[A,B]C+B[A,C]"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "3.1",
+							"title": "Hilbert Space"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "3.2",
+							"title": "Observables"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "9.2",
+							"title": "Hermitian and Unitary Matrices",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "8.05 Quantum Physics II: video lectures",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/video_galleries/video-lectures/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 5: Linear Algebra: Vector Spaces and Operators",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-5-linear-algebra-vector-spaces-and-operators/"
+						},
+						{
+							"source": "Susskind, Quantum Mechanics: The Theoretical Minimum (2012)",
+							"title": "Lecture 3: Vector spaces and operators",
+							"url": "https://theoreticalminimum.com/courses/quantum-mechanics/2012/winter/lecture-3"
+						}
+					],
+					"demoIdeas": [
+						"Visualise functions as vectors: pick two functions on [0,a], compute their inner product, and watch projection onto basis functions."
+					]
+				},
+				{
+					"id": "p6-l014-eigenfunctions-hermitian",
+					"title": "Eigenfunctions of a Hermitian operator",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l013-hilbert-observables"
+					],
+					"objectives": [
+						"Prove that eigenvalues of a Hermitian operator are real and eigenfunctions of distinct eigenvalues are orthogonal.",
+						"Contrast discrete spectra (normalizable eigenfunctions) with continuous spectra (Dirac orthonormality), using momentum and position as examples.",
+						"Show that p's eigenfunctions are plane waves normalised to delta(k - k') and that x's eigenfunctions are delta functions.",
+						"State the completeness assumption and expand an arbitrary function in an eigenbasis."
+					],
+					"keyEquations": [
+						"\\hat Q f=qf,\\ q\\in\\mathbb R",
+						"\\langle f_{p'}|f_p\\rangle=\\delta(p-p')",
+						"\\Psi=\\sum_nc_nf_n,\\ c_n=\\langle f_n|\\Psi\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "3.3",
+							"title": "Eigenfunctions of a Hermitian Operator"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Eigenfunctions of a Hermitian operator",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/eigenfunctions-of-a-hermitian-operator/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Expectation value of Hermitian operators",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/expectation-value-of-hermitian-operators/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 7: Linear Algebra: Vector Spaces and Operators (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-7-linear-algebra-vector-spaces-and-operators-cont/"
+						}
+					],
+					"demoIdeas": [
+						"Show the eigenbasis expansion of a trial function with live partial sums converging to it."
+					]
+				},
+				{
+					"id": "p6-l015-generalized-statistical-interpretation",
+					"title": "The generalized statistical interpretation and measurement",
+					"minutes": 90,
+					"objectives": [
+						"State the measurement postulate: outcomes are eigenvalues; probabilities are |<f_n|Psi>|^2 (discrete) or |<f_q|Psi>|^2 dq (continuous).",
+						"Compute the probability distribution for an observable in a given state, e.g. momentum-space distribution of the infinite-well ground state.",
+						"Demonstrate that <Q> = sum_n q_n |c_n|^2 follows from the postulate, and describe the collapse to the observed eigenstate.",
+						"Use the momentum-space wave function Phi(p,t) and show that |Phi|^2 gives the momentum probability density."
+					],
+					"keyEquations": [
+						"P(q_n)=|c_n|^2,\\ c_n=\\langle f_n|\\Psi\\rangle",
+						"\\Phi(p,t)=\\frac{1}{\\sqrt{2\\pi\\hbar}}\\int e^{-ipx/\\hbar}\\Psi(x,t)\\,dx",
+						"\\langle Q\\rangle=\\sum_nq_n|c_n|^2"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "3.4",
+							"title": "Generalized Statistical Interpretation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Completeness of eigenvectors and measurement postulate",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/completeness-of-eigenvectors-and-measurement-postulate/"
+						},
+						{
+							"source": "Open Yale Courses PHYS 201 (Shankar)",
+							"title": "Lecture 25: Quantum Mechanics VII: Summary of Postulates and Special Topics",
+							"url": "https://oyc.yale.edu/physics/phys-201/lecture-25"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 12: Catch Up and Review, Postulates",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/catch-up-and-review-postulates/"
+						},
+						{
+							"source": "Susskind, Quantum Mechanics: The Theoretical Minimum (2012)",
+							"title": "Lecture 2: The basic logic of quantum mechanics",
+							"url": "https://theoreticalminimum.com/courses/quantum-mechanics/2012/winter/lecture-2"
+						}
+					],
+					"demoIdeas": [
+						"Measurement simulator: prepare a superposition, measure an observable repeatedly, and see statistics, collapse, and repeatability."
+					]
+				},
+				{
+					"id": "p6-l016-generalized-uncertainty",
+					"title": "The generalized uncertainty principle",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l015-generalized-statistical-interpretation"
+					],
+					"objectives": [
+						"Derive sigma_A^2 sigma_B^2 >= (1/2i <[A,B]>)^2 from the Schwarz inequality.",
+						"Apply the relation to x,p and to angular-momentum components and state which states saturate it (minimum-uncertainty packets).",
+						"Distinguish compatible (commuting) observables, which share eigenbasis, from incompatible ones.",
+						"Interpret the energy-time relation Delta E Delta t >= hbar/2 correctly (Delta t as the time for <Q> to change by sigma_Q) and relate to spectral linewidths."
+					],
+					"keyEquations": [
+						"\\sigma_A^2\\sigma_B^2\\ge\\left(\\frac{1}{2i}\\langle[\\hat A,\\hat B]\\rangle\\right)^2",
+						"\\sigma_E\\,\\Delta t\\ge\\frac{\\hbar}{2}",
+						"\\frac{d\\langle Q\\rangle}{dt}=\\frac{i}{\\hbar}\\langle[\\hat H,\\hat Q]\\rangle+\\left\\langle\\frac{\\partial\\hat Q}{\\partial t}\\right\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "3.5",
+							"title": "The Uncertainty Principle"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "8.05 Quantum Physics II: video lectures",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/video_galleries/video-lectures/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 10: Uncertainty Principle and Compatible Observables",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-10-uncertainty-principle-and-compatible-observables/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 11: Uncertainty Principle and Compatible Observables (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-11-uncertainty-principle-and-compatible-observables-cont/"
+						},
+						{
+							"source": "Susskind, Quantum Mechanics: The Theoretical Minimum (2012)",
+							"title": "Lecture 5: Uncertainty, unitary evolution, and the Schrödinger equation",
+							"url": "https://theoreticalminimum.com/courses/quantum-mechanics/2012/winter/lecture-5"
+						}
+					],
+					"demoIdeas": [
+						"Pick two operators on a small Hilbert space; visualise the uncertainty-ellipse bound versus their commutator."
+					]
+				},
+				{
+					"id": "p6-l017-vectors-operators-matrices",
+					"title": "Vectors, operators, and matrix representations",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l014-eigenfunctions-hermitian"
+					],
+					"objectives": [
+						"Represent states as column vectors and operators as matrices in a chosen orthonormal basis; compute matrix elements <e_m|A|e_n>.",
+						"Find eigenvalues and eigenvectors of a Hermitian matrix and diagonalise it with a unitary change of basis.",
+						"Use the fact that Hermitian matrices have real eigenvalues and orthonormal eigenvectors (spectral theorem) to solve a 2x2 or 3x3 Hamiltonian.",
+						"Explain how the secular determinant in Hückel theory is the same eigenvalue problem."
+					],
+					"keyEquations": [
+						"A_{mn}=\\langle e_m|\\hat A|e_n\\rangle",
+						"\\det(A-\\lambda I)=0",
+						"U^\\dagger U=I,\\ A=UDU^\\dagger"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "3.6",
+							"title": "Vectors and Operators"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "9.2",
+							"title": "Hermitian and Unitary Matrices",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 6: Linear Algebra: Vector Spaces and Operators (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-6-linear-algebra-vector-spaces-and-operators-cont/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 8: Linear Algebra: Vector Spaces and Operators (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-8-linear-algebra-vector-spaces-and-operators-cont/"
+						}
+					],
+					"demoIdeas": [
+						"2x2 and 3x3 Hamiltonian eigen-solver: edit entries, see eigenvectors rotate as the off-diagonal coupling grows (avoided crossing)."
+					]
+				},
+				{
+					"id": "p6-l018-dirac-notation",
+					"title": "Dirac notation, projectors, and change of basis",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l017-vectors-operators-matrices"
+					],
+					"objectives": [
+						"Translate between wave-function and bra-ket expressions, e.g. <x|Psi> = Psi(x), and manipulate expressions with the completeness relation sum |n><n| = 1.",
+						"Write and use projection operators P_n = |n><n| and the spectral decomposition A = sum a_n |n><n|.",
+						"Change between position, momentum, and energy bases using <x|p> = exp(ipx/hbar)/sqrt(2 pi hbar).",
+						"Compute the expectation value, variance, and probability in bra-ket form for a two-level system."
+					],
+					"keyEquations": [
+						"\\sum_n|n\\rangle\\langle n|=1",
+						"\\hat A=\\sum_na_n|n\\rangle\\langle n|",
+						"\\langle x|p\\rangle=\\frac{1}{\\sqrt{2\\pi\\hbar}}e^{ipx/\\hbar}",
+						"\\langle A\\rangle=\\langle\\Psi|\\hat A|\\Psi\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "3.7",
+							"title": "Dirac Notation"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "Appendix A",
+							"title": "Linear Algebra",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "8.05 Quantum Physics II: video lectures",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/video_galleries/video-lectures/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 9: Dirac's Bra and Ket Notation",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-9-diracs-bra-and-ket-notation/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 10: Clicker Bonanza and Dirac Notation",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-10/"
+						}
+					],
+					"demoIdeas": [
+						"Basis-change widget: express a fixed state in rotated bases of a qubit and see projectors and probabilities update."
+					]
+				}
+			]
+		},
+		{
+			"id": "p6-u04-3d-hydrogen-spin",
+			"title": "Three Dimensions, Hydrogen, Angular Momentum, and Spin",
+			"summary": "Separation of variables in spherical coordinates, the hydrogen atom and its orbitals, the algebra of angular momentum and spin-1/2, Larmor precession and NMR, and adding angular momenta: the quantum-mechanical origin of the periodic table and of spectroscopy.",
+			"lessons": [
+				{
+					"id": "p6-l019-spherical-separation",
+					"title": "The Schrödinger equation in three dimensions: separation in spherical coordinates",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l018-dirac-notation"
+					],
+					"objectives": [
+						"Write the TISE in 3D and the Laplacian in spherical coordinates, and separate psi = R(r) Y(theta,phi).",
+						"Obtain the separation constant l(l+1) and recognise the angular and radial equations.",
+						"Define the effective potential V_eff = V + hbar^2 l(l+1)/(2 m r^2) and explain the centrifugal barrier.",
+						"Explain why the quantum numbers l and m arise from the angular equation, before solving it in the next lesson."
+					],
+					"keyEquations": [
+						"-\\frac{\\hbar^2}{2m}\\nabla^2\\psi+V\\psi=E\\psi",
+						"\\psi(r,\\theta,\\phi)=R(r)Y(\\theta,\\phi)",
+						"\\frac{d}{dr}\\!\\left(r^2\\frac{dR}{dr}\\right)-\\frac{2mr^2}{\\hbar^2}[V-E]R=l(l+1)R"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "4.1.1",
+							"title": "Separation of Variables"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "8.04 Quantum Physics I: lecture video gallery",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/video_galleries/lecture-videos/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Commutators, matrices, and 3-dimensional Schrödinger equation",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/commutators-matrices-and-3-dimensional-schroedinger-equation/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 15: Eigenstates of the Angular Momentum Part 1",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-15/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 6: 3-D Box and QM Separation of Variables",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/3-d-box-and-qm-separation-of-variables/"
+						}
+					],
+					"demoIdeas": [
+						"Plot V_eff(r) for different l and a Coulomb potential; show how the centrifugal term shifts the minimum."
+					]
+				},
+				{
+					"id": "p6-l020-angular-equation-spherical-harmonics",
+					"title": "The angular equation and spherical harmonics",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l019-spherical-separation"
+					],
+					"objectives": [
+						"Solve the angular equation by separating Theta(theta) and Phi(phi) and obtain m integer and l = 0,1,2,... with |m| <= l.",
+						"Write the first few spherical harmonics Y_0^0, Y_1^m, Y_2^m and their parity (-1)^l.",
+						"State orthonormality of the Y_l^m over the sphere and compute an integral like <Y_1^0| cos theta |Y_0^0>.",
+						"Identify the chemist's s, p, d orbital shapes with Y_l^m and sketch nodal planes."
+					],
+					"keyEquations": [
+						"Y_l^m(\\theta,\\phi)=\\epsilon\\sqrt{\\tfrac{(2l+1)}{4\\pi}\\tfrac{(l-|m|)!}{(l+|m|)!}}\\,e^{im\\phi}P_l^m(\\cos\\theta)",
+						"\\int Y_l^{m*}Y_{l'}^{m'}d\\Omega=\\delta_{ll'}\\delta_{mm'}",
+						"Y_0^0=\\tfrac{1}{\\sqrt{4\\pi}},\\ Y_1^0=\\sqrt{\\tfrac{3}{4\\pi}}\\cos\\theta"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "4.1.2",
+							"title": "The Angular Equation"
+						},
+						{
+							"bookId": "boas",
+							"ref": "Ch. 12",
+							"title": "Series Solutions of Differential Equations; Legendre, Bessel, Hermite, and Laguerre Functions",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Associated Legendre functions and spherical harmonics",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/associated-legendre-functions-and-spherical-harmonics/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Orthonormality of spherical harmonics",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/orthonormality-of-spherical-harmonics/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 16: Eigenstates of the Angular Momentum Part 2",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-16/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 17: Rigid Rotor I. Orbital Angular Momentum",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/rigid-rotor-i/"
+						}
+					],
+					"demoIdeas": [
+						"3D viewer of Re Y_l^m and |Y_l^m|^2 on the sphere with l, m controls; overlay chemist-style real combinations (px, py, pz, dz2)."
+					]
+				},
+				{
+					"id": "p6-l021-radial-equation-spherical-well",
+					"title": "The radial equation and the infinite spherical well",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l020-angular-equation-spherical-harmonics"
+					],
+					"objectives": [
+						"Substitute u(r) = r R(r) and show that the radial equation becomes a 1D TISE with V_eff.",
+						"Solve the free (V=0) radial equation using spherical Bessel functions j_l and n_l and identify which are admissible at the origin.",
+						"Derive the infinite spherical-well energies from zeros of j_l: E = hbar^2 beta_{nl}^2/(2 m a^2).",
+						"Explain the l=0 case as equivalent to the 1D infinite well, with E_n = n^2 pi^2 hbar^2/(2 m a^2)."
+					],
+					"keyEquations": [
+						"-\\frac{\\hbar^2}{2m}u''+\\left[V+\\frac{\\hbar^2}{2m}\\frac{l(l+1)}{r^2}\\right]u=Eu",
+						"R(r)=j_l(kr)",
+						"E_{nl}=\\frac{\\hbar^2\\beta_{nl}^2}{2ma^2}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "4.1.3",
+							"title": "The Radial Equation"
+						},
+						{
+							"bookId": "boas",
+							"ref": "Ch. 12",
+							"title": "Series Solutions of Differential Equations; Legendre, Bessel, Hermite, and Laguerre Functions",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Effective potential and boundary conditions at r=0",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/effective-potential-and-boundary-conditions-at-r-0/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 17: More on Central Potentials",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-17/"
+						}
+					],
+					"demoIdeas": [
+						"Plot u(r) and R(r) for the spherical well with a slider for l; show zeros of j_l determining the energies."
+					]
+				},
+				{
+					"id": "p6-l022-hydrogen-radial-wavefunction",
+					"title": "The hydrogen atom: radial wave function",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l021-radial-equation-spherical-well"
+					],
+					"objectives": [
+						"Set up the radial equation for the Coulomb potential and non-dimensionalise it with the Bohr radius.",
+						"Derive the quantization condition by a power-series ansatz and truncation, giving n = 1,2,3,... with l < n.",
+						"Write R_{nl} for the first few states (1s, 2s, 2p) and verify normalization for R_10.",
+						"Compute <r>, <1/r> and <r^2> for hydrogen states using the Kramers-style integrals or explicit R_{nl}.",
+						"State the degeneracy n^2 (2n^2 with spin) and explain the accidental l-degeneracy in terms of the 1/r potential."
+					],
+					"keyEquations": [
+						"E_n=-\\frac{13.6\\ \\text{eV}}{n^2}",
+						"a=\\frac{4\\pi\\epsilon_0\\hbar^2}{me^2}=0.529\\ \\text{\\AA}",
+						"R_{10}(r)=\\frac{2}{a^{3/2}}e^{-r/a}",
+						"\\psi_{nlm}=R_{nl}(r)Y_l^m(\\theta,\\phi)"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "4.2.1",
+							"title": "The Radial Wave Function"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Schrödinger equation for hydrogen",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/schroedinger-equation-for-hydrogen/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Series solution and quantization of the energy",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/series-solution-and-quantization-of-the-energy/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Scales of the hydrogen atom",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/scales-of-the-hydrogen-atom/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 18: \"Hydrogen\" and its Discontents",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-18/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 20: Hydrogen Atom I",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/hydrogen-atom-i/"
+						}
+					],
+					"demoIdeas": [
+						"Radial probability r^2|R_nl|^2 plots for any n,l; highlight node count n-l-1 and the most probable radius."
+					]
+				},
+				{
+					"id": "p6-l023-hydrogen-spectrum-orbitals",
+					"title": "The hydrogen spectrum and orbitals",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l022-hydrogen-radial-wavefunction"
+					],
+					"objectives": [
+						"Derive the Rydberg formula for emitted photon wavelengths from the energy levels E_n and identify the Lyman, Balmer, Paschen series.",
+						"Count nodes and sketch radial and angular nodes of 1s, 2s, 2p, 3d orbitals.",
+						"Compare hydrogen-like and many-electron atoms (Z_eff, screening) qualitatively, in terms of the chemist's orbital picture.",
+						"State the electric-dipole selection rule Delta l = +/-1 and explain at the level of Y_l^m parity why it follows (preview of Lesson on emission)."
+					],
+					"keyEquations": [
+						"\\frac{1}{\\lambda}=R\\left(\\frac{1}{n_1^2}-\\frac{1}{n_2^2}\\right)",
+						"R=\\frac{m}{4\\pi c\\hbar^3}\\left(\\frac{e^2}{4\\pi\\epsilon_0}\\right)^2",
+						"\\text{nodes}=n-1,\\ \\text{radial nodes}=n-l-1"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "4.2.2",
+							"title": "The Spectrum of Hydrogen"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Energy levels and diagram for hydrogen",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/energy-levels-and-diagram-for-hydrogen/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "More on the hydrogen atom degeneracies and orbits",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/more-on-the-hydrogen-atom-degeneracies-and-orbits/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 21: Hydrogen Atom II. Rydberg States",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/hydrogen-atom-ii/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 19: Spectroscopy: Probing Molecules with Light",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/spectroscopy-probing-molecules-with-light/"
+						}
+					],
+					"demoIdeas": [
+						"Hydrogen term diagram with allowed Delta l = +/-1 transitions; click a line to show wavelength and the corresponding series."
+					]
+				},
+				{
+					"id": "p6-l024-angular-momentum-algebra",
+					"title": "Angular momentum: operators, commutation relations, and ladder operators",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l020-angular-equation-spherical-harmonics"
+					],
+					"objectives": [
+						"Derive [L_x, L_y] = i hbar L_z and its cyclic permutations from [x,p] = i hbar.",
+						"Show that L^2 commutes with each L_i and so shares eigenstates with L_z.",
+						"Use L_+ and L_- to derive the allowed eigenvalues l(l+1) hbar^2 and m hbar, including half-integer l.",
+						"Derive the action of L_+- on |l m> including the normalisation constants A_l^m.",
+						"Write L_z, L_+- and L^2 in spherical coordinates and show that Y_l^m are the eigenfunctions."
+					],
+					"keyEquations": [
+						"[L_x,L_y]=i\\hbar L_z",
+						"L^2|l\\,m\\rangle=\\hbar^2l(l+1)|l\\,m\\rangle,\\ L_z|l\\,m\\rangle=\\hbar m|l\\,m\\rangle",
+						"L_\\pm|l\\,m\\rangle=\\hbar\\sqrt{l(l+1)-m(m\\pm1)}\\,|l\\,m\\pm1\\rangle",
+						"L_z=-i\\hbar\\partial_\\phi"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "4.3",
+							"title": "Angular Momentum"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Angular momentum operators and their algebra",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/angular-momentum-operators-and-their-algebra/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Simultaneous eigenstates and quantization of angular momentum",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/simultaneous-eigenstates-and-quantization-of-angular-momentum/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Commuting observables for angular momentum",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/commuting-observables-for-angular-momentum/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 18: Rigid Rotor II. Derivation by Commutation Rules",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/rigid-rotor-ii/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 21: Angular Momentum (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-21-angular-momentum-cont/"
+						}
+					],
+					"demoIdeas": [
+						"Vector-model diagram: draw the l-cone with L_z = m hbar projections; step with L_+ / L_- along the ladder."
+					]
+				},
+				{
+					"id": "p6-l025-spin-one-half",
+					"title": "Spin 1/2: Pauli matrices and spinors",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l024-angular-momentum-algebra"
+					],
+					"objectives": [
+						"Define spin as intrinsic angular momentum satisfying the same algebra with s = 1/2, and give the 2x2 matrices S_i = (hbar/2) sigma_i.",
+						"Find the eigenspinors of S_x, S_y, S_z and compute probabilities of measuring spin up/down along an arbitrary axis.",
+						"Verify the Pauli identities sigma_i sigma_j = delta_ij + i epsilon_ijk sigma_k and use them to compute commutators.",
+						"Construct the spin-up state along a direction (theta,phi) and compute <S_x>, <S_y>, <S_z>.",
+						"Describe the Stern-Gerlach experiment as a spin measurement and explain sequential measurements along different axes."
+					],
+					"keyEquations": [
+						"S_i=\\frac{\\hbar}{2}\\sigma_i,\\ \\sigma_x=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix},\\ \\sigma_y=\\begin{pmatrix}0&-i\\\\i&0\\end{pmatrix},\\ \\sigma_z=\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}",
+						"\\sigma_i\\sigma_j=\\delta_{ij}+i\\epsilon_{ijk}\\sigma_k",
+						"|+\\hat n\\rangle=\\cos\\tfrac\\theta2|\\uparrow\\rangle+e^{i\\phi}\\sin\\tfrac\\theta2|\\downarrow\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "4.4.1",
+							"title": "Electron Spin"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 4: Spin One-half, Bras, Kets, and Operators",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-4-spin-one-half-bras-kets-and-operators/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 23: More on Spin",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-23/"
+						}
+					],
+					"demoIdeas": [
+						"Bloch sphere viewer: set a spin state, apply sequential Stern-Gerlach filters along x/y/z, and show outcome probabilities."
+					]
+				},
+				{
+					"id": "p6-l026-spin-in-magnetic-field",
+					"title": "Spin in a magnetic field: Larmor precession and NMR",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l025-spin-one-half"
+					],
+					"objectives": [
+						"Write the Hamiltonian H = -gamma B . S for a spin-1/2 particle in a uniform B field and solve for the energy levels and time evolution.",
+						"Derive Larmor precession of <S> at omega = gamma B and sketch the motion on the Bloch sphere.",
+						"Solve the spin in a rotating transverse field (magnetic resonance) as a two-level problem and identify Rabi oscillations at resonance.",
+						"Relate the Zeeman splitting, resonance frequency, and chemical shift to the NMR spectrometer the chemist uses."
+					],
+					"keyEquations": [
+						"H=-\\gamma\\,\\mathbf B\\cdot\\mathbf S",
+						"\\omega_L=\\gamma B_0",
+						"\\boldsymbol\\mu=\\gamma\\mathbf S",
+						"\\Omega_R=\\sqrt{(\\omega-\\omega_0)^2+(\\gamma B_1)^2}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "4.4.2",
+							"title": "Electron in a Magnetic Field"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 17: Two State Systems (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-17-two-state-systems-cont/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 36: Time Dependence of Two-Level Systems: Density Matrix, Rotating Wave Approximation",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/time-dependence-of-two-level-systems-density-matrix-rotating-wave-approximation/"
+						}
+					],
+					"demoIdeas": [
+						"Bloch-sphere precession under B_z with an optional rotating B_1 field; show Rabi flopping as the drive frequency sweeps through resonance (NMR)."
+					]
+				},
+				{
+					"id": "p6-l027-addition-angular-momenta",
+					"title": "Addition of angular momenta",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l026-spin-in-magnetic-field"
+					],
+					"objectives": [
+						"Combine two spin-1/2 particles to form the triplet (s = 1) and singlet (s = 0) states and write each in terms of the product basis.",
+						"State the triangle rule for combining j1 and j2 and the dimension counting (2j1+1)(2j2+1) = sum(2j+1).",
+						"Use the lowering operator and orthogonality to generate Clebsch-Gordan coefficients for two spin-1/2 and for 1 (x) 1/2.",
+						"Use the Clebsch-Gordan table to write the coupled states |j m> in terms of the product states.",
+						"Explain how the coupled states describe the singlet and triplet spin states in NMR J-coupling and in the helium atom."
+					],
+					"keyEquations": [
+						"|s\\,m\\rangle=\\sum C^{s\\,m}_{m_1m_2}|s_1m_1\\rangle|s_2m_2\\rangle",
+						"|1\\,0\\rangle=\\tfrac{1}{\\sqrt2}(\\uparrow\\downarrow+\\downarrow\\uparrow),\\ |0\\,0\\rangle=\\tfrac{1}{\\sqrt2}(\\uparrow\\downarrow-\\downarrow\\uparrow)",
+						"|j_1-j_2|\\le j\\le j_1+j_2"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "4.4.3",
+							"title": "Addition of Angular Momenta"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 24: Addition of Angular Momentum",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-24-addition-of-angular-momentum/"
+						}
+					],
+					"demoIdeas": [
+						"Coupling calculator: choose j1, j2, list the allowed j, and show CG coefficients as a coloured table."
+					]
+				},
+				{
+					"id": "p6-l028-minimal-coupling-ab",
+					"title": "Electromagnetic interactions: minimal coupling and the Aharonov-Bohm effect",
+					"minutes": 80,
+					"prereqs": [
+						"p6-l027-addition-angular-momenta"
+					],
+					"objectives": [
+						"State the Hamiltonian for a charged particle in electromagnetic potentials by minimal coupling p -> p - qA.",
+						"Show that the Schrödinger equation is gauge invariant under psi -> exp(i q Lambda/hbar) psi, A -> A + grad Lambda.",
+						"Explain the Aharonov-Bohm effect: a phase shift from enclosed flux with zero B at the particle.",
+						"Identify the paramagnetic and diamagnetic terms in the atomic Hamiltonian that underlie the Zeeman effect and NMR shielding."
+					],
+					"keyEquations": [
+						"H=\\frac{1}{2m}(\\hat{\\mathbf p}-q\\mathbf A)^2+q\\varphi",
+						"\\psi\\to e^{iq\\Lambda/\\hbar}\\psi,\\ \\mathbf A\\to\\mathbf A+\\nabla\\Lambda",
+						"\\Delta\\varphi=\\frac{q\\Phi}{\\hbar}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "4.5",
+							"title": "Electromagnetic Interactions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L13.5 Charged particles in EM fields: Schrodinger equation",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l13-5-charged-particles-in-em-fields-schrodinger-equation/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L14.1 Gauge invariance of the Schrodinger Equation",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l14-1/"
+						}
+					],
+					"demoIdeas": [
+						"Two-slit with a solenoid between slits: slide the flux and watch the interference fringes shift."
+					]
+				}
+			]
+		},
+		{
+			"id": "p6-u05-identical-particles",
+			"title": "Identical Particles",
+			"summary": "Exchange symmetry, bosons vs fermions, the Pauli exclusion principle, atoms and the periodic table, free-electron solids, and the bridge to quantum statistics: where chemistry's electron configurations come from.",
+			"lessons": [
+				{
+					"id": "p6-l029-two-particle-bosons-fermions",
+					"title": "Two-particle systems: bosons and fermions",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l028-minimal-coupling-ab"
+					],
+					"objectives": [
+						"Write a two-particle wave function psi(r1,r2) and the Hamiltonian for non-interacting particles in separable form.",
+						"Construct symmetric (boson) and antisymmetric (fermion) combinations psi_a(r1)psi_b(r2) +/- psi_b(r1)psi_a(r2) and normalise them.",
+						"Explain the Pauli exclusion principle as a consequence of antisymmetry and compute exchange forces (average separation <(x1-x2)^2>).",
+						"State the spin-statistics connection and decide the required spatial symmetry for given spin states (singlet vs triplet)."
+					],
+					"keyEquations": [
+						"\\psi_\\pm(\\mathbf r_1,\\mathbf r_2)=\\frac{1}{\\sqrt2}\\left[\\psi_a(\\mathbf r_1)\\psi_b(\\mathbf r_2)\\pm\\psi_b(\\mathbf r_1)\\psi_a(\\mathbf r_2)\\right]",
+						"\\langle(x_1-x_2)^2\\rangle_\\pm=\\langle(x_1-x_2)^2\\rangle_d\\mp2|\\langle x\\rangle_{ab}|^2"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "5.1",
+							"title": "Two-Particle Systems"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "8.06 video lectures: scattering and identical particles",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/pages/video-lectures/scattering-and-identical-particles/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L22.4 Identical Particles and Exchange Degeneracy",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l22-4/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L24.3 The Symmetrization Postulate",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l24-3/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 19: Identical Particles",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-19/"
+						}
+					],
+					"demoIdeas": [
+						"Two particles in a box: toggle boson/fermion/distinguishable and see the joint probability density and the exchange-hole along x1=x2."
+					]
+				},
+				{
+					"id": "p6-l030-atoms-periodic-table",
+					"title": "Atoms: helium and the periodic table",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l029-two-particle-bosons-fermions"
+					],
+					"objectives": [
+						"Write the helium Hamiltonian and explain why it is not exactly solvable (electron-electron repulsion term).",
+						"Build the independent-electron approximation for helium ground and excited states, and distinguish ortho (triplet) from para (singlet) helium.",
+						"Explain the periodic table by filling hydrogen-like orbitals subject to Pauli, with screening shifts in order of l.",
+						"Apply Hund's rules to find the ground-state term symbols of C, N, O and justify each rule physically.",
+						"Estimate ionisation energies and electron configurations from effective nuclear charge."
+					],
+					"keyEquations": [
+						"H=-\\frac{\\hbar^2}{2m}(\\nabla_1^2+\\nabla_2^2)-\\frac{e^2}{4\\pi\\epsilon_0}\\left(\\frac{2}{r_1}+\\frac{2}{r_2}-\\frac{1}{|\\mathbf r_1-\\mathbf r_2|}\\right)",
+						"{}^{2S+1}L_J"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "5.2",
+							"title": "Atoms"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 22: Helium Atom",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/helium-atom/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 23: Many-Electron Atoms",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/many-electron-atoms/"
+						}
+					],
+					"demoIdeas": [
+						"Periodic-table filler: add electrons one at a time into n,l shells with Pauli and Hund's rules, showing the resulting term symbol."
+					]
+				},
+				{
+					"id": "p6-l031-solids-electron-gas",
+					"title": "Solids: the free-electron gas and band structure",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l030-atoms-periodic-table"
+					],
+					"objectives": [
+						"Count states in a 3D box using periodic boundary conditions and compute the Fermi energy E_F from the electron density.",
+						"Derive the total energy and degeneracy pressure of the free-electron gas at T = 0.",
+						"Describe Bloch's theorem and explain how a periodic potential opens band gaps (Kronig-Penney, qualitatively).",
+						"Classify conductors, insulators, and semiconductors using band filling."
+					],
+					"keyEquations": [
+						"E_F=\\frac{\\hbar^2}{2m}(3\\pi^2\\rho)^{2/3}",
+						"E_{\\rm tot}=\\frac35NE_F",
+						"\\psi(x+a)=e^{iKa}\\psi(x)"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "5.3",
+							"title": "Solids"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 20: Periodic Lattices Part 1",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-20/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 21: Periodic Lattices Part 2",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-21/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 22: Metals, Insulators, and Semiconductors",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-22/"
+						}
+					],
+					"demoIdeas": [
+						"k-space filling: draw the Fermi sphere and change density; for band structure, scan Kronig-Penney strength and watch gaps appear."
+					]
+				},
+				{
+					"id": "p6-l032-quantum-statistics",
+					"title": "Quantum statistical mechanics: Fermi-Dirac, Bose-Einstein, and blackbody",
+					"minutes": 80,
+					"prereqs": [
+						"p6-l031-solids-electron-gas"
+					],
+					"objectives": [
+						"State the three distributions (Maxwell-Boltzmann, Fermi-Dirac, Bose-Einstein) and derive them via the most probable configuration.",
+						"Identify the limit in which quantum distributions reduce to the Boltzmann factor the chemist knows.",
+						"Derive the Planck blackbody spectrum from Bose-Einstein statistics and photon density of states.",
+						"Preview how the same ideas reappear in thermal physics (course P7)."
+					],
+					"keyEquations": [
+						"n(\\epsilon)=\\frac{1}{e^{(\\epsilon-\\mu)/k_BT}\\pm1}",
+						"\\rho(\\omega)=\\frac{\\hbar}{\\pi^2c^3}\\frac{\\omega^3}{e^{\\hbar\\omega/k_BT}-1}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "5.4",
+							"title": "Quantum Statistical Mechanics"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "Ch. 7",
+							"title": "Quantum Statistics",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Distribution plotter: n(epsilon) for FD, BE and MB at adjustable T and mu; blackbody curve with Wien peak."
+					]
+				}
+			]
+		},
+		{
+			"id": "p6-u06-approximation-methods",
+			"title": "Time-Independent Approximation Methods",
+			"summary": "Perturbation theory (non-degenerate and degenerate), fine structure, Zeeman and hyperfine effects, the variational principle with helium and molecular hydrogen, and WKB: the toolkit behind quantum chemistry (variational LCAO/MO) and atomic spectroscopy.",
+			"lessons": [
+				{
+					"id": "p6-l033-nondegenerate-perturbation",
+					"title": "Non-degenerate perturbation theory",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l007-oscillator-ladder-operators",
+						"p6-l018-dirac-notation"
+					],
+					"objectives": [
+						"Set up H = H0 + lambda H' and expand E_n and psi_n in powers of lambda.",
+						"Derive the first-order energy E_n^1 = <n|H'|n> and the first-order state correction.",
+						"Derive the second-order energy E_n^2 = sum |<m|H'|n>|^2/(E_n - E_m).",
+						"Apply first- and second-order theory to a perturbed harmonic oscillator and to a perturbed infinite well.",
+						"State when the series is valid: |<m|H'|n>| << |E_n - E_m|."
+					],
+					"keyEquations": [
+						"E_n^1=\\langle\\psi_n^0|H'|\\psi_n^0\\rangle",
+						"\\psi_n^1=\\sum_{m\\ne n}\\frac{\\langle\\psi_m^0|H'|\\psi_n^0\\rangle}{E_n^0-E_m^0}\\psi_m^0",
+						"E_n^2=\\sum_{m\\ne n}\\frac{|\\langle\\psi_m^0|H'|\\psi_n^0\\rangle|^2}{E_n^0-E_m^0}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "6.1",
+							"title": "Nondegenerate Perturbation Theory"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "5.1",
+							"title": "Time-Independent Perturbation Theory: Nondegenerate Case",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "8.06 video lectures: time-independent perturbation theory",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/pages/video-lectures/time-independent-perturbation-theory/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L1.1 General problem. Non-degenerate perturbation theory",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l1-1/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L1.4 First order correction to the state. Second order correction to energy",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l1-4/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L2.2 Anharmonic Oscillator via a quartic perturbation",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l2-2/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 15: Non-Degenerate Perturbation Theory I",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/non-degenerate-perturbation-theory-i/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 16: Non-Degenerate Perturbation Theory II: HO using a,a†",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/non-degenerate-perturbation-theory-ii-ho-using-a-a2020/"
+						}
+					],
+					"demoIdeas": [
+						"Compare exact vs first- and second-order energies for a perturbed two-level or harmonic system as the perturbation strength is dialled."
+					]
+				},
+				{
+					"id": "p6-l034-degenerate-perturbation",
+					"title": "Degenerate perturbation theory and good states",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l033-nondegenerate-perturbation"
+					],
+					"objectives": [
+						"Explain why non-degenerate theory fails when states share an energy, and set up the W matrix of H' within the degenerate subspace.",
+						"Diagonalise W to find first-order energy shifts and the \"good\" zeroth-order states.",
+						"Use a conserved operator that commutes with both H0 and H' to pick good states directly.",
+						"Apply the method to the linear Stark effect in n = 2 hydrogen."
+					],
+					"keyEquations": [
+						"W_{ij}=\\langle\\psi_i^0|H'|\\psi_j^0\\rangle",
+						"\\det(W-E^1I)=0",
+						"H'_{\\rm Stark}=eE_{\\rm ext}z"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "6.2",
+							"title": "Degenerate Perturbation Theory"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "5.2",
+							"title": "Time-Independent Perturbation Theory: The Degenerate Case",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L2.3 Degenerate Perturbation theory: Example and setup",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l2-3/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L2.4 Degenerate Perturbation Theory: Leading energy corrections",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l2-4/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L3.2 Degeneracy resolved to first order; state and energy corrections",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l3-2/"
+						}
+					],
+					"demoIdeas": [
+						"Display the W matrix for the n=2 hydrogen Stark problem, diagonalise it, and animate the splitting as field strength increases."
+					]
+				},
+				{
+					"id": "p6-l035-hydrogen-fine-structure",
+					"title": "The fine structure of hydrogen",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l034-degenerate-perturbation",
+						"p6-l027-addition-angular-momenta"
+					],
+					"objectives": [
+						"Identify the three fine-structure corrections of order alpha^2 times the Bohr energy: relativistic kinetic energy, spin-orbit coupling, Darwin term.",
+						"Compute the relativistic correction to E_n for hydrogen using first-order perturbation theory.",
+						"Derive the spin-orbit Hamiltonian H_so = (e^2/(8 pi eps0)) (1/(m^2 c^2 r^3)) S.L and evaluate it in the coupled basis |n l j m_j>.",
+						"Combine the corrections to get E_nj and describe the degeneracy that remains.",
+						"State the fine-structure constant alpha and the scale of these splittings; relate to spin-orbit coupling effects on heavy-element spectra."
+					],
+					"keyEquations": [
+						"E_{nj}=-\\frac{13.6\\ \\text{eV}}{n^2}\\left[1+\\frac{\\alpha^2}{n^2}\\left(\\frac{n}{j+1/2}-\\frac34\\right)\\right]",
+						"H_{so}=\\frac{e^2}{8\\pi\\epsilon_0}\\frac{1}{m^2c^2r^3}\\,\\mathbf S\\cdot\\mathbf L",
+						"\\mathbf L\\cdot\\mathbf S=\\tfrac12(J^2-L^2-S^2)",
+						"\\alpha=\\frac{e^2}{4\\pi\\epsilon_0\\hbar c}\\approx\\frac1{137}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "6.3",
+							"title": "The Fine Structure of Hydrogen"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "5.3",
+							"title": "Hydrogen-like Atoms: Fine Structure and the Zeeman Effect",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L4.1 Scales and zeroth-order spectrum",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l4-1/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L5.3 The relativistic correction",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l5-3/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L5.4 Spin-orbit correction",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l5-4/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L5.5 Assembling the fine-structure corrections",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l5-5/"
+						}
+					],
+					"demoIdeas": [
+						"Energy-level diagram of n = 2 splitting into 2s1/2, 2p1/2, 2p3/2 as the alpha^2 corrections are turned on."
+					]
+				},
+				{
+					"id": "p6-l036-zeeman-effect",
+					"title": "The Zeeman effect",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l035-hydrogen-fine-structure"
+					],
+					"objectives": [
+						"Write the Zeeman Hamiltonian H_Z = (e/2m)(L + 2S).B and identify the weak-field, intermediate, and strong-field regimes.",
+						"Derive the weak-field energy shift using the Lande g factor and the projection theorem.",
+						"Compute the strong-field energies in the uncoupled basis and the pattern of splittings.",
+						"Predict the number of lines in an anomalous Zeeman pattern for given term symbols."
+					],
+					"keyEquations": [
+						"H_Z=\\frac{e}{2m}(\\mathbf L+2\\mathbf S)\\cdot\\mathbf B",
+						"E_Z^1=\\mu_Bg_JBm_j,\\ g_J=1+\\frac{j(j+1)+s(s+1)-l(l+1)}{2j(j+1)}",
+						"\\mu_B=\\frac{e\\hbar}{2m}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "6.4",
+							"title": "The Zeeman Effect"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L6.2 Weak-field Zeeman effect; general structure",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l6-2/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L6.3 Weak-field Zeeman effect; the projection lemma",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l6-3/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L6.4 Strong-field Zeeman",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l6-4/"
+						}
+					],
+					"demoIdeas": [
+						"Level-vs-B plot (Breit-Rabi style) crossing from weak to strong field for n = 2 hydrogen."
+					]
+				},
+				{
+					"id": "p6-l037-hyperfine-splitting",
+					"title": "Hyperfine splitting and the 21 cm line",
+					"minutes": 80,
+					"prereqs": [
+						"p6-l036-zeeman-effect"
+					],
+					"objectives": [
+						"Describe the proton-electron magnetic-dipole interaction and the Fermi contact term for s states.",
+						"Evaluate the hyperfine Hamiltonian for hydrogen ground state using S.S coupling and find the singlet-triplet splitting.",
+						"Compute the 21 cm transition frequency and explain its role in radio astronomy.",
+						"Relate hyperfine coupling to EPR/ESR splittings and J-couplings in NMR for the chemist."
+					],
+					"keyEquations": [
+						"H_{hf}=\\frac{\\mu_0g_pe^2}{8\\pi m_pm_e}\\frac{3(\\mathbf S_p\\cdot\\hat r)(\\mathbf S_e\\cdot\\hat r)-\\mathbf S_p\\cdot\\mathbf S_e}{r^3}+\\frac{\\mu_0g_pe^2}{3m_pm_e}\\mathbf S_p\\cdot\\mathbf S_e\\,\\delta^3(\\mathbf r)",
+						"\\Delta E=\\frac{4g_p\\hbar^4}{3m_pm_e^2c^2a^4}",
+						"\\lambda=21\\ \\text{cm}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "6.5",
+							"title": "Hyperfine Splitting"
+						}
+					],
+					"demoIdeas": [
+						"Two spin-1/2 coupled by S.S: show singlet/triplet splitting and transitions at 1420 MHz."
+					]
+				},
+				{
+					"id": "p6-l038-variational-principle-helium",
+					"title": "The variational principle and the helium ground state",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l033-nondegenerate-perturbation"
+					],
+					"objectives": [
+						"State and prove the variational theorem: <psi|H|psi> >= E_gs for any normalised trial function.",
+						"Apply the principle to a Gaussian trial function for the harmonic oscillator and for the delta well, and evaluate the error.",
+						"Use a hydrogenic trial state with effective charge Z_eff to estimate the helium ground-state energy, and compare with experiment.",
+						"Explain how the variational method underlies Hartree-Fock and basis-set quantum chemistry."
+					],
+					"keyEquations": [
+						"E_{gs}\\le\\langle\\psi|H|\\psi\\rangle",
+						"\\frac{\\partial\\langle H\\rangle}{\\partial\\alpha}=0",
+						"\\langle H\\rangle(Z)=\\left(2Z^2-\\tfrac{27}{4}Z\\right)E_1,\\ Z=\\tfrac{27}{16}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "7.1",
+							"title": "Theory"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "7.2",
+							"title": "The Ground State of Helium"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "5.4",
+							"title": "Variational Methods",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 24: Molecular Orbital Theory I. Variational Principle and Matrix Mechanics",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/molecular-orbital-theory-i/"
+						}
+					],
+					"demoIdeas": [
+						"Variational slider: tweak a trial-function parameter and watch <H> reach its minimum above the exact ground-state line."
+					]
+				},
+				{
+					"id": "p6-l039-hydrogen-molecule-ion",
+					"title": "The hydrogen molecule ion and the hydrogen molecule",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l038-variational-principle-helium"
+					],
+					"objectives": [
+						"Set up the H2+ Hamiltonian in the Born-Oppenheimer approximation and define the LCAO trial function psi = A(psi_1 + psi_2).",
+						"Compute the overlap, direct, and exchange integrals and find <H>(R) for the bonding state.",
+						"Identify the bonding minimum and the equilibrium bond length and compare with experiment.",
+						"Extend to H2 using the Heitler-London scheme, and discuss molecular-orbital vs valence-bond descriptions.",
+						"Explain bonding and antibonding combinations in the language of molecular orbital theory."
+					],
+					"keyEquations": [
+						"\\psi=A[\\psi_0(r_1)+\\psi_0(r_2)]",
+						"E(R)=\\frac{H_{11}+H_{12}}{1+I}",
+						"I=e^{-x}\\left(1+x+\\tfrac{x^2}{3}\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "7.3",
+							"title": "The Hydrogen Molecule Ion"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "7.4",
+							"title": "The Hydrogen Molecule"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L18.3 Example: The hydrogen molecule ion",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l18-3/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 25: Molecular Orbital Theory II. H2+, A2, AB Diatomics",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/molecular-orbital-theory-ii/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 26: Qualitative MO Theory: Hückel",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/qualitative-mo-theory-huckel/"
+						}
+					],
+					"demoIdeas": [
+						"Potential-energy curve for H2+ bonding/antibonding LCAO states with a slider for R."
+					]
+				},
+				{
+					"id": "p6-l040-wkb-classical-region",
+					"title": "WKB approximation: the classical region",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l033-nondegenerate-perturbation"
+					],
+					"objectives": [
+						"Write the WKB ansatz psi = A(x) exp(i S(x)/hbar), and derive the leading-order wave function psi ~ C/sqrt(p(x)) exp(+/- (i/hbar) integral p dx).",
+						"State the validity condition |d lambda/dx| << 1.",
+						"Derive the WKB quantisation condition integral p dx = (n - 1/2) pi hbar between turning points.",
+						"Apply it to the harmonic oscillator and compare with exact results, and apply it to a linear potential (quantum bouncer)."
+					],
+					"keyEquations": [
+						"\\psi(x)\\approx\\frac{C}{\\sqrt{p(x)}}e^{\\pm\\frac i\\hbar\\int p(x)dx}",
+						"p(x)=\\sqrt{2m(E-V(x))}",
+						"\\int_{x_1}^{x_2}p(x)\\,dx=\\left(n-\\tfrac12\\right)\\pi\\hbar"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "8.1",
+							"title": "The \"Classical\" Region"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L6.5 Semiclassical approximation and local de Broglie wavelength",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l6-5/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L7.1 The WKB approximation scheme",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l7-1/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L7.2 Approximate WKB solutions",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l7-2/"
+						}
+					],
+					"demoIdeas": [
+						"Compare WKB and exact wavefunctions in a smooth well; mark turning points and show amplitude 1/sqrt(p)."
+					]
+				},
+				{
+					"id": "p6-l041-wkb-tunneling-connection",
+					"title": "WKB: tunneling and the connection formulas",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l040-wkb-classical-region"
+					],
+					"objectives": [
+						"State the WKB wave function in the classically forbidden region as a decaying/growing exponential.",
+						"Derive the tunneling probability T ~ exp(-2 gamma) with gamma = (1/hbar) integral |p| dx and apply it to alpha decay (Gamow).",
+						"State the connection formulas at a linear turning point and use them to derive the quantisation condition.",
+						"Estimate the tunneling splitting or rate through a barrier of arbitrary shape (e.g. proton transfer across a hydrogen-bond double well)."
+					],
+					"keyEquations": [
+						"T\\approx e^{-2\\gamma},\\ \\gamma=\\frac1\\hbar\\int_{x_1}^{x_2}\\sqrt{2m(V-E)}\\,dx",
+						"\\frac{2C}{\\sqrt{p}}\\cos\\!\\left(\\tfrac1\\hbar\\int p\\,dx-\\tfrac\\pi4\\right)\\leftrightarrow\\frac{C}{\\sqrt{|p|}}e^{-\\frac1\\hbar\\int|p|dx}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "8.2",
+							"title": "Tunneling"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "8.3",
+							"title": "The Connection Formulas"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L7.4 Connection formula stated and example",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l7-4/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L8.3 Deriving the connection formulae",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l8-3/"
+						}
+					],
+					"demoIdeas": [
+						"Triangular and parabolic barriers: integrate |p| dx numerically and compare T from WKB and exact."
+					]
+				}
+			]
+		},
+		{
+			"id": "p6-u07-time-dependence-scattering",
+			"title": "Time-Dependent Problems, Radiation, and Scattering",
+			"summary": "Time-dependent perturbation theory, Fermi's golden rule, absorption and emission of radiation, selection rules and lifetimes (the basis for spectroscopy), the adiabatic theorem and Berry's phase, and scattering by partial waves and the Born approximation.",
+			"lessons": [
+				{
+					"id": "p6-l042-two-level-time-dependent-pt",
+					"title": "Two-level systems and time-dependent perturbation theory",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l033-nondegenerate-perturbation"
+					],
+					"objectives": [
+						"Solve the two-level system with a time-dependent perturbation in terms of the coefficients c_a(t) and c_b(t).",
+						"Derive the first-order amplitude c_b(t) = -(i/hbar) integral <b|H'|a> exp(i omega_0 t') dt'.",
+						"Compute transition probability P_{a->b}(t) for a constant perturbation switched on at t = 0.",
+						"State the validity condition of first-order theory and explain the role of normalisation."
+					],
+					"keyEquations": [
+						"i\\hbar\\dot c_a=H'_{aa}c_a+H'_{ab}e^{-i\\omega_0t}c_b",
+						"c_b^{(1)}(t)=-\\frac i\\hbar\\int_0^tH'_{ba}(t')e^{i\\omega_0t'}dt'",
+						"P_{a\\to b}=|c_b|^2"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "9.1",
+							"title": "Two-Level Systems"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "5.7",
+							"title": "Time-Dependent Perturbation Theory",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "8.06 video lectures: time-dependent perturbation theory",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/pages/video-lectures/time-dependent-perturbation-theory/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L9.1 The interaction picture and time evolution",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l9-1/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L9.4 Setting up perturbation theory",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l9-4/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 30: Time-Dependent Perturbation Theory I. H is Time-Independent, Zewail Wavepacket",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/time-dependent-perturbation-theory-i/"
+						},
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 31: Time-Dependent Perturbation Theory II. H is Time-Dependent: Two-Level Problem",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/time-dependent-perturbation-theory-ii/"
+						}
+					],
+					"demoIdeas": [
+						"Two-level Rabi/perturbation solver: pick coupling and see exact vs first-order populations."
+					]
+				},
+				{
+					"id": "p6-l043-sinusoidal-perturbation-golden-rule",
+					"title": "Sinusoidal perturbations, Rabi oscillation, and Fermi's golden rule",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l042-two-level-time-dependent-pt"
+					],
+					"objectives": [
+						"Compute the first-order transition probability for H' = V cos(omega t) and identify absorption and stimulated-emission resonances at omega = +/- omega_0.",
+						"Derive the resonant approximation (rotating-wave) and solve the Rabi problem to get P(t) = ... sin^2(Omega t/2).",
+						"Derive Fermi's golden rule Gamma = (2 pi/hbar) |<f|H'|i>|^2 rho(E_f) for transitions into a continuum.",
+						"Apply the golden rule with a density of states to a concrete example (ionisation of hydrogen by a light field)."
+					],
+					"keyEquations": [
+						"P_{a\\to b}(t)=\\left|\\frac{V_{ab}}{\\hbar}\\right|^2\\frac{\\sin^2[(\\omega_0-\\omega)t/2]}{(\\omega_0-\\omega)^2}",
+						"P(t)=\\frac{\\Omega_0^2}{\\Omega^2}\\sin^2\\left(\\frac{\\Omega t}{2}\\right)",
+						"\\Gamma_{i\\to f}=\\frac{2\\pi}{\\hbar}|\\langle f|H'|i\\rangle|^2\\rho(E_f)"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "9.1.3",
+							"title": "Sinusoidal Perturbations"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "5.7",
+							"title": "Time-Dependent Perturbation Theory",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L10.1 Box regularization: density of states for the continuum (20:31)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l10-1/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L10.2 Transitions with a constant perturbation (19:01)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l10-2/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L10.3 Integrating over the continuum to find Fermi's Golden Rule (19:37)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l10-3/"
+						}
+					],
+					"demoIdeas": [
+						"Plot sin^2(x t)/x^2 as t grows and show it approaching a delta function (origin of the golden rule)."
+					]
+				},
+				{
+					"id": "p6-l044-absorption-emission-radiation",
+					"title": "Emission and absorption of radiation",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l043-sinusoidal-perturbation-golden-rule"
+					],
+					"objectives": [
+						"Write the perturbation from a monochromatic EM wave in the dipole approximation, H' = -q E . r.",
+						"Compute the transition rate for absorption and stimulated emission, in terms of the dipole matrix element and the field intensity.",
+						"Treat incoherent isotropic radiation using the energy density rho(omega) and obtain the transition rate.",
+						"Use Einstein's B coefficient and relate it to the spectral absorption cross section."
+					],
+					"keyEquations": [
+						"H'=-q\\mathbf E_0\\cdot\\mathbf r\\cos\\omega t",
+						"R_{b\\to a}=\\frac{\\pi}{3\\epsilon_0\\hbar^2}|\\wp|^2\\rho(\\omega_0)",
+						"\\wp=q\\langle\\psi_b|\\mathbf r|\\psi_a\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "9.2",
+							"title": "Emission and Absorption of Radiation"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "5.8",
+							"title": "Applications to Interactions with the Classical Radiation Field",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L11.2 Transition rates for stimulated emission and absorption processes (17:12)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l11-2/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L12.5 Atom-light interactions: dipole operator (11:10)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l12-5/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L13.1 Transition rates induced by thermal radiation (17:50)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l13-1/"
+						}
+					],
+					"demoIdeas": [
+						"Rate vs frequency curve for absorption with adjustable linewidth and intensity."
+					]
+				},
+				{
+					"id": "p6-l045-spontaneous-emission-selection-rules",
+					"title": "Spontaneous emission, lifetimes, and selection rules",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l044-absorption-emission-radiation"
+					],
+					"objectives": [
+						"Derive Einstein's relation between A and B coefficients using thermal equilibrium (Planck).",
+						"Compute the spontaneous emission rate of a hydrogen 2p-to-1s transition and the lifetime of an excited state.",
+						"Derive the electric-dipole selection rules Delta l = +/-1, Delta m = 0, +/-1 from the dipole matrix element.",
+						"Explain natural linewidth through the energy-time uncertainty principle.",
+						"Use these selection rules to rationalise allowed and forbidden transitions in electronic, vibrational (IR), and rotational (microwave) spectroscopy."
+					],
+					"keyEquations": [
+						"A=\\frac{\\omega_0^3|\\wp|^2}{3\\pi\\epsilon_0\\hbar c^3}",
+						"\\frac{A}{B}=\\frac{\\hbar\\omega_0^3}{\\pi^2c^3}",
+						"\\tau=\\frac1A",
+						"\\Delta\\omega\\sim\\frac1\\tau"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "9.3",
+							"title": "Spontaneous Emission"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "5.9",
+							"title": "Energy Shift and Decay Width",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L12.3 Einstein's Argument: the Need for Spontaneous Emission (19:31)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l12-3/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L12.4 Einstein's argument: B and A coefficients (9:42)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l12-4/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L13.3 Einstein's B and A coefficients determined. Lifetimes and selection rules",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l13-3-einsteins-b-and-a-coefficients-determined/"
+						}
+					],
+					"demoIdeas": [
+						"Selection-rule explorer: choose initial n,l,m and show allowed dipole transitions in the hydrogen term diagram."
+					]
+				},
+				{
+					"id": "p6-l046-adiabatic-berry",
+					"title": "The adiabatic theorem and Berry's phase",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l042-two-level-time-dependent-pt"
+					],
+					"objectives": [
+						"State the adiabatic theorem and the condition under which a system stays in the instantaneous eigenstate.",
+						"Separate the dynamical phase from the geometric phase and derive Berry's connection and Berry phase.",
+						"Compute Berry's phase for a spin-1/2 in a slowly rotating magnetic field (gamma = -Omega/2 in units of the solid angle).",
+						"Relate the adiabatic approximation to the Born-Oppenheimer separation in molecules."
+					],
+					"keyEquations": [
+						"\\psi_n(t)=e^{i\\theta_n(t)}e^{i\\gamma_n(t)}\\psi_n(t=0)",
+						"\\gamma_n=i\\oint\\langle n|\\nabla_R n\\rangle\\cdot d\\mathbf R",
+						"\\gamma=-\\tfrac12\\Omega_{\\rm solid}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "10.1",
+							"title": "The Adiabatic Theorem"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "10.2",
+							"title": "Berry's Phase"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L16.1 Quantum adiabatic theorem stated (13:02)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l16-1/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L17.2 Berry's phase and Berry's connection (25:04)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l17-2/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L18.1 Born-Oppenheimer approximation: Hamiltonian and electronic states (24:48)",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l18-1/"
+						}
+					],
+					"demoIdeas": [
+						"Rotate B slowly vs quickly on the Bloch sphere and compare the followed state; display accumulated Berry phase."
+					]
+				},
+				{
+					"id": "p6-l047-partial-waves-phase-shifts",
+					"title": "Scattering I: cross sections, partial waves, and phase shifts",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l021-radial-equation-spherical-well",
+						"p6-l043-sinusoidal-perturbation-golden-rule"
+					],
+					"objectives": [
+						"Define the differential cross section and relate it to the scattering amplitude f(theta) through the asymptotic form of psi.",
+						"Expand the plane wave in spherical waves and derive the partial-wave expression for f(theta).",
+						"Relate phase shifts delta_l to the radial solution outside the potential.",
+						"Compute the total cross section as a sum over l and state the optical theorem.",
+						"Solve for the hard-sphere phase shifts and the low-energy limit sigma = 4 pi a^2."
+					],
+					"keyEquations": [
+						"\\psi\\to e^{ikz}+f(\\theta)\\frac{e^{ikr}}{r}",
+						"\\frac{d\\sigma}{d\\Omega}=|f(\\theta)|^2",
+						"f(\\theta)=\\frac1k\\sum_l(2l+1)e^{i\\delta_l}\\sin\\delta_l\\,P_l(\\cos\\theta)",
+						"\\sigma=\\frac{4\\pi}{k^2}\\sum_l(2l+1)\\sin^2\\delta_l"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "11.1",
+							"title": "Introduction"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "11.2",
+							"title": "Partial Wave Analysis"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "11.3",
+							"title": "Phase Shifts"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "6.4",
+							"title": "Phase Shifts and Partial Waves",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "8.06 video lectures: scattering and identical particles",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/pages/video-lectures/scattering-and-identical-particles/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L19.2 Energy eigenstates: incident and outgoing waves. Scattering amplitude",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l19-2/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L19.3 Differential and total cross section",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l19-3/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L20.4 Cross Section in Terms of Partial Cross Sections. Optical Theorem",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l20-4/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L20.5 Identification of Phase Shifts. Example: Hard Sphere",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l20-5/"
+						}
+					],
+					"demoIdeas": [
+						"Scattering viewer: choose a potential and energy, see incident plane wave, scattered wave, and the cross-section vs angle plot."
+					]
+				},
+				{
+					"id": "p6-l048-born-approximation",
+					"title": "Scattering II: the Born approximation",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l047-partial-waves-phase-shifts"
+					],
+					"objectives": [
+						"Derive the integral form of the Schrödinger equation with the Green's function exp(ik|r - r'|)/(4 pi |r - r'|).",
+						"Obtain the first Born approximation f(theta) = -(m/(2 pi hbar^2)) integral exp(-i q . r') V(r') d^3r'.",
+						"Apply it to the Yukawa potential and recover Rutherford scattering as the screening length goes to infinity.",
+						"State the validity regime of the Born approximation and the Born series."
+					],
+					"keyEquations": [
+						"\\psi(\\mathbf r)=\\psi_0-\\frac{m}{2\\pi\\hbar^2}\\int\\frac{e^{ik|\\mathbf r-\\mathbf r'|}}{|\\mathbf r-\\mathbf r'|}V(\\mathbf r')\\psi(\\mathbf r')d^3r'",
+						"f^{(1)}(\\mathbf q)=-\\frac{m}{2\\pi\\hbar^2}\\int e^{-i\\mathbf q\\cdot\\mathbf r'}V(\\mathbf r')\\,d^3r'",
+						"\\mathbf q=\\mathbf k'-\\mathbf k"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "11.4",
+							"title": "The Born Approximation"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "6.3",
+							"title": "The Born Approximation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L21.3 Integral Equation for Scattering and Green's Function",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l21-3/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L22.1 Setting Up the Born Series",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l22-1/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L22.2 First Born Approximation. Calculation of the Scattering Amplitude",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l22-2/"
+						}
+					],
+					"demoIdeas": [
+						"Born amplitude for Yukawa and square-well potentials: sliders for range and strength, comparison with the Rutherford curve."
+					]
+				}
+			]
+		},
+		{
+			"id": "p6-u08-sakurai-kets-dynamics",
+			"title": "Grad Touch: Kets, Pictures, and Quantum Dynamics (Sakurai Ch. 1-2)",
+			"summary": "The abstract ket formalism from spin-1/2 first principles, translation operators, and the Schrödinger, Heisenberg, and interaction pictures; the language of research papers and of NMR density-matrix methods.",
+			"lessons": [
+				{
+					"id": "p6-l049-stern-gerlach-kets",
+					"title": "Stern-Gerlach and the ket formalism",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l025-spin-one-half",
+						"p6-l018-dirac-notation"
+					],
+					"objectives": [
+						"Explain how sequential Stern-Gerlach experiments motivate a complex vector space of states rather than a classical probability model.",
+						"Define kets, bras, inner products, operators, and outer products, and state the postulate of Hermitian observables.",
+						"Compute the matrix elements of S_x, S_y, S_z in the |S_z = +/-> basis starting from the sequential-measurement data.",
+						"Write the Pauli matrices and show their anticommutation and commutation relations from the ket algebra."
+					],
+					"keyEquations": [
+						"|\\alpha\\rangle=\\sum_a|a\\rangle\\langle a|\\alpha\\rangle",
+						"P(a')=|\\langle a'|\\alpha\\rangle|^2",
+						"\\hat A=\\sum_{a'}a'|a'\\rangle\\langle a'|"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "1.1",
+							"title": "The Stern-Gerlach Experiment"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "1.2",
+							"title": "Kets, Bras, and Operators"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "8.05 Quantum Physics II: video lectures",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/video_galleries/video-lectures/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 3: Wave Mechanics (cont.) and Stern-Gerlach Experiment",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-3-wave-mechanics-cont/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 4: Spin One-half, Bras, Kets, and Operators",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-4-spin-one-half-bras-kets-and-operators/"
+						}
+					],
+					"demoIdeas": [
+						"Three-stage SG chain simulator reproducing the 'x measurement erases the z information' result."
+					]
+				},
+				{
+					"id": "p6-l050-matrix-reps-measurement",
+					"title": "Base kets, matrix representations, and measurements",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l049-stern-gerlach-kets"
+					],
+					"objectives": [
+						"Represent operators and kets as matrices in a chosen discrete basis, and the product A B as matrix multiplication.",
+						"State and use the properties of compatible observables, simultaneous eigenkets, and the degeneracy issue.",
+						"Derive the generalized uncertainty relation and the unitary change-of-basis operator U = sum |b><a|.",
+						"Compute the transformation of operators under a unitary change of basis and the invariance of the trace and eigenvalues."
+					],
+					"keyEquations": [
+						"U=\\sum_k|b^{(k)}\\rangle\\langle a^{(k)}|",
+						"A^{\\prime}=UAU^\\dagger",
+						"\\mathrm{tr}(A)=\\sum_a\\langle a|A|a\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "1.3",
+							"title": "Base Kets and Matrix Representations"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "1.4",
+							"title": "Measurements, Observables, and the Uncertainty Relations"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "1.5",
+							"title": "Change of Basis"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 9: Dirac's Bra and Ket Notation",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-9-diracs-bra-and-ket-notation/"
+						}
+					],
+					"demoIdeas": [
+						"Basis-rotation demo: apply a unitary to a 2-level Hamiltonian and watch matrix elements transform while eigenvalues stay fixed."
+					]
+				},
+				{
+					"id": "p6-l051-position-momentum-translation",
+					"title": "Position, momentum, and translation",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l050-matrix-reps-measurement"
+					],
+					"objectives": [
+						"Define position eigenkets |x'> and the continuous-spectrum normalisation <x'|x''> = delta(x' - x'').",
+						"Build the infinitesimal translation operator T(dx) = 1 - i p dx/hbar and derive [x, p] = i hbar from it.",
+						"Show that the momentum-space wave function is the Fourier transform of the position-space one.",
+						"Explain the role of symmetry generators in this derivation and preview Noether-style arguments."
+					],
+					"keyEquations": [
+						"T(d\\mathbf x')=1-\\frac{i}{\\hbar}\\hat{\\mathbf p}\\cdot d\\mathbf x'",
+						"[\\hat x_i,\\hat p_j]=i\\hbar\\delta_{ij}",
+						"\\langle x'|p'\\rangle=\\frac{1}{\\sqrt{2\\pi\\hbar}}e^{ip'x'/\\hbar}"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "1.6",
+							"title": "Position, Momentum, and Translation"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "1.7",
+							"title": "Wave Functions in Position and Momentum Space"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 (Fall 2017)",
+							"title": "Lecture 35: δ-Functions, Eigenfunctions of X, Discrete Variable Representation",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/3b4-functions-eigenfunctions-of-x-discrete-variable-representation/"
+						}
+					],
+					"demoIdeas": [
+						"Translate a wave packet by an operator exp(-i p a/hbar) and view position and momentum representations side by side."
+					]
+				},
+				{
+					"id": "p6-l052-time-evolution-pictures",
+					"title": "Time evolution and the Schrödinger and Heisenberg pictures",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l051-position-momentum-translation"
+					],
+					"objectives": [
+						"Derive the Schrödinger equation from the unitarity of the time-evolution operator U(t,t0).",
+						"Write U = exp(-iHt/hbar) and use the energy basis to evolve a state.",
+						"Define the Heisenberg picture, derive the Heisenberg equation of motion, and recover Ehrenfest's theorem.",
+						"Show that expectation values and probabilities do not depend on the picture used.",
+						"Evolve the spin-1/2 in a magnetic field in the Heisenberg picture to obtain the precession equations."
+					],
+					"keyEquations": [
+						"i\\hbar\\,\\partial_t|\\alpha,t\\rangle=H|\\alpha,t\\rangle",
+						"\\frac{dA_H}{dt}=\\frac{1}{i\\hbar}[A_H,H]",
+						"A_H(t)=U^\\dagger AU"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "2.1",
+							"title": "Time-Evolution and the Schrödinger Equation"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "2.2",
+							"title": "The Schrödinger Versus the Heisenberg Picture"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 12: Quantum Dynamics",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-12-quantum-dynamics/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 13: Quantum Dynamics (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-13-quantum-dynamics-cont/"
+						},
+						{
+							"source": "Susskind, Quantum Mechanics: The Theoretical Minimum (2012)",
+							"title": "Lecture 4: Time evolution of a quantum system",
+							"url": "https://theoreticalminimum.com/courses/quantum-mechanics/2012/winter/lecture-4"
+						}
+					],
+					"demoIdeas": [
+						"Side-by-side Schrödinger (rotating state) and Heisenberg (rotating operator) pictures for a spin in a field."
+					]
+				},
+				{
+					"id": "p6-l053-oscillator-heisenberg-propagators",
+					"title": "The oscillator in the Heisenberg picture and propagators",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l052-time-evolution-pictures",
+						"p6-l008-oscillator-analytic-hermite"
+					],
+					"objectives": [
+						"Solve the simple harmonic oscillator in the Heisenberg picture and obtain x(t) and p(t) as operators.",
+						"Construct coherent states as eigenstates of the annihilation operator and show they follow the classical trajectory with minimum uncertainty.",
+						"Define the propagator K(x'',t; x',t0) and compute it for a free particle.",
+						"Sketch the derivation of the Feynman path integral by time slicing and state its classical limit (stationary action)."
+					],
+					"keyEquations": [
+						"a|\\lambda\\rangle=\\lambda|\\lambda\\rangle",
+						"K(x'',t;x',t_0)=\\langle x''|e^{-iH(t-t_0)/\\hbar}|x'\\rangle",
+						"K=\\int\\mathcal Dx\\,e^{iS[x]/\\hbar}"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "2.3",
+							"title": "Simple Harmonic Oscillator"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "2.6",
+							"title": "Propagators and Feynman Path Integrals"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 14: Quantum Dynamics (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-14-quantum-dynamics-cont/"
+						}
+					],
+					"demoIdeas": [
+						"Coherent-state animation: sloshing Gaussian in an oscillator that never spreads, with the phase-space picture."
+					]
+				},
+				{
+					"id": "p6-l054-interaction-picture-gauge",
+					"title": "The interaction picture and gauge transformations",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l052-time-evolution-pictures"
+					],
+					"objectives": [
+						"Define the interaction picture and derive its equation of motion i hbar d/dt|alpha>_I = V_I(t)|alpha>_I.",
+						"Derive the Dyson series for the interaction-picture time-evolution operator.",
+						"Use it to rederive the Rabi problem and time-dependent perturbation theory.",
+						"Show how a gauge transformation of the potentials changes the wave function by a phase and leaves probabilities invariant."
+					],
+					"keyEquations": [
+						"|\\alpha,t\\rangle_I=e^{iH_0t/\\hbar}|\\alpha,t\\rangle_S",
+						"U_I(t)=T\\exp\\left[-\\frac i\\hbar\\int_{t_0}^tV_I(t')dt'\\right]",
+						"V_I=e^{iH_0t/\\hbar}Ve^{-iH_0t/\\hbar}"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "5.5",
+							"title": "Time-Dependent Potentials: The Interaction Picture"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "2.7",
+							"title": "Potentials and Gauge Transformations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L9.1 The interaction picture and time evolution",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l9-1/"
+						},
+						{
+							"source": "MIT OCW 8.06 (Spring 2018)",
+							"title": "L9.2 The interaction picture equation in an orthonormal basis",
+							"url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/resources/l9-2/"
+						}
+					],
+					"demoIdeas": [
+						"Compare Schrödinger-, Heisenberg- and interaction-picture trajectories of a driven two-level system."
+					]
+				}
+			],
+			"grad": true
+		},
+		{
+			"id": "p6-u09-sakurai-angular-momentum-symmetry",
+			"title": "Grad Touch: Rotations, Clebsch-Gordan, Wigner-Eckart, and Symmetries (Sakurai Ch. 3-4)",
+			"summary": "Angular momentum as the generator of rotations (SO(3), SU(2)), Clebsch-Gordan machinery, tensor operators and the Wigner-Eckart theorem, and discrete symmetries; the formal basis for atomic selection rules and group-theory-based spectroscopy.",
+			"lessons": [
+				{
+					"id": "p6-l055-rotations-su2",
+					"title": "Rotations and the angular-momentum commutation relations",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l054-interaction-picture-gauge",
+						"p6-l024-angular-momentum-algebra"
+					],
+					"objectives": [
+						"Derive [J_i, J_j] = i hbar epsilon_ijk J_k from the properties of infinitesimal rotation operators.",
+						"Construct the finite rotation operator for spin-1/2 and show that a 2 pi rotation gives -1.",
+						"Describe the SU(2) to SO(3) double cover and connect it to the sign flip of spinors.",
+						"Compute the effect of a rotation on spin expectation values, and on a neutron-interferometry experiment."
+					],
+					"keyEquations": [
+						"\\mathcal D(\\hat n,d\\phi)=1-\\frac{i}{\\hbar}\\mathbf J\\cdot\\hat n\\,d\\phi",
+						"[J_i,J_j]=i\\hbar\\epsilon_{ijk}J_k",
+						"\\mathcal D(\\hat n,\\phi)=\\exp\\left(-\\frac{i\\boldsymbol\\sigma\\cdot\\hat n\\phi}{2}\\right)=\\cos\\tfrac\\phi2-i\\boldsymbol\\sigma\\cdot\\hat n\\sin\\tfrac\\phi2"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "3.1",
+							"title": "Rotations and Angular-Momentum Commutation Relations"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "3.2",
+							"title": "Spin 1/2 Systems and Finite Rotations"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "3.3",
+							"title": "SO(3), SU(2), and Euler Rotations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "8.05 Quantum Physics II: video lectures",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/video_galleries/video-lectures/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 20: Multiparticle States and Tensor Products (cont.) and Angular Momentum",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-20-multiparticle-states-and-tensor-products-cont/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 21: Angular Momentum (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-21-angular-momentum-cont/"
+						}
+					],
+					"demoIdeas": [
+						"Rotate a spinor through 0 to 4 pi and show its sign flip at 2 pi; plot the path on SU(2)/Bloch sphere."
+					]
+				},
+				{
+					"id": "p6-l056-angular-momentum-eigenstates-rotation-matrices",
+					"title": "Angular-momentum eigenstates and rotation matrices",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l055-rotations-su2"
+					],
+					"objectives": [
+						"Derive the eigenvalues j(j+1) hbar^2 and m hbar of J^2 and J_z from the algebra alone.",
+						"Compute matrix elements of J_+- in the |j m> basis and build J matrices for j = 1.",
+						"Define Wigner's rotation matrices d^j_{m'm}(beta) and compute d^{1/2} and d^1.",
+						"Relate orbital angular momentum eigenfunctions to Y_l^m and show how integer-only l arises from single-valuedness."
+					],
+					"keyEquations": [
+						"\\langle j',m'|J_\\pm|j,m\\rangle=\\hbar\\sqrt{(j\\mp m)(j\\pm m+1)}\\,\\delta_{jj'}\\delta_{m',m\\pm1}",
+						"d^j_{m'm}(\\beta)=\\langle j,m'|e^{-iJ_y\\beta/\\hbar}|j,m\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "3.5",
+							"title": "Eigenvalues and Eigenstates of Angular Momentum"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "3.6",
+							"title": "Orbital Angular Momentum"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 22: Angular Momentum (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-22-angular-momentum-cont/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 23: Angular Momentum (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-23-angular-momentum-cont/"
+						}
+					],
+					"demoIdeas": [
+						"Rotation-matrix explorer for j = 1/2, 1, 3/2: choose beta and visualise the d-matrix and its action on |j m>."
+					]
+				},
+				{
+					"id": "p6-l057-clebsch-gordan",
+					"title": "Addition of angular momenta and Clebsch-Gordan coefficients",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l056-angular-momentum-eigenstates-rotation-matrices",
+						"p6-l027-addition-angular-momenta"
+					],
+					"objectives": [
+						"Derive the Clebsch-Gordan decomposition of j1 (x) j2 into irreps with the triangle rule and counting rule.",
+						"Compute CG coefficients for 1/2 (x) 1/2, 1 (x) 1/2 and 1 (x) 1 using ladder operators and orthogonality.",
+						"State the CG recursion relations and orthogonality/completeness relations.",
+						"Apply the machinery to spin-orbit coupling: find |j = l +/- 1/2, m_j> in the product basis."
+					],
+					"keyEquations": [
+						"|j,m\\rangle=\\sum_{m_1,m_2}|j_1m_1;j_2m_2\\rangle\\langle j_1m_1;j_2m_2|j,m\\rangle",
+						"\\sum_{j,m}|j,m\\rangle\\langle j,m|=1",
+						"J_\\pm=J_{1\\pm}+J_{2\\pm}"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "3.8",
+							"title": "Addition of Angular Momenta"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 25: Addition of Angular Momentum (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-25-addition-of-angular-momentum-cont/"
+						},
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 26: Addition of Angular Momentum (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-26-addition-of-angular-momentum-cont/"
+						}
+					],
+					"demoIdeas": [
+						"CG table builder: choose (j1, j2) and fill the matrix; verify orthogonality of the rows."
+					]
+				},
+				{
+					"id": "p6-l058-tensor-operators-wigner-eckart",
+					"title": "Tensor operators and the Wigner-Eckart theorem",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l057-clebsch-gordan",
+						"p6-l045-spontaneous-emission-selection-rules"
+					],
+					"objectives": [
+						"Define spherical tensor operators T^{(k)}_q by their commutation relations with J and give examples (scalar, vector, quadrupole).",
+						"State the Wigner-Eckart theorem: <j' m'|T^k_q|j m> = <j m; k q|j' m'> <j'||T^k||j>/sqrt(2j+1).",
+						"Derive selection rules for the dipole operator (q = 0, +/-1) from the theorem, and recover Delta m = 0, +/-1 and Delta l = +/-1.",
+						"Use the theorem to compute ratios of matrix elements within a multiplet without evaluating integrals."
+					],
+					"keyEquations": [
+						"[J_z,T^{(k)}_q]=\\hbar q\\,T^{(k)}_q",
+						"\\langle \\alpha'j'm'|T^{(k)}_q|\\alpha jm\\rangle=\\langle jm;kq|j'm'\\rangle\\frac{\\langle\\alpha'j'\\|T^{(k)}\\|\\alpha j\\rangle}{\\sqrt{2j+1}}"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "3.11",
+							"title": "Tensor Operators"
+						}
+					],
+					"demoIdeas": [
+						"Selection-rule matrix: pick (j, j', k) and highlight which m, m' matrix elements the theorem forces to vanish."
+					]
+				},
+				{
+					"id": "p6-l059-symmetries-parity-time-reversal",
+					"title": "Symmetries, parity, and time reversal",
+					"minutes": 100,
+					"prereqs": [
+						"p6-l058-tensor-operators-wigner-eckart"
+					],
+					"objectives": [
+						"Show that a unitary symmetry commuting with H leads to a conservation law and degeneracies.",
+						"Define parity and derive selection rules from it, e.g. no permanent electric dipole moment for a nondegenerate state.",
+						"Define the anti-unitary time-reversal operator and derive Kramers degeneracy for half-integer spin.",
+						"Explain the role of symmetry in spectroscopy and in group-theoretic methods the chemist knows (point groups, selection rules)."
+					],
+					"keyEquations": [
+						"[H,U]=0\\Rightarrow \\langle U\\rangle\\ \\text{conserved}",
+						"\\pi|x\\rangle=|-x\\rangle,\\ \\pi^\\dagger \\mathbf x\\,\\pi=-\\mathbf x",
+						"\\Theta^2=(-1)^{2j}"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "4.1",
+							"title": "Symmetries, Conservation Laws, and Degeneracies"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "4.2",
+							"title": "Discrete Symmetries, Parity, or Space Inversion"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "4.4",
+							"title": "The Time-Reversal Discrete Symmetry"
+						}
+					],
+					"demoIdeas": [
+						"Parity inspector: reflect a wave function about the origin; classify as even/odd and see which dipole transitions survive."
+					]
+				}
+			],
+			"grad": true
+		},
+		{
+			"id": "p6-u10-density-matrix-entanglement",
+			"title": "Grad Touch: Density Matrices, Entanglement, and Bell's Theorem",
+			"summary": "Mixed states and the density operator (the language of NMR relaxation and decoherence), entanglement, the EPR paradox, and Bell's inequalities: how quantum correlations differ from any classical account.",
+			"lessons": [
+				{
+					"id": "p6-l060-density-operator-entanglement",
+					"title": "Density operators, mixed states, and entanglement",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l059-symmetries-parity-time-reversal",
+						"p6-l018-dirac-notation"
+					],
+					"objectives": [
+						"Define the density operator rho for pure and mixed ensembles and compute <A> = Tr(rho A).",
+						"Distinguish pure from mixed states using Tr(rho^2) and construct the maximally mixed state of a qubit.",
+						"Compute the reduced density matrix of one half of an entangled pair and show that it is mixed.",
+						"Write the Schmidt decomposition of a two-qubit pure state and use it as an entanglement criterion.",
+						"Connect rho to the NMR density-matrix formalism and thermal ensembles (rho proportional to exp(-beta H))."
+					],
+					"keyEquations": [
+						"\\rho=\\sum_jw_j|\\alpha_j\\rangle\\langle\\alpha_j|",
+						"\\langle A\\rangle=\\mathrm{Tr}(\\rho A)",
+						"\\rho_A=\\mathrm{Tr}_B\\rho_{AB}",
+						"|\\Psi\\rangle=\\tfrac1{\\sqrt2}(\\uparrow\\downarrow-\\downarrow\\uparrow)"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "3.4",
+							"title": "Density Operators and Pure Versus Mixed Ensembles"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "12.3",
+							"title": "Mixed States and the Density Matrix",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.05 (Fall 2013)",
+							"title": "Lecture 19: Multiparticle States and Tensor Products (cont.)",
+							"url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/resources/lecture-19-multiparticle-states-and-tensor-products-cont/"
+						},
+						{
+							"source": "MIT OCW 8.04 (Spring 2016)",
+							"title": "Entanglement",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/resources/entanglement/"
+						},
+						{
+							"source": "Susskind, Quantum Mechanics: The Theoretical Minimum (2012)",
+							"title": "Lecture 6: Entanglement",
+							"url": "https://theoreticalminimum.com/courses/quantum-mechanics/2012/winter/lecture-6"
+						}
+					],
+					"demoIdeas": [
+						"Bloch-ball viewer: draw pure (surface) and mixed (interior) states; trace out one qubit of a Bell pair to land at the centre."
+					]
+				},
+				{
+					"id": "p6-l061-epr-bell",
+					"title": "The EPR paradox and Bell's inequality",
+					"minutes": 90,
+					"prereqs": [
+						"p6-l060-density-operator-entanglement"
+					],
+					"objectives": [
+						"State the EPR argument and the local-hidden-variable assumption.",
+						"Derive the Bell/CHSH inequality for local hidden variable theories.",
+						"Compute the quantum prediction for singlet-state spin correlations and show that it violates CHSH up to 2 sqrt(2).",
+						"Summarise what experiments such as Aspect's tests rule out and what they do not."
+					],
+					"keyEquations": [
+						"E(\\hat a,\\hat b)=-\\hat a\\cdot\\hat b",
+						"|S|\\le2\\ (\\text{local}),\\ |S|_{QM}\\le2\\sqrt2",
+						"S=E(a,b)-E(a,b')+E(a',b)+E(a',b')"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "3.10",
+							"title": "Spin Correlation Measurements and Bell's Inequality"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "12.1",
+							"title": "The EPR Paradox"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "12.2",
+							"title": "Bell's Theorem"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.04 (Spring 2013)",
+							"title": "Lecture 24: Entanglement: QComputing, EPR, and Bell's Theorem",
+							"url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/resources/lecture-24/"
+						},
+						{
+							"source": "Susskind, Quantum Mechanics: The Theoretical Minimum (2012)",
+							"title": "Lecture 7: Entanglement and the nature of reality",
+							"url": "https://theoreticalminimum.com/courses/quantum-mechanics/2012/winter/lecture-7"
+						}
+					],
+					"demoIdeas": [
+						"CHSH game: choose analyser angles and compare the quantum value with the classical bound by Monte Carlo."
+					]
+				}
+			],
+			"grad": true
+		}
+	],
+	"exams": [
+		{
+			"id": "p6-midterm",
+			"kind": "midterm",
+			"title": "P6 Midterm: Wave Mechanics, Formalism, Hydrogen, Spin, Identical Particles",
+			"covers": [
+				"p6-u01-wavefunction",
+				"p6-u02-stationary-states",
+				"p6-u03-formalism",
+				"p6-u04-3d-hydrogen-spin",
+				"p6-u05-identical-particles"
+			],
+			"minutes": 120,
+			"passMark": 0.7
+		},
+		{
+			"id": "p6-final",
+			"kind": "final",
+			"title": "P6 Final: Quantum Mechanics",
+			"covers": [
+				"p6-u01-wavefunction",
+				"p6-u02-stationary-states",
+				"p6-u03-formalism",
+				"p6-u04-3d-hydrogen-spin",
+				"p6-u05-identical-particles",
+				"p6-u06-approximation-methods",
+				"p6-u07-time-dependence-scattering",
+				"p6-u08-sakurai-kets-dynamics",
+				"p6-u09-sakurai-angular-momentum-symmetry",
+				"p6-u10-density-matrix-entanglement"
+			],
+			"minutes": 180,
+			"passMark": 0.7
+		}
+	]
+}

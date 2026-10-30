@@ -28,6 +28,7 @@ import type {
 } from "./contracts.ts";
 import type { UserSettings } from "./settings.ts";
 import type { BooksCatalog, Program, ProgressEvent } from "./contracts/curriculum.ts";
+import type { PageText, SectionSpan } from "./bookshelf.ts";
 
 // ─── ChatStore — the session record's home (data/chats) ─────────────────────
 
@@ -260,3 +261,48 @@ export interface CurriculumStore {
 }
 
 export type CacheKind = "quizzes" | "assessments" | "audio" | "demos" | "lectures";
+
+// ─── BookshelfStore — ingested textbooks (data/books/<bookId>/) ─────────────
+
+export interface IngestedBook {
+	bookId: string;
+	title: string;
+	pageCount: number;
+	ingestedAt: string;
+	/** The original file name the learner supplied. */
+	sourceName: string;
+	outlineEntries: number;
+}
+
+export interface BookSearchHit {
+	bookId: string;
+	page: number;
+	label: string | null;
+	section: string | null;
+	snippet: string;
+	/** bm25 (lower = better), comparable only roughly across books. */
+	score: number;
+}
+
+/**
+ * One SQLite file per book (node:sqlite, FTS5 porter): pages, outline
+ * spans, and ~220-word chunks for search. Written once at ingest (a full
+ * rebuild on re-ingest); read by the agent book tools, the reader, and
+ * the reading-ref resolver.
+ */
+export interface BookshelfStore {
+	listBooks(): IngestedBook[];
+	getBook(bookId: string): IngestedBook | null;
+	writeIndex(
+		bookId: string,
+		input: { title: string; sourceName: string; pages: PageText[]; spans: SectionSpan[]; outlineEntries: number },
+	): void;
+	/** Copy-in location for the book's PDF (the caller writes it). */
+	sourcePath(bookId: string): string;
+	search(query: string, opts?: { bookIds?: string[]; k?: number }): BookSearchHit[];
+	pages(bookId: string, from: number, to: number): PageText[];
+	allPages(bookId: string): PageText[];
+	spans(bookId: string): SectionSpan[];
+	/** Cache path for a rendered page PNG. */
+	pageImagePath(bookId: string, page: number, dpi: number): string;
+}

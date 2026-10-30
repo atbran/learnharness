@@ -51,6 +51,7 @@ import { ensureCompacted, kickCompaction, effectiveThresholdTokens } from "./com
 import { catalogContextLimits, refreshConnectionCatalog } from "./model-catalog.ts";
 import { emit } from "../core/events.ts";
 import { settledTurnResponse } from "./turn-runs.ts";
+import { bookToolContext } from "./bookshelf.ts";
 import { asAgentMessages } from "../core/native-messages.ts";
 import {
 	ChatInputError,
@@ -395,6 +396,9 @@ export async function handleChatInput(
 	// Both share this whole composition (write-ahead persist, liveness,
 	// steers, usage, extraction) — only the agent differs.
 	const teaching = hasProbeDone(agentMessages);
+	// The physics program's textbook shelf: book tools ride every teach and
+	// practice turn once at least one book is ingested.
+	const booksCtx = stores.bookshelfStore.listBooks().length > 0 ? bookToolContext() : null;
 	// BYOK (owner, 2026-09-22): the conversation chain was resolved by the
 	// turn gate above (chat.model override → strong slot → refused) — the
 	// engine build is pure from here; thinking levels clamp natively.
@@ -468,6 +472,7 @@ export async function handleChatInput(
 							searchAvailable,
 						},
 						...(graphToolsEnabled(effective) ? { graph: { chatStore: stores.chatStore, graphStore: stores.graphStore } } : {}),
+						...(booksCtx ? { books: booksCtx } : {}),
 					},
 					agentOpts,
 				)
@@ -481,6 +486,7 @@ export async function handleChatInput(
 						// The registry drop's signal (2026-09-20): no live engine
 						// = no research tool in the teacher's registry.
 						searchAvailable,
+						...(booksCtx ? { books: booksCtx } : {}),
 					},
 					agentOpts,
 				)

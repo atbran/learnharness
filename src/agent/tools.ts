@@ -19,6 +19,7 @@ import { jobTools, type DemoInput, type PdfInput, type ResearchInput, type Visua
 import { planTools, type PlanToolContext } from "./tools/plan.ts";
 import { probeDoneTool, type ProbeDoneContext } from "./tools/probe.ts";
 import { proberGraphTools } from "./tools/graph.ts";
+import { bookTools, type BookToolContext } from "./tools/books.ts";
 import { readTool } from "./tools/read.ts";
 import { lsTool } from "./tools/ls.ts";
 import { findTool } from "./tools/find.ts";
@@ -400,6 +401,10 @@ export interface TeacherToolContext extends PlanToolContext {
 	spawn: (job: JobRecord, input: ResearchInput | DemoInput | VisualInput | PdfInput) => void;
 	/** Retained search-status seam; research dispatch is available keylessly. */
 	searchAvailable?: () => boolean;
+	/** The learner's textbook shelf (physics program). Present = the book
+	 *  tools are registered; the composition root passes it only when at
+	 *  least one book is ingested. */
+	books?: BookToolContext;
 }
 
 /**
@@ -459,6 +464,7 @@ export function createTeacherTools(
 			grep: grepTool,
 			...planTools(ctx),
 			...jobTools({ chatId: ctx.chatId, jobStore: ctx.jobStore, spawn: ctx.spawn, searchAvailable: ctx.searchAvailable }),
+			...(ctx.books ? bookTools(ctx.books) : {}),
 		},
 		withoutMechanics(enabled),
 		),

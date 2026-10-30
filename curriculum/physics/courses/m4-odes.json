@@ -1,0 +1,1030 @@
+{
+	"id": "m4-odes",
+	"code": "M4",
+	"title": "Ordinary Differential Equations",
+	"track": "math",
+	"depth": "core",
+	"hours": 40,
+	"prereqs": [
+		"m1-calculus",
+		"m3-linear-algebra"
+	],
+	"subject": "Differential Equations",
+	"summary": "First-order methods, linear second-order equations with constant coefficients (oscillators, damping, resonance), Laplace transforms and impulse response, linear systems via eigenvalues, phase portraits and linearisation, series solutions, and numerical methods. Built on MIT 18.03 lectures and Boas ch. 8, with the chemist's rate equations, damped vibrations and oscillating reactions as recurring examples.",
+	"books": [
+		{
+			"bookId": "boas",
+			"role": "primary"
+		},
+		{
+			"bookId": "strang-la",
+			"role": "secondary"
+		}
+	],
+	"units": [
+		{
+			"id": "m4-u01-first-order",
+			"title": "First-Order Equations",
+			"summary": "Separable and linear first-order ODEs, direction fields, autonomous equations and stability: the mathematics of first-order kinetics and relaxation.",
+			"lessons": [
+				{
+					"id": "m4-l001-direction-fields-separable",
+					"title": "ODEs, Direction Fields and Separable Equations",
+					"minutes": 90,
+					"objectives": [
+						"Classify an ODE by order, linearity and homogeneity, and state what a general solution and an initial-value problem are.",
+						"Sketch a direction field for y' = f(x, y) and use it to predict the qualitative shape of solutions.",
+						"Solve separable equations including rate laws dc/dt = -k c^n, and give the integral solution for n = 0, 1, 2.",
+						"Check a proposed solution by substitution and determine the constant from initial data.",
+						"Connect to chemistry: derive the integrated rate laws for zero-, first- and second-order reactions and half-lives."
+					],
+					"keyEquations": [
+						"y' = f(x,y)",
+						"\\frac{dy}{dx}=g(x)h(y)\\Rightarrow\\int\\frac{dy}{h(y)}=\\int g(x)\\,dx",
+						"\\frac{dc}{dt}=-kc\\Rightarrow c=c_0e^{-kt}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.1",
+							"title": "Introduction"
+						},
+						{
+							"bookId": "boas",
+							"ref": "8.2",
+							"title": "Separable Equations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 1: The Geometrical View of y'= f(x,y)",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-1-the-geometrical-view-of-y-f-x-y/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit I: Basic DE's and separable equations",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-i-first-order-differential-equations/basic-de-and-separable-equations/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit I: Geometric methods",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-i-first-order-differential-equations/geometric-methods/"
+						}
+					],
+					"demoIdeas": [
+						"Direction-field explorer: click anywhere to draw the solution curve through that point for a user-typed f(x, y).",
+						"Integrated-rate-law plotter: choose reaction order and see c(t), ln c and 1/c linearisations."
+					]
+				},
+				{
+					"id": "m4-l002-linear-first-order",
+					"title": "Linear First-Order Equations and Substitution Methods",
+					"minutes": 90,
+					"objectives": [
+						"Solve y' + p(x) y = q(x) with an integrating factor and verify the result.",
+						"Distinguish transient from steady-state parts of a solution and interpret them physically.",
+						"Use substitutions (homogeneous equations, Bernoulli equations) to reduce an equation to a solvable form.",
+						"Decide when an equation is exact and solve it via a potential function (connecting to conservative fields).",
+						"Connect to chemistry: solve consecutive reactions A -> B -> C and a CSTR/mixing-tank problem with an integrating factor."
+					],
+					"keyEquations": [
+						"y'+p(x)y=q(x)",
+						"\\mu(x)=e^{\\int p\\,dx}",
+						"(\\mu y)'=\\mu q",
+						"M\\,dx+N\\,dy=0,\\ \\partial_yM=\\partial_xN"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.3",
+							"title": "Linear First-Order Equations"
+						},
+						{
+							"bookId": "boas",
+							"ref": "8.4",
+							"title": "Other Methods for First-Order Equations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 3: Solving First-order Linear ODEs",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-3-solving-first-order-linear-odes/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 4: First-order Substitution Methods",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-4-first-order-substitution-methods/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit I: Solution by integrating factors",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-i-first-order-differential-equations/solution-by-integrating-factors/"
+						}
+					],
+					"demoIdeas": [
+						"Mixing-tank simulator: vary inflow concentration and rate; see transient and steady state separate."
+					]
+				},
+				{
+					"id": "m4-l003-autonomous-numerical",
+					"title": "Autonomous Equations, Stability and Euler's Method",
+					"minutes": 80,
+					"objectives": [
+						"Find equilibria of y' = f(y) and classify each as stable or unstable from the sign of f'(y*).",
+						"Draw and interpret a phase line, including semi-stable points, and explain why solutions cannot cross equilibria.",
+						"Apply Euler's method by hand for a few steps and state its local and global error orders.",
+						"Explain how a step size that is too large produces spurious behaviour (instability) for y' = -ky."
+					],
+					"keyEquations": [
+						"y'=f(y),\\ f(y^*)=0",
+						"f'(y^*)<0\\Rightarrow\\text{stable}",
+						"y_{n+1}=y_n+h f(x_n,y_n)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.1",
+							"title": "Introduction",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 5: First-order Autonomous ODEs",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-5-first-order-autonomous-odes/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 2: Euler's Numerical Method for y'=f(x,y)",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-2-eulers-numerical-method-for-y-f-x-y/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit I: First-order autonomous differential equations",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-i-first-order-differential-equations/first-order-autonomous-differential-equations/"
+						}
+					],
+					"demoIdeas": [
+						"Logistic growth with a harvesting slider: watch equilibria collide and vanish (saddle-node bifurcation).",
+						"Euler's method vs exact solution with a step-size slider."
+					]
+				},
+				{
+					"id": "m4-l004-complex-exponentials-first-order",
+					"title": "Complex Exponentials and Sinusoidal Input",
+					"minutes": 75,
+					"objectives": [
+						"Use Euler's formula to write cos and sin as combinations of e^{+/-i t} and convert A cos(wt) + B sin(wt) to amplitude-phase form.",
+						"Solve y' + k y = cos(wt) by the complex-replacement method and read off the gain and phase lag.",
+						"Explain the gain and phase lag of a first-order system as a low-pass filter response."
+					],
+					"keyEquations": [
+						"e^{i\\theta}=\\cos\\theta+i\\sin\\theta",
+						"A\\cos\\omega t+B\\sin\\omega t=R\\cos(\\omega t-\\phi)",
+						"y_p=\\operatorname{Re}\\frac{e^{i\\omega t}}{k+i\\omega}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "2.9",
+							"title": "Euler's Formula"
+						},
+						{
+							"bookId": "boas",
+							"ref": "8.3",
+							"title": "Linear First-Order Equations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 6: Complex Numbers and Complex Exponentials",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-6-complex-numbers-and-complex-exponentials/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 7: First-order Linear with Constant Coefficients",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-7-first-order-linear-with-constant-coefficients/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 8: Continuation",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-8-continuation/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "The Physics of Euler's Formula",
+							"url": "https://www.3blue1brown.com/lessons/complex-exponents/"
+						}
+					],
+					"demoIdeas": [
+						"Phasor animation: input cos(wt), rotating phasor in the complex plane, and the filtered output with lag."
+					]
+				}
+			]
+		},
+		{
+			"id": "m4-u02-second-order",
+			"title": "Second-Order Linear Equations: Oscillators and Resonance",
+			"summary": "The harmonic oscillator in all its guises: free, damped, driven and resonant. Applies directly to molecular vibrations, RLC circuits and driven spectroscopic transitions.",
+			"lessons": [
+				{
+					"id": "m4-l005-characteristic-equation",
+					"title": "Homogeneous Equations and the Characteristic Equation",
+					"minutes": 90,
+					"objectives": [
+						"Solve a y'' + b y' + c y = 0 by the characteristic equation for real distinct, repeated and complex roots.",
+						"State why solutions form a two-dimensional vector space and define the Wronskian as the independence test.",
+						"Write the oscillatory solution in the form e^{-gamma t}(A cos(w t) + B sin(w t)) = R e^{-gamma t} cos(wt - phi).",
+						"Fit constants to initial position and velocity."
+					],
+					"keyEquations": [
+						"ay''+by'+cy=0",
+						"r^2 + \\tfrac{b}{a}r+\\tfrac{c}{a}=0",
+						"W(y_1,y_2)=y_1y_2'-y_1'y_2",
+						"y=e^{\\alpha t}(A\\cos\\beta t+B\\sin\\beta t)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.5",
+							"title": "Second-Order Linear Equations with Constant Coefficients and Zero Right-Hand Side"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 9: Solving Second-order Linear ODE's with Constant Coefficients",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-9-solving-second-order-linear-odes-with-constant-coefficients/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 10: Continuation: Complex Characteristic Roots",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-10-continuation-complex-characteristic-roots/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 11: Theory of General Second-order Linear Homogeneous ODEs",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-11-theory-of-general-second-order-linear-homogeneous-odes/"
+						},
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Solving the Linear Equations L(y) = 0; Constant Coefficients",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part2_lec3_300k.mp4"
+						}
+					]
+				},
+				{
+					"id": "m4-l006-damped-oscillator",
+					"title": "The Damped Harmonic Oscillator",
+					"minutes": 80,
+					"objectives": [
+						"Classify damping as under-, critical or over-damped from the discriminant and the damping ratio zeta.",
+						"Compute the damped frequency, decay time and quality factor Q for an underdamped oscillator.",
+						"Sketch x(t) for each damping regime, and say which returns to equilibrium fastest.",
+						"Model an RLC circuit and a spring-mass-dashpot with the same equation and map the parameters.",
+						"Connect to chemistry: a vibrational mode with friction/relaxation gives a Lorentzian line shape; Q is related to linewidth."
+					],
+					"keyEquations": [
+						"m\\ddot x+b\\dot x+kx=0",
+						"\\ddot x+2\\zeta\\omega_0\\dot x+\\omega_0^2x=0",
+						"\\omega_d=\\omega_0\\sqrt{1-\\zeta^2}",
+						"Q=\\omega_0/(2\\zeta\\omega_0)=1/(2\\zeta)"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.5",
+							"title": "Second-Order Linear Equations with Constant Coefficients and Zero Right-Hand Side"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit II: Damped harmonic oscillators",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-ii-second-order-constant-coefficient-linear-equations/damped-harmonic-oscillators/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit II: Applications, LRC circuits, damping ratio",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-ii-second-order-constant-coefficient-linear-equations/applications-lrc-circuits-damping-ratio/"
+						}
+					],
+					"demoIdeas": [
+						"Mass-spring-damper with sliders for m, b, k; trace x(t) and show the roots moving in the complex plane."
+					]
+				},
+				{
+					"id": "m4-l007-inhomogeneous",
+					"title": "Inhomogeneous Equations: Superposition and Undetermined Coefficients",
+					"minutes": 90,
+					"objectives": [
+						"State the structure y = y_p + y_h of the general solution and prove it from linearity.",
+						"Find y_p by undetermined coefficients for polynomial, exponential and sinusoidal forcing.",
+						"Use the exponential-response formula y_p = e^{st}/P(s) and handle the exceptional case P(s) = 0 by multiplying by t.",
+						"Apply variation of parameters when undetermined coefficients fail."
+					],
+					"keyEquations": [
+						"P(D)y=f(t)",
+						"y_p=\\frac{e^{st}}{P(s)},\\ P(s)\\neq0",
+						"y_p=\\frac{te^{st}}{P'(s)},\\ P(s)=0,\\ P'(s)\\neq0",
+						"y_p=-y_1\\!\\int\\!\\frac{y_2f}{W}+y_2\\!\\int\\!\\frac{y_1f}{W}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.6",
+							"title": "Second-Order Linear Equations with Constant Coefficients and Right-Hand Side Not Zero"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 12: Continuation: General Theory for Inhomogeneous ODEs",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-12-continuation-general-theory-for-inhomogeneous-odes/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 13: Finding Particular Solutions to Inhomogeneous ODEs",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-13-finding-particular-sto-inhomogeneous-odes/"
+						},
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Undetermined Coefficients",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part2_lec4_300k.mp4"
+						},
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Variations of Parameters",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part2_lec5_300k.mp4"
+						}
+					]
+				},
+				{
+					"id": "m4-l008-resonance",
+					"title": "Driven Oscillators, Resonance and Frequency Response",
+					"minutes": 80,
+					"objectives": [
+						"Solve the driven damped oscillator for sinusoidal forcing and write the steady-state amplitude and phase lag.",
+						"Derive the amplitude response curve, locate its peak and relate its width to Q.",
+						"Explain pure resonance (zero damping, t cos(w0 t) growth) and why damping bounds the response.",
+						"Distinguish transient from steady state and say how long the transient lasts.",
+						"Connect to chemistry: absorption of radiation by a driven oscillator gives the Lorentzian lineshape used in spectroscopy."
+					],
+					"keyEquations": [
+						"\\ddot x+2\\zeta\\omega_0\\dot x+\\omega_0^2x=\\cos\\omega t",
+						"A(\\omega)=\\frac{1}{\\sqrt{(\\omega_0^2-\\omega^2)^2+4\\zeta^2\\omega_0^2\\omega^2}}",
+						"\\tan\\phi=\\frac{2\\zeta\\omega_0\\omega}{\\omega_0^2-\\omega^2}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.6",
+							"title": "Second-Order Linear Equations with Constant Coefficients and Right-Hand Side Not Zero"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 14: Interpretation of the Exceptional Case: Resonance",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-14-interpretation-of-the-exceptional-case-resonance/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit II: Pure resonance",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-ii-second-order-constant-coefficient-linear-equations/pure-resonance/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit II: Frequency response and practical resonance",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-ii-second-order-constant-coefficient-linear-equations/frequency-response-and-practical-resonance/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit II: Gain and phase lag",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-ii-second-order-constant-coefficient-linear-equations/gain-and-phase-lag/"
+						}
+					],
+					"demoIdeas": [
+						"Frequency-response explorer: sweep the driving frequency, plot amplitude and phase, and watch beats appear near resonance."
+					]
+				}
+			]
+		},
+		{
+			"id": "m4-u03-laplace",
+			"title": "Laplace Transforms, Impulses and Convolution",
+			"summary": "The Laplace transform turns linear constant-coefficient ODEs into algebra and gives the response to steps and impulses (delta functions), the engine behind Green's functions.",
+			"lessons": [
+				{
+					"id": "m4-l009-laplace-basics",
+					"title": "The Laplace Transform and Initial-Value Problems",
+					"minutes": 80,
+					"objectives": [
+						"Compute the Laplace transform of t^n, e^{at}, sin, cos, and use linearity and the shift theorem.",
+						"Derive L{f'} = sF - f(0) and use it to turn an ODE into an algebraic equation.",
+						"Invert transforms with partial fractions and a table.",
+						"Solve a damped, driven oscillator IVP by Laplace transform and identify transient and steady-state terms from the poles."
+					],
+					"keyEquations": [
+						"F(s)=\\int_0^\\infty f(t)e^{-st}\\,dt",
+						"\\mathcal L\\{f'\\}=sF(s)-f(0)",
+						"\\mathcal L\\{e^{at}f\\}=F(s-a)",
+						"\\mathcal L\\{t^n\\}=n!/s^{n+1}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.8",
+							"title": "The Laplace Transform"
+						},
+						{
+							"bookId": "boas",
+							"ref": "8.9",
+							"title": "Solution of Differential Equations by Laplace Transforms"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 19: Introduction to the Laplace Transform",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-19-introduction-to-the-laplace-transform/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 20: Derivative Formulas",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-20-derivative-formulas/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit III: Laplace transform basics",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iii-fourier-series-and-laplace-transform/laplace-transform-basics/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit III: Solving initial value problems",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iii-fourier-series-and-laplace-transform/laplace-transform-solving-initial-value-problems/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "But what is a Laplace Transform?",
+							"url": "https://www.3blue1brown.com/lessons/laplace-transform/"
+						},
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Laplace Transforms",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part2_lec7_300k.mp4"
+						}
+					]
+				},
+				{
+					"id": "m4-l010-step-delta-impulse",
+					"title": "Step Functions, the Delta Function and Impulse Response",
+					"minutes": 80,
+					"objectives": [
+						"Write a piecewise forcing term with unit step functions and transform it with the t-shift rule.",
+						"Define the Dirac delta by its sifting property and as the derivative of the step, and solve an ODE driven by a delta.",
+						"Find the unit impulse response (weight function) w(t) of an oscillator and relate it to the response to a unit step.",
+						"Explain a kick (instantaneous momentum transfer) as a delta-function force."
+					],
+					"keyEquations": [
+						"\\mathcal L\\{u(t-a)f(t-a)\\}=e^{-as}F(s)",
+						"\\int\\delta(t-a)f(t)\\,dt=f(a)",
+						"\\mathcal L\\{\\delta(t)\\}=1",
+						"w(t)=\\mathcal L^{-1}\\{1/P(s)\\}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.11",
+							"title": "The Dirac Delta Function"
+						},
+						{
+							"bookId": "boas",
+							"ref": "8.9",
+							"title": "Solution of Differential Equations by Laplace Transforms",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 22: Using Laplace Transform to Solve ODEs with Discontinuous Inputs",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-22-using-laplace-transform-to-solve-odes-with-discontinuous-inputs/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 23: Use with Impulse Inputs",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-23-use-with-impulse-inputs/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit III: Step and delta functions",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iii-fourier-series-and-laplace-transform/step-and-delta-functions-integrals-and-generalized-derivatives/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit III: Unit step and unit impulse response",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iii-fourier-series-and-laplace-transform/unit-step-and-unit-impulse-response/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 4: Delta Function Day",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-4-delta-function-day/"
+						}
+					],
+					"demoIdeas": [
+						"Kicked oscillator: apply a delta force at chosen times and watch the superposition of impulse responses."
+					]
+				},
+				{
+					"id": "m4-l011-convolution-transfer",
+					"title": "Convolution, Transfer Functions and Green's Formula",
+					"minutes": 70,
+					"objectives": [
+						"State the convolution theorem and compute f * g for simple pairs, both directly and via Laplace transforms.",
+						"Write the solution of P(D)y = f with zero initial data as y = w * f, and explain it as a sum of impulse responses.",
+						"Define the transfer function 1/P(s), and read stability and resonance from its poles.",
+						"Explain why this is the first example of a Green's function, preparing for M5."
+					],
+					"keyEquations": [
+						"(f*g)(t)=\\int_0^tf(\\tau)g(t-\\tau)\\,d\\tau",
+						"\\mathcal L\\{f*g\\}=F(s)G(s)",
+						"y(t)=\\int_0^tw(t-\\tau)f(\\tau)\\,d\\tau"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.10",
+							"title": "Convolution"
+						},
+						{
+							"bookId": "boas",
+							"ref": "8.12",
+							"title": "A Brief Introduction to Green Functions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 21: Convolution Formula",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-21-convolution-formula/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit III: Convolution",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iii-fourier-series-and-laplace-transform/convolution/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit III: Transfer function, weight function, Green's formula",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iii-fourier-series-and-laplace-transform/transfer-system-and-weight-functions-greens-formula/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "Why Laplace transforms are so useful",
+							"url": "https://www.3blue1brown.com/lessons/laplace-for-odes/"
+						}
+					],
+					"demoIdeas": [
+						"Convolution slider: flip-and-slide g(t - tau) across f(tau) with the running integral plotted."
+					]
+				}
+			]
+		},
+		{
+			"id": "m4-u04-linear-systems",
+			"title": "Linear Systems and Phase Portraits",
+			"summary": "Systems du/dt = Au solved by eigenvalues, classified by the trace and determinant, and extended with the matrix exponential; coupled oscillators and kinetics.",
+			"lessons": [
+				{
+					"id": "m4-l012-systems-eigen",
+					"title": "First-Order Systems and the Eigenvalue Method",
+					"minutes": 90,
+					"objectives": [
+						"Convert an n-th order ODE and a pair of coupled ODEs into a first-order system u' = A u.",
+						"Solve u' = A u for distinct real eigenvalues as u = c1 e^{l1 t} v1 + c2 e^{l2 t} v2 and fit initial data.",
+						"Interpret the solution as normal modes of a coupled two-mass-spring system.",
+						"Use the superposition principle for homogeneous systems and the Wronskian/fundamental-matrix idea."
+					],
+					"keyEquations": [
+						"\\mathbf u'=A\\mathbf u",
+						"\\mathbf u=\\sum_ic_ie^{\\lambda_it}\\mathbf v_i",
+						"A\\mathbf v=\\lambda\\mathbf v"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "6.3",
+							"title": "Systems of Differential Equations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 24: Introduction to First-order Systems of ODEs",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-24-introduction-to-first-order-systems-of-odes/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 25: Homogeneous Linear Systems with Constant Coefficients",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-25-homogeneous-linear-systems-with-constant-coefficients/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit IV: Linear systems, introduction",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/linear-systems-introduction/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit IV: Matrix methods, eigenvalues and normal modes",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-methods-eigenvalues-and-normal-modes/"
+						}
+					],
+					"demoIdeas": [
+						"Two coupled masses: click a normal-mode eigenvector to excite it alone; otherwise see the beat pattern."
+					]
+				},
+				{
+					"id": "m4-l013-phase-portraits",
+					"title": "Complex and Repeated Eigenvalues; Phase Portraits",
+					"minutes": 90,
+					"objectives": [
+						"Solve systems with complex eigenvalues and convert the complex solution to real sines and cosines.",
+						"Handle a repeated eigenvalue, including the defective case with a generalised eigenvector.",
+						"Classify the origin (node, saddle, spiral, centre, degenerate node, star) from the trace and determinant using the trace-determinant plane.",
+						"Sketch the phase portrait given eigenvalues and eigenvectors, indicating direction of flow.",
+						"Connect to chemistry: a spiral sink versus centre distinguishes damped from sustained oscillation in a linearised reaction network."
+					],
+					"keyEquations": [
+						"\\lambda^2-\\tau\\lambda+\\Delta=0",
+						"\\tau=\\operatorname{tr}A,\\ \\Delta=\\det A",
+						"\\lambda=\\alpha\\pm i\\beta\\Rightarrow e^{\\alpha t}(\\cos\\beta t,\\sin\\beta t)"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "6.3",
+							"title": "Systems of Differential Equations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 26: Continuation: Repeated Real Eigenvalues",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-26-continuation-repeated-real-eigenvalues/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 27: Sketching Solutions of 2x2 Homogeneous Linear System with Constant Coefficients",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-27-sketching-solutions-of-2x2-homogeneous-linear-system-with-constant-coefficients/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit IV: Qualitative behavior, phase portraits",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/qualitative-behavior-phase-portraits/"
+						}
+					],
+					"demoIdeas": [
+						"Trace-determinant plane: drag a point and see the matching phase portrait and trajectories update."
+					]
+				},
+				{
+					"id": "m4-l014-matrix-exponential",
+					"title": "Matrix Exponential, Inhomogeneous Systems and Kinetic Networks",
+					"minutes": 90,
+					"objectives": [
+						"Define e^{At} and show that u = e^{At} u0 solves u' = A u; compute it for a diagonalisable 2x2 matrix.",
+						"Solve u' = A u + f(t) by variation of parameters with the fundamental matrix.",
+						"Decouple a linear system by changing to the eigenbasis (normal coordinates).",
+						"Model a reversible first-order network A <-> B <-> C as a linear system and identify the equilibrium as the null eigenvector and the relaxation rates as the other eigenvalues."
+					],
+					"keyEquations": [
+						"e^{At}=\\sum_{k}\\frac{(At)^k}{k!}",
+						"\\mathbf u=e^{At}\\mathbf u_0+\\int_0^te^{A(t-s)}\\mathbf f(s)\\,ds",
+						"e^{At}=Se^{\\Lambda t}S^{-1}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "6.3",
+							"title": "Systems of Differential Equations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 28: Matrix Methods for Inhomogeneous Systems",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-28-matrix-methods-for-inhomogeneous-systems/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 29: Matrix Exponentials",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-29-matrix-exponentials/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 30: Decoupling Linear Systems with Constant Coefficients",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-30-decoupling-linear-systems-with-constant-coefficients/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit IV: Matrix exponentials",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/matrix-exponentials/"
+						}
+					],
+					"demoIdeas": [
+						"Reversible three-state kinetics: sliders for the six rate constants, with the eigenvalue spectrum and relaxation times shown."
+					]
+				}
+			]
+		},
+		{
+			"id": "m4-u05-nonlinear",
+			"title": "Nonlinear Systems and Stability",
+			"summary": "Linearisation near equilibria, stability, limit cycles and chaos: predator-prey, the pendulum and oscillating chemical reactions.",
+			"lessons": [
+				{
+					"id": "m4-l015-linearization",
+					"title": "Nonlinear Autonomous Systems and Linearisation",
+					"minutes": 90,
+					"objectives": [
+						"Find the critical points of a 2D autonomous system and compute the Jacobian at each.",
+						"Classify each critical point from the eigenvalues of the Jacobian and state when linearisation is inconclusive (centres, degenerate cases).",
+						"Sketch the global phase portrait using nullclines and the local portraits, for example for Lotka-Volterra and for a damped pendulum.",
+						"Find a conserved quantity or Lyapunov function to establish stability when linearisation fails."
+					],
+					"keyEquations": [
+						"\\dot x=f(x,y),\\ \\dot y=g(x,y)",
+						"J=\\begin{pmatrix}f_x&f_y\\\\g_x&g_y\\end{pmatrix}\\Big|_{(x^*,y^*)}",
+						"\\dot{\\mathbf u}\\approx J\\,(\\mathbf u-\\mathbf u^*)"
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 31: Non-linear Autonomous Systems",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-31-non-linear-autonomous-systems/"
+						},
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 33: Relation Between Non-linear Systems and First-order ODEs",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-33-relation-between-non-linear-systems-and-first-order-odes/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit IV: Nonlinear systems",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/nonlinear-systems/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit IV: Linearization near critical points",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/linearization-near-critical-points/"
+						}
+					],
+					"demoIdeas": [
+						"Phase-plane tool for the pendulum and Lotka-Volterra: click for trajectories, toggle nullclines and eigen-directions at each fixed point."
+					]
+				},
+				{
+					"id": "m4-l016-limit-cycles-chaos",
+					"title": "Limit Cycles, Bifurcations and a Glimpse of Chaos",
+					"minutes": 75,
+					"objectives": [
+						"Define a limit cycle and distinguish stable from unstable cycles, giving the van der Pol oscillator as an example.",
+						"State the Poincare-Bendixson theorem and why chaos cannot occur in a 2D autonomous system.",
+						"Describe a Hopf bifurcation as the birth of a limit cycle when a complex pair crosses the imaginary axis.",
+						"Explain sustained oscillation in the Brusselator or Belousov-Zhabotinsky reaction as a limit cycle, and name the feature (autocatalysis) required."
+					],
+					"keyEquations": [
+						"\\ddot x+\\mu(x^2-1)\\dot x+x=0",
+						"\\operatorname{Re}\\lambda=0\\ (\\text{Hopf})"
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 32: Limit Cycles",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-32-limit-cycles/"
+						},
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit IV: Limitations of the linear, limit cycles and chaos",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-iv-first-order-systems/limitations-of-the-linear-limit-cycles-and-chaos/"
+						}
+					],
+					"demoIdeas": [
+						"Van der Pol and Brusselator phase planes with a slider through the Hopf bifurcation.",
+						"Lorenz attractor with two nearly identical initial conditions diverging."
+					]
+				}
+			]
+		},
+		{
+			"id": "m4-u06-series",
+			"title": "Series Solutions and Special Equations",
+			"summary": "Power-series and Frobenius solutions of linear ODEs with variable coefficients: the source of Legendre and Bessel functions (used heavily in M5, hydrogen atom, and the harmonic oscillator in QM).",
+			"lessons": [
+				{
+					"id": "m4-l017-reduction-cauchy-euler",
+					"title": "Variable Coefficients: Reduction of Order and Cauchy-Euler Equations",
+					"minutes": 70,
+					"objectives": [
+						"Use one known solution to find a second by reduction of order.",
+						"Solve Cauchy-Euler (equidimensional) equations x^2 y'' + a x y' + b y = 0 via y = x^r.",
+						"Use the Wronskian and Abel's formula to test independence without solving.",
+						"Explain why the radial equation in 3D problems often takes Cauchy-Euler form."
+					],
+					"keyEquations": [
+						"y_2=y_1\\int\\frac{e^{-\\int p}}{y_1^2}dx",
+						"x^2y''+axy'+by=0\\Rightarrow r(r-1)+ar+b=0",
+						"W'=-pW"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "8.7",
+							"title": "Other Second-Order Equations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03 (Spring 2010)",
+							"title": "Lecture 11: Theory of General Second-order Linear Homogeneous ODEs",
+							"url": "https://ocw.mit.edu/courses/18-03-differential-equations-spring-2010/resources/lecture-11-theory-of-general-second-order-linear-homogeneous-odes/"
+						},
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Linear Differential Equations",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part2_lec2_300k.mp4"
+						}
+					]
+				},
+				{
+					"id": "m4-l018-power-series",
+					"title": "Power-Series Solutions about Ordinary Points",
+					"minutes": 80,
+					"objectives": [
+						"Solve y'' + p y' + q y = 0 about an ordinary point by substituting y = sum a_n x^n and deriving the recurrence relation.",
+						"State the radius of convergence of the series solution from the nearest singularity.",
+						"Derive Legendre's equation from the Laplacian in spherical coordinates and obtain the polynomial solutions P_l for integer l.",
+						"Obtain Hermite polynomials from the series solution of the quantum harmonic oscillator equation and see how termination quantises the energy."
+					],
+					"keyEquations": [
+						"y=\\sum_{n=0}^\\infty a_nx^n",
+						"(1-x^2)y''-2xy'+l(l+1)y=0",
+						"y''-2xy'+2ny=0"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "12.1",
+							"title": "Introduction"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.2",
+							"title": "Legendre's Equation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT RES.18-008 (Herbert Gross)",
+							"title": "Power Series Solutions",
+							"url": "http://www.archive.org/download/MITRES.18-008/MITRES_18-008_Part2_lec6_300k.mp4"
+						}
+					],
+					"demoIdeas": [
+						"Recurrence explorer: type coefficients of p(x), q(x) and see partial sums of the series solution against a numerical solution."
+					]
+				},
+				{
+					"id": "m4-l019-frobenius-bessel",
+					"title": "Regular Singular Points, Frobenius Method and Bessel's Equation",
+					"minutes": 90,
+					"objectives": [
+						"Identify a regular singular point and write the indicial equation.",
+						"Carry out the Frobenius method y = x^r sum a_n x^n to find at least one solution, and state when a logarithm appears in the second.",
+						"Derive the Bessel function J_nu(x) from Bessel's equation and sketch J_0, J_1.",
+						"Explain the role of Bessel functions in cylindrical problems (vibrating drum, waveguide), previewing M5.",
+						"Connect to chemistry: the radial hydrogen equation is a Frobenius problem giving the Laguerre polynomials and the quantised energies."
+					],
+					"keyEquations": [
+						"x^2y''+xp(x)y'+q(x)y=0",
+						"r(r-1)+p_0r+q_0=0",
+						"x^2y''+xy'+(x^2-\\nu^2)y=0",
+						"J_\\nu(x)=\\sum_{k}\\frac{(-1)^k}{k!\\,\\Gamma(k+\\nu+1)}\\left(\\frac x2\\right)^{2k+\\nu}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "12.11",
+							"title": "Generalized Power Series or the Method of Frobenius"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.12",
+							"title": "Bessel Functions"
+						},
+						{
+							"bookId": "boas",
+							"ref": "12.18",
+							"title": "Series Solutions; Fuchs's Theorem",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Bessel function gallery: plot J_n and show zeros, and the first drum modes in 2D."
+					]
+				}
+			]
+		},
+		{
+			"id": "m4-u07-numerics",
+			"title": "Numerical Methods for ODEs",
+			"summary": "How computers integrate ODEs: Euler, midpoint, Runge-Kutta, error, stability and stiffness; the tools you will use in later simulations.",
+			"lessons": [
+				{
+					"id": "m4-l020-numerical-methods",
+					"title": "Numerical Integration of ODEs: Euler, Runge-Kutta and Stiffness",
+					"minutes": 80,
+					"objectives": [
+						"Implement forward Euler, midpoint and classical RK4 for a scalar ODE and a 2D system, and compare errors by halving h.",
+						"State the order of each method and verify it empirically by a log-log error plot.",
+						"Explain stiffness using a fast-decaying plus slow mode (chemical kinetics with disparate rate constants) and why implicit methods help.",
+						"Choose a method for a given task, including when energy-conserving (symplectic) methods are preferred, as for planetary orbits."
+					],
+					"keyEquations": [
+						"y_{n+1}=y_n+hf(t_n,y_n)",
+						"k_1=f(t_n,y_n),\\ k_2=f(t_n+\\tfrac h2,y_n+\\tfrac h2k_1)",
+						"y_{n+1}=y_n+\\tfrac h6(k_1+2k_2+2k_3+k_4)"
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.03SC (Fall 2011)",
+							"title": "18.03SC Unit I: Numerical methods",
+							"url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-i-first-order-differential-equations/numerical-methods/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 10: Finite Differences in Time",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-10-finite-differences-in-time/"
+						}
+					],
+					"demoIdeas": [
+						"Error vs step size in log-log for Euler, midpoint and RK4 on the harmonic oscillator.",
+						"Stiff kinetics demo: explicit method blows up at moderate h while an implicit one is stable."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "m4-placement",
+			"kind": "placement",
+			"title": "M4 Placement: Ordinary Differential Equations",
+			"covers": [
+				"m4-u01-first-order",
+				"m4-u02-second-order",
+				"m4-u03-laplace",
+				"m4-u04-linear-systems",
+				"m4-u05-nonlinear",
+				"m4-u06-series",
+				"m4-u07-numerics"
+			],
+			"minutes": 80,
+			"passMark": 0.8
+		},
+		{
+			"id": "m4-midterm",
+			"kind": "midterm",
+			"title": "M4 Midterm: First- and Second-Order Equations, Laplace Transforms",
+			"covers": [
+				"m4-u01-first-order",
+				"m4-u02-second-order",
+				"m4-u03-laplace"
+			],
+			"minutes": 100,
+			"passMark": 0.7
+		},
+		{
+			"id": "m4-final",
+			"kind": "final",
+			"title": "M4 Final: Ordinary Differential Equations",
+			"covers": [
+				"m4-u01-first-order",
+				"m4-u02-second-order",
+				"m4-u03-laplace",
+				"m4-u04-linear-systems",
+				"m4-u05-nonlinear",
+				"m4-u06-series",
+				"m4-u07-numerics"
+			],
+			"minutes": 160,
+			"passMark": 0.7
+		}
+	]
+}

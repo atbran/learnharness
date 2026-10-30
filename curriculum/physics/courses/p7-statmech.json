@@ -1,0 +1,1324 @@
+{
+	"id": "p7-statmech",
+	"code": "P7",
+	"title": "Thermal & Statistical Physics",
+	"track": "physics",
+	"depth": "core",
+	"hours": 60,
+	"prereqs": [
+		"p1-mechanics",
+		"m2-multivariable"
+	],
+	"subject": "Thermal & Statistical",
+	"summary": "Thermal physics from microscopic counting: entropy and the second law, temperature, pressure and chemical potential as derivatives of entropy, a brief pass over engines and chemical thermodynamics, Boltzmann statistics and partition functions, quantum statistics (Fermi-Dirac, Bose-Einstein, blackbody, Debye), interacting systems and phase transitions, and a graduate unit on ensembles and fluctuations. Follows Schroeder, with Tong for the advanced material.",
+	"books": [
+		{
+			"bookId": "schroeder-thermal",
+			"role": "primary"
+		},
+		{
+			"bookId": "tong-statmech",
+			"role": "secondary"
+		}
+	],
+	"units": [
+		{
+			"id": "p7-u01-energy-first-law",
+			"title": "Energy and the First Law (brisk review)",
+			"summary": "A fast pass over temperature, the ideal gas, equipartition, heat, work and heat capacity; the chemist already knows the macroscopic version, so the aim is to restate it in the microscopic language used for the rest of the course.",
+			"lessons": [
+				{
+					"id": "p7-l001-thermal-eq-ideal-gas",
+					"title": "Thermal equilibrium, the ideal gas and equipartition",
+					"minutes": 75,
+					"prereqs": [],
+					"objectives": [
+						"Define temperature operationally and state the zeroth law.",
+						"Derive the ideal gas law from kinetic theory, and compute the rms speed of molecules at a given temperature.",
+						"State the equipartition theorem and use it to predict internal energy and heat capacities of monatomic and diatomic gases, naming which degrees of freedom are frozen out at room temperature.",
+						"Explain why the observed C_V of H2 steps with temperature, in terms of rotational and vibrational energy-level spacings (a quantum effect you will derive later)."
+					],
+					"keyEquations": [
+						"PV=NkT=nRT",
+						"U=\\tfrac f2NkT",
+						"\\tfrac12m\\overline{v^2}=\\tfrac32kT"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§1.1",
+							"title": "Thermal Equilibrium"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§1.2",
+							"title": "The Ideal Gas"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§1.3",
+							"title": "Equipartition of Energy"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 1: Thermodynamics Part 1",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-1-thermodynamics-part-1/"
+						},
+						{
+							"source": "MIT OCW 8.044 (Spring 2013, Greytak)",
+							"title": "Statistical Physics I course page (lecture notes, problem sets, exams)",
+							"url": "https://ocw.mit.edu/courses/8-044-statistical-physics-i-spring-2013/"
+						}
+					],
+					"demoIdeas": [
+						"Gas of hard spheres in a box with a temperature slider: histogram of speeds, pressure from wall impacts, and the PV=NkT line."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l002-heat-work",
+					"title": "Heat, work and compression",
+					"minutes": 75,
+					"prereqs": [],
+					"objectives": [
+						"State the first law and distinguish heat from work as two modes of energy transfer.",
+						"Compute the work done on an ideal gas in isothermal, adiabatic, isobaric and isochoric quasistatic processes.",
+						"Derive the adiabatic relation PV^gamma = const from the first law and equipartition.",
+						"Explain what quasistatic means and why it matters for evaluating W = -integral P dV."
+					],
+					"keyEquations": [
+						"\\Delta U=Q+W",
+						"W=-\\int P\\,dV",
+						"PV^\\gamma=\\text{const},\\quad\\gamma=\\frac{f+2}{f}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§1.4",
+							"title": "Heat and Work"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§1.5",
+							"title": "Compression Work"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 2: Thermodynamics Part 2",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-2-thermodynamics-part-2/"
+						}
+					],
+					"demoIdeas": [
+						"Interactive PV diagram: draw isothermal/adiabatic/isobaric paths between two states and see Q, W and Delta U for each."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l003-heat-capacity",
+					"title": "Heat capacity, enthalpy and latent heat",
+					"minutes": 65,
+					"prereqs": [],
+					"objectives": [
+						"Define C_V and C_P and relate them for an ideal gas (C_P - C_V = Nk).",
+						"Define enthalpy and compute heat transferred at constant pressure, including latent heat in a phase change.",
+						"Extract a heat capacity from a measured temperature rise and use it to estimate energy changes."
+					],
+					"keyEquations": [
+						"C_V=\\left(\\frac{\\partial U}{\\partial T}\\right)_V",
+						"H=U+PV",
+						"C_P=\\left(\\frac{\\partial H}{\\partial T}\\right)_P"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§1.6",
+							"title": "Heat Capacity"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p7-u02-second-law",
+			"title": "The Second Law and Entropy",
+			"summary": "Entropy as the logarithm of the number of microstates: counting for two-state systems, Einstein solids and ideal gases, why large systems behave irreversibly, and the Sackur-Tetrode entropy.",
+			"lessons": [
+				{
+					"id": "p7-l004-two-state-einstein",
+					"title": "Two-state systems and the Einstein solid",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Compute multiplicities of a collection of two-state systems (coins or spins) and of an Einstein solid with q quanta and N oscillators using binomial counting.",
+						"State the fundamental assumption of statistical mechanics (all accessible microstates equally likely in an isolated system) and the definition of macrostate versus microstate.",
+						"Define entropy S = k ln Omega and compute it for a simple system.",
+						"Relate this counting to everyday chemistry: the number of microstates of a population of NMR spin-1/2 nuclei in a field."
+					],
+					"keyEquations": [
+						"\\Omega=\\binom{N}{n}=\\frac{N!}{n!(N-n)!}",
+						"\\Omega(N,q)=\\binom{q+N-1}{q}",
+						"S=k\\ln\\Omega"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§2.1",
+							"title": "Two-State Systems"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§2.2",
+							"title": "The Einstein Model of a Solid"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 1: Entropy and conservation of information",
+							"url": "https://www.youtube.com/watch?v=D1RzvXDXyqA"
+						}
+					],
+					"demoIdeas": [
+						"Coin-flip and Einstein-solid multiplicity explorer: choose N and q, see Omega, the most probable macrostate and its narrow peak."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l005-interacting-large",
+					"title": "Interacting systems and large systems",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Compute the multiplicity of two Einstein solids sharing energy and find the most probable energy partition.",
+						"Use Stirling's approximation and Gaussian approximation to the multiplicity function to show that the peak width scales as 1/sqrt(N).",
+						"Explain why macroscopic systems relax to equilibrium irreversibly in terms of overwhelming probability, not impossibility."
+					],
+					"keyEquations": [
+						"\\ln N!\\approx N\\ln N-N",
+						"\\Omega_{total}=\\Omega_A\\Omega_B",
+						"\\Omega\\propto e^{-N(x-x_0)^2\\ldots}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§2.3",
+							"title": "Interacting Systems"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§2.4",
+							"title": "Large Systems"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 3: Maximizing entropy",
+							"url": "https://www.youtube.com/watch?v=EmM1jOV1uSY"
+						}
+					],
+					"demoIdeas": [
+						"Two Einstein solids exchanging quanta: live plot of Omega_A Omega_B versus q_A for increasing N, showing the peak narrowing."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l006-ideal-gas-entropy",
+					"title": "The ideal gas: multiplicity and the Sackur-Tetrode equation",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Count the states of a single particle in a box and an N-particle ideal gas, including the factor 1/N! for identical particles.",
+						"Derive the Sackur-Tetrode equation for the entropy of a monatomic ideal gas.",
+						"Use it to compute the entropy change of free expansion and of mixing, identifying the Gibbs paradox.",
+						"Compute an absolute entropy of a gas such as argon at 298 K and compare with the tabulated standard molar entropy."
+					],
+					"keyEquations": [
+						"\\Omega\\propto\\frac{V^N}{N!}\\frac{(2\\pi mU)^{3N/2}}{h^{3N}(3N/2)!}",
+						"S=Nk\\left[\\ln\\!\\left(\\frac VN\\left(\\frac{4\\pi mU}{3Nh^2}\\right)^{3/2}\\right)+\\tfrac52\\right]",
+						"\\Delta S=Nk\\ln\\frac{V_f}{V_i}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§2.5",
+							"title": "The Ideal Gas"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [],
+					"practice": []
+				},
+				{
+					"id": "p7-l007-entropy-second-law",
+					"title": "Entropy and the second law",
+					"minutes": 75,
+					"prereqs": [],
+					"objectives": [
+						"State the second law in its statistical form and as dS >= 0 for isolated systems.",
+						"Calculate entropy changes for reversible and irreversible processes (heating, expansion, mixing) and show that total entropy increases for the irreversible ones.",
+						"Explain the relation of entropy to information and why a microscopic reversible dynamics still yields an arrow of time.",
+						"Use S = integral C_V dT / T to compute entropy changes from measured heat capacities."
+					],
+					"keyEquations": [
+						"\\Delta S\\ge0",
+						"\\Delta S=\\int\\frac{C}{T}\\,dT",
+						"\\Delta S=\\frac{Q}{T}\\ (\\text{reversible isothermal})"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§2.6",
+							"title": "Entropy"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 7: Entropy vs. reversibility",
+							"url": "https://www.youtube.com/watch?v=sg15UClUY48"
+						},
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 8: Entropy, reversibility, and magnetism",
+							"url": "https://www.youtube.com/watch?v=3hh0lJZbUfo"
+						}
+					],
+					"demoIdeas": [
+						"Gas free-expansion with N particles: histogram of the left-half fraction over time showing return to equilibrium and rare fluctuations for small N."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p7-u03-interactions",
+			"title": "Interactions and Implications: Temperature, Pressure, Chemical Potential",
+			"summary": "Defining temperature, pressure and chemical potential as derivatives of entropy; paramagnet as a worked microscopic example; the thermodynamic identity.",
+			"lessons": [
+				{
+					"id": "p7-l008-temperature-entropy-heat",
+					"title": "Temperature as a derivative of entropy",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Derive 1/T = (dS/dU) from the requirement that two systems exchanging energy maximise total multiplicity.",
+						"Compute T(U) for the Einstein solid and for an ideal gas and recover U = (3/2)NkT.",
+						"Explain negative temperatures in a bounded-spectrum spin system.",
+						"Determine entropy from measured heat capacities using the relation dS = C dT/T and the third-law convention S(0)=0."
+					],
+					"keyEquations": [
+						"\\frac1T=\\left(\\frac{\\partial S}{\\partial U}\\right)_{N,V}",
+						"dS=\\frac{C_V}{T}dT",
+						"S(T)=\\int_0^T\\frac{C_V}{T'}dT'"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§3.1",
+							"title": "Temperature"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§3.2",
+							"title": "Entropy and Heat"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 2: Temperature",
+							"url": "https://www.youtube.com/watch?v=MCRHXHskWnE"
+						},
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 3: Maximizing entropy",
+							"url": "https://www.youtube.com/watch?v=EmM1jOV1uSY"
+						}
+					],
+					"demoIdeas": [
+						"Entropy-vs-energy curves for two systems brought into contact; the common-slope condition for equilibrium."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l009-paramagnetism",
+					"title": "The paramagnet",
+					"minutes": 75,
+					"prereqs": [],
+					"objectives": [
+						"Compute the entropy, temperature and magnetization of a two-state paramagnet as functions of energy using multiplicity.",
+						"Derive the Curie law at high temperature and the saturation at low temperature.",
+						"Connect the model to NMR: Boltzmann polarisation of spin-1/2 nuclei in a field and why NMR signal grows as B/T.",
+						"Explain the meaning of negative temperature for this system."
+					],
+					"keyEquations": [
+						"M=N\\mu\\tanh\\!\\left(\\frac{\\mu B}{kT}\\right)",
+						"M\\approx\\frac{N\\mu^2B}{kT}\\ (\\text{Curie})",
+						"\\frac{N_\\uparrow}{N_\\downarrow}=e^{-2\\mu B/kT}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§3.3",
+							"title": "Paramagnetism"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 8: Entropy, reversibility, and magnetism",
+							"url": "https://www.youtube.com/watch?v=3hh0lJZbUfo"
+						}
+					],
+					"demoIdeas": [
+						"Spin paramagnet: B and T sliders, spin up/down population bar, M(B/T) curve with Curie limit."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l010-pressure-mechanical",
+					"title": "Mechanical equilibrium and pressure",
+					"minutes": 65,
+					"prereqs": [],
+					"objectives": [
+						"Derive P/T = (dS/dV) from entropy maximisation for two systems exchanging volume.",
+						"State the thermodynamic identity dU = T dS - P dV and derive PV = NkT from the entropy of an ideal gas.",
+						"Use the identity to compute reversible heat and work for a process described by S(U,V)."
+					],
+					"keyEquations": [
+						"\\frac PT=\\left(\\frac{\\partial S}{\\partial V}\\right)_{U,N}",
+						"dU=T\\,dS-P\\,dV"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§3.4",
+							"title": "Mechanical Equilibrium and Pressure"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 5: Pressure of an ideal gas and fluctuations",
+							"url": "https://www.youtube.com/watch?v=2BJYXuZZK3c"
+						}
+					],
+					"demoIdeas": [],
+					"practice": []
+				},
+				{
+					"id": "p7-l011-chemical-potential",
+					"title": "Diffusive equilibrium and the chemical potential",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Define the chemical potential mu = -T (dS/dN) and derive the equality of mu between systems in diffusive equilibrium.",
+						"Write the full thermodynamic identity dU = T dS - P dV + mu dN.",
+						"Compute mu for the ideal gas from the Sackur-Tetrode equation and interpret its dependence on concentration and temperature.",
+						"Explain why mu is the quantity that governs chemical equilibrium and phase coexistence (the chemist's partial molar Gibbs energy)."
+					],
+					"keyEquations": [
+						"\\mu=-T\\left(\\frac{\\partial S}{\\partial N}\\right)_{U,V}",
+						"dU=T\\,dS-P\\,dV+\\mu\\,dN",
+						"\\mu=kT\\ln\\!\\left(\\frac{n\\lambda^3}{1}\\right),\\ \\lambda=\\frac{h}{\\sqrt{2\\pi mkT}}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§3.5",
+							"title": "Diffusive Equilibrium and Chemical Potential"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§3.6",
+							"title": "Summary and a Look Ahead"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Two chambers exchanging particles: mu on each side versus density and the approach to equal mu."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p7-u04-engines-free-energy",
+			"title": "Engines, Free Energy and Chemical Thermodynamics (brief)",
+			"summary": "Carnot limits, Helmholtz and Gibbs free energy as the quantities minimised at equilibrium, phase transformations and chemical equilibrium; mostly a restatement of the chemist's physical chemistry in the new language.",
+			"lessons": [
+				{
+					"id": "p7-l012-engines",
+					"title": "Heat engines, Carnot efficiency and refrigerators",
+					"minutes": 75,
+					"prereqs": [],
+					"objectives": [
+						"Derive the Carnot efficiency e = 1 - T_c/T_h from the second law.",
+						"Compute efficiency and work output for Otto and Brayton cycles on a PV diagram.",
+						"Express the coefficient of performance of a refrigerator and its Carnot limit.",
+						"Explain why real engines fall short of Carnot (irreversibility, finite-rate heat flow)."
+					],
+					"keyEquations": [
+						"e=\\frac{W}{Q_h}\\le1-\\frac{T_c}{T_h}",
+						"\\mathrm{COP}=\\frac{Q_c}{W}\\le\\frac{T_c}{T_h-T_c}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§4.1",
+							"title": "Heat Engines"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§4.2",
+							"title": "Refrigerators"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§4.3",
+							"title": "Real Heat Engines",
+							"optional": true
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§4.4",
+							"title": "Real Refrigerators",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 3: Thermodynamics Part 3",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-3-thermodynamics-part-3/"
+						}
+					],
+					"demoIdeas": [
+						"Carnot and Otto cycles on a PV diagram with efficiency readout."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l013-free-energy",
+					"title": "Free energy and thermodynamic potentials",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Define Helmholtz F = U - TS, enthalpy H = U + PV and Gibbs G = U - TS + PV and state when each is minimised.",
+						"Derive dF = -S dT - P dV + mu dN and the other differentials via Legendre transforms.",
+						"Derive Maxwell relations from the equality of mixed partial derivatives and use one to evaluate an otherwise inaccessible derivative.",
+						"Explain the statement 'free energy is the available work' and 'free energy is the force toward equilibrium'."
+					],
+					"keyEquations": [
+						"F=U-TS",
+						"G=F+PV",
+						"dG=-S\\,dT+V\\,dP+\\mu\\,dN",
+						"\\left(\\frac{\\partial S}{\\partial V}\\right)_T=\\left(\\frac{\\partial P}{\\partial T}\\right)_V"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§5.1",
+							"title": "Free Energy as Available Work"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§5.2",
+							"title": "Free Energy as a Force toward Equilibrium"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 4: Thermodynamics Part 4",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-4-thermodynamics-part-4/"
+						}
+					],
+					"demoIdeas": [],
+					"practice": []
+				},
+				{
+					"id": "p7-l014-phases-chemical-eq",
+					"title": "Phase transformations and chemical equilibrium",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Derive the Clausius-Clapeyron equation from equality of G on both sides of a phase boundary and apply it to estimate a boiling point shift.",
+						"Interpret a phase diagram (PT) of a pure substance in terms of minimum G.",
+						"Derive the equilibrium condition sum nu_i mu_i = 0 for a reaction and the relationship K = exp(-Delta G degree / RT) for ideal gases.",
+						"Connect chemical equilibrium to the partition-function approach you will meet in Unit 5."
+					],
+					"keyEquations": [
+						"\\frac{dP}{dT}=\\frac{L}{T\\,\\Delta V}",
+						"\\sum_i\\nu_i\\mu_i=0",
+						"K=e^{-\\Delta G^\\circ/RT}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§5.3",
+							"title": "Phase Transformations of Pure Substances"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§5.4",
+							"title": "Phase Transformations of Mixtures",
+							"optional": true
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§5.5",
+							"title": "Dilute Solutions",
+							"optional": true
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§5.6",
+							"title": "Chemical Equilibrium"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Water phase diagram with draggable point; Clausius-Clapeyron slope along the coexistence curve."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p7-u05-boltzmann-statistics",
+			"title": "Boltzmann Statistics and Partition Functions",
+			"summary": "The Boltzmann factor and canonical ensemble, averages, equipartition and Maxwell speeds, and the partition function as the bridge from microscopic spectrum to thermodynamics (the calculation behind q_trans, q_rot, q_vib in physical chemistry).",
+			"lessons": [
+				{
+					"id": "p7-l015-boltzmann-factor",
+					"title": "The Boltzmann factor and the probability of a state",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Derive the Boltzmann factor for a small system in thermal contact with a reservoir from the entropy of the reservoir.",
+						"Compute relative populations of two energy levels at a given temperature, for example vibrational and electronic levels or NMR spin states.",
+						"Define the partition function Z as the normalisation of the Boltzmann factors.",
+						"Compute the thermal occupation of a hydrogen atom's levels and show why excited states are negligible at room temperature."
+					],
+					"keyEquations": [
+						"P(s)=\\frac{e^{-E_s/kT}}{Z}",
+						"Z=\\sum_se^{-E_s/kT}",
+						"\\frac{P(E_2)}{P(E_1)}=e^{-(E_2-E_1)/kT}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§6.1",
+							"title": "The Boltzmann Factor"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 4: The Boltzmann distribution",
+							"url": "https://www.youtube.com/watch?v=rhFkYjaM5kE"
+						},
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 12: Classical Statistical Mechanics Part 1",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-12-classical-statistical-mechanics-part-1/"
+						}
+					],
+					"demoIdeas": [
+						"Level-population bars for a user-defined set of energy levels as T varies, with live Z."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l016-averages-equipartition",
+					"title": "Average values and the equipartition theorem",
+					"minutes": 75,
+					"prereqs": [],
+					"objectives": [
+						"Compute the mean energy of a system from Z via U = -d ln Z / d beta.",
+						"Apply this to a two-level system and a harmonic oscillator, obtaining the Planck/Einstein average energy.",
+						"Prove the equipartition theorem for quadratic degrees of freedom and state its limits (quantum freeze-out).",
+						"Calculate the heat capacity of a two-level system (Schottky anomaly) and identify the peak."
+					],
+					"keyEquations": [
+						"\\bar E=-\\frac{\\partial\\ln Z}{\\partial\\beta}",
+						"\\bar E=\\tfrac12kT\\ \\text{per quadratic term}",
+						"\\bar E_{osc}=\\frac{\\hbar\\omega}{e^{\\beta\\hbar\\omega}-1}+\\tfrac12\\hbar\\omega"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§6.2",
+							"title": "Average Values"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§6.3",
+							"title": "The Equipartition Theorem"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 13: Classical Statistical Mechanics Part 2",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-13-classical-statistical-mechanics-part-2/"
+						}
+					],
+					"demoIdeas": [
+						"Heat capacity C(T) of a two-level system and of a harmonic oscillator, with the equipartition limit marked."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l017-maxwell-speed",
+					"title": "The Maxwell speed distribution",
+					"minutes": 65,
+					"prereqs": [],
+					"objectives": [
+						"Derive the Maxwell distribution of molecular speeds from the Boltzmann factor and spherical phase-space volume.",
+						"Compute the most probable, mean and rms speeds and the fraction of molecules above a given speed.",
+						"Estimate effusion rates and apply them to Arrhenius-like thermal activation (fraction of molecules above an energy barrier E_a)."
+					],
+					"keyEquations": [
+						"D(v)=4\\pi\\left(\\frac m{2\\pi kT}\\right)^{3/2}v^2e^{-mv^2/2kT}",
+						"v_{mp}=\\sqrt{2kT/m},\\ \\bar v=\\sqrt{8kT/\\pi m},\\ v_{rms}=\\sqrt{3kT/m}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§6.4",
+							"title": "The Maxwell Speed Distribution"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Maxwell-Boltzmann speed distribution with T and mass sliders, shaded tail above a threshold velocity."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l018-partition-free-energy",
+					"title": "Partition functions and free energy",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Derive F = -kT ln Z and obtain S, P, mu and heat capacity as derivatives of ln Z.",
+						"Show that Z for independent distinguishable systems factorises and for identical gas particles carries a 1/N! factor.",
+						"Compute Z, F, S and P for the ideal gas, recovering Sackur-Tetrode.",
+						"Compute vibrational, rotational and translational partition functions for a diatomic molecule and the associated heat capacity contributions."
+					],
+					"keyEquations": [
+						"F=-kT\\ln Z",
+						"S=-\\left(\\frac{\\partial F}{\\partial T}\\right)_V",
+						"Z_{N}=\\frac{Z_1^N}{N!}",
+						"Z_1=\\frac{V}{\\lambda^3}",
+						"q_{rot}\\approx\\frac{T}{\\sigma\\Theta_{rot}}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§6.5",
+							"title": "Partition Functions and Free Energy"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§6.6",
+							"title": "Partition Functions for Composite Systems"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§6.7",
+							"title": "Ideal Gas Revisited"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 5: Pressure of an ideal gas and fluctuations",
+							"url": "https://www.youtube.com/watch?v=2BJYXuZZK3c"
+						},
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 6: Weakly interacting gases, heat, and work",
+							"url": "https://www.youtube.com/watch?v=bW30Rj6w8VI"
+						},
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 14: Classical Statistical Mechanics Part 3",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-14-classical-statistical-mechanics-part-3/"
+						}
+					],
+					"demoIdeas": [
+						"Diatomic gas heat capacity C_V(T): translational, rotational, vibrational steps assembled from partition functions."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p7-u06-quantum-statistics",
+			"title": "Quantum Statistics: Fermions, Bosons, Photons and Phonons",
+			"summary": "Gibbs factor and the Fermi-Dirac and Bose-Einstein distributions, degenerate Fermi gases (electrons in metals), blackbody radiation, Debye theory of solids and Bose-Einstein condensation.",
+			"lessons": [
+				{
+					"id": "p7-l019-gibbs-bosons-fermions",
+					"title": "The Gibbs factor, bosons and fermions",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Derive the Gibbs factor for a system exchanging energy and particles with a reservoir and define the grand partition function.",
+						"Derive the Fermi-Dirac and Bose-Einstein distributions for the mean occupation of a single-particle state.",
+						"Show that both reduce to the Maxwell-Boltzmann distribution when the occupation is small, and state the condition (n lambda^3 << 1).",
+						"Explain the relation between spin, statistics and the occupancy of orbitals; connect to the Pauli principle used in electronic configurations."
+					],
+					"keyEquations": [
+						"\\mathcal Z=\\sum e^{-(E-\\mu N)/kT}",
+						"\\bar n_{FD}=\\frac1{e^{(\\epsilon-\\mu)/kT}+1}",
+						"\\bar n_{BE}=\\frac1{e^{(\\epsilon-\\mu)/kT}-1}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§7.1",
+							"title": "The Gibbs Factor"
+						},
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§7.2",
+							"title": "Bosons and Fermions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 20: Quantum Statistical Mechanics Part 1",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-20-quantum-statistical-mechanics-part-1/"
+						},
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 21: Quantum Statistical Mechanics Part 2",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-21-quantum-statistical-mechanics-part-2/"
+						}
+					],
+					"demoIdeas": [
+						"Occupation number vs energy for FD, BE and MB at adjustable mu and T."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l020-fermi-gas",
+					"title": "Degenerate Fermi gases",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Derive the Fermi energy of a free-electron gas from the density of states and compute it for a metal.",
+						"Compute the low-temperature internal energy and heat capacity of a degenerate Fermi gas and explain why C is linear in T.",
+						"Estimate the Fermi temperature of electrons in copper and the degeneracy pressure in a white dwarf (order of magnitude).",
+						"Describe the density-of-states picture (g(epsilon) ~ sqrt(epsilon) in 3D) and sketch occupation at T = 0 and T > 0."
+					],
+					"keyEquations": [
+						"\\epsilon_F=\\frac{\\hbar^2}{2m}(3\\pi^2n)^{2/3}",
+						"g(\\epsilon)=\\frac{V}{2\\pi^2}\\left(\\frac{2m}{\\hbar^2}\\right)^{3/2}\\sqrt\\epsilon",
+						"C_V\\approx\\frac{\\pi^2}{2}Nk\\frac{T}{T_F}"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§7.3",
+							"title": "Degenerate Fermi Gases"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 22: Ideal Quantum Gases Part 1",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-22-ideal-quantum-gases-part-1/"
+						},
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 23: Ideal Quantum Gases Part 2",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-23-ideal-quantum-gases-part-2/"
+						}
+					],
+					"demoIdeas": [
+						"Fermi-Dirac occupation smeared around epsilon_F as T rises; shaded excitation region giving the linear heat capacity."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l021-blackbody",
+					"title": "Blackbody radiation",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Derive the Planck distribution for photons in a cavity using the density of states and Bose-Einstein statistics at mu = 0.",
+						"Derive Wien's law and the Stefan-Boltzmann law by integrating the Planck spectrum.",
+						"Explain the ultraviolet catastrophe from the equipartition result and how quantisation of modes fixes it.",
+						"Connect to chemical practice: tungsten lamp spectra and the cosmic microwave background as a 2.7 K blackbody."
+					],
+					"keyEquations": [
+						"u(\\nu)\\,d\\nu=\\frac{8\\pi h\\nu^3}{c^3}\\frac{1}{e^{h\\nu/kT}-1}d\\nu",
+						"\\lambda_{max}T=2.898\\ \\mathrm{mm\\,K}",
+						"P/A=\\sigma T^4"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§7.4",
+							"title": "Blackbody Radiation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 24: Ideal Quantum Gases Part 3",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-24-ideal-quantum-gases-part-3/"
+						}
+					],
+					"demoIdeas": [
+						"Planck spectrum for adjustable T with the Rayleigh-Jeans curve, Wien peak and total power readout."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l022-debye-solids",
+					"title": "The Debye theory of solids",
+					"minutes": 75,
+					"prereqs": [],
+					"objectives": [
+						"Derive the Debye model: sound waves as phonons with linear dispersion, a cutoff at the Debye frequency, and the resulting heat capacity.",
+						"Obtain the T^3 low-temperature law and the Dulong-Petit high-temperature limit.",
+						"Compare Einstein and Debye models and say which fails at low T and why.",
+						"Estimate the Debye temperature of diamond versus lead from sound speed and atomic density."
+					],
+					"keyEquations": [
+						"U=\\frac{9NkT^4}{T_D^3}\\int_0^{T_D/T}\\frac{x^3}{e^x-1}dx",
+						"C_V\\approx\\frac{12\\pi^4}{5}Nk\\left(\\frac{T}{T_D}\\right)^3",
+						"C_V\\to3Nk"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§7.5",
+							"title": "Debye Theory of Solids"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 25: Ideal Quantum Gases Part 4",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-25-ideal-quantum-gases-part-4/"
+						}
+					],
+					"demoIdeas": [
+						"Heat capacity of solid versus T/T_D comparing Einstein, Debye and Dulong-Petit."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l023-bose-einstein",
+					"title": "Bose-Einstein condensation",
+					"minutes": 75,
+					"prereqs": [],
+					"objectives": [
+						"Derive the critical temperature of an ideal Bose gas from the condition on the number of particles in excited states.",
+						"Describe the ground-state occupation below T_c and sketch the heat capacity near T_c.",
+						"Explain what the BEC wave-function picture means and give one real example (ultracold atoms, liquid helium).",
+						"Contrast what happens to fermions and bosons at the same temperature and density."
+					],
+					"keyEquations": [
+						"N_{exc}=\\frac{V}{\\lambda^3}g_{3/2}(1)",
+						"T_c=\\frac{2\\pi\\hbar^2}{mk}\\left(\\frac{n}{2.612}\\right)^{2/3}",
+						"N_0=N\\left[1-(T/T_c)^{3/2}\\right]"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§7.6",
+							"title": "Bose-Einstein Condensation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 26: Ideal Quantum Gases Part 5",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-26-ideal-quantum-gases-part-5/"
+						}
+					],
+					"demoIdeas": [
+						"Ground-state fraction vs T/T_c for an ideal Bose gas, with the spatial density of a trapped condensate growing a sharp central peak."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p7-u07-interactions-phase-transitions",
+			"title": "Interacting Particles and Phase Transitions",
+			"summary": "Virial expansion and van der Waals, the Ising model (exact 1D solution and mean-field approximation), phase coexistence and critical points with Landau theory and critical exponents.",
+			"lessons": [
+				{
+					"id": "p7-l024-virial-vdw",
+					"title": "Weakly interacting gases: virial expansion and van der Waals",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Write the virial expansion of the equation of state and relate B_2(T) to the intermolecular potential via the Mayer function.",
+						"Compute B_2 for a hard-sphere plus attractive-well potential and obtain the van der Waals equation.",
+						"Locate the Boyle temperature and critical point of a van der Waals fluid.",
+						"Apply the Maxwell equal-area construction to find coexistence pressure."
+					],
+					"keyEquations": [
+						"\\frac{PV}{NkT}=1+\\frac{N}{V}B_2(T)+\\ldots",
+						"B_2=-\\tfrac12\\int(e^{-u(r)/kT}-1)\\,d^3r",
+						"\\left(P+\\frac{aN^2}{V^2}\\right)(V-Nb)=NkT"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§8.1",
+							"title": "Weakly Interacting Gases"
+						},
+						{
+							"bookId": "tong-statmech",
+							"ref": "Ch. 2",
+							"title": "Classical Gases",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 15: Interacting Particles Part 1",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-15-interacting-particles-part-1/"
+						},
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 16: Interacting Particles Part 2",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-16-interacting-particles-part-2/"
+						},
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 6: Weakly interacting gases, heat, and work",
+							"url": "https://www.youtube.com/watch?v=bW30Rj6w8VI"
+						}
+					],
+					"demoIdeas": [
+						"van der Waals isotherms with the Maxwell construction: temperature slider reveals the critical point and the coexistence region."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l025-ising-1d",
+					"title": "The Ising model and the exact one-dimensional solution",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Define the Ising Hamiltonian and its parameters (J, h) and interpret it as a lattice gas or a cooperative-binding model.",
+						"Solve the one-dimensional Ising chain with the transfer-matrix method and obtain the free energy and magnetisation.",
+						"Show that the 1D chain has no phase transition at T > 0 and explain the argument via domain-wall entropy.",
+						"Run a Metropolis Monte Carlo simulation of a 2D Ising lattice in principle and explain what is estimated."
+					],
+					"keyEquations": [
+						"H=-J\\sum_{\\langle ij\\rangle}s_is_j-h\\sum_is_i",
+						"Z=\\mathrm{Tr}\\,T^N,\\ T=\\begin{pmatrix}e^{\\beta(J+h)}&e^{-\\beta J}\\\\e^{-\\beta J}&e^{\\beta(J-h)}\\end{pmatrix}",
+						"\\xi=1/\\ln\\coth(\\beta J)"
+					],
+					"readings": [
+						{
+							"bookId": "schroeder-thermal",
+							"ref": "§8.2",
+							"title": "The Ising Model of a Ferromagnet"
+						},
+						{
+							"bookId": "tong-statmech",
+							"ref": "Ch. 5",
+							"title": "Phase Transitions",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 9: The Ising model",
+							"url": "https://www.youtube.com/watch?v=AT4_S9vQJgc"
+						},
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 17: Interacting Particles Part 3",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-17-interacting-particles-part-3/"
+						}
+					],
+					"demoIdeas": [
+						"2D Ising Metropolis simulator: temperature slider, lattice picture and magnetisation versus T showing the transition near T_c = 2.269 J/k."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l026-mean-field",
+					"title": "Mean-field theory",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Derive the mean-field self-consistency equation m = tanh(beta(Jzm + h)) for the Ising model.",
+						"Find the mean-field critical temperature T_c = zJ/k and the critical behaviour m ~ (T_c - T)^{1/2}.",
+						"Compute the mean-field free energy and heat capacity discontinuity.",
+						"Explain why mean-field theory fails in low dimensions and where it is reliable."
+					],
+					"keyEquations": [
+						"m=\\tanh\\!\\left[\\beta(zJm+h)\\right]",
+						"kT_c=zJ",
+						"m\\simeq\\sqrt{3(1-T/T_c)}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-statmech",
+							"ref": "Ch. 5",
+							"title": "Phase Transitions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 10: Liquid-gas phase transition",
+							"url": "https://www.youtube.com/watch?v=IWtcFAP3ju4"
+						},
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 18: Interacting Particles Part 4",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-18-interacting-particles-part-4/"
+						}
+					],
+					"demoIdeas": [
+						"Graphical solution of m = tanh(m T_c/T): intersection points changing character as T crosses T_c."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l027-landau-critical",
+					"title": "Landau theory and critical exponents",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Write the Landau free energy as a power series in the order parameter and derive the second-order transition.",
+						"Compute the mean-field values of the critical exponents alpha, beta, gamma, delta.",
+						"Explain first-order transitions in Landau theory (cubic term or negative quartic coefficient).",
+						"State what universality means and why exponents depend only on dimension and symmetry, linking to the van der Waals critical point."
+					],
+					"keyEquations": [
+						"f(m)=f_0+\\tfrac12 a(T-T_c)m^2+\\tfrac14 bm^4-hm",
+						"m\\sim|t|^\\beta,\\ \\chi\\sim|t|^{-\\gamma},\\ C\\sim|t|^{-\\alpha}",
+						"\\beta=\\tfrac12,\\ \\gamma=1,\\ \\delta=3,\\ \\alpha=0"
+					],
+					"readings": [
+						{
+							"bookId": "tong-statmech",
+							"ref": "Ch. 5",
+							"title": "Phase Transitions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 19: Interacting Particles Part 5",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-19-interacting-particles-part-5/"
+						}
+					],
+					"demoIdeas": [
+						"Landau free energy versus order parameter: sliders for a(T-T_c) and cubic term, minimum position tracing the transition."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p7-u08-ensembles-fluctuations",
+			"title": "Ensembles and Fluctuations",
+			"summary": "The formal structure behind everything above: microcanonical, canonical and grand canonical ensembles, why they agree in the thermodynamic limit, fluctuations and response functions, classical gases and the cluster expansion.",
+			"lessons": [
+				{
+					"id": "p7-l028-probability-clt",
+					"title": "Probability, the central limit theorem and the thermodynamic limit",
+					"minutes": 75,
+					"prereqs": [],
+					"objectives": [
+						"Compute means, variances and cumulants of discrete and continuous distributions, including the Poisson and Gaussian.",
+						"State the central limit theorem and use it to show that relative fluctuations of extensive quantities scale as 1/sqrt(N).",
+						"Explain why this makes ensembles equivalent for macroscopic systems."
+					],
+					"keyEquations": [
+						"\\langle x\\rangle=\\int xp(x)dx",
+						"\\sigma^2=\\langle x^2\\rangle-\\langle x\\rangle^2",
+						"\\frac{\\sigma_E}{\\langle E\\rangle}\\sim\\frac1{\\sqrt N}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-statmech",
+							"ref": "Ch. 1",
+							"title": "Fundamentals of Statistical Mechanics"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 5: Probability Part 1",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-5-probability-part-1/"
+						},
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 6: Probability Part 2",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-6-probability-part-2/"
+						}
+					],
+					"demoIdeas": [
+						"Sum of N random variables: histogram converging to a Gaussian with the width shrinking as 1/sqrt(N)."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l029-ensembles",
+					"title": "Microcanonical, canonical and grand canonical ensembles",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Define the microcanonical ensemble and entropy S = k ln Omega, and derive the canonical ensemble by coupling to a bath.",
+						"Define the grand canonical ensemble and derive the grand potential Phi = -kT ln Z_G.",
+						"Express the thermodynamic quantities (U, S, P, mu) in each ensemble and show how they are related via Legendre transforms.",
+						"Choose the appropriate ensemble for a given problem (fixed N,V,E; fixed T; open system)."
+					],
+					"keyEquations": [
+						"S=k\\ln\\Omega(E)",
+						"Z=\\sum e^{-\\beta E}",
+						"\\mathcal Z=\\sum e^{-\\beta(E-\\mu N)}",
+						"\\Phi=-kT\\ln\\mathcal Z=-PV"
+					],
+					"readings": [
+						{
+							"bookId": "tong-statmech",
+							"ref": "Ch. 1",
+							"title": "Fundamentals of Statistical Mechanics"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 12: Classical Statistical Mechanics Part 1",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-12-classical-statistical-mechanics-part-1/"
+						}
+					],
+					"demoIdeas": [],
+					"practice": []
+				},
+				{
+					"id": "p7-l030-fluctuations-response",
+					"title": "Fluctuations and response functions",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Derive energy fluctuations in the canonical ensemble, Var(E) = kT^2 C_V.",
+						"Derive number fluctuations in the grand canonical ensemble and relate them to the compressibility.",
+						"State the fluctuation-dissipation idea: equilibrium fluctuations determine linear response coefficients.",
+						"Explain the divergence of fluctuations at critical points (critical opalescence)."
+					],
+					"keyEquations": [
+						"\\langle(\\Delta E)^2\\rangle=kT^2C_V",
+						"\\langle(\\Delta N)^2\\rangle=kT\\left(\\frac{\\partial N}{\\partial\\mu}\\right)_{T,V}",
+						"\\frac{\\langle(\\Delta N)^2\\rangle}{N^2}=\\frac{kT\\kappa_T}{V}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-statmech",
+							"ref": "Ch. 1",
+							"title": "Fundamentals of Statistical Mechanics"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Statistical Mechanics, Spring 2013)",
+							"title": "Lecture 5: Pressure of an ideal gas and fluctuations",
+							"url": "https://www.youtube.com/watch?v=2BJYXuZZK3c"
+						}
+					],
+					"demoIdeas": [
+						"Small-system canonical simulation: energy histogram width versus T and N compared with kT^2 C_V."
+					],
+					"practice": []
+				},
+				{
+					"id": "p7-l031-classical-gases-cluster",
+					"title": "Classical gases: Gibbs paradox, cluster expansion and Debye-Huckel",
+					"minutes": 85,
+					"prereqs": [],
+					"objectives": [
+						"Write the classical partition function for an interacting gas as a phase-space integral and explain the 1/N! and h^3N factors.",
+						"Derive the cluster expansion to second order and recover the virial coefficients.",
+						"Describe the Debye-Huckel treatment of electrolytes, derive the Debye screening length and relate it to ionic strength in solution chemistry.",
+						"Use the Maxwell distribution and equipartition to obtain classical heat capacities and see where the classical results fail."
+					],
+					"keyEquations": [
+						"Z=\\frac{1}{N!h^{3N}}\\int e^{-\\beta H}d^{3N}q\\,d^{3N}p",
+						"\\lambda_D=\\sqrt{\\frac{\\epsilon_0\\epsilon_rkT}{2N_Ae^2I}}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-statmech",
+							"ref": "Ch. 2",
+							"title": "Classical Gases"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.333 (Fall 2013, Kardar; graduate level)",
+							"title": "Lecture 14: Classical Statistical Mechanics Part 3",
+							"url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/resources/lecture-14-classical-statistical-mechanics-part-3/"
+						}
+					],
+					"demoIdeas": [],
+					"practice": []
+				}
+			],
+			"grad": true
+		}
+	],
+	"exams": [
+		{
+			"id": "p7-midterm",
+			"kind": "midterm",
+			"title": "P7 Midterm: Thermodynamics and the Second Law",
+			"covers": [
+				"p7-u01-energy-first-law",
+				"p7-u02-second-law",
+				"p7-u03-interactions",
+				"p7-u04-engines-free-energy"
+			],
+			"minutes": 105,
+			"passMark": 0.7
+		},
+		{
+			"id": "p7-final",
+			"kind": "final",
+			"title": "P7 Final: Thermal and Statistical Physics",
+			"covers": [
+				"p7-u01-energy-first-law",
+				"p7-u02-second-law",
+				"p7-u03-interactions",
+				"p7-u04-engines-free-energy",
+				"p7-u05-boltzmann-statistics",
+				"p7-u06-quantum-statistics",
+				"p7-u07-interactions-phase-transitions",
+				"p7-u08-ensembles-fluctuations"
+			],
+			"minutes": 165,
+			"passMark": 0.7
+		}
+	]
+}

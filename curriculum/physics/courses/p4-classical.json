@@ -1,0 +1,2107 @@
+{
+	"id": "p4-classical",
+	"code": "P4",
+	"title": "Classical Mechanics",
+	"track": "physics",
+	"depth": "core",
+	"hours": 90,
+	"prereqs": [
+		"p1-mechanics",
+		"m3-linear-algebra",
+		"m4-odes"
+	],
+	"subject": "Mechanics",
+	"summary": "An intermediate-to-graduate treatment of classical mechanics following Taylor: Newtonian dynamics with drag and oscillations, calculus of variations and Lagrangian mechanics, central forces, rotating frames, rigid bodies, normal modes, Hamiltonian mechanics and chaos, plus graduate units on Poisson brackets, canonical transformations, Hamilton-Jacobi theory and action-angle variables that lead directly into quantum mechanics and statistical mechanics.",
+	"books": [
+		{
+			"bookId": "taylor-cm",
+			"role": "primary"
+		},
+		{
+			"bookId": "goldstein",
+			"role": "secondary"
+		},
+		{
+			"bookId": "tong-dynamics",
+			"role": "reference"
+		}
+	],
+	"units": [
+		{
+			"id": "p4-u01-newtonian-foundations",
+			"title": "Newtonian Foundations: Coordinates, Momentum, Angular Momentum, Energy",
+			"summary": "Re-derive the Newtonian toolkit at the level the Lagrangian formalism will build on: vector and polar-coordinate dynamics, momentum and angular-momentum conservation for systems, and work-energy with potential-energy diagrams (the same diagrams a chemist uses for bond potentials).",
+			"lessons": [
+				{
+					"id": "p4-l001-newton-polar",
+					"title": "Newton's laws, inertial frames and polar coordinates",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"State Newton's three laws and explain why the first law defines inertial frames and the third law gives momentum conservation for an isolated pair.",
+						"Write the unit vectors r-hat and phi-hat of plane polar coordinates in Cartesian components and differentiate them with respect to time.",
+						"Derive the polar components of velocity and acceleration, identifying the radial centripetal term and the Coriolis-like term 2 r-dot phi-dot.",
+						"Apply Newton's second law in polar coordinates to solve a bead-on-a-rotating-wire or circular-motion problem."
+					],
+					"keyEquations": [
+						"\\vec F=m\\vec a",
+						"\\hat r=\\cos\\phi\\,\\hat x+\\sin\\phi\\,\\hat y",
+						"\\vec a=(\\ddot r-r\\dot\\phi^2)\\hat r+(r\\ddot\\phi+2\\dot r\\dot\\phi)\\hat\\phi"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§1.4",
+							"title": "Newton's First and Second Laws; Inertial Frames"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§1.5",
+							"title": "The Third Law and Conservation of Momentum"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§1.6",
+							"title": "Newton's Second Law in Cartesian Coordinates"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§1.7",
+							"title": "Two-Dimensional Polar Coordinates"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 8: Circular Motion - Position and Velocity (polar coordinates)",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-3-circular-motion/8-1-polar-coordinates/"
+						},
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 4: Newton's Laws of Motion",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-2-newtons-laws/4-1-newtons-first-and-second-laws/"
+						},
+						{
+							"source": "Susskind, Stanford (Classical Mechanics, Fall 2011)",
+							"title": "Lecture 2: Newton's law, phase space, momentum and energy",
+							"url": "https://www.youtube.com/watch?v=mYDrufxpW9E"
+						}
+					],
+					"demoIdeas": [
+						"Particle moving on a plane with draggable velocity; show r-hat and phi-hat frames rotating along the path and the radial/tangential acceleration components."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l002-momentum-cm-rockets",
+					"title": "Momentum conservation, center of mass and rockets",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Derive conservation of total momentum for a system of particles from Newton's third law and relate it to the motion of the center of mass.",
+						"Compute the center of mass of a discrete system and of a continuous body by integration.",
+						"Derive the rocket equation by momentum bookkeeping and evaluate the final speed for given exhaust velocity and mass ratio.",
+						"Solve a two-body collision problem by working in the center-of-mass frame."
+					],
+					"keyEquations": [
+						"\\vec P=\\sum m_\\alpha\\vec v_\\alpha=M\\dot{\\vec R}",
+						"\\vec R=\\frac{1}{M}\\int\\vec r\\,dm",
+						"m\\,dv=-v_{ex}\\,dm\\;\\Rightarrow\\;v=v_0+v_{ex}\\ln\\frac{m_0}{m}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§3.1",
+							"title": "Conservation of Momentum"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§3.2",
+							"title": "Rockets"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§3.3",
+							"title": "The Center of Mass"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 17: Center of Mass and Motion",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-5-momentum-and-impulse/17-1-definition-of-the-center-of-mass/"
+						},
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 19: Continuous Mass Transfer (rocket problem)",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-6-continuous-mass-transfer/19-1-rocket-problem-1-set-up-the-problem/"
+						}
+					],
+					"demoIdeas": [
+						"Rocket simulator: choose exhaust speed and mass ratio, plot v(t) against the ideal rocket equation, optionally with gravity."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l003-angular-momentum",
+					"title": "Angular momentum of a particle and a system",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Define angular momentum and torque and derive dL/dt = Gamma for a single particle.",
+						"Show that central forces conserve angular momentum and deduce that the motion lies in a plane and sweeps equal areas in equal times.",
+						"Decompose the total angular momentum of a multiparticle system into orbital (about the CM) and internal (spin) parts.",
+						"Compute angular momentum and torque about different origins and explain what changes when the origin moves."
+					],
+					"keyEquations": [
+						"\\vec L=\\vec r\\times\\vec p",
+						"\\dot{\\vec L}=\\vec\\Gamma=\\vec r\\times\\vec F",
+						"\\vec L=\\vec R\\times M\\dot{\\vec R}+\\vec L_{cm}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§3.4",
+							"title": "Angular Momentum for a Single Particle"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§3.5",
+							"title": "Angular Momentum for Several Particles"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 32: Angular Momentum of a Point Particle",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-11-angular-momentum/32-1-angular-momentum-for-a-point-particle/"
+						},
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 34: Torque and Angular Impulse",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-11-angular-momentum/34-1-torque-causes-angular-momentum-to-change-point-particle/"
+						}
+					],
+					"demoIdeas": [
+						"Particle under a central force with a shaded sector showing equal areas swept (Kepler's second law) for any force law f(r)."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l004-work-energy-conservative",
+					"title": "Work, kinetic energy and conservative forces",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"State the work-energy theorem and use it to find a speed without solving the equation of motion.",
+						"Show that a force that is the gradient of a potential energy has path-independent work, and apply the curl test to decide whether a given force field is conservative.",
+						"Compute F = -grad U in Cartesian and polar coordinates for a given U(x,y,z) or U(r).",
+						"Explain why time-dependent potentials break energy conservation and give an example."
+					],
+					"keyEquations": [
+						"W=\\int\\vec F\\cdot d\\vec r",
+						"\\vec F=-\\nabla U",
+						"\\nabla\\times\\vec F=0",
+						"T+U=E"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§4.1",
+							"title": "Kinetic Energy and Work"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§4.2",
+							"title": "Potential Energy and Conservative Forces"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§4.3",
+							"title": "Force as the Gradient of Potential Energy"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§4.4",
+							"title": "The Second Condition that F be Conservative"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§4.5",
+							"title": "Time-Dependent Potential Energy"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 21: Kinetic Energy and Work in 2D and 3D",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/21-1-scalar-product-properties/"
+						},
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 22: Conservative and Non-Conservative Forces",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-7-kinetic-energy-and-work/22-1-path-independence-gravity/"
+						}
+					],
+					"demoIdeas": [
+						"2D force field plotter with a path integral tool: drag a closed loop and see the work vanish for conservative fields and not for non-conservative ones."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l005-energy-diagrams-multiparticle",
+					"title": "One-dimensional energy diagrams and multiparticle energy",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Read turning points, equilibrium points and stability from a plot of U(x) (for example a Lennard-Jones or Morse bond potential) given the total energy E.",
+						"Reduce a one-dimensional conservative problem to a quadrature for t(x) and evaluate it for a simple potential.",
+						"Write the effective potential for a central-force problem and use it to classify bound and unbound motion.",
+						"Decompose the energy of a multiparticle system into CM kinetic energy, internal kinetic energy and internal potential energy."
+					],
+					"keyEquations": [
+						"E=\\tfrac12 m\\dot x^2+U(x)",
+						"t=\\int\\frac{dx}{\\sqrt{2(E-U(x))/m}}",
+						"U_{\\mathrm{eff}}(r)=U(r)+\\frac{L^2}{2mr^2}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§4.6",
+							"title": "Energy for Linear One-Dimensional Systems"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§4.7",
+							"title": "Curvilinear One-Dimensional Systems"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§4.8",
+							"title": "Central Forces"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§4.9",
+							"title": "Energy of Interaction of Two Particles"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§4.10",
+							"title": "The Energy of a Multiparticle System"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 25: Potential Energy Diagrams",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-8-potential-energy-and-energy-conservation/25-1-force-is-the-derivative-of-potential/"
+						},
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 24: Conservation of Energy",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-8-potential-energy-and-energy-conservation/24-1-mechanical-energy-and-energy-conservation/"
+						}
+					],
+					"demoIdeas": [
+						"Interactive U(x) with a horizontal energy line: drag E to see turning points, the allowed region and a ball oscillating; presets for Lennard-Jones, Morse and double well."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p4-u02-drag-charged-oscillations",
+			"title": "Drag, Charged Particles and Oscillations",
+			"summary": "Realistic projectile motion with linear and quadratic drag, charged-particle motion in a magnetic field via complex exponentials, and the full theory of the damped, driven oscillator including resonance and Fourier series (the physics behind spectroscopic line shapes and linear response).",
+			"lessons": [
+				{
+					"id": "p4-l006-linear-drag",
+					"title": "Projectiles with linear air resistance",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Set up and solve the equation of motion for a particle with linear drag, identifying the time constant tau = m/b and the terminal velocity.",
+						"Derive x(t) and y(t) for a projectile in a linear medium and describe how the trajectory differs from a parabola.",
+						"Find the range to first order in the small drag parameter and compare it with the vacuum range.",
+						"Explain when a drag law is linear (low Reynolds number) versus quadratic."
+					],
+					"keyEquations": [
+						"m\\dot v=-bv+mg",
+						"v_{ter}=mg/b",
+						"v(t)=v_{ter}(1-e^{-t/\\tau})",
+						"\\tau=m/b"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§2.1",
+							"title": "Air Resistance"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§2.2",
+							"title": "Linear Air Resistance"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§2.3",
+							"title": "Trajectory and Range in a Linear Medium"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 14: Resistive Forces",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-4-drag-forces-constraints-and-continuous-systems/14-1-intro-to-resistive-forces/"
+						}
+					],
+					"demoIdeas": [
+						"Projectile launcher with a drag-strength slider comparing vacuum, linear and quadratic trajectories and ranges."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l007-quadratic-drag",
+					"title": "Quadratic air resistance and numerical trajectories",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Solve the one-dimensional equation of motion with quadratic drag by separation of variables, obtaining tanh and ln cosh forms.",
+						"Compute the terminal velocity for quadratic drag and compare it with the linear-drag case.",
+						"Explain why the two-dimensional quadratic-drag problem has no closed form, and integrate it numerically (Euler or Runge-Kutta) to find a range."
+					],
+					"keyEquations": [
+						"m\\dot v=mg-cv^2",
+						"v_{ter}=\\sqrt{mg/c}",
+						"v(t)=v_{ter}\\tanh(t/\\tau)"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§2.4",
+							"title": "Quadratic Air Resistance"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 14: Resistive Forces (high-speed case)",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-4-drag-forces-constraints-and-continuous-systems/14-3-resistive-forces-high-speed-case/"
+						}
+					],
+					"demoIdeas": [
+						"Numerical integrator: step size slider and method choice (Euler vs RK4) with the analytic 1D solution overlaid to show error growth."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l008-charge-magnetic-field",
+					"title": "A charged particle in a magnetic field; complex exponentials",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Write Newton's second law for a charge in a uniform B field and show that the magnetic force does no work.",
+						"Solve the equation of motion using a complex combination eta = x + iy and obtain circular (cyclotron) motion with omega = qB/m.",
+						"Extend the solution to a velocity with a component along B and describe the resulting helix.",
+						"Connect cyclotron motion to a chemistry application (mass spectrometry, FT-ICR) with the cyclotron frequency formula."
+					],
+					"keyEquations": [
+						"m\\ddot{\\vec r}=q\\dot{\\vec r}\\times\\vec B",
+						"\\omega=qB/m",
+						"\\eta=x+iy,\\ \\dot\\eta=-i\\omega\\eta"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§2.5",
+							"title": "Motion of a Charge in a Uniform Magnetic Field"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§2.6",
+							"title": "Complex Exponentials"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§2.7",
+							"title": "Solution for the Charge in a B Field"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"3D helical orbit of a charge with sliders for B, initial velocity angle and charge sign (mass spectrometer view)."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l009-sho-two-dim",
+					"title": "Simple harmonic motion and two-dimensional oscillators",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Derive the general solution of the 1D harmonic oscillator and write it as A cos(wt - delta) and as the real part of a complex exponential.",
+						"Relate amplitude and phase to initial conditions and compute the energy (constant in time).",
+						"Describe the motion of an isotropic and an anisotropic two-dimensional oscillator and generate Lissajous figures for rational frequency ratios.",
+						"Explain why a vibrating diatomic molecule is a harmonic oscillator about the minimum of the bond potential, and identify k as U''(r_e)."
+					],
+					"keyEquations": [
+						"\\ddot x=-\\omega^2x",
+						"x=A\\cos(\\omega t-\\delta)=\\mathrm{Re}\\,(Ce^{i\\omega t})",
+						"\\omega=\\sqrt{k/m}",
+						"k=U''(x_0)"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§5.1",
+							"title": "Hooke's Law"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§5.2",
+							"title": "Simple Harmonic Motion"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§5.3",
+							"title": "Two-Dimensional Oscillators"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 1: Periodic Oscillations, Harmonic Oscillators",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-1/"
+						}
+					],
+					"demoIdeas": [
+						"Lissajous generator: set the two frequencies and relative phase for a 2D oscillator and watch the closed curve form."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l010-damped-oscillator",
+					"title": "Damped oscillations",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Write the damped-oscillator equation and solve it with the ansatz e^{rt}, finding the characteristic roots.",
+						"Classify weak, critical and strong damping from the sign of beta^2 - omega_0^2 and write the solution in each case.",
+						"Compute the quality factor Q and relate it to the number of oscillations before decay and to the fractional energy loss per cycle.",
+						"Explain how exponential decay in time corresponds to a Lorentzian line width, as in spectroscopy."
+					],
+					"keyEquations": [
+						"\\ddot x+2\\beta\\dot x+\\omega_0^2x=0",
+						"r=-\\beta\\pm\\sqrt{\\beta^2-\\omega_0^2}",
+						"\\omega_1=\\sqrt{\\omega_0^2-\\beta^2}",
+						"Q=\\omega_0/2\\beta"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§5.4",
+							"title": "Damped Oscillations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 2: Damped Free Oscillators",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-2/"
+						}
+					],
+					"demoIdeas": [
+						"Damped oscillator with a beta slider sweeping through underdamped, critical and overdamped; show the roots on the complex plane and x(t)."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l011-driven-resonance",
+					"title": "Driven damped oscillations and resonance",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Find the steady-state response of a driven damped oscillator to F0 cos(wt) using a complex trial solution, giving the amplitude A(w) and phase delta(w).",
+						"Identify the transient and steady-state parts of the general solution and explain why the transient dies away.",
+						"Locate the amplitude resonance, compute the resonance width and relate it to Q.",
+						"Show that the phase of the response sweeps from 0 to pi through resonance and explain the physical meaning."
+					],
+					"keyEquations": [
+						"\\ddot x+2\\beta\\dot x+\\omega_0^2x=f_0\\cos\\omega t",
+						"A=\\frac{f_0}{\\sqrt{(\\omega_0^2-\\omega^2)^2+4\\beta^2\\omega^2}}",
+						"\\tan\\delta=\\frac{2\\beta\\omega}{\\omega_0^2-\\omega^2}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§5.5",
+							"title": "Driven Damped Oscillations"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§5.6",
+							"title": "Resonance"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 3: Driven Oscillators, Transient Phenomena, Resonance",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-3/"
+						},
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 6: Driven Oscillators, Resonance",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-6/"
+						}
+					],
+					"demoIdeas": [
+						"Resonance curve explorer: drive frequency and damping sliders giving live A(w), delta(w) and the oscillator animation."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l012-fourier-driven",
+					"title": "Fourier series and response to periodic driving",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Compute the Fourier coefficients of a periodic function (square wave, sawtooth) and sketch partial sums.",
+						"Use linearity to obtain the steady-state response of a damped oscillator to an arbitrary periodic force as a sum over harmonics.",
+						"State Parseval's theorem and use it for the rms displacement.",
+						"Explain why Fourier series underlie spectroscopy (FTIR, NMR free-induction decay)."
+					],
+					"keyEquations": [
+						"f(t)=\\frac{a_0}{2}+\\sum_n(a_n\\cos n\\omega t+b_n\\sin n\\omega t)",
+						"a_n=\\frac{2}{\\tau}\\int_0^\\tau f\\cos n\\omega t\\,dt",
+						"\\overline{f^2}=\\sum_n|c_n|^2"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§5.7",
+							"title": "Fourier Series"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§5.8",
+							"title": "Fourier Series Solution for the Driven Oscillator"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§5.9",
+							"title": "The RMS Displacement; Parseval's Theorem",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 9: Wave Equation, Standing Waves, Fourier Series",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-9/"
+						}
+					],
+					"demoIdeas": [
+						"Square-wave Fourier synthesiser: add harmonics one at a time and see Gibbs overshoot, plus the driven-oscillator response per harmonic."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p4-u03-lagrangian-mechanics",
+			"title": "Calculus of Variations and Lagrangian Mechanics",
+			"summary": "Derive Lagrange's equations from Hamilton's principle of least action, treat constraints with generalised coordinates and multipliers, and use symmetries and ignorable coordinates to obtain conservation laws (Noether).",
+			"lessons": [
+				{
+					"id": "p4-l013-variations-intro",
+					"title": "Two examples and the Euler-Lagrange equation",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Formulate the shortest-path and brachistochrone problems as extremisation of an integral functional.",
+						"Derive the Euler-Lagrange equation for a functional of the form integral f(y, y', x) dx by varying the path.",
+						"Use the Beltrami identity when f has no explicit x dependence.",
+						"Solve for the shortest path on a plane and the surface of revolution of minimal area."
+					],
+					"keyEquations": [
+						"S=\\int_{x_1}^{x_2}f(y,y',x)\\,dx",
+						"\\frac{\\partial f}{\\partial y}-\\frac{d}{dx}\\frac{\\partial f}{\\partial y'}=0",
+						"f-y'\\frac{\\partial f}{\\partial y'}=\\text{const}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§6.1",
+							"title": "Two Examples"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§6.2",
+							"title": "The Euler-Lagrange Equation"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§6.3",
+							"title": "Applications of the Euler-Lagrange Equation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Classical Mechanics, Fall 2011)",
+							"title": "Lecture 3: Lagrangian, least action, Euler-Lagrange equations",
+							"url": "https://www.youtube.com/watch?v=3apIZCpmdls"
+						}
+					],
+					"demoIdeas": [
+						"Path-varying demo: perturb a trial curve between two fixed points and watch the functional value, minimised at the Euler-Lagrange solution."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l014-variations-several",
+					"title": "Several variables and Hamilton's principle",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Extend the Euler-Lagrange equation to a functional of several dependent functions y_i(x).",
+						"State Hamilton's principle (stationary action) and write the action as an integral of L = T - U over time.",
+						"Derive Lagrange's equations from Hamilton's principle for one and several coordinates.",
+						"Explain why Lagrange's equations have the same form in any coordinate system."
+					],
+					"keyEquations": [
+						"S=\\int_{t_1}^{t_2}L(q,\\dot q,t)\\,dt",
+						"\\delta S=0",
+						"\\frac{d}{dt}\\frac{\\partial L}{\\partial\\dot q_i}-\\frac{\\partial L}{\\partial q_i}=0"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§6.4",
+							"title": "More than Two Variables"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§7.1",
+							"title": "Lagrange's Equations for Unconstrained Motion"
+						},
+						{
+							"bookId": "goldstein",
+							"ref": "§2.1",
+							"title": "Hamilton's Principle",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Classical Mechanics, Fall 2011)",
+							"title": "Lecture 3: Lagrangian, least action, Euler-Lagrange equations",
+							"url": "https://www.youtube.com/watch?v=3apIZCpmdls"
+						}
+					],
+					"demoIdeas": [],
+					"practice": []
+				},
+				{
+					"id": "p4-l015-lagrange-constrained",
+					"title": "Constrained systems and generalised coordinates",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Distinguish holonomic constraints, count degrees of freedom, and choose generalised coordinates for a constrained system.",
+						"Write T and U in generalised coordinates and form L for a bead on a hoop, a pendulum and a block on a wedge.",
+						"Show that for a constrained system Lagrange's equations contain no constraint forces and explain why this is useful.",
+						"Reproduce the Newtonian equation of motion from Lagrange's equation for a simple case as a consistency check."
+					],
+					"keyEquations": [
+						"f(q_1,\\dots,q_n,t)=0",
+						"n=3N-k\\text{ degrees of freedom}",
+						"L=T-U"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§7.2",
+							"title": "Constrained Systems; an Example"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§7.3",
+							"title": "Constrained Systems in General"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§7.4",
+							"title": "Proof of Lagrange's Equations with Constraints",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 12: Pulleys and Constraints (Newtonian treatment, for comparison)",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-4-drag-forces-constraints-and-continuous-systems/12-1-pulley-problems-part-i-set-up-the-equations/"
+						}
+					],
+					"demoIdeas": [
+						"Pendulum on a movable support: show the generalised coordinates with the two-DOF configuration space as a sketch."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l016-lagrange-examples",
+					"title": "Worked examples: Atwood machines, pendulums and rotating frames",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Set up and solve the Lagrangian of an Atwood machine (including with massive pulley) and a double Atwood machine.",
+						"Derive the equation of motion of a plane pendulum and a bead sliding on a rotating hoop and identify equilibria and their stability.",
+						"Write L in spherical coordinates for a particle in a central potential and extract the radial equation.",
+						"Compare the effort of Newton versus Lagrange in two of the above problems and say when each is simpler."
+					],
+					"keyEquations": [
+						"L=\\tfrac12 m(\\dot r^2+r^2\\dot\\theta^2)-U(r)",
+						"\\ddot\\phi=-(g/l)\\sin\\phi",
+						"L=\\tfrac12 ml^2\\dot\\phi^2+\\tfrac12 ml^2\\Omega^2\\sin^2\\phi-\\ldots"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§7.5",
+							"title": "Examples of Lagrange's Equations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Classical Mechanics, Fall 2011)",
+							"title": "Lecture 3: Lagrangian, least action, Euler-Lagrange equations",
+							"url": "https://www.youtube.com/watch?v=3apIZCpmdls"
+						}
+					],
+					"demoIdeas": [
+						"Bead on a rotating hoop with the rotation rate slider: pitchfork bifurcation of the equilibrium at Omega^2 = g/R."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l017-generalized-momenta",
+					"title": "Generalised momenta, ignorable coordinates and conservation laws",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Define the generalised momentum p_i and show that it is conserved when q_i is ignorable (cyclic).",
+						"Identify the conserved quantity associated with translation, rotation and time-translation symmetry of a Lagrangian.",
+						"Define the energy function h = sum p_i dq_i/dt - L and show when it equals T + U and when it is conserved.",
+						"State Noether's theorem in the form: a continuous symmetry of L yields a conserved charge, and apply it to one example."
+					],
+					"keyEquations": [
+						"p_i=\\partial L/\\partial\\dot q_i",
+						"\\partial L/\\partial q_i=0\\Rightarrow\\dot p_i=0",
+						"h=\\sum_i\\dot q_i\\frac{\\partial L}{\\partial\\dot q_i}-L",
+						"\\frac{dh}{dt}=-\\frac{\\partial L}{\\partial t}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§7.6",
+							"title": "Generalized Momenta and Ignorable Coordinates"
+						},
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 2",
+							"title": "The Lagrangian Formulation",
+							"optional": true
+						},
+						{
+							"bookId": "goldstein",
+							"ref": "§2.6",
+							"title": "Conservation Theorems and Symmetry Properties",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Classical Mechanics, Fall 2011)",
+							"title": "Lecture 4: Symmetry and conservation laws",
+							"url": "https://www.youtube.com/watch?v=ojEwHlyty4Q"
+						}
+					],
+					"demoIdeas": [
+						"Spherical pendulum: plot conserved L_z and E and the trajectory as the initial conditions change."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l018-lagrange-multipliers",
+					"title": "Lagrange multipliers and constraint forces",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Use Lagrange multipliers to include a constraint in the Lagrangian and solve for both the motion and the constraint force.",
+						"Compute the normal force on a particle sliding on a surface (hoop, sphere) and find where it leaves the surface.",
+						"Treat rolling without slipping as a (holonomic or nonholonomic) constraint and correctly decide which.",
+						"Explain why the multiplier equals the generalised constraint force."
+					],
+					"keyEquations": [
+						"\\frac{d}{dt}\\frac{\\partial L}{\\partial\\dot q_i}-\\frac{\\partial L}{\\partial q_i}=\\sum_j\\lambda_j\\frac{\\partial f_j}{\\partial q_i}",
+						"Q_i=\\lambda\\,\\partial f/\\partial q_i"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "Ch. 7",
+							"title": "Lagrange's Equations"
+						},
+						{
+							"bookId": "goldstein",
+							"ref": "§1.4",
+							"title": "D'Alembert's Principle and Lagrange's Equations",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Block sliding off a sphere: plot the normal force vs angle and mark the departure point at cos(theta)=2/3."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l019-velocity-dependent-potentials",
+					"title": "Velocity-dependent forces: charge in an electromagnetic field",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Write the Lagrangian of a charged particle in electric and magnetic fields using the scalar and vector potentials.",
+						"Derive the Lorentz force from the Euler-Lagrange equation and identify the canonical versus kinetic momentum.",
+						"Explain why a generalised momentum can be conserved even when the kinetic momentum is not (gauge dependence, cyclic coordinate).",
+						"Relate this canonical momentum p - qA to the minimal-coupling rule you will meet in quantum mechanics."
+					],
+					"keyEquations": [
+						"L=\\tfrac12 mv^2-q\\phi+q\\vec v\\cdot\\vec A",
+						"\\vec p=m\\vec v+q\\vec A",
+						"m\\ddot{\\vec r}=q(\\vec E+\\vec v\\times\\vec B)"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "Ch. 7",
+							"title": "Lagrange's Equations"
+						},
+						{
+							"bookId": "goldstein",
+							"ref": "§1.5",
+							"title": "Velocity-Dependent Potentials and the Dissipation Function",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Classical Mechanics, Fall 2011)",
+							"title": "Lecture 9: Electric and magnetic fields 1",
+							"url": "https://www.youtube.com/watch?v=WJn6h-6MMa8"
+						}
+					],
+					"demoIdeas": [],
+					"practice": []
+				},
+				{
+					"id": "p4-l020-lagrangian-review",
+					"title": "Lagrangian toolbox: strategy and consolidated practice",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Lay out a standard strategy: choose coordinates, write T and U, form L, derive equations, find conserved quantities, check limits.",
+						"Solve a mixed problem (for example, a pendulum with a moving pivot) from scratch using the strategy.",
+						"Check a Lagrangian solution via dimensional analysis, limiting cases and energy conservation.",
+						"Decide whether a problem should use the Newtonian, Lagrangian (with multipliers) or conserved-quantity approach."
+					],
+					"keyEquations": [
+						"L=T-U",
+						"\\frac{d}{dt}\\frac{\\partial L}{\\partial\\dot q}=\\frac{\\partial L}{\\partial q}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "Ch. 7",
+							"title": "Lagrange's Equations"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Generic Lagrangian explorer: choose a system from a menu, view the symbolic L, EOM and a live animation."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p4-u04-central-forces-kepler",
+			"title": "Central Forces and Kepler Orbits",
+			"summary": "Reduce the two-body problem to an effective one-body problem, derive the orbit equation, classify Kepler orbits and orbit changes (the same 1/r potential structure as the hydrogen atom, and the classical limit of Rutherford scattering).",
+			"lessons": [
+				{
+					"id": "p4-l021-two-body-reduction",
+					"title": "The two-body problem: CM and reduced mass",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Separate the two-body Lagrangian into centre-of-mass and relative motion and define the reduced mass.",
+						"Explain why the relative motion is planar and which quantities (E, L) are conserved.",
+						"Apply reduced mass to a diatomic molecule's vibration and to hydrogen versus deuterium spectral lines (isotope shift).",
+						"Recover the individual orbits of the two bodies from the relative orbit and the CM motion."
+					],
+					"keyEquations": [
+						"\\mu=\\frac{m_1m_2}{m_1+m_2}",
+						"\\vec r=\\vec r_1-\\vec r_2",
+						"L=\\tfrac12M\\dot{\\vec R}^2+\\tfrac12\\mu\\dot{\\vec r}^2-U(r)"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§8.1",
+							"title": "The Problem"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§8.2",
+							"title": "CM and Relative Coordinates; Reduced Mass"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§8.3",
+							"title": "The Equations of Motion"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Two bodies of adjustable mass ratio orbiting their common barycentre, with the relative orbit drawn alongside."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l022-effective-potential",
+					"title": "The equivalent one-dimensional problem and the orbit equation",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Reduce the radial motion to a one-dimensional problem with effective potential U_eff and the centrifugal barrier.",
+						"Classify motion from an effective-potential plot: circular orbits, bound orbits with r_min and r_max, scattering orbits.",
+						"Derive the orbit equation for u = 1/r in terms of phi.",
+						"Find the condition for closed orbits and state Bertrand's theorem (only 1/r and r^2 central potentials give closed bound orbits)."
+					],
+					"keyEquations": [
+						"m\\ddot r=-\\frac{dU_{\\mathrm{eff}}}{dr}",
+						"U_{\\mathrm{eff}}=U(r)+\\frac{\\ell^2}{2mr^2}",
+						"\\frac{d^2u}{d\\phi^2}+u=-\\frac{m}{\\ell^2}\\frac{d}{du}U(1/u)"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§8.4",
+							"title": "The Equivalent One-Dimensional Problem"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§8.5",
+							"title": "The Equation of the Orbit"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Effective-potential plot beside the orbit: drag E and L and see the orbit change from circular to precessing rosette to unbound."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l023-kepler-orbits",
+					"title": "Kepler orbits",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Solve the orbit equation for the 1/r force and obtain the conic-section form r(phi) with eccentricity epsilon.",
+						"Relate eccentricity and semi-major axis to E and L and classify circle, ellipse, parabola and hyperbola.",
+						"Derive Kepler's three laws and use the third to compute a planetary mass from a period and orbit size.",
+						"Compare the Kepler problem with the Bohr-model hydrogen atom: same potential, same classical orbits, different quantisation."
+					],
+					"keyEquations": [
+						"\\frac{c}{r}=1+\\epsilon\\cos\\phi",
+						"\\epsilon=\\sqrt{1+\\frac{2E\\ell^2}{mk^2}}",
+						"T^2=\\frac{4\\pi^2}{GM}a^3",
+						"E=-\\frac{k}{2a}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§8.6",
+							"title": "The Kepler Orbits"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§8.7",
+							"title": "The Unbounded Kepler Orbits"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Kepler orbit editor: sliders for eccentricity and semi-major axis, swept-area animation and period readout."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l024-orbit-changes-scattering",
+					"title": "Changes of orbit and Rutherford scattering",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Compute the velocity change needed for a Hohmann transfer between circular orbits and the associated energy.",
+						"Define the differential cross section and impact parameter for classical scattering from a central force.",
+						"Derive the Rutherford scattering angle as a function of impact parameter for a repulsive Coulomb force.",
+						"Explain why the Rutherford cross section sigma ~ 1/sin^4(theta/2) is the classical analogue of the result obtained in quantum perturbation theory."
+					],
+					"keyEquations": [
+						"\\Delta v_1=\\sqrt{\\frac{GM}{r_1}}\\left(\\sqrt{\\frac{2r_2}{r_1+r_2}}-1\\right)",
+						"\\frac{d\\sigma}{d\\Omega}=\\frac{b}{\\sin\\theta}\\left|\\frac{db}{d\\theta}\\right|",
+						"b=\\frac{k}{2E}\\cot\\frac{\\theta}{2}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§8.8",
+							"title": "Changes of Orbit"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "Ch. 14",
+							"title": "Collision Theory",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Particle beam scattered from a Coulomb centre with impact-parameter slider; histogram of scattering angles vs the Rutherford curve."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p4-u05-noninertial-frames",
+			"title": "Non-Inertial and Rotating Frames",
+			"summary": "Write the equation of motion in accelerating and rotating frames, identify centrifugal and Coriolis forces, and apply them to the tides, free fall, projectiles and the Foucault pendulum.",
+			"lessons": [
+				{
+					"id": "p4-l025-accelerating-tides",
+					"title": "Accelerating frames, the equivalence idea and tides",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Write Newton's second law in a linearly accelerating frame and identify the fictitious force -mA.",
+						"Explain why a freely falling frame is locally inertial and state the equivalence principle in that context.",
+						"Derive the tidal acceleration from the difference in gravitational pull across the Earth and explain why there are two tidal bulges."
+					],
+					"keyEquations": [
+						"m\\ddot{\\vec r}'=\\vec F-m\\vec A",
+						"a_{tide}\\sim\\frac{2GMR}{d^3}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§9.1",
+							"title": "Acceleration without Rotation"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§9.2",
+							"title": "The Tides"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Earth-Moon sketch showing differential gravity vectors across the Earth and the resulting two-bulge tidal pattern."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l026-rotating-frame",
+					"title": "Angular velocity and time derivatives in a rotating frame",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Represent a rotation by the angular velocity vector and compute dr/dt for a point fixed in a rotating body (v = omega x r).",
+						"Derive the relation between time derivatives in the inertial and rotating frames.",
+						"Derive Newton's second law in a rotating frame and identify the centrifugal, Coriolis and Euler (angular-acceleration) terms.",
+						"Compute the centrifugal acceleration on Earth's surface as a function of latitude."
+					],
+					"keyEquations": [
+						"\\left(\\frac{d\\vec Q}{dt}\\right)_{S}=\\left(\\frac{d\\vec Q}{dt}\\right)_{S'}+\\vec\\Omega\\times\\vec Q",
+						"m\\ddot{\\vec r}=\\vec F-2m\\vec\\Omega\\times\\dot{\\vec r}-m\\vec\\Omega\\times(\\vec\\Omega\\times\\vec r)"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§9.3",
+							"title": "The Angular Velocity Vector"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§9.4",
+							"title": "Time Derivatives in a Rotating Frame"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§9.5",
+							"title": "Newton's Second Law in a Rotating Frame"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§9.6",
+							"title": "The Centrifugal Force"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Same particle trajectory viewed from the inertial frame and from a rotating frame, with centrifugal and Coriolis vectors drawn."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l027-coriolis-foucault",
+					"title": "The Coriolis force, free fall and the Foucault pendulum",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Compute the Coriolis deflection of a falling object and of a horizontally moving projectile at a given latitude.",
+						"Explain the sense of circulation of weather systems in each hemisphere using the Coriolis force.",
+						"Derive the precession rate of the Foucault pendulum, Omega sin(latitude), from the horizontal Coriolis force.",
+						"Estimate when rotating-frame effects matter by comparing 2 Omega v to g."
+					],
+					"keyEquations": [
+						"\\vec F_{cor}=-2m\\vec\\Omega\\times\\vec v",
+						"\\Omega_F=\\Omega\\sin\\lambda",
+						"x_{east}=\\tfrac13\\Omega g\\cos\\lambda\\;t^3"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§9.7",
+							"title": "The Coriolis Force"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§9.8",
+							"title": "Free Fall and the Coriolis Force"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§9.9",
+							"title": "The Foucault Pendulum"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Foucault pendulum simulator: latitude slider and the precession angle trace of the swing plane over hours."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p4-u06-rigid-bodies",
+			"title": "Rigid-Body Dynamics",
+			"summary": "Rotation about fixed and general axes, the inertia tensor and principal axes (the same diagonalisation that classifies molecular rotors as spherical, symmetric or asymmetric tops), Euler's equations, Euler angles and the spinning top.",
+			"lessons": [
+				{
+					"id": "p4-l028-fixed-axis",
+					"title": "Rotation about a fixed axis and the moment of inertia",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Compute the moment of inertia of simple bodies by integration and by the parallel-axis theorem.",
+						"Write L = I omega and the rotational kinetic energy for rotation about a fixed axis and solve a compound-pendulum or rolling problem.",
+						"State the CM-frame decomposition of rigid-body kinetic energy into translational and rotational parts."
+					],
+					"keyEquations": [
+						"I=\\int\\rho r_\\perp^2\\,dV",
+						"I=I_{cm}+Md^2",
+						"T=\\tfrac12M V^2+\\tfrac12 I\\omega^2"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§10.1",
+							"title": "Properties of the Center of Mass"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§10.2",
+							"title": "Rotation about a Fixed Axis"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 29: Moment of Inertia",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-10-rotational-motion/29-1-kinetic-energy-of-rotation/"
+						},
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 31: Rotational Dynamics",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-10-rotational-motion/31-1-relationship-between-torque-and-angular-acceleration/"
+						}
+					],
+					"demoIdeas": [
+						"Rolling objects (ring, disc, sphere) race down an incline; show how I/MR^2 sets the acceleration."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l029-inertia-tensor",
+					"title": "Rotation about any axis: the inertia tensor",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Derive L = I omega with I the inertia tensor and write the tensor components for a rigid body as integrals.",
+						"Compute the inertia tensor of a simple body (rod, plate, cube) about given axes and the rotational kinetic energy as omega-transpose I omega.",
+						"Explain why L is not parallel to omega unless omega lies along a principal axis.",
+						"Identify the connection with rotational spectroscopy: the three principal moments determine the molecular rotational constants."
+					],
+					"keyEquations": [
+						"\\vec L=\\mathbf I\\vec\\omega",
+						"I_{ij}=\\int\\rho(r^2\\delta_{ij}-x_ix_j)\\,dV",
+						"T_{rot}=\\tfrac12\\vec\\omega^T\\mathbf I\\vec\\omega"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§10.3",
+							"title": "Rotation about Any Axis; the Inertia Tensor"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.01SC (Fall 2016)",
+							"title": "Lesson 33: Angular Momentum of a Rigid Body about a Fixed Axis",
+							"url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-11-angular-momentum/33-1-worked-example-angular-momentum-of-2-rotating-point-particles/"
+						}
+					],
+					"demoIdeas": [
+						"Rigid body with adjustable shape: display the inertia ellipsoid and the L and omega vectors for a chosen rotation axis."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l030-principal-axes",
+					"title": "Principal axes and the eigenvalue problem",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Show that the principal axes are the eigenvectors of the (symmetric) inertia tensor and the principal moments are its eigenvalues.",
+						"Find principal axes and moments for a given 3x3 inertia tensor by solving the characteristic equation.",
+						"Use symmetry to guess a principal axis for a symmetric body.",
+						"Classify molecules as spherical, symmetric (prolate/oblate) or asymmetric tops from the principal moments (CH4, NH3, H2O examples)."
+					],
+					"keyEquations": [
+						"\\det(\\mathbf I-\\lambda\\mathbf 1)=0",
+						"\\mathbf I\\hat e_i=I_i\\hat e_i",
+						"\\mathbf I'=\\mathrm{diag}(I_1,I_2,I_3)"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§10.4",
+							"title": "Principal Axes of Inertia"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§10.5",
+							"title": "Finding the Principal Axes; Eigenvalue Equations"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [],
+					"practice": []
+				},
+				{
+					"id": "p4-l031-euler-equations",
+					"title": "Euler's equations and torque-free motion",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Derive Euler's equations of motion in the body frame, I1 w1-dot - (I2 - I3) w2 w3 = Gamma1 and cyclic permutations.",
+						"Solve for the torque-free motion of a symmetric top and determine the precession frequency in the body frame.",
+						"Analyse the stability of rotation about each principal axis of an asymmetric body (tennis-racket theorem).",
+						"Explain the difference between the body-frame and space-frame descriptions of free precession (e.g., a wobbling frisbee or the Earth's Chandler wobble)."
+					],
+					"keyEquations": [
+						"I_1\\dot\\omega_1=(I_2-I_3)\\omega_2\\omega_3+\\Gamma_1",
+						"\\Omega_b=\\frac{I_3-I_1}{I_1}\\omega_3",
+						"\\vec L\\text{ fixed in space}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§10.7",
+							"title": "Euler's Equations"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§10.8",
+							"title": "Euler's Equations with Zero Torque"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§10.6",
+							"title": "Precession of a Top due to a Weak Torque",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Tennis-racket (Dzhanibekov) flip: integrate Euler's equations for adjustable moments and show the polhode on the energy-angular-momentum ellipsoids."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l032-euler-angles-top",
+					"title": "Euler angles and the heavy symmetric top",
+					"minutes": 100,
+					"prereqs": [],
+					"objectives": [
+						"Define the three Euler angles and write the angular velocity in terms of them.",
+						"Write the Lagrangian of a symmetric top in a gravitational field using Euler angles.",
+						"Identify the conserved quantities p_phi, p_psi and E and reduce the nutation to an effective-potential problem in theta.",
+						"Find the steady precession rate of a fast top and describe the nutation about it."
+					],
+					"keyEquations": [
+						"T=\\tfrac12 I_1(\\dot\\theta^2+\\dot\\phi^2\\sin^2\\theta)+\\tfrac12I_3(\\dot\\psi+\\dot\\phi\\cos\\theta)^2",
+						"\\Omega_{prec}\\approx\\frac{Mgl}{I_3\\omega_3}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§10.9",
+							"title": "Euler Angles"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§10.10",
+							"title": "Motion of a Spinning Top"
+						},
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 3",
+							"title": "The Motion of Rigid Bodies",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Spinning top in 3D: sliders for spin, tilt and mass; traces of the tip showing precession and nutation loops."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p4-u07-coupled-oscillators",
+			"title": "Coupled Oscillators and Normal Modes",
+			"summary": "Linearise about equilibrium, set up the mass and stiffness matrices, solve the eigenvalue problem for normal modes, and see why molecular vibrations (IR and Raman) are exactly this calculation.",
+			"lessons": [
+				{
+					"id": "p4-l033-two-coupled",
+					"title": "Two coupled oscillators",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Write the equations of motion for two masses coupled by three springs and solve them using a normal-mode ansatz.",
+						"Find the normal frequencies and mode shapes for equal masses and describe the in-phase and out-of-phase modes.",
+						"Explain beats in weakly coupled oscillators as energy exchange between the two oscillators.",
+						"Write a general initial condition as a superposition of normal modes."
+					],
+					"keyEquations": [
+						"\\omega_1=\\sqrt{k/m},\\ \\omega_2=\\sqrt{(k+2\\kappa)/m}",
+						"q_{1,2}=x_1\\pm x_2",
+						"x_1+x_2\\text{ and }x_1-x_2\\text{ decouple}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§11.1",
+							"title": "Two Masses and Three Springs"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§11.2",
+							"title": "Identical Springs and Equal Masses"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§11.3",
+							"title": "Two Weakly Coupled Oscillators"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 4: Coupled Oscillators, Normal Modes",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-4/"
+						},
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 5: Beat Phenomena",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-5/"
+						}
+					],
+					"demoIdeas": [
+						"Two masses with a coupling spring: choose a normal mode or a mixture; energy-transfer graph shows beating."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l034-double-pendulum-general",
+					"title": "The Lagrangian approach, the double pendulum and the general case",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Obtain the kinetic- and potential-energy matrices M and K from a Lagrangian expanded to second order about equilibrium.",
+						"Write the normal-mode condition as det(K - omega^2 M) = 0 and solve for a double pendulum in the small-angle limit.",
+						"Prove that normal-mode frequencies are real and mode vectors M-orthogonal for a stable equilibrium.",
+						"State the stability condition in terms of positive-definiteness of K and give an example with an unstable mode."
+					],
+					"keyEquations": [
+						"L=\\tfrac12\\dot{\\vec q}^T M\\dot{\\vec q}-\\tfrac12\\vec q^TK\\vec q",
+						"\\det(K-\\omega^2M)=0",
+						"(K-\\omega^2M)\\vec a=0"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§11.4",
+							"title": "Lagrangian Approach: The Double Pendulum"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§11.5",
+							"title": "The General Case"
+						},
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 2",
+							"title": "The Lagrangian Formulation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 4: Coupled Oscillators, Normal Modes",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-4/"
+						}
+					],
+					"demoIdeas": [
+						"Double pendulum small-angle mode viewer with the matrix M and K shown and the two eigenmodes animated."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l035-normal-coordinates",
+					"title": "Normal coordinates and coupled pendulums",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Define normal coordinates and show that the Lagrangian separates into independent oscillators.",
+						"Solve the three-coupled-pendulum problem and sketch the three normal modes.",
+						"Use symmetry (reflection) to classify and guess normal modes before computing them.",
+						"Write a general solution as a sum over normal modes and fit amplitudes and phases to initial conditions."
+					],
+					"keyEquations": [
+						"q=\\sum_k a_k\\,\\zeta_k",
+						"L=\\sum_k\\tfrac12(\\dot\\zeta_k^2-\\omega_k^2\\zeta_k^2)",
+						"\\zeta_k=A_k\\cos(\\omega_kt-\\delta_k)"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§11.6",
+							"title": "Three Coupled Pendulums"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§11.7",
+							"title": "Normal Coordinates"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 7: Symmetry, Infinite Number of Coupled Oscillators",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-7/"
+						}
+					],
+					"demoIdeas": [],
+					"practice": []
+				},
+				{
+					"id": "p4-l036-molecular-vibrations",
+					"title": "Molecular vibrations and the loaded string",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Set up the normal-mode problem for a linear triatomic molecule (CO2-like) and find the symmetric stretch, antisymmetric stretch and bend frequencies.",
+						"Explain why the symmetric stretch of CO2 is IR inactive and the antisymmetric is IR active in terms of dipole change and mode symmetry.",
+						"Count vibrational degrees of freedom (3N - 5 or 3N - 6) and explain why.",
+						"Take the continuum limit of a chain of N coupled masses and arrive at the wave equation and dispersion relation."
+					],
+					"keyEquations": [
+						"3N-6\\ \\text{(nonlinear)},\\ 3N-5\\ \\text{(linear)}",
+						"\\omega_n=2\\sqrt{k/m}\\,\\sin\\frac{n\\pi}{2(N+1)}",
+						"\\omega=ck"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§11.5",
+							"title": "The General Case",
+							"optional": true
+						},
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 2",
+							"title": "The Lagrangian Formulation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 7: Symmetry, Infinite Number of Coupled Oscillators",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-7/"
+						},
+						{
+							"source": "MIT OCW 8.03SC (Fall 2016)",
+							"title": "Lecture 8: Translation Symmetry",
+							"url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/pages/part-i-mechanical-vibrations-and-waves/lecture-8/"
+						}
+					],
+					"demoIdeas": [
+						"Triatomic molecule mode animator (CO2, H2O): displacement arrows, frequencies and IR/Raman activity flag."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p4-u08-hamiltonian-chaos",
+			"title": "Hamiltonian Mechanics and an Introduction to Chaos",
+			"summary": "Legendre-transform to Hamilton's equations, picture motion in phase space (Liouville's theorem is the root of statistical mechanics), then meet nonlinear dynamics: the driven damped pendulum, bifurcations, Poincare sections and the logistic map.",
+			"lessons": [
+				{
+					"id": "p4-l037-hamilton-eqs",
+					"title": "The Hamiltonian and Hamilton's equations",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Obtain the Hamiltonian from the Lagrangian by Legendre transformation and state when H equals T + U.",
+						"Write down Hamilton's equations for one and several degrees of freedom and apply them to the harmonic oscillator, pendulum and central-force problems.",
+						"Identify ignorable coordinates in H and the associated conserved momenta, and derive dH/dt = partial H/partial t.",
+						"Explain how classical H becomes the operator in the Schroedinger equation and why p and q are treated as independent."
+					],
+					"keyEquations": [
+						"H=\\sum p_i\\dot q_i-L",
+						"\\dot q_i=\\partial H/\\partial p_i,\\ \\dot p_i=-\\partial H/\\partial q_i",
+						"\\frac{dH}{dt}=\\frac{\\partial H}{\\partial t}"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§13.1",
+							"title": "The Basic Variables"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§13.2",
+							"title": "Hamilton's Equations for One-Dimensional Systems"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§13.3",
+							"title": "Hamilton's Equations in Several Dimensions"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§13.4",
+							"title": "Ignorable Coordinates"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§13.5",
+							"title": "Lagrange's Equations vs. Hamilton's Equations"
+						},
+						{
+							"bookId": "goldstein",
+							"ref": "§8.1",
+							"title": "Legendre Transformations and the Hamilton Equations of Motion",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Classical Mechanics, Fall 2011)",
+							"title": "Lecture 5: The Hamiltonian",
+							"url": "https://www.youtube.com/watch?v=lW9GJ0aiaNc"
+						},
+						{
+							"source": "Susskind, Stanford (Classical Mechanics, Fall 2011)",
+							"title": "Lecture 6: Hamilton's equations",
+							"url": "https://www.youtube.com/watch?v=7SiW_x3cUBo"
+						}
+					],
+					"demoIdeas": [
+						"Legendre-transform visualiser: plot L(v), the tangent slope p, and the intercept -H for a given kinetic term."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l038-phase-space-liouville",
+					"title": "Phase-space orbits and Liouville's theorem",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Draw phase-space portraits for the harmonic oscillator, pendulum (including separatrix) and a particle in a double well.",
+						"State Liouville's theorem and show that Hamiltonian flow preserves phase-space volume.",
+						"Explain that dissipative flows contract phase-space volume and relate this to attractors.",
+						"Connect Liouville's theorem to the microcanonical ensemble and the equal a priori probability postulate in statistical mechanics."
+					],
+					"keyEquations": [
+						"\\frac{d\\rho}{dt}=\\frac{\\partial\\rho}{\\partial t}+\\{\\rho,H\\}=0",
+						"\\nabla\\cdot\\vec v_{flow}=\\sum\\left(\\partial_{q_i}\\dot q_i+\\partial_{p_i}\\dot p_i\\right)=0"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§13.6",
+							"title": "Phase-Space Orbits"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§13.7",
+							"title": "Liouville's Theorem"
+						},
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 4",
+							"title": "The Hamiltonian Formulation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Classical Mechanics, Fall 2011)",
+							"title": "Lecture 7: Liouville's theorem",
+							"url": "https://www.youtube.com/watch?v=lQIbcV6dQzw"
+						}
+					],
+					"demoIdeas": [
+						"A blob of initial conditions in a pendulum phase plane evolves; area is conserved while the shape smears (shear), vs a damped version that shrinks."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l039-nonlinear-ddp",
+					"title": "Nonlinearity and the driven damped pendulum",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Distinguish linear from nonlinear systems by superposition and give an example of a phenomenon that requires nonlinearity (amplitude-dependent period, harmonic generation, chaos).",
+						"Write the dimensionless driven damped pendulum equation and identify the drive amplitude as the control parameter.",
+						"Describe the sequence of behaviour as the drive increases: periodic, period doubling, chaos.",
+						"Integrate the DDP numerically and describe the time series and trajectories."
+					],
+					"keyEquations": [
+						"\\ddot\\phi+\\frac1q\\dot\\phi+\\sin\\phi=\\gamma\\cos\\omega_dt"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§12.1",
+							"title": "Linearity and Nonlinearity"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§12.2",
+							"title": "The Driven Damped Pendulum DDP"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§12.3",
+							"title": "Some Expected Features of the DDP"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§12.4",
+							"title": "The DDP: Approach to Chaos"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Driven damped pendulum: drive-amplitude slider with time series, phase portrait and Poincare section updating live."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l040-chaos-sensitivity",
+					"title": "Chaos, Lyapunov exponents and Poincare sections",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Show sensitive dependence on initial conditions by simulating two nearby trajectories and estimating the Lyapunov exponent from their separation.",
+						"Build a bifurcation diagram for the DDP and read off period doublings.",
+						"Construct a Poincare section by stroboscopic sampling and explain the difference between periodic, quasi-periodic and chaotic sections.",
+						"State why long-term prediction of a chaotic system is impossible even though the equations are deterministic."
+					],
+					"keyEquations": [
+						"|\\delta(t)|\\approx|\\delta_0|e^{\\lambda t}",
+						"\\text{Poincar\\'e map: }\\vec x_{n+1}=P(\\vec x_n)"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§12.5",
+							"title": "Chaos and Sensitivity to Initial Conditions"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§12.6",
+							"title": "Bifurcation Diagrams"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§12.7",
+							"title": "State-Space Orbits"
+						},
+						{
+							"bookId": "taylor-cm",
+							"ref": "§12.8",
+							"title": "Poincare Sections"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Two nearly identical DDP trajectories and a log-separation plot whose slope is the Lyapunov exponent."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l041-logistic-map",
+					"title": "The logistic map and universality",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"Iterate the logistic map x_{n+1} = r x_n (1 - x_n) and find fixed points and their stability as a function of r.",
+						"Identify the period-doubling cascade and compute the Feigenbaum ratio approximately from successive bifurcation values.",
+						"Explain universality: why different systems share the same ratio.",
+						"Relate the route to chaos in the logistic map to that observed in the DDP."
+					],
+					"keyEquations": [
+						"x_{n+1}=rx_n(1-x_n)",
+						"\\delta=\\lim\\frac{r_n-r_{n-1}}{r_{n+1}-r_n}\\approx4.669"
+					],
+					"readings": [
+						{
+							"bookId": "taylor-cm",
+							"ref": "§12.9",
+							"title": "The Logistic Map"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Logistic-map bifurcation diagram with a zoom lens and a cobweb plot for any r."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "p4-u09-canonical-formalism",
+			"title": "Canonical Transformations and Poisson Brackets",
+			"summary": "Graduate-level structure of Hamiltonian mechanics: Poisson brackets, canonical (symplectic) transformations, generating functions and the passage to quantum commutators.",
+			"lessons": [
+				{
+					"id": "p4-l042-poisson-brackets",
+					"title": "Poisson brackets",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Define the Poisson bracket and compute brackets for elementary phase-space functions, including {q,p} = 1 and {L_i, L_j} = eps_ijk L_k.",
+						"Prove bilinearity, antisymmetry, the Leibniz rule and the Jacobi identity.",
+						"Write the time evolution df/dt = {f, H} + partial f/partial t and show that a function with zero bracket with H is a constant of motion.",
+						"State Poisson's theorem (the bracket of two constants of motion is a constant) and explain the replacement rule {,} -> commutator/(i hbar) in quantisation."
+					],
+					"keyEquations": [
+						"\\{f,g\\}=\\sum_i\\left(\\frac{\\partial f}{\\partial q_i}\\frac{\\partial g}{\\partial p_i}-\\frac{\\partial f}{\\partial p_i}\\frac{\\partial g}{\\partial q_i}\\right)",
+						"\\frac{df}{dt}=\\{f,H\\}+\\frac{\\partial f}{\\partial t}",
+						"\\{L_i,L_j\\}=\\epsilon_{ijk}L_k",
+						"[\\hat A,\\hat B]=i\\hbar\\widehat{\\{A,B\\}}"
+					],
+					"readings": [
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 4",
+							"title": "The Hamiltonian Formulation"
+						},
+						{
+							"bookId": "goldstein",
+							"ref": "Ch. 9",
+							"title": "Canonical Transformations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Susskind, Stanford (Classical Mechanics, Fall 2011)",
+							"title": "Lecture 8: Poisson brackets",
+							"url": "https://www.youtube.com/watch?v=oePbj7yrzUQ"
+						},
+						{
+							"source": "MIT OCW 8.09 (Fall 2014)",
+							"title": "Classical Mechanics III course page (lecture notes, problem sets)",
+							"url": "https://ocw.mit.edu/courses/8-09-classical-mechanics-iii-fall-2014/"
+						}
+					],
+					"demoIdeas": [],
+					"practice": []
+				},
+				{
+					"id": "p4-l043-canonical-transformations",
+					"title": "Canonical transformations and generating functions",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Define a canonical transformation as one preserving Hamilton's equations (or the fundamental Poisson brackets).",
+						"Derive the four types of generating function F1 to F4 and use one to find the new variables.",
+						"Verify that a given transformation is canonical via the Poisson-bracket or symplectic condition.",
+						"Show that time evolution itself is a canonical transformation generated by H."
+					],
+					"keyEquations": [
+						"\\sum(p\\,dq-P\\,dQ)=dF_1",
+						"p=\\partial F_1/\\partial q,\\ P=-\\partial F_1/\\partial Q",
+						"\\{Q,P\\}_{q,p}=1",
+						"M^TJM=J"
+					],
+					"readings": [
+						{
+							"bookId": "goldstein",
+							"ref": "Ch. 9",
+							"title": "Canonical Transformations"
+						},
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 4",
+							"title": "The Hamiltonian Formulation",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Phase-plane warping: apply canonical transformations to a grid of the oscillator phase plane and see areas preserved."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l044-infinitesimal-symmetry",
+					"title": "Infinitesimal canonical transformations and symmetries",
+					"minutes": 80,
+					"prereqs": [],
+					"objectives": [
+						"Show that an infinitesimal canonical transformation is generated by a function G via delta q = eps {q, G}.",
+						"Identify the generator for translations, rotations and time evolution and relate them to momentum, angular momentum and H.",
+						"Derive Noether's theorem in Hamiltonian form: G generates a symmetry iff {G, H} = 0.",
+						"Interpret the quantum analogue: symmetry operators commute with H."
+					],
+					"keyEquations": [
+						"\\delta q=\\epsilon\\{q,G\\}",
+						"\\delta H=\\epsilon\\{H,G\\}",
+						"\\{G,H\\}=0\\Rightarrow\\dot G=0"
+					],
+					"readings": [
+						{
+							"bookId": "goldstein",
+							"ref": "Ch. 9",
+							"title": "Canonical Transformations"
+						},
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 4",
+							"title": "The Hamiltonian Formulation",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [],
+					"practice": []
+				}
+			],
+			"grad": true
+		},
+		{
+			"id": "p4-u10-hamilton-jacobi-action-angle",
+			"title": "Hamilton-Jacobi Theory and Action-Angle Variables",
+			"summary": "The most powerful form of classical mechanics: the Hamilton-Jacobi equation, separation of variables, action-angle variables and adiabatic invariants, with the Bohr-Sommerfeld rule and the eikonal/WKB link to quantum mechanics.",
+			"lessons": [
+				{
+					"id": "p4-l045-hamilton-jacobi",
+					"title": "The Hamilton-Jacobi equation",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Derive the Hamilton-Jacobi equation by requiring a canonical transformation to constant new coordinates and momenta.",
+						"Solve the HJ equation for the harmonic oscillator and for a free particle, obtaining the principal function S.",
+						"Define Hamilton's characteristic function W for conservative systems and write the reduced HJ equation.",
+						"Show how the HJ equation arises as the classical limit of the Schroedinger equation (psi = e^{iS/hbar}) and describe the link to WKB."
+					],
+					"keyEquations": [
+						"H\\!\\left(q,\\frac{\\partial S}{\\partial q},t\\right)+\\frac{\\partial S}{\\partial t}=0",
+						"H\\!\\left(q,\\frac{\\partial W}{\\partial q}\\right)=E",
+						"\\psi=Ae^{iS/\\hbar}"
+					],
+					"readings": [
+						{
+							"bookId": "goldstein",
+							"ref": "Ch. 10",
+							"title": "Hamilton-Jacobi Theory and Action-Angle Variables"
+						},
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 4",
+							"title": "The Hamiltonian Formulation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.09 (Fall 2014)",
+							"title": "Classical Mechanics III course page (lecture notes, problem sets)",
+							"url": "https://ocw.mit.edu/courses/8-09-classical-mechanics-iii-fall-2014/"
+						}
+					],
+					"demoIdeas": [
+						"Wavefronts of constant S for a particle in a potential: rays orthogonal to wavefronts form the classical trajectories (optics-mechanics analogy)."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l046-action-angle",
+					"title": "Separation of variables and action-angle variables",
+					"minutes": 90,
+					"prereqs": [],
+					"objectives": [
+						"Separate the HJ equation for the Kepler problem in spherical coordinates and identify the three constants of motion.",
+						"Define action variables J = contour integral p dq for periodic motion and compute J for the harmonic oscillator.",
+						"Derive frequencies as omega = dH/dJ and use them to analyse a degenerate Kepler problem.",
+						"Compare the action quantisation J = n h to the Bohr-Sommerfeld rule and to the energy levels of the harmonic oscillator and hydrogen."
+					],
+					"keyEquations": [
+						"J=\\oint p\\,dq",
+						"\\omega=\\partial H/\\partial J",
+						"H=\\omega J\\ \\text{(oscillator)}",
+						"J=nh"
+					],
+					"readings": [
+						{
+							"bookId": "goldstein",
+							"ref": "Ch. 10",
+							"title": "Hamilton-Jacobi Theory and Action-Angle Variables"
+						},
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 4",
+							"title": "The Hamiltonian Formulation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.09 (Fall 2014)",
+							"title": "Classical Mechanics III course page (lecture notes, problem sets)",
+							"url": "https://ocw.mit.edu/courses/8-09-classical-mechanics-iii-fall-2014/"
+						}
+					],
+					"demoIdeas": [
+						"Phase-space tori in action-angle variables: motion is a straight line on a torus, for any integrable system."
+					],
+					"practice": []
+				},
+				{
+					"id": "p4-l047-adiabatic-invariants",
+					"title": "Adiabatic invariants and integrability",
+					"minutes": 70,
+					"prereqs": [],
+					"objectives": [
+						"State the adiabatic invariance of the action variable under slow parameter changes and verify it for a pendulum with slowly changing length.",
+						"Use adiabatic invariance to find how an oscillator's amplitude changes under slow variation of frequency.",
+						"Explain integrability and the Liouville-Arnold theorem, and what the KAM theorem says about perturbing an integrable system.",
+						"Connect adiabatic invariance to the quantum adiabatic theorem: slowly varied systems stay in the same quantum state."
+					],
+					"keyEquations": [
+						"\\dot J\\approx0\\ \\text{under slow change}",
+						"E/\\omega=\\text{const}\\ (\\text{oscillator})"
+					],
+					"readings": [
+						{
+							"bookId": "tong-dynamics",
+							"ref": "Ch. 4",
+							"title": "The Hamiltonian Formulation"
+						},
+						{
+							"bookId": "goldstein",
+							"ref": "Ch. 10",
+							"title": "Hamilton-Jacobi Theory and Action-Angle Variables",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Pendulum with slowly lengthened string: energy changes but E/omega stays constant."
+					],
+					"practice": []
+				}
+			],
+			"grad": true
+		}
+	],
+	"exams": [
+		{
+			"id": "p4-midterm",
+			"kind": "midterm",
+			"title": "P4 Midterm: Newtonian Dynamics, Oscillations and Lagrangian Mechanics",
+			"covers": [
+				"p4-u01-newtonian-foundations",
+				"p4-u02-drag-charged-oscillations",
+				"p4-u03-lagrangian-mechanics",
+				"p4-u04-central-forces-kepler",
+				"p4-u05-noninertial-frames"
+			],
+			"minutes": 120,
+			"passMark": 0.7
+		},
+		{
+			"id": "p4-final",
+			"kind": "final",
+			"title": "P4 Final: Classical Mechanics",
+			"covers": [
+				"p4-u01-newtonian-foundations",
+				"p4-u02-drag-charged-oscillations",
+				"p4-u03-lagrangian-mechanics",
+				"p4-u04-central-forces-kepler",
+				"p4-u05-noninertial-frames",
+				"p4-u06-rigid-bodies",
+				"p4-u07-coupled-oscillators",
+				"p4-u08-hamiltonian-chaos",
+				"p4-u09-canonical-formalism",
+				"p4-u10-hamilton-jacobi-action-angle"
+			],
+			"minutes": 180,
+			"passMark": 0.7
+		}
+	]
+}

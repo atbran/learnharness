@@ -1,0 +1,1211 @@
+{
+	"id": "m3-linear-algebra",
+	"code": "M3",
+	"title": "Linear Algebra",
+	"track": "math",
+	"depth": "core",
+	"hours": 50,
+	"prereqs": [
+		"m1-calculus"
+	],
+	"subject": "Linear Algebra",
+	"summary": "Strang's linear algebra from elimination to the SVD, with a deliberate detour into complex vectors, Hermitian and unitary matrices, and function spaces. This is the language of quantum mechanics (states are vectors, observables are Hermitian matrices), of normal modes in classical mechanics, and of the molecular-orbital and Hückel calculations the chemist already knows.",
+	"books": [
+		{
+			"bookId": "strang-la",
+			"role": "primary"
+		},
+		{
+			"bookId": "boas",
+			"role": "secondary"
+		}
+	],
+	"units": [
+		{
+			"id": "m3-u01-systems",
+			"title": "Vectors, Systems and Elimination",
+			"summary": "Linear systems seen three ways (rows, columns, matrices), solved by elimination, packaged as A = LU.",
+			"lessons": [
+				{
+					"id": "m3-l001-vectors-matrices",
+					"title": "Vectors, Linear Combinations and Matrices as Column Combinations",
+					"minutes": 90,
+					"objectives": [
+						"Form linear combinations of vectors and sketch the span of one, two and three vectors in R^2 and R^3.",
+						"Compute dot products, lengths and angles, and use the Cauchy-Schwarz and triangle inequalities to bound them.",
+						"Write Ax as a combination of the columns of A, and explain why this view (not the row-by-row dot-product view) is the one that generalises.",
+						"Interpret Ax = b as the question 'is b in the span of the columns of A?'."
+					],
+					"keyEquations": [
+						"v\\cdot w = \\|v\\|\\|w\\|\\cos\\theta",
+						"|v\\cdot w|\\le \\|v\\|\\|w\\|",
+						"A x = x_1 a_1 + x_2 a_2 + \\dots + x_n a_n"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "1.1",
+							"title": "Vectors and Linear Combinations"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "1.2",
+							"title": "Lengths and Dot Products"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "1.3",
+							"title": "Matrices"
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown",
+							"title": "Vectors, what even are they? (Essence of linear algebra)",
+							"url": "https://www.3blue1brown.com/lessons/vectors/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "Essence of linear algebra (playlist)",
+							"url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab"
+						},
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 1: The geometry of linear equations",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-1-the-geometry-of-linear-equations/"
+						}
+					],
+					"demoIdeas": [
+						"Drag two column vectors and watch the span (line/plane) and the solution of Ax = b update live."
+					]
+				},
+				{
+					"id": "m3-l002-geometry-elimination",
+					"title": "The Geometry of Linear Systems and Elimination",
+					"minutes": 90,
+					"objectives": [
+						"Describe a 2x2 and 3x3 system as intersecting lines/planes (row picture) and as a combination of columns (column picture).",
+						"Carry out Gaussian elimination, identifying pivots, multipliers and the upper-triangular result.",
+						"Recognise the three outcomes (unique solution, none, infinitely many) and diagnose which occurs from the pivots.",
+						"Express each elimination step as multiplication by an elementary matrix E_ij."
+					],
+					"keyEquations": [
+						"E_{21} A = U",
+						"\\ell_{ij} = \\frac{a_{ij}}{a_{jj}}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "2.1",
+							"title": "Vectors and Linear Equations"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "2.2",
+							"title": "The Idea of Elimination"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "2.3",
+							"title": "Elimination Using Matrices"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 2: Elimination with matrices",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-2-elimination-with-matrices/"
+						}
+					],
+					"demoIdeas": [
+						"Step-through elimination on a 3x3 system with the planes drawn in 3D collapsing to a triangular system."
+					]
+				},
+				{
+					"id": "m3-l003-matrix-ops-inverses",
+					"title": "Matrix Multiplication and Inverses",
+					"minutes": 90,
+					"objectives": [
+						"Multiply matrices in four ways (rows x columns, columns x rows, block, entry-by-entry) and state what each view is good for.",
+						"State that matrix multiplication is associative but not commutative and give a physical example of non-commuting operations (e.g. rotations).",
+						"Find A^{-1} by Gauss-Jordan elimination and decide when an inverse exists.",
+						"Prove (AB)^{-1} = B^{-1}A^{-1} and explain the order reversal."
+					],
+					"keyEquations": [
+						"(AB)_{ij} = \\sum_k a_{ik}b_{kj}",
+						"AA^{-1}=A^{-1}A=I",
+						"(AB)^{-1}=B^{-1}A^{-1}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "2.4",
+							"title": "Rules for Matrix Operations"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "2.5",
+							"title": "Inverse Matrices"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 3: Multiplication and inverse matrices",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-3-multiplication-and-inverse-matrices/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "Inverse matrices, column space, and null space (Essence of linear algebra)",
+							"url": "https://www.3blue1brown.com/lessons/inverse-matrices/"
+						}
+					],
+					"demoIdeas": [
+						"Visualise AB as 'apply B, then A' on a grid; swap order to see non-commutativity."
+					]
+				},
+				{
+					"id": "m3-l004-lu-transposes",
+					"title": "LU Factorisation, Transposes and Permutations",
+					"minutes": 70,
+					"objectives": [
+						"Factor A = LU and explain why L records the multipliers with no 'mixing'.",
+						"Use LU to solve Ax = b by forward then back substitution, and count the operations (order n^3/3).",
+						"Handle zero pivots with row exchanges: PA = LU.",
+						"Define the transpose, symmetric matrices and permutation matrices, and show (AB)^T = B^T A^T and P^{-1} = P^T."
+					],
+					"keyEquations": [
+						"A = LU",
+						"PA = LU",
+						"(AB)^T = B^T A^T",
+						"S = S^T",
+						"P^{-1} = P^T"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "2.6",
+							"title": "Elimination = Factorization: A = LU"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "2.7",
+							"title": "Transposes and Permutations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 4: Factorization into A = LU",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-4-factorization-into-a-lu/"
+						},
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 5: Transposes, permutations, spaces R^n",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-5-transposes-permutations-spaces-r-n/"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "m3-u02-vector-spaces",
+			"title": "Vector Spaces and the Four Subspaces",
+			"summary": "Subspaces, nullspace, column space, complete solutions of Ax = b, independence, dimension, and the four fundamental subspaces.",
+			"lessons": [
+				{
+					"id": "m3-l005-subspaces-nullspace",
+					"title": "Subspaces, Column Space and Nullspace",
+					"minutes": 90,
+					"objectives": [
+						"Test whether a set of vectors is a subspace (closure under addition and scaling) and give counterexamples.",
+						"Describe the column space C(A) and decide for which b the system Ax = b is solvable.",
+						"Compute the nullspace N(A) by elimination, identifying pivot and free variables and writing the special solutions.",
+						"Reduce A to the reduced row echelon form R and read off the special solutions from R."
+					],
+					"keyEquations": [
+						"C(A)=\\{Ax\\}",
+						"N(A)=\\{x: Ax=0\\}",
+						"R = \\begin{pmatrix} I & F\\\\ 0 & 0\\end{pmatrix}",
+						"N = \\begin{pmatrix} -F\\\\ I\\end{pmatrix}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "3.1",
+							"title": "Spaces of Vectors"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "3.2",
+							"title": "The Nullspace of A: Solving Ax = 0 and Rx = 0"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 6: Column space and nullspace",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-6-column-space-and-nullspace/"
+						},
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 7: Solving Ax = 0: pivot variables, special solutions",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-7-solving-ax-0-pivot-variables-special-solutions/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "Inverse matrices, column space, and null space (Essence of linear algebra)",
+							"url": "https://www.3blue1brown.com/lessons/inverse-matrices/"
+						}
+					]
+				},
+				{
+					"id": "m3-l006-complete-solution",
+					"title": "The Complete Solution to Ax = b",
+					"minutes": 80,
+					"objectives": [
+						"Find a particular solution and add the nullspace to write the complete solution x = x_p + x_n.",
+						"State the four cases by rank (r = m = n, r = m < n, r = n < m, r < m and r < n) and the solution count in each.",
+						"Explain why rank determines solvability and the number of free parameters.",
+						"Connect to chemistry: under-determined stoichiometry (balancing a reaction) is a nullspace problem."
+					],
+					"keyEquations": [
+						"x = x_p + x_n",
+						"r = \\operatorname{rank}(A) = \\#\\text{pivots}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "3.3",
+							"title": "The Complete Solution to Ax = b"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 8: Solving Ax = b: row reduced form R",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-8-solving-ax-b-row-reduced-form-r/"
+						}
+					],
+					"demoIdeas": [
+						"Reaction balancer: enter species and see the nullspace give the balanced equation(s)."
+					]
+				},
+				{
+					"id": "m3-l007-independence-basis-dim",
+					"title": "Independence, Basis and Dimension",
+					"minutes": 75,
+					"objectives": [
+						"Decide linear independence of a set of vectors by checking the nullspace of the matrix of columns.",
+						"Define a basis and prove every basis of a space has the same number of vectors (the dimension).",
+						"Relate rank to dimension of the column space and row space.",
+						"Find bases for C(A), N(A) and the row space from the pivot structure."
+					],
+					"keyEquations": [
+						"\\dim C(A) = \\operatorname{rank}(A) = r",
+						"\\dim N(A) = n - r"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "3.4",
+							"title": "Independence, Basis and Dimension"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 9: Independence, basis, and dimension",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-9-independence-basis-and-dimension/"
+						}
+					]
+				},
+				{
+					"id": "m3-l008-four-subspaces",
+					"title": "The Four Fundamental Subspaces",
+					"minutes": 75,
+					"objectives": [
+						"State the dimensions of C(A), N(A), C(A^T) and N(A^T) in terms of r, m, n.",
+						"Find bases for all four subspaces of a given matrix, using R and the row operations E with EA = R.",
+						"Apply the rank-nullity relation r + (n - r) = n to explain a concrete counting argument.",
+						"Show that a rank-1 matrix is a column times a row, and decompose a matrix as a sum of rank-1 pieces."
+					],
+					"keyEquations": [
+						"\\dim C(A^T)=r,\\ \\dim N(A^T)=m-r",
+						"A = u v^T"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "3.5",
+							"title": "Dimensions of the Four Subspaces"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 10: The four fundamental subspaces",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-10-the-four-fundamental-subspaces/"
+						},
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 11: Matrix spaces; rank 1; small world graphs",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-11-matrix-spaces-rank-1-small-world-graphs/"
+						}
+					],
+					"demoIdeas": [
+						"Interactive diagram of R^n and R^m with the four subspaces re-drawn as the user edits a 3x3 matrix."
+					]
+				}
+			]
+		},
+		{
+			"id": "m3-u03-orthogonality",
+			"title": "Orthogonality, Projections and Least Squares",
+			"summary": "Orthogonal subspaces, projection onto a subspace, least-squares fitting (the chemist's linear regression), Gram-Schmidt and QR.",
+			"lessons": [
+				{
+					"id": "m3-l009-orthogonal-subspaces",
+					"title": "Orthogonality of the Four Subspaces",
+					"minutes": 75,
+					"objectives": [
+						"Show that the row space is perpendicular to the nullspace, and the column space to the left nullspace.",
+						"Define the orthogonal complement and state that the two pairs split R^n and R^m into perpendicular parts.",
+						"Decompose any x as a row-space part plus a nullspace part, and explain what A does to each.",
+						"Explain why A^T A is invertible exactly when A has independent columns."
+					],
+					"keyEquations": [
+						"C(A^T)\\perp N(A)",
+						"C(A)\\perp N(A^T)",
+						"N(A^TA)=N(A)"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "4.1",
+							"title": "Orthogonality of the Four Subspaces"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 14: Orthogonal vectors and subspaces",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-14-orthogonal-vectors-and-subspaces/"
+						}
+					]
+				},
+				{
+					"id": "m3-l010-projections-least-squares",
+					"title": "Projections and Least-Squares Fitting",
+					"minutes": 100,
+					"objectives": [
+						"Derive the projection of b onto a line and onto a column space, p = A(A^TA)^{-1}A^Tb.",
+						"Show P^2 = P and P^T = P, and explain what P does to vectors in C(A) and in N(A^T).",
+						"Derive the normal equations A^TA x_hat = A^Tb by minimising ||Ax - b||^2 and by geometry.",
+						"Fit a line and a parabola to data by least squares, and interpret the residual as orthogonal to the column space.",
+						"Connect to chemistry: calibration curves and Beer-Lambert regression are least-squares projections."
+					],
+					"keyEquations": [
+						"P = A(A^TA)^{-1}A^T",
+						"A^TA\\hat x = A^T b",
+						"e = b - A\\hat x \\perp C(A)"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "4.2",
+							"title": "Projections"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "4.3",
+							"title": "Least Squares Approximations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 15: Projections onto subspaces",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-15-projections-onto-subspaces/"
+						},
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 16: Projection matrices and least squares",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-16-projection-matrices-and-least-squares/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 11: Least Squares (part 2)",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-11-least-squares-part-2/"
+						}
+					],
+					"demoIdeas": [
+						"Scatter plot where dragging points moves the best-fit line and shows the residual vector as a projection in data space."
+					]
+				},
+				{
+					"id": "m3-l011-gram-schmidt-qr",
+					"title": "Orthonormal Bases, Gram-Schmidt and QR",
+					"minutes": 80,
+					"objectives": [
+						"Show that an orthogonal matrix Q satisfies Q^TQ = I, preserves lengths and dot products, and that its determinant is +/-1.",
+						"Carry out Gram-Schmidt on three vectors to produce an orthonormal basis.",
+						"Write A = QR and interpret R as the record of the Gram-Schmidt coefficients.",
+						"Simplify least squares with orthonormal columns: x_hat = Q^Tb."
+					],
+					"keyEquations": [
+						"Q^TQ=I",
+						"A=QR",
+						"q_k = \\frac{a_k - \\sum_{j<k}(q_j^Ta_k)q_j}{\\|\\cdot\\|}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "4.4",
+							"title": "Orthonormal Bases and Gram-Schmidt"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 17: Orthogonal matrices and Gram-Schmidt",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-17-orthogonal-matrices-and-gram-schmidt/"
+						}
+					],
+					"demoIdeas": [
+						"Watch Gram-Schmidt build orthonormal vectors from three skew vectors in 3D, one projection removal at a time."
+					]
+				}
+			]
+		},
+		{
+			"id": "m3-u04-determinants",
+			"title": "Determinants",
+			"summary": "Determinants as signed volume, with the properties and formulas that physics calculations (secular equations, cross products, Jacobians) lean on.",
+			"lessons": [
+				{
+					"id": "m3-l012-det-properties-formulas",
+					"title": "Determinant Properties and Formulas",
+					"minutes": 75,
+					"objectives": [
+						"State the three defining properties of det and derive the others (row exchange flips sign, det of product, det of transpose, singular iff 0).",
+						"Compute determinants by elimination (product of pivots) and by cofactor expansion along a row.",
+						"Use the big formula (sum over permutations) to see why a 3x3 determinant has six terms.",
+						"Explain det(AB) = det(A)det(B) and its consequence det(A^{-1}) = 1/det(A)."
+					],
+					"keyEquations": [
+						"\\det(AB)=\\det A\\det B",
+						"\\det A^T = \\det A",
+						"\\det A = \\sum_{\\sigma} \\operatorname{sgn}(\\sigma)\\, a_{1\\sigma_1}\\cdots a_{n\\sigma_n}",
+						"\\det A=\\sum_j a_{ij}C_{ij}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "5.1",
+							"title": "The Properties of Determinants"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "5.2",
+							"title": "Permutations and Cofactors"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 18: Properties of determinants",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-18-properties-of-determinants/"
+						},
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 19: Determinant formulas and cofactors",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-19-determinant-formulas-and-cofactors/"
+						}
+					]
+				},
+				{
+					"id": "m3-l013-cramer-volume",
+					"title": "Cramer's Rule, Inverse Formula and Volume",
+					"minutes": 60,
+					"objectives": [
+						"Write A^{-1} = C^T/det A and solve small systems by Cramer's rule, noting why it is not a practical algorithm.",
+						"Show |det A| is the volume of the parallelepiped spanned by the rows (or columns) of A.",
+						"Relate the Jacobian determinant of a change of variables to the volume scaling factor, tying back to multivariable calculus."
+					],
+					"keyEquations": [
+						"x_j = \\frac{\\det B_j}{\\det A}",
+						"A^{-1} = \\frac{C^T}{\\det A}",
+						"\\text{Vol} = |\\det A|"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "5.3",
+							"title": "Cramer's Rule, Inverses, and Volumes"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 20: Cramer's rule, inverse matrix, and volume",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-20-cramers-rule-inverse-matrix-and-volume/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "The determinant (Essence of linear algebra)",
+							"url": "https://www.3blue1brown.com/lessons/determinant/"
+						}
+					],
+					"demoIdeas": [
+						"Unit square mapped by a 2x2 matrix: shaded image parallelogram with area readout equal to |det|."
+					]
+				}
+			]
+		},
+		{
+			"id": "m3-u05-eigen",
+			"title": "Eigenvalues and Eigenvectors",
+			"summary": "The central topic for physics: diagonalisation, powers, linear ODE systems and the spectral theorem for symmetric matrices (normal modes; Hückel MO theory).",
+			"lessons": [
+				{
+					"id": "m3-l014-eigen-intro",
+					"title": "Eigenvalues and Eigenvectors",
+					"minutes": 100,
+					"objectives": [
+						"Define Ax = lambda x and interpret it geometrically as a direction that A only stretches.",
+						"Compute eigenvalues from det(A - lambda I) = 0 and eigenvectors from the nullspace of A - lambda I for 2x2 and 3x3 matrices.",
+						"Prove trace = sum of eigenvalues and det = product of eigenvalues.",
+						"Explain what complex or repeated eigenvalues mean (rotations; defective matrices).",
+						"Connect to chemistry: the Hückel secular determinant is an eigenvalue problem for the pi-orbital energies."
+					],
+					"keyEquations": [
+						"Ax=\\lambda x",
+						"\\det(A-\\lambda I)=0",
+						"\\operatorname{tr}A=\\sum\\lambda_i",
+						"\\det A=\\prod\\lambda_i"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "6.1",
+							"title": "Introduction to Eigenvalues"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 21: Eigenvalues and eigenvectors",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-21-eigenvalues-and-eigenvectors/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "Eigenvectors and eigenvalues (Essence of linear algebra)",
+							"url": "https://www.3blue1brown.com/lessons/eigenvalues/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "A quick trick for computing eigenvalues (Essence of linear algebra)",
+							"url": "https://www.3blue1brown.com/lessons/quick-eigen/"
+						}
+					],
+					"demoIdeas": [
+						"Grid-transformation widget: vectors on the unit circle map to an ellipse, with eigen-directions highlighted when they exist."
+					]
+				},
+				{
+					"id": "m3-l015-diagonalization",
+					"title": "Diagonalisation and Powers of A",
+					"minutes": 80,
+					"objectives": [
+						"Construct S and Lambda such that A = S Lambda S^{-1} and state the condition (n independent eigenvectors).",
+						"Compute A^k = S Lambda^k S^{-1} and use it to solve a linear recurrence (Fibonacci) in closed form.",
+						"Decide convergence of A^k x from the sizes of the eigenvalues.",
+						"Interpret a Markov matrix: eigenvalue 1 gives the steady state."
+					],
+					"keyEquations": [
+						"A=S\\Lambda S^{-1}",
+						"A^k=S\\Lambda^kS^{-1}",
+						"u_{k+1}=Au_k\\Rightarrow u_k=\\sum c_i\\lambda_i^k x_i"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "6.2",
+							"title": "Diagonalizing a Matrix"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 22: Diagonalization and powers of A",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-22-diagonalization-and-powers-of-a/"
+						}
+					]
+				},
+				{
+					"id": "m3-l016-ode-systems",
+					"title": "Systems of Differential Equations and the Matrix Exponential",
+					"minutes": 80,
+					"objectives": [
+						"Solve du/dt = Au as u(t) = sum c_i e^{lambda_i t} x_i and fit the constants to initial data.",
+						"State stability in terms of the real parts of the eigenvalues.",
+						"Define e^{At} through its power series and show e^{At} = S e^{Lambda t} S^{-1}.",
+						"Reduce a second-order ODE to a first-order system and solve it by eigenvalues.",
+						"Connect to chemistry: coupled first-order kinetics (A -> B -> C) is du/dt = Au; the rate constants are the eigenvalues."
+					],
+					"keyEquations": [
+						"\\dot u = Au",
+						"u(t)=e^{At}u(0)",
+						"e^{At}=I+At+\\tfrac{(At)^2}{2!}+\\dots",
+						"e^{At}=Se^{\\Lambda t}S^{-1}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "6.3",
+							"title": "Systems of Differential Equations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 23: Differential equations and exp(At)",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-23-differential-equations-and-exp-at/"
+						},
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 24: Markov matrices; Fourier series",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-24-markov-matrices-fourier-series/"
+						}
+					],
+					"demoIdeas": [
+						"Phase-plane explorer: choose a 2x2 matrix and watch trajectories spiral/flow along eigenvectors.",
+						"Sequential kinetics A -> B -> C with sliders for the two rate constants."
+					]
+				},
+				{
+					"id": "m3-l017-symmetric",
+					"title": "Symmetric Matrices and the Spectral Theorem",
+					"minutes": 100,
+					"objectives": [
+						"State and prove that a real symmetric matrix has real eigenvalues and orthogonal eigenvectors for distinct eigenvalues.",
+						"Write S = Q Lambda Q^T and the equivalent sum of projections S = sum lambda_i q_i q_i^T.",
+						"Apply the theorem to coupled oscillators: diagonalise the force-constant matrix to find normal-mode frequencies and shapes.",
+						"Diagonalise a quadratic form to find principal axes.",
+						"Connect to chemistry: vibrational normal modes of a molecule and the real symmetric Hückel matrix."
+					],
+					"keyEquations": [
+						"S=Q\\Lambda Q^T",
+						"S=\\sum_i\\lambda_i q_iq_i^T",
+						"x^TSx=\\sum\\lambda_i y_i^2"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "6.4",
+							"title": "Symmetric Matrices"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 25: Symmetric matrices and positive definiteness",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-25-symmetric-matrices-and-positive-definiteness/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 8: Springs and Masses",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-8-springs-and-masses/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 9: Oscillation",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-9-oscillation/"
+						}
+					],
+					"demoIdeas": [
+						"Two or three coupled masses on springs: change masses/springs and see the normal-mode eigenvectors animated."
+					]
+				},
+				{
+					"id": "m3-l018-positive-definite",
+					"title": "Positive Definite Matrices and Minima",
+					"minutes": 60,
+					"objectives": [
+						"State the equivalent tests for positive definiteness (eigenvalues, pivots, determinants, x^TSx > 0).",
+						"Use the Hessian's definiteness to classify a critical point as a minimum, maximum or saddle.",
+						"Explain why A^TA is positive (semi)definite and relate it to least squares."
+					],
+					"keyEquations": [
+						"x^TSx>0\\ \\forall x\\ne0",
+						"H_{ij}=\\partial_i\\partial_jf",
+						"f\\approx f_0+\\tfrac12 x^THx"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "6.5",
+							"title": "Positive Definite Matrices"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 27: Positive definite matrices and minima",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-27-positive-definite-matrices-and-minima/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 7: Positive Definite Day",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-7-positive-definite-day/"
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "m3-u06-complex",
+			"title": "Complex Vectors, Hermitian and Unitary Matrices",
+			"summary": "Linear algebra over C: Hermitian and unitary matrices are the observables and time evolution of quantum mechanics.",
+			"lessons": [
+				{
+					"id": "m3-l019-complex-vectors",
+					"title": "Complex Vectors and Matrices",
+					"minutes": 80,
+					"objectives": [
+						"Define the Hermitian inner product z^H w and the length ||z||^2 = z^H z, and say why the plain transpose fails.",
+						"Compute the conjugate transpose A^H and use (AB)^H = B^H A^H.",
+						"Explain bra-ket notation as the physicist's name for the same objects: |psi> as a column and <psi| as the conjugate row.",
+						"Compute inner products of complex vectors and check orthogonality."
+					],
+					"keyEquations": [
+						"\\langle z,w\\rangle=z^Hw=\\bar z^Tw",
+						"\\|z\\|^2=z^Hz",
+						"(AB)^H=B^HA^H",
+						"\\langle\\psi|\\phi\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "9.1",
+							"title": "Real versus Complex"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "9.2",
+							"title": "Complex Vectors and Matrices"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 26: Complex matrices; fast Fourier transform",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-26-complex-matrices-fast-fourier-transform/"
+						}
+					]
+				},
+				{
+					"id": "m3-l020-hermitian-unitary",
+					"title": "Hermitian and Unitary Matrices",
+					"minutes": 100,
+					"objectives": [
+						"Prove that a Hermitian matrix has real eigenvalues and orthogonal eigenvectors, and write H = U Lambda U^H.",
+						"Show that a unitary matrix preserves the Hermitian inner product, has |lambda| = 1, and that U = e^{iH} for Hermitian H.",
+						"Identify the Pauli matrices as Hermitian and unitary, and compute their eigenvectors.",
+						"Explain why QM observables are Hermitian (real measured values) and time evolution is unitary (probability conserved).",
+						"Connect to chemistry: spin-1/2 states and the NMR two-level Hamiltonian are 2x2 Hermitian eigenproblems."
+					],
+					"keyEquations": [
+						"H^H=H\\Rightarrow\\lambda\\in\\mathbb R",
+						"U^HU=I",
+						"\\sigma_x=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}",
+						"U=e^{-iHt/\\hbar}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "9.3",
+							"title": "Hermitian and Unitary Matrices"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 25: Symmetric matrices and positive definiteness",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-25-symmetric-matrices-and-positive-definiteness/"
+						},
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 26: Complex matrices; fast Fourier transform",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-26-complex-matrices-fast-fourier-transform/"
+						}
+					],
+					"demoIdeas": [
+						"Bloch-sphere visualiser: a 2x2 Hermitian matrix defines an axis, e^{-iHt} rotates the state around it."
+					]
+				},
+				{
+					"id": "m3-l021-fft",
+					"title": "The Fourier Matrix and the Fast Fourier Transform",
+					"minutes": 60,
+					"objectives": [
+						"Write the n x n Fourier matrix F_n in powers of w = e^{2 pi i/n} and show it is unitary after scaling by 1/sqrt(n).",
+						"Explain how the FFT factors F_n into half-size transforms, reducing cost from n^2 to n log n.",
+						"Interpret the DFT as expansion in an orthonormal basis of complex exponentials, preparing for Fourier series (M5)."
+					],
+					"keyEquations": [
+						"F_{jk}=w^{jk},\\ w=e^{2\\pi i/n}",
+						"F^HF=nI",
+						"c=F^{-1}y"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "9.4",
+							"title": "Fast Fourier Transform"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 30: Discrete Fourier Series",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-30-discrete-fourier-series/"
+						},
+						{
+							"source": "MIT OCW 18.085 (Fall 2008)",
+							"title": "Lecture 31: Fast Fourier Transform, Convolution",
+							"url": "https://ocw.mit.edu/courses/18-085-computational-science-and-engineering-i-fall-2008/resources/lecture-31-fast-fourier-transform-convolution/"
+						}
+					],
+					"demoIdeas": [
+						"Draw the n-th roots of unity and show the DFT of a short signal as coefficients in the Fourier basis."
+					]
+				}
+			]
+		},
+		{
+			"id": "m3-u07-svd",
+			"title": "The Singular Value Decomposition",
+			"summary": "The SVD as the universal matrix factorisation: orthonormal bases for all four subspaces, low-rank approximation, PCA and the pseudoinverse.",
+			"lessons": [
+				{
+					"id": "m3-l022-svd",
+					"title": "The SVD: Bases and Matrices",
+					"minutes": 100,
+					"objectives": [
+						"State A = U Sigma V^T and what each factor means (rotate, stretch, rotate).",
+						"Derive V and the singular values from the eigenproblem of A^TA, and U from AA^T.",
+						"Read off orthonormal bases for all four fundamental subspaces from the SVD.",
+						"Compute the SVD of a 2x2 matrix by hand."
+					],
+					"keyEquations": [
+						"A=U\\Sigma V^T",
+						"A^TA=V\\Sigma^2V^T",
+						"Av_i=\\sigma_iu_i",
+						"A=\\sum\\sigma_iu_iv_i^T"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "7.2",
+							"title": "Bases and Matrices in the SVD"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 29: Singular value decomposition",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-29-singular-value-decomposition/"
+						}
+					],
+					"demoIdeas": [
+						"Unit circle transformed by A is an ellipse: show semi-axes as singular values with their u and v directions."
+					]
+				},
+				{
+					"id": "m3-l023-svd-pca-pinv",
+					"title": "Geometry of the SVD, PCA and the Pseudoinverse",
+					"minutes": 90,
+					"objectives": [
+						"Use the largest k singular values to form the best rank-k approximation (Eckart-Young) and judge compression error.",
+						"Perform PCA on a small data set: centre, form the covariance matrix, and identify principal components with right singular vectors.",
+						"Define the pseudoinverse A^+ = V Sigma^+ U^T and show it gives the minimum-norm least-squares solution.",
+						"Define the condition number sigma_max/sigma_min and interpret sensitivity to errors.",
+						"Connect to chemistry: PCA/SVD of spectra decomposes a mixture data set into component spectra."
+					],
+					"keyEquations": [
+						"A_k=\\sum_{i\\le k}\\sigma_iu_iv_i^T",
+						"A^+=V\\Sigma^+U^T",
+						"\\kappa=\\sigma_{\\max}/\\sigma_{\\min}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "7.3",
+							"title": "Principal Component Analysis (PCA by the SVD)"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "7.4",
+							"title": "The Geometry of the SVD"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 33: Left and right inverses; pseudoinverse",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-33-left-and-right-inverses-pseudoinverse/"
+						}
+					],
+					"demoIdeas": [
+						"Image compression slider: reconstruct a picture from k singular values.",
+						"PCA on a 2D point cloud with the principal axes drawn."
+					]
+				}
+			]
+		},
+		{
+			"id": "m3-u08-transformations",
+			"title": "Linear Transformations and Change of Basis",
+			"summary": "Matrices as representations of linear maps; change of basis and similarity, the way a physicist moves between coordinate systems and between representations.",
+			"lessons": [
+				{
+					"id": "m3-l024-linear-transformations",
+					"title": "Linear Transformations and Their Matrices",
+					"minutes": 90,
+					"objectives": [
+						"Define a linear transformation and test linearity; give examples (rotation, projection, differentiation).",
+						"Build the matrix of T with respect to given input and output bases, column by column.",
+						"Show that composition of transformations corresponds to matrix multiplication.",
+						"Find the kernel and range of a transformation and relate them to nullspace and column space."
+					],
+					"keyEquations": [
+						"T(cv+dw)=cT(v)+dT(w)",
+						"[T]_{\\mathcal B}\\;\\text{columns}=[T(v_j)]_{\\mathcal B}",
+						"R(\\theta)=\\begin{pmatrix}\\cos\\theta&-\\sin\\theta\\\\\\sin\\theta&\\cos\\theta\\end{pmatrix}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "8.1",
+							"title": "The Idea of a Linear Transformation"
+						},
+						{
+							"bookId": "strang-la",
+							"ref": "8.2",
+							"title": "The Matrix of a Linear Transformation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 30: Linear transformations and their matrices",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-30-linear-transformations-and-their-matrices/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "Linear transformations and matrices (Essence of linear algebra)",
+							"url": "https://www.3blue1brown.com/lessons/linear-transformations/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "Nonsquare matrices as transformations between dimensions (Essence of linear algebra)",
+							"url": "https://www.3blue1brown.com/lessons/nonsquare-matrices/"
+						}
+					],
+					"demoIdeas": [
+						"Pick a basis and a transformation, see the corresponding matrix update; try the derivative on the basis {1, x, x^2}."
+					]
+				},
+				{
+					"id": "m3-l025-change-of-basis",
+					"title": "Change of Basis, Similarity and Jordan Form",
+					"minutes": 90,
+					"objectives": [
+						"Compute the change-of-basis matrix and convert vector components between two bases.",
+						"Show the matrix of T in a new basis is B = M^{-1}AM and that similar matrices share eigenvalues, trace and determinant.",
+						"Explain diagonalisation as choosing the eigenbasis, and why symmetric/Hermitian matrices always admit an orthonormal one.",
+						"Recognise when a matrix is defective and write its Jordan block form for the 2x2 and 3x3 cases."
+					],
+					"keyEquations": [
+						"B=M^{-1}AM",
+						"x=Mx'",
+						"J=\\begin{pmatrix}\\lambda&1\\\\0&\\lambda\\end{pmatrix}"
+					],
+					"readings": [
+						{
+							"bookId": "strang-la",
+							"ref": "8.3",
+							"title": "The Search for a Good Basis"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 28: Similar matrices and Jordan form",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-28-similar-matrices-and-jordan-form/"
+						},
+						{
+							"source": "MIT OCW 18.06 (Spring 2010)",
+							"title": "Lecture 31: Change of basis; image compression",
+							"url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-31-change-of-basis-image-compression/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "Change of basis (Essence of linear algebra)",
+							"url": "https://www.3blue1brown.com/lessons/change-of-basis/"
+						}
+					],
+					"demoIdeas": [
+						"Two overlaid coordinate grids; drag a vector and watch components in each basis, plus how A looks in each."
+					]
+				}
+			]
+		},
+		{
+			"id": "m3-u09-function-spaces",
+			"title": "Inner Product Spaces and Operators (Grad Touch)",
+			"summary": "Abstract vector spaces, function spaces and commuting operators: the bridge from matrices to Hilbert space and quantum mechanics.",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "m3-l026-inner-product-spaces",
+					"title": "Abstract Vector and Inner-Product Spaces",
+					"minutes": 80,
+					"objectives": [
+						"State the axioms of a vector space and of an inner product, and verify them for polynomials and continuous functions with <f,g> = integral f g dx.",
+						"Compute orthogonality and projections in function space, e.g. the first few Fourier or Legendre coefficients of a function.",
+						"Run Gram-Schmidt on {1, x, x^2} with a weight to generate Legendre polynomials.",
+						"Explain the analogy Hermitian matrix <-> self-adjoint operator and why eigenfunctions of a self-adjoint operator are orthogonal."
+					],
+					"keyEquations": [
+						"\\langle f,g\\rangle=\\int_a^b \\bar f(x)g(x)\\,w(x)\\,dx",
+						"f=\\sum_n c_n\\phi_n,\\ c_n=\\langle\\phi_n,f\\rangle",
+						"\\langle f,Lg\\rangle=\\langle Lf,g\\rangle"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "3.14",
+							"title": "General Vector Spaces"
+						},
+						{
+							"bookId": "boas",
+							"ref": "3.10",
+							"title": "Linear Vector Spaces",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown",
+							"title": "Abstract vector spaces (Essence of linear algebra)",
+							"url": "https://www.3blue1brown.com/lessons/abstract-vector-spaces/"
+						},
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 5 summary: Diagonalizability of infinite-dimensional Hermitian operators (notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture5/"
+						}
+					],
+					"demoIdeas": [
+						"Approximate a square wave by projecting onto sines in function space; add terms and watch the residual shrink."
+					]
+				},
+				{
+					"id": "m3-l027-commuting-operators-tensor",
+					"title": "Commuting Operators, Simultaneous Diagonalisation and Tensor Products",
+					"minutes": 80,
+					"objectives": [
+						"Compute the commutator [A, B] for matrices and show that Hermitian matrices commute iff they share a complete eigenbasis.",
+						"Explain why commuting observables can be measured simultaneously while non-commuting ones obey an uncertainty relation.",
+						"Form the Kronecker (tensor) product of two matrices and describe how two-spin Hilbert spaces are built from it.",
+						"Check that the Pauli matrices satisfy [sigma_i, sigma_j] = 2i epsilon_ijk sigma_k.",
+						"Connect to chemistry: coupled NMR spins live in a tensor-product space; the spin Hamiltonian is a Kronecker sum."
+					],
+					"keyEquations": [
+						"[A,B]=AB-BA",
+						"A\\otimes B",
+						"[\\sigma_i,\\sigma_j]=2i\\epsilon_{ijk}\\sigma_k",
+						"[A,B]=0\\iff\\text{common eigenbasis}"
+					],
+					"readings": [
+						{
+							"bookId": "boas",
+							"ref": "3.11",
+							"title": "Eigenvalues and Eigenvectors; Diagonalizing Matrices"
+						},
+						{
+							"bookId": "boas",
+							"ref": "3.9",
+							"title": "Special Matrices and Formulas",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.303 (Fall 2014)",
+							"title": "Lecture 12 summary: Kronecker products (notes)",
+							"url": "https://ocw.mit.edu/courses/18-303-linear-partial-differential-equations-analysis-and-numerics-fall-2014/resources/mit18_303f14_lecture12/"
+						}
+					],
+					"demoIdeas": [
+						"Two-spin NMR Hamiltonian builder: Kronecker products assemble H and show the four-level energy diagram."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "m3-placement",
+			"kind": "placement",
+			"title": "M3 Placement: Linear Algebra",
+			"covers": [
+				"m3-u01-systems",
+				"m3-u02-vector-spaces",
+				"m3-u03-orthogonality",
+				"m3-u04-determinants",
+				"m3-u05-eigen",
+				"m3-u06-complex",
+				"m3-u07-svd",
+				"m3-u08-transformations",
+				"m3-u09-function-spaces"
+			],
+			"minutes": 90,
+			"passMark": 0.8
+		},
+		{
+			"id": "m3-midterm",
+			"kind": "midterm",
+			"title": "M3 Midterm: Systems, Subspaces, Orthogonality, Determinants",
+			"covers": [
+				"m3-u01-systems",
+				"m3-u02-vector-spaces",
+				"m3-u03-orthogonality",
+				"m3-u04-determinants"
+			],
+			"minutes": 100,
+			"passMark": 0.7
+		},
+		{
+			"id": "m3-final",
+			"kind": "final",
+			"title": "M3 Final: Linear Algebra",
+			"covers": [
+				"m3-u01-systems",
+				"m3-u02-vector-spaces",
+				"m3-u03-orthogonality",
+				"m3-u04-determinants",
+				"m3-u05-eigen",
+				"m3-u06-complex",
+				"m3-u07-svd",
+				"m3-u08-transformations",
+				"m3-u09-function-spaces"
+			],
+			"minutes": 165,
+			"passMark": 0.7
+		}
+	]
+}

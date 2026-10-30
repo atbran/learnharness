@@ -158,3 +158,18 @@ as v1. Newer formats are refused rather than guessed or migrated. Invalid record
 produce explicit errors or warnings, not an apparently complete empty history.
 Files may change while the app runs: output is a read, not a cross-file atomic
 snapshot. Re-read, or ask the user to close the app when a stable snapshot matters.
+
+## Textbooks (physics program bookshelf)
+
+The learner's textbook PDFs are indexed once into `data/books/<bookId>/index.sqlite` (SQLite FTS5 + the PDF outline). Query them cheaply instead of opening PDFs:
+
+```bash
+npx tsx scripts/books.ts list                                   # ingested books
+npx tsx scripts/books.ts search "method of images" --book griffiths-em -k 5
+npx tsx scripts/books.ts lookup p5-l012-method-of-images        # a lesson's readings → page ranges
+npx tsx scripts/books.ts section griffiths-em "§3.2" "The Method of Images"
+npx tsx scripts/books.ts read griffiths-em 128 130 --max 4000   # bounded page text
+npx tsx scripts/books.ts toc griffiths-em --depth 1
+```
+
+Search first, then read only the pages a hit points to. Book ids are in `curriculum/books.json`.
