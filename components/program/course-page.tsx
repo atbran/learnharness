@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronRightIcon, ClipboardListIcon, DumbbellIcon, FileCheck2Icon, FileTextIcon, GaugeIcon, Loader2Icon, MonitorPlayIcon, MoreHorizontalIcon, SigmaIcon, SparklesIcon } from "lucide-react";
+import { CheckIcon, ChevronRightIcon, ClipboardListIcon, DumbbellIcon, FileCheck2Icon, FileTextIcon, GaugeIcon, HammerIcon, Loader2Icon, MonitorPlayIcon, MoreHorizontalIcon, SigmaIcon, SparklesIcon } from "lucide-react";
 import { TopBar } from "@/components/top-bar";
 import { MenuShell } from "@/components/menu-shell";
 import { Toggle } from "@/components/settings/controls";
@@ -215,9 +215,104 @@ export function CoursePage({ courseId, initial }: { courseId: string; initial: P
 							);
 						})}
 					</div>
+
+					{course.project && <ProjectCard course={course} project={course.project} done={s.projectsDone.includes(course.id)} onDone={refresh} />}
 				</div>
 			</div>
 		</div>
+	);
+}
+
+/** The course's optional capstone project: off the lesson path. Starts a
+ *  mentored project session; "Mark done" only records it (a badge). */
+function ProjectCard({ course, project, done, onDone }: { course: CourseView; project: NonNullable<CourseView["project"]>; done: boolean; onDone: () => void }) {
+	const router = useRouter();
+	const [busy, setBusy] = useState<"start" | "done" | null>(null);
+	const [error, setError] = useState<string | null>(null);
+	const start = async () => {
+		setBusy("start");
+		setError(null);
+		try {
+			const res = await fetch("/api/chats", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ title: `${course.code} · Project · ${project.title}`, courseId: course.id, kind: "project" }),
+			});
+			const body = (await res.json()) as { id?: string };
+			if (!res.ok || !body.id) throw new Error("could not create the session");
+			router.push(`/chat/${body.id}`);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : String(err));
+			setBusy(null);
+		}
+	};
+	const markDone = async () => {
+		setBusy("done");
+		setError(null);
+		const res = await fetch(`/api/program/projects/${course.id}`, { method: "POST" }).catch(() => null);
+		if (!res?.ok) setError("could not save");
+		setBusy(null);
+		onDone();
+	};
+	return (
+		<section className="rounded-xl border border-border bg-card p-4" data-testid="project-card">
+			<div className="flex flex-wrap items-center gap-2">
+				<h2 className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
+					<HammerIcon className="size-3.5" /> Capstone project · optional
+				</h2>
+				{done && (
+					<span className="flex items-center gap-1 rounded-full border border-[var(--st-mastered)] px-2 py-0.5 text-xs text-[var(--st-mastered)]">
+						<CheckIcon className="size-3" /> Done
+					</span>
+				)}
+			</div>
+			<h3 className="mt-2 font-medium">{project.title}</h3>
+			<p className="mt-0.5 text-xs text-muted-foreground">
+				~{project.hours} h · {project.stack}
+			</p>
+			<p className="mt-1 text-sm text-muted-foreground">{project.summary}</p>
+			<div className="mt-3 grid gap-4 text-sm md:grid-cols-2">
+				<div>
+					<div className="mb-1 text-xs uppercase tracking-wider text-muted-foreground">Goals</div>
+					<ul className="list-disc space-y-1 pl-5">
+						{project.goals.map((g) => (
+							<li key={g}>{g}</li>
+						))}
+					</ul>
+				</div>
+				<div>
+					<div className="mb-1 text-xs uppercase tracking-wider text-muted-foreground">Milestones</div>
+					<ol className="list-decimal space-y-1 pl-5">
+						{project.steps.map((st) => (
+							<li key={st}>{st}</li>
+						))}
+					</ol>
+				</div>
+			</div>
+			<div className="mt-4 flex flex-wrap items-center gap-2">
+				<button
+					type="button"
+					onClick={() => void start()}
+					disabled={busy !== null}
+					className="flex items-center gap-2 rounded-lg border border-foreground px-3 py-1.5 text-sm hover:bg-accent disabled:opacity-50 pointer-coarse:min-h-11"
+				>
+					{busy === "start" ? <Loader2Icon className="size-4 animate-spin" /> : <SparklesIcon className="size-4" />}
+					{done ? "Open a project session" : "Start project session"}
+				</button>
+				{!done && (
+					<button
+						type="button"
+						onClick={() => void markDone()}
+						disabled={busy !== null}
+						className="flex items-center gap-2 rounded-lg border border-border px-3 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground disabled:opacity-50 pointer-coarse:min-h-11"
+					>
+						<CheckIcon className="size-4" /> Mark done
+					</button>
+				)}
+				<span className="text-xs text-muted-foreground">Doesn&apos;t gate lessons or count toward your streak.</span>
+				{error && <span className="text-xs text-destructive">{error}</span>}
+			</div>
+		</section>
 	);
 }
 

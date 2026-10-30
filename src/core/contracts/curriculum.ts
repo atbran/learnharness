@@ -102,8 +102,21 @@ export const examSchema = z.object({
 });
 export type Exam = z.infer<typeof examSchema>;
 
-export const TRACKS = ["math", "physics", "chemphys", "survey", "capstone", "elective"] as const;
+export const TRACKS = ["math", "physics", "chemphys", "ai", "survey", "capstone", "elective"] as const;
 export type Track = (typeof TRACKS)[number];
+
+/** An optional hands-on capstone (a coding project, say): off the lesson
+ *  path — never gates, never counts toward mastery, pace or the streak. */
+export const courseProjectSchema = z.object({
+	title: z.string().min(1),
+	summary: z.string().min(1),
+	goals: z.array(z.string().min(1)).min(2).max(6),
+	steps: z.array(z.string().min(1)).min(3).max(10),
+	/** Tools it's built with, e.g. "Python, NumPy, PyTorch". */
+	stack: z.string().min(1),
+	hours: z.number().positive().max(60),
+});
+export type CourseProject = z.infer<typeof courseProjectSchema>;
 
 export const courseSchema = z.object({
 	id: id(),
@@ -124,6 +137,7 @@ export const courseSchema = z.object({
 	books: z.array(z.object({ bookId: id(), role: z.enum(["primary", "secondary", "reference"]) })).default([]),
 	units: z.array(unitSchema).min(1),
 	exams: z.array(examSchema).default([]),
+	project: courseProjectSchema.optional(),
 });
 export type Course = z.infer<typeof courseSchema>;
 
@@ -165,6 +179,8 @@ export const progressEventSchema = z.discriminatedUnion("type", [
 	/** A unit diagnostic's outcome for a lesson it didn't test out: `missed`
 	 *  non-empty (1 of 2 right) sends the lesson fast-track; empty is a full miss. */
 	z.object({ type: z.literal("diagnostic"), at, unitId: id(), lessonId: id(), missed: z.array(z.object({ prompt: z.string(), explanation: z.string() })) }),
+	/** An optional course capstone project marked done (never affects mastery). */
+	z.object({ type: z.literal("project_done"), at, courseId: id() }),
 	z.object({ type: z.literal("study_time"), at, minutes: z.number().positive().max(240), lessonId: id().optional(), source: z.enum(["heartbeat", "manual"]) }),
 	z.object({ type: z.literal("review_done"), at, lessonId: id(), quality: z.number().int().min(0).max(5) }),
 ]);

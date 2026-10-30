@@ -8,7 +8,7 @@
 import { indexProgram, type ProgramIndex } from "../core/curriculum.ts";
 import { addDays, deriveProgress, isoDate, weekStart, type ProgressSnapshot } from "../core/progress.ts";
 import { thenNowCandidate, weekSummary, type MotivationView } from "../core/motivation.ts";
-import type { Lesson, Program, ProgressEvent } from "../core/contracts/curriculum.ts";
+import type { CourseProject, Lesson, Program, ProgressEvent } from "../core/contracts/curriculum.ts";
 import type { LessonContextData } from "../core/native-messages.ts";
 import { stores } from "./stores.ts";
 
@@ -107,7 +107,7 @@ export function unitDrillBrief(unitId: string): { content: string; details: Less
 		})
 		.map((l) => l.title);
 	const lines = [
-		`[Session context] — a MIXED DRILL across unit ${unit.id} of the learner's self-study physics program (an organic chemist working toward first-year-PhD physics).`,
+		`[Session context] — a MIXED DRILL across unit ${unit.id} of the learner's self-study program, The Long Curriculum (an organic chemist learning physics, chemistry, math and computing; the physics path aims at first-year-PhD level).`,
 		"",
 		`Course: ${course.code} ${course.title}  ·  Unit: ${unit.title} — ${unit.summary}`,
 		"",
@@ -148,7 +148,7 @@ export function teachBackBrief(lessonId: string): { content: string; details: Le
 	if (!base || !ref) return null;
 	const { lesson, unit, course } = ref;
 	const lines = [
-		`[Session context] — a TEACH-BACK session for lesson ${lesson.id} of the learner's self-study physics program (an organic chemist working toward first-year-PhD physics). The learner has mastered this lesson and will now teach it to you.`,
+		`[Session context] — a TEACH-BACK session for lesson ${lesson.id} of the learner's self-study program, The Long Curriculum (an organic chemist learning physics, chemistry, math and computing; the physics path aims at first-year-PhD level). The learner has mastered this lesson and will now teach it to you.`,
 		"",
 		`Course: ${course.code} ${course.title}  ·  Unit: ${unit.title}  ·  Lesson: ${lesson.title}`,
 		"",
@@ -161,6 +161,49 @@ export function teachBackBrief(lessonId: string): { content: string; details: Le
 			"Occasionally voice a plausible misconception and let the learner correct you. After 5–8 exchanges, or when the learner asks to stop, step out of the role and give a short summary: what they explained clearly, and the one or two points that were shaky, with the correct idea stated briefly.",
 	];
 	return { content: lines.join("\n"), details: { ...base.details, lessonTitle: `Teach it back · ${lesson.title}` } };
+}
+
+/** The brief for a course's optional CAPSTONE PROJECT session: the tutor
+ *  mentors a hands-on build (code the learner runs on their own PC). */
+export function projectBrief(courseId: string): { content: string; details: LessonContextData } | null {
+	const course = programIndex().courses.get(courseId);
+	const project = course?.project;
+	if (!course || !project) return null;
+	const done = progressSnapshot().projectsDone.includes(course.id);
+	const lines = [
+		`[Session context] — the optional CAPSTONE PROJECT of course ${course.code} ${course.title} in the learner's self-study program, The Long Curriculum (an organic chemist learning physics, chemistry, math and computing).`,
+		"",
+		`Project: ${project.title} (~${project.hours} h) — ${project.summary}`,
+		`Stack: ${project.stack}`,
+		"",
+		"Goals:",
+		...project.goals.map((g) => `- ${g}`),
+		"",
+		"Milestones:",
+		...project.steps.map((st, i) => `${i + 1}. ${st}`),
+		"",
+		"The course's units, for reference: " + course.units.map((u) => u.title).join("; ") + ".",
+		...(done ? ["", "The learner has already marked this project done; they may be extending or revisiting it."] : []),
+		"",
+		"You are a project mentor, not a code generator. The learner writes and runs the code on their own PC and pastes code, errors or results here. " +
+			"Start by asking where they are (environment set up? which milestone?), then work one milestone at a time: say what the milestone should achieve and how they'll know it works, " +
+			"let them attempt it, review what they paste (correctness, then clarity), and give hints before answers — a full solution only when they ask for it or are stuck after a real attempt. " +
+			"Tie each milestone back to the course's ideas (why this loss, why this initialization, what this plot shows). Keep code short and idiomatic; explain setup steps (Python, virtual environment, packages) only when asked.",
+	];
+	const first = course.units[0]?.lessons[0];
+	return {
+		content: lines.join("\n"),
+		details: {
+			lessonId: first?.id ?? course.id,
+			courseCode: course.code,
+			courseTitle: course.title,
+			unitTitle: "Capstone project",
+			lessonTitle: `Project · ${project.title}`,
+			mode: "practice",
+			objectives: project.goals,
+			readings: [],
+		},
+	};
 }
 
 /** The model-facing brief + UI payload for a lesson-session marker. */
@@ -183,7 +226,7 @@ export function lessonBrief(lessonId: string, mode: "teach" | "practice"): { con
 		.map((id) => `${index.lessons.get(id)!.lesson.title} (best quick check ${Math.round((snapshot.lessons[id]?.bestCheck ?? 0) * 100)}%)`);
 
 	const lines = [
-		`[Session context] — this session is lesson ${lesson.id} of the learner's self-study physics program (an organic chemist working toward first-year-PhD physics).`,
+		`[Session context] — this session is lesson ${lesson.id} of the learner's self-study program, The Long Curriculum (an organic chemist learning physics, chemistry, math and computing; the physics path aims at first-year-PhD level).`,
 		"",
 		`Course: ${course.code} ${course.title}  ·  Unit: ${unit.title}${unit.grad ? " (graduate-level extension)" : ""}`,
 		`Lesson: ${lesson.title}  (~${lesson.minutes} min including reading)`,
@@ -247,6 +290,8 @@ export interface ProgramView {
 		subject: string;
 		summary: string;
 		exams: { id: string; kind: string; title: string; minutes: number; passMark: number; covers: string[] }[];
+		/** The optional capstone project, if the course has one. */
+		project: CourseProject | null;
 		units: {
 			id: string;
 			title: string;
@@ -277,6 +322,7 @@ export function programView(): ProgramView {
 			subject: c.subject,
 			summary: c.summary,
 			exams: c.exams.map((e) => ({ id: e.id, kind: e.kind, title: e.title, minutes: e.minutes, passMark: e.passMark, covers: e.covers })),
+			project: c.project ?? null,
 			units: c.units.map((u) => ({
 				id: u.id,
 				title: u.title,

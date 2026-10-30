@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Background, Controls, Handle, MiniMap, Position, ReactFlow, type Edge, type Node, type NodeProps } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { ArrowLeftIcon, MonitorPlayIcon, SparklesIcon, XIcon } from "lucide-react";
+import { ArrowLeftIcon, HammerIcon, MonitorPlayIcon, SparklesIcon, XIcon } from "lucide-react";
 import type { LessonStatus, ProgressSnapshot } from "@/src/core";
 import type { CourseView, ProgramView } from "./use-program";
 import { COURSE_STATUS_COLOR, STATUS_COLOR, STATUS_LABEL, TRACK_COLOR, pct } from "./status";
@@ -19,12 +19,12 @@ import { ProgressRing } from "./charts";
  * its drawer.
  */
 
-type CourseNodeData = { course: CourseView; progress: ProgressSnapshot["courses"][string] | undefined };
+type CourseNodeData = { course: CourseView; progress: ProgressSnapshot["courses"][string] | undefined; projectDone: boolean };
 type LessonNodeData = { id: string; title: string; status: LessonStatus; minutes: number; lectures: number; demos: number; index: number };
 type UnitNodeData = { title: string; grad: boolean; mastered: number; total: number };
 
 function CourseNode({ data }: NodeProps<Node<CourseNodeData>>) {
-	const { course, progress } = data;
+	const { course, progress, projectDone } = data;
 	const status = progress?.status ?? "locked";
 	const color = TRACK_COLOR[course.track] ?? "var(--foreground)";
 	const glow = status === "available" || status === "active";
@@ -42,6 +42,12 @@ function CourseNode({ data }: NodeProps<Node<CourseNodeData>>) {
 				<div className="mt-0.5 text-[11px] text-muted-foreground">
 					{course.hours} h · {course.depth}
 					{progress ? ` · ${progress.lessonsMastered}/${progress.lessonsTotal}` : ""}
+					{projectDone && (
+						<span className="text-[var(--st-mastered)]" title="Capstone project done">
+							{" "}
+							· <HammerIcon className="inline size-3 align-[-1px]" /> ✓
+						</span>
+					)}
 				</div>
 			</div>
 			<Handle type="source" position={Position.Right} className="!opacity-0" />
@@ -93,7 +99,7 @@ function overviewGraph(program: ProgramView, snapshot: ProgressSnapshot): { node
 		return v;
 	};
 	const cols = new Map<number, CourseView[]>();
-	const trackRank: Record<string, number> = { math: 0, physics: 1, chemphys: 2, survey: 3, elective: 4, capstone: 5 };
+	const trackRank: Record<string, number> = { math: 0, physics: 1, chemphys: 2, ai: 3, survey: 4, elective: 5, capstone: 6 };
 	for (const c of program.courses) cols.set(d(c.id), [...(cols.get(d(c.id)) ?? []), c]);
 	const nodes: Node[] = [];
 	for (const [col, list] of cols) {
@@ -103,7 +109,7 @@ function overviewGraph(program: ProgramView, snapshot: ProgressSnapshot): { node
 				id: c.id,
 				type: "course",
 				position: { x: col * 280, y: row * 110 + (col % 2) * 30 },
-				data: { course: c, progress: snapshot.courses[c.id] },
+				data: { course: c, progress: snapshot.courses[c.id], projectDone: snapshot.projectsDone.includes(c.id) },
 			});
 		});
 	}

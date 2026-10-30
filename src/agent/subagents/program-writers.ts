@@ -24,20 +24,22 @@ export interface WriterDeps {
 }
 
 const LEARNER =
-	"The learner is an organic chemist (chemistry degree, p-chem long ago) working through a self-study physics program toward first-year-PhD level. " +
+	"The learner is an organic chemist (chemistry degree, p-chem long ago) working through \"The Long Curriculum\", a self-study program in physics, chemistry, computing and adjacent fields (the physics path aims at first-year-PhD level). " +
 	"Their goal is genuine understanding — to be a well-rounded scientist who grasps WHY things are true and can use the ideas to understand how the world works — with fluent (not drilled) use of equations and calculation. " +
-	"Be rigorous and precise; use standard physics notation; math in $…$ (inline) and $$…$$ (display).";
+	"Be rigorous and precise; use the field's standard notation; math in $…$ (inline) and $$…$$ (display).";
 
 /** The program's assessment philosophy (learner directive): understanding
  *  first, calculation as a fluent tool, never a problem-drill grind.
- *  Physics: calculation/practice is 20–50% of the work. Math courses are
- *  the exception — there, fluent technique IS the understanding. */
+ *  Physics and AI: calculation/practice is 20–50% of the work. Math courses
+ *  are the exception — there, fluent technique IS the understanding. */
 const UNDERSTANDING_FIRST =
 	"Assess understanding first: physical meaning of equations, why a result holds, limiting cases and sanity checks, order-of-magnitude estimates, " +
 	"predicting what happens in a real situation, and connecting to everyday phenomena or chemistry (e.g. what entropy and enthalpy each mean for a reaction's free energy, not twenty ΔG plug-ins). " +
 	"Calculations are still required — use equations and get numbers — but as tools in service of insight, not as mechanical drills or algebra marathons.";
 
 export function calculationShare(track: string): string {
+	if (track === "ai")
+		return "This is a computing / machine-learning course: understanding first — about 30% (never more than half) of the work is calculation (a gradient by hand, a parameter count, a softmax value); the rest is conceptual — why a method works, what a design choice does, what breaks and when. Show code only as short NumPy/PyTorch snippets where it clarifies an idea.";
 	return track === "math"
 		? "This is a MATH course: technique matters, so about 60% of the work is computation (still with a 'what does this mean / when does it apply' angle), 40% conceptual."
 		: "This is a physics course: about 30% (never more than half) of the work is calculation; the rest is conceptual — explain, predict, estimate, interpret.";
@@ -106,7 +108,7 @@ export async function writeQuickCheck(lesson: Lesson, context: string, track: st
 		parameters: checkSchema,
 		fill: (x) => x,
 		systemPrompt:
-			`You write short mastery checks for a physics/math self-study program. ${LEARNER}\n\n` +
+			`You write short mastery checks for a self-study program (physics, chemistry, math, computing). ${LEARNER}\n\n` +
 			`${UNDERSTANDING_FIRST} ${calculationShare(track)}\n\n` +
 			"Write exactly 5 questions that together test every objective of the lesson: at least 2 conceptual multiple-choice (plausible distractors built from real misconceptions), " +
 			"1–2 numeric (a quick, physically meaningful calculation or estimate, single-number answer, units stated in the prompt), and 1 short-answer (explain why something happens, in the learner's own words). " +
@@ -174,7 +176,7 @@ export async function writeUnitDiagnostic(
 		parameters: diagnosticSchema,
 		fill: (x) => x,
 		systemPrompt:
-			`You write a TEST-OUT DIAGNOSTIC for one unit of a physics/math self-study program. ${LEARNER} The learner has seen this material before (rusty) and wants to skip what they still command.
+			`You write a TEST-OUT DIAGNOSTIC for one unit of a self-study program (physics, chemistry, math, computing). ${LEARNER} The learner has seen this material before (rusty) and wants to skip what they still command.
 
 ` +
 			`${calculationShare(track)}
@@ -237,7 +239,7 @@ export async function matchQuestion(
 	deps: WriterDeps,
 ): Promise<{ unitId: string | null; lessonId: string | null; note: string }> {
 	const system =
-		`You match a learner's own question to where a self-study physics program answers it. ${LEARNER}\n` +
+		`You match a learner's own question to where a self-study program (physics, chemistry, math, computing) answers it. ${LEARNER}\n` +
 		"Pick the place that most directly answers the question (where the learner would finally understand it), not merely where its words appear. Choose null when nothing in the list really answers it.";
 	const unit = await pickOne(
 		system,
@@ -257,7 +259,7 @@ export async function matchQuestion(
 }
 
 const explanationSchema = Type.Object({
-	accurate: Type.Boolean({ description: "No physics or math errors (imprecision is fine)." }),
+	accurate: Type.Boolean({ description: "No errors of substance in the science or math (imprecision is fine)." }),
 	feedback: Type.String({ description: "2–4 sentences: what they explained well, then the single most important gap or error, said kindly and precisely." }),
 });
 
@@ -271,7 +273,7 @@ export async function reviewExplanation(lesson: Lesson, explanation: string, dep
 		fill: (x) => x,
 		systemPrompt:
 			`The learner just mastered a lesson and explains it back in their own words (the Feynman technique). ${LEARNER}\n` +
-			"Judge it against the lesson's objectives: is the physics right, is the WHY there, not just the formula? Be warm but honest; name one gap, not a list.",
+			"Judge it against the lesson's objectives: is the science right, is the WHY there, not just the formula? Be warm but honest; name one gap, not a list.",
 		prompt: `${lessonBlock(lesson)}\n\nThe learner's explanation:\n${explanation}\n\nCall submit_feedback.`,
 		engine: deps.engine,
 		signal: deps.signal,
@@ -296,9 +298,9 @@ export async function gradeShortAnswers(
 		parameters: shortGradeSchema,
 		fill: (x) => x,
 		systemPrompt:
-			`You grade short answers in a physics self-study program. ${LEARNER}\n` +
+			`You grade short answers in a self-study program (physics, chemistry, math, computing). ${LEARNER}\n` +
 			"Credit 0..1 against the rubric (partial credit allowed). Feedback: one or two sentences, name what was right and the precise gap. " +
-			"Judge the physics, not the phrasing.",
+			"Judge the substance, not the phrasing.",
 		prompt: items
 			.map((it, i) => `Item ${i + 1}\nQuestion: ${it.prompt}\nRubric: ${it.rubric}\nModel answer: ${it.modelAnswer}\nLearner: ${it.response || "(blank)"}`)
 			.join("\n\n"),
@@ -355,7 +357,7 @@ export async function writeAssessment(spec: AssessmentSpec, deps: WriterDeps): P
 		parameters: problemsSchema,
 		fill: (x) => x,
 		systemPrompt:
-			`You are a physics professor writing ${purpose[spec.kind]} ${LEARNER}\n\n` +
+			`You are a professor of this course's field writing ${purpose[spec.kind]} ${LEARNER}\n\n` +
 			`${UNDERSTANDING_FIRST} ${calculationShare(spec.track)}\n\n` +
 			"Rules:\n" +
 			"- Mix: about a third conceptual problems (explain, predict, estimate, interpret a graph or a limit); the rest use equations and calculation to answer a physically meaningful question, and every calculational problem ends with a part asking what the result means.\n" +
@@ -423,7 +425,7 @@ export async function gradeAssessment(input: GradingInput, deps: WriterDeps): Pr
 		parameters: gradeSchema,
 		fill: (x) => x,
 		systemPrompt:
-			`You grade a physics student's work against rubrics. ${LEARNER}\n\n` +
+			`You grade a student's work against rubrics. ${LEARNER}\n\n` +
 			"Read the typed answer AND the attached photos of handwritten work for each problem (images are numbered in attachment order). " +
 			"Weight understanding: credit correct physical reasoning and interpretation even when arithmetic slips, and call out conceptual misunderstandings explicitly (they matter more than algebra errors). " +
 			"Award rubric points for correct reasoning even when the final answer is off; give no credit for an unsupported final answer where the rubric asks for method. " +
@@ -463,10 +465,10 @@ export async function writeLessonNotes(lesson: Lesson, context: string, track: s
 		parameters: notesSchema,
 		fill: (x) => x,
 		systemPrompt:
-			`You write the lesson notes for a physics/math self-study program: the text a learner reads to understand the lesson without the video. ${LEARNER}\n\n` +
+			`You write the lesson notes for a self-study program (physics, chemistry, math, computing): the text a learner reads to understand the lesson without the video. ${LEARNER}\n\n` +
 			`${UNDERSTANDING_FIRST} ${calculationShare(track)}\n\n` +
 			"Write markdown with KaTeX math ($…$ inline, $$…$$ display), about a 10–15 minute read (1300–2200 words), in this order:\n" +
-			"## The big idea — 2–4 sentences: what this lesson is about and why it matters (to physics, and where natural to chemistry).\n" +
+			"## The big idea — 2–4 sentences: what this lesson is about and why it matters (to its field, and where natural to chemistry or physics).\n" +
 			"## Building intuition — the picture before the formalism: an everyday or chemical example, a thought experiment, what changes when what changes.\n" +
 			"## The math — each key equation of the lesson in display math, then what every symbol means (with units), where it comes from (a short derivation or argument when it builds understanding), and its limits of validity.\n" +
 			"## Worked example — 1–2 examples, physically meaningful, every step shown, ending with what the number means and a sanity check (units, limits, order of magnitude).\n" +

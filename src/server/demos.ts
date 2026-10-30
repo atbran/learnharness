@@ -115,8 +115,8 @@ export function demoBrief(
 ): string {
 	const { lesson, course, unit } = ctx;
 	return [
-		"Audience: an organic chemist learning physics by self-study. Comfortable with algebra, basic calculus and chemical",
-		"intuition (energy, equilibrium, spectra); new to this physics. Label every quantity by name and unit, not just its symbol.",
+		"Audience: an organic chemist learning physics, chemistry, math and computing by self-study. Comfortable with algebra, basic calculus",
+		"and chemical intuition (energy, equilibrium, spectra); new to this material. Label every quantity by name and unit, not just its symbol.",
 		"Display: give every canvas an explicit CSS width and height (e.g. width:100%; height:300px) and size its backing",
 		"store from those times devicePixelRatio. The learner's screen may be HiDPI, and a canvas without a CSS size grows on each redraw.",
 		"",

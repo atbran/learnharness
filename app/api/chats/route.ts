@@ -1,6 +1,6 @@
 import { chainsForSelection, formatChainLine } from "@/src/core";
 import { newGraphContextMessage, newLessonContextMessage, type GraphContextPick } from "@/src/core";
-import { compactionInFlight, createChat, lessonBrief, recordProgress, teachBackBrief, unitDrillBrief, isTurnRunning, listChats, readSettingsRecord, stores, titleFromPrompt } from "@/src/server";
+import { compactionInFlight, createChat, lessonBrief, projectBrief, recordProgress, teachBackBrief, unitDrillBrief, isTurnRunning, listChats, readSettingsRecord, stores, titleFromPrompt } from "@/src/server";
 import type { ChatListItem } from "@/src/core";
 
 /** The session picker's list: record-derived summaries (phase, pending
@@ -20,11 +20,11 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-	const body = (await req.json().catch(() => ({}))) as { title?: unknown; kind?: unknown; graphContext?: unknown; lessonId?: unknown; unitId?: unknown };
+	const body = (await req.json().catch(() => ({}))) as { title?: unknown; kind?: unknown; graphContext?: unknown; lessonId?: unknown; unitId?: unknown; courseId?: unknown };
 	const title = typeof body.title === "string" ? body.title : "";
 	// Practice sessions (owner, 2026-10-04): kind "practice" marks the
 	// record — the practice agent + its tools from turn 1, no extraction.
-	const kind = body.kind === "practice" ? ("practice" as const) : undefined;
+	const kind = body.kind === "practice" || body.kind === "project" ? ("practice" as const) : undefined;
 	const chat = createChat(titleFromPrompt(title || "Untitled session"), kind);
 	// PER-SESSION MODELS (owner, 2026-09-28): a session owns its model +
 	// thinking level from birth — stamped verbatim from the STRONG slot,
@@ -69,7 +69,11 @@ export async function POST(req: Request) {
 	}
 	// Physics program lessons: message[0] is the lesson brief (objectives,
 	// readings with pages, learner history); the ledger links the session.
-	if (typeof body.lessonId === "string" && body.kind === "teachback") {
+	if (typeof body.courseId === "string" && body.kind === "project") {
+		// A course's optional capstone project: message[0] is the mentor brief.
+		const brief = projectBrief(body.courseId);
+		if (brief) stores.chatStore.saveMessages(chat.id, [newLessonContextMessage(brief.content, brief.details)]);
+	} else if (typeof body.lessonId === "string" && body.kind === "teachback") {
 		// Teach-back: the learner teaches the tutor (playing a confused student).
 		const brief = teachBackBrief(body.lessonId);
 		if (brief) stores.chatStore.saveMessages(chat.id, [newLessonContextMessage(brief.content, brief.details)]);

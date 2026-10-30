@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useServerEvent, useServerResync } from "@/components/server-events";
-import type { MotivationView, ProgressSnapshot } from "@/src/core";
+import type { CourseProject, MotivationView, ProgressSnapshot } from "@/src/core";
 
 /** The lean program shape (src/server/curriculum.ts ProgramView). Mirrored
  *  here because components may import only the core barrel. */
@@ -26,6 +26,8 @@ export interface CourseView {
 	subject: string;
 	summary: string;
 	exams: { id: string; kind: string; title: string; minutes: number; passMark: number; covers: string[] }[];
+	/** The optional capstone project. */
+	project: CourseProject | null;
 	units: UnitView[];
 }
 export interface UnitView {

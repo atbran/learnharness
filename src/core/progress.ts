@@ -126,6 +126,9 @@ export interface ProgressSnapshot {
 	weekly: { current: number; best: number; thisWeek: { weekStart: string; finished: number; target: number } };
 	/** The pause in effect today, if any. */
 	paused: Pause | null;
+	/** Courses whose optional capstone project is marked done (off the path:
+	 *  never touches mastery, unlocking, pace or the streak). */
+	projectsDone: string[];
 	badges: Badge[];
 }
 
@@ -304,6 +307,7 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 	let reviewsDone = 0;
 	let perfectChecks = 0;
 	const diagnosedAt: Record<string, string> = {};
+	const projectsDone: string[] = [];
 
 	const markMastered = (id: string, at: string) => {
 		const l = L(id);
@@ -390,6 +394,9 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 				xp += XP.perStudyMinute * ev.minutes;
 				break;
 			}
+			case "project_done":
+				if (!projectsDone.includes(ev.courseId)) projectsDone.push(ev.courseId);
+				break;
 			case "review_done": {
 				const l = L(ev.lessonId);
 				if (!l?.review) break;
@@ -703,6 +710,7 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 		streak: { current, best },
 		weekly,
 		paused: pauses.find((p) => p.start <= today && today <= p.end) ?? null,
+		projectsDone,
 		badges,
 	};
 }

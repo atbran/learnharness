@@ -61,7 +61,7 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 	return (
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
-				<h1 className="font-title min-w-0 truncate text-3xl tracking-tight max-sm:text-2xl">Physics Program</h1>
+				<h1 className="font-title min-w-0 truncate text-3xl tracking-tight max-lg:text-2xl max-sm:line-clamp-2 max-sm:text-lg max-sm:leading-tight max-sm:whitespace-normal">{program.title}</h1>
 				<div className="ml-auto flex items-center gap-2">
 					{TOP_LINKS.map(({ href, label, icon: Icon }) => (
 						<Link
@@ -280,6 +280,7 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 															{cp?.status}
 															{cp?.final !== null && cp?.final !== undefined ? ` · final ${pct(cp.final)}` : ""}
 															{cp?.psetAverage !== null && cp?.psetAverage !== undefined ? ` · psets ${pct(cp.psetAverage)}` : ""}
+															{s.projectsDone.includes(c.id) ? " · project ✓" : ""}
 														</div>
 													</div>
 												</Link>
