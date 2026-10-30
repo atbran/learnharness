@@ -464,6 +464,25 @@
 				]
 			},
 			{
+				"kind": "numeric",
+				"prompt": "On the curve $x^2+xy+y^2=7$, find $dy/dx$ at the point $(2,1)$.",
+				"answer": -1.25,
+				"tolerance": 0.02,
+				"explanation": "Differentiate both sides with respect to $x$, treating $y=y(x)$: $2x+y+x\\,y'+2y\\,y'=0$, so $y'=-\\dfrac{2x+y}{x+2y}$. At $(2,1)$ this is $-\\dfrac54=-1.25$. You never had to solve the curve for $y$.",
+				"equations": [
+					"\\frac{d}{dx}f(y)=f'(y)\\,\\frac{dy}{dx}",
+					"(fg)'=f'g+fg'"
+				]
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how implicit differentiation works when $y$ cannot be isolated, and why on the circle $x^2+y^2=25$ it gives $\\frac{dy}{dx}=-\\frac{x}{y}$. What does this say geometrically about the tangent line?",
+				"rubric": "Full credit requires: (1) treat $y$ as a function of $x$ and differentiate both sides using the chain rule, so $\\frac{d}{dx}y^2=2y\\frac{dy}{dx}$; (2) solve $2x+2y\\frac{dy}{dx}=0$ for $\\frac{dy}{dx}=-x/y$; (3) the slope $-x/y$ is the negative reciprocal of the radius slope $y/x$, so the tangent is perpendicular to the radius.",
+				"modelAnswer": "Differentiating $x^2+y^2=25$ treating $y=y(x)$ gives $2x+2y\\,y'=0$, so $y'=-x/y$. The radius to $(x,y)$ has slope $y/x$, and $-x/y$ is its negative reciprocal, so the tangent line is perpendicular to the radius, as it must be for a circle."
+			}
+		],
+		"m1-l013b-inverse-function-derivatives": [
+			{
 				"kind": "mc",
 				"prompt": "Using $(f^{-1})'(b)=\\dfrac{1}{f'(f^{-1}(b))}$ with $f(x)=e^x$, what is $\\dfrac{d}{dx}\\ln x$?",
 				"options": [
@@ -489,13 +508,57 @@
 				]
 			},
 			{
+				"kind": "mc",
+				"prompt": "Let $y=\\arcsin x$ on $(-1,1)$, so $\\sin y=x$. Differentiating implicitly, what is $dy/dx$ in terms of $x$?",
+				"options": [
+					"$\\sqrt{1-x^2}$",
+					"$-\\dfrac{1}{\\sqrt{1-x^2}}$",
+					"$\\dfrac{1}{\\sqrt{1+x^2}}$",
+					"$\\dfrac{1}{\\sqrt{1-x^2}}$"
+				],
+				"answer": 3,
+				"explanation": "From $\\cos y\\,y'=1$ we get $y'=1/\\cos y$. On $(-\\pi/2,\\pi/2)$ the cosine is positive, so $\\cos y=\\sqrt{1-\\sin^2y}=\\sqrt{1-x^2}$, giving $y'=1/\\sqrt{1-x^2}$. The minus sign belongs to $\\arccos$."
+			},
+			{
 				"kind": "short",
-				"prompt": "Explain how implicit differentiation works when $y$ cannot be isolated, and why on the circle $x^2+y^2=25$ it gives $\\frac{dy}{dx}=-\\frac{x}{y}$. What does this say geometrically about the tangent line?",
-				"rubric": "Full credit requires: (1) treat $y$ as a function of $x$ and differentiate both sides using the chain rule, so $\\frac{d}{dx}y^2=2y\\frac{dy}{dx}$; (2) solve $2x+2y\\frac{dy}{dx}=0$ for $\\frac{dy}{dx}=-x/y$; (3) the slope $-x/y$ is the negative reciprocal of the radius slope $y/x$, so the tangent is perpendicular to the radius.",
-				"modelAnswer": "Differentiating $x^2+y^2=25$ treating $y=y(x)$ gives $2x+2y\\,y'=0$, so $y'=-x/y$. The radius to $(x,y)$ has slope $y/x$, and $-x/y$ is its negative reciprocal, so the tangent line is perpendicular to the radius, as it must be for a circle."
+				"prompt": "Explain geometrically why the slope of an inverse function at $(b,a)$ is the reciprocal of the slope of $f$ at $(a,b)$, and use this to show that $\\frac{d}{dx}\\arctan x=\\frac1{1+x^2}$.",
+				"rubric": "Full credit requires: (1) the graph of $f^{-1}$ is the reflection of the graph of $f$ across $y=x$, which swaps rise and run, so slopes are reciprocal at matching points; (2) for $y=\\arctan x$, $\\tan y=x$ and $\\frac{d}{dy}\\tan y=\\sec^2y=1+\\tan^2y$; (3) so $dy/dx=1/(1+\\tan^2y)=1/(1+x^2)$.",
+				"modelAnswer": "Reflecting across $y=x$ swaps the roles of run and rise, so a tangent line of slope $m$ at $(a,b)$ becomes a tangent line of slope $1/m$ at $(b,a)$. For $y=\\arctan x$ we have $\\tan y=x$; differentiating gives $\\sec^2y\\,y'=1$, and $\\sec^2y=1+\\tan^2y=1+x^2$, so $y'=\\dfrac1{1+x^2}$."
 			}
 		],
 		"m1-l014-exp-log-derivatives-arrhenius": [
+			{
+				"kind": "mc",
+				"prompt": "Differentiate $y=3^x$.",
+				"options": [
+					"$x\\,3^{x-1}$",
+					"$3^x$",
+					"$\\dfrac{3^x}{\\ln3}$",
+					"$3^x\\ln3$"
+				],
+				"answer": 3,
+				"explanation": "Write $3^x=e^{x\\ln3}$; the chain rule gives $\\ln3\\cdot e^{x\\ln3}=3^x\\ln3$. The power rule $x\\,3^{x-1}$ applies only when the exponent is the constant."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is $e\\approx2.718$ called the natural base for calculus?",
+				"options": [
+					"Logarithms to this base need no conversion, since $\\ln e=e$",
+					"Its exponential grows faster than any other exponential",
+					"Its exponential has slope $1$ at $x=0$, so $\\frac{d}{dx}e^x=e^x$",
+					"It is the only base for which $\\frac{d}{dx}b^x=0$ at $x=0$"
+				],
+				"answer": 2,
+				"explanation": "For any base $b$, $\\frac{d}{dx}b^x=M(b)\\,b^x$ with $M(b)$ the slope at $x=0$. The number $e$ is the base with $M(e)=1$, so its exponential is its own derivative and no extra constant appears. In fact $\\ln e=1$, not $e$, and larger bases grow faster."
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from $e^{\\ln x}=x$, show that $\\frac{d}{dx}\\ln x=\\frac1x$. Then explain why $\\frac{d}{dx}b^x=b^x\\ln b$ has an extra factor $\\ln b$ that is $1$ only when $b=e$.",
+				"rubric": "Full credit requires: (1) differentiate $e^{\\ln x}=x$ with the chain rule: $e^{\\ln x}(\\ln x)'=1$, so $(\\ln x)'=1/x$; (2) write $b^x=e^{x\\ln b}$ and apply the chain rule, giving $b^x\\ln b$; (3) $\\ln b=1$ exactly when $b=e$, so $e$ is the base with no leftover constant.",
+				"modelAnswer": "Differentiating $e^{\\ln x}=x$ gives $e^{\\ln x}(\\ln x)'=1$, i.e. $x\\,(\\ln x)'=1$, so $(\\ln x)'=1/x$. For a general base write $b^x=e^{x\\ln b}$; the chain rule brings down the inner derivative $\\ln b$, so $\\frac{d}{dx}b^x=\\ln b\\;b^x$. The factor $\\ln b$ equals $1$ only for $b=e$, which is why $e$ is the natural base."
+			}
+		],
+		"m1-l014b-log-differentiation-arrhenius": [
 			{
 				"kind": "mc",
 				"prompt": "Differentiate $y=x^x$ for $x>0$.",
@@ -513,22 +576,20 @@
 				]
 			},
 			{
+				"kind": "numeric",
+				"prompt": "Let $y=\\dfrac{x^2(x+1)^3}{(x-2)^4}$. Use logarithmic differentiation to find $y'/y$ at $x=3$.",
+				"answer": -2.583,
+				"tolerance": 0.02,
+				"explanation": "Take logs: $\\ln y=2\\ln x+3\\ln(x+1)-4\\ln(x-2)$, so $\\dfrac{y'}{y}=\\dfrac2x+\\dfrac3{x+1}-\\dfrac4{x-2}$. At $x=3$: $\\tfrac23+\\tfrac34-4\\approx-2.583$. Logs turn the long product and quotient into a sum.",
+				"equations": [
+					"\\frac{y'}{y}=\\frac{d}{dx}\\ln y"
+				]
+			},
+			{
 				"kind": "short",
 				"prompt": "The rate constant is $k=Ae^{-E_a/RT}$. Compute $\\frac{1}{k}\\frac{dk}{dT}$, and use it to explain in words why a reaction with a high activation energy is more sensitive to temperature changes.",
 				"rubric": "Full credit: d ln k/dT = E_a/(R T^2) (via chain rule on exponent); fractional change in k per kelvin is proportional to E_a, so larger E_a means the same temperature rise changes k by a larger percentage; decreases with T^2, so sensitivity falls at higher temperature. E.g. Ea = 50 kJ/mol at 298 K gives ~7% per kelvin.",
 				"modelAnswer": "$\\ln k=\\ln A-E_a/(RT)$, so $\\frac1k\\frac{dk}{dT}=\\frac{E_a}{RT^2}$. The fractional increase in $k$ per kelvin is proportional to $E_a$: a high barrier means the Boltzmann factor $e^{-E_a/RT}$ changes more steeply with $T$. It falls as $1/T^2$, so reactions are less temperature-sensitive when hot. For $E_a=50$ kJ/mol at $298$ K it is about $7\\%$ per kelvin, which is why a modest warming noticeably speeds up chemistry."
-			},
-			{
-				"kind": "mc",
-				"prompt": "Differentiate $y=3^x$.",
-				"options": [
-					"$x\\,3^{x-1}$",
-					"$3^x$",
-					"$\\dfrac{3^x}{\\ln3}$",
-					"$3^x\\ln3$"
-				],
-				"answer": 3,
-				"explanation": "Write $3^x=e^{x\\ln3}$; the chain rule gives $\\ln3\\cdot e^{x\\ln3}=3^x\\ln3$. The power rule $x\\,3^{x-1}$ applies only when the exponent is the constant."
 			}
 		],
 		"m1-l015-kinematics-related-rates-strategy": [
@@ -689,15 +750,15 @@
 		"m1-l019-extrema-and-mean-value-theorem": [
 			{
 				"kind": "mc",
-				"prompt": "A particle moves smoothly on a line, and its average velocity over $0\\le t\\le4$ s is $3$ m/s. What does the mean value theorem guarantee?",
+				"prompt": "Suppose $f'(x)=(x+1)(x-3)^2$. Which statement about the critical points of $f$ is correct?",
 				"options": [
-					"At some instant in $(0,4)$ the velocity is exactly $3$ m/s",
-					"The velocity is exactly $3$ m/s at the midpoint $t=2$ s of the interval",
-					"The velocity is $3$ m/s at every instant, since the average is $3$",
-					"The velocity never exceeds $3$ m/s at any time in the interval"
+					"$f$ has a local minimum at $x=-1$ and no extremum at $x=3$",
+					"$f$ has a local minimum at $x=-1$ and a local maximum at $x=3$",
+					"$f$ has a local maximum at $x=-1$ and a local minimum at $x=3$",
+					"$f$ has no extremum at either point, since $f'=0$ at both"
 				],
 				"answer": 0,
-				"explanation": "The MVT says $f'(c)=\\frac{f(b)-f(a)}{b-a}$ for at least one $c$ between $a$ and $b$ (the theorem doesn't say where). Consequently, if $f'=0$ everywhere, then $f(b)=f(a)$ for all $a,b$, so $f$ is constant."
+				"explanation": "$f'$ is negative for $x<-1$ and positive for $-1<x<3$, so $x=-1$ is a local minimum ($-$ to $+$). The factor $(x-3)^2$ never changes sign, so $f'>0$ on both sides of $x=3$ and $f$ keeps increasing: a flat spot, not an extremum."
 			},
 			{
 				"kind": "numeric",
@@ -715,6 +776,36 @@
 				"prompt": "Explain why $f'(c)=0$ is necessary but not sufficient for a local extremum, and how the first and second derivative tests settle the question.",
 				"rubric": "Full credit: a horizontal tangent at c is needed (Fermat) but f(x)=x^3 has f'(0)=0 and no extremum (inflection with horizontal tangent); first derivative test: extremum iff f' changes sign (+ to - max, - to + min); second derivative test: f''(c)>0 min, <0 max, =0 inconclusive; concavity gives the same information geometrically.",
 				"modelAnswer": "At a smooth local maximum or minimum the tangent must be horizontal, so $f'(c)=0$ is necessary. It isn't sufficient: for $f(x)=x^3$, $f'(0)=0$ but $f$ keeps increasing, so $0$ is a flat inflection point. The first derivative test asks whether $f'$ changes sign at $c$ ($+\\to-$ is a maximum, $-\\to+$ a minimum, no change means neither). The second derivative test uses concavity: $f''(c)>0$ (concave up) gives a minimum, $f''(c)<0$ a maximum, and $f''(c)=0$ is inconclusive."
+			}
+		],
+		"m1-l019b-mean-value-theorem": [
+			{
+				"kind": "mc",
+				"prompt": "A particle moves smoothly on a line, and its average velocity over $0\\le t\\le4$ s is $3$ m/s. What does the mean value theorem guarantee?",
+				"options": [
+					"At some instant in $(0,4)$ the velocity is exactly $3$ m/s",
+					"The velocity is exactly $3$ m/s at the midpoint $t=2$ s of the interval",
+					"The velocity is $3$ m/s at every instant, since the average is $3$",
+					"The velocity never exceeds $3$ m/s at any time in the interval"
+				],
+				"answer": 0,
+				"explanation": "The MVT says $f'(c)=\\frac{f(b)-f(a)}{b-a}$ for at least one $c$ between $a$ and $b$ (the theorem doesn't say where). Consequently, if $f'=0$ everywhere, then $f(b)=f(a)$ for all $a,b$, so $f$ is constant."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $f(x)=x^3$ on $[0,2]$ the mean value theorem guarantees a point $c$ in $(0,2)$ where $f'(c)$ equals the average slope. Find $c$.",
+				"answer": 1.155,
+				"tolerance": 0.02,
+				"explanation": "The average slope is $\\dfrac{f(2)-f(0)}{2-0}=\\dfrac82=4$. Solving $f'(c)=3c^2=4$ gives $c=\\sqrt{4/3}\\approx1.155$, which lies in $(0,2)$.",
+				"equations": [
+					"f'(c)=\\frac{f(b)-f(a)}{b-a}"
+				]
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the mean value theorem shows that a function with $f'(x)=0$ on an interval must be constant there, and why two antiderivatives of the same function differ only by a constant.",
+				"rubric": "Full credit requires: (1) for any $a<b$ in the interval the theorem gives $c$ with $f(b)-f(a)=f'(c)(b-a)=0$, so $f(b)=f(a)$ for all pairs, i.e. $f$ is constant; (2) if $F'=G'$, apply (1) to $F-G$, whose derivative is $0$, so $F-G$ is constant.",
+				"modelAnswer": "For any two points $a<b$ the mean value theorem gives a $c$ between them with $f(b)-f(a)=f'(c)(b-a)$. If $f'\\equiv0$ the right side is $0$, so $f(b)=f(a)$ for every pair of points: $f$ is constant. If $F'=G'$, then $(F-G)'=0$, so $F-G$ is constant. That is why the arbitrary constant $+C$ is the only freedom in an antiderivative."
 			}
 		],
 		"m1-l020-concavity-potential-curves-sketching": [
@@ -1204,6 +1295,26 @@
 			},
 			{
 				"kind": "mc",
+				"prompt": "The curves $x=y^2$ and $y=x-2$ meet at $(1,-1)$ and $(4,2)$. Why is it easier to find the enclosed area by integrating in $y$ than in $x$?",
+				"options": [
+					"The area is negative when slices are taken in the $x$ direction",
+					"Slicing in $x$ needs two integrals, because the lower boundary changes at $x=1$",
+					"A parabola opening sideways cannot be sliced vertically",
+					"Integrating in $y$ avoids finding the intersection points"
+				],
+				"answer": 1,
+				"explanation": "For $0\\le x\\le1$ the region lies between $y=-\\sqrt x$ and $y=\\sqrt x$, but for $1\\le x\\le4$ it lies between $y=x-2$ and $y=\\sqrt x$, so vertical strips need two integrals. Horizontal strips always run from the parabola ($x=y^2$) on the left to the line ($x=y+2$) on the right: $\\int_{-1}^{2}(y+2-y^2)\\,dy=\\tfrac92$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the area between two curves is $\\int(\\text{top}-\\text{bottom})\\,dx$ even where the curves dip below the $x$-axis, and when you should switch to horizontal strips instead.",
+				"rubric": "Full credit requires: (1) a thin vertical strip at $x$ has height top minus bottom and width $dx$, and this difference is positive wherever top lies above bottom regardless of the axis; (2) adding the strips gives the integral; (3) switch to $dy$ strips, with (right minus left) $dy$, when the curves are more simply written $x=g(y)$ or when the top or bottom boundary changes in the $x$ direction.",
+				"modelAnswer": "A vertical strip at $x$ has width $dx$ and height equal to the gap between the curves, top minus bottom. That gap is positive whenever the top curve lies above the bottom one, whether or not they are above the axis, so adding the strips gives the area. If the boundaries are more naturally $x=g(y)$, or the top or bottom curve changes partway across, use horizontal strips with height $dy$ and length right minus left."
+			}
+		],
+		"m1-l033b-volumes-of-revolution": [
+			{
+				"kind": "mc",
 				"prompt": "The region under $y=\\sqrt x$ for $0\\le x\\le4$ is rotated about the $x$-axis. What is the volume?",
 				"options": [
 					"$\\dfrac{16\\pi}{3}$",
@@ -1215,6 +1326,16 @@
 				"explanation": "Disks of radius $\\sqrt x$: $V=\\pi\\int_0^4(\\sqrt x)^2dx=\\pi\\int_0^4x\\,dx=8\\pi$. Forgetting to square the radius gives the wrong value $16\\pi/3$.",
 				"equations": [
 					"V=\\int_a^b\\pi[R(x)^2-r(x)^2]\\,dx"
+				]
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The region under $y=x^2$ for $0\\le x\\le2$ is rotated about the $y$-axis. Use cylindrical shells to find the volume.",
+				"answer": 25.13,
+				"tolerance": 0.02,
+				"explanation": "A shell at radius $x$ has height $x^2$, thickness $dx$ and circumference $2\\pi x$: $V=\\int_0^2 2\\pi x\\cdot x^2\\,dx=2\\pi\\cdot\\tfrac{2^4}{4}=8\\pi\\approx25.13$.",
+				"equations": [
+					"V=\\int_a^b2\\pi x\\,h(x)\\,dx"
 				]
 			},
 			{
@@ -1349,6 +1470,36 @@
 				"explanation": "Both powers even, so use $\\sin^2x=\\tfrac12(1-\\cos2x)$: $\\left[\\tfrac x2-\\tfrac{\\sin2x}{4}\\right]_0^\\pi=\\tfrac\\pi2\\approx1.571$. This is also $\\pi\\times$ (average of $\\sin^2$) $=\\pi\\times\\tfrac12$.",
 				"equations": [
 					"\\int\\sin^2x\\,dx=\\frac x2-\\frac{\\sin2x}{4}+C"
+				]
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why $\\int\\sin^3x\\,dx$ can be done with the substitution $u=\\cos x$ but $\\int\\sin^2x\\,dx$ cannot, and what you do instead for even powers.",
+				"rubric": "Full credit requires: (1) with an odd power, split off one $\\sin x$ (which becomes $-du$) and rewrite the remaining even power through $\\sin^2=1-\\cos^2$, leaving a polynomial in $u$; (2) for $\\sin^2x$ there is no factor left to become $du$; (3) use the power-reduction identity $\\sin^2x=\\tfrac12(1-\\cos2x)$ (or $\\cos^2x=\\tfrac12(1+\\cos2x)$) and integrate directly.",
+				"modelAnswer": "For $\\sin^3x=\\sin^2x\\sin x$, the leftover $\\sin x\\,dx$ is $-du$ when $u=\\cos x$, and $\\sin^2x=1-u^2$, so the integral becomes a polynomial in $u$. For $\\sin^2x$ there is no spare factor to play the role of $du$, so substitution fails. Instead, use $\\sin^2x=\\tfrac12(1-\\cos2x)$, which can be integrated directly to $\\tfrac x2-\\tfrac{\\sin2x}4+C$."
+			}
+		],
+		"m1-l037b-tan-sec-integrals": [
+			{
+				"kind": "mc",
+				"prompt": "To evaluate $\\displaystyle\\int\\tan^2x\\sec^4x\\,dx$, which strategy works?",
+				"options": [
+					"Save $\\sec x\\tan x$ for $du$ and set $u=\\sec x$",
+					"Apply a power-reduction identity to $\\tan^2x$ first",
+					"Integrate by parts with $u=\\tan^2x$ and $dv=\\sec^4x\\,dx$",
+					"Set $u=\\tan x$, saving one $\\sec^2x$ and using $\\sec^2x=1+\\tan^2x$"
+				],
+				"answer": 3,
+				"explanation": "The power of secant is even, so save one $\\sec^2x\\,dx=du$ with $u=\\tan x$, and write the remaining $\\sec^2x=1+\\tan^2x$. The integral becomes $\\int u^2(1+u^2)\\,du$. Saving $\\sec x\\tan x$ fails because there is only an even power of tangent and no spare $\\sec x\\tan x$ pair."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\displaystyle\\int_0^{\\pi/3}\\tan x\\,\\sec^3x\\,dx$.",
+				"answer": 2.333,
+				"tolerance": 0.02,
+				"explanation": "The tangent appears to an odd power, so save $\\sec x\\tan x\\,dx=du$ with $u=\\sec x$: $\\int u^2\\,du=\\tfrac{u^3}3$. From $u=1$ to $u=\\sec(\\pi/3)=2$ this is $\\tfrac{8-1}{3}=\\tfrac73\\approx2.333$.",
+				"equations": [
+					"\\frac{d}{dx}\\sec x=\\sec x\\tan x"
 				]
 			},
 			{
@@ -1512,6 +1663,26 @@
 			},
 			{
 				"kind": "mc",
+				"prompt": "Rotating $e^{-r^2}$ about the vertical axis gives a bell-shaped solid. Cylindrical shells show its volume is $\\pi$, while slicing it by parallel planes shows its volume equals $Q^2$, where $Q=\\int_{-\\infty}^{\\infty}e^{-x^2}\\,dx$. What is $Q$?",
+				"options": [
+					"$\\pi^2$",
+					"$\\pi/2$",
+					"$\\pi$",
+					"$\\sqrt{\\pi}$"
+				],
+				"answer": 3,
+				"explanation": "Each slice $y=b$ has area $e^{-b^2}Q$, so the total volume is $Q\\int e^{-b^2}db=Q^2$. Setting $Q^2=\\pi$ gives $Q=\\sqrt\\pi$. The two-dimensional rotation symmetry is what makes the volume computable in closed form."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why $\\int e^{-x^2}dx$ has no elementary antiderivative, yet $\\int_{-\\infty}^\\infty e^{-x^2}dx=\\sqrt\\pi$ can be found exactly, and why this integral appears when normalising a Gaussian wavefunction.",
+				"rubric": "Full credit requires: (1) no combination of elementary functions differentiates to $e^{-x^2}$, so an indefinite integral cannot be written in closed form; (2) the definite integral over the whole line is obtained by squaring it and switching to polar coordinates; (3) a Gaussian wavefunction $e^{-ax^2}$ must have total probability $1$, so its normalising constant comes from $\\int e^{-ax^2}dx=\\sqrt{\\pi/a}$.",
+				"modelAnswer": "No finite combination of elementary functions has derivative $e^{-x^2}$, so there is no closed-form antiderivative. The definite integral over all $x$ is still exact: square it, write it as a double integral and use polar coordinates to get $\\pi$, so the integral is $\\sqrt\\pi$. Normalising a Gaussian wavefunction $\\psi\\propto e^{-ax^2/2}$ requires exactly this integral, with $\\int|\\psi|^2dx=1$ fixing the prefactor."
+			}
+		],
+		"m1-l042b-numerical-integration": [
+			{
+				"kind": "mc",
 				"prompt": "When the step size $h$ is halved, by roughly what factor do the errors of the trapezoid rule and Simpson's rule shrink?",
 				"options": [
 					"Trapezoid by $2$, Simpson by $4$ (errors $\\propto h$ and $h^2$)",
@@ -1523,10 +1694,20 @@
 				"explanation": "The trapezoid rule uses straight-line pieces (error $\\sim h^2$); Simpson's rule fits parabolas, which cancels the next error term, leaving $\\sim h^4$. That is why Simpson's rule needs far fewer points for the same accuracy."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "Use the trapezoid rule with $n=4$ subintervals to approximate $\\displaystyle\\int_0^2x^2\\,dx$.",
+				"answer": 2.75,
+				"tolerance": 0.01,
+				"explanation": "With $h=0.5$ the values are $0,\\,0.25,\\,1,\\,2.25,\\,4$. Then $T=\\tfrac h2[0+2(0.25+1+2.25)+4]=0.25\\times11=2.75$. The exact value is $8/3\\approx2.667$; the trapezoid rule overestimates because $x^2$ is concave up.",
+				"equations": [
+					"\\int_a^bf\\,dx\\approx\\frac h2[f_0+2f_1+\\dots+2f_{n-1}+f_n]"
+				]
+			},
+			{
 				"kind": "short",
-				"prompt": "Explain why $\\int e^{-x^2}dx$ has no elementary antiderivative, yet $\\int_{-\\infty}^\\infty e^{-x^2}dx=\\sqrt\\pi$ can be found exactly, and why this integral appears when normalising a Gaussian wavefunction.",
-				"rubric": "Full credit requires: (1) no combination of elementary functions differentiates to $e^{-x^2}$, so an indefinite integral cannot be written in closed form; (2) the definite integral over the whole line is obtained by squaring it and switching to polar coordinates; (3) a Gaussian wavefunction $e^{-ax^2}$ must have total probability $1$, so its normalising constant comes from $\\int e^{-ax^2}dx=\\sqrt{\\pi/a}$.",
-				"modelAnswer": "No finite combination of elementary functions has derivative $e^{-x^2}$, so there is no closed-form antiderivative. The definite integral over all $x$ is still exact: square it, write it as a double integral and use polar coordinates to get $\\pi$, so the integral is $\\sqrt\\pi$. Normalising a Gaussian wavefunction $\\psi\\propto e^{-ax^2/2}$ requires exactly this integral, with $\\int|\\psi|^2dx=1$ fixing the prefactor."
+				"prompt": "Explain why Simpson's rule is much more accurate than the trapezoid rule for smooth functions, and why it is exact for cubic polynomials.",
+				"rubric": "Full credit requires: (1) the trapezoid rule replaces the curve by straight segments, matching only constants and linear terms, so its error scales like $h^2$; (2) Simpson's rule fits a parabola through three consecutive points, so it integrates quadratics exactly and its error scales like $h^4$; (3) the cubic terms integrate to zero error because of the symmetry of the weights $1,4,1$ over each pair of subintervals, so cubics are also exact.",
+				"modelAnswer": "The trapezoid rule uses straight lines, so it is exact only for linear functions, and its error falls like $h^2$. Simpson's rule fits parabolas through triples of points, so quadratics are integrated exactly. Because of the symmetric $1,4,1$ weights the error of a cubic cancels across each pair of subintervals, so cubics are exact too, and the leading error falls like $h^4$: halving the step cuts it by about $16$."
 			}
 		],
 		"m1-l043-sequences-and-sums-of-series": [
