@@ -87,7 +87,9 @@ test("tailnet requests are recognised by any sign; a plain local request isn't",
 	assert.equal(forwardedIp(h({})), null);
 });
 
-test("proxy: tailnet requests are refused while iPad access is off or the identity is wrong; local pages pass", async () => {
+// This test rewrites and deletes data/ipad-access.json: only ever against a
+// test data dir (npm test sets LH_DATA_DIR), never the learner's real config.
+test("proxy: tailnet requests are refused while iPad access is off or the identity is wrong; local pages pass", { skip: process.env.LH_DATA_DIR ? false : "needs LH_DATA_DIR (it rewrites ipad-access.json)" }, async () => {
 	const configFile = path.join(PATHS.data, "ipad-access.json");
 	fs.rmSync(configFile, { force: true });
 	const tailnet = { host: "pc.tail1.ts.net:8444", "x-forwarded-for": "100.64.0.5", "tailscale-user-login": "me@example.com" };
