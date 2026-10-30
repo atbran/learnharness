@@ -79,6 +79,15 @@ test("without an outline, a wrapped or retitled heading still resolves; contents
 	// Renumbered: the title outweighs a same-number heading about something else.
 	assert.equal(resolveRef([], book, "§3.4", "Describing Curvature")!.start, 9);
 	assert.equal(resolveRef([], book, "§5.1", "Nothing like this"), null);
+
+	// Lecture notes: "N. Title" chapters, contents lines ending in page numbers.
+	const notes = [
+		{ page: 1, label: "1", text: ["1 Newton's Laws 1", "1.1 Introduction 1", "2 The Lagrangian Formalism 10", "2.1 The Principle of Least Action 10", "3 Rigid Bodies 46"].join("\n") },
+		{ page: 12, label: "10", text: "2. The Lagrangian Formalism\nWhen I was in high school..." },
+		{ page: 48, label: "46", text: "3. The Motion of Rigid Bodies\nUp until now..." },
+	];
+	const ch2 = resolveRef([], notes, "Ch. 2", "The Lagrangian Formulation")!;
+	assert.deepEqual([ch2.start, ch2.end], [12, 47]);
 });
 
 test("ftsQuery quotes terms and keeps phrases", () => {

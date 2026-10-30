@@ -151,13 +151,13 @@ export function resolveRef(spans: readonly SectionSpan[], pages: readonly PageTe
 	let near: { page: number; line: string; score: number } | null = null;
 	for (const p of pages) {
 		const lines = p.text.split("\n");
-		const contents = lines.filter((l) => /(?:\.\s?){4}/.test(l)).length >= 5;
+		const contents = lines.filter((l) => /(?:\.\s?){4}/.test(l) || /^\s*\d+(?:\.\d+)*\.?\s+[A-Z].*\s\d+$/.test(l)).length >= 5;
 		for (const [i, line] of lines.entries()) {
 			if (line.length > 140) continue;
 			const num = leadingNumber(line);
 			const lineWords = normalizeWords(line.replace(/^\s*[\d.§]+/, "")).join(" ");
 			if (lineWords === words && (!parsed.from || num === parsed.from || num === null)) return found(p.page, line);
-			if (contents || num === null || !/^\s*\d+(?:\.\d+)*\s+[A-Z]/.test(line)) continue;
+			if (contents || num === null || !/^\s*\d+(?:\.\d+)*\.?\s+[A-Z]/.test(line)) continue;
 			const rest = line.replace(/^\s*[\d.]+/, "");
 			const next = lines[i + 1] ?? "";
 			const sim = Math.max(titleSimilarity(rest, title), next.length < 80 ? titleSimilarity(`${rest} ${next}`, title) : 0);
@@ -172,7 +172,7 @@ export function resolveRef(spans: readonly SectionSpan[], pages: readonly PageTe
 /** The page before the next numbered heading at the given depth (0 =
  *  chapter "N Title", 1 = section "N.M Title") after `from`. */
 function findNextHeading(pages: readonly PageText[], from: number, depth: number): number | null {
-	const re = depth === 0 ? /^\s*(?:chapter\s+)?\d+\s+[A-Z][^.]{2,80}$/ : /^\s*\d+\.\d+\s+[A-Z][^.]{2,80}$/;
+	const re = depth === 0 ? /^\s*(?:chapter\s+)?\d+\.?\s+[A-Z][^.]{2,80}$/ : /^\s*\d+\.\d+\s+[A-Z][^.]{2,80}$/;
 	for (const p of pages) {
 		if (p.page <= from) continue;
 		if (p.text.split("\n").some((l) => re.test(l))) return Math.max(from, p.page - 1);
