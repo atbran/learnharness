@@ -8,6 +8,7 @@ import { TopBar } from "@/components/top-bar";
 import { MessageResponse } from "@/components/ai-elements/message";
 import { useServerEvent } from "@/components/server-events";
 import { cn } from "@/lib/utils";
+import { insertMathIntoField, MathButton } from "@/components/math-input";
 import type { Assessment } from "@/src/core";
 import { ProgressRing } from "./charts";
 import { EquationSheet, QuestionEquations, type EquationGroup } from "./equations";
@@ -168,6 +169,7 @@ function ProblemCard({ a, index, onChanged }: { a: View; index: number; onChange
 	const [showSolution, setShowSolution] = useState(false);
 	const [inking, setInking] = useState(false);
 	const file = useRef<HTMLInputElement>(null);
+	const box = useRef<HTMLTextAreaElement>(null);
 	const timer = useRef<number | undefined>(undefined);
 	const router = useRouter();
 
@@ -218,6 +220,7 @@ function ProblemCard({ a, index, onChanged }: { a: View; index: number; onChange
 
 			{editable ? (
 				<textarea
+					ref={box}
 					value={text}
 					onChange={(e) => saveText(e.target.value)}
 					rows={5}
@@ -271,6 +274,14 @@ function ProblemCard({ a, index, onChanged }: { a: View; index: number; onChange
 						>
 							<PencilLineIcon className="size-4" /> Write with Pencil
 						</button>
+						{/* Typed math: the formula lands in the answer at the caret as
+						    $…$ (or a $$…$$ line) — still plain text the grader reads. */}
+						<MathButton
+							target={() => box.current}
+							allowDisplay
+							onInsert={(latex, display) => insertMathIntoField(box.current, text, saveText, latex, display)}
+							className="h-24 border-dashed px-4"
+						/>
 						{inking && (
 							<InkPad assessmentId={a.id} problemId={p.id} label={`Problem ${index + 1}`} images={answer.images} onClose={() => setInking(false)} onUploaded={onChanged} />
 						)}

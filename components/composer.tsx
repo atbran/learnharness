@@ -1,9 +1,11 @@
 "use client";
 
+import { useCallback, useRef } from "react";
 import { ArrowRightIcon, CornerDownLeftIcon, SquareIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Hint } from "@/components/ui/hint";
 import { PathInput } from "@/components/path-input";
+import { insertMathIntoPathInput, MathButton } from "@/components/math-input";
 
 /**
  * The chat composer — content row ONLY (the persistent rounded shell lives in
@@ -76,6 +78,16 @@ export function Composer({
 	 *  empty-Enter share it. */
 	onNext?: () => void;
 }) {
+	// The math button needs the editable root too; mirror it into the
+	// caller's ref when one was passed.
+	const root = useRef<HTMLDivElement | null>(null);
+	const setRoot = useCallback(
+		(el: HTMLDivElement | null) => {
+			root.current = el;
+			if (inputRef) inputRef.current = el;
+		},
+		[inputRef],
+	);
 	const act = () => {
 		const action = enterAction({ busy, canSend, nextProblem });
 		if (action === "stop") onStop();
@@ -92,7 +104,7 @@ export function Composer({
 			}}
 		>
 			<PathInput
-				ref={inputRef}
+				ref={setRoot}
 				value={value}
 				onValueChange={onChange}
 				defaultDropTarget
@@ -118,6 +130,13 @@ export function Composer({
 				placeholder={placeholder}
 				autoFocus={autoFocus}
 				className="field-sizing-content lh-input max-h-48 min-h-10 flex-1 resize-none bg-transparent px-2.5 py-2 outline-none placeholder:text-muted-foreground"
+			/>
+			{/* Math input: the formula lands at the caret as $…$ (the tutor
+			    reads markdown math). */}
+			<MathButton
+				compact
+				target={() => root.current?.closest("form") ?? root.current}
+				onInsert={(latex) => insertMathIntoPathInput(root.current, latex)}
 			/>
 			{/* The button follows the text (owner report 2026-10-03): while
 				 a turn runs WITH text typed it stays the SEND affordance

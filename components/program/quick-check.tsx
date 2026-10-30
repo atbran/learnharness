@@ -1,12 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { CheckCircle2Icon, ChevronRightIcon, Loader2Icon, XCircleIcon } from "lucide-react";
 import { TopBar } from "@/components/top-bar";
 import { MessageResponse } from "@/components/ai-elements/message";
 import { useServerEvent } from "@/components/server-events";
 import { cn } from "@/lib/utils";
+import { latexToNumberText } from "@/lib/math-insert";
+import { insertMathIntoField, MathButton } from "@/components/math-input";
 import { ProgressRing } from "./charts";
 import { EquationSheet, QuestionEquations } from "./equations";
 import { pct } from "./status";
@@ -53,6 +55,8 @@ export function QuickCheck({ lessonId, review, only, onDone }: { lessonId: strin
 	const [result, setResult] = useState<Result | null>(null);
 	const [submitting, setSubmitting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const fields = useRef<(HTMLTextAreaElement | HTMLInputElement | null)[]>([]);
+	const setAnswer = (i: number) => (v: string) => setAnswers((a) => Object.assign([...a], { [i]: v }));
 
 	const load = useCallback(() => {
 		void fetch(`/api/program/checks/${lessonId}`)
@@ -142,24 +146,50 @@ export function QuickCheck({ lessonId, review, only, onDone }: { lessonId: strin
 						{q.kind === "numeric" && (
 							<div className="mt-3 flex items-center gap-2">
 								<input
+									ref={(el) => {
+										fields.current[i] = el;
+									}}
 									value={answers[i] ?? ""}
 									disabled={!!result}
-									onChange={(e) => setAnswers((a) => Object.assign([...a], { [i]: e.target.value }))}
+									onChange={(e) => setAnswer(i)(e.target.value)}
 									placeholder="e.g. 3.2e-5"
 									className="lh-input w-48 rounded-lg border border-border bg-background px-3 py-1.5 text-sm pointer-coarse:min-h-11"
 								/>
 								{q.unit && <span className="text-sm text-muted-foreground">{q.unit}</span>}
+								{/* A number typed as math (3.2×10⁻⁵, ¼) goes in as plain
+								    text the server's parseNumber reads, replacing the box. */}
+								{!result && (
+									<MathButton
+										target={() => fields.current[i] ?? null}
+										validate={(latex) => (latexToNumberText(latex) === null ? "Enter a single number, e.g. 3.2×10⁻⁵ or ¼ — no expressions." : null)}
+										hint="One number — scientific notation and simple fractions are converted for you."
+										onInsert={(latex) => setAnswer(i)(latexToNumberText(latex) ?? "")}
+									/>
+								)}
 							</div>
 						)}
 						{q.kind === "short" && (
-							<textarea
-								value={answers[i] ?? ""}
-								disabled={!!result}
-								onChange={(e) => setAnswers((a) => Object.assign([...a], { [i]: e.target.value }))}
-								rows={4}
-								placeholder="Explain in a few sentences (you can write math like $E = mc^2$)."
-								className="lh-input mt-3 w-full rounded-lg border border-border bg-background p-3 text-sm"
-							/>
+							<>
+								<textarea
+									ref={(el) => {
+										fields.current[i] = el;
+									}}
+									value={answers[i] ?? ""}
+									disabled={!!result}
+									onChange={(e) => setAnswer(i)(e.target.value)}
+									rows={4}
+									placeholder="Explain in a few sentences (you can write math like $E = mc^2$)."
+									className="lh-input mt-3 w-full rounded-lg border border-border bg-background p-3 text-sm"
+								/>
+								{!result && (
+									<div className="mt-2 flex">
+										<MathButton
+											target={() => fields.current[i] ?? null}
+											onInsert={(latex) => insertMathIntoField(fields.current[i] ?? null, answers[i] ?? "", setAnswer(i), latex)}
+										/>
+									</div>
+								)}
+							</>
 						)}
 						{r && (
 							<div className="lh-prose mt-3 rounded-lg bg-accent/50 p-3 text-sm">

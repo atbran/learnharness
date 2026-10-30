@@ -12,6 +12,13 @@ import {
 } from "./path-input-dom";
 
 export const INSERT_FILE_PATHS_EVENT = "lh:insert-file-paths";
+/** Splice text at the saved caret (the math input's insert). detail:
+ *  { edit(value, start, end) → { value, caret } | null, focus?: boolean }. */
+export const EDIT_TEXT_EVENT = "lh:edit-text";
+export type EditTextDetail = {
+	edit: (value: string, start: number, end: number) => { value: string; caret: number } | null;
+	focus?: boolean;
+};
 export type PathInputProps = Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "dangerouslySetInnerHTML" | "defaultValue" | "onChange"> & {
 	value: string;
 	onValueChange: (value: string) => void;
@@ -106,6 +113,20 @@ export const PathInput = React.forwardRef<HTMLDivElement, PathInputProps>(functi
 		function insertEvent(event: Event) {
 			const paths: unknown = (event as CustomEvent<unknown>).detail;
 			if (Array.isArray(paths) && paths.every((path) => typeof path === "string")) stage(paths);
+		}
+		function editEvent(event: Event) {
+			const detail = (event as CustomEvent<unknown>).detail as Partial<EditTextDetail> | null;
+			if (typeof detail?.edit !== "function" || composing.current) return;
+			remember();
+			const start = Math.min(saved.anchor, saved.focus);
+			const end = Math.max(saved.anchor, saved.focus);
+			const next = detail.edit(current, start, end);
+			if (!next) return;
+			change({ value: next.value, selection: { anchor: next.caret, focus: next.caret } });
+			if (detail.focus) {
+				root.focus();
+				restorePathSelection(root, saved);
+			}
 		}
 		function beforeInput(event: InputEvent) {
 			if (composing.current || event.isComposing) return;
@@ -242,6 +263,7 @@ export const PathInput = React.forwardRef<HTMLDivElement, PathInputProps>(functi
 		paint(saved, false);
 		if (initial.current.autoFocus) { root.focus(); restorePathSelection(root, saved); }
 		root.addEventListener(INSERT_FILE_PATHS_EVENT, insertEvent);
+		root.addEventListener(EDIT_TEXT_EVENT, editEvent);
 		root.addEventListener("beforeinput", beforeInput);
 		root.addEventListener("input", input);
 		root.addEventListener("keydown", keyDown);
@@ -256,6 +278,7 @@ export const PathInput = React.forwardRef<HTMLDivElement, PathInputProps>(functi
 			composing.current = false;
 			controllerRef.current = null;
 			root.removeEventListener(INSERT_FILE_PATHS_EVENT, insertEvent);
+			root.removeEventListener(EDIT_TEXT_EVENT, editEvent);
 			root.removeEventListener("beforeinput", beforeInput);
 			root.removeEventListener("input", input);
 			root.removeEventListener("keydown", keyDown);

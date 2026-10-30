@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { joinDictation, useDictationTarget } from "@/components/dictation";
 import { useEnterSubmits } from "@/components/enter-submits";
 import { PathInput } from "@/components/path-input";
+import { insertMathIntoPathInput, MathButton } from "@/components/math-input";
 import { cn } from "@/lib/utils";
 
 /**
@@ -55,6 +56,7 @@ export function PracticeDock({ problemCallId, input, expanded, onExpand, onSubmi
 	// discipline): a submit resuming after `await finishDictation()` reads
 	// the tail, never a stale closure.
 	const thinkingRef = useRef("");
+	const fieldRef = useRef<HTMLDivElement>(null);
 
 	useDictationTarget(
 		useCallback(
@@ -123,6 +125,7 @@ export function PracticeDock({ problemCallId, input, expanded, onExpand, onSubmi
 					YOUR THINKING
 				</div>
 				<PathInput
+					ref={fieldRef}
 					value={thinking}
 					onValueChange={(value) => {
 						thinkingRef.current = value;
@@ -157,12 +160,19 @@ export function PracticeDock({ problemCallId, input, expanded, onExpand, onSubmi
 					<span aria-hidden className="pl-1.5 text-xs text-muted-foreground">
 						{compactionRunning ? "compacting session…" : "↵ submits · ⇧↵ newline"}
 					</span>
+					{/* Math input: the formula lands at the caret as $…$. */}
+					<MathButton
+						compact
+						className="ml-auto size-9 rounded-[6px]"
+						target={() => fieldRef.current?.closest<HTMLElement>("[data-testid=practice-thinking-field]") ?? fieldRef.current}
+						onInsert={(latex) => insertMathIntoPathInput(fieldRef.current, latex)}
+					/>
 					<Button
 						type="button"
 						data-testid="practice-send"
 						disabled={thinking.trim().length === 0 || compactionRunning}
 						onClick={() => submit()}
-						className="ml-auto h-9 rounded-[6px] px-3.5 text-sm font-medium"
+						className="h-9 rounded-[6px] px-3.5 text-sm font-medium"
 					>
 						Submit thinking
 					</Button>
