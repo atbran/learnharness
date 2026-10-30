@@ -68,6 +68,7 @@ export interface LhMarkerMessage {
 	role: "custom";
 	customType:
 		| "graph-context"
+		| "lesson-context"
 		| "probe-handoff"
 		| "subagent-steer"
 		| "subagent-abort"
@@ -302,6 +303,35 @@ export function newGraphContextMessage(picks: readonly GraphContextPick[], chain
 		content: lines.join("\n"),
 		display: true,
 		details: { propositions: picks, chains },
+		timestamp: Date.now(),
+	};
+}
+
+/** The lesson-context marker's UI payload (lesson-context-card.tsx). */
+export interface LessonContextData {
+	lessonId: string;
+	courseCode: string;
+	courseTitle: string;
+	unitTitle: string;
+	lessonTitle: string;
+	mode: "teach" | "practice";
+	objectives: string[];
+	readings: { label: string; pages?: string }[];
+}
+
+/** The physics program's lesson seed: message[0] of a session started from
+ *  a curriculum lesson (POST /api/chats {lessonId}). Same contract as the
+ *  graph-context marker — `content` is the model-facing brief (built
+ *  server-side: objectives, readings with resolved pages, key equations,
+ *  learner history), `details` feeds the transcript's lesson card. */
+export function newLessonContextMessage(content: string, details: LessonContextData): LhMarkerMessage {
+	return {
+		id: newMessageId(),
+		role: "custom",
+		customType: "lesson-context",
+		content,
+		display: true,
+		details,
 		timestamp: Date.now(),
 	};
 }
@@ -819,7 +849,7 @@ export function nativeInputCause(message: AgentMessage, history: readonly AgentM
 	if (message.role === "custom") {
 		if (["probe-handoff", "subagent-steer", "subagent-abort"].includes(message.customType)) return "automatic";
 		if (["practice-thinking", "practice-next"].includes(message.customType)) return "learner";
-		return ["graph-context", "plan-block", "problem-dismissed", "compaction"].includes(message.customType) ? "neutral" : "unrecognizable";
+		return ["graph-context", "lesson-context", "plan-block", "problem-dismissed", "compaction"].includes(message.customType) ? "neutral" : "unrecognizable";
 	}
 	if (message.role === "toolResult") {
 		if (!(QUESTION_TOOLS as readonly string[]).includes(message.toolName) || message.isError || message.details == null || (message.details as { dismissed?: boolean }).dismissed) return "neutral";

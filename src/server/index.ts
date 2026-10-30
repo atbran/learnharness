@@ -50,3 +50,7 @@ export { claudeCodeInstallationResponse } from "./claude-code.ts";
 // No import side effects; the boot sync lives in stores.ts.
 export * from "./custom-provider.ts";
 export { customProviderGet, customProviderMutation } from "./custom-provider-http.ts";
+
+// The physics program (curriculum spine, progress ledger, lesson briefs).
+export * from "./curriculum.ts";
+export { resolveLecture, type ResolvedLecture } from "./lectures.ts";

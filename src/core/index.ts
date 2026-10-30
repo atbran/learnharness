@@ -84,3 +84,6 @@ export * from "./coverage.ts";
 // ONE session→markdown formatter — the extractor's view and the user-facing
 // export share it. Pure, browser-safe.
 export * from "./session-markdown.ts";
+// The physics program: spine indexing/validation + progress derivation.
+export * from "./curriculum.ts";
+export * from "./progress.ts";

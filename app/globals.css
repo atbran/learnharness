@@ -598,3 +598,29 @@ body {
 	outline: 1px solid var(--border);
 	border-radius: 0.25rem;
 }
+
+/* ─── Physics program palette ───────────────────────────────────────────
+   The app's chrome is monochrome; the program's progress views are the one
+   place color carries meaning: lesson status and course track. */
+:root {
+	--st-locked: #3a3a3a;
+	--st-available: #7aa2f7;
+	--st-progress: #e0af68;
+	--st-mastered: #9ece6a;
+	--st-review: #bb9af7;
+	--tr-math: #7dcfff;
+	--tr-physics: #ff9e64;
+	--tr-survey: #bb9af7;
+	--tr-capstone: #f7768e;
+	--xp: #e0af68;
+	--streak: #ff7a45;
+}
+
+@keyframes lh-glow {
+	0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--glow, var(--st-available)) 55%, transparent); }
+	50% { box-shadow: 0 0 18px 4px color-mix(in oklab, var(--glow, var(--st-available)) 35%, transparent); }
+}
+.lh-glow { animation: lh-glow 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .lh-glow { animation: none; } }
+
+.react-flow__attribution { display: none; }

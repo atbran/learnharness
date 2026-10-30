@@ -27,6 +27,7 @@ import type {
 	NotesSource,
 } from "./contracts.ts";
 import type { UserSettings } from "./settings.ts";
+import type { BooksCatalog, Program, ProgressEvent } from "./contracts/curriculum.ts";
 
 // ─── ChatStore — the session record's home (data/chats) ─────────────────────
 
@@ -222,3 +223,40 @@ export interface AuthStore {
 	deleteAuthVar(name: string): void;
 }
 
+
+// ─── CurriculumStore — the physics program (data/curriculum + curriculum/) ──
+
+/** Learner-chosen program settings (data/curriculum/settings.json). */
+export interface CurriculumSettings {
+	/** Weekly study target; null = the program's default. */
+	hoursPerWeek: number | null;
+	/** Program start (yyyy-mm-dd); null = the first ledger event. */
+	startDate: string | null;
+}
+
+/**
+ * The program spine is read-only content (curriculum/, ROOT-anchored);
+ * the learner's progress is an append-only ledger (data/curriculum/
+ * progress.jsonl, corrupt lines skipped); generated artifacts (quizzes,
+ * assessments, audio scripts, demos) are whole-file JSON/text caches keyed
+ * by id under data/curriculum/<kind>/. Nothing here derives state —
+ * core/progress.ts does.
+ */
+export interface CurriculumStore {
+	/** The validated program (throws when the spine is invalid — content
+	 *  bugs must fail loudly, not degrade). */
+	loadProgram(): Program;
+	loadCatalog(): BooksCatalog;
+	readEvents(): ProgressEvent[];
+	appendEvent(event: ProgressEvent): void;
+	readSettings(): CurriculumSettings;
+	writeSettings(settings: CurriculumSettings): void;
+	/** Generated-artifact cache: data/curriculum/<kind>/<id>.<ext>. */
+	readCache<T>(kind: CacheKind, id: string): T | null;
+	writeCache(kind: CacheKind, id: string, value: unknown): void;
+	listCache(kind: CacheKind): string[];
+	/** Absolute path for a binary artifact (audio, uploads) — the caller writes it. */
+	artifactPath(kind: "audio" | "uploads", file: string): string;
+}
+
+export type CacheKind = "quizzes" | "assessments" | "audio" | "demos" | "lectures";

@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { MenuShell } from "@/components/menu-shell";
 import { DeleteSessionDialog } from "@/components/delete-session-dialog";
 import type { ChatDeleteMode } from "@/src/core";
-import { DumbbellIcon, PanelLeftCloseIcon, PanelLeftOpenIcon, PlusIcon, SearchIcon, SettingsIcon } from "lucide-react";
+import { DumbbellIcon, GraduationCapIcon, NetworkIcon, PanelLeftCloseIcon, PanelLeftOpenIcon, PlusIcon, SearchIcon, SettingsIcon } from "lucide-react";
 import { ActivitySection } from "@/components/activity-dock";
 import { CoverageMenuBlock } from "@/components/extraction-coverage";
 import { LhMark } from "@/components/lh-mark";
@@ -697,6 +697,29 @@ function SessionsSidebar() {
 				    labels room; teaching keeps the original draft route,
 				    practice carries its mode. */}
 				<div className="mx-3 mb-2 flex flex-col gap-1.5">
+					{/* The physics program (home) and the knowledge graph. */}
+					<Link
+						href="/program"
+						data-testid="program-door"
+						className={cn(
+							"flex w-full items-center gap-1.5 rounded-md px-2 py-1.5 text-xs uppercase tracking-wider transition-colors hover:bg-accent hover:text-foreground",
+							pathname.startsWith("/program") ? "bg-accent text-foreground" : "text-muted-foreground",
+						)}
+					>
+						<GraduationCapIcon className="size-3" />
+						Program
+					</Link>
+					<Link
+						href="/graph"
+						data-testid="graph-door"
+						className={cn(
+							"flex w-full items-center gap-1.5 rounded-md px-2 py-1.5 text-xs uppercase tracking-wider transition-colors hover:bg-accent hover:text-foreground",
+							pathname === "/graph" ? "bg-accent text-foreground" : "text-muted-foreground",
+						)}
+					>
+						<NetworkIcon className="size-3" />
+						Knowledge graph
+					</Link>
 					<button
 						type="button"
 						data-testid="new-session"

@@ -29,6 +29,13 @@ export const PATHS = {
 	/** Debug artifacts (env-gated): data/debug/provider-events/<chatId>.jsonl
 	 * raw provider stream recordings (src/agent/provider-events.ts). */
 	debug: path.join(DATA_ROOT, "debug"),
+	/** The physics program's learner state: progress ledger, settings, and
+	 *  generated caches (quizzes, assessments, audio, demos). */
+	curriculum: path.join(DATA_ROOT, "curriculum"),
+	/** Ingested textbooks: data/books/<bookId>/{source.pdf,index.sqlite,...}. */
+	books: path.join(DATA_ROOT, "books"),
+	/** The program spine (read-only content, ships with the app). */
+	curriculumSource: path.join(ROOT, "curriculum"),
 } as const;
 
 // ─── Models ────────────────────────────────────────────────────────────────

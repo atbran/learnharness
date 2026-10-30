@@ -388,6 +388,14 @@ function projectMarker(marker: LhMarkerMessage, out: LhViewMessage[]): void {
 			});
 			return;
 		}
+		case "lesson-context": {
+			out.push({
+				id: marker.id,
+				role: "user",
+				parts: [{ type: "data-lesson-context", id: `lc_${marker.id}`, data: marker.details }],
+			});
+			return;
+		}
 		case "probe-handoff": {
 			out.push({
 				id: marker.id,
