@@ -64,7 +64,8 @@ export type ModelRole =
 	| "checkWriter" // quick-check questions (cheap)
 	| "examWriter" // problem sets, exams, placement (strong)
 	| "grader" // reads typed + photographed work against rubrics (vision)
-	| "scriptWriter"; // spoken audio-guide scripts (cheap)
+	| "scriptWriter" // spoken audio-guide scripts (cheap)
+	| "notesWriter"; // written lesson notes (vision slot: Sonnet-class)
 
 /**
  * The LIVE graph store (src/store/graph.ts) — owned by the app's extraction

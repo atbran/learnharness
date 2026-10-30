@@ -73,7 +73,7 @@ export function writerDeps(role: ModelRole, withBooks: boolean): WriterDeps {
 	return { engine: piEngineForSpec(spec), bookTools: books };
 }
 
-function lessonContext(lesson: Lesson): string {
+export function lessonContext(lesson: Lesson): string {
 	const ref = programIndex().lessons.get(lesson.id)!;
 	const readings = resolveReadings(lesson)
 		.map((r) => `${r.label}${r.pages ? ` (pp. ${r.pages})` : ""}`)

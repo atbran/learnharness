@@ -21,6 +21,7 @@ import {
 import { TopBar } from "@/components/top-bar";
 import { cn } from "@/lib/utils";
 import type { Lesson } from "@/src/core";
+import { LessonNotes } from "./lesson-notes";
 import { STATUS_COLOR, STATUS_LABEL, TRACK_COLOR, pct } from "./status";
 import { postProgressEvent, useProgram, useStudyHeartbeat } from "./use-program";
 
@@ -41,6 +42,8 @@ interface ResolvedLecture {
 	url: string;
 	start?: number;
 	end?: number;
+	minutes?: number;
+	optional?: boolean;
 	youtubeId: string | null;
 	playlistId: string | null;
 	embedUrl: string | null;
@@ -145,6 +148,8 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 						</header>
 
 						<LecturePlayer lessonId={lesson.id} count={lesson.lectures.length} />
+
+						<LessonNotes lessonId={lesson.id} />
 
 						<section className="grid gap-3 md:grid-cols-2">
 							<ActionCard
@@ -326,7 +331,7 @@ function LecturePlayer({ lessonId, count }: { lessonId: string; count: number })
 	return (
 		<section className="space-y-2">
 			{lec.videoUrl ? (
-				<video key={lec.videoUrl} src={lec.videoUrl} controls playsInline preload="metadata" className="aspect-video w-full rounded-xl border border-border bg-black" />
+				<video key={lec.videoUrl} src={lec.start || lec.end ? `${lec.videoUrl}#t=${lec.start ?? 0}${lec.end ? `,${lec.end}` : ""}` : lec.videoUrl} controls playsInline preload="metadata" className="aspect-video w-full rounded-xl border border-border bg-black" />
 			) : src ? (
 				<div className="aspect-video overflow-hidden rounded-xl border border-border bg-black">
 					<iframe
@@ -347,27 +352,68 @@ function LecturePlayer({ lessonId, count }: { lessonId: string; count: number })
 				</a>
 			)}
 			<div className="flex flex-wrap gap-2">
-				{lectures.map((l, i) => (
-					<button
-						key={i}
-						type="button"
-						onClick={() => setActive(i)}
-						className={cn(
-							"flex max-w-full items-center gap-1.5 rounded-lg border px-2.5 py-1 text-left text-xs pointer-coarse:min-h-11",
-							i === active ? "border-foreground bg-accent" : "border-border text-muted-foreground hover:text-foreground",
-						)}
-					>
-						<MonitorPlayIcon className="size-3 shrink-0" />
-						<span className="truncate">
-							{l.source} — {l.title}
-						</span>
-					</button>
-				))}
+				{lectures.map((l, i) =>
+					l.optional ? null : (
+						<button
+							key={i}
+							type="button"
+							onClick={() => setActive(i)}
+							className={cn(
+								"flex max-w-full items-center gap-1.5 rounded-lg border px-2.5 py-1 text-left text-xs pointer-coarse:min-h-11",
+								i === active ? "border-foreground bg-accent" : "border-border text-muted-foreground hover:text-foreground",
+							)}
+						>
+							<MonitorPlayIcon className="size-3 shrink-0" />
+							<span className="truncate">
+								{l.source} — {l.title}
+							</span>
+							<LectureLength lecture={l} />
+						</button>
+					),
+				)}
 				<a href={lec.url} target="_blank" rel="noreferrer" className="ml-auto flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground pointer-coarse:min-h-11">
 					source page <ExternalLinkIcon className="size-3" />
 				</a>
 			</div>
+			{lectures.some((l) => l.optional) && (
+				<div className="flex flex-wrap items-center gap-2 pt-1">
+					<span className="text-[11px] uppercase tracking-wider text-muted-foreground">More lectures (optional)</span>
+					{lectures.map((l, i) =>
+						l.optional ? (
+							<button
+								key={i}
+								type="button"
+								onClick={() => setActive(i)}
+								className={cn(
+									"flex max-w-full items-center gap-1.5 rounded-lg border border-dashed px-2.5 py-1 text-left text-xs pointer-coarse:min-h-11",
+									i === active ? "border-foreground bg-accent" : "border-border text-muted-foreground hover:text-foreground",
+								)}
+							>
+								<span className="truncate">
+									{l.source} — {l.title}
+								</span>
+								<LectureLength lecture={l} />
+							</button>
+						) : null,
+					)}
+				</div>
+			)}
 		</section>
+	);
+}
+
+const clock = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+
+/** "12 min · 14:30–26:10" for a clipped lecture, "9 min" for a whole one. */
+function LectureLength({ lecture }: { lecture: ResolvedLecture }) {
+	const clip = lecture.start !== undefined || lecture.end !== undefined;
+	const minutes = lecture.minutes ?? (lecture.end !== undefined ? Math.round((lecture.end - (lecture.start ?? 0)) / 60) : undefined);
+	if (minutes === undefined && !clip) return null;
+	return (
+		<span className="shrink-0 text-muted-foreground/80">
+			{minutes !== undefined ? `${Math.round(minutes)} min` : ""}
+			{clip ? `${minutes !== undefined ? " · " : ""}${clock(lecture.start ?? 0)}–${lecture.end !== undefined ? clock(lecture.end) : "end"}` : ""}
+		</span>
 	);
 }
 

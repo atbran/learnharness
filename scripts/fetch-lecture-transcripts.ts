@@ -2,7 +2,12 @@
  * Fetch every curated lecture's length and transcript (YouTube captions via
  * yt-dlp) so the lecture pass can read what each video actually covers.
  *
- *   npx tsx scripts/fetch-lecture-transcripts.ts [courseId ...]
+ *   npx tsx scripts/fetch-lecture-transcripts.ts [--youtube] [courseId ...]
+ *
+ * MIT OCW lectures take their captions from OCW itself (the page links a
+ * .vtt), which needs no YouTube request. Other YouTube videos go through
+ * yt-dlp only with --youtube, one at a time with long pauses: YouTube
+ * answers a fast run with a "confirm you're not a bot" block.
  *
  * Writes data/curriculum/lectures/transcripts/:
  *   <youtubeId>.txt        the transcript in ~30 s chunks, "[mm:ss] text"
@@ -20,7 +25,11 @@ import { resolveLecture } from "../src/server/lectures.ts";
 
 const COURSES = path.join(PATHS.curriculumSource, "physics", "courses");
 const OUT = path.join(PATHS.curriculum, "lectures", "transcripts");
-const CONCURRENCY = 3;
+const ARGS = process.argv.slice(2);
+const YOUTUBE = ARGS.includes("--youtube");
+const CONCURRENCY = YOUTUBE ? 1 : 4;
+const YOUTUBE_PAUSE_MS = 25_000;
+const YT_ID = /(?:youtube(?:-nocookie)?\.com\/(?:embed\/|watch\?(?:[^"'\s]*&)?v=|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/;
 
 function findYtDlp(): string {
 	for (const dir of (process.env.PATH ?? "").split(path.delimiter)) {
@@ -92,6 +101,8 @@ async function fetchVideo(id: string): Promise<{ duration: number | null; title:
 		const json = await run([
 			"--skip-download",
 			"--no-simulate",
+			"--js-runtimes",
+			"node",
 			"--write-subs",
 			"--write-auto-subs",
 			"--sub-langs",
@@ -121,9 +132,35 @@ async function fetchVideo(id: string): Promise<{ duration: number | null; title:
 	}
 }
 
+/** An MIT OCW lecture page → its own caption file (no YouTube request). */
+async function fetchOcw(url: string): Promise<{ youtubeId: string | null; duration: number | null; title: string | null } | null> {
+	const page = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 LearnHarness lecture pass" } });
+	if (!page.ok) return null;
+	const html = await page.text();
+	const vtt = /["']([^"']+\.vtt)["']/.exec(html)?.[1];
+	if (!vtt) return null;
+	const youtubeId = /_([A-Za-z0-9_-]{11})\.vtt$/.exec(vtt)?.[1] ?? YT_ID.exec(html)?.[1] ?? null;
+	const key = youtubeId ?? Buffer.from(url).toString("base64url").slice(-20);
+	const title = /<title>([^<]*)<\/title>/i.exec(html)?.[1]?.replace(/\s*\|\s*MIT OpenCourseWare.*$/, "").trim() ?? null;
+	const metaFile = path.join(OUT, `${key}.meta.json`);
+	if (fs.existsSync(metaFile)) {
+		const m = JSON.parse(fs.readFileSync(metaFile, "utf8")) as { duration: number | null; title: string | null };
+		return { youtubeId: key, duration: m.duration, title: m.title };
+	}
+	const res = await fetch(new URL(vtt, url));
+	if (!res.ok) return null;
+	const text = await res.text();
+	const ends = [...text.matchAll(/-->\s*(\d+):(\d{2}):(\d{2})/g)].map((m) => Number(m[1]) * 3600 + Number(m[2]) * 60 + Number(m[3]));
+	const duration = ends.length ? Math.max(...ends) : null;
+	const transcript = vttToText(text);
+	if (transcript) fs.writeFileSync(path.join(OUT, `${key}.txt`), transcript);
+	fs.writeFileSync(metaFile, JSON.stringify({ id: key, title, channel: "MIT OpenCourseWare", duration, chapters: [], transcript: !!transcript, source: url }, null, 1));
+	return { youtubeId: key, duration, title };
+}
+
 async function main() {
 	fs.mkdirSync(OUT, { recursive: true });
-	const only = process.argv.slice(2);
+	const only = ARGS.filter((a) => !a.startsWith("--"));
 	const lectures = new Map<string, Lecture>();
 	for (const f of fs.readdirSync(COURSES).filter((n) => n.endsWith(".json"))) {
 		if (only.length && !only.includes(f.replace(/\.json$/, ""))) continue;
@@ -137,11 +174,28 @@ async function main() {
 	const todo = [...lectures.values()];
 	let done = 0;
 	let failed = 0;
+	let blocked = false;
 	const worker = async () => {
-		for (let lec = todo.shift(); lec; lec = todo.shift()) {
+		for (let lec = todo.shift(); lec && !blocked; lec = todo.shift()) {
 			try {
+				const prior = index[lec.url];
+				if (prior && !prior.error && (prior.duration !== null || !YOUTUBE)) {
+					done++;
+					continue;
+				}
+				if (/ocw\.mit\.edu/.test(lec.url)) {
+					const ocw = await fetchOcw(lec.url);
+					if (ocw) {
+						index[lec.url] = ocw;
+						if (++done % 25 === 0) console.log(`${done}/${lectures.size} lectures · ${failed} failed`);
+						continue;
+					}
+				}
 				const resolved = await resolveLecture(lec);
-				if (!resolved.youtubeId) {
+				if (resolved.youtubeId && !YOUTUBE) {
+					// Left for the slow --youtube run.
+					index[lec.url] = { youtubeId: resolved.youtubeId, duration: null, title: null };
+				} else if (!resolved.youtubeId) {
 					index[lec.url] = { youtubeId: null, duration: null, title: null };
 				} else {
 					let attempt = 0;
@@ -149,9 +203,11 @@ async function main() {
 						try {
 							const v = await fetchVideo(resolved.youtubeId);
 							index[lec.url] = { youtubeId: resolved.youtubeId, ...v };
+							await new Promise((r) => setTimeout(r, YOUTUBE_PAUSE_MS));
 							break;
 						} catch (err) {
 							const msg = err instanceof Error ? err.message : String(err);
+							if (/not a bot/i.test(msg)) throw new Error("YouTube is blocking requests from this PC for now; try --youtube again later.");
 							if (/429|Too Many Requests/i.test(msg) && attempt++ < 3) {
 								await new Promise((r) => setTimeout(r, 60_000 * attempt));
 								continue;
@@ -161,8 +217,15 @@ async function main() {
 					}
 				}
 			} catch (err) {
+				const msg = err instanceof Error ? err.message : String(err);
+				// YouTube's bot block covers every video: stop rather than hammer it.
+				if (/blocking requests/.test(msg)) {
+					blocked = true;
+					console.log(msg);
+					break;
+				}
 				failed++;
-				index[lec.url] = { youtubeId: null, duration: null, title: null, error: err instanceof Error ? err.message : String(err) };
+				index[lec.url] = { youtubeId: null, duration: null, title: null, error: msg };
 			}
 			if (++done % 25 === 0) {
 				fs.writeFileSync(indexFile, JSON.stringify(index, null, 1));

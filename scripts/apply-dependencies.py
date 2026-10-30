@@ -15,7 +15,7 @@ DEPS = {
     "e0-circuits": ([], ["m0-precalc"]),
     "m1-calculus": (["m0-precalc"], []),
     "p1-mechanics": (["m0-precalc"], ["m1-calculus"]),
-    "m3-linear-algebra": (["m0-precalc"], ["m1-calculus"]),
+    "m3-linear-algebra": ([], ["m0-precalc"]),
     "m2-multivariable": (["m1-calculus"], []),
     "p2-em-waves": (["p1-mechanics"], ["m2-multivariable"]),
     "m4-odes": (["m1-calculus"], ["m3-linear-algebra"]),

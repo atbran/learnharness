@@ -293,6 +293,45 @@ export async function gradeAssessment(input: GradingInput, deps: WriterDeps): Pr
 	};
 }
 
+// ─── Lesson notes ───────────────────────────────────────────────────────────
+
+const notesSchema = Type.Object({
+	notes: Type.String({ description: "The lesson notes: markdown with $…$ / $$…$$ math, ~1300–2200 words." }),
+});
+
+/** Written notes that teach the lesson on their own, beside the lecture. */
+export async function writeLessonNotes(lesson: Lesson, context: string, track: string, deps: WriterDeps): Promise<string> {
+	const out = await runSubmitAgent<{ notes: string }>({
+		role: "notesWriter",
+		toolName: "submit_notes",
+		toolDescription: "Submit the finished lesson notes.",
+		parameters: notesSchema,
+		fill: (x) => x,
+		systemPrompt:
+			`You write the lesson notes for a physics/math self-study program: the text a learner reads to understand the lesson without the video. ${LEARNER}\n\n` +
+			`${UNDERSTANDING_FIRST} ${calculationShare(track)}\n\n` +
+			"Write markdown with KaTeX math ($…$ inline, $$…$$ display), about a 10–15 minute read (1300–2200 words), in this order:\n" +
+			"## The big idea — 2–4 sentences: what this lesson is about and why it matters (to physics, and where natural to chemistry).\n" +
+			"## Building intuition — the picture before the formalism: an everyday or chemical example, a thought experiment, what changes when what changes.\n" +
+			"## The math — each key equation of the lesson in display math, then what every symbol means (with units), where it comes from (a short derivation or argument when it builds understanding), and its limits of validity.\n" +
+			"## Worked example — 1–2 examples, physically meaningful, every step shown, ending with what the number means and a sanity check (units, limits, order of magnitude).\n" +
+			"## Common mistakes — 3–5 bullets.\n" +
+			"## Check yourself — 2–3 quick numbered questions, then a line **Answers:** followed by brief numbered answers (no HTML).\n" +
+			"## Read more — the assigned book sections with printed page numbers.\n\n" +
+			"Use the book tools (when available) to read the assigned pages and stay faithful to the textbook's notation and level; cite pages. " +
+			"Plain, warm, precise prose; short paragraphs; no filler. Double-check every equation, number and unit.",
+		prompt: `${context}\n\n${lessonBlock(lesson)}\n\nWrite the lesson notes and call submit_notes.`,
+		engine: deps.engine,
+		signal: deps.signal,
+		onStep: step(deps),
+		extraTools: deps.bookTools,
+		maxTurns: deps.bookTools ? 12 : 4,
+		neverSubmitted: "the notes writer never submitted",
+		validate: (v) => (v.notes.split(/\s+/).length < 600 ? "the notes are too short; write the full lesson notes" : null),
+	});
+	return out.notes;
+}
+
 // ─── Audio-guide scripts ────────────────────────────────────────────────────
 
 const scriptSchema = Type.Object({

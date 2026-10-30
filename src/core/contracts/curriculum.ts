@@ -52,6 +52,10 @@ export const lectureSchema = z.object({
 	/** Seconds into the video. */
 	start: z.number().int().nonnegative().optional(),
 	end: z.number().int().positive().optional(),
+	/** Watch length in minutes (the clip when start/end are set). */
+	minutes: z.number().positive().optional(),
+	/** An extra lecture, under "More lectures" — not part of the lesson's time. */
+	optional: z.boolean().optional(),
 });
 export type Lecture = z.infer<typeof lectureSchema>;
 
