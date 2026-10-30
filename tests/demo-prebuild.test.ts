@@ -39,3 +39,26 @@ test("status counts every idea, sees cached demos, and the switch persists", () 
 	const saved = JSON.parse(fs.readFileSync(path.join(PATHS.curriculum, "demo-prebuild.json"), "utf8")) as { enabled: boolean };
 	assert.equal(saved.enabled, false);
 });
+
+test("turning a builder on with nothing left to build returns (no spin)", async () => {
+	const { createPrebuild } = await import("../src/server/prebuild.ts");
+	const state = path.join(PATHS.curriculum, "zz-spin-prebuild.json");
+	try {
+		const b = createPrebuild({
+			name: "zz-spin",
+			stateFile: state,
+			concurrency: 2,
+			count: () => 1,
+			built: () => new Set(programIndex().lessonOrder),
+			cacheId: (lessonId) => lessonId,
+			build: async () => {},
+			error: () => null,
+			label: (lesson) => lesson.title,
+		});
+		const s = b.set(true);
+		assert.equal(s.built, s.total);
+		assert.equal(s.building.length, 0);
+	} finally {
+		fs.rmSync(state, { force: true });
+	}
+});

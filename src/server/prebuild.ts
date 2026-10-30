@@ -156,8 +156,10 @@ export function createPrebuild(spec: PrebuildSpec) {
 		}
 	};
 
+	// Start the missing workers once each. (A worker with nothing to build
+	// finishes synchronously, so re-checking the count would spin forever.)
 	const start = () => {
-		while (live.workers < spec.concurrency) void worker();
+		for (let n = live.workers; n < spec.concurrency; n++) void worker();
 	};
 
 	const status = (): PrebuildStatus => {
