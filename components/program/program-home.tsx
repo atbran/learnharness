@@ -41,7 +41,7 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 					<Link href="/program/books" className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground">
 						<LibraryIcon className="size-3.5" /> Bookshelf
 					</Link>
-					<ProgramSettings hoursPerWeek={s.pace.hoursPerWeekTarget} startDate={s.startDate} />
+					<ProgramSettings hoursPerWeek={s.pace.hoursPerWeekTarget} startDate={s.startDate} parallel={s.parallel} />
 				</div>
 			</TopBar>
 
@@ -256,8 +256,9 @@ function Panel({ title, children, className }: { title: string; children: React.
 	);
 }
 
-function ProgramSettings({ hoursPerWeek, startDate }: { hoursPerWeek: number; startDate: string }) {
+function ProgramSettings({ hoursPerWeek, startDate, parallel }: { hoursPerWeek: number; startDate: string; parallel: number }) {
 	const [open, setOpen] = useState(false);
+	const [courses, setCourses] = useState(String(parallel));
 	const [hours, setHours] = useState(String(hoursPerWeek));
 	const [start, setStart] = useState(startDate);
 	return (
@@ -272,6 +273,10 @@ function ProgramSettings({ hoursPerWeek, startDate }: { hoursPerWeek: number; st
 						<input type="number" min={1} max={80} value={hours} onChange={(e) => setHours(e.target.value)} className="lh-input mt-1 w-full rounded-md border border-border bg-background px-2 py-1" />
 					</label>
 					<label className="block">
+						<span className="text-xs text-muted-foreground">Courses at once (e.g. math + physics + one more)</span>
+						<input type="number" min={1} max={6} value={courses} onChange={(e) => setCourses(e.target.value)} className="lh-input mt-1 w-full rounded-md border border-border bg-background px-2 py-1" />
+					</label>
+					<label className="block">
 						<span className="text-xs text-muted-foreground">Program start date</span>
 						<input type="date" value={start} onChange={(e) => setStart(e.target.value)} className="lh-input mt-1 w-full rounded-md border border-border bg-background px-2 py-1" />
 					</label>
@@ -282,7 +287,7 @@ function ProgramSettings({ hoursPerWeek, startDate }: { hoursPerWeek: number; st
 							await fetch("/api/program/settings", {
 								method: "PUT",
 								headers: { "Content-Type": "application/json" },
-								body: JSON.stringify({ hoursPerWeek: Number(hours), startDate: start }),
+								body: JSON.stringify({ hoursPerWeek: Number(hours), startDate: start, parallelCourses: Number(courses) }),
 							});
 							setOpen(false);
 						}}

@@ -1,7 +1,7 @@
 {
 	"courseId": "q-qualifier",
 	"checks": {
-		"q-l001-strategy-dimensional-analysis": [
+		"q-l001-dimensional-analysis-limits": [
 			{
 				"kind": "mc",
 				"prompt": "Which of the following expressions has the dimensions of time, where $L$ is a length and $g$ an acceleration?",
@@ -35,6 +35,14 @@
 				"explanation": "At $\\theta=90^\\circ$ the first gives the free-fall time $\\sqrt{2h/g}$ and as $\\theta\\to0$ it diverges, as it must. The other candidates fail: $\\sin\\theta$ or $\\cos\\theta$ prefactors give zero time in one limit, and the last gives a finite time as the incline flattens. (The correct acceleration is $g\\sin\\theta$ over distance $h/\\sin\\theta$.)"
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain how dimensional analysis can predict the form of a result (for example the period of a pendulum or the drag on a sphere) up to a dimensionless constant, and say what it cannot tell you.",
+				"rubric": "Full credit requires: list the relevant variables and their dimensions; combine them into dimensionless groups (Buckingham Pi) so the answer is a function of those groups; it cannot give pure numbers or functions of dimensionless groups, and fails if a relevant variable is missed.",
+				"modelAnswer": "List the variables the answer can depend on and their dimensions, then combine them into dimensionless products. If only one such group exists the answer is that group times a constant: for a pendulum $T\\propto\\sqrt{L/g}$. It does not give the numerical constant (here $2\\pi$) or any dependence through a dimensionless ratio, and it fails if a relevant variable has been left out."
+			}
+		],
+		"q-l002-exam-triage-written-plan": [
+			{
 				"kind": "mc",
 				"prompt": "You have 3 hours for six problems of unequal difficulty. Which strategy maximises your expected score?",
 				"options": [
@@ -51,9 +59,21 @@
 				"prompt": "Why does writing your assumptions and a plan in the first lines of a solution, and checking the final result in limiting cases, improve your score?",
 				"rubric": "Full credit requires: stated assumptions and approach let a grader award partial credit even if the algebra goes wrong; limit checks (zero, infinity, symmetric case, units) catch errors in the answer and show you understand the physics; both make the solution readable and verifiable.",
 				"modelAnswer": "A clear statement of the model, the method and the conserved quantities shows the grader what you intended, so a later algebra slip costs only a few points rather than everything. Checking the final formula against units and against limits where the answer is known (zero, infinity, symmetric case) catches most errors before submission and demonstrates physical understanding. Together they earn partial credit and prevent careless losses."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A qualifier solution fails halfway through the algebra. Which opening lines are most likely to earn partial credit?",
+				"options": [
+					"A diagram, assumptions and the governing equation",
+					"The final numerical answer, written first as a guess",
+					"A list of every formula you can remember",
+					"A copy of the problem statement and data"
+				],
+				"answer": 0,
+				"explanation": "Graders award credit for correct set-up: a diagram, clear assumptions and the right physical principle. A correct plan is worth points even if the algebra later goes wrong."
 			}
 		],
-		"q-l002-estimation-fermi-problems": [
+		"q-l003-atomic-thermal-energy-scales": [
 			{
 				"kind": "numeric",
 				"prompt": "At $T=300$ K, $k_BT\\approx0.0259$ eV. Using $hc\\approx1240$ eV nm, what is the wavelength of a photon whose energy equals $k_BT$? Answer in micrometres.",
@@ -62,6 +82,38 @@
 				"unit": "um",
 				"explanation": "$\\lambda=1240/0.0259\\approx4.8\\times10^4$ nm $=48\\ \\mu$m, in the far infrared. Thermal energy is far below visible photons (~2 eV), which is why thermal motion does not excite electronic transitions at room temperature."
 			},
+			{
+				"kind": "mc",
+				"prompt": "Which expression correctly gives the Rydberg energy in terms of the fine-structure constant $\\alpha$ and the electron rest energy?",
+				"options": [
+					"$E_{\\rm Ry}=\\tfrac12\\alpha\\,m_ec^2\\approx1.9$ keV",
+					"$E_{\\rm Ry}=\\alpha^2m_ec^2\\approx27$ eV",
+					"$E_{\\rm Ry}=\\tfrac12\\alpha^2m_ec^2\\approx13.6$ eV",
+					"$E_{\\rm Ry}=\\tfrac12\\alpha^3m_ec^2\\approx0.1$ eV"
+				],
+				"answer": 2,
+				"explanation": "The ground-state energy is $\\tfrac12m_ev^2-\\alpha\\hbar c/a_0$ with $v=\\alpha c$, giving $\\tfrac12\\alpha^2m_ec^2=\\tfrac12(1/137)^2(511\\ \\mathrm{keV})=13.6$ eV. Atomic physics is a series in $\\alpha$: Rydberg $\\sim\\alpha^2mc^2$, fine structure $\\sim\\alpha^4mc^2$, Lamb shift $\\sim\\alpha^5mc^2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A typical covalent bond has an energy of about 4 eV. Using $hc\\approx1240$ eV nm, in which spectral region is a photon with this energy?",
+				"options": [
+					"Ultraviolet, near 310 nm",
+					"Infrared, where bond vibrations absorb",
+					"Visible light, near 600 nm",
+					"X-rays, because bonds are atomic in size"
+				],
+				"answer": 0,
+				"explanation": "$\\lambda=1240/4\\approx310$ nm is ultraviolet. Infrared photons (about 0.1 eV) excite bond vibrations without breaking them, while photons energetic enough to break bonds are in the UV, which is why UV damages organic molecules."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why thermal energy at room temperature ($k_BT\\approx1/40$ eV) cannot excite electronic transitions in atoms but can excite molecular rotations.",
+				"rubric": "Full credit requires: electronic levels are separated by eV (Rydberg scale, a factor of hundreds above $k_BT$) so the Boltzmann factor $e^{-\\Delta E/k_BT}$ is negligible; rotational levels are separated by about $10^{-3}$ eV or less, much less than $k_BT$, so many are populated.",
+				"modelAnswer": "Electronic transitions need energies of order 1-10 eV, so the Boltzmann factor $e^{-\\Delta E/k_BT}$ with $k_BT\\approx0.026$ eV is of order $e^{-40}$ or smaller: essentially no atoms are excited. Rotational spacings are of order $10^{-3}$ eV or smaller, well below $k_BT$, so many rotational levels are thermally populated at room temperature."
+			}
+		],
+		"q-l004-fermi-estimates-error-budget": [
 			{
 				"kind": "numeric",
 				"prompt": "Estimate the number of air molecules in a $4\\ \\mathrm m\\times5\\ \\mathrm m\\times3\\ \\mathrm m$ room at 1 atm ($1.013\\times10^5$ Pa) and 293 K using $N=PV/k_BT$. Give the answer in units of $10^{27}$.",
@@ -82,37 +134,41 @@
 				"explanation": "Skin has emissivity near 1 in the infrared. Walls, air and objects also radiate and the body absorbs it. Net radiative loss is proportional to $T^4-T_0^4\\approx4T^3\\Delta T$, a small difference. Net heat loss at rest (radiation, convection, evaporation) balances the ~100 W metabolic rate."
 			},
 			{
-				"kind": "mc",
-				"prompt": "Which expression correctly gives the Rydberg energy in terms of the fine-structure constant $\\alpha$ and the electron rest energy?",
-				"options": [
-					"$E_{\\rm Ry}=\\tfrac12\\alpha\\,m_ec^2\\approx1.9$ keV",
-					"$E_{\\rm Ry}=\\alpha^2m_ec^2\\approx27$ eV",
-					"$E_{\\rm Ry}=\\tfrac12\\alpha^2m_ec^2\\approx13.6$ eV",
-					"$E_{\\rm Ry}=\\tfrac12\\alpha^3m_ec^2\\approx0.1$ eV"
-				],
-				"answer": 2,
-				"explanation": "The ground-state energy is $\\tfrac12m_ev^2-\\alpha\\hbar c/a_0$ with $v=\\alpha c$, giving $\\tfrac12\\alpha^2m_ec^2=\\tfrac12(1/137)^2(511\\ \\mathrm{keV})=13.6$ eV. Atomic physics is a series in $\\alpha$: Rydberg $\\sim\\alpha^2mc^2$, fine structure $\\sim\\alpha^4mc^2$, Lamb shift $\\sim\\alpha^5mc^2$."
-			},
-			{
 				"kind": "short",
 				"prompt": "How do you state the uncertainty of an order-of-magnitude estimate, and how do you identify which input dominates the error?",
 				"rubric": "Full credit requires: errors in a product of factors are multiplicative so one estimates each factor's uncertainty (a fractional or log error); independent errors partly cancel and combine in quadrature in the logarithm; the factor with the largest uncertainty (especially one raised to a high power, e.g. $r^3$ or $T^4$) dominates; quote the result as a factor-of-n range.",
 				"modelAnswer": "For a product of factors, the fractional errors add (or combine in quadrature if independent), so I assign a plausible range to each input, estimate its fractional uncertainty, and see which gives the biggest contribution. Inputs that appear to a high power (a radius cubed, a temperature to the fourth) usually dominate. Then I quote the result with a factor-of-$n$ uncertainty, and fix the dominant input first if more accuracy is needed."
 			}
 		],
-		"q-l003-lagrangian-methods-constraints": [
+		"q-l005-generalized-coordinates-constraint-forces": [
+			{
+				"kind": "short",
+				"prompt": "When and why would you introduce a Lagrange multiplier in a mechanics problem, and what does the multiplier represent physically?",
+				"rubric": "Full credit requires: when you need the constraint force (tension, normal force) or choose not to eliminate the constraint by generalised coordinates; the constraint $g(q)=0$ is added to $L$ via $\\lambda g$; the multiplier equals the generalised constraint force; with generalised coordinates satisfying the constraint, constraint forces (which do no work) never appear.",
+				"modelAnswer": "If I only need the motion I can choose generalised coordinates that already satisfy the constraint, and the (workless) constraint forces drop out. If I want the constraint force itself (a string tension or a normal force at the point the bead leaves the surface), I keep the extra coordinate and add $\\lambda\\,g(q)$ to the Lagrangian. The multiplier $\\lambda$ then equals the generalised force that enforces the constraint, and setting it to zero tells me when the constraint stops being able to hold."
+			},
 			{
 				"kind": "mc",
-				"prompt": "A bead slides frictionlessly on a vertical circular hoop of radius $R$ that rotates about its vertical diameter at angular velocity $\\Omega$ (with $\\theta$ measured from the bottom). When $\\Omega^2>g/R$, what happens to the equilibrium at the bottom ($\\theta=0$)?",
+				"prompt": "A pendulum's pivot is attached to a block that slides on a frictionless horizontal rail. How many generalised coordinates describe the system's configuration?",
 				"options": [
-					"It remains the only stable equilibrium",
-					"It becomes unstable",
-					"It becomes the only unstable equilibrium and the bead flies off the hoop",
-					"Nothing happens; $\\Omega$ only changes the pendulum frequency"
+					"One: the pendulum angle alone",
+					"Two: the block position and the pendulum angle",
+					"Three: two for the bob plus one for the block",
+					"Four: two positions for each of the bob and block"
 				],
 				"answer": 1,
-				"explanation": "The effective potential is $V_{\\rm eff}=-mgR\\cos\\theta-\\tfrac12mR^2\\Omega^2\\sin^2\\theta$; its second derivative at $\\theta=0$ is $mR(g-R\\Omega^2)$, which changes sign at $\\Omega^2=g/R$. The two off-axis equilibria bifurcate from the bottom (a pitchfork bifurcation, a classic model of spontaneous symmetry breaking)."
+				"explanation": "The bob is constrained to lie at a fixed distance from the pivot (one angle) and the pivot has one degree of freedom along the rail, so $q=(X,\\theta)$ and $L=T(X,\\dot X,\\theta,\\dot\\theta)-V(\\theta)$."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "A small block slides from rest off the top of a frictionless sphere. The constraint (normal) force is $N=mg(3\\cos\\theta-2)$ with $\\theta$ measured from the vertical. At what angle $\\theta$ does it leave the surface, in degrees?",
+				"answer": 48.19,
+				"tolerance": 0.02,
+				"unit": "degrees",
+				"explanation": "The block leaves when the constraint force vanishes: $N=0\\Rightarrow\\cos\\theta=2/3$, so $\\theta=48.19^\\circ$. A Lagrange multiplier for the constraint $r=R$ gives the same $N$ directly."
+			}
+		],
+		"q-l006-equilibria-small-oscillations-normal-modes": [
 			{
 				"kind": "numeric",
 				"prompt": "For the hoop of radius $R=0.50$ m, the bottom equilibrium becomes unstable for $\\Omega>\\Omega_c=\\sqrt{g/R}$. Find $\\Omega_c$ in rad/s ($g=9.81\\ \\mathrm{m/s^2}$).",
@@ -147,12 +203,12 @@
 			},
 			{
 				"kind": "short",
-				"prompt": "When and why would you introduce a Lagrange multiplier in a mechanics problem, and what does the multiplier represent physically?",
-				"rubric": "Full credit requires: when you need the constraint force (tension, normal force) or choose not to eliminate the constraint by generalised coordinates; the constraint $g(q)=0$ is added to $L$ via $\\lambda g$; the multiplier equals the generalised constraint force; with generalised coordinates satisfying the constraint, constraint forces (which do no work) never appear.",
-				"modelAnswer": "If I only need the motion I can choose generalised coordinates that already satisfy the constraint, and the (workless) constraint forces drop out. If I want the constraint force itself (a string tension or a normal force at the point the bead leaves the surface), I keep the extra coordinate and add $\\lambda\\,g(q)$ to the Lagrangian. The multiplier $\\lambda$ then equals the generalised force that enforces the constraint, and setting it to zero tells me when the constraint stops being able to hold."
+				"prompt": "Describe how you find the small-oscillation frequencies of a coupled system near a stable equilibrium, starting from the Lagrangian.",
+				"rubric": "Full credit requires: find the equilibrium; expand $T$ and $V$ to second order in displacements to get mass and stiffness matrices $M$ and $K$; solve $\\det(K-\\omega^2M)=0$ for the normal-mode frequencies; eigenvectors give mode shapes; stability needs $K$ positive.",
+				"modelAnswer": "Locate the equilibrium by setting $\\partial V/\\partial q_i=0$ and check stability. Expand the kinetic and potential energies to quadratic order in the displacements, $T=\\tfrac12\\dot\\eta^TM\\dot\\eta$ and $V=\\tfrac12\\eta^TK\\eta$. Assuming $\\eta\\propto e^{i\\omega t}$ gives $(K-\\omega^2M)\\eta=0$, so the frequencies solve $\\det(K-\\omega^2M)=0$ and the eigenvectors are the mode shapes."
 			}
 		],
-		"q-l004-central-forces-rotating-frames-rigid-bodies": [
+		"q-l007-central-forces-kepler-precession": [
 			{
 				"kind": "mc",
 				"prompt": "For an attractive potential $V(r)=-k/r^3$, what can be said about circular orbits?",
@@ -177,6 +233,26 @@
 				"answer": 2,
 				"explanation": "Closed orbits for all bound energies occur only for $1/r$ and $r^2$ potentials (Bertrand's theorem). The extra symmetry of the $1/r$ force, shown by the conserved Runge-Lenz vector, is broken by $1/r^3$, so the ellipse precesses (Mercury: 43 arcsec/century from GR)."
 			},
+			{
+				"kind": "mc",
+				"prompt": "A planet is on a circular orbit in a $1/r$ attractive potential. How is its total energy $E$ related to its kinetic energy $K$?",
+				"options": [
+					"$E=-K$, half the potential energy",
+					"$E=+K$, since the planet is bound",
+					"$E=0$, since the orbit is circular",
+					"$E=-2K$, equal to the potential energy"
+				],
+				"answer": 0,
+				"explanation": "For a circular orbit in $U=-k/r$, $K=k/2r$ and $U=-k/r$, so $E=K+U=-k/2r=-K$ (the virial theorem). A bound orbit has $E<0$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the effective potential reduces the two-dimensional central-force problem to a one-dimensional one, and what the turning points and the minimum of $V_{\\rm eff}$ mean for the orbit.",
+				"rubric": "Full credit requires: conserved $L$ turns the angular motion into a centrifugal term $L^2/2\\mu r^2$ added to $V(r)$; the radial equation is then 1D motion in $V_{\\rm eff}$; turning points are where $E=V_{\\rm eff}$ (perihelion/aphelion); the minimum is the stable circular orbit.",
+				"modelAnswer": "Because $L=\\mu r^2\\dot\\phi$ is conserved, the angular kinetic energy becomes $L^2/2\\mu r^2$ and can be added to $V(r)$, leaving a one-dimensional radial problem in $V_{\\rm eff}$. Turning points are where $E=V_{\\rm eff}$ (closest and farthest approach); a minimum of $V_{\\rm eff}$ is a stable circular orbit, and oscillations about it are radial oscillations."
+			}
+		],
+		"q-l008-scattering-rotating-frames-rigid-bodies": [
 			{
 				"kind": "numeric",
 				"prompt": "The Rutherford cross section is $d\\sigma/d\\Omega\\propto1/\\sin^4(\\theta/2)$. By what factor is the differential cross section at $30^\\circ$ larger than at $60^\\circ$ (same energy and target)?",
@@ -203,7 +279,7 @@
 				"modelAnswer": "With no torque, $\\mathbf L$ and the kinetic energy are conserved, and Euler's equations $I_1\\dot\\omega_1=(I_2-I_3)\\omega_2\\omega_3$ etc. describe the motion. Linearising about spin on the largest or smallest axis, the small components of $\\boldsymbol\\omega$ obey an oscillator equation (bounded). About the intermediate axis the coefficient has the opposite sign, giving exponential growth of deviations: the body flips periodically. Geometrically, the energy and angular-momentum surfaces intersect in small loops around the extreme axes but in a saddle structure at the intermediate one."
 			}
 		],
-		"q-l005-hamiltonian-oscillators-relativity": [
+		"q-l009-hamiltonian-brackets-adiabatic": [
 			{
 				"kind": "mc",
 				"prompt": "Liouville's theorem says phase-space volume is conserved under Hamiltonian flow. What happens to a small blob of initial conditions for a damped harmonic oscillator?",
@@ -215,13 +291,6 @@
 				],
 				"answer": 1,
 				"explanation": "For $\\ddot x+\\gamma\\dot x+\\omega_0^2x=0$ the divergence of the phase-space flow is $-\\gamma<0$, so area contracts as $e^{-\\gamma t}$ (all trajectories spiral to the origin). Dissipation corresponds to loss of information about the microstate."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "A mass-spring oscillator has $m=0.10$ kg, $k=1.0\\times10^5$ N/m and damping coefficient $b=1.0$ kg/s. At resonance, the amplitude is $Q$ times the static displacement, with $Q=\\sqrt{km}/b$. Find $Q$.",
-				"answer": 100.0,
-				"tolerance": 0.02,
-				"explanation": "$\\omega_0=\\sqrt{k/m}=1000$ rad/s, $\\gamma=b/m=10\\ \\mathrm{s^{-1}}$, so $Q=\\omega_0/\\gamma=100$. The resonance width is $\\Delta\\omega\\approx\\gamma=10$ rad/s, a fractional width of 1%."
 			},
 			{
 				"kind": "mc",
@@ -249,12 +318,79 @@
 			},
 			{
 				"kind": "short",
+				"prompt": "State Liouville's theorem and explain, using a free particle or a harmonic oscillator as an example, how a region of phase space can change shape while keeping its area.",
+				"rubric": "Full credit requires: phase-space density is constant along Hamiltonian trajectories so the area/volume of a region is conserved; for a free particle the region shears (faster particles move farther), for an oscillator it rotates; shape changes but area does not.",
+				"modelAnswer": "Liouville's theorem says the flow generated by a Hamiltonian preserves phase-space volume. For a free particle, points with larger $p$ move farther, so a rectangular blob shears into a parallelogram of the same area. For a harmonic oscillator each point rotates about the origin at the same angular speed, so the blob simply rotates. Friction would shrink the area, which is why damped systems are not Hamiltonian."
+			}
+		],
+		"q-l010-driven-oscillators-relativistic-kinematics": [
+			{
+				"kind": "numeric",
+				"prompt": "A mass-spring oscillator has $m=0.10$ kg, $k=1.0\\times10^5$ N/m and damping coefficient $b=1.0$ kg/s. At resonance, the amplitude is $Q$ times the static displacement, with $Q=\\sqrt{km}/b$. Find $Q$.",
+				"answer": 100.0,
+				"tolerance": 0.02,
+				"explanation": "$\\omega_0=\\sqrt{k/m}=1000$ rad/s, $\\gamma=b/m=10\\ \\mathrm{s^{-1}}$, so $Q=\\omega_0/\\gamma=100$. The resonance width is $\\Delta\\omega\\approx\\gamma=10$ rad/s, a fractional width of 1%."
+			},
+			{
+				"kind": "short",
 				"prompt": "A photon can produce an electron-positron pair when it hits a stationary free electron, but the threshold photon energy is $4m_ec^2$, not $2m_ec^2$. Explain why.",
 				"rubric": "Full credit requires: momentum must be conserved, so the final state (e-, e-, e+) cannot all be at rest and must carry the photon's momentum; invariant mass of the final state must be at least $3m_e$, and $s=m_e^2c^4+2E_\\gamma m_ec^2$ at threshold equals $(3m_e)^2c^4$, giving $E_\\gamma=4m_ec^2$; in the CM frame all three are at rest.",
 				"modelAnswer": "The incoming photon carries momentum $E/c$, so the three final particles cannot all be at rest; they carry kinetic energy as well. The condition is on the invariant mass: $s=(m_e c^2)^2+2E_\\gamma m_ec^2$ must be at least $(3m_ec^2)^2$ for the minimum final mass of $3m_e$. This gives $E_\\gamma\\ge4m_ec^2\\approx2.04$ MeV; in the centre-of-momentum frame the three particles are produced at rest."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A damped oscillator is driven at a frequency far below its natural frequency. What are the amplitude and phase of its steady-state response?",
+				"options": [
+					"About $F/k$, in phase with the force",
+					"Large, near $QF/k$, a quarter-cycle behind",
+					"Small, near $F/m\\omega^2$, half a cycle behind",
+					"Amplitude set by the damping, with no definite phase"
+				],
+				"answer": 0,
+				"explanation": "For $\\omega\\ll\\omega_0$ the oscillator follows the force quasi-statically: $x\\approx F/k$ in phase. Near resonance the phase lag passes through $90^\\circ$ with amplitude $Q$ times larger; above resonance the motion is out of phase and falls as $F/m\\omega^2$."
 			}
 		],
-		"q-l006-electrostatics-magnetostatics-bvp": [
+		"q-l011-symmetry-multipoles-energy": [
+			{
+				"kind": "mc",
+				"prompt": "Carbon dioxide is a linear symmetric molecule O=C=O with no permanent dipole moment. How does the electrostatic potential of an isolated CO$_2$ molecule fall off at large distance $r$?",
+				"options": [
+					"As $1/r$, the monopole term",
+					"As $1/r^3$, the quadrupole term",
+					"As $1/r^2$, the dipole term",
+					"As $1/r^4$, the octupole term"
+				],
+				"answer": 1,
+				"explanation": "A neutral molecule has no monopole. The symmetric charge distribution (negative O at both ends, positive C in the middle) has zero dipole moment, so the first non-vanishing multipole is the quadrupole, $V\\propto P_2(\\cos\\theta)/r^3$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the work needed to bring a point charge $q$ from infinity to a distance $d$ in front of a grounded conducting plane is $-q^2/(16\\pi\\varepsilon_0d)$, only half of the interaction energy $-q^2/(8\\pi\\varepsilon_0d)$ of the real charge with its image.",
+				"rubric": "Full credit requires: the force on the real charge is that of the image, so $W=-\\int_\\infty^dF\\,dr$ with $F=q^2/(16\\pi\\varepsilon_0r^2)$ gives $-q^2/(16\\pi\\varepsilon_0d)$; the 'real plus image' pair energy would double-count since the image charge is not independent and moves with the real charge (the field exists only on one side); equivalently the energy $\\tfrac{\\varepsilon_0}2\\int E^2$ is stored only above the plane.",
+				"modelAnswer": "The image is not a real, independent charge: it moves as the real charge moves. The work done on the real charge as it is brought in is $\\int F\\,dr$ with the image force $F=q^2/[4\\pi\\varepsilon_0(2r)^2]$, which integrates to $q^2/(16\\pi\\varepsilon_0d)$ in magnitude. The two-charge energy $q^2/(8\\pi\\varepsilon_0 d)$ would count the field energy in the whole space, but the real field exists only on one side of the plane, which holds exactly half of it."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A long straight wire of radius $R$ carries a current uniformly distributed over its cross-section. Which description of $B(r)$ is correct?",
+				"options": [
+					"It is zero inside and falls as $1/r$ outside",
+					"It is constant inside and falls as $1/r^2$ outside",
+					"It grows linearly with $r$ inside and falls as $1/r$ outside",
+					"It grows linearly with $r$ both inside and outside"
+				],
+				"answer": 2,
+				"explanation": "Ampere's law gives $B\\,2\\pi r=\\mu_0I_{\\rm enc}$. Inside, $I_{\\rm enc}\\propto r^2$ so $B\\propto r$; outside, $I_{\\rm enc}=I$ so $B=\\mu_0I/2\\pi r$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A sphere of radius $R=1.0$ cm carries a uniform surface charge totalling $Q=1.0$ nC. Its field energy is $U=Q^2/(8\\pi\\varepsilon_0R)$. Find $U$ in nanojoules.",
+				"answer": 449.4,
+				"tolerance": 0.02,
+				"unit": "nJ",
+				"explanation": "$U=(10^{-9})^2/(8\\pi\\cdot8.854\\times10^{-12}\\cdot0.01)=4.49\\times10^{-7}$ J $=449$ nJ. The energy lies entirely in the field outside the sphere."
+			}
+		],
+		"q-l012-boundary-value-problems-matter": [
 			{
 				"kind": "numeric",
 				"prompt": "A point charge $q=1.0$ nC is $d=2.0$ cm from a large grounded conducting plane. By the method of images, find the magnitude of the attractive force, $F=\\dfrac{q^2}{4\\pi\\varepsilon_0(2d)^2}$, in micronewtons.",
@@ -288,33 +424,13 @@
 				"explanation": "$\\oint\\mathbf D\\cdot d\\mathbf A=Q_{\\rm free}$ is fixed, so $D$ is unchanged, and $D=\\varepsilon_0\\varepsilon_rE$ gives $E=E_0/\\varepsilon_r$. Voltage falls by the same factor and capacitance rises by $\\varepsilon_r$."
 			},
 			{
-				"kind": "mc",
-				"prompt": "Carbon dioxide is a linear symmetric molecule O=C=O with no permanent dipole moment. How does the electrostatic potential of an isolated CO$_2$ molecule fall off at large distance $r$?",
-				"options": [
-					"As $1/r$, the monopole term",
-					"As $1/r^3$, the quadrupole term",
-					"As $1/r^2$, the dipole term",
-					"As $1/r^4$, the octupole term"
-				],
-				"answer": 1,
-				"explanation": "A neutral molecule has no monopole. The symmetric charge distribution (negative O at both ends, positive C in the middle) has zero dipole moment, so the first non-vanishing multipole is the quadrupole, $V\\propto P_2(\\cos\\theta)/r^3$."
-			},
-			{
 				"kind": "short",
-				"prompt": "Explain why the work needed to bring a point charge $q$ from infinity to a distance $d$ in front of a grounded conducting plane is $-q^2/(16\\pi\\varepsilon_0d)$, only half of the interaction energy $-q^2/(8\\pi\\varepsilon_0d)$ of the real charge with its image.",
-				"rubric": "Full credit requires: the force on the real charge is that of the image, so $W=-\\int_\\infty^dF\\,dr$ with $F=q^2/(16\\pi\\varepsilon_0r^2)$ gives $-q^2/(16\\pi\\varepsilon_0d)$; the 'real plus image' pair energy would double-count since the image charge is not independent and moves with the real charge (the field exists only on one side); equivalently the energy $\\tfrac{\\varepsilon_0}2\\int E^2$ is stored only above the plane.",
-				"modelAnswer": "The image is not a real, independent charge: it moves as the real charge moves. The work done on the real charge as it is brought in is $\\int F\\,dr$ with the image force $F=q^2/[4\\pi\\varepsilon_0(2r)^2]$, which integrates to $q^2/(16\\pi\\varepsilon_0d)$ in magnitude. The two-charge energy $q^2/(8\\pi\\varepsilon_0 d)$ would count the field energy in the whole space, but the real field exists only on one side of the plane, which holds exactly half of it."
+				"prompt": "Explain how the boundary conditions on $\\mathbf D$ and $\\mathbf E$ at the surface of a dielectric give rise to bound surface charge, and how this reduces the field inside the dielectric.",
+				"rubric": "Full credit requires: polarisation $\\mathbf P$ gives bound surface charge $\\sigma_b=\\mathbf P\\cdot\\hat n$; the normal component of $\\mathbf D$ is continuous if there is no free charge and the tangential component of $\\mathbf E$ is continuous; the bound charge's field opposes the applied field, reducing $E$ by $\\varepsilon_r$.",
+				"modelAnswer": "A dielectric polarises in an applied field, leaving bound surface charge $\\sigma_b=\\mathbf P\\cdot\\hat n$ whose own field points opposite to the applied field inside the material. In terms of boundary conditions, the normal component of $\\mathbf D=\\varepsilon\\mathbf E$ is continuous when there is no free surface charge and the tangential component of $\\mathbf E$ is continuous, so $E_\\perp$ jumps by the factor $\\varepsilon_r$ and the interior field is reduced to $E_0/\\varepsilon_r$."
 			}
 		],
-		"q-l007-induction-poynting-waves-media": [
-			{
-				"kind": "numeric",
-				"prompt": "Find the skin depth $\\delta=\\sqrt{2/(\\omega\\mu_0\\sigma)}$ of copper ($\\sigma=5.96\\times10^7$ S/m) at $60$ Hz. Give the answer in millimetres.",
-				"answer": 8.4163,
-				"tolerance": 0.02,
-				"unit": "mm",
-				"explanation": "$\\omega=2\\pi(60)=377$ rad/s, so $\\delta=\\sqrt{2/(377\\times4\\pi\\times10^{-7}\\times5.96\\times10^7)}\\approx8.4$ mm. At MHz frequencies it is only a few micrometres, which is why high-frequency currents flow in a thin surface layer."
-			},
+		"q-l013-induction-poynting-energy-flow": [
 			{
 				"kind": "mc",
 				"prompt": "In a parallel-plate capacitor being charged by a steady current through its wires, in which direction does the Poynting vector $\\mathbf S=\\mathbf E\\times\\mathbf B/\\mu_0$ point in the gap?",
@@ -329,18 +445,6 @@
 			},
 			{
 				"kind": "mc",
-				"prompt": "Ionospheric electrons give a plasma frequency $f_p\\approx5$ MHz. Why can AM radio (about 1 MHz) be received far beyond the horizon by reflection, while FM (about 100 MHz) passes through into space?",
-				"options": [
-					"The ionosphere absorbs all high-frequency waves, including FM and TV",
-					"AM waves are shorter than FM waves and are therefore more easily scattered",
-					"FM is reflected by the ground and so never even reaches the ionosphere",
-					"Waves with $\\omega<\\omega_p$ are evanescent in the plasma and are reflected"
-				],
-				"answer": 3,
-				"explanation": "The plasma dielectric function is $\\varepsilon(\\omega)=1-\\omega_p^2/\\omega^2$ with $\\omega_p^2=ne^2/\\varepsilon_0m$. Below $\\omega_p$ it is negative: the wave is evanescent and reflected. This is also why metals are shiny up to the ultraviolet and become transparent above."
-			},
-			{
-				"kind": "mc",
 				"prompt": "A strong magnet dropped down a vertical copper tube falls much more slowly than one dropped through a plastic tube of the same size. Why?",
 				"options": [
 					"Copper is strongly magnetic and attracts the falling magnet upward",
@@ -352,13 +456,49 @@
 				"explanation": "The changing flux through each ring of the tube induces an EMF $-d\\Phi/dt$ and a current in the conductor; the force on that current opposes the motion, and the magnet reaches a terminal velocity at which the dissipated power in the tube equals $mgv$."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "A conducting rod of length $0.20$ m slides at $3.0$ m/s perpendicular to a uniform magnetic field of $0.40$ T, along rails. Find the motional EMF in volts.",
+				"answer": 0.24,
+				"tolerance": 0.02,
+				"unit": "V",
+				"explanation": "$\\mathcal E=Blv=0.40\\times0.20\\times3.0=0.24$ V. This is Faraday's law $-d\\Phi_B/dt$ applied to the loop whose area grows at rate $lv$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain, using the Poynting vector, how energy reaches a resistor in a circuit: does the energy flow through the wire or through the space around it?",
+				"rubric": "Full credit requires: $\\mathbf S=\\mathbf E\\times\\mathbf B/\\mu_0$ points radially inward at the wire surface (axial $\\mathbf E$ along the wire, azimuthal $\\mathbf B$); the energy flows from the fields outside the wire into the resistor and appears as heat; the wire guides the fields.",
+				"modelAnswer": "A current-carrying resistive wire has an axial electric field $\\mathbf E$ (driving the current) and an azimuthal magnetic field $\\mathbf B$ from the current. Their cross product points radially inward, so energy flows into the wire from the surrounding fields at a rate equal to $I^2R$. The wires and battery guide the fields, but the energy travels in the space around the wires."
+			}
+		],
+		"q-l014-waves-in-media-waveguides": [
+			{
+				"kind": "numeric",
+				"prompt": "Find the skin depth $\\delta=\\sqrt{2/(\\omega\\mu_0\\sigma)}$ of copper ($\\sigma=5.96\\times10^7$ S/m) at $60$ Hz. Give the answer in millimetres.",
+				"answer": 8.4163,
+				"tolerance": 0.02,
+				"unit": "mm",
+				"explanation": "$\\omega=2\\pi(60)=377$ rad/s, so $\\delta=\\sqrt{2/(377\\times4\\pi\\times10^{-7}\\times5.96\\times10^7)}\\approx8.4$ mm. At MHz frequencies it is only a few micrometres, which is why high-frequency currents flow in a thin surface layer."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Ionospheric electrons give a plasma frequency $f_p\\approx5$ MHz. Why can AM radio (about 1 MHz) be received far beyond the horizon by reflection, while FM (about 100 MHz) passes through into space?",
+				"options": [
+					"The ionosphere absorbs all high-frequency waves, including FM and TV",
+					"AM waves are shorter than FM waves and are therefore more easily scattered",
+					"FM is reflected by the ground and so never even reaches the ionosphere",
+					"Waves with $\\omega<\\omega_p$ are evanescent in the plasma and are reflected"
+				],
+				"answer": 3,
+				"explanation": "The plasma dielectric function is $\\varepsilon(\\omega)=1-\\omega_p^2/\\omega^2$ with $\\omega_p^2=ne^2/\\varepsilon_0m$. Below $\\omega_p$ it is negative: the wave is evanescent and reflected. This is also why metals are shiny up to the ultraviolet and become transparent above."
+			},
+			{
 				"kind": "short",
 				"prompt": "Explain why an electromagnetic wave cannot propagate in a rectangular metal waveguide below a certain cutoff frequency, and how this is related to the plasma cutoff.",
 				"rubric": "Full credit requires: boundary conditions force the transverse wavenumber $k_\\perp=\\pi/a$ (at least), and $\\omega^2=c^2(k_z^2+k_\\perp^2)$ so $k_z^2=(\\omega^2-\\omega_c^2)/c^2$ becomes negative (evanescent) below $\\omega_c=\\pi c/a$; the same dispersion form $\\omega^2=\\omega_c^2+c^2k^2$ appears in a plasma with $\\omega_p$ as cutoff.",
 				"modelAnswer": "Fitting the field into a guide of width $a$ requires a transverse wavenumber $k_\\perp\\ge\\pi/a$ because the tangential electric field must vanish on the walls. The dispersion relation is then $\\omega^2=c^2k_z^2+\\omega_c^2$ with $\\omega_c=\\pi c/a$. For $\\omega<\\omega_c$ the wavenumber $k_z$ is imaginary, so the field decays exponentially along the guide instead of propagating. A plasma has the same form $\\omega^2=\\omega_p^2+c^2k^2$, with the plasma frequency acting as a cutoff."
 			}
 		],
-		"q-l008-radiation-relativistic-em": [
+		"q-l015-radiation-scattering-larmor": [
 			{
 				"kind": "numeric",
 				"prompt": "Rayleigh scattering by molecules scales as $\\lambda^{-4}$. How many times more strongly is blue light (450 nm) scattered than red light (700 nm)?",
@@ -374,6 +514,26 @@
 				"unit": "10^-14 W",
 				"explanation": "$P=(1.602\\times10^{-19})^2(10^{20})^2/(6\\pi\\times8.854\\times10^{-12}\\times(3.0\\times10^8)^3)\\approx5.7\\times10^{-14}$ W: tiny, but the quadratic dependence on $a$ makes it important in accelerators."
 			},
+			{
+				"kind": "short",
+				"prompt": "Why do radiation fields fall off as $1/r$, while the static Coulomb field of a charge falls as $1/r^2$ and a static dipole field as $1/r^3$, and why does this allow energy to escape to infinity?",
+				"rubric": "Full credit requires: radiation fields are produced by acceleration and come from the retarded potentials; they are transverse and proportional to the acceleration at the retarded time, $E\\sim qa\\sin\\theta/(4\\pi\\varepsilon_0c^2r)$; the Poynting flux $\\propto E^2\\propto1/r^2$ integrated over a sphere of area $4\\pi r^2$ gives a finite, $r$-independent power, so energy flows to infinity; static fields give $S\\to0$ faster (and no net flux).",
+				"modelAnswer": "Radiation arises from accelerating charges. The fields at large $r$ depend on the retarded acceleration and are transverse, $E\\sim qa\\sin\\theta/(4\\pi\\varepsilon_0c^2r)$, falling as $1/r$ (while the Coulomb field is $1/r^2$). The energy flux $S\\propto E^2\\propto1/r^2$ times the area of a sphere $4\\pi r^2$ is independent of $r$: a constant power leaves any sphere, so energy is carried to infinity. Static field energy flux falls off faster than $1/r^2$, so no energy is radiated."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is light from the clear sky at $90^\\circ$ from the Sun strongly polarised?",
+				"options": [
+					"Dipole radiation is transverse and vanishes along the dipole axis",
+					"Air molecules absorb the component along the Sun's direction",
+					"Blue light is always emitted with a fixed polarisation",
+					"The Sun's light is polarised before reaching the atmosphere"
+				],
+				"answer": 0,
+				"explanation": "Molecules driven by the incoming wave radiate as dipoles along the field direction. Observed at $90^\\circ$ from the Sun, only the dipole component perpendicular to the line of sight radiates, so the light is linearly polarised."
+			}
+		],
+		"q-l016-retarded-synchrotron-field-transformations": [
 			{
 				"kind": "mc",
 				"prompt": "In one inertial frame there is a pure magnetic field ($\\mathbf E=0$, $B\\ne0$). Is there another inertial frame in which the magnetic field vanishes and only an electric field is seen?",
@@ -400,12 +560,12 @@
 			},
 			{
 				"kind": "short",
-				"prompt": "Why do radiation fields fall off as $1/r$, while the static Coulomb field of a charge falls as $1/r^2$ and a static dipole field as $1/r^3$, and why does this allow energy to escape to infinity?",
-				"rubric": "Full credit requires: radiation fields are produced by acceleration and come from the retarded potentials; they are transverse and proportional to the acceleration at the retarded time, $E\\sim qa\\sin\\theta/(4\\pi\\varepsilon_0c^2r)$; the Poynting flux $\\propto E^2\\propto1/r^2$ integrated over a sphere of area $4\\pi r^2$ gives a finite, $r$-independent power, so energy flows to infinity; static fields give $S\\to0$ faster (and no net flux).",
-				"modelAnswer": "Radiation arises from accelerating charges. The fields at large $r$ depend on the retarded acceleration and are transverse, $E\\sim qa\\sin\\theta/(4\\pi\\varepsilon_0c^2r)$, falling as $1/r$ (while the Coulomb field is $1/r^2$). The energy flux $S\\propto E^2\\propto1/r^2$ times the area of a sphere $4\\pi r^2$ is independent of $r$: a constant power leaves any sphere, so energy is carried to infinity. Static field energy flux falls off faster than $1/r^2$, so no energy is radiated."
+				"prompt": "Explain why a charge moving at constant velocity does not radiate, using the fact that it is at rest in another inertial frame.",
+				"rubric": "Full credit requires: in the charge's rest frame there is only a static Coulomb field and no radiation; radiated energy flowing to infinity is a statement about fields at large distance that cannot depend on the choice of inertial frame (power is invariant); acceleration is required.",
+				"modelAnswer": "In the frame where the charge is at rest, only a static Coulomb field exists, which carries no energy to infinity. If the charge radiated in one inertial frame it would have to radiate in all, since total radiated energy is frame independent (up to Lorentz factors). So no radiation occurs at constant velocity; radiation requires acceleration, as in the Larmor formula."
 			}
 		],
-		"q-l009-onedim-operator-methods": [
+		"q-l017-onedim-bound-states-scattering-parity": [
 			{
 				"kind": "numeric",
 				"prompt": "An electron moves in an attractive delta-function potential $V(x)=-\\alpha\\,\\delta(x)$ with $\\alpha=1.0$ eV nm. It has one bound state with $E=-m\\alpha^2/(2\\hbar^2)$. Find the binding energy in eV.",
@@ -414,6 +574,26 @@
 				"unit": "eV",
 				"explanation": "$E=-m\\alpha^2/2\\hbar^2$ with $\\alpha=1.602\\times10^{-28}$ J m gives $-1.05\\times10^{-18}$ J $=-6.56$ eV. The wavefunction is $e^{-\\kappa|x|}$ with $\\kappa=m\\alpha/\\hbar^2$ from the derivative jump at the origin."
 			},
+			{
+				"kind": "mc",
+				"prompt": "A particle moves in a symmetric potential $V(x)=V(-x)$. What is $\\langle x\\rangle$ in any non-degenerate bound eigenstate?",
+				"options": [
+					"Positive in the ground state, as the particle sits at the bottom of the well on one side",
+					"It depends on the energy and is generally non-zero",
+					"Undefined, since position is not an observable",
+					"Zero, because eigenstates have definite parity and $|\\psi|^2$ is even"
+				],
+				"answer": 3,
+				"explanation": "With $V(-x)=V(x)$ the Hamiltonian commutes with parity, so non-degenerate eigenstates are even or odd; then $|\\psi|^2$ is even and $\\int x|\\psi|^2dx=0$. Parity also gives selection rules: $\\langle m|x|n\\rangle\\neq0$ only when parities differ."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why an attractive one-dimensional potential well always has at least one bound state, however weak, and why this differs from three dimensions.",
+				"rubric": "Full credit requires: a variational argument with a broad trial function of width $L$: kinetic energy cost scales as $1/L^2$ while the potential-energy gain scales as $-1/L$ (the density at the well is $\\sim1/L$), so for large $L$ the total energy is negative; so a bound state exists; in 3D the radial $s$-wave equation needs $u(0)=0$ (a half-line with a wall), so a minimum well strength is required.",
+				"modelAnswer": "Use a broad normalised trial function of width $L$. Its kinetic energy is about $\\hbar^2/mL^2$, but the probability density at the well is about $1/L$, so the potential energy is about $-\\alpha/L$ (for a delta well of strength $\\alpha$). For large $L$ the $1/L$ gain beats the $1/L^2$ cost, so $\\langle H\\rangle<0$ and the true ground state must be bound. In 3D the radial $s$-wave function must vanish at the origin ($u(0)=0$), like a half-line with a hard wall, so the well must exceed a minimum strength to bind."
+			}
+		],
+		"q-l018-ladder-operators-wavepackets-ehrenfest": [
 			{
 				"kind": "mc",
 				"prompt": "For the harmonic-oscillator eigenstate $|n=1\\rangle$, what is the product $\\Delta x\\,\\Delta p$?",
@@ -439,33 +619,21 @@
 				"explanation": "For $V=\\tfrac12kx^2$, $V'=kx$ is linear, so $\\langle V'\\rangle=k\\langle x\\rangle$ and $\\langle x\\rangle$ obeys the classical equation exactly (coherent states stay Gaussian). For anharmonic potentials $\\langle V'(x)\\rangle\\ne V'(\\langle x\\rangle)$ and quantum corrections appear."
 			},
 			{
-				"kind": "mc",
-				"prompt": "A particle moves in a symmetric potential $V(x)=V(-x)$. What is $\\langle x\\rangle$ in any non-degenerate bound eigenstate?",
-				"options": [
-					"Positive in the ground state, as the particle sits at the bottom of the well on one side",
-					"It depends on the energy and is generally non-zero",
-					"Undefined, since position is not an observable",
-					"Zero, because eigenstates have definite parity and $|\\psi|^2$ is even"
-				],
-				"answer": 3,
-				"explanation": "With $V(-x)=V(x)$ the Hamiltonian commutes with parity, so non-degenerate eigenstates are even or odd; then $|\\psi|^2$ is even and $\\int x|\\psi|^2dx=0$. Parity also gives selection rules: $\\langle m|x|n\\rangle\\neq0$ only when parities differ."
+				"kind": "numeric",
+				"prompt": "A harmonic oscillator with $\\hbar\\omega=0.10$ eV is in the eigenstate $n=2$. By the virial theorem the mean potential energy is half the total. Find $\\langle V\\rangle$ in eV.",
+				"answer": 0.125,
+				"tolerance": 0.02,
+				"unit": "eV",
+				"explanation": "$E_2=(2+\\tfrac12)\\hbar\\omega=0.25$ eV and $\\langle V\\rangle=\\langle T\\rangle=E/2=0.125$ eV. The same result follows from $\\langle x^2\\rangle=(n+\\tfrac12)\\hbar/m\\omega$ computed with the ladder operators."
 			},
 			{
 				"kind": "short",
-				"prompt": "Explain why an attractive one-dimensional potential well always has at least one bound state, however weak, and why this differs from three dimensions.",
-				"rubric": "Full credit requires: a variational argument with a broad trial function of width $L$: kinetic energy cost scales as $1/L^2$ while the potential-energy gain scales as $-1/L$ (the density at the well is $\\sim1/L$), so for large $L$ the total energy is negative; so a bound state exists; in 3D the radial $s$-wave equation needs $u(0)=0$ (a half-line with a wall), so a minimum well strength is required.",
-				"modelAnswer": "Use a broad normalised trial function of width $L$. Its kinetic energy is about $\\hbar^2/mL^2$, but the probability density at the well is about $1/L$, so the potential energy is about $-\\alpha/L$ (for a delta well of strength $\\alpha$). For large $L$ the $1/L$ gain beats the $1/L^2$ cost, so $\\langle H\\rangle<0$ and the true ground state must be bound. In 3D the radial $s$-wave function must vanish at the origin ($u(0)=0$), like a half-line with a hard wall, so the well must exceed a minimum strength to bind."
+				"prompt": "Explain how the ladder operators $a$ and $a^\\dagger$ let you compute expectation values in an oscillator eigenstate without doing any integrals.",
+				"rubric": "Full credit requires: write $x$ and $p$ as combinations of $a$ and $a^\\dagger$; use $a|n\\rangle=\\sqrt n|n-1\\rangle$ and $a^\\dagger|n\\rangle=\\sqrt{n+1}|n+1\\rangle$ and orthonormality, so only terms with equal numbers of $a$ and $a^\\dagger$ survive in $\\langle x^2\\rangle$.",
+				"modelAnswer": "Write $x\\propto(a+a^\\dagger)$ and $p\\propto-i(a-a^\\dagger)$. Acting with $a$ and $a^\\dagger$ on $|n\\rangle$ lowers or raises the state by one, and states of different $n$ are orthogonal, so in $\\langle n|x^2|n\\rangle$ only the terms $aa^\\dagger$ and $a^\\dagger a$ survive, giving $(n+\\tfrac12)\\hbar/m\\omega$ by algebra alone."
 			}
 		],
-		"q-l010-angular-momentum-spin-hydrogen": [
-			{
-				"kind": "numeric",
-				"prompt": "Find the Larmor frequency $f=\\dfrac{1}{2\\pi}\\dfrac{geB}{2m_e}$ of an electron spin in a field of $B=1.0$ T, taking $g=2$. Give the answer in GHz.",
-				"answer": 27.992,
-				"tolerance": 0.02,
-				"unit": "GHz",
-				"explanation": "$f=eB/(2\\pi m_e)=28.0$ GHz per tesla. This is the resonance frequency in electron spin resonance (EPR); a 0.3 T X-band instrument runs near 9.4 GHz. Proton NMR is about 658 times lower (42.6 MHz/T)."
-			},
+		"q-l019-angular-momentum-algebra-addition": [
 			{
 				"kind": "mc",
 				"prompt": "Two spin-$\\tfrac12$ electrons are in the singlet state $(\\uparrow\\downarrow-\\downarrow\\uparrow)/\\sqrt2$. If the $z$-spin of electron 1 is measured, what happens?",
@@ -477,6 +645,42 @@
 				],
 				"answer": 2,
 				"explanation": "The singlet has total $S=0$, so the spins are perfectly anti-correlated whichever axis is measured, while each individual result is random. This is the standard entangled state (and what a singlet-triplet picture means in chemistry for paired electrons)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Adding an orbital angular momentum $l=1$ and an electron spin $s=\\tfrac12$ gives total $j$ equal to:",
+				"options": [
+					"$\\tfrac32$ and $\\tfrac12$",
+					"$\\tfrac32$ only",
+					"$\\tfrac12$ and $1$",
+					"$\\tfrac32$, $\\tfrac12$ and $-\\tfrac12$"
+				],
+				"answer": 0,
+				"explanation": "$j$ runs from $|l-s|$ to $l+s$ in integer steps: $\\tfrac12$ and $\\tfrac32$. The $(2l+1)(2s+1)=6$ product states split into the $j=\\tfrac32$ quartet and $j=\\tfrac12$ doublet."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Find the eigenvalue of $L^2$ for a state with $l=2$, in units of $\\hbar^2$.",
+				"answer": 6.0,
+				"tolerance": 0.02,
+				"unit": "hbar^2",
+				"explanation": "$L^2|l,m\\rangle=\\hbar^2l(l+1)|l,m\\rangle$, so for $l=2$ it is $6\\hbar^2$, while the largest $L_z$ is only $2\\hbar$ (so $|\\mathbf L|=\\sqrt6\\hbar$ cannot point along $z$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Since $[L_x,L_y]=i\\hbar L_z$, explain why a state cannot have sharp values of all three components of $\\mathbf L$ and what can be sharp simultaneously.",
+				"rubric": "Full credit requires: non-commuting operators have no common eigenstates (uncertainty relation); $L^2$ commutes with each component, so $L^2$ and one component (say $L_z$) can be sharp together; this gives the labels $l,m$.",
+				"modelAnswer": "Operators that do not commute cannot share a complete set of eigenstates, so $L_x$, $L_y$, $L_z$ cannot all be sharp. However $L^2$ commutes with each component, so we can specify $L^2$ and one component, $L_z$, giving states $|l,m\\rangle$ labelled by $l(l+1)\\hbar^2$ and $m\\hbar$."
+			}
+		],
+		"q-l020-spin-resonance-hydrogen-transitions": [
+			{
+				"kind": "numeric",
+				"prompt": "Find the Larmor frequency $f=\\dfrac{1}{2\\pi}\\dfrac{geB}{2m_e}$ of an electron spin in a field of $B=1.0$ T, taking $g=2$. Give the answer in GHz.",
+				"answer": 27.992,
+				"tolerance": 0.02,
+				"unit": "GHz",
+				"explanation": "$f=eB/(2\\pi m_e)=28.0$ GHz per tesla. This is the resonance frequency in electron spin resonance (EPR); a 0.3 T X-band instrument runs near 9.4 GHz. Proton NMR is about 658 times lower (42.6 MHz/T)."
 			},
 			{
 				"kind": "mc",
@@ -509,7 +713,7 @@
 				"modelAnswer": "In a static field $B_0$ the spins precess at $\\omega_L=\\gamma B_0$. A weak oscillating field $B_1$ perpendicular to $B_0$ at frequency $\\omega_L$ looks static in the frame rotating with the spins, so it rotates the magnetisation away from $B_0$ at rate $\\gamma B_1$; a pulse of the right duration tips it into the transverse plane. The precessing magnetisation then induces a decaying oscillating voltage (the free-induction decay), and its Fourier transform is the spectrum, with line positions set by local fields (chemical shifts) and widths by relaxation."
 			}
 		],
-		"q-l011-approximation-methods-scattering": [
+		"q-l021-perturbation-variational": [
 			{
 				"kind": "numeric",
 				"prompt": "Use the variational method for helium with each electron in a hydrogenic $1s$ orbital of effective charge $Z'$: $E(Z')=Z'^2-2ZZ'+\\tfrac58Z'$ hartree ($Z=2$). Minimising gives $Z'=27/16$. Find the variational ground-state energy in eV (1 hartree $=27.211$ eV). The experimental value is $-79.0$ eV.",
@@ -517,13 +721,6 @@
 				"tolerance": 0.01,
 				"unit": "eV",
 				"explanation": "$E_{\\min}=-(27/16)^2=-2.848$ hartree $=-77.5$ eV: slightly above (less negative than) the true $-79.0$ eV, as the variational principle requires. The fitted $Z'<2$ represents screening of the nucleus by the other electron."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "A tritium nucleus ($Z=1$) beta-decays suddenly to $^3$He$^+$ ($Z=2$); the electron's wavefunction cannot change instantly. The probability that the electron ends up in the new $1s$ state is $\\left(\\dfrac{2\\sqrt{Z_1Z_2}}{Z_1+Z_2}\\right)^6$. Evaluate it.",
-				"answer": 0.70233,
-				"tolerance": 0.02,
-				"explanation": "$(2\\sqrt2/3)^6=(0.9428)^6\\approx0.702$. So about 70% of the time the ion is left in the ground state and 30% in excited or continuum states: the sudden approximation."
 			},
 			{
 				"kind": "mc",
@@ -556,7 +753,85 @@
 				"modelAnswer": "Any normalised trial function is a superposition of true eigenstates, $\\sum c_n\\psi_n$, so $\\langle H\\rangle=\\sum|c_n|^2E_n\\ge E_0\\sum|c_n|^2=E_0$. The trial function with the lowest energy is therefore the best one, and I improve it by adding variational parameters (more flexibility can only lower the bound). The energy error is second order in the wavefunction error, so even crude functions give decent energies."
 			}
 		],
-		"q-l012-thermodynamics-partition-functions": [
+		"q-l022-wkb-golden-rule-scattering": [
+			{
+				"kind": "numeric",
+				"prompt": "A tritium nucleus ($Z=1$) beta-decays suddenly to $^3$He$^+$ ($Z=2$); the electron's wavefunction cannot change instantly. The probability that the electron ends up in the new $1s$ state is $\\left(\\dfrac{2\\sqrt{Z_1Z_2}}{Z_1+Z_2}\\right)^6$. Evaluate it.",
+				"answer": 0.70233,
+				"tolerance": 0.02,
+				"explanation": "$(2\\sqrt2/3)^6=(0.9428)^6\\approx0.702$. So about 70% of the time the ion is left in the ground state and 30% in excited or continuum states: the sudden approximation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the first Born approximation the scattering amplitude is proportional to:",
+				"options": [
+					"the value of the potential at the origin",
+					"the Fourier transform of the potential at momentum transfer $\\mathbf q$",
+					"the square of the potential integrated over space",
+					"the Laplace transform of the potential at energy $E$"
+				],
+				"answer": 1,
+				"explanation": "$f(\\theta)\\propto\\int V(\\mathbf r)e^{-i\\mathbf q\\cdot\\mathbf r}d^3r$ with $q=2k\\sin(\\theta/2)$; for a Coulomb or Yukawa potential this reproduces Rutherford scattering."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A tunnelling rate $\\propto e^{-2G}$ where $G$ grows in proportion to the barrier width. If the width doubles, the rate becomes:",
+				"options": [
+					"half its previous value",
+					"a quarter of its previous value",
+					"the square of its previous value",
+					"unchanged to first approximation"
+				],
+				"answer": 2,
+				"explanation": "Doubling the width doubles $G$, so $e^{-2G}\\to e^{-4G}=(e^{-2G})^2$. A modest change in geometry changes lifetimes by orders of magnitude, as in alpha decay."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the difference between a sudden and an adiabatic change of the Hamiltonian and what happens to the state of the system in each limit.",
+				"rubric": "Full credit requires: sudden means the change is fast compared with the system's internal timescales, so the state is unchanged and is then expanded in the new eigenstates; adiabatic means slow, so the system follows the instantaneous eigenstate (quantum number preserved).",
+				"modelAnswer": "If the Hamiltonian changes much faster than $\\hbar/\\Delta E$, the wave function has no time to change and is simply re-expanded in the eigenstates of the new Hamiltonian, as in tritium decaying to $^3$He$^+$. If it changes slowly, the adiabatic theorem says a system in the $n$-th eigenstate stays in the instantaneous $n$-th eigenstate, with only its energy changing."
+			}
+		],
+		"q-l023-entropy-maxwell-potentials": [
+			{
+				"kind": "mc",
+				"prompt": "Using the Maxwell relation $(\\partial S/\\partial V)_T=(\\partial P/\\partial T)_V$, what is $(\\partial S/\\partial V)_T$ for an ideal gas?",
+				"options": [
+					"$0$",
+					"$Nk_B/T$",
+					"$Nk_B/V$",
+					"$P$"
+				],
+				"answer": 2,
+				"explanation": "$P=Nk_BT/V$, so $(\\partial P/\\partial T)_V=Nk_B/V$. Integrating gives $\\Delta S=Nk_B\\ln(V_2/V_1)$ at constant $T$, matching the free-expansion result. Maxwell relations convert hard-to-measure entropy derivatives into measurable ones."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a collection of non-interacting two-level spins in a magnetic field can be assigned a negative absolute temperature, and why such a system is 'hotter' than any positive temperature.",
+				"rubric": "Full credit requires: $1/T=\\partial S/\\partial U$; for a bounded spectrum, entropy is maximal at half-filling and decreases as more spins are in the upper level, so $\\partial S/\\partial U<0$ there, giving $T<0$; population inversion ($N_{\\rm up}>N_{\\rm down}$) is described by $e^{-\\varepsilon/kT}>1$; energy flows from the negative-temperature system to any positive-temperature system, so it is hotter.",
+				"modelAnswer": "With a bounded energy spectrum the number of microstates $\\Omega(U)$ peaks when half the spins are up and falls to 1 when all are in the upper level. Where $S=k\\ln\\Omega$ decreases with energy, $1/T=\\partial S/\\partial U<0$: negative temperature, corresponding to more spins in the upper level than the lower (population inversion, as in a laser medium). Putting it in contact with any positive-temperature body, energy flows out of it and entropy increases, so it is hotter than $T=+\\infty$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A paramagnet has $N=100$ spins, of which exactly 50 point up. Compute the dimensionless entropy $S/k_B=\\ln\\Omega$ where $\\Omega=\\binom{100}{50}$.",
+				"answer": 66.784,
+				"tolerance": 0.02,
+				"explanation": "$\\ln\\Omega=\\ln 100!-2\\ln50!=66.78$, close to the Stirling estimate $N\\ln2=69.3$ minus a small correction $\\tfrac12\\ln(\\pi N/2)$. The temperature follows from $1/T=\\partial S/\\partial E$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which thermodynamic potential is minimised at equilibrium for a system held at fixed temperature and fixed pressure?",
+				"options": [
+					"The Gibbs free energy $G$",
+					"The Helmholtz free energy $F$",
+					"The enthalpy $H$",
+					"The internal energy $U$"
+				],
+				"answer": 0,
+				"explanation": "At fixed $T$ and $P$, the second law implies $dG\\le0$. $F$ is minimised at fixed $T$ and $V$, and $H$ and $U$ are not minimised under these conditions. This is why $\\Delta G$ decides the direction of chemical reactions."
+			}
+		],
+		"q-l024-partition-functions-cycles": [
 			{
 				"kind": "numeric",
 				"prompt": "A two-level system has levels $0$ and $\\varepsilon$ with partition function $Z=1+e^{-\\varepsilon/k_BT}$. At $k_BT=\\varepsilon$, what is the mean energy per particle in units of $\\varepsilon$?",
@@ -584,25 +859,13 @@
 				"explanation": "No heat flows and no work is done, so $\\Delta U=0$ and for an ideal gas $\\Delta T=0$. Entropy is a state function: along a reversible isothermal path $\\Delta S=Nk_B\\ln(V_2/V_1)=Nk_B\\ln2>0$. Each molecule has twice as many positions available."
 			},
 			{
-				"kind": "mc",
-				"prompt": "Using the Maxwell relation $(\\partial S/\\partial V)_T=(\\partial P/\\partial T)_V$, what is $(\\partial S/\\partial V)_T$ for an ideal gas?",
-				"options": [
-					"$0$",
-					"$Nk_B/T$",
-					"$Nk_B/V$",
-					"$P$"
-				],
-				"answer": 2,
-				"explanation": "$P=Nk_BT/V$, so $(\\partial P/\\partial T)_V=Nk_B/V$. Integrating gives $\\Delta S=Nk_B\\ln(V_2/V_1)$ at constant $T$, matching the free-expansion result. Maxwell relations convert hard-to-measure entropy derivatives into measurable ones."
-			},
-			{
 				"kind": "short",
-				"prompt": "Explain why a collection of non-interacting two-level spins in a magnetic field can be assigned a negative absolute temperature, and why such a system is 'hotter' than any positive temperature.",
-				"rubric": "Full credit requires: $1/T=\\partial S/\\partial U$; for a bounded spectrum, entropy is maximal at half-filling and decreases as more spins are in the upper level, so $\\partial S/\\partial U<0$ there, giving $T<0$; population inversion ($N_{\\rm up}>N_{\\rm down}$) is described by $e^{-\\varepsilon/kT}>1$; energy flows from the negative-temperature system to any positive-temperature system, so it is hotter.",
-				"modelAnswer": "With a bounded energy spectrum the number of microstates $\\Omega(U)$ peaks when half the spins are up and falls to 1 when all are in the upper level. Where $S=k\\ln\\Omega$ decreases with energy, $1/T=\\partial S/\\partial U<0$: negative temperature, corresponding to more spins in the upper level than the lower (population inversion, as in a laser medium). Putting it in contact with any positive-temperature body, energy flows out of it and entropy increases, so it is hotter than $T=+\\infty$."
+				"prompt": "Explain how the partition function of a two-level system leads to a peak in its heat capacity (the Schottky anomaly), and why the heat capacity vanishes both at very low and very high temperature.",
+				"rubric": "Full credit requires: at $k_BT\\ll\\varepsilon$ the upper level is frozen out so the energy cannot change with $T$; at $k_BT\\gg\\varepsilon$ both levels are equally populated so the energy saturates; the heat capacity peaks at intermediate $k_BT\\sim\\varepsilon$ where population changes fastest.",
+				"modelAnswer": "At $k_BT\\ll\\varepsilon$ the upper level is empty and adding a little heat cannot change its population appreciably, so $C\\to0$. At $k_BT\\gg\\varepsilon$ both levels are almost equally populated and the mean energy saturates at $\\varepsilon/2$, so again $C\\to0$. In between, near $k_BT\\approx0.4\\varepsilon$, the population is changing fastest with $T$ and $C$ has a maximum."
 			}
 		],
-		"q-l013-quantum-gases-phase-transitions": [
+		"q-l025-fermi-gas-debye-solids": [
 			{
 				"kind": "numeric",
 				"prompt": "Treat copper's conduction electrons (density $n=8.47\\times10^{28}\\ \\mathrm{m^{-3}}$) as a free Fermi gas. Compute the Fermi energy $E_F=\\dfrac{\\hbar^2}{2m}(3\\pi^2n)^{2/3}$ in eV.",
@@ -610,14 +873,6 @@
 				"tolerance": 0.02,
 				"unit": "eV",
 				"explanation": "$k_F=(3\\pi^2n)^{1/3}=1.36\\times10^{10}\\ \\mathrm{m^{-1}}$ and $E_F=\\hbar^2k_F^2/2m\\approx7.0$ eV, corresponding to $T_F\\approx8\\times10^4$ K: at room temperature the electron gas is extremely degenerate."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "Estimate the Bose-Einstein condensation temperature of an ideal gas of $^4$He with the density of liquid helium ($145\\ \\mathrm{kg/m^3}$) using $T_c=\\dfrac{2\\pi\\hbar^2}{mk_B}\\left(\\dfrac{n}{\\zeta(3/2)}\\right)^{2/3}$, $\\zeta(3/2)=2.612$. Answer in kelvin.",
-				"answer": 3.1344,
-				"tolerance": 0.03,
-				"unit": "K",
-				"explanation": "$n=145/(6.646\\times10^{-27})=2.18\\times10^{28}\\ \\mathrm{m^{-3}}$, giving $T_c\\approx3.1$ K, close to the real superfluid transition of $^4$He at 2.17 K (interactions shift it)."
 			},
 			{
 				"kind": "mc",
@@ -632,6 +887,22 @@
 				"explanation": "The number of modes with frequency below $k_BT/\\hbar$ is proportional to the $k$-space volume, $\\propto(k_BT)^3$ in 3D. Each carries $\\sim k_BT$ so $U\\propto T^4$ and $C_V=\\partial U/\\partial T\\propto T^3$. The same counting gives the $T^4$ of blackbody (photon) energy."
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain why the electronic heat capacity of a metal at room temperature is only about 1% of the classical equipartition value, and why it is linear in $T$.",
+				"rubric": "Full credit requires: because of the Pauli principle only electrons within ~$k_BT$ of the Fermi energy can absorb thermal energy (others have no empty states); the fraction of such electrons is $\\sim k_BT/E_F\\sim 0.3\\%$ and each gains $\\sim k_BT$, so $U\\sim N(k_BT)^2/E_F$ and $C\\sim Nk_B(k_BT/E_F)\\propto T$.",
+				"modelAnswer": "The Pauli exclusion principle blocks most electrons from absorbing thermal energy, since the states just above them are full. Only a fraction $\\sim k_BT/E_F$ of the electrons, those within $\\sim k_BT$ of the Fermi surface, can be excited, and each gains about $k_BT$. The energy then scales as $N(k_BT)^2/E_F$ and $C_V\\sim Nk_B(k_BT/E_F)$, linear in $T$ and about 1% of $\\tfrac32Nk_B$ at room temperature (where $k_BT/E_F\\sim0.4\\%$)."
+			}
+		],
+		"q-l026-bose-photon-mean-field": [
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the Bose-Einstein condensation temperature of an ideal gas of $^4$He with the density of liquid helium ($145\\ \\mathrm{kg/m^3}$) using $T_c=\\dfrac{2\\pi\\hbar^2}{mk_B}\\left(\\dfrac{n}{\\zeta(3/2)}\\right)^{2/3}$, $\\zeta(3/2)=2.612$. Answer in kelvin.",
+				"answer": 3.1344,
+				"tolerance": 0.03,
+				"unit": "K",
+				"explanation": "$n=145/(6.646\\times10^{-27})=2.18\\times10^{28}\\ \\mathrm{m^{-3}}$, giving $T_c\\approx3.1$ K, close to the real superfluid transition of $^4$He at 2.17 K (interactions shift it)."
+			},
+			{
 				"kind": "mc",
 				"prompt": "Mean-field theory of the Ising model predicts a phase transition with $k_BT_c=zJ$ ($z$ = number of neighbours) in any dimension. What is its main failure?",
 				"options": [
@@ -644,13 +915,25 @@
 				"explanation": "Replacing each spin's neighbours by their average field ignores correlated fluctuations. For $d=1$ the exact $T_c=0$; for $d=2$ the exact $T_c=2.27J/k_B$ against mean-field $4J/k_B$. Mean-field exponents are right only for $d\\ge4$."
 			},
 			{
+				"kind": "mc",
+				"prompt": "The energy density of blackbody radiation in a cavity scales as $T^4$. If the temperature is doubled, the energy density increases by a factor of:",
+				"options": [
+					"2",
+					"4",
+					"8",
+					"16"
+				],
+				"answer": 3,
+				"explanation": "$u=aT^4$, so doubling $T$ multiplies $u$ by $2^4=16$. The same law gives the $T^4$ in the Stefan-Boltzmann flux, and it follows from integrating the Planck distribution over frequency."
+			},
+			{
 				"kind": "short",
-				"prompt": "Explain why the electronic heat capacity of a metal at room temperature is only about 1% of the classical equipartition value, and why it is linear in $T$.",
-				"rubric": "Full credit requires: because of the Pauli principle only electrons within ~$k_BT$ of the Fermi energy can absorb thermal energy (others have no empty states); the fraction of such electrons is $\\sim k_BT/E_F\\sim 0.3\\%$ and each gains $\\sim k_BT$, so $U\\sim N(k_BT)^2/E_F$ and $C\\sim Nk_B(k_BT/E_F)\\propto T$.",
-				"modelAnswer": "The Pauli exclusion principle blocks most electrons from absorbing thermal energy, since the states just above them are full. Only a fraction $\\sim k_BT/E_F$ of the electrons, those within $\\sim k_BT$ of the Fermi surface, can be excited, and each gains about $k_BT$. The energy then scales as $N(k_BT)^2/E_F$ and $C_V\\sim Nk_B(k_BT/E_F)$, linear in $T$ and about 1% of $\\tfrac32Nk_B$ at room temperature (where $k_BT/E_F\\sim0.4\\%$)."
+				"prompt": "Explain what Bose-Einstein condensation is, why it can happen for bosons but not fermions, and roughly what sets the condensation temperature.",
+				"rubric": "Full credit requires: bosons can occupy the same state, so below $T_c$ a macroscopic fraction occupies the ground state; fermions are excluded by the Pauli principle; $T_c$ is where the thermal de Broglie wavelength becomes comparable to the interparticle spacing, so $T_c\\propto\\hbar^2n^{2/3}/mk_B$.",
+				"modelAnswer": "Bosons may all occupy the lowest single-particle state, whereas the Pauli principle forces fermions into successively higher states. When the thermal de Broglie wavelength becomes comparable to the interparticle spacing (quantum degeneracy), the excited states cannot hold all the particles and a macroscopic fraction condenses into the ground state, giving $T_c\\sim\\hbar^2n^{2/3}/mk_B$."
 			}
 		],
-		"q-l014-mixed-atoms-solids-nuclei": [
+		"q-l027-hydrogenic-scaling-nuclear-estimates": [
 			{
 				"kind": "numeric",
 				"prompt": "The He$^+$ ion (nuclear charge $Z=2$, one electron) has levels $E_n=-13.6\\ \\mathrm{eV}\\times Z^2/n^2$. Find the wavelength of its $n=2\\to n=1$ transition (use $hc=1240$ eV nm) in nm.",
@@ -659,6 +942,38 @@
 				"unit": "nm",
 				"explanation": "$\\Delta E=13.6\\times4\\times(1-\\tfrac14)=40.8$ eV, so $\\lambda=1240/40.8\\approx30.4$ nm, in the extreme ultraviolet. Energies scale as $Z^2$ and wavelengths as $1/Z^2$ (relative to hydrogen's 121.6 nm)."
 			},
+			{
+				"kind": "mc",
+				"prompt": "The half-lives of alpha emitters range from $10^{-7}$ s to $10^{17}$ years although the alpha energies lie only between about 4 and 9 MeV. What explains this enormous spread?",
+				"options": [
+					"The nuclei have very different numbers of neutrons, which changes the nuclear force",
+					"Alpha particles are slowed by the electron cloud at different rates",
+					"The strong force varies enormously between neighbouring isotopes",
+					"Tunnelling through the Coulomb barrier, $e^{-2G}$ with $G\\propto Z/\\sqrt E$"
+				],
+				"answer": 3,
+				"explanation": "The Gamow exponent $2G$ is proportional to $Z/\\sqrt E$ for the Coulomb barrier, and is of order 100 for typical alpha emitters, so a modest change in $E$ changes it by tens of units and the rate by many orders of magnitude (the Geiger-Nuttall law)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The ground-state energy of muonic hydrogen is about 186 times that of ordinary hydrogen. Why?",
+				"options": [
+					"The muon's reduced mass is about 186 times the electron's",
+					"The muon's charge is about 207 times larger",
+					"The muon's spin is larger than the electron's",
+					"The proton is lighter in muonic atoms"
+				],
+				"answer": 0,
+				"explanation": "Hydrogenic energies scale with the reduced mass, $E\\propto\\mu$, and the Bohr radius as $1/\\mu$. With $\\mu=m_\\mu m_p/(m_\\mu+m_p)=185.8\\,m_e$, the muon sits about 186 times closer to the proton."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the binding energy per nucleon is roughly constant at about 8 MeV for all but the lightest nuclei, and what this implies about the nuclear force.",
+				"rubric": "Full credit requires: the nuclear force is short range, so each nucleon only interacts with its nearest neighbours (saturation) and the binding energy is proportional to $A$; surface effects reduce light nuclei and Coulomb repulsion reduces heavy ones.",
+				"modelAnswer": "Because the nuclear force has a range of about 1-2 fm, each nucleon interacts only with its few nearest neighbours, so the total binding energy grows in proportion to $A$ (saturation) and the binding energy per nucleon is roughly constant. It is reduced for light nuclei, where more nucleons are on the surface, and for heavy nuclei, where the long-range Coulomb repulsion grows as $Z^2$."
+			}
+		],
+		"q-l028-free-electron-metals-scaling": [
 			{
 				"kind": "numeric",
 				"prompt": "Use the Drude model, $\\sigma=ne^2\\tau/m$, to estimate copper's conductivity with $n=8.47\\times10^{28}\\ \\mathrm{m^{-3}}$ and relaxation time $\\tau=2.5\\times10^{-14}$ s. Give the answer in units of $10^7$ S/m.",
@@ -680,25 +995,13 @@
 				"explanation": "$\\rho=m/ne^2\\tau$. In metals $n$ is constant and $\\tau$ decreases with temperature. In an intrinsic semiconductor with gap $E_g\\sim1$ eV the number of thermally excited carriers rises exponentially with $T$, overwhelming the modest reduction of $\\tau$."
 			},
 			{
-				"kind": "mc",
-				"prompt": "The half-lives of alpha emitters range from $10^{-7}$ s to $10^{17}$ years although the alpha energies lie only between about 4 and 9 MeV. What explains this enormous spread?",
-				"options": [
-					"The nuclei have very different numbers of neutrons, which changes the nuclear force",
-					"Alpha particles are slowed by the electron cloud at different rates",
-					"The strong force varies enormously between neighbouring isotopes",
-					"Tunnelling through the Coulomb barrier, $e^{-2G}$ with $G\\propto Z/\\sqrt E$"
-				],
-				"answer": 3,
-				"explanation": "The Gamow exponent $2G$ is proportional to $Z/\\sqrt E$ for the Coulomb barrier, and is of order 100 for typical alpha emitters, so a modest change in $E$ changes it by tens of units and the rate by many orders of magnitude (the Geiger-Nuttall law)."
-			},
-			{
 				"kind": "short",
 				"prompt": "Using scaling arguments, explain why the fine-structure splitting of atomic levels is of order $\\alpha^2$ times the binding energy.",
 				"rubric": "Full credit requires: electron speed in the atom is $v\\sim\\alpha c$, so relativistic corrections are of relative order $(v/c)^2=\\alpha^2$ (as is the spin-orbit energy, a magnetic interaction of order $\\alpha^2$ times the Coulomb energy); hence splittings $\\sim\\alpha^2\\times E_{\\rm Ry}\\sim10^{-4}$ eV for hydrogen, scaling as $Z^4$ for hydrogen-like ions.",
 				"modelAnswer": "In the Bohr atom the electron's speed is $v=\\alpha c$, so relativistic and magnetic (spin-orbit) corrections are smaller than the Coulomb energy by about $(v/c)^2=\\alpha^2\\approx5\\times10^{-5}$. Fine-structure splittings are therefore $\\sim\\alpha^2\\times13.6\\ \\mathrm{eV}\\sim10^{-4}$ eV in hydrogen, and grow as $Z^4$ in hydrogen-like ions since both $v/c$ and the binding energy scale with $Z$."
 			}
 		],
-		"q-l015-mixed-cross-topic-synthesis": [
+		"q-l029-choosing-methods-spotting-tricks": [
 			{
 				"kind": "numeric",
 				"prompt": "A uniform solid sphere rolls without slipping down a $30^\\circ$ incline. Using energy conservation with $I=\\tfrac25mR^2$ (or $a=g\\sin\\theta/(1+I/mR^2)$), find its linear acceleration in m/s$^2$ ($g=9.81$).",
@@ -706,14 +1009,6 @@
 				"tolerance": 0.02,
 				"unit": "m/s^2",
 				"explanation": "$a=\\dfrac{g\\sin30^\\circ}{1+2/5}=\\tfrac57(9.81)(0.5)\\approx3.50\\ \\mathrm{m/s^2}$: independent of mass and radius, and smaller than a frictionless slider's $4.9$ because some energy goes into rotation."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "Sunlight at Earth has intensity $1361\\ \\mathrm{W/m^2}$. What is the radiation force on a perfectly absorbing sail of area $1\\ \\mathrm{m^2}$ facing the Sun? (Force $=IA/c$.) Answer in micronewtons.",
-				"answer": 4.5398,
-				"tolerance": 0.02,
-				"unit": "uN",
-				"explanation": "Pressure $=I/c=1361/(3.0\\times10^8)=4.5\\times10^{-6}$ Pa, so the force is $4.5\\ \\mu$N. A perfect reflector would feel twice that. Light carries momentum $E/c$."
 			},
 			{
 				"kind": "mc",
@@ -741,9 +1036,37 @@
 			},
 			{
 				"kind": "short",
+				"prompt": "A problem asks for the energy shift of an atom in a weak static field. Explain how you would decide between perturbation theory, the variational method, WKB or an exact solution, and which features of the problem guide the choice.",
+				"rubric": "Full credit requires: a small parameter (weak field) suggests perturbation theory; symmetry (parity) tells which matrix elements vanish and whether degeneracy forces degenerate perturbation theory; variational suits ground states without a small parameter; WKB suits smooth potentials at large quantum numbers; exact solutions only if separable.",
+				"modelAnswer": "The field is weak, so there is a small parameter and perturbation theory is natural. Symmetry decides the order: parity makes the first-order shift vanish for non-degenerate states, so the ground-state shift is second order, but degenerate levels (like hydrogen $n=2$) need degenerate perturbation theory. A variational estimate is an alternative if only an upper bound on the ground state is needed; WKB is for smooth potentials at high quantum number."
+			}
+		],
+		"q-l030-complete-solutions-weakness-diagnosis": [
+			{
+				"kind": "numeric",
+				"prompt": "Sunlight at Earth has intensity $1361\\ \\mathrm{W/m^2}$. What is the radiation force on a perfectly absorbing sail of area $1\\ \\mathrm{m^2}$ facing the Sun? (Force $=IA/c$.) Answer in micronewtons.",
+				"answer": 4.5398,
+				"tolerance": 0.02,
+				"unit": "uN",
+				"explanation": "Pressure $=I/c=1361/(3.0\\times10^8)=4.5\\times10^{-6}$ Pa, so the force is $4.5\\ \\mu$N. A perfect reflector would feel twice that. Light carries momentum $E/c$."
+			},
+			{
+				"kind": "short",
 				"prompt": "Describe how you would use your mock exams to diagnose weak topics and build a one-page formula-and-method sheet.",
 				"rubric": "Full credit requires: log each mock problem by topic and by the type of error (conceptual, setup, algebra, time); identify topics with repeated losses; for each weak topic distil a few key equations, the standard method/trick and a common pitfall into the sheet; review it and retest those topics under time pressure.",
 				"modelAnswer": "After each mock I classify every lost point by topic and by cause (not knowing the physics, wrong setup, algebra slip, ran out of time). The topics with repeated losses go to the top of the study list. For each I write on one page the few governing equations, the standard method or trick, the limiting cases to check, and one typical pitfall. I then redo similar problems under timed conditions and update the sheet, so it holds what I actually forget rather than what I already know."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You have five minutes left on a 30-minute problem and have an answer. What is the best use of the time?",
+				"options": [
+					"Copy the solution out neatly for the grader",
+					"Check units and limiting cases of the result",
+					"Re-derive every step from the start again",
+					"Begin a calculation for another problem"
+				],
+				"answer": 1,
+				"explanation": "A final unit, dimensional and limiting-case check catches most errors cheaply, and graders reward visible checks. Neatness and a second derivation rarely add as much as a targeted check."
 			}
 		]
 	}

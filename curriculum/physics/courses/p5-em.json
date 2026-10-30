@@ -7,6 +7,9 @@
 	"hours": 110,
 	"prereqs": [
 		"p2-em-waves",
+		"m2-multivariable"
+	],
+	"coreqs": [
 		"m5-methods"
 	],
 	"subject": "Electromagnetism",
@@ -28,21 +31,16 @@
 			"summary": "Gradient, divergence, curl, the integral theorems, curvilinear coordinates, the Dirac delta and the Helmholtz theorem: the language that the whole course is written in.",
 			"lessons": [
 				{
-					"id": "p5-l001-vector-algebra-differential-calculus",
-					"title": "Vector algebra and the differential calculus of fields",
-					"minutes": 90,
+					"id": "p5-l001-vector-algebra-gradient",
+					"title": "Vector algebra, separation vectors and the gradient",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Compute dot and cross products, triple products and separation vectors, and use the primed-source / unprimed-field notation correctly",
-						"Compute the gradient of a scalar field and interpret it as the direction and rate of steepest ascent",
-						"Compute the divergence and curl of a vector field in Cartesian coordinates and say what each measures geometrically",
-						"Apply the product rules and second-derivative identities (curl of grad = 0, div of curl = 0, curl of curl) to simplify expressions"
+						"Compute the gradient of a scalar field and interpret it as the direction and rate of steepest ascent"
 					],
 					"keyEquations": [
-						"\\nabla T\\cdot d\\mathbf{l}=dT",
-						"\\nabla\\cdot(\\nabla\\times\\mathbf{A})=0",
-						"\\nabla\\times(\\nabla T)=0",
-						"\\nabla\\times(\\nabla\\times\\mathbf{A})=\\nabla(\\nabla\\cdot\\mathbf{A})-\\nabla^2\\mathbf{A}"
+						"\\nabla T\\cdot d\\mathbf{l}=dT"
 					],
 					"readings": [
 						{
@@ -68,6 +66,39 @@
 							"url": "https://www.youtube.com/watch?v=2XraaWefBd8"
 						},
 						{
+							"source": "David Tong, Cambridge Electromagnetism notes",
+							"title": "Electromagnetism lecture notes (companion reading, with problem sheets)",
+							"url": "https://davidtong.org/teaching/electromagnetism/"
+						}
+					],
+					"demoIdeas": [
+						"Drag two 3D vectors to see the dot product as a projection and the cross product as a perpendicular arrow with its parallelogram area; on a scalar-field heat map, drag a point to see the gradient arrow crossing the level curve at right angles."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l002-divergence-curl-identities",
+					"title": "Divergence, curl and the second-derivative identities",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Compute the divergence and curl of a vector field in Cartesian coordinates and say what each measures geometrically",
+						"Apply the product rules and second-derivative identities (curl of grad = 0, div of curl = 0, curl of curl) to simplify expressions"
+					],
+					"keyEquations": [
+						"\\nabla\\cdot(\\nabla\\times\\mathbf{A})=0",
+						"\\nabla\\times(\\nabla T)=0",
+						"\\nabla\\times(\\nabla\\times\\mathbf{A})=\\nabla(\\nabla\\cdot\\mathbf{A})-\\nabla^2\\mathbf{A}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§1.2",
+							"title": "Differential Calculus"
+						}
+					],
+					"lectures": [
+						{
 							"source": "HKUST / Jeffrey Chasnov: Vector Calculus for Engineers",
 							"title": "Lecture 21: Vector calculus identities",
 							"url": "https://www.youtube.com/watch?v=PCIQueiemzY"
@@ -84,28 +115,45 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l002-integral-calculus-curvilinear",
-					"title": "Integral calculus and curvilinear coordinates",
-					"minutes": 90,
+					"id": "p5-l003-integrals-and-fundamental-theorems",
+					"title": "Line, surface and volume integrals and the three fundamental theorems",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Evaluate line, surface and volume integrals of scalar and vector fields along given paths and over given surfaces",
-						"State the fundamental theorem for gradients, Stokes' theorem and the divergence theorem, and use each to convert an integral",
-						"Write the line, area and volume elements and the gradient, divergence, curl and Laplacian in spherical and cylindrical coordinates",
-						"Choose a coordinate system that matches the symmetry of a charge or current configuration"
+						"State the fundamental theorem for gradients, Stokes' theorem and the divergence theorem, and use each to convert an integral"
 					],
 					"keyEquations": [
 						"\\int_a^b(\\nabla T)\\cdot d\\mathbf{l}=T(b)-T(a)",
 						"\\oint_S\\mathbf{A}\\cdot d\\mathbf{a}=\\int_V(\\nabla\\cdot\\mathbf{A})\\,d\\tau",
-						"\\oint_C\\mathbf{A}\\cdot d\\mathbf{l}=\\int_S(\\nabla\\times\\mathbf{A})\\cdot d\\mathbf{a}",
-						"d\\tau=r^2\\sin\\theta\\,dr\\,d\\theta\\,d\\phi"
+						"\\oint_C\\mathbf{A}\\cdot d\\mathbf{l}=\\int_S(\\nabla\\times\\mathbf{A})\\cdot d\\mathbf{a}"
 					],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§1.3",
 							"title": "Integral Calculus"
-						},
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Divergence theorem visualiser: a closed surface around a point source with flux per patch and a running total compared with the volume integral of div F"
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l004-curvilinear-coordinates-symmetry",
+					"title": "Curvilinear coordinates and choosing coordinates by symmetry",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write the line, area and volume elements and the gradient, divergence, curl and Laplacian in spherical and cylindrical coordinates",
+						"Choose a coordinate system that matches the symmetry of a charge or current configuration"
+					],
+					"keyEquations": [
+						"d\\tau=r^2\\sin\\theta\\,dr\\,d\\theta\\,d\\phi"
+					],
+					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§1.4",
@@ -130,20 +178,18 @@
 						}
 					],
 					"demoIdeas": [
-						"Divergence theorem visualiser: a closed surface around a point source with flux per patch and a running total compared with the volume integral of div F"
+						"Toggle Cartesian, cylindrical and spherical grids and drag a small volume element to watch dτ stretch as r² sinθ dr dθ dφ; pick a charge configuration to see which coordinate system makes the field depend on a single variable."
 					],
 					"practice": []
 				},
 				{
-					"id": "p5-l003-dirac-delta-vector-field-theory",
-					"title": "The Dirac delta function and the theory of vector fields",
-					"minutes": 90,
+					"id": "p5-l005-dirac-delta-function",
+					"title": "The Dirac delta function and the divergence of r-hat over r squared",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"State the defining and sifting properties of the 1D and 3D Dirac delta, and evaluate integrals containing delta functions and their arguments scaled or shifted",
-						"Show that the divergence of r-hat over r squared equals 4 pi times the 3D delta, and use it to resolve the apparent paradox at the origin",
-						"State the Helmholtz theorem and explain why divergence and curl together determine a field that falls off at infinity",
-						"Explain when a curl-free field is a gradient and when a divergence-free field is a curl, and recognise the potentials this sets up for E and B"
+						"Show that the divergence of r-hat over r squared equals 4 pi times the 3D delta, and use it to resolve the apparent paradox at the origin"
 					],
 					"keyEquations": [
 						"\\int f(x)\\,\\delta(x-a)\\,dx=f(a)",
@@ -155,7 +201,25 @@
 							"bookId": "griffiths-em",
 							"ref": "§1.5",
 							"title": "The Dirac Delta Function"
-						},
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Nascent-delta slider: a family of narrowing Gaussians integrated against a test function so the sifting property emerges as the width goes to zero"
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l006-helmholtz-theorem-potentials",
+					"title": "Helmholtz's theorem and the existence of potentials",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"State the Helmholtz theorem and explain why divergence and curl together determine a field that falls off at infinity",
+						"Explain when a curl-free field is a gradient and when a divergence-free field is a curl, and recognise the potentials this sets up for E and B"
+					],
+					"keyEquations": [],
+					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§1.6",
@@ -170,7 +234,7 @@
 						}
 					],
 					"demoIdeas": [
-						"Nascent-delta slider: a family of narrowing Gaussians integrated against a test function so the sifting property emerges as the width goes to zero"
+						"Build a 2D field from source and swirl strengths (sliders for divergence and curl); see it split into a gradient part and a curl part, and add a uniform field to show why the falloff condition at infinity is needed."
 					],
 					"practice": []
 				}
@@ -182,19 +246,47 @@
 			"summary": "Coulomb's law, Gauss's law, the electric potential, electrostatic energy and conductors, developed as a pair of field equations plus boundary conditions.",
 			"lessons": [
 				{
-					"id": "p5-l004-coulomb-superposition-field",
-					"title": "Coulomb's law, superposition and the electric field",
-					"minutes": 90,
+					"id": "p5-l007-coulomb-law-superposition",
+					"title": "Coulomb's law, superposition and charge densities",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"State Coulomb's law and use the superposition principle to find the field of a discrete set of point charges",
-						"Set up and evaluate the field integral for line, surface and volume charge distributions (finite line segment, ring, disc)",
-						"Check an integral result against limiting cases (far field reduces to a point charge, infinite-extent limit gives the known field)",
 						"Convert between charge density, charge per length and total charge using the correct elements"
 					],
 					"keyEquations": [
-						"\\mathbf{E}(\\mathbf r)=\\frac{1}{4\\pi\\epsilon_0}\\int\\frac{\\hat{\\boldsymbol{\\imath}}}{\\imath^{2}}\\rho(\\mathbf r')\\,d\\tau'",
 						"\\mathbf F=Q\\mathbf E"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§2.1",
+							"title": "The Electric Field"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "1-1.1 Coulomb's Law, superposition, charge density",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=e93bc965-22f2-4d01-ba98-ac1500084b06"
+						}
+					],
+					"demoIdeas": [
+						"Field-line explorer: drag point charges around and see field vectors and lines update, with a toggle to display the field of a ring or finite line segment"
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l008-fields-continuous-distributions",
+					"title": "Fields of continuous charge distributions",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Set up and evaluate the field integral for line, surface and volume charge distributions (finite line segment, ring, disc)",
+						"Check an integral result against limiting cases (far field reduces to a point charge, infinite-extent limit gives the known field)"
+					],
+					"keyEquations": [
+						"\\mathbf{E}(\\mathbf r)=\\frac{1}{4\\pi\\epsilon_0}\\int\\frac{\\hat{\\boldsymbol{\\imath}}}{\\imath^{2}}\\rho(\\mathbf r')\\,d\\tau'"
 					],
 					"readings": [
 						{
@@ -216,35 +308,27 @@
 						}
 					],
 					"demoIdeas": [
-						"Field-line explorer: drag point charges around and see field vectors and lines update, with a toggle to display the field of a ring or finite line segment"
+						"Choose a line segment, ring or disc and the number of charge slices: each element's field vector is drawn and summed into E(z) on the axis, which is plotted against the point-charge and infinite-sheet limits."
 					],
 					"practice": []
 				},
 				{
-					"id": "p5-l005-gauss-law-divergence-e",
-					"title": "Flux, Gauss's law and the divergence of E",
-					"minutes": 90,
+					"id": "p5-l009-flux-gauss-law-integral",
+					"title": "Electric flux and Gauss's law in integral form",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Define electric flux and state Gauss's law in integral form",
-						"Derive the differential form div E = rho / epsilon_0 from the Coulomb field of a point charge using the delta function identity",
-						"Explain why Gauss's law is always true but only useful for configurations with enough symmetry",
-						"Interpret field lines and the sign of the divergence in terms of sources and sinks"
+						"Explain why Gauss's law is always true but only useful for configurations with enough symmetry"
 					],
 					"keyEquations": [
-						"\\oint\\mathbf E\\cdot d\\mathbf a=\\frac{Q_{\\rm enc}}{\\epsilon_0}",
-						"\\nabla\\cdot\\mathbf E=\\frac{\\rho}{\\epsilon_0}"
+						"\\oint\\mathbf E\\cdot d\\mathbf a=\\frac{Q_{\\rm enc}}{\\epsilon_0}"
 					],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§2.2.1",
 							"title": "Field Lines, Flux, and Gauss's Law"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§2.2.2",
-							"title": "The Divergence of E"
 						}
 					],
 					"lectures": [
@@ -260,27 +344,83 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l006-gauss-applications-curl-e",
-					"title": "Applications of Gauss's law and the curl of E",
-					"minutes": 90,
+					"id": "p5-l010-divergence-of-e-sources-sinks",
+					"title": "The divergence of E and Gauss's law in differential form",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Derive the differential form div E = rho / epsilon_0 from the Coulomb field of a point charge using the delta function identity",
+						"Interpret field lines and the sign of the divergence in terms of sources and sinks"
+					],
+					"keyEquations": [
+						"\\nabla\\cdot\\mathbf E=\\frac{\\rho}{\\epsilon_0}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§2.2.2",
+							"title": "The Divergence of E"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "1-1.2 Electric field and Maxwell's equations for electrostatics",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b8235ef5-0c1e-45d0-937f-ac15000b47af"
+						}
+					],
+					"demoIdeas": [
+						"Click to place positive and negative charges and see the divergence of E as a colour map, with a draggable small test box whose net outward flux matches the charge inside."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l011-gaussian-surfaces-symmetry",
+					"title": "Applying Gauss's law: choosing a Gaussian surface",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Identify spherical, cylindrical and planar symmetry and choose the Gaussian surface that exploits it",
-						"Find E for a uniformly charged sphere, shell, long cylinder, infinite plane and two parallel plates",
-						"Show that the curl of E vanishes for static point charges and, by superposition, for any static charge distribution",
-						"Explain why E=0 curl is what permits a scalar potential and why it fails once fields vary in time"
+						"Find E for a uniformly charged sphere, shell, long cylinder, infinite plane and two parallel plates"
 					],
 					"keyEquations": [
-						"E\\,4\\pi r^2=\\frac{Q_{\\rm enc}}{\\epsilon_0}",
-						"\\nabla\\times\\mathbf E=0",
-						"\\oint\\mathbf E\\cdot d\\mathbf l=0"
+						"E\\,4\\pi r^2=\\frac{Q_{\\rm enc}}{\\epsilon_0}"
 					],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§2.2.3",
 							"title": "Applications of Gauss's Law"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "1-1.2 Electric field and Maxwell's equations for electrostatics",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b8235ef5-0c1e-45d0-937f-ac15000b47af"
+						}
+					],
+					"demoIdeas": [
+						"Pick spherical, cylindrical or planar symmetry and a charge profile, then choose the Gaussian surface and see the flux through it, the enclosed charge and the resulting E(r) plotted."
+					],
+					"practice": [
+						"Griffiths EM Ch. 2 problems on Gauss's law with spherical, cylindrical and planar symmetry (uniform and non-uniform rho)"
+					]
+				},
+				{
+					"id": "p5-l012-curl-of-e-scalar-potential",
+					"title": "The curl of E and why a scalar potential exists",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Show that the curl of E vanishes for static point charges and, by superposition, for any static charge distribution",
+						"Explain why zero curl of E is what permits a scalar potential and why it fails once fields vary in time"
+					],
+					"keyEquations": [
+						"\\nabla\\times\\mathbf E=0",
+						"\\oint\\mathbf E\\cdot d\\mathbf l=0"
+					],
+					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§2.2.4",
@@ -294,27 +434,22 @@
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b8235ef5-0c1e-45d0-937f-ac15000b47af"
 						}
 					],
-					"demoIdeas": [],
-					"practice": [
-						"Griffiths EM Ch. 2 problems on Gauss's law with spherical, cylindrical and planar symmetry (uniform and non-uniform rho)"
-					]
+					"demoIdeas": [
+						"Drag a closed loop through a static Coulomb field (circulation is always zero) and then through the induced field of a changing B (circulation equals -dΦ/dt), with the work around the loop displayed."
+					],
+					"practice": []
 				},
 				{
-					"id": "p5-l007-electric-potential",
-					"title": "The electric potential",
-					"minutes": 90,
+					"id": "p5-l013-defining-computing-potential",
+					"title": "Defining and computing the electric potential",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Define the potential by integrating E along any path and explain why the result is path-independent",
-						"Compute the potential of point, line, surface and volume charge distributions directly and by integrating a known E",
-						"Recover E as minus the gradient of V and state the Poisson and Laplace equations",
-						"State the boundary conditions across a surface charge: discontinuity of the normal field, continuity of the tangential field and of V"
+						"Compute the potential of point, line, surface and volume charge distributions directly and by integrating a known E"
 					],
 					"keyEquations": [
-						"V(\\mathbf r)=-\\int_{\\mathcal O}^{\\mathbf r}\\mathbf E\\cdot d\\mathbf l",
-						"\\mathbf E=-\\nabla V",
-						"\\nabla^2V=-\\rho/\\epsilon_0",
-						"E^{\\perp}_{\\rm above}-E^{\\perp}_{\\rm below}=\\sigma/\\epsilon_0"
+						"V(\\mathbf r)=-\\int_{\\mathcal O}^{\\mathbf r}\\mathbf E\\cdot d\\mathbf l"
 					],
 					"readings": [
 						{
@@ -341,15 +476,46 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l008-electrostatic-work-energy",
-					"title": "Work and energy in electrostatics",
-					"minutes": 90,
+					"id": "p5-l014-e-from-v-poisson-boundary",
+					"title": "E from V, Poisson and Laplace equations, and boundary conditions",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Recover E as minus the gradient of V and state the Poisson and Laplace equations",
+						"State the boundary conditions across a surface charge: discontinuity of the normal field, continuity of the tangential field and of V"
+					],
+					"keyEquations": [
+						"\\mathbf E=-\\nabla V",
+						"\\nabla^2V=-\\rho/\\epsilon_0",
+						"E^{\\perp}_{\\rm above}-E^{\\perp}_{\\rm below}=\\sigma/\\epsilon_0"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§2.3",
+							"title": "Electric Potential"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "2-1.1 Physical meaning of the electrostatic potential, the Green's function, review of conductors",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c629a118-f09d-4751-81ec-ac27015278f4"
+						}
+					],
+					"demoIdeas": [
+						"Slider for the surface charge σ on a sheet: V(z) is continuous with a kink, E(z) jumps by σ/ε₀ across it, and a thin pillbox and loop show the two boundary conditions."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l015-assembling-charges-field-energy",
+					"title": "Assembling charges: work and field energy",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Compute the work needed to assemble a collection of point charges and a continuous distribution",
-						"Derive the energy density epsilon_0 E squared over 2 and use it to compute the energy of a shell and sphere",
-						"Explain why the energy of a point charge is infinite and why superposition fails for energy",
-						"Relate the energy of a molecule or ionic lattice (Madelung-style sums) to electrostatics of the constituent charges"
+						"Derive the energy density epsilon_0 E squared over 2 and use it to compute the energy of a shell and sphere"
 					],
 					"keyEquations": [
 						"W=\\frac12\\sum_i q_iV(\\mathbf r_i)",
@@ -376,22 +542,47 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l009-conductors-capacitance",
-					"title": "Conductors, induced charge and capacitance",
-					"minutes": 90,
+					"id": "p5-l016-self-energy-superposition-lattice",
+					"title": "Self-energy, why energy is not additive, and lattice energies",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Explain why the energy of a point charge is infinite and why superposition fails for energy",
+						"Relate the energy of a molecule or ionic lattice (Madelung-style sums) to electrostatics of the constituent charges"
+					],
+					"keyEquations": [
+						"W=\\frac{\\epsilon_0}{2}\\int E^2\\,d\\tau"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§2.4",
+							"title": "Work and Energy in Electrostatics"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "4-1.3 Electrostatic and magnetostatic energy",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=ca6fc917-6be9-4a30-b6d2-ac4f011d5c62"
+						}
+					],
+					"demoIdeas": [
+						"Madelung sum for a NaCl-like lattice: enlarge the summation radius and watch the partial sums converge or oscillate, and compare summing by shells of increasing distance with summing by cubes."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l017-ideal-conductor-induced-charge",
+					"title": "Properties of ideal conductors and induced charge",
+					"minutes": 35,
 					"prereqs": [],
 					"objectives": [
 						"State the four properties of an ideal conductor in electrostatic equilibrium (E=0 inside, rho=0 inside, surface equipotential, E perpendicular at the surface)",
-						"Compute induced surface charge for a cavity and for a point charge near a conductor in simple geometries",
-						"Compute the pressure on a conducting surface and the force on a surface charge using the average field",
-						"Define capacitance and compute it for parallel plates, concentric spheres and coaxial cylinders, and the stored energy",
-						"Connect screening in a conductor to Debye screening in an electrolyte as seen in solution chemistry (qualitative)"
+						"Compute induced surface charge for a cavity and for a point charge near a conductor in simple geometries"
 					],
 					"keyEquations": [
-						"\\sigma=-\\epsilon_0\\frac{\\partial V}{\\partial n}",
-						"P=\\frac{\\epsilon_0}{2}E^2",
-						"C=Q/V",
-						"W=\\tfrac12CV^2"
+						"\\sigma=-\\epsilon_0\\frac{\\partial V}{\\partial n}"
 					],
 					"readings": [
 						{
@@ -405,14 +596,74 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "2-1.2 The Poisson equation as a boundary value problem, electrostatic boundary conditions",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f7678921-c226-4b97-869d-ac27015727e6"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Drag a point charge around inside a cavity or near a conducting body: the induced surface charge density is painted on the walls, and the field inside the metal stays zero."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l018-conductor-pressure-screening",
+					"title": "Electrostatic pressure on conductors and Debye screening",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Compute the pressure on a conducting surface and the force on a surface charge using the average field",
+						"Connect screening in a conductor to Debye screening in an electrolyte as seen in solution chemistry (qualitative)"
+					],
+					"keyEquations": [
+						"P=\\frac{\\epsilon_0}{2}E^2"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§2.5",
+							"title": "Conductors"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "2-1.2 The Poisson equation as a boundary value problem, electrostatic boundary conditions",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f7678921-c226-4b97-869d-ac27015727e6"
+						}
+					],
+					"demoIdeas": [
+						"Place an ion in an electrolyte and slide the salt concentration: plot V(r) with screened (Yukawa) decay against the bare Coulomb 1/r, with the Debye length marked."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l019-capacitance-stored-energy",
+					"title": "Capacitance and stored energy",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Define capacitance and compute it for parallel plates, concentric spheres and coaxial cylinders",
+						"Compute the energy stored in a capacitor and explain why capacitance depends only on geometry (and the medium)"
+					],
+					"keyEquations": [
+						"C=Q/V",
+						"W=\\tfrac12CV^2"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§2.5",
+							"title": "Conductors"
+						}
+					],
+					"lectures": [
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "4-3.1 Capacitance matrix between conducting bodies",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=0e31eb88-06ce-4e91-bfd8-ac5001282310"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Choose parallel plates, concentric spheres or coaxial cylinders and sliders for the dimensions: see the field profile, the capacitance and the stored energy at fixed voltage or fixed charge."
+					],
 					"practice": [
 						"Griffiths EM Ch. 2 problems on conducting shells with cavities and on capacitors"
 					]
@@ -425,20 +676,17 @@
 			"summary": "Laplace's equation, uniqueness, images, separation of variables and the multipole expansion: solving for V when charge is not given but boundary conditions are.",
 			"lessons": [
 				{
-					"id": "p5-l010-laplace-equation",
-					"title": "Laplace's equation: harmonic functions",
-					"minutes": 90,
+					"id": "p5-l020-harmonic-functions-mean-value",
+					"title": "Laplace's equation and the mean-value property",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Show that solutions to Laplace's equation have no local maxima or minima and obey the mean-value property",
-						"Solve Laplace's equation in 1D and describe the 2D and 3D behaviour in terms of averaging over neighbours",
-						"Explain the relaxation method: replacing V at a grid point by the average of its neighbours, and run a few iterations by hand",
-						"Explain why Earnshaw's theorem forbids stable electrostatic trapping of a charge"
+						"Solve Laplace's equation in 1D and describe the 2D and 3D behaviour in terms of averaging over neighbours"
 					],
 					"keyEquations": [
 						"\\nabla^2V=0",
-						"V(\\mathbf r)=\\frac{1}{4\\pi R^2}\\oint_{S_R}V\\,da",
-						"V_{ij}\\to\\tfrac14(V_{i+1,j}+V_{i-1,j}+V_{i,j+1}+V_{i,j-1})"
+						"V(\\mathbf r)=\\frac{1}{4\\pi R^2}\\oint_{S_R}V\\,da"
 					],
 					"readings": [
 						{
@@ -455,11 +703,6 @@
 							"bookId": "griffiths-em",
 							"ref": "§3.1.3",
 							"title": "Laplace's Equation in Two Dimensions"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§3.1.4",
-							"title": "Laplace's Equation in Three Dimensions"
 						}
 					],
 					"lectures": [
@@ -467,7 +710,33 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "2-1.2 The Poisson equation as a boundary value problem, electrostatic boundary conditions",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f7678921-c226-4b97-869d-ac27015727e6"
-						},
+						}
+					],
+					"demoIdeas": [
+						"A grid of potentials with fixed boundary values: click an interior point to compare its value with the average on a surrounding circle, and try (and fail) to create an interior maximum."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l021-relaxation-earnshaw",
+					"title": "The relaxation method and Earnshaw's theorem",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Explain the relaxation method: replacing V at a grid point by the average of its neighbours, and run a few iterations by hand",
+						"Explain why Earnshaw's theorem forbids stable electrostatic trapping of a charge"
+					],
+					"keyEquations": [
+						"V_{ij}\\to\\tfrac14(V_{i+1,j}+V_{i-1,j}+V_{i,j+1}+V_{i,j-1})"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§3.1.4",
+							"title": "Laplace's Equation in Three Dimensions"
+						}
+					],
+					"lectures": [
 						{
 							"source": "David Tong, Cambridge Electromagnetism notes",
 							"title": "Electromagnetism lecture notes (companion reading, with problem sheets)",
@@ -480,15 +749,13 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l011-uniqueness-theorems",
-					"title": "Boundary conditions and uniqueness theorems",
-					"minutes": 75,
+					"id": "p5-l022-first-uniqueness-theorem",
+					"title": "The first uniqueness theorem",
+					"minutes": 38,
 					"prereqs": [],
 					"objectives": [
 						"State and prove the first uniqueness theorem for Poisson's equation with Dirichlet data",
-						"State the second uniqueness theorem for conductors with specified total charges",
-						"Explain why a guessed solution that satisfies the equation and boundary conditions is the solution",
-						"Explain why the field inside a charge-free cavity in a conductor is zero (the shielding / Faraday cage argument)"
+						"Explain why a guessed solution that satisfies the equation and boundary conditions is the solution"
 					],
 					"keyEquations": [
 						"\\nabla^2V_3=0,\\;V_3|_S=0\\Rightarrow V_3=0"
@@ -498,7 +765,31 @@
 							"bookId": "griffiths-em",
 							"ref": "§3.1.5",
 							"title": "Boundary Conditions and Uniqueness Theorems"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "2-1.2 The Poisson equation as a boundary value problem, electrostatic boundary conditions",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f7678921-c226-4b97-869d-ac27015727e6"
+						}
+					],
+					"demoIdeas": [
+						"Relax two different starting guesses on the same boundary data and plot their difference, which always goes to zero; then alter the boundary of one guess to see the difference stay nonzero."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l023-conductors-second-uniqueness-shielding",
+					"title": "Conductors, the second uniqueness theorem and shielding",
+					"minutes": 37,
+					"prereqs": [],
+					"objectives": [
+						"State the second uniqueness theorem for conductors with specified total charges",
+						"Explain why the field inside a charge-free cavity in a conductor is zero (the shielding / Faraday cage argument)"
+					],
+					"keyEquations": [],
+					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§3.1.6",
@@ -512,24 +803,23 @@
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f7678921-c226-4b97-869d-ac27015727e6"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Move a charge around outside a conducting box and see the field inside the empty cavity remain zero; open a gap in the box to watch the field leak in."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l012-method-of-images",
-					"title": "The method of images",
-					"minutes": 105,
+					"id": "p5-l024-images-grounded-plane-induced-charge",
+					"title": "Image charge for a grounded plane: potential and induced charge",
+					"minutes": 35,
 					"prereqs": [],
 					"objectives": [
 						"Replace a grounded conducting plane by an image charge and compute V and E above it",
-						"Compute the induced surface charge, the total induced charge, the force on the real charge, and the energy of an image-charge configuration (including the factor of 1/2)",
-						"Apply images to a grounded conducting sphere (image charge and position) and explain the construction",
-						"State why uniqueness justifies the method and when it does not apply (no matching image configuration)"
+						"Compute the induced surface charge density and the total induced charge on the plane"
 					],
 					"keyEquations": [
 						"V=\\frac{1}{4\\pi\\epsilon_0}\\left[\\frac{q}{\\imath_+}-\\frac{q}{\\imath_-}\\right]",
-						"\\sigma=-\\epsilon_0\\frac{\\partial V}{\\partial z}\\Big|_{z=0}",
-						"q'=-\\frac{R}{a}q,\\quad b=\\frac{R^2}{a}"
+						"\\sigma=-\\epsilon_0\\frac{\\partial V}{\\partial z}\\Big|_{z=0}"
 					],
 					"readings": [
 						{
@@ -543,7 +833,62 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "2-2.1 A point charge in front of a grounded plane",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=802add9b-6a28-415d-b696-ac3201639b10"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Image-charge viewer: drag a charge near a grounded plane or sphere and see the real region field, the image and the induced charge density"
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l025-images-force-energy",
+					"title": "Force and energy of a charge near a grounded plane",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Compute the force on the real charge due to the induced charge, using the image",
+						"Compute the energy of an image-charge configuration, including the factor of 1/2"
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§3.2",
+							"title": "The Method of Images"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "2-2.1 A point charge in front of a grounded plane",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=802add9b-6a28-415d-b696-ac3201639b10"
+						}
+					],
+					"demoIdeas": [
+						"Drag a charge toward a grounded plane: plot the attractive force and the energy against height, with the work integral shaded to show why the energy is half the pair's interaction energy."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l026-images-grounded-sphere-limits",
+					"title": "The grounded sphere and the limits of the method of images",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Apply images to a grounded conducting sphere (image charge and position) and explain the construction",
+						"State why uniqueness justifies the method and when it does not apply (no matching image configuration)"
+					],
+					"keyEquations": [
+						"q'=-\\frac{R}{a}q,\\quad b=\\frac{R^2}{a}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§3.2",
+							"title": "The Method of Images"
+						}
+					],
+					"lectures": [
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "2-2.2 A point charge in front of a grounded sphere",
@@ -556,24 +901,52 @@
 						}
 					],
 					"demoIdeas": [
-						"Image-charge viewer: drag a charge near a grounded plane or sphere and see the real region field, the image and the induced charge density"
+						"Slider for the charge position outside a grounded sphere: the image charge, its location and the induced surface charge density update, and a switch lets the sphere radius grow into the plane limit."
 					],
 					"practice": []
 				},
 				{
-					"id": "p5-l013-separation-cartesian",
-					"title": "Separation of variables in Cartesian coordinates",
-					"minutes": 105,
+					"id": "p5-l027-separation-of-variables-method",
+					"title": "Separating variables in Laplace's equation",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Separate Laplace's equation into ordinary differential equations with separation constants whose signs follow from the boundary conditions",
-						"Solve for V inside a rectangular slot with given edge potentials as a Fourier sine series",
-						"Use orthogonality of sines to extract coefficients and state why the series is complete",
 						"Identify when exponentials versus sinusoids appear in each variable"
 					],
 					"keyEquations": [
 						"V(x,y)=X(x)Y(y)",
-						"\\frac{X''}{X}=k^2,\\;\\frac{Y''}{Y}=-k^2",
+						"\\frac{X''}{X}=k^2,\\;\\frac{Y''}{Y}=-k^2"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§3.3.1",
+							"title": "Cartesian Coordinates"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "2-3.1 Separation of variables in rectangular coordinates",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a32c02b9-e913-4cef-bf19-ac330165680c"
+						}
+					],
+					"demoIdeas": [
+						"Choose the sign of the separation constant and see the shapes X(x) and Y(y) (sinusoids or exponentials); the combination that satisfies two zero walls and a decay condition is highlighted."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l028-fourier-series-slot",
+					"title": "The rectangular slot: Fourier-series solution and orthogonality",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Solve for V inside a rectangular slot with given edge potentials as a Fourier sine series",
+						"Use orthogonality of sines to extract coefficients and state why the series is complete"
+					],
+					"keyEquations": [
 						"C_n=\\frac{2}{a}\\int_0^aV_0(y)\\sin\\frac{n\\pi y}{a}\\,dy"
 					],
 					"readings": [
@@ -596,15 +969,13 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l014-separation-spherical",
-					"title": "Separation of variables in spherical coordinates",
-					"minutes": 105,
+					"id": "p5-l029-legendre-series-laplace",
+					"title": "Legendre-series solutions of Laplace's equation in spherical coordinates",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Write the general azimuthally-symmetric solution of Laplace's equation as a sum of r^l and r^-(l+1) times Legendre polynomials",
-						"Use orthogonality of the Legendre polynomials to fit coefficients for a spherical shell with given V(theta)",
-						"Find the potential of a conducting sphere in a uniform field and the induced surface charge",
-						"Explain the connection between the angular solutions and the spherical harmonics / hydrogen orbitals studied in chemistry"
+						"Use orthogonality of the Legendre polynomials to fit coefficients for a spherical shell with given V(theta)"
 					],
 					"keyEquations": [
 						"V(r,\\theta)=\\sum_{l=0}^{\\infty}\\left(A_lr^l+\\frac{B_l}{r^{l+1}}\\right)P_l(\\cos\\theta)",
@@ -622,11 +993,6 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "2-3.3 Separation of variables in spherical coordinates",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a10b43d9-b2ec-4bd2-b6a2-ac3401416522"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "2-3.4 Examples with azimuthal symmetry",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f6c3af2f-8eb9-4128-ae74-ac340157084d"
 						}
 					],
 					"demoIdeas": [
@@ -635,31 +1001,52 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l015-multipole-monopole-dipole",
-					"title": "The multipole expansion: monopole and dipole",
-					"minutes": 90,
+					"id": "p5-l030-conducting-sphere-uniform-field",
+					"title": "A conducting sphere in a uniform field, and spherical harmonics in chemistry",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Find the potential of a conducting sphere in a uniform field and the induced surface charge",
+						"Explain the connection between the angular solutions and the spherical harmonics / hydrogen orbitals studied in chemistry"
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§3.3.2",
+							"title": "Spherical Coordinates"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "2-3.4 Examples with azimuthal symmetry",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f6c3af2f-8eb9-4128-ae74-ac340157084d"
+						}
+					],
+					"demoIdeas": [
+						"Slider for E₀: field lines and equipotentials around a neutral conducting sphere, with the induced surface charge ∝ cosθ coloured on the surface, and a toggle to swap in a dielectric sphere."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l031-multipole-expansion-potential",
+					"title": "The multipole expansion of the potential",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Expand the potential of a localised charge distribution at large distance in powers of 1/r with Legendre polynomials",
-						"Identify the monopole, dipole and quadrupole terms and compute the dipole moment of a charge distribution",
-						"Explain why the dipole moment is origin-independent only when the total charge is zero",
-						"Compute the potential and field of an ideal dipole and the distinction between a physical dipole and an ideal point dipole"
+						"Identify the monopole, dipole and quadrupole terms and compute the dipole moment of a charge distribution"
 					],
 					"keyEquations": [
 						"V(\\mathbf r)=\\frac{1}{4\\pi\\epsilon_0}\\sum_{n}\\frac{1}{r^{n+1}}\\int(r')^nP_n(\\cos\\alpha)\\rho(\\mathbf r')d\\tau'",
-						"\\mathbf p=\\int\\mathbf r'\\rho(\\mathbf r')\\,d\\tau'",
-						"V_{\\rm dip}=\\frac{\\mathbf p\\cdot\\hat{\\mathbf r}}{4\\pi\\epsilon_0r^2}"
+						"\\mathbf p=\\int\\mathbf r'\\rho(\\mathbf r')\\,d\\tau'"
 					],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§3.4.1",
 							"title": "Approximate Potentials at Large Distances"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§3.4.2",
-							"title": "The Monopole and Dipole Terms"
 						}
 					],
 					"lectures": [
@@ -675,20 +1062,48 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l016-multipole-field-dipole",
-					"title": "Origin dependence and the field of a dipole",
-					"minutes": 90,
+					"id": "p5-l032-dipole-origin-ideal-dipole",
+					"title": "Origin dependence of the dipole moment and the ideal dipole",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Explain why the dipole moment is origin-independent only when the total charge is zero",
+						"Compute the potential of an ideal dipole and explain the distinction between a physical dipole and an ideal point dipole"
+					],
+					"keyEquations": [
+						"\\mathbf p=\\int\\mathbf r'\\rho(\\mathbf r')\\,d\\tau'",
+						"V_{\\rm dip}=\\frac{\\mathbf p\\cdot\\hat{\\mathbf r}}{4\\pi\\epsilon_0r^2}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§3.4.2",
+							"title": "The Monopole and Dipole Terms"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "2-4.1 The monopole, dipole, and quadrupole moments, general expansion",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a3e91c00-723d-4746-8bc5-ac3500f797f0"
+						}
+					],
+					"demoIdeas": [
+						"Charges on a line with a movable origin: the dipole moment changes with the origin when the net charge is nonzero and stays fixed for a neutral system; shrink the separation at fixed p to approach an ideal dipole."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l033-dipole-field-quadrupole",
+					"title": "The electric field of a dipole and the quadrupole term",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Compute the Cartesian components of E for an ideal dipole and sketch the field pattern",
-						"Compute the energy, force and torque of a dipole in an external field",
-						"Add up the quadrupole contribution for a simple charge arrangement",
-						"Connect molecular dipole moments (water, HCl) and their orientation energy in a field to solvent and microwave-spectroscopy behaviour"
+						"Add up the quadrupole contribution for a simple charge arrangement"
 					],
 					"keyEquations": [
-						"\\mathbf E_{\\rm dip}=\\frac{p}{4\\pi\\epsilon_0r^3}\\left(2\\cos\\theta\\,\\hat r+\\sin\\theta\\,\\hat\\theta\\right)",
-						"\\mathbf N=\\mathbf p\\times\\mathbf E",
-						"U=-\\mathbf p\\cdot\\mathbf E"
+						"\\mathbf E_{\\rm dip}=\\frac{p}{4\\pi\\epsilon_0r^3}\\left(2\\cos\\theta\\,\\hat r+\\sin\\theta\\,\\hat\\theta\\right)"
 					],
 					"readings": [
 						{
@@ -714,7 +1129,35 @@
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=fe91e266-72eb-4eff-bdfd-ac35014fbff3"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Probe the dipole field at any angle (E_r and E_θ readouts), then stack a second dipole to build a quadrupole and compare the 1/r² and 1/r³ fall-offs on a log plot."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l034-dipole-in-external-field-molecular-dipoles",
+					"title": "Dipoles in external fields and molecular dipole moments",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Compute the energy, force and torque of a dipole in an external field",
+						"Connect molecular dipole moments (water, HCl) and their orientation energy in a field to solvent and microwave-spectroscopy behaviour"
+					],
+					"keyEquations": [
+						"\\mathbf N=\\mathbf p\\times\\mathbf E",
+						"U=-\\mathbf p\\cdot\\mathbf E"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§3.4.4",
+							"title": "The Electric Field of a Dipole"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Rotate a dipole in uniform and non-uniform fields to read torque, force and energy -p·E; a temperature slider shows the Boltzmann alignment of water molecules in the field."
+					],
 					"practice": [
 						"Griffiths EM Ch. 3 problems on dipoles and on exact versus approximate multipole expansions"
 					]
@@ -727,15 +1170,13 @@
 			"summary": "Polarisation, bound charge, the displacement field D and linear dielectrics: how the field changes when a medium (a solvent, a crystal) is present.",
 			"lessons": [
 				{
-					"id": "p5-l017-polarization-bound-charge",
-					"title": "Polarisation and the field of a polarised object",
-					"minutes": 90,
+					"id": "p5-l035-polarization-bound-charge-densities",
+					"title": "Polarisation and bound charge",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Distinguish induced and permanent dipoles and compute the torque on a dipole in a uniform field",
-						"Define polarisation P and compute bound surface and volume charge densities from it",
-						"Compute the field of a uniformly polarised sphere and show it is uniform inside",
-						"Explain the physical origin of bound charge and why it is the same kind of charge as free charge in the field equations"
+						"Define polarisation P and compute bound surface and volume charge densities from it"
 					],
 					"keyEquations": [
 						"\\mathbf P=\\frac{d\\mathbf p}{d\\tau}",
@@ -748,7 +1189,31 @@
 							"bookId": "griffiths-em",
 							"ref": "§4.1",
 							"title": "Polarization"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "3-1.1 Dielectric materials and bound charge",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2fb4465a-4f73-4b60-98c4-ac420147e6e3"
+						}
+					],
+					"demoIdeas": [
+						"Polarised-slab visualiser: tune P(r) and watch the bound surface and volume charge distributions appear"
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l036-polarised-sphere-bound-charge-origin",
+					"title": "The field of a polarised object and the origin of bound charge",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Compute the field of a uniformly polarised sphere and show it is uniform inside",
+						"Explain the physical origin of bound charge and why it is the same kind of charge as free charge in the field equations"
+					],
+					"keyEquations": [],
+					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§4.2",
@@ -758,36 +1223,27 @@
 					"lectures": [
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "3-1.1 Dielectric materials and bound charge",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=2fb4465a-4f73-4b60-98c4-ac420147e6e3"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "3-3.2 Examples: a uniformly polarized sphere, and a uniformly magnetized sphere",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=06359d25-3250-4f31-bb28-ac430126d43a"
 						}
 					],
 					"demoIdeas": [
-						"Polarised-slab visualiser: tune P(r) and watch the bound surface and volume charge distributions appear"
+						"Slider for the polarisation direction and size of a uniformly polarised sphere: the bound surface charge σ_b = P cosθ is painted on the surface and the interior field is shown to be uniform."
 					],
 					"practice": []
 				},
 				{
-					"id": "p5-l018-displacement-d",
-					"title": "The electric displacement D and boundary conditions",
-					"minutes": 90,
+					"id": "p5-l037-displacement-field-gauss-free-charge",
+					"title": "The displacement field D and Gauss's law for free charge",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Define D and derive Gauss's law for D in terms of free charge alone",
-						"Explain why D is not determined by free charge alone (the curl of D need not vanish) and when D = epsilon_0 E still holds by symmetry",
-						"State the boundary conditions for D, E, and V at a dielectric interface",
-						"Solve a problem where free charge sits in a dielectric using Gauss's law for D"
+						"Explain why D is not determined by free charge alone (the curl of D need not vanish) and when D = epsilon_0 E still holds by symmetry"
 					],
 					"keyEquations": [
 						"\\mathbf D=\\epsilon_0\\mathbf E+\\mathbf P",
-						"\\nabla\\cdot\\mathbf D=\\rho_f",
-						"D^{\\perp}_{\\rm above}-D^{\\perp}_{\\rm below}=\\sigma_f",
-						"E^{\\parallel}_{\\rm above}=E^{\\parallel}_{\\rm below}"
+						"\\nabla\\cdot\\mathbf D=\\rho_f"
 					],
 					"readings": [
 						{
@@ -803,35 +1259,84 @@
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=013f7abb-4c8c-4e1e-8575-ac420166a564"
 						},
 						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "3-3.1 Boundary conditions at surfaces and interfaces of dielectric and magnetic materials",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=6c749af1-c840-4151-975e-ac430119d846"
-						},
-						{
 							"source": "MIT OCW 8.07 (Fall 2012)",
 							"title": "Electromagnetism II (Guth, Chen): lecture notes, problem sets, exams",
 							"url": "https://ocw.mit.edu/courses/8-07-electromagnetism-ii-fall-2012/"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"A point charge in a dielectric with an ε_r slider: plot E, D and P against r and see the bound-charge cloud; D stays fixed while E drops by 1/ε_r."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l019-linear-dielectrics",
-					"title": "Linear dielectrics",
-					"minutes": 105,
+					"id": "p5-l038-dielectric-boundary-conditions",
+					"title": "Boundary conditions at a dielectric interface and charge in a dielectric",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"State the boundary conditions for D, E, and V at a dielectric interface",
+						"Solve a problem where free charge sits in a dielectric using Gauss's law for D"
+					],
+					"keyEquations": [
+						"D^{\\perp}_{\\rm above}-D^{\\perp}_{\\rm below}=\\sigma_f",
+						"E^{\\parallel}_{\\rm above}=E^{\\parallel}_{\\rm below}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§4.3",
+							"title": "The Electric Displacement"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "3-3.1 Boundary conditions at surfaces and interfaces of dielectric and magnetic materials",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=6c749af1-c840-4151-975e-ac430119d846"
+						}
+					],
+					"demoIdeas": [
+						"Field lines crossing a planar interface between two dielectrics at an adjustable angle: sliders for ε₁ and ε₂ show the lines bend, with live readouts of the conserved D⊥ and E∥."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l039-linear-dielectrics-capacitors",
+					"title": "Linear dielectrics: susceptibility and capacitors",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Use the susceptibility and dielectric constant to relate P, D and E in a linear medium",
-						"Compute capacitance with a dielectric filling or partly filling a capacitor",
-						"Solve a boundary-value problem with a dielectric sphere in a uniform field",
-						"Relate atomic polarisability to the dielectric constant with the Clausius-Mossotti relation and explain why polar solvents like water screen ions (a chemistry hook: Born solvation energy)",
-						"Compute the energy stored in a dielectric system and the force on a dielectric slab"
+						"Compute capacitance with a dielectric filling or partly filling a capacitor"
 					],
 					"keyEquations": [
 						"\\mathbf P=\\epsilon_0\\chi_e\\mathbf E,\\quad \\mathbf D=\\epsilon\\mathbf E,\\quad \\epsilon=\\epsilon_0(1+\\chi_e)",
-						"\\epsilon_r=\\frac{\\epsilon}{\\epsilon_0}",
-						"W=\\frac12\\int\\mathbf D\\cdot\\mathbf E\\,d\\tau",
+						"\\epsilon_r=\\frac{\\epsilon}{\\epsilon_0}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§4.4",
+							"title": "Linear Dielectrics"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slider for the fraction of a capacitor gap filled by a dielectric of chosen ε_r, with a switch between fixed Q and fixed V: E, V, C and stored energy update."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l040-polarizability-clausius-mossotti-born",
+					"title": "Atomic polarisability, Clausius-Mossotti and the Born solvation energy",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Relate atomic polarisability to the dielectric constant with the Clausius-Mossotti relation",
+						"Explain why polar solvents like water screen ions and estimate the Born solvation energy (chemistry hook)"
+					],
+					"keyEquations": [
 						"\\alpha=\\frac{3\\epsilon_0}{N}\\frac{\\epsilon_r-1}{\\epsilon_r+2}"
 					],
 					"readings": [
@@ -854,6 +1359,31 @@
 						}
 					],
 					"demoIdeas": [
+						"Gas density slider comparing the dilute linear law with the Clausius-Mossotti curve for ε_r; an ion radius slider shows the Born solvation energy in water compared with vacuum."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l041-dielectric-sphere-energy-force",
+					"title": "A dielectric sphere in a field, stored energy and forces on dielectrics",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Solve a boundary-value problem with a dielectric sphere in a uniform field",
+						"Compute the energy stored in a dielectric system and the force on a dielectric slab"
+					],
+					"keyEquations": [
+						"W=\\frac12\\int\\mathbf D\\cdot\\mathbf E\\,d\\tau"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§4.4",
+							"title": "Linear Dielectrics"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
 						"Dielectric slab: slide a slab into a charged capacitor and display E, D, P, stored energy and force at fixed Q versus fixed V"
 					],
 					"practice": []
@@ -866,18 +1396,46 @@
 			"summary": "The Lorentz force, Biot-Savart and Ampere laws, the vector potential, and magnetisation with the auxiliary field H (hooks to NMR and magnetic susceptibility).",
 			"lessons": [
 				{
-					"id": "p5-l020-lorentz-force-currents",
-					"title": "The Lorentz force and currents",
-					"minutes": 90,
+					"id": "p5-l042-lorentz-force-motion-fields",
+					"title": "The Lorentz force: motion in electric and magnetic fields",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Write the Lorentz force and compute cyclotron motion and drift in uniform E and B",
-						"Show that magnetic forces do no work and explain how this squares with a magnetic field accelerating a charge's direction",
+						"Show that magnetic forces do no work and explain how this squares with a magnetic field changing a charge's direction"
+					],
+					"keyEquations": [
+						"\\mathbf F=q(\\mathbf E+\\mathbf v\\times\\mathbf B)"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§5.1",
+							"title": "The Lorentz Force Law"
+						}
+					],
+					"lectures": [
+						{
+							"source": "David Tong, Cambridge Electromagnetism notes",
+							"title": "Electromagnetism lecture notes (companion reading, with problem sheets)",
+							"url": "https://davidtong.org/teaching/electromagnetism/"
+						}
+					],
+					"demoIdeas": [
+						"Charged-particle motion in E and B: pick the field strengths and initial velocity to see helices, cycloids and E x B drift"
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l043-current-densities-force-on-wires",
+					"title": "Current densities, continuity and forces on wires",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
 						"Define line, surface and volume current densities and the continuity equation for steady currents",
 						"Compute the force on a current-carrying wire and the force between parallel wires"
 					],
 					"keyEquations": [
-						"\\mathbf F=q(\\mathbf E+\\mathbf v\\times\\mathbf B)",
 						"\\mathbf I=\\lambda\\mathbf v,\\;\\mathbf K=\\sigma\\mathbf v,\\;\\mathbf J=\\rho\\mathbf v",
 						"\\nabla\\cdot\\mathbf J=-\\partial\\rho/\\partial t"
 					],
@@ -893,33 +1451,24 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "1-2.1 Magnetic fields, current density, charge conservation",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=9f25bf49-995a-4526-9e00-ac1500e7cbd3"
-						},
-						{
-							"source": "David Tong, Cambridge Electromagnetism notes",
-							"title": "Electromagnetism lecture notes (companion reading, with problem sheets)",
-							"url": "https://davidtong.org/teaching/electromagnetism/"
 						}
 					],
 					"demoIdeas": [
-						"Charged-particle motion in E and B: pick the field strengths and initial velocity to see helices, cycloids and E x B drift"
+						"A wire whose cross-section can narrow, with uniform or radially varying current density: the total current and local J are shown, continuity holds along the wire, and a field slider gives the force on a segment."
 					],
 					"practice": []
 				},
 				{
-					"id": "p5-l021-biot-savart",
-					"title": "The Biot-Savart law",
-					"minutes": 90,
+					"id": "p5-l044-biot-savart-law-direction-limits",
+					"title": "The Biot-Savart law: direction and limiting cases",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"State the Biot-Savart law for line, surface and volume currents",
-						"Compute B for a straight wire (finite and infinite), a circular loop on its axis, and a solenoid by superposition",
-						"Compute the force between two parallel wires and relate it to the definition of the ampere",
 						"Check each answer by limiting cases and the right-hand rule"
 					],
 					"keyEquations": [
-						"\\mathbf B(\\mathbf r)=\\frac{\\mu_0}{4\\pi}\\int\\frac{\\mathbf I\\times\\hat{\\boldsymbol{\\imath}}}{\\imath^2}dl'",
-						"B=\\frac{\\mu_0I}{2\\pi s}",
-						"B_{\\rm loop}=\\frac{\\mu_0IR^2}{2(R^2+z^2)^{3/2}}"
+						"\\mathbf B(\\mathbf r)=\\frac{\\mu_0}{4\\pi}\\int\\frac{\\mathbf I\\times\\hat{\\boldsymbol{\\imath}}}{\\imath^2}dl'"
 					],
 					"readings": [
 						{
@@ -941,19 +1490,79 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l022-ampere-law-div-curl-b",
-					"title": "The divergence and curl of B: Ampere's law",
-					"minutes": 90,
+					"id": "p5-l045-fields-wires-loops-solenoids",
+					"title": "Fields of wires, loops and solenoids, and the force between wires",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Compute B for a straight wire (finite and infinite), a circular loop on its axis, and a solenoid by superposition",
+						"Compute the force between two parallel wires and relate it to the definition of the ampere"
+					],
+					"keyEquations": [
+						"B=\\frac{\\mu_0I}{2\\pi s}",
+						"B_{\\rm loop}=\\frac{\\mu_0IR^2}{2(R^2+z^2)^{3/2}}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§5.2",
+							"title": "The Biot-Savart Law"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "1-2.1 Magnetic fields, current density, charge conservation",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=9f25bf49-995a-4526-9e00-ac1500e7cbd3"
+						}
+					],
+					"demoIdeas": [
+						"Choose a finite wire, a loop or a solenoid with N turns: plot B along the axis against the infinite-wire and ideal-solenoid limits, and add a second wire to see the force between them."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l046-divergence-curl-of-b",
+					"title": "The divergence and curl of B",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"State div B = 0 and curl B = mu_0 J, and derive them from Biot-Savart",
-						"Apply Ampere's law to a long wire, a solenoid, a toroid and an infinite current sheet, choosing the Amperian loop by symmetry",
-						"Explain the analogy to Gauss's law and to electric potential, and why Ampere's law only holds for steady currents",
-						"State the boundary conditions on B at a surface current"
+						"Explain the analogy to Gauss's law and to electric potential, and why Ampere's law only holds for steady currents"
 					],
 					"keyEquations": [
 						"\\nabla\\cdot\\mathbf B=0",
-						"\\nabla\\times\\mathbf B=\\mu_0\\mathbf J",
+						"\\nabla\\times\\mathbf B=\\mu_0\\mathbf J"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§5.3",
+							"title": "Divergence and Curl of B"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "1-2.2 Maxwell's equations for magnetostatics",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b6f05996-90b5-41c3-8bcc-ac150121bbd7"
+						}
+					],
+					"demoIdeas": [
+						"Field lines around a wire with draggable small closed surfaces (net flux always zero) and loops (circulation equals μ₀I_enc) that you move across the current."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l047-applying-amperes-law-boundary",
+					"title": "Applying Ampere's law and boundary conditions for B",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Apply Ampere's law to a long wire, a solenoid, a toroid and an infinite current sheet, choosing the Amperian loop by symmetry",
+						"State the boundary conditions on B at a surface current"
+					],
+					"keyEquations": [
 						"\\oint\\mathbf B\\cdot d\\mathbf l=\\mu_0I_{\\rm enc}",
 						"B^{\\parallel}_{\\rm above}-B^{\\parallel}_{\\rm below}=\\mu_0K"
 					],
@@ -971,29 +1580,27 @@
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b6f05996-90b5-41c3-8bcc-ac150121bbd7"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Pick a wire, solenoid, toroid or current sheet and drag an Amperian loop around it: the line integral of B is compared live with μ₀I_enc, and loops that miss the symmetry are flagged."
+					],
 					"practice": [
 						"Griffiths EM Ch. 5 problems on Ampere's law with cylindrical and planar symmetry"
 					]
 				},
 				{
-					"id": "p5-l023-vector-potential",
-					"title": "The magnetic vector potential",
-					"minutes": 105,
+					"id": "p5-l048-vector-potential-gauge-solenoid",
+					"title": "The magnetic vector potential, gauge freedom and the solenoid",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Define A through B = curl A and explain the gauge freedom and the Coulomb gauge condition div A = 0",
 						"Show that A obeys a Poisson equation component by component and write the integral solution",
-						"Compute A for a long solenoid and for a uniformly magnetised/current distribution with symmetry",
-						"Write the magnetic multipole expansion, identify the dipole term, and compute the magnetic dipole moment of a current loop",
-						"Compute the field of a dipole and compare it with the field of an electric dipole"
+						"Compute A for a long solenoid and for a current distribution with symmetry"
 					],
 					"keyEquations": [
 						"\\mathbf B=\\nabla\\times\\mathbf A",
 						"\\nabla^2\\mathbf A=-\\mu_0\\mathbf J",
-						"\\mathbf A(\\mathbf r)=\\frac{\\mu_0}{4\\pi}\\int\\frac{\\mathbf J(\\mathbf r')}{\\imath}d\\tau'",
-						"\\mathbf m=I\\int d\\mathbf a",
-						"\\mathbf A_{\\rm dip}=\\frac{\\mu_0}{4\\pi}\\frac{\\mathbf m\\times\\hat{\\mathbf r}}{r^2}"
+						"\\mathbf A(\\mathbf r)=\\frac{\\mu_0}{4\\pi}\\int\\frac{\\mathbf J(\\mathbf r')}{\\imath}d\\tau'"
 					],
 					"readings": [
 						{
@@ -1005,7 +1612,34 @@
 							"bookId": "griffiths-em",
 							"ref": "§5.4.2",
 							"title": "Boundary Conditions"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "2-5.1 Poisson's equation for the magnetic potential, the magnetic dipole approximation",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c20442b9-515a-40b6-a9c5-ac350171a89e"
+						}
+					],
+					"demoIdeas": [
+						"Gauge playground: transform A by a gradient of a scalar and confirm B is unchanged"
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l049-magnetic-multipole-dipole-moment",
+					"title": "The magnetic multipole expansion and the magnetic dipole",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Write the magnetic multipole expansion, identify the dipole term, and compute the magnetic dipole moment of a current loop",
+						"Compute the field of a dipole and compare it with the field of an electric dipole"
+					],
+					"keyEquations": [
+						"\\mathbf m=I\\int d\\mathbf a",
+						"\\mathbf A_{\\rm dip}=\\frac{\\mu_0}{4\\pi}\\frac{\\mathbf m\\times\\hat{\\mathbf r}}{r^2}"
+					],
+					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§5.4.3",
@@ -1015,47 +1649,34 @@
 					"lectures": [
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "2-5.1 Poisson's equation for the magnetic potential, the magnetic dipole approximation",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c20442b9-515a-40b6-a9c5-ac350171a89e"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "2-5.3 Example of a current carrying loop",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=862fb370-7667-4d38-b386-ac39010822b7"
 						}
 					],
 					"demoIdeas": [
-						"Gauge playground: transform A by a gradient of a scalar and confirm B is unchanged"
+						"Sliders for loop radius and current: field lines of the magnetic dipole beside those of an electric dipole, with the far-field B plotted against distance and the moment m = IA read out."
 					],
 					"practice": []
 				},
 				{
-					"id": "p5-l024-magnetization-bound-currents",
-					"title": "Magnetisation and the field of a magnetised object",
-					"minutes": 90,
+					"id": "p5-l050-magnetization-bound-currents",
+					"title": "Magnetic dipoles in fields, magnetisation and bound currents",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Explain how a magnetic dipole experiences torque and force in an external field and why diamagnetism, paramagnetism and ferromagnetism differ",
-						"Define magnetisation M and compute bound surface and volume currents",
-						"Compute the field of a uniformly magnetised sphere and compare it to the polarised-sphere result",
-						"Connect magnetic moments of nuclei and electrons to NMR and EPR (chemistry hook: Larmor precession in a field)"
+						"Define magnetisation M and compute bound surface and volume currents"
 					],
 					"keyEquations": [
 						"\\mathbf K_b=\\mathbf M\\times\\hat n",
 						"\\mathbf J_b=\\nabla\\times\\mathbf M",
-						"\\mathbf N=\\mathbf m\\times\\mathbf B,\\;U=-\\mathbf m\\cdot\\mathbf B",
-						"\\omega_L=\\gamma B"
+						"\\mathbf N=\\mathbf m\\times\\mathbf B,\\;U=-\\mathbf m\\cdot\\mathbf B"
 					],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§6.1",
 							"title": "Magnetization"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§6.2",
-							"title": "The Field of a Magnetized Object"
 						}
 					],
 					"lectures": [
@@ -1063,7 +1684,33 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "3-2.1 Magnetic materials and bound currents",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=4cf1a257-2c67-4114-9e28-ac420171906e"
-						},
+						}
+					],
+					"demoIdeas": [
+						"A grid of atomic current loops with uniform or varying magnetisation: neighbouring currents cancel inside to leave a surface current, and a non-uniform M leaves a volume current."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l051-magnetised-sphere-nmr",
+					"title": "The uniformly magnetised sphere and nuclear magnetic resonance",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Compute the field of a uniformly magnetised sphere and compare it to the polarised-sphere result",
+						"Connect magnetic moments of nuclei and electrons to NMR and EPR (chemistry hook: Larmor precession in a field)"
+					],
+					"keyEquations": [
+						"\\omega_L=\\gamma B"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§6.2",
+							"title": "The Field of a Magnetized Object"
+						}
+					],
+					"lectures": [
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "3-3.2 Examples: a uniformly polarized sphere, and a uniformly magnetized sphere",
@@ -1076,32 +1723,24 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l025-auxiliary-h-linear-media",
-					"title": "The auxiliary field H and linear and nonlinear media",
-					"minutes": 90,
+					"id": "p5-l052-auxiliary-field-h-analogy",
+					"title": "The auxiliary field H and the E-D-P / B-H-M analogy",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Define H and write Ampere's law in terms of free current",
 						"State the boundary conditions for B and H at an interface",
-						"Use the susceptibility and permeability to relate M, H and B in linear media",
-						"Classify materials as dia-, para- or ferromagnetic and describe hysteresis qualitatively",
 						"Contrast the E-D-P and B-H-M analogies and where they fail (no magnetic monopole)"
 					],
 					"keyEquations": [
 						"\\mathbf H=\\frac{1}{\\mu_0}\\mathbf B-\\mathbf M",
-						"\\nabla\\times\\mathbf H=\\mathbf J_f",
-						"\\mathbf M=\\chi_m\\mathbf H,\\;\\mathbf B=\\mu\\mathbf H"
+						"\\nabla\\times\\mathbf H=\\mathbf J_f"
 					],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§6.3",
 							"title": "The Auxiliary Field H"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§6.4",
-							"title": "Linear and Nonlinear Media"
 						}
 					],
 					"lectures": [
@@ -1117,6 +1756,31 @@
 						}
 					],
 					"demoIdeas": [
+						"Cross-section of a bar magnet: toggle displays of B, H and M to see B and H differ in sign inside the magnet and agree outside, next to the analogous E, D, P picture of a polarised bar."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l053-linear-magnetic-media-hysteresis",
+					"title": "Linear magnetic media and hysteresis",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Use the susceptibility and permeability to relate M, H and B in linear media",
+						"Classify materials as dia-, para- or ferromagnetic and describe hysteresis qualitatively"
+					],
+					"keyEquations": [
+						"\\mathbf M=\\chi_m\\mathbf H,\\;\\mathbf B=\\mu\\mathbf H"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§6.4",
+							"title": "Linear and Nonlinear Media"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
 						"Hysteresis loop: sweep applied H and trace M(H) for a ferromagnet with a simple domain model"
 					],
 					"practice": []
@@ -1129,20 +1793,17 @@
 			"summary": "Electromotive force, Faraday's law, Maxwell's equations with displacement current, and the conservation of charge, energy, momentum and angular momentum.",
 			"lessons": [
 				{
-					"id": "p5-l026-emf-motional-emf",
+					"id": "p5-l054-ohms-law-emf",
 					"title": "Ohm's law and electromotive force",
-					"minutes": 75,
+					"minutes": 38,
 					"prereqs": [],
 					"objectives": [
 						"State Ohm's law in local form and compute resistance for simple geometries",
-						"Define EMF as the line integral of force per unit charge around a circuit",
-						"Compute the motional EMF in a loop moving through a field and check it with the flux rule",
-						"Explain why the flux rule works for a moving loop even though the magnetic force does no work"
+						"Define EMF as the line integral of force per unit charge around a circuit"
 					],
 					"keyEquations": [
 						"\\mathbf J=\\sigma\\mathbf E",
-						"\\mathcal E=\\oint\\mathbf f\\cdot d\\mathbf l",
-						"\\mathcal E=-\\frac{d\\Phi}{dt}"
+						"\\mathcal E=\\oint\\mathbf f\\cdot d\\mathbf l"
 					],
 					"readings": [
 						{
@@ -1156,25 +1817,51 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "1-3.1 Faraday's Law, Maxwell's correction to Ampere's Law, waves, systems of units",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=4989219c-0159-47e5-b835-ac15015adfdc"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Sliders for wire length, diameter and material: resistance and current for a given EMF, with the drift velocity of carriers and the internal resistance of the source shown in the circuit."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l055-motional-emf-flux-rule",
+					"title": "Motional EMF and the flux rule",
+					"minutes": 37,
+					"prereqs": [],
+					"objectives": [
+						"Compute the motional EMF in a loop moving through a field and check it with the flux rule",
+						"Explain why the flux rule works for a moving loop even though the magnetic force does no work"
+					],
+					"keyEquations": [
+						"\\mathcal E=-\\frac{d\\Phi}{dt}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§7.1",
+							"title": "Electromotive Force"
+						}
+					],
+					"lectures": [
 						{
 							"source": "David Tong, Cambridge Electromagnetism notes",
 							"title": "Electromagnetism lecture notes (companion reading, with problem sheets)",
 							"url": "https://davidtong.org/teaching/electromagnetism/"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"A bar sliding on rails in a field B: sliders for speed and B, live plots of flux and EMF, and arrows for the q v×B force on the charge carriers inside the bar."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l027-faraday-induction",
-					"title": "Faraday's law and the induced electric field",
-					"minutes": 90,
+					"id": "p5-l056-faraday-lenz-law",
+					"title": "Faraday's law and Lenz's law",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"State Faraday's law in integral and differential form and apply Lenz's law to give direction",
-						"Show that a changing B produces a non-conservative E and compute it in a solenoid with symmetry",
-						"Explain why the electrostatic potential no longer suffices when B changes in time",
 						"Compute induced currents in simple setups (loop in a time-varying field, rotating loop)"
 					],
 					"keyEquations": [
@@ -1186,11 +1873,6 @@
 							"bookId": "griffiths-em",
 							"ref": "§7.2.1",
 							"title": "Faraday's Law"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§7.2.2",
-							"title": "The Induced Electric Field"
 						}
 					],
 					"lectures": [
@@ -1206,20 +1888,46 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l028-inductance-magnetic-energy",
-					"title": "Inductance and energy in magnetic fields",
-					"minutes": 90,
+					"id": "p5-l057-induced-electric-field",
+					"title": "The induced electric field and why the potential is not enough",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Show that a changing B produces a non-conservative E and compute it in a solenoid with symmetry",
+						"Explain why the electrostatic potential no longer suffices when B changes in time"
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§7.2.2",
+							"title": "The Induced Electric Field"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "1-3.1 Faraday's Law, Maxwell's correction to Ampere's Law, waves, systems of units",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=4989219c-0159-47e5-b835-ac15015adfdc"
+						}
+					],
+					"demoIdeas": [
+						"Solenoid cross-section with a dB/dt slider: circular induced E inside and outside, and a movable loop with a voltmeter showing that the reading depends on the path around the changing flux."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l058-self-mutual-inductance",
+					"title": "Self and mutual inductance",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Define mutual and self inductance and compute them for a pair of coaxial solenoids and a toroid",
-						"Show that the mutual inductance is symmetric (Neumann formula) and explain why that is non-trivial",
-						"Derive the magnetic energy as (1/2) L I^2 and the energy density B^2/(2 mu_0)",
-						"Analyse an RL circuit's time constant and relate it to energy storage"
+						"Show that the mutual inductance is symmetric (Neumann formula) and explain why that is non-trivial"
 					],
 					"keyEquations": [
 						"\\Phi_2=M_{21}I_1",
 						"\\mathcal E=-L\\frac{dI}{dt}",
-						"W=\\tfrac12LI^2=\\frac{1}{2\\mu_0}\\int B^2d\\tau",
 						"M_{21}=\\frac{\\mu_0}{4\\pi}\\oint\\oint\\frac{d\\mathbf l_1\\cdot d\\mathbf l_2}{\\imath}"
 					],
 					"readings": [
@@ -1227,7 +1935,33 @@
 							"bookId": "griffiths-em",
 							"ref": "§7.2.3",
 							"title": "Inductance"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "4-3.2 Mutual inductance matrix between current carrying loops",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=9d40c7ec-2d87-4634-8f61-ac50012ff649"
+						}
+					],
+					"demoIdeas": [
+						"Two coaxial coils: slide their separation, radii and turns to see the flux linkage, M and the solenoid self-inductance, confirming M₁₂ = M₂₁."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l059-magnetic-energy-rl-circuit",
+					"title": "Magnetic energy and the RL circuit",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Derive the magnetic energy as (1/2) L I^2 and the energy density B^2/(2 mu_0)",
+						"Analyse an RL circuit's time constant and relate it to energy storage"
+					],
+					"keyEquations": [
+						"W=\\tfrac12LI^2=\\frac{1}{2\\mu_0}\\int B^2d\\tau"
+					],
+					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§7.2.4",
@@ -1239,34 +1973,25 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "4-1.3 Electrostatic and magnetostatic energy",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=ca6fc917-6be9-4a30-b6d2-ac4f011d5c62"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "4-3.2 Mutual inductance matrix between current carrying loops",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=9d40c7ec-2d87-4634-8f61-ac50012ff649"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"RL circuit with a switch: sliders for L and R plot I(t), the voltage across the inductor and the stored energy ½LI², with the time constant L/R marked."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l029-maxwell-equations",
-					"title": "Maxwell's equations and displacement current",
-					"minutes": 105,
+					"id": "p5-l060-displacement-current-ampere-fix",
+					"title": "The displacement current and the repair of Ampere's law",
+					"minutes": 35,
 					"prereqs": [],
 					"objectives": [
 						"Show that Ampere's law is inconsistent with the continuity equation for time-varying charge and fix it with the displacement current",
-						"Write all four Maxwell equations in vacuum, in integral and differential form, with the Lorentz force law",
-						"Write Maxwell's equations in matter in terms of free charge and current, including the polarisation current",
-						"State the boundary conditions at an interface in terms of free surface charge and current",
-						"Check that the equations imply charge conservation and discuss what magnetic monopoles would change"
+						"Check that the corrected equations imply charge conservation"
 					],
 					"keyEquations": [
-						"\\nabla\\cdot\\mathbf E=\\rho/\\epsilon_0,\\quad \\nabla\\cdot\\mathbf B=0",
-						"\\nabla\\times\\mathbf E=-\\partial_t\\mathbf B",
-						"\\nabla\\times\\mathbf B=\\mu_0\\mathbf J+\\mu_0\\epsilon_0\\partial_t\\mathbf E",
 						"\\mathbf J_d=\\epsilon_0\\,\\partial\\mathbf E/\\partial t",
-						"\\nabla\\times\\mathbf H=\\mathbf J_f+\\partial_t\\mathbf D"
+						"\\nabla\\times\\mathbf B=\\mu_0\\mathbf J+\\mu_0\\epsilon_0\\partial_t\\mathbf E"
 					],
 					"readings": [
 						{
@@ -1288,19 +2013,80 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l030-poynting-energy-charge",
-					"title": "Conservation of charge and energy: Poynting's theorem",
-					"minutes": 90,
+					"id": "p5-l061-maxwell-equations-vacuum",
+					"title": "Maxwell's four equations in vacuum and magnetic monopoles",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Write all four Maxwell equations in vacuum, in integral and differential form, with the Lorentz force law",
+						"Discuss what magnetic monopoles would change in the equations"
+					],
+					"keyEquations": [
+						"\\nabla\\cdot\\mathbf E=\\rho/\\epsilon_0,\\quad \\nabla\\cdot\\mathbf B=0",
+						"\\nabla\\times\\mathbf E=-\\partial_t\\mathbf B",
+						"\\nabla\\times\\mathbf B=\\mu_0\\mathbf J+\\mu_0\\epsilon_0\\partial_t\\mathbf E"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§7.3",
+							"title": "Maxwell's Equations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "1-3.1 Faraday's Law, Maxwell's correction to Ampere's Law, waves, systems of units",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=4989219c-0159-47e5-b835-ac15015adfdc"
+						}
+					],
+					"demoIdeas": [
+						"A 2D wave-propagation simulation with a switch for each Maxwell equation: turn off the displacement-current term or Faraday's law and watch the radiating wave vanish."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l062-maxwell-equations-matter-boundary",
+					"title": "Maxwell's equations in matter and boundary conditions",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Write Maxwell's equations in matter in terms of free charge and current, including the polarisation current",
+						"State the boundary conditions at an interface in terms of free surface charge and current"
+					],
+					"keyEquations": [
+						"\\nabla\\times\\mathbf H=\\mathbf J_f+\\partial_t\\mathbf D"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§7.3",
+							"title": "Maxwell's Equations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "1-3.1 Faraday's Law, Maxwell's correction to Ampere's Law, waves, systems of units",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=4989219c-0159-47e5-b835-ac15015adfdc"
+						}
+					],
+					"demoIdeas": [
+						"A wave hitting a dielectric or conducting interface with probes on each side showing the continuity of D⊥, E∥, B⊥ and H∥, plus a free-charge and free-current slider."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l063-continuity-poynting-theorem",
+					"title": "Conservation of charge and Poynting's theorem",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Derive the continuity equation from Maxwell's equations",
-						"Derive Poynting's theorem and identify u, the Poynting vector, and the work done on charges",
-						"Compute the Poynting vector for a wire carrying current and a charging capacitor and explain where the energy flows",
-						"Interpret the Poynting vector as an energy flux density for fields in vacuum"
+						"Derive Poynting's theorem and identify u, the Poynting vector, and the work done on charges"
 					],
 					"keyEquations": [
 						"u=\\frac12\\left(\\epsilon_0E^2+\\frac{B^2}{\\mu_0}\\right)",
-						"\\mathbf S=\\frac{1}{\\mu_0}\\mathbf E\\times\\mathbf B",
 						"\\frac{\\partial u}{\\partial t}=-\\nabla\\cdot\\mathbf S-\\mathbf J\\cdot\\mathbf E"
 					],
 					"readings": [
@@ -1322,37 +2108,67 @@
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=d5d744d5-4e02-47b4-8e7c-ac4f011b6d54"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"A box in a 2D electromagnetic simulation: compare the net Poynting flux through its walls with the rate of change of field energy inside and the J·E loss term."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l064-poynting-vector-energy-flow",
+					"title": "The Poynting vector: where the energy flows",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Compute the Poynting vector for a wire carrying current and a charging capacitor and explain where the energy flows",
+						"Interpret the Poynting vector as an energy flux density for fields in vacuum"
+					],
+					"keyEquations": [
+						"\\mathbf S=\\frac{1}{\\mu_0}\\mathbf E\\times\\mathbf B"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§8.1",
+							"title": "Charge and Energy"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "4-1.1 Electromagnetic energy and energy conservation",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=06495aa3-1102-4cde-9b5a-ac4f0113bcd2"
+						},
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "4-1.2 Energy conservation and the macroscopic Maxwell equations",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=d5d744d5-4e02-47b4-8e7c-ac4f011b6d54"
+						}
+					],
+					"demoIdeas": [
+						"Poynting arrows around a current-carrying resistive wire and in a charging capacitor: a current slider shows the energy entering through the sides and matching I²R or CV²/2."
+					],
 					"practice": [
 						"Griffiths EM Ch. 8 problems on Poynting vector in a wire and in a capacitor"
 					]
 				},
 				{
-					"id": "p5-l031-momentum-stress-tensor",
-					"title": "Momentum, the Maxwell stress tensor and angular momentum",
-					"minutes": 105,
+					"id": "p5-l065-stress-tensor-field-momentum",
+					"title": "The Maxwell stress tensor, field momentum and radiation pressure",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Define the Maxwell stress tensor and compute the electromagnetic force on charges in a volume by integrating over its surface",
-						"State the electromagnetic momentum density and the radiation pressure on an absorbing surface",
-						"Compute the angular momentum stored in the fields for a charge and a magnetic-monopole-like configuration (the Feynman disk)",
-						"Show that Newton's third law fails for fields' contributions unless field momentum is included"
+						"State the electromagnetic momentum density and the radiation pressure on an absorbing surface"
 					],
 					"keyEquations": [
 						"T_{ij}=\\epsilon_0\\left(E_iE_j-\\tfrac12\\delta_{ij}E^2\\right)+\\frac{1}{\\mu_0}\\left(B_iB_j-\\tfrac12\\delta_{ij}B^2\\right)",
-						"\\mathbf F=\\oint\\overleftrightarrow T\\cdot d\\mathbf a-\\epsilon_0\\mu_0\\frac{d}{dt}\\int\\mathbf S\\,d\\tau",
-						"\\mathbf g=\\epsilon_0\\,\\mathbf E\\times\\mathbf B"
+						"\\mathbf F=\\oint\\overleftrightarrow T\\cdot d\\mathbf a-\\epsilon_0\\mu_0\\frac{d}{dt}\\int\\mathbf S\\,d\\tau"
 					],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§8.2",
 							"title": "Momentum"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§8.3",
-							"title": "Angular Momentum"
 						}
 					],
 					"lectures": [
@@ -1371,6 +2187,37 @@
 						"Stress-tensor surface: choose a closed surface around two charges and compute the net force from the surface integral of the stress tensor"
 					],
 					"practice": []
+				},
+				{
+					"id": "p5-l066-field-angular-momentum-third-law",
+					"title": "Angular momentum in the fields and Newton's third law",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Compute the angular momentum stored in the fields for a charge and a magnetic-monopole-like configuration (the Feynman disk)",
+						"Show that Newton's third law fails for fields' contributions unless field momentum is included"
+					],
+					"keyEquations": [
+						"\\mathbf g=\\epsilon_0\\,\\mathbf E\\times\\mathbf B"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§8.3",
+							"title": "Angular Momentum"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "4-2.1 Electromagnetic momentum and momentum conservation",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a37961aa-5d7d-42a8-a300-ac4f014e9904"
+						}
+					],
+					"demoIdeas": [
+						"Feynman disk: a slider switches off the solenoid current and the charged disk spins up while the field angular momentum falls by the same amount."
+					],
+					"practice": []
 				}
 			]
 		},
@@ -1380,15 +2227,13 @@
 			"summary": "The wave equation from Maxwell's equations, plane waves in vacuum and matter, reflection and refraction, absorption and dispersion, and guided waves.",
 			"lessons": [
 				{
-					"id": "p5-l032-waves-one-dimension",
-					"title": "Waves in one dimension and boundary behaviour",
-					"minutes": 75,
+					"id": "p5-l067-wave-equation-travelling-waves",
+					"title": "The wave equation and travelling waves",
+					"minutes": 38,
 					"prereqs": [],
 					"objectives": [
 						"Derive the 1D wave equation for a string and show that any f(z - vt) solves it",
-						"Write sinusoidal travelling waves with amplitude, wave number, frequency and phase and use complex notation",
-						"Solve reflection and transmission of a wave at a boundary between two strings using continuity of the function and its derivative",
-						"Explain polarisation of transverse waves in terms of two independent components"
+						"Write sinusoidal travelling waves with amplitude, wave number, frequency and phase and use complex notation"
 					],
 					"keyEquations": [
 						"\\frac{\\partial^2f}{\\partial z^2}=\\frac{1}{v^2}\\frac{\\partial^2f}{\\partial t^2}",
@@ -1417,31 +2262,85 @@
 							"source": "David Tong, Cambridge Electromagnetism notes",
 							"title": "Electromagnetism lecture notes (companion reading, with problem sheets)",
 							"url": "https://davidtong.org/teaching/electromagnetism/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Draw a pulse or sinusoid f(z - vt) on a string and slide v: it travels without changing shape, shown alongside the rotating complex phasor for ω and k."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l068-reflection-transmission-polarization-strings",
+					"title": "Reflection, transmission and polarisation of waves on strings",
+					"minutes": 37,
+					"prereqs": [],
+					"objectives": [
+						"Solve reflection and transmission of a wave at a boundary between two strings using continuity of the function and its derivative",
+						"Explain polarisation of transverse waves in terms of two independent components"
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§9.1",
+							"title": "Waves in One Dimension"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 8.07 (Fall 2012)",
 							"title": "Electromagnetism II (Guth, Chen): lecture notes, problem sets, exams",
 							"url": "https://ocw.mit.edu/courses/8-07-electromagnetism-ii-fall-2012/"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Two strings joined at a knot with a density-ratio slider: send a pulse or a sine and read off reflected and transmitted amplitudes, including the sign flip off the heavier string."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l033-em-waves-vacuum",
-					"title": "Electromagnetic waves in vacuum",
-					"minutes": 90,
+					"id": "p5-l069-em-wave-equation-plane-waves",
+					"title": "The electromagnetic wave equation and plane waves",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Derive the wave equation for E and B in vacuum from Maxwell's equations and identify the speed as c",
-						"Write monochromatic plane waves, show E, B and k are mutually perpendicular, and the relation B0 = E0/c",
-						"Compute energy density, intensity and the momentum density of a plane wave, and the radiation pressure on a reflector",
-						"Describe linear, circular and elliptical polarisation"
+						"Write monochromatic plane waves, show E, B and k are mutually perpendicular, and the relation B0 = E0/c"
 					],
 					"keyEquations": [
 						"\\nabla^2\\mathbf E=\\mu_0\\epsilon_0\\frac{\\partial^2\\mathbf E}{\\partial t^2}",
 						"c=1/\\sqrt{\\mu_0\\epsilon_0}",
-						"\\mathbf B=\\frac1c\\hat{\\mathbf k}\\times\\mathbf E",
+						"\\mathbf B=\\frac1c\\hat{\\mathbf k}\\times\\mathbf E"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§9.2",
+							"title": "Electromagnetic Waves in Vacuum"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "4-4.1 Harmonic plane electromagnetic waves in a vacuum",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=cb8ed7c2-9d86-4916-a878-ac50013f5368"
+						}
+					],
+					"demoIdeas": [
+						"Plane wave viewer: a travelling EM wave in 3D with sliders for polarisation, with E, B and S vectors animated"
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l070-em-wave-energy-momentum-polarization",
+					"title": "Energy, momentum and polarisation of plane waves",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Compute energy density, intensity and the momentum density of a plane wave, and the radiation pressure on a reflector",
+						"Describe linear, circular and elliptical polarisation"
+					],
+					"keyEquations": [
 						"I=\\tfrac12\\epsilon_0cE_0^2"
 					],
 					"readings": [
@@ -1459,11 +2358,6 @@
 						},
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "4-4.1 Harmonic plane electromagnetic waves in a vacuum",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=cb8ed7c2-9d86-4916-a878-ac50013f5368"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "4-4.2 Energy and momentum in harmonic plane waves",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=26a6677c-b796-4277-8767-ac5001477acb"
 						},
@@ -1474,26 +2368,22 @@
 						}
 					],
 					"demoIdeas": [
-						"Plane wave viewer: a travelling EM wave in 3D with sliders for polarisation, with E, B and S vectors animated"
+						"Amplitude and phase sliders for E_x and E_y: the tip of E traces linear, circular or elliptical polarisation, with intensity and the radiation pressure on an absorber or mirror."
 					],
 					"practice": []
 				},
 				{
-					"id": "p5-l034-em-waves-matter-reflection",
-					"title": "Electromagnetic waves in matter: reflection and transmission",
-					"minutes": 105,
+					"id": "p5-l071-waves-linear-media-normal-incidence",
+					"title": "Waves in linear media and reflection at normal incidence",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Write the wave equation and speed in a linear dielectric and define the refractive index",
-						"Apply the boundary conditions at normal incidence to find reflection and transmission coefficients",
-						"Derive Snell's law and the law of reflection from phase matching at an interface",
-						"State the Fresnel equations, find Brewster's angle and the critical angle for total internal reflection"
+						"Apply the boundary conditions at normal incidence to find reflection and transmission coefficients"
 					],
 					"keyEquations": [
 						"v=\\frac{1}{\\sqrt{\\epsilon\\mu}}=\\frac cn,\\;n\\approx\\sqrt{\\epsilon_r}",
-						"R=\\left(\\frac{n_1-n_2}{n_1+n_2}\\right)^2",
-						"n_1\\sin\\theta_I=n_2\\sin\\theta_T",
-						"\\tan\\theta_B=n_2/n_1"
+						"R=\\left(\\frac{n_1-n_2}{n_1+n_2}\\right)^2"
 					],
 					"readings": [
 						{
@@ -1505,7 +2395,34 @@
 							"bookId": "griffiths-em",
 							"ref": "§9.3.2",
 							"title": "Reflection and Transmission at Normal Incidence"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "5-5.3 Coefficient of reflection",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=53fb7874-934f-413d-a88b-ac5f016b1bbc"
+						}
+					],
+					"demoIdeas": [
+						"Sliders for n₁ and n₂: incident, reflected and transmitted waves drawn at a normal-incidence interface with reflection and transmission bars and the phase flip."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l072-oblique-incidence-fresnel-brewster",
+					"title": "Oblique incidence: Snell's law, Fresnel equations, Brewster's and the critical angle",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Derive Snell's law and the law of reflection from phase matching at an interface",
+						"State the Fresnel equations, find Brewster's angle and the critical angle for total internal reflection"
+					],
+					"keyEquations": [
+						"n_1\\sin\\theta_I=n_2\\sin\\theta_T",
+						"\\tan\\theta_B=n_2/n_1"
+					],
+					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§9.3.3",
@@ -1522,11 +2439,6 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "5-5.1 Snell's law, total internal reflection",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=d13cfbd7-0f44-4e13-aaba-ac5f0148c455"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "5-5.3 Coefficient of reflection",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=53fb7874-934f-413d-a88b-ac5f016b1bbc"
 						}
 					],
 					"demoIdeas": [
@@ -1535,21 +2447,17 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l035-absorption-dispersion",
-					"title": "Absorption, conductors and dispersion",
-					"minutes": 105,
+					"id": "p5-l073-waves-in-conductors-skin-depth",
+					"title": "Waves in conductors: skin depth and reflection by metals",
+					"minutes": 35,
 					"prereqs": [],
 					"objectives": [
 						"Solve the wave equation in a conductor and obtain the complex wave number, skin depth and phase lag between E and B",
-						"Explain why metals reflect and compute the reflectivity of a good conductor",
-						"Model a dielectric as damped driven oscillators (Lorentz model) and derive the frequency-dependent dielectric function",
-						"Distinguish normal and anomalous dispersion, phase and group velocity, and relate absorption lines to UV/IR absorption bands in chemistry"
+						"Explain why metals reflect and compute the reflectivity of a good conductor"
 					],
 					"keyEquations": [
 						"\\tilde k=k+i\\kappa",
-						"\\delta=\\frac1\\kappa\\approx\\sqrt{\\frac{2}{\\omega\\mu\\sigma}}",
-						"\\epsilon_r(\\omega)=1+\\frac{Nq^2}{m\\epsilon_0}\\sum_j\\frac{f_j}{\\omega_j^2-\\omega^2-i\\gamma_j\\omega}",
-						"v_g=\\frac{d\\omega}{dk}"
+						"\\delta=\\frac1\\kappa\\approx\\sqrt{\\frac{2}{\\omega\\mu\\sigma}}"
 					],
 					"readings": [
 						{
@@ -1561,7 +2469,69 @@
 							"bookId": "griffiths-em",
 							"ref": "§9.4.2",
 							"title": "Reflection at a Conducting Surface"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "5-3.2 Waves in conductors, low and high frequency limits",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=13788881-0d7d-4b93-80be-ac5e016520ef"
+						}
+					],
+					"demoIdeas": [
+						"Frequency and conductivity sliders: the decaying wave inside a metal with the skin depth marked, and reflectivity versus frequency for a simple conductor."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l074-lorentz-oscillator-model",
+					"title": "The Lorentz oscillator model of a dielectric",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Model a dielectric as damped driven oscillators (Lorentz model) and derive the frequency-dependent dielectric function",
+						"Relate the resonances of the model to UV/IR absorption bands in chemistry"
+					],
+					"keyEquations": [
+						"\\epsilon_r(\\omega)=1+\\frac{Nq^2}{m\\epsilon_0}\\sum_j\\frac{f_j}{\\omega_j^2-\\omega^2-i\\gamma_j\\omega}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§9.4.3",
+							"title": "The Frequency Dependence of Permittivity"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "5-1.2 Time dependent atomic polarizability",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c88d25cc-0478-4436-817d-ac5c0126929b"
 						},
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "5-1.1 Electromagnetic waves in matter",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=76de52c4-4616-4b23-a781-ac5c0122a6d7"
+						}
+					],
+					"demoIdeas": [
+						"Lorentz oscillator: plot the real and imaginary parts of epsilon(omega) near a resonance with adjustable damping and oscillator strength"
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l075-dispersion-phase-group-velocity",
+					"title": "Dispersion: normal and anomalous, phase and group velocity",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Distinguish normal and anomalous dispersion and explain how a prism separates colours",
+						"Define phase and group velocity for a dispersive medium and compute each from a dispersion relation"
+					],
+					"keyEquations": [
+						"v_g=\\frac{d\\omega}{dk}"
+					],
+					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§9.4.3",
@@ -1581,16 +2551,6 @@
 						},
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "5-1.1 Electromagnetic waves in matter",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=76de52c4-4616-4b23-a781-ac5c0122a6d7"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "5-1.2 Time dependent atomic polarizability",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=c88d25cc-0478-4436-817d-ac5c0126929b"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "5-1.3 Dispersion relation, phase velocity, group velocity, index of refraction",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=46654c8d-c3cc-420b-b0df-ac5c017a4662"
 						},
@@ -1601,35 +2561,27 @@
 						},
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "5-3.2 Waves in conductors, low and high frequency limits",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=13788881-0d7d-4b93-80be-ac5e016520ef"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "5-6.1 The Kramers-Kronig relation",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=37e930bc-68bd-4b57-83a9-ac600013476d"
 						}
 					],
 					"demoIdeas": [
-						"Lorentz oscillator: plot the real and imaginary parts of epsilon(omega) near a resonance with adjustable damping and oscillator strength"
+						"Pick a dispersion relation (non-dispersive, ω = αk², waveguide) and superpose waves: the crests move at the phase velocity while the envelope moves at the group velocity, and a prism splits white light."
 					],
 					"practice": []
 				},
 				{
-					"id": "p5-l036-guided-waves",
-					"title": "Guided waves",
-					"minutes": 90,
+					"id": "p5-l076-waveguide-modes-cutoff",
+					"title": "Rectangular waveguide modes and cutoff",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Impose perfect-conductor boundary conditions on E and B at the walls of a rectangular waveguide",
-						"Derive the TE and TM modes, the cutoff frequency and the dispersion relation",
-						"Compute phase and group velocity in a waveguide and explain why signals travel slower than c",
-						"Describe the TEM wave of a coaxial transmission line"
+						"Derive the TE and TM modes, the cutoff frequency and the dispersion relation"
 					],
 					"keyEquations": [
 						"\\omega_{mn}=c\\pi\\sqrt{(m/a)^2+(n/b)^2}",
-						"k=\\frac1c\\sqrt{\\omega^2-\\omega_{mn}^2}",
-						"v_g=c\\sqrt{1-\\omega_{mn}^2/\\omega^2}"
+						"k=\\frac1c\\sqrt{\\omega^2-\\omega_{mn}^2}"
 					],
 					"readings": [
 						{
@@ -1641,11 +2593,6 @@
 							"bookId": "griffiths-em",
 							"ref": "§9.5.2",
 							"title": "TE Waves in a Rectangular Wave Guide"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§9.5.3",
-							"title": "The Coaxial Transmission Line"
 						}
 					],
 					"lectures": [
@@ -1669,6 +2616,36 @@
 						"Waveguide modes: pick (m, n) and see the field pattern across the cross-section and the dispersion curve"
 					],
 					"practice": []
+				},
+				{
+					"id": "p5-l077-waveguide-velocities-coax",
+					"title": "Phase and group velocity in a waveguide and the coaxial line",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Compute phase and group velocity in a waveguide and explain why signals travel slower than c",
+						"Describe the TEM wave of a coaxial transmission line"
+					],
+					"keyEquations": [
+						"v_g=c\\sqrt{1-\\omega_{mn}^2/\\omega^2}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§9.5.2",
+							"title": "TE Waves in a Rectangular Wave Guide"
+						},
+						{
+							"bookId": "griffiths-em",
+							"ref": "§9.5.3",
+							"title": "The Coaxial Transmission Line"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Frequency slider above cutoff: the zig-zag plane-wave picture of a guided mode with phase and group velocity bars against c, plus the field pattern of the TEM mode in a coax."
+					],
+					"practice": []
 				}
 			]
 		},
@@ -1678,34 +2655,23 @@
 			"summary": "The scalar and vector potentials in electrodynamics, retarded potentials, Lienard-Wiechert fields of moving charges, and radiation from dipoles and accelerating charges.",
 			"lessons": [
 				{
-					"id": "p5-l037-potential-formulation-retarded",
-					"title": "The potential formulation and retarded potentials",
-					"minutes": 105,
+					"id": "p5-l078-potentials-gauge-lorenz-coulomb",
+					"title": "The potential formulation and gauge choices",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Write E and B in terms of V and A and show that this reproduces the two homogeneous Maxwell equations",
-						"Explain gauge transformations and write the Lorenz and Coulomb gauge conditions",
-						"Derive the inhomogeneous wave equations for V and A in the Lorenz gauge",
-						"Write the retarded potentials and explain the retarded time and why the sources are evaluated earlier",
-						"Compute the field of a time-dependent source in a simple case (a switched-on line current)"
+						"Explain gauge transformations and write the Lorenz and Coulomb gauge conditions"
 					],
 					"keyEquations": [
 						"\\mathbf E=-\\nabla V-\\partial_t\\mathbf A,\\;\\mathbf B=\\nabla\\times\\mathbf A",
-						"\\nabla\\cdot\\mathbf A=-\\mu_0\\epsilon_0\\partial_tV",
-						"\\Box^2V=-\\rho/\\epsilon_0",
-						"V(\\mathbf r,t)=\\frac{1}{4\\pi\\epsilon_0}\\int\\frac{\\rho(\\mathbf r',t_r)}{\\imath}d\\tau'",
-						"t_r=t-\\imath/c"
+						"\\nabla\\cdot\\mathbf A=-\\mu_0\\epsilon_0\\partial_tV"
 					],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§10.1",
 							"title": "The Potential Formulation"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§10.2",
-							"title": "Continuous Distributions"
 						}
 					],
 					"lectures": [
@@ -1718,7 +2684,36 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "1-4.3 Lorenz gauge, Coulomb gauge",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=853ec2d1-cc9f-415f-8c6d-ac1c010f993f"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Slider for a gauge function λ(x, t): V and A change while E and B stay fixed; toggle the Lorenz and Coulomb conditions to see which equations simplify."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l079-retarded-potentials",
+					"title": "Retarded potentials and time-dependent sources",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Derive the inhomogeneous wave equations for V and A in the Lorenz gauge",
+						"Write the retarded potentials and explain the retarded time and why the sources are evaluated earlier",
+						"Compute the field of a time-dependent source in a simple case (a switched-on line current)"
+					],
+					"keyEquations": [
+						"\\Box^2V=-\\rho/\\epsilon_0",
+						"V(\\mathbf r,t)=\\frac{1}{4\\pi\\epsilon_0}\\int\\frac{\\rho(\\mathbf r',t_r)}{\\imath}d\\tau'",
+						"t_r=t-\\imath/c"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§10.2",
+							"title": "Continuous Distributions"
+						}
+					],
+					"lectures": [
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "6-1.1 The Green's function for the wave equation",
@@ -1736,20 +2731,17 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l038-lienard-wiechert",
-					"title": "Point charges: the Lienard-Wiechert potentials and fields",
-					"minutes": 105,
+					"id": "p5-l080-lienard-wiechert-uniform-motion",
+					"title": "The Lienard-Wiechert potentials and the field of uniform motion",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Derive the Lienard-Wiechert potentials of a moving point charge",
-						"Compute the fields of a charge moving with constant velocity and show they reduce to the Lorentz-boosted Coulomb field",
-						"Separate the velocity field from the acceleration (radiation) field in the general expression",
-						"Explain why only the acceleration field falls off as 1/r and carries energy to infinity"
+						"Compute the fields of a charge moving with constant velocity and show they reduce to the Lorentz-boosted Coulomb field"
 					],
 					"keyEquations": [
 						"V(\\mathbf r,t)=\\frac{1}{4\\pi\\epsilon_0}\\frac{qc}{(\\imath c-\\boldsymbol\\imath\\cdot\\mathbf v)}",
-						"\\mathbf A=\\frac{\\mathbf v}{c^2}V",
-						"\\mathbf E=\\frac{q}{4\\pi\\epsilon_0}\\frac{\\imath}{(\\boldsymbol\\imath\\cdot\\mathbf u)^3}\\left[(c^2-v^2)\\mathbf u+\\boldsymbol\\imath\\times(\\mathbf u\\times\\mathbf a)\\right]"
+						"\\mathbf A=\\frac{\\mathbf v}{c^2}V"
 					],
 					"readings": [
 						{
@@ -1770,24 +2762,47 @@
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=984e4d7b-469f-4877-a73d-ac68016f896c"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Slider for the speed β of a moving charge: field lines flatten into the Lorentz-contracted pattern, with the retarded and present positions of the charge marked."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l039-electric-dipole-radiation",
-					"title": "Electric dipole radiation",
-					"minutes": 90,
+					"id": "p5-l081-velocity-acceleration-fields-radiation",
+					"title": "Velocity and acceleration fields: why only accelerating charges radiate",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Separate the velocity field from the acceleration (radiation) field in the general expression",
+						"Explain why only the acceleration field falls off as 1/r and carries energy to infinity"
+					],
+					"keyEquations": [
+						"\\mathbf E=\\frac{q}{4\\pi\\epsilon_0}\\frac{\\imath}{(\\boldsymbol\\imath\\cdot\\mathbf u)^3}\\left[(c^2-v^2)\\mathbf u+\\boldsymbol\\imath\\times(\\mathbf u\\times\\mathbf a)\\right]"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§10.3",
+							"title": "Point Charges"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Give a charge a sudden kick: a transverse radiation pulse expands as a shell, with 1/r fall-off of the pulse compared with the 1/r² static field and the energy through spheres of growing radius."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l082-oscillating-dipole-fields-zones",
+					"title": "Fields and zones of an oscillating electric dipole",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Compute the fields of an oscillating electric dipole in the radiation zone (r much larger than wavelength)",
-						"Derive the angular distribution sin squared theta and the total radiated power proportional to omega to the fourth",
-						"Identify the near, intermediate and radiation zones",
-						"Explain why the sky is blue (Rayleigh scattering power law) using the omega-fourth dependence"
+						"Identify the near, intermediate and radiation zones"
 					],
 					"keyEquations": [
-						"p(t)=p_0\\cos\\omega t",
-						"\\langle P\\rangle=\\frac{\\mu_0p_0^2\\omega^4}{12\\pi c}",
-						"\\langle\\mathbf S\\rangle=\\frac{\\mu_0p_0^2\\omega^4}{32\\pi^2c}\\frac{\\sin^2\\theta}{r^2}\\hat r"
+						"p(t)=p_0\\cos\\omega t"
 					],
 					"readings": [
 						{
@@ -1804,11 +2819,6 @@
 					"lectures": [
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "6-2.1 Electric dipole contribution to the vector potential, A(E1)",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=6919fe29-50ba-4e51-958b-ac68017f446a"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "6-3.1 Fields within the electric dipole approximation",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=30673a73-d0c1-429a-a64b-ac6a012efc51"
 						}
@@ -1819,19 +2829,48 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l040-magnetic-dipole-arbitrary-sources",
-					"title": "Magnetic dipole radiation and radiation from arbitrary sources",
-					"minutes": 90,
+					"id": "p5-l083-dipole-radiated-power-rayleigh",
+					"title": "Radiated power, angular distribution and Rayleigh scattering",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Derive the angular distribution sin squared theta and the total radiated power proportional to omega to the fourth",
+						"Explain why the sky is blue (Rayleigh scattering power law) using the omega-fourth dependence"
+					],
+					"keyEquations": [
+						"\\langle P\\rangle=\\frac{\\mu_0p_0^2\\omega^4}{12\\pi c}",
+						"\\langle\\mathbf S\\rangle=\\frac{\\mu_0p_0^2\\omega^4}{32\\pi^2c}\\frac{\\sin^2\\theta}{r^2}\\hat r"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§11.1.2",
+							"title": "Electric Dipole Radiation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "6-2.1 Electric dipole contribution to the vector potential, A(E1)",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=6919fe29-50ba-4e51-958b-ac68017f446a"
+						}
+					],
+					"demoIdeas": [
+						"Frequency slider: plot the ω⁴ power law and the sin²θ polar lobe, and shade the sky colour from Rayleigh scattering of sunlight at different sun angles."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l084-magnetic-dipole-radiation-short-antenna",
+					"title": "Magnetic dipole radiation and the short linear antenna",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Compute the fields and radiated power of an oscillating magnetic dipole and compare with the electric dipole",
-						"Set up the multipole expansion of radiation from a localised source and identify the E1, M1 and E2 contributions",
-						"Explain which multipole radiates in typical atomic transitions and relate this to electric-dipole selection rules in spectroscopy",
 						"Evaluate the radiation from a simple arbitrary source such as a short linear antenna"
 					],
 					"keyEquations": [
-						"\\langle P\\rangle_{\\rm mag}=\\frac{\\mu_0m_0^2\\omega^4}{12\\pi c^3}",
-						"P_{E1}\\sim\\frac{\\omega^4p^2}{c^3},\\;P_{M1}\\sim\\frac{\\omega^4m^2}{c^5}"
+						"\\langle P\\rangle_{\\rm mag}=\\frac{\\mu_0m_0^2\\omega^4}{12\\pi c^3}"
 					],
 					"readings": [
 						{
@@ -1848,13 +2887,39 @@
 					"lectures": [
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "6-2.2 Magnetic dipole and electric quadrupole contributions to the vector potential, A(M1) and A(E2)",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=48a48ecc-bcbd-4a5f-96af-ac6900441059"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "6-4.1 Fields within the magnetic dipole approximation",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=d0e58964-0c07-43df-a607-ac6a01645310"
+						}
+					],
+					"demoIdeas": [
+						"Switch between electric and magnetic dipole radiation to see the E and B orientations interchange in the polar pattern, and slide L/λ for a short antenna to read the radiation resistance."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l085-multipole-radiation-selection-rules",
+					"title": "The multipole expansion of radiation and selection rules",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Set up the multipole expansion of radiation from a localised source and identify the E1, M1 and E2 contributions",
+						"Explain which multipole radiates in typical atomic transitions and relate this to electric-dipole selection rules in spectroscopy"
+					],
+					"keyEquations": [
+						"P_{E1}\\sim\\frac{\\omega^4p^2}{c^3},\\;P_{M1}\\sim\\frac{\\omega^4m^2}{c^5}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§11.2",
+							"title": "Radiation from an Arbitrary Source"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "6-2.2 Magnetic dipole and electric quadrupole contributions to the vector potential, A(M1) and A(E2)",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=48a48ecc-bcbd-4a5f-96af-ac6900441059"
 						},
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
@@ -1862,40 +2927,28 @@
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=87b9aafb-0b7d-4c28-b0f6-ac6a01714d3f"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Pick initial and final J and parity for an atomic transition: the applet marks which of E1, M1 and E2 are allowed and plots the relative rates scaling as (ka)² per multipole order."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l041-larmor-radiation-reaction",
-					"title": "Radiation from point charges: Larmor formula and radiation reaction",
-					"minutes": 105,
+					"id": "p5-l086-larmor-formula-relativistic-radiation",
+					"title": "The Larmor formula and radiation from accelerated charges",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Derive the Larmor formula for the power radiated by a slowly moving accelerated charge",
-						"Quote the Lienard generalisation for relativistic charges and the synchrotron-radiation scaling",
-						"Explain radiation reaction (the Abraham-Lorentz force) and the difficulties it raises (runaway solutions, preacceleration)",
-						"Estimate the classical collapse time of a hydrogen atom and discuss why this signals the need for quantum mechanics (chemistry hook)"
+						"Quote the Lienard generalisation for relativistic charges and the synchrotron-radiation scaling"
 					],
 					"keyEquations": [
-						"P=\\frac{\\mu_0q^2a^2}{6\\pi c}",
-						"\\mathbf F_{\\rm rad}=\\frac{\\mu_0q^2}{6\\pi c}\\dot{\\mathbf a}",
-						"\\tau=\\frac{\\mu_0q^2}{6\\pi mc}"
+						"P=\\frac{\\mu_0q^2a^2}{6\\pi c}"
 					],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§11.2.1",
 							"title": "Power Radiated by a Point Charge"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§11.2.2",
-							"title": "Radiation Reaction"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§11.2.3",
-							"title": "The Physical Basis of the Radiation Reaction"
 						}
 					],
 					"lectures": [
@@ -1911,6 +2964,37 @@
 						}
 					],
 					"demoIdeas": [
+						"Acceleration slider for a charge: Larmor power and the sin²θ pattern; raise the speed to see the radiation beam into a forward cone and the synchrotron scaling."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l087-radiation-reaction-classical-atom",
+					"title": "Radiation reaction and the collapse of the classical atom",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Explain radiation reaction (the Abraham-Lorentz force) and the difficulties it raises (runaway solutions, preacceleration)",
+						"Estimate the classical collapse time of a hydrogen atom and discuss why this signals the need for quantum mechanics (chemistry hook)"
+					],
+					"keyEquations": [
+						"\\mathbf F_{\\rm rad}=\\frac{\\mu_0q^2}{6\\pi c}\\dot{\\mathbf a}",
+						"\\tau=\\frac{\\mu_0q^2}{6\\pi mc}"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§11.2.2",
+							"title": "Radiation Reaction"
+						},
+						{
+							"bookId": "griffiths-em",
+							"ref": "§11.2.3",
+							"title": "The Physical Basis of the Radiation Reaction"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
 						"Orbit decay: a classical electron spiralling into a nucleus under Larmor losses, with the decay time read out"
 					],
 					"practice": []
@@ -1923,31 +3007,23 @@
 			"summary": "Special relativity applied to fields: transformation of E and B, magnetism as a relativistic effect, and the covariant tensor formulation of Maxwell's equations.",
 			"lessons": [
 				{
-					"id": "p5-l042-relativity-review-mechanics",
-					"title": "Special relativity review and relativistic mechanics",
-					"minutes": 90,
+					"id": "p5-l088-lorentz-transformations-four-vectors",
+					"title": "Lorentz transformations, time dilation and four-vectors",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"State Einstein's postulates and derive Lorentz transformations, time dilation, length contraction and velocity addition",
-						"Use four-vectors and invariants (interval, proper time, rest mass) in place of coordinate calculations",
-						"Write relativistic momentum, energy, and force and solve a simple problem with a constant force",
-						"Compute the Doppler shift of EM waves from the transformation of the wave four-vector"
+						"Use four-vectors and invariants (interval, proper time, rest mass) in place of coordinate calculations"
 					],
 					"keyEquations": [
 						"x'^\\mu=\\Lambda^\\mu{}_\\nu x^\\nu,\\quad \\gamma=(1-v^2/c^2)^{-1/2}",
-						"I=-(ct)^2+x^2+y^2+z^2",
-						"E^2-p^2c^2=m^2c^4"
+						"I=-(ct)^2+x^2+y^2+z^2"
 					],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§12.1",
 							"title": "The Special Theory of Relativity"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§12.2",
-							"title": "Relativistic Mechanics"
 						}
 					],
 					"lectures": [
@@ -1962,45 +3038,62 @@
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=74f8da06-54c2-4c8b-8315-ac72015a3cbb"
 						},
 						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "7-3.1 Relativistic kinematics",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=8e0f9c1f-8f5a-4a3a-971e-ac73016479bb"
-						},
-						{
 							"source": "David Tong, Cambridge Electromagnetism notes",
 							"title": "Electromagnetism lecture notes (companion reading, with problem sheets)",
 							"url": "https://davidtong.org/teaching/electromagnetism/"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"A Minkowski diagram with a boost slider β: click events to see their transformed coordinates, tilted axes, the light cone and the invariant interval, with a muon-decay example."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l043-magnetism-field-transformations",
-					"title": "Magnetism as a relativistic phenomenon; transformations of E and B",
-					"minutes": 105,
+					"id": "p5-l089-relativistic-mechanics-doppler",
+					"title": "Relativistic mechanics and the Doppler shift of light",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Write relativistic momentum, energy, and force and solve a simple problem with a constant force",
+						"Compute the Doppler shift of EM waves from the transformation of the wave four-vector"
+					],
+					"keyEquations": [
+						"E^2-p^2c^2=m^2c^4"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§12.2",
+							"title": "Relativistic Mechanics"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "7-3.1 Relativistic kinematics",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=8e0f9c1f-8f5a-4a3a-971e-ac73016479bb"
+						}
+					],
+					"demoIdeas": [
+						"Constant force on a particle: plot v(t), γ and p(t), showing v saturating at c; add a source speed and angle slider to shift a spectrum by the longitudinal and transverse Doppler formulas."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l090-magnetism-from-relativity",
+					"title": "Magnetism as a relativistic effect",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Explain how the magnetic force between a wire and a charge emerges from the electric force in the charge's rest frame",
-						"Derive and apply the field transformation rules for boosts along x",
-						"Compute the field of a uniformly moving point charge from the rest-frame Coulomb field",
-						"Identify the two Lorentz invariants E.B and E^2 - c^2 B^2 and what they say about fields in different frames"
+						"Compute the field of a uniformly moving point charge from the rest-frame Coulomb field"
 					],
-					"keyEquations": [
-						"E'_x=E_x,\\;E'_y=\\gamma(E_y-vB_z),\\;E'_z=\\gamma(E_z+vB_y)",
-						"B'_y=\\gamma(B_y+\\tfrac{v}{c^2}E_z),\\;B'_z=\\gamma(B_z-\\tfrac{v}{c^2}E_y)",
-						"\\mathbf E\\cdot\\mathbf B,\\;E^2-c^2B^2"
-					],
+					"keyEquations": [],
 					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§12.3.1",
 							"title": "Magnetism as a Relativistic Phenomenon"
-						},
-						{
-							"bookId": "griffiths-em",
-							"ref": "§12.3.2",
-							"title": "How the Fields Transform"
 						}
 					],
 					"lectures": [
@@ -2016,21 +3109,45 @@
 					"practice": []
 				},
 				{
-					"id": "p5-l044-field-tensor-covariant",
-					"title": "The field tensor and covariant electrodynamics",
-					"minutes": 105,
+					"id": "p5-l091-field-transformations-invariants",
+					"title": "Transformation of E and B and the Lorentz invariants",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Derive and apply the field transformation rules for boosts along x",
+						"Identify the two Lorentz invariants E.B and E^2 - c^2 B^2 and what they say about fields in different frames"
+					],
+					"keyEquations": [
+						"E'_x=E_x,\\;E'_y=\\gamma(E_y-vB_z),\\;E'_z=\\gamma(E_z+vB_y)",
+						"B'_y=\\gamma(B_y+\\tfrac{v}{c^2}E_z),\\;B'_z=\\gamma(B_z-\\tfrac{v}{c^2}E_y)",
+						"\\mathbf E\\cdot\\mathbf B,\\;E^2-c^2B^2"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-em",
+							"ref": "§12.3.2",
+							"title": "How the Fields Transform"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Boost slider β: E and B vectors in the lab frame beside those in the moving frame, with the invariants E·B and E² - c²B² displayed unchanged."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l092-field-tensor-covariant-maxwell",
+					"title": "The field tensor and the covariant Maxwell equations",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Define the electromagnetic field tensor F and write its components in terms of E and B",
-						"Write the four-current and the covariant form of the two Maxwell equations in terms of F and its dual",
-						"Write the potentials as a four-vector and the Lorentz force in covariant form",
-						"Verify that the field transformation rules follow from the transformation of a rank-2 tensor"
+						"Write the four-current and the covariant form of the two Maxwell equations in terms of F and its dual"
 					],
 					"keyEquations": [
 						"F^{\\mu\\nu}=\\partial^\\mu A^\\nu-\\partial^\\nu A^\\mu",
 						"\\partial_\\mu F^{\\mu\\nu}=\\mu_0J^\\nu",
-						"\\partial_\\mu\\tilde F^{\\mu\\nu}=0",
-						"\\frac{dp^\\mu}{d\\tau}=qF^{\\mu\\nu}u_\\nu"
+						"\\partial_\\mu\\tilde F^{\\mu\\nu}=0"
 					],
 					"readings": [
 						{
@@ -2042,7 +3159,38 @@
 							"bookId": "griffiths-em",
 							"ref": "§12.3.4",
 							"title": "Electrodynamics in Tensor Notation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "7-2.2 Field strength tensor and Maxwell's inhomogeneous equations",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a678820b-17e9-40c5-bb85-ac73013c5f1d"
 						},
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "7-2.3 Maxwell's homogeneous equations",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=82f3b413-6b09-465d-87bd-ac730152c8f1"
+						}
+					],
+					"demoIdeas": [
+						"A 4×4 matrix F^{μν} filled from E and B sliders with the antisymmetric entries highlighted, and a boost slider that mixes the entries as the frame changes."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l093-four-potential-covariant-lorentz-force",
+					"title": "The four-potential, the covariant Lorentz force and field transformation",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Write the potentials as a four-vector and the Lorentz force in covariant form",
+						"Verify that the field transformation rules follow from the transformation of a rank-2 tensor"
+					],
+					"keyEquations": [
+						"\\frac{dp^\\mu}{d\\tau}=qF^{\\mu\\nu}u_\\nu"
+					],
+					"readings": [
 						{
 							"bookId": "griffiths-em",
 							"ref": "§12.3.5",
@@ -2057,21 +3205,13 @@
 						},
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "7-2.2 Field strength tensor and Maxwell's inhomogeneous equations",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a678820b-17e9-40c5-bb85-ac73013c5f1d"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "7-2.3 Maxwell's homogeneous equations",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=82f3b413-6b09-465d-87bd-ac730152c8f1"
-						},
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "7-3.2 Relativistic form for the Lorentz force",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=b15a00d0-acb4-45bc-bbbc-ac73016ca4e4"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Integrate a charge's worldline in chosen E and B fields: plot the four-momentum components against proper time and show the energy change from E·v with B doing no work."
+					],
 					"practice": [
 						"Griffiths EM Ch. 12 problems on the field tensor and on transforming E and B"
 					]
@@ -2082,17 +3222,16 @@
 			"id": "p5-u10-grad-jackson",
 			"title": "Graduate Electrodynamics: Boundary-Value Problems and Radiation",
 			"summary": "Jackson-level methods: Green's functions and expansions in spherical harmonics and Bessel functions, multipoles in media, waveguide modes, and multipole radiation.",
+			"grad": true,
 			"lessons": [
 				{
-					"id": "p5-l045-green-functions-bvp",
-					"title": "Green's theorem and Green's functions for electrostatic boundary-value problems",
-					"minutes": 105,
+					"id": "p5-l094-greens-theorem-dirichlet-green-function",
+					"title": "Green's theorem and the Dirichlet Green function",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Derive Green's theorem and the formal solution of Poisson's equation with Dirichlet or Neumann boundary conditions",
-						"Define the Dirichlet Green function G_D and construct it by adding a harmonic function to 1/|x - x'|",
-						"Use the image-charge result as a Green function and rederive the potential in a region bounded by a grounded plane",
-						"Show the symmetry G(x,x') = G(x',x) and interpret the surface integral of V times the normal derivative of G"
+						"Define the Dirichlet Green function G_D and construct it by adding a harmonic function to 1/|x - x'|"
 					],
 					"keyEquations": [
 						"\\nabla'^2G(\\mathbf x,\\mathbf x')=-4\\pi\\delta(\\mathbf x-\\mathbf x')",
@@ -2125,32 +3264,53 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "2-1.2 The Poisson equation as a boundary value problem, electrostatic boundary conditions",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f7678921-c226-4b97-869d-ac27015727e6"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Place a source point in a region with a grounded boundary: build G as 1/|x - x'| plus a harmonic correction and show how the correction field makes G vanish on the boundary."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l095-image-green-function-symmetry",
+					"title": "Image charges as Green functions and the symmetry of G",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Use the image-charge result as a Green function and rederive the potential in a region bounded by a grounded plane",
+						"Show the symmetry G(x,x') = G(x',x) and interpret the surface integral of V times the normal derivative of G"
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "jackson",
+							"ref": "§1.10",
+							"title": "Formal Solution of Electrostatic Boundary-Value Problem with Green Function"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 8.07 (Fall 2012)",
 							"title": "Electromagnetism II (Guth, Chen): lecture notes, problem sets, exams",
 							"url": "https://ocw.mit.edu/courses/8-07-electromagnetism-ii-fall-2012/"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Swap the source and field points for a grounded-plane Green function: the heat maps of G(x, x') and G(x', x) coincide, and the image charge is drawn alongside."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l046-spherical-harmonics-legendre",
-					"title": "Legendre functions, spherical harmonics and the addition theorem",
-					"minutes": 105,
+					"id": "p5-l096-legendre-associated-legendre",
+					"title": "Legendre and associated Legendre functions",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Derive the Legendre and associated Legendre equations from separating Laplace's equation in spherical coordinates",
-						"State the orthonormality and completeness of Y_lm and the generating function for Legendre polynomials",
-						"State the addition theorem and use it to expand 1/|x - x'| in spherical harmonics",
-						"Solve a Laplace problem without azimuthal symmetry by expanding in Y_lm",
-						"Link Y_lm to the angular parts of hydrogen orbitals and to the l-th multipole moment q_lm"
+						"State the orthonormality and completeness of Y_lm and the generating function for Legendre polynomials"
 					],
 					"keyEquations": [
-						"Y_{lm}(\\theta,\\phi)=\\sqrt{\\frac{2l+1}{4\\pi}\\frac{(l-m)!}{(l+m)!}}P_l^m(\\cos\\theta)e^{im\\phi}",
-						"\\frac{1}{|\\mathbf x-\\mathbf x'|}=4\\pi\\sum_{l,m}\\frac{1}{2l+1}\\frac{r_<^l}{r_>^{l+1}}Y^*_{lm}(\\theta',\\phi')Y_{lm}(\\theta,\\phi)",
-						"q_{lm}=\\int Y^*_{lm}r'^l\\rho\\,d^3x'"
+						"Y_{lm}(\\theta,\\phi)=\\sqrt{\\frac{2l+1}{4\\pi}\\frac{(l-m)!}{(l+m)!}}P_l^m(\\cos\\theta)e^{im\\phi}"
 					],
 					"readings": [
 						{
@@ -2167,11 +3327,6 @@
 							"bookId": "jackson",
 							"ref": "§3.5",
 							"title": "Associated Legendre Functions and the Spherical Harmonics Ylm(theta, phi)"
-						},
-						{
-							"bookId": "jackson",
-							"ref": "§3.6",
-							"title": "Addition Theorem for Spherical Harmonics"
 						}
 					],
 					"lectures": [
@@ -2184,26 +3339,54 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "2-3.4 Examples with azimuthal symmetry",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=f6c3af2f-8eb9-4128-ae74-ac340157084d"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Sliders for l and m: polar plot of P_l^m(cosθ) and a 3D surface of Y_lm with its nodal lines, and a readout of the orthogonality integral between two chosen functions."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l097-addition-theorem-ylm-expansions",
+					"title": "The addition theorem and expansions in spherical harmonics",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"State the addition theorem and use it to expand 1/|x - x'| in spherical harmonics",
+						"Solve a Laplace problem without azimuthal symmetry by expanding in Y_lm",
+						"Link Y_lm to the angular parts of hydrogen orbitals and to the l-th multipole moment q_lm"
+					],
+					"keyEquations": [
+						"\\frac{1}{|\\mathbf x-\\mathbf x'|}=4\\pi\\sum_{l,m}\\frac{1}{2l+1}\\frac{r_<^l}{r_>^{l+1}}Y^*_{lm}(\\theta',\\phi')Y_{lm}(\\theta,\\phi)",
+						"q_{lm}=\\int Y^*_{lm}r'^l\\rho\\,d^3x'"
+					],
+					"readings": [
+						{
+							"bookId": "jackson",
+							"ref": "§3.6",
+							"title": "Addition Theorem for Spherical Harmonics"
+						}
+					],
+					"lectures": [
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "2-4.1 The monopole, dipole, and quadrupole moments, general expansion",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a3e91c00-723d-4746-8bc5-ac3500f797f0"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Two direction vectors with a movable angle γ: compare P_l(cosγ) with the sum of Y_lm products, and watch partial sums of the expansion of 1/|x - x'| converge as l increases."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l047-cylindrical-bessel-green-expansions",
-					"title": "Cylindrical coordinates, Bessel functions and Green-function expansions",
-					"minutes": 105,
+					"id": "p5-l098-cylindrical-laplace-bessel",
+					"title": "Laplace's equation in cylindrical coordinates and Bessel functions",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Separate Laplace's equation in cylindrical coordinates and identify Bessel functions as radial solutions",
-						"State orthogonality of Bessel functions and fit a cylinder-with-end-caps boundary-value problem",
-						"Expand the Green function in spherical and cylindrical coordinates in terms of Y_lm and Bessel functions",
-						"Use a Green-function expansion to compute the potential of a ring or disc of charge"
+						"State orthogonality of Bessel functions and fit a cylinder-with-end-caps boundary-value problem"
 					],
 					"keyEquations": [
 						"\\rho^2R''+\\rho R'+(k^2\\rho^2-m^2)R=0",
@@ -2214,7 +3397,31 @@
 							"bookId": "jackson",
 							"ref": "§3.7",
 							"title": "Laplace Equation in Cylindrical Coordinates; Bessel Functions"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "2-3.2 Separation of variables in cylindrical coordinates",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a953931f-0b45-4483-93b7-ac34012badcc"
+						}
+					],
+					"demoIdeas": [
+						"Plot J_m(x) with its zeros marked and choose a grounded cylinder with a potential on the end cap: the mode decays as exp(-x_mn z / a) along the axis with the radial profile shown."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l099-green-function-expansions",
+					"title": "Green-function expansions in spherical and cylindrical coordinates",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Expand the Green function in spherical and cylindrical coordinates in terms of Y_lm and Bessel functions",
+						"Use a Green-function expansion to compute the potential of a ring or disc of charge"
+					],
+					"keyEquations": [],
+					"readings": [
 						{
 							"bookId": "jackson",
 							"ref": "§3.9",
@@ -2226,26 +3433,21 @@
 							"title": "Solution of Potential Problems with the Spherical Green Function Expansion"
 						}
 					],
-					"lectures": [
-						{
-							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
-							"title": "2-3.2 Separation of variables in cylindrical coordinates",
-							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=a953931f-0b45-4483-93b7-ac34012badcc"
-						}
+					"lectures": [],
+					"demoIdeas": [
+						"Truncation order slider for a ring of charge: partial sums of the multipole series for the potential on and off the axis converge to the exact value, with the error plotted against distance."
 					],
-					"demoIdeas": [],
 					"practice": []
 				},
 				{
-					"id": "p5-l048-multipoles-macroscopic-media",
-					"title": "Multipole expansion of energies and macroscopic media",
-					"minutes": 90,
+					"id": "p5-l100-multipole-energy-quadrupole-tensor",
+					"title": "The multipole energy in an external field and the quadrupole tensor",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Expand the interaction energy of a charge distribution with an external potential in multipole moments",
 						"Define the traceless quadrupole tensor and compute Q_ij for a simple distribution",
-						"Link the nuclear quadrupole moment's coupling to field gradients to NQR / quadrupolar NMR line shapes (chemistry hook)",
-						"Derive macroscopic Maxwell equations by spatial averaging of the microscopic ones and identify P as the dipole density"
+						"Link the nuclear quadrupole moment's coupling to field gradients to NQR / quadrupolar NMR line shapes (chemistry hook)"
 					],
 					"keyEquations": [
 						"W=q\\Phi(0)-\\mathbf p\\cdot\\mathbf E(0)-\\tfrac16\\sum_{ij}Q_{ij}\\frac{\\partial E_j}{\\partial x_i}-\\dots",
@@ -2268,31 +3470,54 @@
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "2-4.3 The quadrupole term more generally, angular averaged potential",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=fe91e266-72eb-4eff-bdfd-ac35014fbff3"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Arrange a few point charges to build p and the quadrupole tensor (drawn as an ellipsoid), then apply a field-gradient slider to see each term's contribution to the interaction energy."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l101-macroscopic-maxwell-averaging",
+					"title": "Macroscopic Maxwell equations by spatial averaging",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Derive macroscopic Maxwell equations by spatial averaging of the microscopic ones",
+						"Identify P as the dipole density that emerges from the averaging, and the bound charge it implies"
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "jackson",
+							"ref": "§4.2",
+							"title": "Multipole Expansion of the Energy of a Charge Distribution in an External Field"
+						}
+					],
+					"lectures": [
 						{
 							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
 							"title": "3-1.2 Averaging over atomic lengths, polarization density, electric displacement D",
 							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=013f7abb-4c8c-4e1e-8575-ac420166a564"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"A lattice of atomic charges with a microscopic field: an averaging-length slider smooths the field once it exceeds the atomic spacing, and the polarisation P emerges from the averaged dipole density."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l049-waveguides-cavities",
-					"title": "Waveguides and resonant cavities",
-					"minutes": 105,
+					"id": "p5-l102-te-tm-modes-general-guides",
+					"title": "TE and TM modes of general waveguides",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Derive the TE and TM mode equations for a general cylindrical guide from the longitudinal field components",
-						"Compute the cutoff frequencies and field patterns for a rectangular waveguide and describe modes of a circular guide",
-						"Compute power flow and attenuation in a waveguide with a lossy wall",
-						"Find the resonant frequencies of a rectangular cavity and define the quality factor Q"
+						"Compute the cutoff frequencies and field patterns for a rectangular waveguide and describe modes of a circular guide"
 					],
 					"keyEquations": [
 						"\\left[\\nabla_t^2+\\gamma^2\\right]\\psi=0,\\;\\gamma^2=\\mu\\epsilon\\omega^2-k^2",
-						"\\omega_{\\lambda}=\\frac{\\gamma_\\lambda}{\\sqrt{\\mu\\epsilon}}",
-						"Q=\\omega_0\\frac{\\text{stored energy}}{\\text{power loss}}"
+						"\\omega_{\\lambda}=\\frac{\\gamma_\\lambda}{\\sqrt{\\mu\\epsilon}}"
 					],
 					"readings": [
 						{
@@ -2309,11 +3534,6 @@
 							"bookId": "jackson",
 							"ref": "§8.4",
 							"title": "Modes in a Rectangular Waveguide"
-						},
-						{
-							"bookId": "jackson",
-							"ref": "§8.7",
-							"title": "Resonant Cavities"
 						}
 					],
 					"lectures": [
@@ -2326,32 +3546,62 @@
 							"source": "Chung-Sang Ng: Electromagnetic Theory (Jackson, Classical Electrodynamics)",
 							"title": "Jackson Section 8.2 Cylindrical Cavities and Waveguides - Classification of Wave Modes",
 							"url": "https://www.youtube.com/watch?v=IHrSKf1Y7Zc"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Choose a rectangular or circular guide and a TE or TM mode with indices: the field pattern across the cross-section and the cutoff frequency table update."
+					],
+					"practice": []
+				},
+				{
+					"id": "p5-l103-waveguide-attenuation-cavities",
+					"title": "Waveguide attenuation, resonant cavities and the quality factor",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Compute power flow and attenuation in a waveguide with a lossy wall",
+						"Find the resonant frequencies of a rectangular cavity and define the quality factor Q"
+					],
+					"keyEquations": [
+						"Q=\\omega_0\\frac{\\text{stored energy}}{\\text{power loss}}"
+					],
+					"readings": [
+						{
+							"bookId": "jackson",
+							"ref": "§8.7",
+							"title": "Resonant Cavities"
+						}
+					],
+					"lectures": [
 						{
 							"source": "Chung-Sang Ng: Electromagnetic Theory (Jackson, Classical Electrodynamics)",
 							"title": "Jackson Section 8.7 Resonant Cavities - General Formula",
 							"url": "https://www.youtube.com/watch?v=1omtxf9Wekc"
+						},
+						{
+							"source": "MIT OCW 8.03 (Fall 2004, Walter Lewin)",
+							"title": "Lec 17: Wave Guides - Resonance Cavities of EM-radiation and Sound",
+							"url": "https://archive.org/details/MIT8.03F04/ocw-8.03-lec17-mit-220k.mp4"
 						}
 					],
-					"demoIdeas": [],
+					"demoIdeas": [
+						"Cavity dimensions sliders give the resonance spectrum; a Q slider widens each line as Δf = f₀/Q and a wall-loss slider shows the energy ringing down in time."
+					],
 					"practice": []
 				},
 				{
-					"id": "p5-l050-multipole-radiation",
-					"title": "Radiating systems and multipole fields",
-					"minutes": 105,
+					"id": "p5-l104-far-fields-e1-m1-e2",
+					"title": "Far fields of an oscillating source and the E1, M1 and E2 terms",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Write the radiated fields of a localised oscillating source in the far zone from the retarded Green function",
 						"Compute the fields and power of electric-dipole radiation and compare with the long-wavelength approximation in Griffiths",
-						"Derive the magnetic-dipole and electric-quadrupole fields in the same expansion",
-						"Expand radiation fields in vector spherical harmonics and say what angular momentum a multipole photon carries",
-						"State the selection rules for E1, M1 and E2 transitions and the order-of-magnitude rate ratios used in spectroscopy"
+						"Derive the magnetic-dipole and electric-quadrupole fields in the same expansion"
 					],
 					"keyEquations": [
 						"\\mathbf A(\\mathbf x)=\\frac{\\mu_0}{4\\pi}\\frac{e^{ikr}}{r}\\int\\mathbf J(\\mathbf x')e^{-ik\\hat n\\cdot\\mathbf x'}d^3x'",
-						"\\frac{dP}{d\\Omega}=\\frac{c^2Z_0k^4}{32\\pi^2}|\\hat n\\times\\mathbf p|^2",
-						"\\mathbf L\\text{ carried by a multipole of order }(l,m)\\text{ photon}:\\ \\hbar\\sqrt{l(l+1)}"
+						"\\frac{dP}{d\\Omega}=\\frac{c^2Z_0k^4}{32\\pi^2}|\\hat n\\times\\mathbf p|^2"
 					],
 					"readings": [
 						{
@@ -2368,11 +3618,6 @@
 							"bookId": "jackson",
 							"ref": "§9.3",
 							"title": "Magnetic Dipole and Electric Quadrupole Fields"
-						},
-						{
-							"bookId": "jackson",
-							"ref": "§9.7",
-							"title": "Multipole Expansion of the Electromagnetic Fields"
 						}
 					],
 					"lectures": [
@@ -2406,9 +3651,39 @@
 						"Multipole radiation patterns: choose (l, m) and display the angular distribution for E and M multipoles"
 					],
 					"practice": []
+				},
+				{
+					"id": "p5-l105-multipole-photons-selection-rules",
+					"title": "Multipole photons, angular momentum and selection rules",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Expand radiation fields in vector spherical harmonics and say what angular momentum a multipole photon carries",
+						"State the selection rules for E1, M1 and E2 transitions and the order-of-magnitude rate ratios used in spectroscopy"
+					],
+					"keyEquations": [
+						"\\mathbf L\\text{ carried by a multipole of order }(l,m)\\text{ photon}:\\ \\hbar\\sqrt{l(l+1)}"
+					],
+					"readings": [
+						{
+							"bookId": "jackson",
+							"ref": "§9.7",
+							"title": "Multipole Expansion of the Electromagnetic Fields"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Univ. of Rochester PHYS 415 (Teitel, Fall 2024), graduate-level",
+							"title": "6-2.2 Magnetic dipole and electric quadrupole contributions to the vector potential, A(M1) and A(E2)",
+							"url": "https://rochester.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=48a48ecc-bcbd-4a5f-96af-ac6900441059"
+						}
+					],
+					"demoIdeas": [
+						"Pick the multipole order l, m and E or M type: the angular intensity pattern and photon angular momentum are shown beside an atomic level diagram marking the allowed ΔJ and parity changes."
+					],
+					"practice": []
 				}
-			],
-			"grad": true
+			]
 		}
 	],
 	"exams": [

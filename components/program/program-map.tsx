@@ -93,7 +93,7 @@ function overviewGraph(program: ProgramView, snapshot: ProgressSnapshot): { node
 		return v;
 	};
 	const cols = new Map<number, CourseView[]>();
-	const trackRank: Record<string, number> = { math: 0, physics: 1, survey: 2, elective: 3, capstone: 4 };
+	const trackRank: Record<string, number> = { math: 0, physics: 1, chemphys: 2, survey: 3, elective: 4, capstone: 5 };
 	for (const c of program.courses) cols.set(d(c.id), [...(cols.get(d(c.id)) ?? []), c]);
 	const nodes: Node[] = [];
 	for (const [col, list] of cols) {
@@ -107,7 +107,20 @@ function overviewGraph(program: ProgramView, snapshot: ProgressSnapshot): { node
 			});
 		});
 	}
-	const edges: Edge[] = program.courses.flatMap((c) =>
+	const known = new Set(program.courses.map((c) => c.id));
+	// Co-requisites: taken alongside, never blocking — a dashed link.
+	const pairs = new Set<string>();
+	const coreqEdges: Edge[] = program.courses.flatMap((c) =>
+		c.coreqs
+			.filter((q) => {
+				const key = [c.id, q].sort().join("~");
+				if (!known.has(q) || pairs.has(key)) return false;
+				pairs.add(key);
+				return true;
+			})
+			.map((q) => ({ id: `${q}~${c.id}`, source: q, target: c.id, style: { stroke: "var(--tr-elective)", strokeDasharray: "5 5", strokeOpacity: 0.7 } })),
+	);
+	const edges: Edge[] = [...coreqEdges, ...program.courses.flatMap((c) =>
 		c.prereqs.map((p) => {
 			const ready = snapshot.courses[p]?.status === "passed";
 			return {
@@ -118,7 +131,7 @@ function overviewGraph(program: ProgramView, snapshot: ProgressSnapshot): { node
 				style: { stroke: ready ? "var(--st-mastered)" : "var(--border)", strokeWidth: ready ? 2 : 1.25 },
 			};
 		}),
-	);
+	)];
 	return { nodes, edges };
 }
 

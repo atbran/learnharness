@@ -19,6 +19,7 @@ export function CoursePage({ courseId, initial }: { courseId: string; initial: P
 	const cp = s.courses[course.id];
 	const color = TRACK_COLOR[course.track];
 	const prereqs = data.program.courses.filter((c) => course.prereqs.includes(c.id));
+	const coreqs = data.program.courses.filter((c) => course.coreqs.includes(c.id) || c.coreqs.includes(course.id));
 
 	return (
 		<div className="flex h-full min-h-0 flex-col">
@@ -43,6 +44,16 @@ export function CoursePage({ courseId, initial }: { courseId: string; initial: P
 							</div>
 							<h1 className="font-title text-4xl leading-tight tracking-tight">{course.title}</h1>
 							<p className="mt-1 max-w-3xl text-sm text-muted-foreground">{course.summary}</p>
+							{coreqs.length > 0 && (
+								<div className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
+									Take alongside:
+									{coreqs.map((p) => (
+										<Link key={p.id} href={`/program/course/${p.id}`} className="hover:text-foreground" style={{ color: TRACK_COLOR[p.track] }}>
+											{p.code} {p.title}
+										</Link>
+									))}
+								</div>
+							)}
 							{prereqs.length > 0 && (
 								<div className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
 									Builds on:

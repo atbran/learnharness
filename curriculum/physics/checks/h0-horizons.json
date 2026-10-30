@@ -1,0 +1,1038 @@
+{
+	"courseId": "h0-horizons",
+	"checks": {
+		"h0-l001-models-units-dimensional-analysis": [
+			{
+				"kind": "mc",
+				"prompt": "A pendulum's period could in principle depend on its length $L$, its bob mass $m$ and the gravitational acceleration $g$. What does dimensional analysis say about the mass?",
+				"options": [
+					"Mass matters: a heavier bob has more inertia, so the period grows with $m$, as in most mechanics",
+					"Mass cannot appear: neither $L$ nor $g$ contains kilograms, so $m$ would leave stray units",
+					"Dimensional analysis cannot decide about $m$; only a careful experiment on real pendulums can",
+					"Mass enters as $\\sqrt{m}$, since only then does the period come out with the right overall units"
+				],
+				"answer": 1,
+				"explanation": "The only way to build a time from $L$ (m) and $g$ (m/s²) is $\\sqrt{L/g}$. Nothing else carries kilograms, so any power of $m$ would leave a stray mass unit in the answer."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The ideal gas law fails badly for CO₂ at 70 atm and 300 K. What is the most useful conclusion?",
+				"options": [
+					"Its assumptions (no molecular volume, no attraction) fail at this density; refine it there",
+					"The law is wrong in general, so it should be discarded for every gas at every pressure",
+					"The measurement must contain an error, because a well-established law cannot actually fail",
+					"The law was only ever meant for monatomic gases like argon, and CO₂ has three atoms in it"
+				],
+				"answer": 0,
+				"explanation": "A model is an idealization with a domain. At high density molecular volume and attractions matter, so you leave the ideal-gas domain; you keep the model where it works and refine it where it does not."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "How many times longer is the period of the 67 m Foucault pendulum in the Paris Pantheon than the period of a 1.0 m pendulum at the same place? (Use the scaling $T \\propto \\sqrt{L}$.)",
+				"answer": 8.19,
+				"tolerance": 0.05,
+				"explanation": "$T \\propto \\sqrt{L}$, so the ratio is $\\sqrt{67} \\approx 8.19$. A 1 m pendulum swings in about 2.0 s, so the Pantheon pendulum takes about 16 s per swing."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why dimensional analysis can tell you that a pendulum's period must look like $\\sqrt{L/g}$ but cannot tell you the factor $2\\pi$, and why the partial answer is still useful.",
+				"rubric": "Full credit requires: (1) the units of L and g allow only one combination with units of time, so T = C sqrt(L/g); (2) C is a pure number, invisible to unit bookkeeping, and must come from a calculation or a measurement; (3) a use of the partial result, such as scaling (quadrupling L doubles T), checking an equation, or fixing C with one measurement.",
+				"modelAnswer": "Only the combination sqrt(L/g) has units of seconds, so the period must be some pure number times that. Pure numbers like 2π cannot be seen by unit bookkeeping, so one measurement or a real calculation is needed to fix it. Even without it you can predict that a pendulum four times longer swings twice as slowly."
+			}
+		],
+		"h0-l002-fermi-estimation-powers-of-ten": [
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the number of gas molecules in one normal breath: 0.50 L of air at about 1 atm and room temperature. (Use $PV = nRT$ at 298 K or 22.4 L/mol at 0 °C; both are fine at this level.) Give the number of molecules.",
+				"answer": 1.28e+22,
+				"tolerance": 0.1,
+				"unit": "molecules",
+				"explanation": "At 298 K, $n = PV/RT \\approx 0.0204$ mol, or $1.23\\times10^{22}$ molecules; the 22.4 L/mol shortcut gives $1.34\\times10^{22}$. Both land inside 10% of $1.28\\times10^{22}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You estimate five independent quantities, each uncertain by a factor of about 3 up or down, and multiply them. How uncertain is the product, typically?",
+				"options": [
+					"Still about a factor of 3, because the errors average out to the same size as one",
+					"A factor of $3^5 = 243$, because every error compounds in the same direction each time",
+					"Typically about a factor of 10, since over- and under-estimates partly cancel",
+					"Unknowable, because guesses made without measured error bars carry no uncertainty at all"
+				],
+				"answer": 2,
+				"explanation": "Independent errors in the logarithm add like a random walk: the spread grows as $3^{\\sqrt{5}} \\approx 12$, not $3^5$. Chains of rough factors are more reliable than they look."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two independent routes to the number of atoms in a human body give $10^{27}$ and $10^{25}$. What is the best response?",
+				"options": [
+					"Average the two to get $5\\times10^{26}$, which is probably the closest to the true value",
+					"Prefer the route whose inputs were quoted with more digits, since it is more precise",
+					"Trust the larger number, because rough estimates usually come out too low in practice",
+					"Hunt for a factor-of-100 slip in one route before trusting either number"
+				],
+				"answer": 3,
+				"explanation": "Two honest estimates rarely differ by 100. A gap that big points to a slip, such as a wrong unit or a missing factor, and finding it teaches you more than averaging would."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why can an estimate that is good to only a factor of 3 still settle a physical question? Give one example from this course.",
+				"rubric": "Full credit requires: (1) many physical questions are decided by gaps of many orders of magnitude, so a factor of 3 does not change the conclusion; (2) a concrete example with numbers, such as chemical energies (about 1 eV per atom) versus nuclear energies (about 1 MeV per nucleon), a ratio near 10^6, or the gravity-to-electric force ratio near 10^-36.",
+				"modelAnswer": "Questions like 'which energy source is bigger?' are decided by factors of millions, so being off by 3 changes nothing. For example chemical reactions release about 1 eV per atom and nuclear reactions about 1 MeV per nucleon, so even a sloppy estimate shows that nuclear energy per kilogram is around a million times larger."
+			}
+		],
+		"h0-l003-scaling-laws-square-cube": [
+			{
+				"kind": "mc",
+				"prompt": "A model of a dinosaur is built at 1/10 scale in every dimension from the same bone-like material. Compared with the real animal, its leg strength relative to its body weight is:",
+				"options": [
+					"About 10 times better, since strength scales as $L^2$ but weight as $L^3$",
+					"The same, because the material and the proportions are identical",
+					"About 10 times worse, because a smaller leg is thinner",
+					"About 1000 times worse, because volume shrinks as $L^3$ while strength stays fixed"
+				],
+				"answer": 0,
+				"explanation": "Strength follows the leg's cross-section ($L^2$) and weight follows volume ($L^3$), so strength per weight goes as $1/L$. This is why ants carry many times their weight and why a 10-times-larger animal needs thicker legs."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An atom's radius is about $10^{-10}$ m and its nucleus's radius about $10^{-15}$ m. If the nucleus were enlarged to a pea of 1 cm radius, what would the radius of the atom be, in metres?",
+				"answer": 1000,
+				"tolerance": 0.05,
+				"unit": "m",
+				"explanation": "The ratio is $10^5$, and $10^5 \\times 1\\ \\text{cm} = 10^5$ cm $= 1$ km in radius, i.e. 1000 m. Atoms are almost entirely empty space."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does a small cup of coffee cool faster than a large pot at the same starting temperature?",
+				"options": [
+					"Small cups hold hotter coffee, because they are filled more recently than a large pot is",
+					"Heat loss is proportional to the amount of coffee, so the container size makes no difference",
+					"Large pots have a lower specific heat, so they store more energy for every degree of cooling",
+					"Heat content scales as $L^3$ but loss goes through area $L^2$, so smaller things cool faster"
+				],
+				"answer": 3,
+				"explanation": "Cooling time goes roughly as (stored heat)/(loss rate) $\\propto L^3/L^2 = L$. Halving the size halves the cooling time, which is also why a drop of water evaporates long before a lake."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain, using a scaling argument, why a finely divided platinum catalyst is far more effective per gram than a solid platinum bead.",
+				"rubric": "Full credit requires: (1) reactions happen at surface atoms, so activity scales with surface area; (2) for a fixed mass, total surface area scales as 1/L when the particle size L shrinks (surface/volume ~ 1/L); (3) a quantitative or concrete illustration, such as dividing a cube into 1 micrometre cubes multiplying area by 10^4.",
+				"modelAnswer": "Catalysis happens on surface atoms. A particle's surface-to-volume ratio goes as 1/L, so cutting the metal into much smaller pieces exposes far more atoms for the same mass. Splitting a 1 cm cube into 1 micrometre cubes raises the area by a factor of 10,000."
+			}
+		],
+		"h0-l004-postulates-simultaneity": [
+			{
+				"kind": "mc",
+				"prompt": "Lightning bolts hit both ends of a fast train. A platform observer midway between the strike points sees the two flashes arrive together. A passenger at the train's midpoint, moving toward the front, concludes:",
+				"options": [
+					"Both bolts struck at the same moment, since simultaneity is the same in every frame of reference",
+					"The front bolt struck first: its light reached her sooner, and light moves at $c$ in her frame",
+					"The rear bolt struck first, because its light had to catch up with the moving train to reach her",
+					"Her judgment is unreliable, since motion distorts both her clock and her ruler during the flash"
+				],
+				"answer": 1,
+				"explanation": "She meets the front flash before the rear flash catches her. Because both flashes travel at $c$ in her frame and she is equidistant from the two strike points, the earlier arrival means the front strike came first. Simultaneity is frame-dependent."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The Michelson-Morley experiment found no fringe shift when the apparatus was rotated. In Einstein's picture this is because:",
+				"options": [
+					"The Earth drags the ether along completely, so there is no ether wind at the surface",
+					"There is no preferred ether frame: light has the same speed $c$ in every inertial frame",
+					"Light travels faster along the Earth's motion, which cancels the arm-length difference",
+					"Ether pressure shrinks the moving arm, a mechanical effect unrelated to the speed of light"
+				],
+				"answer": 1,
+				"explanation": "There is no medium to move through, so every inertial observer measures $c$. The null result is then automatic rather than a lucky cancellation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two lightning flashes strike 1.0 km apart along a straight track and are simultaneous in the ground frame. A jet flies along the track at 250 m/s. By how many picoseconds do the flashes differ in the jet's frame? Use $\\Delta t' = v\\,\\Delta x/c^2$.",
+				"answer": 2.78,
+				"tolerance": 0.05,
+				"unit": "ps",
+				"explanation": "$\\Delta t' = (250)(1000)/(3.0\\times10^8)^2 \\approx 2.8\\times10^{-12}$ s. Real, but far too small to notice in ordinary life, because $v \\ll c$."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, explain why the constancy of the speed of light forces two observers in relative motion to disagree about whether two events are simultaneous.",
+				"rubric": "Full credit requires: (1) both observers measure the same speed c for the same light flashes; (2) because each observer moves toward one flash and away from the other, each must deduce different emission times if both see light travel at c over equal distances; (3) conclusion that either c or absolute simultaneity must go, and experiment keeps c.",
+				"modelAnswer": "Suppose two flashes are simultaneous for the platform. The passenger moves toward one flash and away from the other, yet both flashes still reach her at speed c. Working backward from when she sees them, she must conclude the front flash was emitted first. Since c is the same for everyone, the only thing that can give is the idea that 'at the same time' means the same thing for all observers."
+			}
+		],
+		"h0-l005-light-clock-time-dilation": [
+			{
+				"kind": "numeric",
+				"prompt": "An astronaut on the ISS travels at 7.66 km/s for 6 months (182.5 days). Using $\\gamma \\approx 1 + v^2/2c^2$ and ignoring gravity, by how many milliseconds does her clock fall behind a clock at rest?",
+				"answer": 5.15,
+				"tolerance": 0.05,
+				"unit": "ms",
+				"explanation": "$v^2/2c^2 \\approx 3.26\\times10^{-10}$, and 182.5 days is $1.577\\times10^7$ s, so the lag is about 5.1 ms. Tiny, but easily seen by atomic clocks."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Alice flies past Bob at $0.8c$ (so $\\gamma = 5/3$). Each watches the other's clock using local measurements. What do they find?",
+				"options": [
+					"Only Alice's clock runs slow, since she is the one that is moving",
+					"Each finds the other's clock running fast by a factor of 5/3",
+					"Each finds the other's clock running slow by a factor of 5/3, a symmetric result",
+					"They agree the clocks tick together, because proper time is the same for everyone"
+				],
+				"answer": 2,
+				"explanation": "Neither frame is special, so the effect must be symmetric. The apparent paradox disappears once you notice that comparing clocks at different places also involves the relativity of simultaneity."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a light clock seen from the lab while it moves sideways, the light zigzags along a longer path. Why does this imply time dilation?",
+				"options": [
+					"With $c$ fixed, the longer path takes longer, so the moving clock's ticks are stretched",
+					"Light slows down along the diagonal path, so each round trip takes longer than it does at rest",
+					"The mirrors move closer together, which shortens the path but somehow stretches the time",
+					"Motion damages the clock mechanism, so a moving clock simply runs poorly compared with a still one"
+				],
+				"answer": 0,
+				"explanation": "With $c$ fixed, longer path means longer time. The Pythagorean theorem for the zigzag gives $\\Delta t = \\gamma\\,\\Delta t_0$, and all clocks must agree with the light clock or relative motion could be detected."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what proper time is, and why time dilation does not mean that either observer's clock is 'really' running slow.",
+				"rubric": "Full credit requires: (1) proper time is the time between two events measured by a clock present at both events; (2) any other frame measures a longer interval (gamma times proper time); (3) the effect is symmetric between inertial observers, so there is no absolute fact about which clock is slow; both are right about their own measurements.",
+				"modelAnswer": "Proper time is what a single clock records between two events that happen at that clock. Every other observer in relative motion measures a longer time, by a factor gamma. Because the situation is symmetric, each observer finds the other's clock slow, so neither clock is 'really' slow. Each is simply measuring different intervals in spacetime."
+			}
+		],
+		"h0-l006-length-contraction-muons": [
+			{
+				"kind": "numeric",
+				"prompt": "Muons made 15 km above the ground have $\\gamma = 15$ (speed about $0.998c$) and a rest lifetime of 2.2 µs. What fraction survives to the ground? (Flight time in the Earth frame is about $d/c$; the dilated lifetime is $\\gamma\\tau$; use $e^{-t/\\gamma\\tau}$.)",
+				"answer": 0.22,
+				"tolerance": 0.1,
+				"explanation": "Flight time $\\approx 50$ µs and the dilated lifetime is $33$ µs, so the exponent is $1.5$ and $e^{-1.5} \\approx 0.22$. Without time dilation, 50 µs is 23 lifetimes and the survival would be $10^{-10}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the muon's own rest frame, how does it manage to reach the ground?",
+				"options": [
+					"Its lifetime is stretched to 33 µs by its motion, so the full 15 km is covered as in the lab",
+					"The atmosphere rushes up at $0.998c$, contracted to about 1 km, only ~1.5 lifetimes away",
+					"It reaches the ground only by luck, since 15 km is about 23 lifetimes in any frame at all",
+					"The ground is contracted but the muon's clock also runs slow, so the two effects just cancel"
+				],
+				"answer": 1,
+				"explanation": "In its own frame the muon's clock is normal and the distance is shortened to $15\\ \\text{km}/\\gamma = 1$ km. The trip takes about 3.3 µs, about 1.5 lifetimes, matching the Earth-frame answer."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A spaceship is 100 m long and 20 m wide in its own frame. It passes you at $0.6c$ ($\\gamma = 1.25$), moving along its length. You measure:",
+				"options": [
+					"125 m long and 25 m wide",
+					"100 m long and 16 m wide",
+					"80 m long and 20 m wide",
+					"80 m long and 16 m wide"
+				],
+				"answer": 2,
+				"explanation": "Only lengths along the motion contract: $100/1.25 = 80$ m. Lengths perpendicular to the motion are unchanged."
+			},
+			{
+				"kind": "short",
+				"prompt": "One student says 'the muon survives because its lifetime really is longer'. Another says 'it survives because the atmosphere really is thinner'. Explain why both can be right and what stays the same in both accounts.",
+				"rubric": "Full credit requires: (1) the two descriptions are in different frames (Earth frame: time dilation; muon frame: length contraction); (2) durations and lengths are frame-dependent measurements; (3) the physical outcome, the fraction of muons that reach the ground, is the same in both, because it concerns events (creation, arrival), which all observers agree happen.",
+				"modelAnswer": "In the Earth's frame the muon's clock is slowed, so it lives longer. In the muon's frame its clock is normal but the atmosphere is contracted so the trip is shorter. Time dilation and length contraction are two ways of describing the same spacetime events, and both predict that about 22% of the muons arrive. Which frame you use changes the bookkeeping, not the outcome."
+			}
+		],
+		"h0-l007-mass-energy-mass-defects": [
+			{
+				"kind": "numeric",
+				"prompt": "Burning 1 mol of CH₄ in O₂ (total reactant mass 80 g) releases 890 kJ. By what fraction does the mass of the closed system fall, $\\Delta m/m$, after the heat has left? Use $c = 3.00\\times10^8$ m/s.",
+				"answer": 1.24e-10,
+				"tolerance": 0.05,
+				"explanation": "$\\Delta m = 8.9\\times10^5\\ \\text{J}/(9.0\\times10^{16}) = 9.9\\times10^{-12}$ kg. Divided by 0.080 kg, that is $1.2\\times10^{-10}$: far below the precision of any balance, which is why Lavoisier's law of mass conservation works so well in chemistry."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A sealed steel bomb holding CH₄ and O₂ sits on a perfect balance. It is ignited, then cooled back to the starting temperature as heat flows out. In principle, when re-weighed it:",
+				"options": [
+					"Weighs exactly the same, because mass is conserved in every chemical reaction without exception",
+					"Weighs about 1 part in 10¹⁰ less, because the departed heat carried off mass $Q/c^2$",
+					"Weighs about 1 part in 10³ less, a loss that any ordinary laboratory balance would detect",
+					"Weighs slightly more, because the CO₂ and H₂O products are more tightly bound than the reactants"
+				],
+				"answer": 1,
+				"explanation": "Energy has inertia, so a system that gives up 890 kJ becomes lighter by $Q/c^2$. In chemistry the effect is so small ($10^{-10}$) that mass conservation holds to any practical precision."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement about $E = mc^2$ is correct?",
+				"options": [
+					"Mass is destroyed and replaced by energy, which is why only nuclear reactions can change mass",
+					"It applies only to moving objects, where $m$ is the relativistic mass that grows with speed",
+					"It holds only when matter meets antimatter and annihilates, releasing its entire rest energy",
+					"A system's rest energy includes all internal energy, so releasing energy lowers its mass"
+				],
+				"answer": 3,
+				"explanation": "The equation says that rest energy and inertia are the same thing. Any energy leaving a system, chemical or nuclear, takes mass with it; nuclear changes are just a million times larger per atom."
+			},
+			{
+				"kind": "short",
+				"prompt": "Where does a nucleus's mass defect go, and why do nuclear reactions release roughly a million times more energy per atom than chemical reactions?",
+				"rubric": "Full credit requires: (1) mass defect = the mass of separate nucleons minus the nucleus; equals binding energy/c^2, which was released as radiation and kinetic energy when the nucleus formed; (2) strong-force binding is about MeV per nucleon while chemical (electromagnetic) bonding is about eV per atom, a ratio of order 10^6.",
+				"modelAnswer": "When nucleons bind they give up energy (as gamma rays and kinetic energy), and the finished nucleus is lighter than its parts by that energy divided by c². The strong force binds nucleons at about 8 MeV each, while chemical bonds are about 1 eV per atom. That ratio of about a million is why a kilogram of nuclear fuel releases about a million times more energy than a kilogram of chemical fuel."
+			}
+		],
+		"h0-l008-photons-photoelectric-effect": [
+			{
+				"kind": "mc",
+				"prompt": "A dim violet lamp ejects electrons from potassium instantly, but a very bright red lamp ejects none. What does this show?",
+				"options": [
+					"Red light is not absorbed by metals at all, however intense the lamp is made to be",
+					"Violet light is always more intense than red light, even when its lamp has been dimmed",
+					"Electrons need time to accumulate energy, and violet light's longer wavelength delivers it faster",
+					"Light comes in quanta $hf$; a red photon is below the work function, and photons cannot pool"
+				],
+				"answer": 3,
+				"explanation": "One electron absorbs one photon. If $hf < \\phi$ the photon cannot free it, and a flood of such photons does not help. A violet photon has enough energy, so emission is immediate even from a dim lamp."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A mercury lamp emits 254 nm ultraviolet light. What is the energy of one mole of these photons, in kJ/mol? ($h = 6.626\\times10^{-34}$ J s, $c = 2.998\\times10^8$ m/s, $N_A = 6.022\\times10^{23}$.)",
+				"answer": 471,
+				"tolerance": 0.02,
+				"unit": "kJ/mol",
+				"explanation": "$E = N_A hc/\\lambda \\approx 471$ kJ/mol, comfortably above a C–C bond (about 350 kJ/mol) and a C–H bond (about 410 kJ/mol). A 700 nm red photon carries only about 170 kJ/mol."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can a 254 nm lamp break many C–C bonds while strong visible light usually cannot?",
+				"options": [
+					"Visible light is dimmer than UV, so too few visible photons arrive to break any bonds at all",
+					"Bond breaking needs resonance with the bond's vibration frequency rather than photon energy",
+					"A UV photon carries more energy than a typical C–C bond, a visible photon less",
+					"UV photons travel faster than visible photons, so each one strikes the bond harder when it hits"
+				],
+				"answer": 2,
+				"explanation": "What matters is the energy of each photon, not how many arrive. Photon energy $hc/\\lambda$ is about 470 kJ/mol at 254 nm but only 170 to 300 kJ/mol across the visible range, below typical single-bond energies."
+			},
+			{
+				"kind": "short",
+				"prompt": "The classical wave picture of light predicts a delay before emission and a maximum electron energy that grows with intensity. Explain why the actual observations disagree and how the photon picture fits them.",
+				"rubric": "Full credit requires: (1) observed: emission is immediate, K_max is independent of intensity and depends on frequency, and there is a threshold frequency; (2) a wave would spread energy over many atoms and need time to accumulate, with energy scaling with intensity; (3) photon picture: each electron absorbs one quantum hf, so K_max = hf - phi; intensity only changes the number of electrons.",
+				"modelAnswer": "A classical wave spreads its energy across the metal, so electrons should need time to build up energy, and brighter light should eject faster electrons. Experiments find no delay, a maximum energy that depends only on frequency, and no emission below a threshold frequency. If light arrives as quanta of energy hf, each electron takes one quantum, so K_max = hf - phi and intensity only controls how many electrons are freed."
+			}
+		],
+		"h0-l009-matter-waves-double-slit": [
+			{
+				"kind": "mc",
+				"prompt": "Electrons are fired at a double slit one at a time. Each lands as a single dot, yet after thousands of electrons the dots form fringes. This shows that:",
+				"options": [
+					"Each electron's landing probability comes from adding the amplitudes for both slits",
+					"Electrons collide with one another in flight and arrange themselves into fringes on the way",
+					"Each electron splits into two pieces that travel separately and recombine at the screen",
+					"Electrons scatter off the slit edges in a way that happens to produce a periodic pattern"
+				],
+				"answer": 0,
+				"explanation": "The fringes appear even when only one electron is in the apparatus at a time, so they cannot come from electron-electron interactions. The probability of each hit is $|\\psi_1 + \\psi_2|^2$, which includes an interference term."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A detector is added that records which slit each electron used. The fringes vanish because:",
+				"options": [
+					"The paths become distinguishable, so probabilities add instead of amplitudes",
+					"The detector kicks each electron randomly and the kicks smear the pattern completely away",
+					"Measuring turns the electron wave into a heavy particle that no longer diffracts at all",
+					"The electrons now travel too fast for their wavelength to matter at the screen at all"
+				],
+				"answer": 0,
+				"explanation": "What kills the interference is the availability of which-path information, not a particular mechanical disturbance. Even gentle which-way marking, or a record somewhere in the environment, turns $|\\psi_1+\\psi_2|^2$ into $|\\psi_1|^2 + |\\psi_2|^2$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A C₆₀ molecule (mass 720 u, with 1 u $= 1.661\\times10^{-27}$ kg) travels at 200 m/s. What is its de Broglie wavelength in picometres? ($h = 6.626\\times10^{-34}$ J s.)",
+				"answer": 2.77,
+				"tolerance": 0.05,
+				"unit": "pm",
+				"explanation": "$\\lambda = h/mv = 6.626\\times10^{-34}/(1.196\\times10^{-24}\\times200) \\approx 2.8$ pm. That is small, yet C₆₀ interference through gratings with 100 nm slits has been observed."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why you never see a thrown baseball diffract through a doorway, while an electron diffracts when passing through a crystal.",
+				"rubric": "Full credit requires: (1) lambda = h/p; (2) a baseball's p is huge so lambda is about 10^-34 m, far smaller than any aperture, so diffraction effects are unmeasurably small; (3) an electron with a few eV to 100 eV has lambda about an angstrom, comparable to atomic spacing, so diffraction is strong.",
+				"modelAnswer": "Diffraction is noticeable only when the wavelength is comparable to the size of the opening. A baseball's de Broglie wavelength h/p is around 10^-34 m, vastly smaller than a doorway, so it just travels in a straight line. A 100 eV electron has a wavelength near 0.12 nm, about the spacing between atoms in a crystal, so it diffracts strongly."
+			}
+		],
+		"h0-l010-uncertainty-size-of-atoms": [
+			{
+				"kind": "mc",
+				"prompt": "A student says: 'The uncertainty principle exists because measuring an electron's position gives it an unpredictable kick.' The best correction is:",
+				"options": [
+					"That is exactly right: the principle is purely about the disturbance caused by measurement",
+					"It is built into waves: a narrow packet needs a wide mix of wavelengths, whatever you use",
+					"It applies only to electrons, because heavier objects have exactly zero uncertainty at all times",
+					"It describes clumsy instruments and shrinks steadily as measurement technology improves"
+				],
+				"answer": 1,
+				"explanation": "A localized wave is a sum of many wavelengths, and $p = h/\\lambda$ turns that into a spread in momentum. Even before any measurement the state has no sharp value for both. Disturbance is a side-show."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why doesn't the electron in hydrogen spiral into the proton?",
+				"options": [
+					"It orbits so fast that the centrifugal force balances the electric attraction exactly at all times",
+					"The strong nuclear force repels it whenever it comes within a few angstroms of the proton",
+					"The electron's own charge repels itself and pushes it outward, balancing the proton's pull",
+					"Squeezing it into radius $r$ raises kinetic energy as $1/r^2$, faster than Coulomb energy falls as $-1/r$"
+				],
+				"answer": 3,
+				"explanation": "The total energy $\\hbar^2/(2mr^2) - ke^2/r$ has a minimum at $r = a_0 = 0.53$ Å. Confinement costs more than the attraction gains below that radius, so the atom has a finite size."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the kinetic energy of an electron confined to $\\Delta x = 0.10$ nm. Take $p \\approx \\hbar/\\Delta x$ and $K = p^2/2m$ with $\\hbar = 1.055\\times10^{-34}$ J s and $m_e = 9.11\\times10^{-31}$ kg. Give K in eV.",
+				"answer": 3.81,
+				"tolerance": 0.05,
+				"unit": "eV",
+				"explanation": "$K = \\hbar^2/(2m\\,\\Delta x^2) \\approx 6.1\\times10^{-19}$ J $= 3.8$ eV. This is the eV scale of chemistry."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why nucleons confined in a nucleus have energies of MeV while an electron confined in an atom has energies of eV.",
+				"rubric": "Full credit requires: (1) confinement energy scales as hbar^2/(2 m r^2); (2) nuclear radius is about 10^5 times smaller (factor 10^10 in 1/r^2), partly offset by the nucleon being about 2000 times heavier; (3) net ratio of about 10^6 between MeV and eV.",
+				"modelAnswer": "Confinement energy goes as ħ²/(2mr²). A nucleus is about 100,000 times smaller than an atom, which raises the energy by 10^10, but a nucleon is about 2000 times heavier than an electron, which lowers it by 2000. The net factor of about 5 million takes you from eV in atoms to MeV in nuclei."
+			}
+		],
+		"h0-l011-standing-waves-orbitals": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the absorption of a conjugated polyene move toward longer wavelengths (the red) as the chain gets longer?",
+				"options": [
+					"Longer chains have more electrons, so each transition absorbs a more energetic photon than before",
+					"A longer box has more closely spaced levels ($E \\propto 1/L^2$), so the HOMO-LUMO gap shrinks",
+					"Longer chains are heavier and vibrate more slowly, so they absorb correspondingly slower light",
+					"Each extra double bond absorbs one more photon, so the absorbed colours add up toward the red"
+				],
+				"answer": 1,
+				"explanation": "Longer box means longer standing waves and lower energies. The HOMO-LUMO gap $(N+1)h^2/8mL^2$ shrinks roughly as $1/L$ when $N$ grows with $L$, moving the absorption to lower photon energy. That is why carotene is orange-red."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which hydrogen orbital has exactly two radial nodes (spherical surfaces where the probability is zero)?",
+				"options": [
+					"2s",
+					"3s",
+					"3p",
+					"3d"
+				],
+				"answer": 1,
+				"explanation": "The number of radial nodes is $n - l - 1$. For 3s that is $3 - 0 - 1 = 2$; 2s and 3p have one, and 3d has none."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Model the 6 π electrons of a conjugated chain as electrons in a 1D box of length $L = 0.80$ nm (two per level). The lowest absorption is HOMO ($n = 3$) to LUMO ($n = 4$). What wavelength does it absorb, in nm? ($E_n = n^2h^2/8mL^2$, with $E_1 = 0.376\\ \\text{eV nm}^2/L^2$ and $hc = 1240$ eV nm.)",
+				"answer": 301,
+				"tolerance": 0.05,
+				"unit": "nm",
+				"explanation": "$E_1 = 0.376/0.64 = 0.588$ eV, so $\\Delta E = (16 - 9)E_1 = 4.11$ eV and $\\lambda = 1240/4.11 \\approx 301$ nm. Real hexatriene absorbs near 258 nm, so the crude model is good to about 15%."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why a confined electron can only have certain energies, and what happens to the spacing of the levels as the box is made larger.",
+				"rubric": "Full credit requires: (1) the wave must fit the boundary conditions (nodes at the walls), so only wavelengths lambda = 2L/n are allowed; (2) energy rises with n^2 since E = (h/lambda)^2 / 2m; (3) E_n spacing falls as 1/L^2, so in a large box the levels crowd into a near-continuum, matching classical behaviour.",
+				"modelAnswer": "The electron's wave has to be zero at the walls, so only whole numbers of half-wavelengths fit: λ = 2L/n. Shorter wavelengths mean higher momentum and energy, E ∝ n²/L². Making the box bigger lowers all energies and squeezes the levels together; in a big enough box they are so close that the energy looks continuous, as in classical physics."
+			}
+		],
+		"h0-l012-spin-pauli-nmr": [
+			{
+				"kind": "mc",
+				"prompt": "Why can't the electron's spin be a literal spinning ball of charge?",
+				"options": [
+					"Spin produces no magnetic moment at all, so it cannot be a rotation of electric charge",
+					"Electrons are waves, and a wave cannot rotate about an axis in any meaningful sense at all",
+					"Matching its spin would need a surface speed above $c$ at any size experiments allow",
+					"A rotating charged electron would radiate away all its energy within a fraction of a second"
+				],
+				"answer": 2,
+				"explanation": "Matching the electron's observed angular momentum $\\hbar/2$ with any radius allowed by scattering experiments (below $10^{-18}$ m) needs speeds far above $c$. Spin is an intrinsic quantum property with exactly two values along any axis."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In NMR, doubling the strength of the magnet changes the ¹H resonance frequency and the population excess (sensitivity) how?",
+				"options": [
+					"The frequency doubles but the population excess stays the same, since only $f$ depends on $B$",
+					"The frequency is unchanged; only the noise level in the spectrum improves with field",
+					"Both quadruple, because the energy of a magnetic moment in a field goes as $B$ squared",
+					"Both double, because the level splitting $\\Delta E = \\gamma\\hbar B$ is proportional to the field strength"
+				],
+				"answer": 3,
+				"explanation": "The level splitting is proportional to $B$, so the photon frequency $f = \\gamma B/2\\pi$ doubles, and the Boltzmann excess $\\Delta E/2kT$ doubles. This is why chemists chase higher fields."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A ¹H NMR spectrometer runs at 400 MHz. At 298 K, the fractional excess of spins in the lower level is about $\\Delta E/2k_BT$ with $\\Delta E = hf$. What is it, in parts per million? ($h = 6.626\\times10^{-34}$ J s, $k_B = 1.381\\times10^{-23}$ J/K.)",
+				"answer": 32.2,
+				"tolerance": 0.05,
+				"unit": "ppm",
+				"explanation": "$\\Delta E = hf = 2.65\\times10^{-25}$ J, $k_BT = 4.11\\times10^{-21}$ J, so the excess is $3.2\\times10^{-5}$, or 32 ppm. Only about 3 spins in 100,000 contribute net signal."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the Pauli exclusion principle, together with the allowed orbitals, produces the 2, 8, 8, 18 pattern of the periodic table and why it matters for chemistry.",
+				"rubric": "Full credit requires: (1) no two electrons share all quantum numbers, so each orbital holds at most two electrons with opposite spin; (2) shells have n^2 orbitals (or 2n^2 electrons) and subshells fill in order of energy, so closed shells appear after 2, 10, 18 electrons; (3) chemistry depends on the outermost partly filled shell, so elements in the same column behave alike and closed shells are inert.",
+				"modelAnswer": "The Pauli principle allows at most two electrons per orbital (opposite spins). Orbitals come in groups of 1, 3, 5, ... per subshell, so subshells hold 2, 6, 10 electrons, and as they fill in energy order they produce periods of length 2, 8, 8, 18. Chemical behaviour is controlled by the outermost shell, so elements with the same outer-shell filling are similar, and filled shells like the noble gases are inert."
+			}
+		],
+		"h0-l013-entanglement-bell": [
+			{
+				"kind": "numeric",
+				"prompt": "Local hidden-variable models require $P(a{+},c{+}) \\le P(a{+},b{+}) + P(b{+},c{+})$. For a singlet pair with analyzers at 0° (a), 60° (b) and 120° (c), quantum mechanics gives $P(+,+) = \\tfrac12\\sin^2(\\theta/2)$ for angle $\\theta$ between the analyzers. By what factor does the quantum value of $P(a{+},c{+})$ exceed the local bound?",
+				"answer": 1.5,
+				"tolerance": 0.05,
+				"explanation": "$P(a{+},c{+}) = \\tfrac12\\sin^2 60^\\circ = 0.375$. The bound is $2\\times\\tfrac12\\sin^2 30^\\circ = 0.25$. The ratio is 1.5, so no assignment of pre-set outcomes can reproduce the quantum counts."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Alice and Bob share an entangled pair and are far apart. Can Alice send Bob a message instantly by choosing her measurement axis?",
+				"options": [
+					"Yes, her axis choice instantly changes the statistics of the results that Bob measures",
+					"Yes, but only at speeds a little above the speed of light, so there is a small delay at best",
+					"No, because the pair stops being entangled once its members are a light-second apart",
+					"No: Bob sees random 50/50 results whatever Alice does; correlations need compared records"
+				],
+				"answer": 3,
+				"explanation": "Bob alone sees a fair coin flip no matter how Alice measures. The correlations exist only in the joint record, which needs a classical message to assemble, so there is no faster-than-light signalling."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A violation of Bell's inequality in the lab rules out:",
+				"options": [
+					"Quantum mechanics itself, since quantum theory is the thing that predicted the violation",
+					"Theories where each particle carries pre-set outcomes that no distant influence can alter",
+					"Relativity, since information must have travelled faster than light to cause the correlations",
+					"Any theory in which measurement outcomes ever have definite values before or after measuring"
+				],
+				"answer": 1,
+				"explanation": "Bell's counting argument assumes local pre-existing values. Experiments violate its bound, as quantum theory predicts, so such local hidden-variable models are excluded. Other options remain open (e.g. non-local or many-worlds interpretations)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why 'both particles carry a note saying opposite answers' can explain perfect anti-correlation along one axis, but fails once three axes are used.",
+				"rubric": "Full credit requires: (1) with one axis, pre-set opposite answers reproduce perfect anti-correlation; (2) with three axes, a pre-set model assigns answers to all three axes, and counting subsets gives the inequality N(a,not c) <= N(a,not b) + N(b,not c); (3) quantum predictions at 0, 60, 120 degrees break it, so no set of pre-set notes can reproduce the data.",
+				"modelAnswer": "A note listing the answer for each axis gives perfect anti-correlation if the two particles' notes are opposite. But with three axes every pair carries a fixed triple of answers, and simple counting says the rate for (a,c) mismatches can't exceed the rate for (a,b) plus (b,c). Quantum mechanics predicts a larger (a,c) rate at 0°, 60°, 120°, and experiments agree with quantum mechanics, so the notes explanation fails."
+			}
+		],
+		"h0-l014-four-forces-carriers-range": [
+			{
+				"kind": "numeric",
+				"prompt": "The W boson has $mc^2 = 80.4$ GeV. Estimate the range of the weak force from $R \\approx \\hbar c/(mc^2)$, using $\\hbar c = 197.3$ MeV fm. Give R in femtometres.",
+				"answer": 0.00245,
+				"tolerance": 0.05,
+				"unit": "fm",
+				"explanation": "$R = 197.3\\ \\text{MeV fm}/80{,}400\\ \\text{MeV} = 2.45\\times10^{-3}$ fm, a few hundred times smaller than a proton. Weak interactions only happen on contact."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Gravity between two protons is about $10^{36}$ times weaker than their electric repulsion, yet gravity holds planets and stars together. Why?",
+				"options": [
+					"At large distances the electric force falls off faster than gravity does, so it fades first",
+					"Gravity is carried by a massless particle and electromagnetism by a massive one, so it wins",
+					"Electric forces switch off beyond atomic distances, so only gravity acts on large objects",
+					"Matter is nearly neutral, so electric forces cancel while gravity always adds up"
+				],
+				"answer": 3,
+				"explanation": "Both forces fall as $1/r^2$. Positive and negative charges nearly cancel in bulk matter, while every mass adds to the gravitational pull, so for $10^{57}$-atom stars gravity wins."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The weak force is carried by the W and Z (about 90 GeV), electromagnetism by the massless photon. What does this imply?",
+				"options": [
+					"The weak force is stronger than electromagnetism at all distances, because heavy carriers pack more punch",
+					"The weak force has infinite range but acts on fewer particles",
+					"The weak force has a tiny range, while the electromagnetic force reaches infinitely far",
+					"Heavy carriers mean the weak force acts only on heavy particles"
+				],
+				"answer": 2,
+				"explanation": "A carrier of mass $m$ can be 'borrowed' only for a time $\\hbar/mc^2$, so it travels at most $\\hbar c/mc^2$. A heavy carrier means short range; a massless photon means long range."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the idea of 'borrowing energy for a short time' lets you estimate the range of a force, and what it predicts for the force between nucleons carried by pions.",
+				"rubric": "Full credit requires: (1) creating a carrier of mass m costs energy mc^2, allowed for a time Delta t ~ hbar/(mc^2) by the energy-time uncertainty relation; (2) in that time it moves at most c Delta t, giving R ~ hbar c/(mc^2); (3) for the pion (140 MeV) R ~ 1.4 fm, matching the size of the nuclear force's reach.",
+				"modelAnswer": "The uncertainty principle lets a particle of mass m exist briefly if it is gone in about ħ/(mc²). Traveling at most at speed c, it covers about ħc/(mc²). For a pion with mc² = 140 MeV that is about 197/140 ≈ 1.4 fm, which is the observed range of the nuclear force between nucleons."
+			}
+		],
+		"h0-l015-quarks-origin-of-mass": [
+			{
+				"kind": "mc",
+				"prompt": "Which quark-antiquark pair makes a meson with charge $-1$ (the $\\pi^-$)?",
+				"options": [
+					"Up + anti-down",
+					"Up + anti-up",
+					"Down + anti-strange",
+					"Down + anti-up"
+				],
+				"answer": 3,
+				"explanation": "Down has charge $-1/3$; anti-up has $-2/3$; the sum is $-1$. Up + anti-down gives $+1$ (the $\\pi^+$), and the other pairs are neutral."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You pull on a quark in a proton with a huge force. What happens?",
+				"options": [
+					"A free quark flies out of the proton, and it can then be tracked in a bubble chamber",
+					"The proton snaps back to its original state with nothing created from the stretched field",
+					"Field energy makes a new quark-antiquark pair: extra hadrons appear, never a free quark",
+					"The quark decays into an electron and a neutrino before it can escape from the proton"
+				],
+				"answer": 2,
+				"explanation": "The strong force does not weaken with distance, so stretching the field stores energy until it is cheaper to create a quark-antiquark pair ($E = mc^2$). The result is jets of colour-neutral hadrons."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The quark rest masses are $m_u \\approx 2.2$ MeV/c² and $m_d \\approx 4.7$ MeV/c²; the proton (uud) has 938 MeV/c². What percent of the proton's mass is the rest mass of its three quarks?",
+				"answer": 0.97,
+				"tolerance": 0.1,
+				"unit": "%",
+				"explanation": "$(2.2 + 2.2 + 4.7)/938 = 9.1/938 \\approx 0.97\\%$. About 99% of the proton's mass is the energy of the strong-force field and the quarks' motion, $E = mc^2$ at work."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is a proton nearly 100 times heavier than the sum of its quark masses, and what does this say about where the mass of everyday matter comes from?",
+				"rubric": "Full credit requires: (1) the three quarks have rest energies totalling about 9 MeV while the proton is 938 MeV; (2) the remainder is the kinetic energy of confined quarks and the energy of the gluon field, which counts as mass by E = mc^2; (3) so most of the mass of atoms, and of you, is binding energy of the strong force, not the Higgs-given quark masses.",
+				"modelAnswer": "The quarks' rest masses add up to only about 9 MeV, while the proton is 938 MeV. The difference is the energy of the quarks rushing around in a tiny volume and of the strong-force (gluon) field, and by E = mc² that energy has mass. So about 99% of the mass of ordinary matter comes from the strong interaction's energy rather than from the quarks' own masses."
+			}
+		],
+		"h0-l016-weak-force-neutrinos": [
+			{
+				"kind": "mc",
+				"prompt": "In beta decay the emitted electrons have a continuous range of energies up to a maximum. Why did this lead Pauli to propose the neutrino?",
+				"options": [
+					"The electron's mass varies from decay to decay, so its energy must vary by a similar amount",
+					"A two-body decay fixes the electron's energy, so a continuous spectrum needs a third body",
+					"Energy is conserved only on average in nuclear decays, which requires a new particle to fix",
+					"The nucleus radiates extra photons in beta decay, and Pauli gave those photons a new name"
+				],
+				"answer": 1,
+				"explanation": "If a nucleus decayed into just a daughter nucleus and an electron, momentum and energy conservation would fix the electron's energy exactly. A continuous spectrum means energy is shared with a third, almost undetectable body."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do neutrinos pass through the Earth almost untouched?",
+				"options": [
+					"They have no charge, so nothing at all can ever interact with them, including the weak force",
+					"They are so light that only gravity ever acts on them, and gravity is extremely weak",
+					"They feel only the weak force (and gravity), which has an extremely short range",
+					"They are smaller than quarks, so they slip between the atoms of ordinary matter"
+				],
+				"answer": 2,
+				"explanation": "Neutrinos carry no electric charge and no colour. Only the weak force (a force with range $\\sim 10^{-3}$ fm) acts on them, so their interaction cross-section is about $10^{-43}$ cm²."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The solar neutrino flux at Earth is about $6.0\\times10^{10}$ per cm² per second. A person presents about 0.70 m² to the Sun. How many solar neutrinos pass through the body each second?",
+				"answer": 420000000000000.0,
+				"tolerance": 0.05,
+				"unit": "per second",
+				"explanation": "0.70 m² is 7000 cm², so $7000\\times6.0\\times10^{10} = 4.2\\times10^{14}$ per second, yet essentially none interact over a lifetime."
+			},
+			{
+				"kind": "short",
+				"prompt": "What does neutrino oscillation tell us about neutrinos, and why was it a surprise for the original Standard Model?",
+				"rubric": "Full credit requires: (1) neutrinos change flavour (e, mu, tau) as they travel; (2) oscillation needs different nonzero masses; (3) the original Standard Model had massless neutrinos, so this is evidence for physics beyond it; evidence from solar and atmospheric deficits (e.g. Super-Kamiokande, SNO).",
+				"modelAnswer": "Neutrinos produced as one flavour are later found to be a different flavour. That can only happen if neutrinos have tiny, unequal masses. The original Standard Model had massless neutrinos, so oscillation (seen in solar and atmospheric neutrino deficits) is evidence that something beyond it is needed."
+			}
+		],
+		"h0-l017-antimatter-pet": [
+			{
+				"kind": "mc",
+				"prompt": "Why does electron-positron annihilation at rest produce two photons rather than one?",
+				"options": [
+					"One photon cannot carry zero momentum, so the pair emits two photons back to back",
+					"Each particle must turn into its own photon so that electric charge is conserved overall",
+					"Energy conservation demands exactly two photons, each with half of the available energy",
+					"A single photon would carry more energy than the electron and positron have together"
+				],
+				"answer": 0,
+				"explanation": "At rest the total momentum is zero. A single photon always carries momentum $E/c$, so it would violate momentum conservation; two photons back to back cancel. Each has $E = m_ec^2 = 511$ keV."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A PET scanner registers two 511 keV photons at opposite detectors within a few nanoseconds. What does it learn?",
+				"options": [
+					"It happened exactly at the midpoint between the two detectors that fired together",
+					"The positron was emitted by the detector crystal, not by the tracer in the patient",
+					"It happened somewhere along the straight line joining the two detectors",
+					"The tracer molecule decayed there into a neutrino and two photons, so it sits at that spot"
+				],
+				"answer": 2,
+				"explanation": "Back-to-back photons define a line of response. Many lines from different directions intersect at the tracer's location, and a computer reconstructs the image."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "F-18 has a half-life of 109.8 min. What fraction of an initial F-18 sample remains after 3.0 hours?",
+				"answer": 0.32,
+				"tolerance": 0.05,
+				"explanation": "$N/N_0 = 2^{-180/109.8} = 0.32$. That decay clock is why the radiochemistry has to be fast: nearly 70% is gone in three hours."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how combining relativity with quantum mechanics led Dirac to predict antimatter.",
+				"rubric": "Full credit requires: (1) relativistic energy E^2 = p^2c^2 + m^2c^4 allows both E = +sqrt(...) and E = -sqrt(...); (2) quantum mechanics means negative-energy states cannot just be ignored, since particles could fall into them; Dirac's reinterpretation yields a particle with the same mass and opposite charge; (3) the positron was found in 1932 and pair creation and annihilation confirm it.",
+				"modelAnswer": "Relativity's energy-momentum relation has two solutions, positive and negative energy. In quantum theory a particle can make transitions, so the negative states cannot just be discarded. Dirac's treatment turned them into a new particle with the electron's mass but opposite charge, the positron, which Anderson found in cosmic rays in 1932. Pair creation and annihilation follow naturally."
+			}
+		],
+		"h0-l018-higgs-standard-model": [
+			{
+				"kind": "mc",
+				"prompt": "Which statement about the origin of mass is most accurate?",
+				"options": [
+					"The Higgs boson gives mass to every bit of matter, including nearly all of the proton's mass",
+					"Particles slow down by rubbing against a Higgs medium, and that friction is what creates mass",
+					"The Higgs field masses electrons, quarks, W and Z; most of an atom's mass is strong-force energy",
+					"Mass comes entirely from gravity, and the Higgs only supplies electric charge to particles"
+				],
+				"answer": 2,
+				"explanation": "The Higgs field supplies the masses of the electron, quarks, W and Z. But a proton's 938 MeV is about 99% strong-force field energy, so the Higgs accounts for only about 1% of the mass of ordinary matter."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Suppose the electron had no coupling to the Higgs field and so was massless. What would happen to atoms?",
+				"options": [
+					"Nothing would change, since the proton alone sets the size and structure of an atom",
+					"Atoms would collapse into the nucleus, because nothing would be left to resist the attraction",
+					"Atoms would be much larger but otherwise normal, with the same chemistry as before",
+					"No stable atoms: $a_0 \\propto 1/m_e$ would blow up and the electron would move at $c$"
+				],
+				"answer": 3,
+				"explanation": "The ground-state radius $a_0 = 4\\pi\\varepsilon_0\\hbar^2/(m_ee^2)$ grows without limit as $m_e \\to 0$, so no stable bound states exist. Heavier electrons would shrink atoms and raise binding energies."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "If the electron's mass alone were 10 times larger, the hydrogen ground-state binding energy (proportional to $m_e$, ignore proton recoil) would be how many eV? (It is 13.6 eV now.)",
+				"answer": 136,
+				"tolerance": 0.02,
+				"unit": "eV",
+				"explanation": "$E_1 \\propto m_e$, so $E_1 \\approx 136$ eV. The radius would shrink by 10 to 0.0053 nm, and chemistry would look completely different."
+			},
+			{
+				"kind": "short",
+				"prompt": "A friend says: 'The Higgs boson gives mass to everything, and the Standard Model explains all of particle physics.' Correct both claims, and say which particles actually make up ordinary matter.",
+				"rubric": "Full credit requires: (1) ordinary matter is built from up and down quarks and the electron; the other two generations are heavier copies that decay; (2) the Higgs field (not just the boson) gives mass to fundamental particles such as electrons, quarks, W and Z, while photons and gluons stay massless, and most of a proton's mass is strong-force energy via E = mc^2; (3) the Standard Model leaves out gravity and dark matter, and does not explain the matter-antimatter imbalance, the origin of neutrino masses or why there are three generations.",
+				"modelAnswer": "Atoms are made of up and down quarks and electrons; the muon, tau, charm, strange, top and bottom are heavier copies that decay quickly. The Higgs field gives mass to fundamental particles like the electron, quarks, W and Z, but photons and gluons stay massless and most of a proton's mass is strong-force energy. And the Standard Model has no gravity, no dark matter, no explanation of the matter-antimatter imbalance, and no account of why neutrinos have mass or why there are three generations."
+			}
+		],
+		"h0-l019-equivalence-curved-spacetime": [
+			{
+				"kind": "mc",
+				"prompt": "On the Moon a feather and a hammer dropped together land together. Why is this a clue about the nature of gravity?",
+				"options": [
+					"Inertial and gravitational mass are equal, so gravity can be geometry, not a force",
+					"Gravity pulls with the same force on every object, whatever its mass happens to be near the Moon",
+					"The Moon's gravity is too weak to tell objects of different mass apart, so they tie",
+					"Once the Moon's lack of air is allowed for, the two objects turn out to have the same mass"
+				],
+				"answer": 0,
+				"explanation": "The pull on the hammer is larger, but so is its inertia, and they cancel exactly. This equality of inertial and gravitational mass suggests that gravity is about spacetime itself rather than about what an object is made of."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In general relativity, why does the Earth orbit the Sun?",
+				"options": [
+					"It follows a geodesic, the straightest path, through spacetime curved by the Sun",
+					"A force pulls it toward the Sun, balancing its natural tendency to move in a straight line",
+					"Space is filled with a field of gravitons that pushes the Earth steadily inward",
+					"The Sun's rotation drags the Earth around in a vortex, much like water in a drain"
+				],
+				"answer": 0,
+				"explanation": "The Earth is in free fall: no force acts on it. It follows the straightest available path, which looks curved because the geometry near the Sun is curved."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Starlight grazing the Sun is deflected by $\\delta = 4GM/(c^2R)$. With $GM_\\odot = 1.327\\times10^{20}$ m³/s², $R_\\odot = 6.957\\times10^{8}$ m and $c = 2.998\\times10^8$ m/s, find $\\delta$ in arcseconds (1 rad $= 206{,}265''$).",
+				"answer": 1.75,
+				"tolerance": 0.05,
+				"unit": "arcseconds",
+				"explanation": "$\\delta = 8.5\\times10^{-6}$ rad $= 1.75''$. Newtonian gravity gives half. Eddington's 1919 eclipse measurement favoured the full value."
+			},
+			{
+				"kind": "short",
+				"prompt": "Use an accelerating elevator (rocket) to argue that light must bend in a gravitational field.",
+				"rubric": "Full credit requires: (1) in an accelerating rocket in empty space, a horizontal light beam appears to curve downward relative to the floor, since the floor accelerates upward as light crosses; (2) by the equivalence principle, a uniform gravitational field and an accelerating frame cannot be distinguished locally; (3) therefore light must also bend in gravity.",
+				"modelAnswer": "In a rocket accelerating upward in empty space, a light beam sent across the cabin travels straight, but the cabin moves up during the crossing, so inside the cabin the beam curves down. A lab at rest on Earth is indistinguishable from this cabin, so the same beam must curve down in a gravitational field."
+			}
+		],
+		"h0-l020-gravitational-time-dilation-gps": [
+			{
+				"kind": "numeric",
+				"prompt": "A GPS satellite orbits at $r = 2.656\\times10^7$ m. Using $\\Delta f/f = (GM/c^2)(1/R_E - 1/r)$ with $GM = 3.986\\times10^{14}$ m³/s², $R_E = 6.371\\times10^6$ m and $c = 2.998\\times10^8$ m/s, how many microseconds per day does its clock gain from gravity alone? (1 day $= 86{,}400$ s.)",
+				"answer": 45.7,
+				"tolerance": 0.05,
+				"unit": "µs/day",
+				"explanation": "$\\Delta f/f = 5.29\\times10^{-10}$, and over a day that is 45.7 µs. The speed effect subtracts about 7.2 µs, for a net of about +38.5 µs/day, which would be an 11 km position error per day if left uncorrected."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Satellite clocks move fast, which time dilation slows. Yet the net GPS clock correction is that they run fast. Why?",
+				"options": [
+					"Special relativity predicts that orbiting clocks speed up, so both effects have the same sign",
+					"Weaker gravity aloft adds ~46 µs/day, outweighing the ~7 µs/day lost to speed",
+					"The Earth's rotation adds a third effect that is larger than both of the others combined",
+					"The satellite clocks are deliberately built to run fast for reasons of engineering convenience"
+				],
+				"answer": 1,
+				"explanation": "Both effects are real and opposite in sign. At GPS altitude the gravitational gain is about six times bigger than the velocity loss."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two identical clocks are synchronized, one at sea level and one on a mountaintop. After a year, compared again:",
+				"options": [
+					"The sea-level clock has gained time, since stronger gravity speeds up every physical process",
+					"They agree exactly, because gravitational time dilation matters only near black holes",
+					"The mountaintop clock has lost time because it is farther from the Earth's mass and centre",
+					"The mountaintop clock gained a tiny bit, since it sat higher in the gravitational potential"
+				],
+				"answer": 3,
+				"explanation": "Clocks run slower deeper in a gravitational field. The effect is about $gh/c^2$, so for a 3 km mountain it is about $3\\times10^{-13}$, or roughly 10 microseconds per year, which modern optical clocks easily resolve."
+			},
+			{
+				"kind": "short",
+				"prompt": "Use the equivalence principle (an accelerating rocket) to explain why a clock at the top of a tower ticks faster than a clock at the bottom.",
+				"rubric": "Full credit requires: (1) in an accelerating rocket, light sent from tail to nose is received by a nose observer who by then moves faster than the emitter did, so it arrives redshifted (lower frequency); (2) so the tail clock appears slow to the nose; (3) equivalence: a gravitational field is the same, so the bottom clock appears slow to the top.",
+				"modelAnswer": "In a rocket accelerating upward, signals sent from the floor to the ceiling arrive redshifted because the ceiling is moving faster when they arrive than the floor was when they left, so the ceiling observer sees the floor clock running slow. By the equivalence principle the same happens on Earth: signals from the ground are redshifted when received at the top, so lower clocks run slow."
+			}
+		],
+		"h0-l021-black-holes": [
+			{
+				"kind": "numeric",
+				"prompt": "What is the Schwarzschild radius $r_s = 2GM/c^2$ of a 10-solar-mass black hole, in kilometres? ($G = 6.674\\times10^{-11}$, $M_\\odot = 1.989\\times10^{30}$ kg, $c = 2.998\\times10^8$ m/s.)",
+				"answer": 29.5,
+				"tolerance": 0.02,
+				"unit": "km",
+				"explanation": "$r_s = 2.95$ km per solar mass, so 29.5 km for 10 solar masses. A star more massive than the Sun is squeezed into the size of a city."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Compare a $10^9$ solar-mass black hole with a 10-solar-mass black hole. The average density inside the horizon is:",
+				"options": [
+					"Much higher for the large one, since it contains more matter",
+					"Much lower for the large one, because density falls as $1/M^2$",
+					"The same, because the horizon radius grows in proportion to the mass",
+					"Infinite for both, since all the mass sits at a point"
+				],
+				"answer": 1,
+				"explanation": "$r_s \\propto M$ so the volume grows as $M^3$ and the density as $M/M^3 = 1/M^2$. A $10^8$ solar-mass hole is about as dense as water."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You fall into a very large black hole ($10^9$ solar masses). As you cross the horizon:",
+				"options": [
+					"You are crushed within a moment by tidal forces that rip you apart as you cross",
+					"You see a solid wall of light ahead and are brought to rest against it at the horizon",
+					"Your own clock freezes at the horizon, so from your point of view you never cross it",
+					"You notice nothing special locally, since tidal forces at that horizon are tiny"
+				],
+				"answer": 3,
+				"explanation": "Tidal acceleration at the horizon scales as $1/M^2$, tiny for a huge hole. The distant observer sees you freeze and redden, but your own proper time continues through the horizon."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what an event horizon is, and why the 'escape velocity equals $c$' argument gives the right radius yet misleads about the physics.",
+				"rubric": "Full credit requires: (1) horizon is a boundary beyond which every future-directed path, including light's, leads inward (light cones tip over); (2) the Newtonian argument treats light as a projectile that rises and falls back; in GR, light at the horizon is stuck and nothing local marks the boundary; (3) the formula agrees by coincidence of dimensional structure, not because Newtonian reasoning holds.",
+				"modelAnswer": "A horizon is a one-way surface: inside it, spacetime is so curved that every future path, even for light, leads to smaller radius. The escape-velocity argument pictures light climbing out and falling back, which is not what happens, and relies on a Newtonian formula that happens to give the same radius. It does not explain why even the infalling frame sees nothing special at the boundary."
+			}
+		],
+		"h0-l022-gravitational-waves": [
+			{
+				"kind": "numeric",
+				"prompt": "The first LIGO detection had strain $h \\approx 1.0\\times10^{-21}$ over arms of $L = 4.0$ km. Express the change in arm length $\\Delta L = hL$ as a fraction of a proton diameter (1.7 fm = $1.7\\times10^{-15}$ m).",
+				"answer": 0.00235,
+				"tolerance": 0.05,
+				"explanation": "$\\Delta L = 4\\times10^{-18}$ m, which is $2.4\\times10^{-3}$ of a proton diameter, about 1/400. This is why LIGO uses long arms, laser cavities and extreme isolation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can't we detect gravitational waves from two people dancing?",
+				"options": [
+					"Gravitational waves cannot travel through air, so a detector in a room would never see them",
+					"Waves from dancers are absorbed by the Earth before they ever reach any detector at all",
+					"Strength needs huge masses at relativistic speeds; a dancing pair is far too weak",
+					"Their frequency is far too high for any detector to follow, even the most sensitive ones"
+				],
+				"answer": 2,
+				"explanation": "Strain from a binary is proportional to $G M v^2/(c^4 r)$. Only compact masses of several suns moving at an appreciable fraction of $c$ give $h \\sim 10^{-21}$ at Earth."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The two merging black holes of GW150914 had a combined mass about 3 solar masses larger than the final black hole. What happened to the 3 solar masses?",
+				"options": [
+					"They left as gravitational-wave energy, carried away according to $E = \\Delta m\\,c^2$",
+					"They fell into the singularity at the centre of the new hole and were lost there for good",
+					"They were converted into new stars and gas orbiting around the final black hole",
+					"They escaped as a burst of neutrinos that was detected at the same time as the waves"
+				],
+				"answer": 0,
+				"explanation": "Orbital energy radiated as gravitational waves in the last fraction of a second carried off about 3 $M_\\odot c^2 \\approx 5\\times10^{47}$ J."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does LIGO use arms 4 km long, and what does the rising-frequency 'chirp' of a signal tell you?",
+				"rubric": "Full credit requires: (1) strain is fractional, so the absolute change in length ΔL = hL grows with L, making it easier to detect; (2) the chirp is the orbit shrinking, so frequency and amplitude rise as the objects approach; the rate of rise encodes the masses ('chirp mass'); (3) end of the chirp marks the merger.",
+				"modelAnswer": "A gravitational wave changes lengths by a fraction h of their size, so a longer arm gives a bigger absolute change ΔL = hL. The chirp comes from two orbiting objects losing energy to waves, spiralling inward and orbiting faster, so both frequency and amplitude climb until merger. How fast the frequency rises reveals the masses of the objects."
+			}
+		],
+		"h0-l023-expanding-universe-scales": [
+			{
+				"kind": "numeric",
+				"prompt": "Using $H_0 = 70$ km/s/Mpc, find the Hubble time $1/H_0$ in billions of years. (1 Mpc $= 3.086\\times10^{19}$ km; 1 yr $= 3.156\\times10^7$ s.)",
+				"answer": 14.0,
+				"tolerance": 0.05,
+				"unit": "Gyr",
+				"explanation": "$H_0 = 70/3.086\\times10^{19}\\ \\text{s}^{-1} = 2.27\\times10^{-18}\\ \\text{s}^{-1}$, so $1/H_0 = 4.4\\times10^{17}$ s $\\approx 14.0$ Gyr, close to the true age of the universe (13.8 Gyr)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A distant galaxy's light has redshift $z = 1$. What does this tell you?",
+				"options": [
+					"The galaxy is receding from us at the speed of light, so we see it only as a faint glow",
+					"The galaxy is exactly twice as far away as one measured at redshift $z = 0.5$ today",
+					"Half of the light's photons were lost on the long journey, so the galaxy looks dimmer",
+					"The wavelength doubled: the universe was half its present size when the light left"
+				],
+				"answer": 3,
+				"explanation": "$1 + z = a_{\\text{now}}/a_{\\text{then}} = 2$. The wavelength has doubled because space has doubled in size while the light travelled."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The observable universe has a radius of about $4.6\\times10^{10}$ light-years and the Milky Way a diameter of about $10^5$ ly. The ratio is about:",
+				"options": [
+					"$5\\times10^{2}$",
+					"$5\\times10^{5}$",
+					"$5\\times10^{8}$",
+					"$5\\times10^{12}$"
+				],
+				"answer": 1,
+				"explanation": "$4.6\\times10^{10}/10^5 = 4.6\\times10^5$. Even the observable universe is only about half a million Milky Ways across, a modest number compared with the ladder from nuclei to atoms ($10^5$ again)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why galaxies all appear to recede from us with speed proportional to distance, and why that does not make us the centre of the universe.",
+				"rubric": "Full credit requires: (1) uniform expansion stretches every separation by the same factor in the same time, so recession speed is proportional to separation; (2) any observer sees the same pattern v = H0 d, because each point sees neighbours receding in proportion to distance (raisin bread); (3) so there is no centre or edge, and redshift is stretching of space, not motion through space.",
+				"modelAnswer": "If every distance grows by the same factor per unit time, a galaxy twice as far away moves away twice as fast. This holds for any observer, like raisins in rising bread dough, so no place is special and there is no centre. The redshift is the stretching of light's wavelength by the expanding space, not a pure Doppler shift from motion through space."
+			}
+		],
+		"h0-l024-cosmic-microwave-background": [
+			{
+				"kind": "numeric",
+				"prompt": "The Sun moves at about 370 km/s relative to the CMB rest frame, so the CMB looks hotter ahead and cooler behind by $\\Delta T \\approx T_0\\,v/c$, with $T_0 = 2.725$ K. What is $\\Delta T$ in millikelvin?",
+				"answer": 3.36,
+				"tolerance": 0.05,
+				"unit": "mK",
+				"explanation": "$\\Delta T = 2.725\\times(370/299{,}792) = 3.4\\times10^{-3}$ K. This dipole is about 100 times bigger than the primordial ripples ($\\sim 10^{-5}$), so it is subtracted before cosmological analysis."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Hydrogen's ionization energy is 13.6 eV (about 158,000 K), yet atoms formed when the universe cooled to only about 3000 K. Why?",
+				"options": [
+					"Photons outnumber baryons $10^9$ to 1, so their hot tail kept hydrogen ionized until $kT \\approx 0.26$ eV",
+					"Hydrogen becomes easier to ionize in an expanding universe, so its binding energy had dropped",
+					"Atoms could not form until the electrons had cooled to the same temperature as the nuclei",
+					"The photons first had to be converted into neutrinos before any neutral hydrogen could form"
+				],
+				"answer": 0,
+				"explanation": "Even when the typical photon is far below 13.6 eV, with a billion photons per atom the rare energetic ones still ionize new atoms. Recombination needed kT near 0.26 eV (3000 K), the same Boltzmann-factor idea used for Arrhenius rates."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The CMB was emitted as roughly 3000 K light (near infrared and visible). Why do we see it as microwaves at 2.7 K?",
+				"options": [
+					"Expansion has stretched every wavelength by a factor of about 1100, so $T$ falls as $1/a$",
+					"Dust along the way absorbed the light and re-emitted it at a much lower temperature",
+					"The source has been cooling by radiating energy away for 13.8 billion years",
+					"Light slows down and loses energy as it crosses very large distances in empty space"
+				],
+				"answer": 0,
+				"explanation": "The shape of a blackbody spectrum is preserved by uniform stretching, so the CMB is still a perfect blackbody, but at $T_0 = 3000\\ \\text{K}/1101 = 2.725$ K."
+			},
+			{
+				"kind": "short",
+				"prompt": "What three things does the cosmic microwave background tell us about the early universe?",
+				"rubric": "Full credit requires at least: (1) a nearly perfect blackbody spectrum implies the early universe was hot, dense and in thermal equilibrium; (2) its near-uniformity (to 1 part in 10^5) implies a homogeneous early universe; (3) the tiny ripples are the seeds of galaxies and clusters; (and/or temperature scaling T = T0(1+z) lets us trace the expansion).",
+				"modelAnswer": "It has a nearly perfect blackbody spectrum, so the early universe was hot and in equilibrium. It is uniform to about one part in 100,000, so matter was spread almost smoothly. The tiny temperature ripples map slight over-densities that gravity later grew into galaxies and clusters."
+			}
+		],
+		"h0-l025-nucleosynthesis-origin-of-elements": [
+			{
+				"kind": "numeric",
+				"prompt": "If the neutron-to-proton ratio is 1/7 when deuterium finally forms and all neutrons end up in helium-4, what is the helium mass fraction $Y_p = 2x/(1+x)$ with $x = n/p$?",
+				"answer": 0.25,
+				"tolerance": 0.05,
+				"explanation": "$Y_p = 2(1/7)/(1 + 1/7) = (2/7)/(8/7) = 0.25$. Observations of primordial gas give about 0.245, a striking agreement for a calculation built on a mass difference of 1.29 MeV and a neutron lifetime."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why did the Big Bang produce almost no carbon or oxygen?",
+				"options": [
+					"There were no neutrons left after the first minute, so nothing heavier than hydrogen formed",
+					"The universe was always too cold for any nuclei to fuse once hydrogen and helium had formed",
+					"No stable mass-5 or mass-8 nuclei exist, and expansion thinned the gas too fast",
+					"Carbon and oxygen can only be made inside neutron stars, and none existed back then"
+				],
+				"answer": 2,
+				"explanation": "Making carbon needs 3 helium nuclei meeting, which works in dense stellar cores over long times but not in a rapidly expanding, thinning early universe."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does fusion in stars stop releasing energy at iron?",
+				"options": [
+					"Iron-group nuclei are the most tightly bound per nucleon, so more fusion absorbs energy",
+					"Iron nuclei repel each other too strongly to fuse under any conditions found inside stars",
+					"Stars never reach the temperatures needed to fuse anything heavier than iron nuclei",
+					"Iron is radioactive and decays away before it can fuse with another nucleus nearby"
+				],
+				"answer": 0,
+				"explanation": "Binding energy per nucleon peaks near Fe-56 and Ni-62. Fusion of lighter nuclei moves toward the peak and releases energy; fusing beyond it costs energy, and fission of heavy nuclei moves toward the peak from the other side."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words explain why about a quarter of the ordinary matter in the universe is helium by mass, using only the neutron-proton ratio, and why stars cannot be the main source of that helium.",
+				"rubric": "Full credit requires: (1) n/p is set by thermal equilibrium, exp(-1.29 MeV/kT), freezing near 1/6 and falling to about 1/7 by neutron decay before deuterium forms; (2) nearly every surviving neutron binds into He-4, so Y = 2x/(1+x) ~ 0.25; (3) stars alone could not give 25% across the universe (and old, metal-poor gas shows the same helium), pointing to a primordial origin.",
+				"modelAnswer": "In the hot early universe neutrons and protons convert into each other until the temperature drops enough that the 1.29 MeV mass gap makes neutrons rarer. The ratio freezes near 1/6 and falls to about 1/7 as free neutrons decay. When deuterium can finally survive, nearly all neutrons are locked into helium-4, so the helium mass fraction is 2x/(1+x), about 25%. Metal-poor, old gas has this same helium fraction, and stars have not burnt enough hydrogen to make that much, so it must be primordial."
+			}
+		],
+		"h0-l026-dark-matter-dark-energy": [
+			{
+				"kind": "numeric",
+				"prompt": "A star orbits the Milky Way at 8 kpc from the centre with speed 220 km/s. The mass enclosed is $M = v^2 r/G$. Using 1 kpc $= 3.086\\times10^{19}$ m, $G = 6.674\\times10^{-11}$ SI and $M_\\odot = 1.989\\times10^{30}$ kg, give $M$ in solar masses.",
+				"answer": 90000000000.0,
+				"tolerance": 0.1,
+				"unit": "solar masses",
+				"explanation": "$M = (2.2\\times10^5)^2(2.469\\times10^{20})/(6.674\\times10^{-11}) = 1.8\\times10^{41}$ kg $= 9.0\\times10^{10}\\ M_\\odot$. At larger radii the speed stays near 220 km/s, so the enclosed mass keeps growing beyond the visible disk."
+			},
+			{
+				"kind": "mc",
+				"prompt": "If all of a galaxy's mass were in its luminous disk, how would orbital speeds behave far outside it?",
+				"options": [
+					"They would stay roughly flat, matching what is actually observed in spiral galaxies",
+					"They would rise in proportion to $r$, as for a solid rotating disk like a turntable",
+					"They would fall as $1/\\sqrt{r}$, just as the planets slow down with distance from the Sun",
+					"They would drop to zero at the edge of the visible disk, like a cliff in the speed"
+				],
+				"answer": 2,
+				"explanation": "Outside most of the mass, $v = \\sqrt{GM/r}$ with fixed $M$. The observed flat curves require $M(<r)$ to keep growing, which is the evidence for unseen halo mass."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Distant Type Ia supernovae are fainter than expected for a universe that is slowing down. The best interpretation is:",
+				"options": [
+					"They are farther than expected, so expansion has been accelerating (dark energy)",
+					"The supernovae were intrinsically fainter long ago, and the universe is decelerating",
+					"Dark matter near the supernovae absorbs their light",
+					"The universe is contracting, bringing the supernovae closer"
+				],
+				"answer": 0,
+				"explanation": "Standard-candle brightness gives a distance larger than a decelerating universe would allow, so expansion has sped up in the last several billion years. Checks for dust and evolution of the supernovae did not remove the effect."
+			},
+			{
+				"kind": "short",
+				"prompt": "Give two independent lines of evidence for dark matter and explain why 'it's just faint ordinary matter' is disfavoured.",
+				"rubric": "Full credit requires: (1) two of: flat galactic rotation curves, galaxy-cluster velocities and gravitational lensing, the CMB acoustic peaks, the Bullet Cluster; (2) why ordinary (baryonic) matter does not suffice: big-bang nucleosynthesis and CMB fix the baryon density at about 5% of critical, less than the total matter (~30%); and baryonic dark objects were not found in microlensing surveys.",
+				"modelAnswer": "Rotation curves of galaxies stay flat far out, and lensing of background galaxies by clusters shows much more mass than we can see. Big bang nucleosynthesis and the CMB peaks independently limit ordinary (baryonic) matter to about 5% of the universe's budget, well below the roughly 30% in total matter, so most of the matter must be a different, non-atomic kind."
+			}
+		]
+	}
+}

@@ -8,6 +8,9 @@
 	"prereqs": [
 		"p2-em-waves"
 	],
+	"coreqs": [
+		"m3-linear-algebra"
+	],
 	"subject": "Relativity",
 	"summary": "Special relativity (Lorentz transformations, spacetime, four-vectors, E = mc^2) followed by the experimental origins of quantum theory, a first look at wave mechanics, atomic structure and nuclear physics. A bridge from classical mechanics and E&M to the full quantum mechanics course; chemistry hooks include hydrogen spectra, particle in a box, tunnelling, the periodic table and radioactive decay kinetics.",
 	"books": [
@@ -23,18 +26,57 @@
 			"summary": "Einstein's postulates, relativity of simultaneity, time dilation, length contraction, the Lorentz transformation, relativistic Doppler effect, momentum and energy, and four-vector bookkeeping for collisions and decays.",
 			"lessons": [
 				{
-					"id": "p3-l001-postulates-simultaneity",
-					"title": "Postulates, Galilean Failure & Relativity of Simultaneity",
-					"minutes": 75,
+					"id": "p3-l001-galilean-ether-michelson-morley",
+					"title": "Galilean Relativity, the Ether and the Michelson-Morley Null Result",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Define an event and an inertial frame, and apply the Galilean transformation to show the incompatibility with a constant speed of light.",
+						"Describe the Michelson-Morley null result and why it contradicts the ether picture."
+					],
+					"keyEquations": [
+						"x' = x - vt,\\ t' = t"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§5.1",
+							"title": "Invariance of Physical Laws"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.20 (2021)",
+							"title": "Lecture 2.1: Events",
+							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-2/"
+						},
+						{
+							"source": "MIT OCW 8.20 (2021)",
+							"title": "Lecture 2.2: Galilean Transformation",
+							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-2-1/"
+						},
+						{
+							"source": "MIT OCW 8.20 (2021)",
+							"title": "Lecture 3.3: Michelson-Morley Experiment",
+							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-3-2/"
+						}
+					],
+					"demoIdeas": [
+						"Michelson interferometer in an ether wind: sliders for wind speed v and arm length L, rotate the apparatus and plot the predicted fringe shift 2L v^2/(lambda c^2) against the observed null.",
+						"Galilean velocity addition: a light pulse in the ship frame, with a slider for ship speed, showing the speed an Earth observer would measure under Galilean addition versus the constant c."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l002-einstein-postulates-simultaneity",
+					"title": "Einstein's Postulates and the Relativity of Simultaneity",
+					"minutes": 35,
 					"prereqs": [],
 					"objectives": [
 						"State Einstein's two postulates and explain which classical assumption (absolute time, Galilean velocity addition) must be dropped.",
-						"Describe the Michelson-Morley null result and why it contradicts the ether picture.",
-						"Define an event and an inertial frame, and apply the Galilean transformation to show the incompatibility with a constant speed of light.",
 						"Use the train-and-lightning thought experiment to show that simultaneity depends on the frame."
 					],
 					"keyEquations": [
-						"x' = x - vt,\\ t' = t",
 						"c = 299\\,792\\,458\\ \\mathrm{m/s}"
 					],
 					"readings": [
@@ -59,54 +101,31 @@
 							"source": "MIT OCW 8.20 (2021)",
 							"title": "Lecture 1.4: Space, Time, and Spacetime",
 							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-1-2/"
-						},
-						{
-							"source": "MIT OCW 8.20 (2021)",
-							"title": "Lecture 2.1: Events",
-							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-2/"
-						},
-						{
-							"source": "MIT OCW 8.20 (2021)",
-							"title": "Lecture 2.2: Galilean Transformation",
-							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-2-1/"
-						},
-						{
-							"source": "MIT OCW 8.20 (2021)",
-							"title": "Lecture 3.3: Michelson-Morley Experiment",
-							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-3-2/"
 						}
 					],
 					"demoIdeas": [
-						"Two observers on a train and platform with lightning strikes: toggle frames and see which strikes are simultaneous."
+						"Two observers on a train and platform with lightning strikes at the ends: toggle frames and a speed slider and see which strikes are simultaneous and when each flash reaches each observer."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l002-dilation-contraction",
-					"title": "Time Dilation & Length Contraction",
-					"minutes": 90,
+					"id": "p3-l003-time-dilation-light-clock",
+					"title": "Time Dilation, the Light Clock and the Lorentz Factor",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Derive time dilation from the light-clock thought experiment, delta t = gamma delta t0, and identify proper time.",
-						"Derive length contraction L = L0/gamma from time dilation and identify proper length.",
-						"Compute the survival of cosmic-ray muons in the Earth frame and in the muon frame and show that both descriptions agree.",
 						"Compute gamma for given v and sketch gamma(v), noting the limits v << c and v -> c."
 					],
 					"keyEquations": [
 						"\\gamma = \\frac{1}{\\sqrt{1 - v^2/c^2}}",
-						"\\Delta t = \\gamma\\,\\Delta t_0",
-						"L = \\frac{L_0}{\\gamma}"
+						"\\Delta t = \\gamma\\,\\Delta t_0"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-up3",
 							"ref": "§5.3",
 							"title": "Time Dilation"
-						},
-						{
-							"bookId": "openstax-up3",
-							"ref": "§5.4",
-							"title": "Length Contraction"
 						}
 					],
 					"lectures": [
@@ -114,7 +133,34 @@
 							"source": "MIT OCW 8.20 (2021)",
 							"title": "Lecture 4.1: Time Dilation",
 							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-4/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Light clock animation at adjustable v with side-by-side rest-frame and moving-frame paths, a gamma readout and the tick-time ratio.",
+						"Plot gamma(v) with a v/c slider and marked values at 0.1c, 0.5c, 0.9c and 0.99c, showing the v << c and v -> c limits."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l004-length-contraction-muons",
+					"title": "Length Contraction and the Cosmic-Ray Muon Puzzle",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Derive length contraction L = L0/gamma from time dilation and identify proper length.",
+						"Compute the survival of cosmic-ray muons in the Earth frame and in the muon frame and show that both descriptions agree."
+					],
+					"keyEquations": [
+						"L = \\frac{L_0}{\\gamma}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§5.4",
+							"title": "Length Contraction"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 8.20 (2021)",
 							"title": "Lecture 4.2: Muons",
@@ -132,24 +178,22 @@
 						}
 					],
 					"demoIdeas": [
-						"Light clock animation at adjustable v with a gamma readout, and a muon-decay survival plot in both frames."
+						"Muon-decay survival plot in both the Earth frame (time dilated) and the muon frame (atmosphere contracted), with sliders for speed and altitude and the survival fraction agreeing in both.",
+						"A rod passing a marker at adjustable speed, drawn in the rod frame and the marker frame, with the length contraction readout."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l003-lorentz-transformation",
-					"title": "The Lorentz Transformation & Velocity Addition",
-					"minutes": 90,
+					"id": "p3-l005-lorentz-transformation-interval",
+					"title": "The Lorentz Transformation and the Invariant Interval",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Write the Lorentz transformation for a boost along x and derive time dilation and length contraction as special cases.",
-						"Apply the transformation to events to find coordinates in another frame, and verify the invariance of s^2 = c^2 t^2 - x^2.",
-						"Derive and use the relativistic velocity-addition formula, and show that no combination of subluminal velocities exceeds c.",
-						"Compute the composition of two collinear boosts using rapidity."
+						"Apply the transformation to events to find coordinates in another frame, and verify the invariance of s^2 = c^2 t^2 - x^2."
 					],
 					"keyEquations": [
 						"x' = \\gamma(x - vt),\\ t' = \\gamma(t - vx/c^2)",
-						"u' = \\frac{u - v}{1 - uv/c^2}",
 						"s^2 = c^2t^2 - x^2 - y^2 - z^2"
 					],
 					"readings": [
@@ -157,11 +201,6 @@
 							"bookId": "openstax-up3",
 							"ref": "§5.5",
 							"title": "The Lorentz Transformation"
-						},
-						{
-							"bookId": "openstax-up3",
-							"ref": "§5.6",
-							"title": "Relativistic Velocity Transformation"
 						}
 					],
 					"lectures": [
@@ -172,35 +211,59 @@
 						},
 						{
 							"source": "MIT OCW 8.20 (2021)",
-							"title": "Lecture 5.2: Velocity Addition",
-							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-5-1/"
-						},
-						{
-							"source": "MIT OCW 8.20 (2021)",
 							"title": "Lecture 8.1: Algebra of Lorentz Transformations",
 							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-8/"
 						}
 					],
 					"demoIdeas": [
-						"Boost slider that transforms a set of events between frames and highlights the invariant interval."
+						"Boost slider that transforms a set of events between frames and highlights the invariant interval c^2 t^2 - x^2 as the coordinates change.",
+						"Event pair classifier: drag a second event relative to the first and see timelike, lightlike or spacelike, with the frame in which they coincide in space or in time."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l004-doppler-spacetime",
-					"title": "Relativistic Doppler Effect & Spacetime Diagrams",
-					"minutes": 75,
+					"id": "p3-l006-velocity-addition-rapidity",
+					"title": "Relativistic Velocity Addition and Rapidity",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Derive and use the relativistic velocity-addition formula, and show that no combination of subluminal velocities exceeds c.",
+						"Compute the composition of two collinear boosts using rapidity."
+					],
+					"keyEquations": [
+						"u' = \\frac{u - v}{1 - uv/c^2}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§5.6",
+							"title": "Relativistic Velocity Transformation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.20 (2021)",
+							"title": "Lecture 5.2: Velocity Addition",
+							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-5-1/"
+						}
+					],
+					"demoIdeas": [
+						"Chain of boosts: add successive velocities with relativistic and Galilean rules side by side and see the relativistic total saturate below c, with the rapidities adding linearly."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l007-relativistic-doppler-redshift",
+					"title": "The Relativistic Doppler Effect and Redshift",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Derive the relativistic longitudinal Doppler formula f_obs = f_src sqrt((1-beta)/(1+beta)) for recession and the transverse Doppler shift.",
-						"Draw a spacetime diagram with worldlines, light cones and boosted axes, and read off simultaneity and time dilation.",
-						"Classify intervals as timelike, lightlike or spacelike and explain causality (which events can influence which).",
 						"Relate to spectroscopy: compute the redshift z of an object and the speed it implies, and distinguish from cosmological redshift qualitatively."
 					],
 					"keyEquations": [
 						"f_{obs} = f_{src}\\sqrt{\\frac{1-\\beta}{1+\\beta}}",
-						"1 + z = \\sqrt{\\frac{1+\\beta}{1-\\beta}}",
-						"\\Delta s^2 = c^2\\Delta t^2 - \\Delta x^2"
+						"1 + z = \\sqrt{\\frac{1+\\beta}{1-\\beta}}"
 					],
 					"readings": [
 						{
@@ -219,7 +282,33 @@
 							"source": "MIT OCW 8.20 (2021)",
 							"title": "Lecture 7.2: Relativistic Doppler Effect",
 							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-7-1/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Source and observer with sliders for speed and direction; show wave fronts, observed frequency from the relativistic and classical formulas, and the redshift z, including the transverse case."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l008-spacetime-diagrams-causality",
+					"title": "Spacetime Diagrams, Intervals and Causality",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Draw a spacetime diagram with worldlines, light cones and boosted axes, and read off simultaneity and time dilation.",
+						"Classify intervals as timelike, lightlike or spacelike and explain causality (which events can influence which)."
+					],
+					"keyEquations": [
+						"\\Delta s^2 = c^2\\Delta t^2 - \\Delta x^2"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§5.7",
+							"title": "Doppler Effect for Light"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 8.20 (2021)",
 							"title": "Lecture 5.3: Spacetime Diagrams",
@@ -237,26 +326,23 @@
 						}
 					],
 					"demoIdeas": [
-						"Interactive Minkowski diagram: place events, drag the velocity of the second observer, and watch axes tilt and light cones stay fixed."
+						"Interactive Minkowski diagram: place events, drag the velocity of the second observer, and watch the axes tilt and light cones stay fixed; shade the future, past and elsewhere regions."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l005-momentum-energy",
-					"title": "Relativistic Momentum & Energy",
-					"minutes": 90,
+					"id": "p3-l009-relativistic-momentum-energy",
+					"title": "Relativistic Momentum, Total Energy and E = mc^2",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Explain why Newtonian momentum conservation fails under boosts, and state the relativistic p = gamma m v.",
 						"Derive total energy E = gamma m c^2, rest energy m c^2 and kinetic energy K = (gamma - 1) m c^2, and show the Newtonian limit.",
-						"Use E^2 = (pc)^2 + (mc^2)^2 for massive and massless particles.",
-						"Compute the energy released in mass defects and chemical-scale effects (about 10^-10 relative mass change for 1 eV).",
-						"Compute the speed of an electron accelerated through a given voltage."
+						"Use E^2 = (pc)^2 + (mc^2)^2 for massive and massless particles."
 					],
 					"keyEquations": [
 						"\\vec p = \\gamma m\\vec v",
 						"E = \\gamma mc^2",
-						"K = (\\gamma - 1)mc^2",
 						"E^2 = (pc)^2 + (mc^2)^2"
 					],
 					"readings": [
@@ -281,7 +367,35 @@
 							"source": "MIT OCW 8.20 (2021)",
 							"title": "Lecture 9.2: Energy Conservation",
 							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-9-1/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Plot K, p and v versus accelerating voltage for an electron comparing Newtonian and relativistic results, with a ratio readout.",
+						"Elastic collision of two equal masses viewed from two frames, comparing p = m v and p = gamma m v conservation."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l010-energy-scales-accelerated-electrons",
+					"title": "Mass-Energy, Chemical Energy Scales and Accelerated Electrons",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Compute the energy released in mass defects and chemical-scale effects (about 10^-10 relative mass change for 1 eV).",
+						"Compute the speed of an electron accelerated through a given voltage."
+					],
+					"keyEquations": [
+						"E = \\gamma mc^2",
+						"K = (\\gamma - 1)mc^2"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§5.9",
+							"title": "Relativistic Energy"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 8.20 (2021)",
 							"title": "Lecture 9.4: Forces and Kinetic Energy",
@@ -289,26 +403,23 @@
 						}
 					],
 					"demoIdeas": [
-						"Plot K, p and v versus voltage for an electron comparing Newtonian and relativistic results."
+						"Speed and gamma of an electron accelerated through a slider voltage from 1 V to 10 MV, with a logarithmic axis showing v approaching c."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l006-four-vectors-collisions",
-					"title": "Four-Vectors, Invariants & Relativistic Collisions",
-					"minutes": 60,
+					"id": "p3-l011-four-vectors-invariant-mass",
+					"title": "Four-Vectors and Invariant Mass",
+					"minutes": 30,
 					"prereqs": [],
 					"objectives": [
 						"Write position and energy-momentum as four-vectors and compute their Lorentz-invariant norms (s^2 and m^2c^2).",
-						"Solve a relativistic collision or decay (e.g. pion decay, particle creation) using four-momentum conservation.",
-						"Compute the threshold energy to create a particle in a fixed-target versus a collider setting using the invariant mass.",
 						"Explain why the Compton and photon-absorption processes need relativistic kinematics for the photon."
 					],
 					"keyEquations": [
 						"P^\\mu = (E/c,\\ \\vec p)",
 						"P^\\mu P_\\mu = m^2c^2",
-						"s = (P_1 + P_2)^2c^2",
-						"E_{th} = \\frac{(\\sum m_f)^2 - m_1^2 - m_2^2}{2m_2}c^2"
+						"s = (P_1 + P_2)^2c^2"
 					],
 					"readings": [
 						{
@@ -322,7 +433,34 @@
 							"source": "MIT OCW 8.20 (2021)",
 							"title": "Lecture 8.2: Introduction to 4-Vector Notation",
 							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-8-1/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Four-vector calculator: enter E and momentum components and a boost velocity; the invariant mass stays constant while the components change."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l012-decays-collisions-thresholds",
+					"title": "Relativistic Decays, Collisions and Production Thresholds",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Solve a relativistic collision or decay (e.g. pion decay, particle creation) using four-momentum conservation.",
+						"Compute the threshold energy to create a particle in a fixed-target versus a collider setting using the invariant mass."
+					],
+					"keyEquations": [
+						"s = (P_1 + P_2)^2c^2",
+						"E_{th} = \\frac{(\\sum m_f)^2 - m_1^2 - m_2^2}{2m_2}c^2"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§5.9",
+							"title": "Relativistic Energy"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 8.20 (2021)",
 							"title": "Lecture 9.3: Collisions",
@@ -340,7 +478,8 @@
 						}
 					],
 					"demoIdeas": [
-						"Two-body decay calculator drawing the lab-frame momenta and the invariant mass."
+						"Two-body decay calculator drawing the lab-frame momenta and the invariant mass, with sliders for parent speed and masses.",
+						"Threshold tool: beam energy slider for fixed-target versus collider setups and the available centre-of-mass energy compared with the threshold for a chosen product."
 					],
 					"practice": []
 				}
@@ -352,28 +491,51 @@
 			"summary": "Blackbody radiation, the photoelectric effect, Compton scattering, the Bohr model and de Broglie matter waves: the experiments that broke classical physics, with every one a staple of spectroscopy.",
 			"lessons": [
 				{
-					"id": "p3-l007-blackbody-photoelectric",
-					"title": "Blackbody Radiation & the Photoelectric Effect",
-					"minutes": 90,
+					"id": "p3-l013-blackbody-planck",
+					"title": "Blackbody Radiation, Wien's Law and Planck's Quantisation",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Describe the ultraviolet catastrophe and how Planck's quantisation E = n h f of oscillator energies resolves it.",
-						"Use Wien's displacement law and the Stefan-Boltzmann law to find the peak wavelength and power of a thermal source.",
-						"Explain the three features of the photoelectric effect that classical waves cannot (threshold, instant emission, KE independent of intensity).",
-						"Use Einstein's equation K_max = hf - phi to compute work functions and stopping voltages."
+						"Use Wien's displacement law and the Stefan-Boltzmann law to find the peak wavelength and power of a thermal source."
 					],
 					"keyEquations": [
 						"B_\\lambda(T) = \\frac{2hc^2}{\\lambda^5}\\frac{1}{e^{hc/\\lambda kT}-1}",
-						"\\lambda_{max}T = 2.898\\times10^{-3}\\ \\mathrm{m\\,K}",
-						"K_{max} = hf - \\phi",
-						"eV_0 = K_{max}"
+						"\\lambda_{max}T = 2.898\\times10^{-3}\\ \\mathrm{m\\,K}"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-up3",
 							"ref": "§6.1",
 							"title": "Blackbody Radiation"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 5.111 (2014)",
+							"title": "Lecture 3: Wave-Particle Duality of Light (blackbody radiation and quantisation of light)",
+							"url": "https://archive.org/details/MIT5.111F14/MIT5_111F14_L03_300k.mp4"
+						}
+					],
+					"demoIdeas": [
+						"Blackbody curve versus temperature with a T slider, the Rayleigh-Jeans curve diverging, and the Wien peak marked and tracked."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l014-photoelectric-effect",
+					"title": "The Photoelectric Effect and the Photon Picture",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Explain the three features of the photoelectric effect that classical waves cannot (threshold, instant emission, KE independent of intensity).",
+						"Use Einstein's equation K_max = hf - phi to compute work functions and stopping voltages."
+					],
+					"keyEquations": [
+						"K_{max} = hf - \\phi",
+						"eV_0 = K_{max}"
+					],
+					"readings": [
 						{
 							"bookId": "openstax-up3",
 							"ref": "§6.2",
@@ -383,28 +545,57 @@
 					"lectures": [
 						{
 							"source": "MIT 5.111 (2014)",
-							"title": "Lecture 3: Wave-Particle Duality of Light",
+							"title": "Lecture 3: Wave-Particle Duality of Light (photons and the photoelectric effect)",
 							"url": "https://archive.org/details/MIT5.111F14/MIT5_111F14_L03_300k.mp4"
 						}
 					],
 					"demoIdeas": [
-						"Blackbody curve vs temperature with the Rayleigh-Jeans curve diverging; photoelectric cell with frequency, intensity and metal selector."
+						"Photoelectric cell with sliders for light frequency and intensity and a metal selector; plot the stopping voltage and current and show the threshold frequency."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l008-compton-bohr",
-					"title": "Compton Scattering & the Bohr Atom",
-					"minutes": 90,
+					"id": "p3-l015-compton-scattering",
+					"title": "Compton Scattering and the Momentum of the Photon",
+					"minutes": 35,
 					"prereqs": [],
 					"objectives": [
-						"Derive the Compton wavelength shift Delta lambda = (h/m_e c)(1 - cos theta) from energy and momentum conservation.",
+						"Derive the Compton wavelength shift Delta lambda = (h/m_e c)(1 - cos theta) from energy and momentum conservation, treating the photon as a particle with p = h/lambda.",
+						"Explain why the shift is easily measured for X-rays but negligible for visible light, and what the experiment shows about photons."
+					],
+					"keyEquations": [
+						"\\Delta\\lambda = \\frac{h}{m_ec}(1-\\cos\\theta)"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§6.3",
+							"title": "The Compton Effect"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.20 (2021)",
+							"title": "Lecture 10.7: Compton Effect",
+							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-10-6/"
+						}
+					],
+					"demoIdeas": [
+						"Photon-electron collision with sliders for incident wavelength and scattering angle; show the wavelength shift and electron recoil, and how the fractional shift becomes negligible for visible light."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l016-bohr-model-hydrogen",
+					"title": "The Bohr Atom and the Hydrogen Spectrum",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
 						"State the Bohr postulates and derive the hydrogen energy levels E_n = -13.6 eV/n^2 and orbit radii r_n = n^2 a_0.",
 						"Compute the wavelengths of hydrogen spectral lines (Lyman, Balmer, Paschen) from the Rydberg formula.",
 						"Explain the successes and failures of the Bohr model (hydrogen spectrum versus multi-electron atoms, fine structure)."
 					],
 					"keyEquations": [
-						"\\Delta\\lambda = \\frac{h}{m_ec}(1-\\cos\\theta)",
 						"E_n = -\\frac{13.6\\ \\mathrm{eV}}{n^2}",
 						"r_n = n^2a_0,\\ a_0 = 0.529\\ \\text{\\AA}",
 						"\\frac1\\lambda = R_H\\left(\\frac1{n_f^2}-\\frac1{n_i^2}\\right)",
@@ -413,21 +604,11 @@
 					"readings": [
 						{
 							"bookId": "openstax-up3",
-							"ref": "§6.3",
-							"title": "The Compton Effect"
-						},
-						{
-							"bookId": "openstax-up3",
 							"ref": "§6.4",
 							"title": "Bohr's Model of the Hydrogen Atom"
 						}
 					],
 					"lectures": [
-						{
-							"source": "MIT OCW 8.20 (2021)",
-							"title": "Lecture 10.7: Compton Effect",
-							"url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/resources/lecture-10-6/"
-						},
 						{
 							"source": "MIT 5.111 (2014)",
 							"title": "Lecture 2: Atomic Structure",
@@ -440,26 +621,55 @@
 						}
 					],
 					"demoIdeas": [
-						"Hydrogen energy-level diagram: click transitions and see photon wavelength, series name and spectral line colour."
+						"Hydrogen energy-level diagram: click transitions and see photon wavelength, series name and spectral line colour on a spectrum strip."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l009-matter-waves",
-					"title": "de Broglie Matter Waves & Wave-Particle Duality",
-					"minutes": 75,
+					"id": "p3-l017-de-broglie-diffraction",
+					"title": "The de Broglie Wavelength and Electron Diffraction",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Compute the de Broglie wavelength lambda = h/p of electrons, neutrons and molecules, and state when wave effects are observable.",
-						"Explain the Davisson-Germer experiment and electron diffraction as evidence for matter waves.",
+						"Explain the Davisson-Germer experiment and electron diffraction as evidence for matter waves."
+					],
+					"keyEquations": [
+						"\\lambda = \\frac{h}{p}",
+						"\\lambda_e[\\text{\\AA}] \\approx \\sqrt{150/V}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§6.5",
+							"title": "De Broglie's Matter Waves"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 5.111 (2014)",
+							"title": "Lecture 4: Wave-Particle Duality of Matter; Schrödinger Equation",
+							"url": "https://archive.org/details/MIT5.111F14/MIT5_111F14_L04_300k.mp4"
+						}
+					],
+					"demoIdeas": [
+						"Wavelength calculator for electrons, neutrons and molecules with energy and mass sliders, comparing lambda with slit or lattice spacing to show when diffraction appears.",
+						"Electron diffraction from a crystal: voltage slider and Bragg angles where intensity peaks appear."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l018-standing-waves-double-slit",
+					"title": "Standing de Broglie Waves, Bohr Quantisation and the Double Slit",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
 						"Explain the Bohr quantisation condition as a standing de Broglie wave on the orbit.",
 						"Use the double-slit experiment with single electrons to explain complementarity and why which-path information destroys interference."
 					],
 					"keyEquations": [
-						"\\lambda = \\frac{h}{p}",
 						"f = E/h",
-						"2\\pi r_n = n\\lambda",
-						"\\lambda_e[\\text{\\AA}] \\approx \\sqrt{150/V}"
+						"2\\pi r_n = n\\lambda"
 					],
 					"readings": [
 						{
@@ -475,11 +685,6 @@
 					],
 					"lectures": [
 						{
-							"source": "MIT 5.111 (2014)",
-							"title": "Lecture 4: Wave-Particle Duality of Matter; Schrödinger Equation",
-							"url": "https://archive.org/details/MIT5.111F14/MIT5_111F14_L04_300k.mp4"
-						},
-						{
 							"source": "MIT 8.04 (2013)",
 							"title": "Lecture 2: Experimental Facts of Life",
 							"url": "https://archive.org/details/MIT8.04S13/MIT8_04S13_lec02_300k.mp4"
@@ -491,7 +696,8 @@
 						}
 					],
 					"demoIdeas": [
-						"Single-electron double-slit: accumulate hits one at a time and watch the fringes appear; toggle a which-path detector."
+						"Single-electron double-slit: accumulate hits one at a time and watch the fringes appear; toggle a which-path detector.",
+						"A standing de Broglie wave around a circular Bohr orbit with n slider, showing whole numbers of wavelengths only."
 					],
 					"practice": []
 				}
@@ -503,28 +709,51 @@
 			"summary": "The wave function and its probabilistic meaning, the uncertainty principle, the Schroedinger equation, the particle in a box, the harmonic oscillator and tunnelling: a preview of Griffiths-level quantum mechanics.",
 			"lessons": [
 				{
-					"id": "p3-l010-wavefunction-uncertainty",
-					"title": "The Wave Function & the Uncertainty Principle",
-					"minutes": 75,
+					"id": "p3-l019-born-interpretation-expectation",
+					"title": "Born's Interpretation, Normalisation and Expectation Values",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"State Born's interpretation |psi|^2 dx as a probability and normalise a given wave function.",
-						"Compute probabilities, expectation values <x> and <p> for simple wave functions.",
-						"State the Heisenberg relation Delta x Delta p >= hbar/2 and use it for estimates, e.g. confinement energy of an electron in an atom.",
-						"Explain the energy-time uncertainty relation and natural linewidths in spectroscopy."
+						"Compute probabilities, expectation values <x> and <p> for simple wave functions."
 					],
 					"keyEquations": [
 						"\\int|\\psi|^2dx = 1",
-						"\\langle x\\rangle = \\int x|\\psi|^2dx",
-						"\\Delta x\\,\\Delta p \\ge \\frac{\\hbar}{2}",
-						"\\Delta E\\,\\Delta t \\gtrsim \\frac{\\hbar}{2}"
+						"\\langle x\\rangle = \\int x|\\psi|^2dx"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-up3",
 							"ref": "§7.1",
 							"title": "Wave Functions"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 8.04 (2013)",
+							"title": "Lecture 3: The Wave Function",
+							"url": "https://archive.org/details/MIT8.04S13/MIT8_04S13_lec03_300k.mp4"
+						}
+					],
+					"demoIdeas": [
+						"Draw a wave function, normalise it with one click, and shade the probability of finding the particle in a chosen interval; show <x> and the probability density."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l020-uncertainty-principle-linewidths",
+					"title": "The Uncertainty Principle, Atomic Stability and Natural Linewidths",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"State the Heisenberg relation Delta x Delta p >= hbar/2 and use it for estimates, e.g. confinement energy of an electron in an atom.",
+						"Explain the energy-time uncertainty relation and natural linewidths in spectroscopy."
+					],
+					"keyEquations": [
+						"\\Delta x\\,\\Delta p \\ge \\frac{\\hbar}{2}",
+						"\\Delta E\\,\\Delta t \\gtrsim \\frac{\\hbar}{2}"
+					],
+					"readings": [
 						{
 							"bookId": "openstax-up3",
 							"ref": "§7.2",
@@ -534,36 +763,30 @@
 					"lectures": [
 						{
 							"source": "MIT 8.04 (2013)",
-							"title": "Lecture 3: The Wave Function",
-							"url": "https://archive.org/details/MIT8.04S13/MIT8_04S13_lec03_300k.mp4"
-						},
-						{
-							"source": "MIT 8.04 (2013)",
 							"title": "Lecture 4: Expectations, Momentum, and Uncertainty",
 							"url": "https://archive.org/details/MIT8.04S13/MIT8_04S13_lec04_300k.mp4"
 						}
 					],
 					"demoIdeas": [
-						"Gaussian wave packet: width sliders show the position-momentum trade-off and live Delta x Delta p."
+						"Gaussian wave packet: width sliders show the position-momentum trade-off and live Delta x Delta p against the hbar/2 bound.",
+						"Excited-state lifetime slider and the Lorentzian linewidth it produces in a spectrum."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l011-schrodinger-box-oscillator",
-					"title": "The Schroedinger Equation, Particle in a Box & Harmonic Oscillator",
-					"minutes": 90,
+					"id": "p3-l021-schrodinger-box-polyenes",
+					"title": "The Schrodinger Equation, the Particle in a Box and Conjugated Polyenes",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"Write the time-independent Schroedinger equation and explain how boundary conditions force quantisation.",
 						"Solve the infinite square well: derive E_n = n^2 pi^2 hbar^2/(2 m L^2) and psi_n, and sketch the first few states.",
-						"State the harmonic-oscillator spectrum E_n = (n + 1/2) hbar omega and the zero-point energy, and relate to molecular vibration (IR spectra, isotope effect).",
 						"Use the particle-in-a-box model to estimate the visible absorption of a conjugated polyene."
 					],
 					"keyEquations": [
 						"-\\frac{\\hbar^2}{2m}\\frac{d^2\\psi}{dx^2} + V\\psi = E\\psi",
 						"\\psi_n = \\sqrt{\\tfrac{2}{L}}\\sin\\tfrac{n\\pi x}{L}",
-						"E_n = \\frac{n^2\\pi^2\\hbar^2}{2mL^2}",
-						"E_n = \\left(n+\\tfrac12\\right)\\hbar\\omega"
+						"E_n = \\frac{n^2\\pi^2\\hbar^2}{2mL^2}"
 					],
 					"readings": [
 						{
@@ -575,11 +798,6 @@
 							"bookId": "openstax-up3",
 							"ref": "§7.4",
 							"title": "The Quantum Particle in a Box"
-						},
-						{
-							"bookId": "openstax-up3",
-							"ref": "§7.5",
-							"title": "Quantum Harmonic Oscillator"
 						}
 					],
 					"lectures": [
@@ -592,7 +810,34 @@
 							"source": "MIT 8.04 (2013)",
 							"title": "Lecture 7: More on Energy Eigenstates",
 							"url": "https://archive.org/details/MIT8.04S13/MIT8_04S13_lec07_300k.mp4"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Potential-well builder (box, parabola, finite well): solve and draw the first n eigenstates and energies.",
+						"Conjugated polyene: slider for the number of double bonds filling box levels, showing the HOMO-LUMO gap and predicted absorption wavelength shift."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l022-harmonic-oscillator-vibration",
+					"title": "The Harmonic Oscillator and Molecular Vibration",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"State the harmonic-oscillator spectrum E_n = (n + 1/2) hbar omega, the zero-point energy, and the equal spacing of the levels.",
+						"Relate the oscillator to molecular vibration: omega = sqrt(k/mu), IR absorption at the level spacing, and the isotope effect on frequency and zero-point energy."
+					],
+					"keyEquations": [
+						"E_n = \\left(n+\\tfrac12\\right)\\hbar\\omega"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§7.5",
+							"title": "Quantum Harmonic Oscillator"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT 8.04 (2013)",
 							"title": "Lecture 8: Quantum Harmonic Oscillator Part I",
@@ -600,19 +845,18 @@
 						}
 					],
 					"demoIdeas": [
-						"Potential-well builder (box, parabola, finite well): solve and draw the first n eigenstates and energies."
+						"Harmonic oscillator levels with sliders for force constant and reduced mass; swap C-H for C-D to see the frequency and zero-point energy change."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l012-tunneling",
-					"title": "Barriers & Quantum Tunnelling",
-					"minutes": 60,
+					"id": "p3-l023-barrier-penetration-transmission",
+					"title": "Barrier Penetration and the Transmission Probability",
+					"minutes": 35,
 					"prereqs": [],
 					"objectives": [
 						"Explain why a particle with E < V0 has non-zero probability beyond a barrier, using the decaying exponential in the forbidden region.",
-						"Estimate the transmission probability T ~ exp(-2 kappa a) for a rectangular barrier and see how it depends on mass, width and energy.",
-						"Describe applications: scanning tunnelling microscopy, alpha decay, and proton tunnelling in chemical reactions (kinetic isotope effects)."
+						"Estimate the transmission probability T ~ exp(-2 kappa a) for a rectangular barrier and see how it depends on mass, width and energy."
 					],
 					"keyEquations": [
 						"\\kappa = \\frac{\\sqrt{2m(V_0 - E)}}{\\hbar}",
@@ -633,7 +877,33 @@
 						}
 					],
 					"demoIdeas": [
-						"Wave packet hitting a barrier: sliders for barrier height and width show reflected and transmitted parts and T."
+						"Wave packet hitting a barrier: sliders for barrier height, width and particle energy show reflected and transmitted parts and the transmission probability T."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l024-tunnelling-applications",
+					"title": "Tunnelling in Practice: STM, Alpha Decay and Proton Transfer",
+					"minutes": 30,
+					"prereqs": [],
+					"objectives": [
+						"Describe how the tunnelling current in a scanning tunnelling microscope depends exponentially on the gap, and why this gives atomic resolution.",
+						"Describe alpha decay and proton tunnelling in chemical reactions (kinetic isotope effects) as applications of barrier penetration."
+					],
+					"keyEquations": [
+						"T \\approx e^{-2\\kappa a}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§7.6",
+							"title": "The Quantum Tunneling of Particles through Potential Barriers"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"STM line scan: slider for tip-surface gap and a plot of tunnelling current falling exponentially, with a bumpy surface profile traced at constant current.",
+						"Proton versus deuteron transmission through the same barrier with mass and width sliders showing the isotope effect."
 					],
 					"practice": []
 				}
@@ -645,37 +915,23 @@
 			"summary": "The hydrogen atom's quantum numbers and orbitals, orbital and spin magnetic moments, the Pauli exclusion principle and the periodic table, spectra, X-rays and lasers: the physics under general chemistry.",
 			"lessons": [
 				{
-					"id": "p3-l013-hydrogen-spin",
-					"title": "The Hydrogen Atom, Orbital Angular Momentum & Spin",
-					"minutes": 90,
+					"id": "p3-l025-hydrogen-quantum-numbers-orbitals",
+					"title": "Hydrogen Quantum Numbers, Orbitals and Radial Probability",
+					"minutes": 45,
 					"prereqs": [],
 					"objectives": [
 						"State the quantum numbers n, l, m_l, m_s, their allowed values, and count states in each shell (2n^2).",
-						"Describe the shapes and radial distributions of s, p and d hydrogen orbitals and where the radial probability peaks.",
-						"Relate orbital angular momentum and the magnetic moment (Bohr magneton) and describe the Zeeman effect and the Stern-Gerlach experiment.",
-						"Explain electron spin as an intrinsic angular momentum with two projections and relate to the basis of EPR/NMR."
+						"Describe the shapes and radial distributions of s, p and d hydrogen orbitals and where the radial probability peaks."
 					],
 					"keyEquations": [
 						"E_n = -\\frac{13.6\\ \\mathrm{eV}}{n^2}",
-						"L = \\sqrt{l(l+1)}\\hbar,\\ L_z = m_l\\hbar",
-						"\\mu_B = \\frac{e\\hbar}{2m_e}",
-						"S_z = \\pm\\tfrac12\\hbar"
+						"L = \\sqrt{l(l+1)}\\hbar,\\ L_z = m_l\\hbar"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-up3",
 							"ref": "§8.1",
 							"title": "The Hydrogen Atom"
-						},
-						{
-							"bookId": "openstax-up3",
-							"ref": "§8.2",
-							"title": "Orbital Magnetic Dipole Moment of the Electron"
-						},
-						{
-							"bookId": "openstax-up3",
-							"ref": "§8.3",
-							"title": "Electron Spin"
 						}
 					],
 					"lectures": [
@@ -691,33 +947,93 @@
 						}
 					],
 					"demoIdeas": [
-						"Orbital viewer: choose n, l, m and see the probability-density cloud and radial profile."
+						"Orbital viewer: choose n, l, m and see the probability-density cloud and radial profile, with the quantum-number counts per shell."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l014-exclusion-spectra-lasers",
-					"title": "Exclusion Principle, Periodic Table, Spectra & Lasers",
-					"minutes": 75,
+					"id": "p3-l026-orbital-magnetism-spin-resonance",
+					"title": "Orbital Magnetism, Spin and the Basis of EPR and NMR",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Relate orbital angular momentum and the magnetic moment (Bohr magneton) and describe the Zeeman effect and the Stern-Gerlach experiment.",
+						"Explain electron spin as an intrinsic angular momentum with two projections and relate to the basis of EPR/NMR."
+					],
+					"keyEquations": [
+						"\\mu_B = \\frac{e\\hbar}{2m_e}",
+						"S_z = \\pm\\tfrac12\\hbar"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§8.2",
+							"title": "Orbital Magnetic Dipole Moment of the Electron"
+						},
+						{
+							"bookId": "openstax-up3",
+							"ref": "§8.3",
+							"title": "Electron Spin"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Zeeman level diagram with a magnetic-field slider, and a Stern-Gerlach beam splitting into two spots for spin-1/2.",
+						"Spin precession on a Bloch sphere in a field with an adjustable drive frequency, showing resonance at the Larmor frequency (EPR/NMR)."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l027-pauli-configurations-periodic-trends",
+					"title": "The Pauli Principle, Electron Configurations and Periodic Trends",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"State the Pauli exclusion principle and use it with Hund's rule to write ground-state electron configurations up to Z ~ 36.",
-						"Explain trends in the periodic table (ionisation energy, atomic radius) with shielding and effective nuclear charge.",
-						"Describe atomic X-ray spectra (characteristic lines, Moseley's law) and emission selection rules Delta l = +/- 1.",
-						"Explain the principle of the laser (population inversion, stimulated emission) and give examples used in spectroscopy."
+						"Explain trends in the periodic table (ionisation energy, atomic radius) with shielding and effective nuclear charge."
 					],
 					"keyEquations": [
-						"Z_{eff} = Z - \\sigma",
-						"\\sqrt{f_{K\\alpha}} \\propto (Z - 1)",
-						"\\Delta l = \\pm1,\\ \\Delta m_l = 0, \\pm1",
-						"N_2 > N_1"
+						"Z_{eff} = Z - \\sigma"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-up3",
 							"ref": "§8.4",
 							"title": "The Exclusion Principle and the Periodic Table"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 5.111 (2014)",
+							"title": "Lecture 7: Multielectron atoms",
+							"url": "https://archive.org/details/MIT5.111F14/MIT5_111F14_L07_300k.mp4"
 						},
+						{
+							"source": "MIT 5.111 (2014)",
+							"title": "Lecture 8: The Periodic Table and Periodic Trends",
+							"url": "https://archive.org/details/MIT5.111F14/MIT5_111F14_L08_300k.mp4"
+						}
+					],
+					"demoIdeas": [
+						"Periodic-table builder: add electrons shell by shell following Pauli and Hund and see the energy-level diagram fill, with plots of ionisation energy and radius versus Z."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l028-spectra-xrays-lasers",
+					"title": "Atomic Spectra, Selection Rules, X-rays and Lasers",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Describe atomic X-ray spectra (characteristic lines, Moseley's law) and emission selection rules Delta l = +/- 1.",
+						"Explain the principle of the laser (population inversion, stimulated emission) and give examples used in spectroscopy."
+					],
+					"keyEquations": [
+						"\\sqrt{f_{K\\alpha}} \\propto (Z - 1)",
+						"\\Delta l = \\pm1,\\ \\Delta m_l = 0, \\pm1",
+						"N_2 > N_1"
+					],
+					"readings": [
 						{
 							"bookId": "openstax-up3",
 							"ref": "§8.5",
@@ -735,20 +1051,10 @@
 							"optional": true
 						}
 					],
-					"lectures": [
-						{
-							"source": "MIT 5.111 (2014)",
-							"title": "Lecture 7: Multielectron atoms",
-							"url": "https://archive.org/details/MIT5.111F14/MIT5_111F14_L07_300k.mp4"
-						},
-						{
-							"source": "MIT 5.111 (2014)",
-							"title": "Lecture 8: The Periodic Table and Periodic Trends",
-							"url": "https://archive.org/details/MIT5.111F14/MIT5_111F14_L08_300k.mp4"
-						}
-					],
+					"lectures": [],
 					"demoIdeas": [
-						"Periodic-table builder: add electrons shell by shell following Pauli and Hund and see the energy-level diagram fill."
+						"Laser population simulator: two-, three- and four-level systems with a pump-rate slider showing population inversion and gain.",
+						"Moseley plot builder: select elements and see sqrt(f) of K-alpha lines fall on a straight line against Z."
 					],
 					"practice": []
 				}
@@ -760,21 +1066,17 @@
 			"summary": "Nuclear structure, binding energy, radioactive decay, fission and fusion; the half-life arithmetic is identical to first-order kinetics, and the energy scale (MeV per nucleon versus eV per bond) puts chemistry in context.",
 			"lessons": [
 				{
-					"id": "p3-l015-nuclei-binding-decay",
-					"title": "Nuclei, Binding Energy & Radioactive Decay",
-					"minutes": 90,
+					"id": "p3-l029-nuclear-structure-binding-energy",
+					"title": "Nuclear Structure and the Binding-Energy Curve",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Describe the nucleus (Z, N, A, isotopes, nuclear radius R = R0 A^(1/3)) and the strong force's short range.",
-						"Compute the mass defect and binding energy per nucleon and explain the shape of the binding-energy curve with a maximum near iron.",
-						"Write decay equations for alpha, beta and gamma decay conserving charge, baryon number and energy, and compute decay Q values.",
-						"Solve the exponential decay law N = N0 e^(-lambda t), find half-life and activity, and relate to first-order kinetics (14C dating)."
+						"Compute the mass defect and binding energy per nucleon and explain the shape of the binding-energy curve with a maximum near iron."
 					],
 					"keyEquations": [
 						"R = R_0A^{1/3}",
-						"E_B = (Zm_p + Nm_n - m_{nuc})c^2",
-						"N(t) = N_0e^{-\\lambda t},\\ t_{1/2} = \\frac{\\ln2}{\\lambda}",
-						"A = \\lambda N"
+						"E_B = (Zm_p + Nm_n - m_{nuc})c^2"
 					],
 					"readings": [
 						{
@@ -786,11 +1088,6 @@
 							"bookId": "openstax-up3",
 							"ref": "§10.2",
 							"title": "Nuclear Binding Energy"
-						},
-						{
-							"bookId": "openstax-up3",
-							"ref": "§10.3",
-							"title": "Radioactive Decay"
 						}
 					],
 					"lectures": [
@@ -803,7 +1100,34 @@
 							"source": "MIT 22.01 (2016)",
 							"title": "Lecture 4: Binding Energy, the Semi-Empirical Liquid Drop Nuclear Model, and Mass Parabolas",
 							"url": "https://archive.org/details/MIT22.01F16/MIT22_01F16_Lec04_300k.mp4"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Nuclide chart with a binding-energy-per-nucleon curve; click a nuclide to see its mass defect, binding energy and the iron peak."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l030-radioactive-decay-law",
+					"title": "Decay Modes and the Exponential Decay Law",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write decay equations for alpha, beta and gamma decay conserving charge, baryon number and energy, and compute decay Q values.",
+						"Solve the exponential decay law N = N0 e^(-lambda t), find half-life and activity, and relate to first-order kinetics (14C dating)."
+					],
+					"keyEquations": [
+						"N(t) = N_0e^{-\\lambda t},\\ t_{1/2} = \\frac{\\ln2}{\\lambda}",
+						"A = \\lambda N"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§10.3",
+							"title": "Radioactive Decay"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT 22.01 (2016)",
 							"title": "Lecture 8: Radioactive Decay — Modes, Energetics, and Trends",
@@ -811,24 +1135,21 @@
 						}
 					],
 					"demoIdeas": [
-						"Nuclide chart with binding energy curve and a decay simulator showing N(t) for a population of atoms against the exponential."
+						"Decay simulator for a population of atoms with a half-life slider, showing N(t) against the exponential and an activity readout; carbon-14 dating mode."
 					],
 					"practice": []
 				},
 				{
-					"id": "p3-l016-reactions-fission-fusion",
-					"title": "Nuclear Reactions, Fission & Fusion",
-					"minutes": 75,
+					"id": "p3-l031-nuclear-reactions-fission",
+					"title": "Nuclear Reactions, Q Values and Fission Chain Reactions",
+					"minutes": 40,
 					"prereqs": [],
 					"objectives": [
 						"Balance nuclear reactions and compute the Q value from mass differences.",
-						"Explain nuclear fission, chain reactions and criticality qualitatively, and estimate energy per fission (~200 MeV).",
-						"Explain fusion in stars, the Coulomb barrier and the role of tunnelling, and compare energy per kilogram of fusion fuel with chemical fuels.",
-						"Compare the energy scales of chemical (eV), atomic (keV) and nuclear (MeV) processes."
+						"Explain nuclear fission, chain reactions and criticality qualitatively, and estimate energy per fission (~200 MeV)."
 					],
 					"keyEquations": [
 						"Q = (m_i - m_f)c^2",
-						"E_{Coulomb} = \\frac{1}{4\\pi\\varepsilon_0}\\frac{Z_1Z_2e^2}{r}",
 						"k_{eff} = 1\\ \\text{(critical)}"
 					],
 					"readings": [
@@ -841,11 +1162,6 @@
 							"bookId": "openstax-up3",
 							"ref": "§10.5",
 							"title": "Fission"
-						},
-						{
-							"bookId": "openstax-up3",
-							"ref": "§10.6",
-							"title": "Nuclear Fusion"
 						}
 					],
 					"lectures": [
@@ -858,7 +1174,33 @@
 							"source": "MIT 22.01 (2016)",
 							"title": "Lecture 20: How Nuclear Energy Works",
 							"url": "https://archive.org/details/MIT22.01F16/MIT22_01F16_Lec20_300k.mp4"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Chain-reaction simulator with a neutron multiplication factor slider and a moderator/control-rod toggle, showing subcritical, critical and supercritical behaviour."
+					],
+					"practice": []
+				},
+				{
+					"id": "p3-l032-fusion-energy-scales",
+					"title": "Fusion, the Coulomb Barrier and Energy Scales",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Explain fusion in stars, the Coulomb barrier and the role of tunnelling, and compare energy per kilogram of fusion fuel with chemical fuels.",
+						"Compare the energy scales of chemical (eV), atomic (keV) and nuclear (MeV) processes."
+					],
+					"keyEquations": [
+						"E_{Coulomb} = \\frac{1}{4\\pi\\varepsilon_0}\\frac{Z_1Z_2e^2}{r}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "§10.6",
+							"title": "Nuclear Fusion"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT 5.111 (2014)",
 							"title": "Lecture 31: Nuclear Chemistry and Chemical Kinetics",
@@ -866,7 +1208,7 @@
 						}
 					],
 					"demoIdeas": [
-						"Chain-reaction simulator with a neutron multiplication factor slider and a moderator/control-rod toggle."
+						"Coulomb barrier and tunnelling: sliders for nuclear charges and temperature, showing the barrier, the thermal energy and the Gamow tunnelling window."
 					],
 					"practice": []
 				}

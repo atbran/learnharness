@@ -1,7 +1,7 @@
 {
 	"courseId": "m0-precalc",
 	"checks": {
-		"m0-l001-exponents-radicals": [
+		"m0-l001-exponent-laws-radicals": [
 			{
 				"kind": "mc",
 				"prompt": "Simplify $\\dfrac{(x^{3/2})^{4}}{x^{-2}}$ for $x>0$.",
@@ -27,6 +27,14 @@
 				"explanation": "Multiply top and bottom by the conjugate $\\sqrt5+\\sqrt3$. The denominator becomes $(\\sqrt5)^2-(\\sqrt3)^2=2$, using the difference of squares."
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain why the rules $a^m a^n=a^{m+n}$ and $(a^m)^n=a^{mn}$ force $x^0=1$, $x^{-n}=1/x^n$ and $x^{1/2}=\\sqrt{x}$ to be the definitions of those powers.",
+				"rubric": "Full credit requires: (1) using $a^m a^n=a^{m+n}$ with $n=0$ (or $a^n/a^n$) to get $a^0=1$; (2) $a^{-n}a^n=a^0=1$ so $a^{-n}=1/a^n$; (3) $(x^{1/2})^2=x^1$ so $x^{1/2}$ is the number that squares to $x$, i.e. the square root; (4) the idea that the definitions are chosen so the product rule keeps working.",
+				"modelAnswer": "If the product rule $a^m a^n=a^{m+n}$ is to hold for all exponents, then $a^0a^n=a^n$ forces $a^0=1$, and $a^{-n}a^n=a^0=1$ forces $a^{-n}=1/a^n$. Likewise $(x^{1/2})^2=x^{1}$ means $x^{1/2}$ must be the number whose square is $x$, i.e. $\\sqrt{x}$. These are not arbitrary conventions: they are the only extensions that keep the exponent laws consistent."
+			}
+		],
+		"m0-l002-rational-expressions-rearranging": [
+			{
 				"kind": "mc",
 				"prompt": "The equilibrium constant is $K=\\dfrac{[C][D]}{[A][B]}$. Which expression isolates $[D]$?",
 				"options": [
@@ -47,13 +55,25 @@
 				"explanation": "$T=PV/(nR)=(1.50)(12.0)/((0.500)(0.082057))\\approx 439$ K."
 			},
 			{
+				"kind": "mc",
+				"prompt": "Combine $\\dfrac1x+\\dfrac1{x+1}$ into a single fraction.",
+				"options": [
+					"$\\dfrac{2}{x(x+1)}$",
+					"$\\dfrac{2x+1}{x(x+1)}$",
+					"$\\dfrac{2}{2x+1}$",
+					"$\\dfrac{1}{x(x+1)}$"
+				],
+				"answer": 1,
+				"explanation": "Use the common denominator $x(x+1)$: $\\frac{x+1}{x(x+1)}+\\frac{x}{x(x+1)}=\\frac{2x+1}{x(x+1)}$. Adding numerators and denominators separately (giving $2/(2x+1)$) is the classic error."
+			},
+			{
 				"kind": "short",
 				"prompt": "Explain why you may cancel the $(x-3)$ in $\\dfrac{x^2-9}{x-3}$ but may not cancel the $x$'s in $\\dfrac{x+3}{x}$, and why $(a+b)^2\\neq a^2+b^2$.",
 				"rubric": "Full credit: states that only common FACTORS (things multiplied) cancel, not terms (things added); notes x^2-9 factors as (x-3)(x+3) so (x-3) is a factor of the whole numerator; explains (a+b)^2 means (a+b)(a+b) which produces the cross term 2ab. Bonus: mentions sqrt(x^2)=|x|.",
 				"modelAnswer": "Cancelling divides the numerator and denominator by the same thing, which is only legitimate if it multiplies the entire numerator and denominator. $x^2-9=(x-3)(x+3)$, so $(x-3)$ is a factor and the fraction becomes $x+3$ for $x\\neq3$. In $(x+3)/x$ the $x$ in the numerator is a term in a sum, so it cannot be cancelled. Similarly $(a+b)^2=(a+b)(a+b)=a^2+2ab+b^2$; dropping $2ab$ ignores the cross terms. (Likewise $\\sqrt{x^2}=|x|$, not $x$.)"
 			}
 		],
-		"m0-l002-factoring-quadratics": [
+		"m0-l003-factoring-completing-square": [
 			{
 				"kind": "mc",
 				"prompt": "Solve $x^4-5x^2+4=0$.",
@@ -91,6 +111,14 @@
 				"explanation": "This is a difference of cubes, $a^3-b^3=(a-b)(a^2+ab+b^2)$ with $a=2x$, $b=3$. The sign in the quadratic factor is $+$ for a difference of cubes."
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain why $x^4-5x^2+4=0$ is \"quadratic in disguise\", why you must convert back after solving for $u=x^2$, and why $x^4+x^2-6=0$ has only two real roots rather than four.",
+				"rubric": "Full credit requires: (1) recognising $x^4=(x^2)^2$ so $u=x^2$ gives $u^2-5u+4=0$; (2) solving for $u$ then taking $x=\\pm\\sqrt u$ for each $u$; (3) noting that each positive $u$ gives two real $x$ but a negative $u$ gives none, so $x^4+x^2-6=0$ ($u=2$ or $u=-3$) has only $x=\\pm\\sqrt2$ as real roots.",
+				"modelAnswer": "The substitution $u=x^2$ turns the quartic into $u^2-5u+4=(u-1)(u-4)=0$, so $u=1$ or $4$. You must go back and solve $x^2=u$, which gives $x=\\pm1,\\pm2$. If a root $u$ is negative, as in $x^4+x^2-6=0$ where $u=2$ or $-3$, then $x^2=-3$ has no real solution and only $x=\\pm\\sqrt2$ survive."
+			}
+		],
+		"m0-l004-quadratic-formula-equilibria": [
+			{
 				"kind": "numeric",
 				"prompt": "A weak acid HA ($K_a=1.8\\times10^{-5}$) has initial concentration $0.100$ M. Solve $x^2/(0.100-x)=K_a$ with the quadratic formula for the physically admissible root $x=[\\mathrm{H^+}]$. Give $[\\mathrm{H^+}]$ in units of $10^{-3}$ M (that is, mM).",
 				"answer": 1.333,
@@ -103,9 +131,21 @@
 				"prompt": "For $x^2/(c-x)=K$ the quadratic formula gives two roots. Explain what the discriminant tells you here and how you decide which root is physically meaningful.",
 				"rubric": "Full credit: rearranges to a quadratic x^2+Kx-Kc=0; notes the discriminant K^2+4Kc is positive so there are two real roots of opposite sign (product -Kc <0); chooses the positive root, and/or requires 0<x<c since x is an amount of dissociated acid that cannot be negative or exceed the starting concentration.",
 				"modelAnswer": "Writing it as $x^2+Kx-Kc=0$, the discriminant $K^2+4Kc$ is positive, so there are two real roots. Their product is $-Kc<0$, so one is positive and one negative. Mathematics alone accepts both; chemistry does not: $x$ is the amount dissociated, so it must satisfy $0<x<c$. Only the positive root qualifies, and the other is an artefact of the algebra."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For $2x^2-4x+5=0$, what does the discriminant $b^2-4ac$ tell you?",
+				"options": [
+					"It equals $-24$, so there is one repeated real root",
+					"It equals $24$, so there are two distinct real roots",
+					"It equals $-24$, so there are two complex-conjugate roots and no real roots",
+					"It equals $0$, so the parabola just touches the $x$-axis"
+				],
+				"answer": 2,
+				"explanation": "Here $b^2-4ac=16-40=-24<0$, so the parabola $y=2x^2-4x+5$ never crosses the $x$-axis and the roots are the conjugate pair $1\\pm i\\sqrt{3/2}$. A negative discriminant never gives a repeated root; that needs $\\Delta=0$."
 			}
 		],
-		"m0-l003-linear-systems-inequalities": [
+		"m0-l005-linear-systems-mixing": [
 			{
 				"kind": "mc",
 				"prompt": "What happens when you solve $x+2y=3$ and $2x+4y=7$ together?",
@@ -118,6 +158,22 @@
 				"answer": 0,
 				"explanation": "Doubling the first equation gives $2x+4y=6$, which contradicts $2x+4y=7$. Parallel distinct lines never meet. If the right-hand side had been $6$, the equations would be dependent."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "You have a 2.0 M and a 0.50 M stock solution of the same solute. How many mL of the 2.0 M solution must be mixed with the 0.50 M solution to make 100 mL of 1.1 M solution? (Assume volumes add.) Give your answer in mL.",
+				"answer": 40.0,
+				"tolerance": 0.02,
+				"unit": "mL",
+				"explanation": "Let $x$ be the mL of 2.0 M: $2.0x+0.50(100-x)=1.1(100)$, so $1.5x=60$ and $x=40$ mL (so 60 mL of the 0.50 M)."
+			},
+			{
+				"kind": "short",
+				"prompt": "A system of two linear equations in $x$ and $y$ can have one solution, no solution, or infinitely many. Describe each case geometrically and say what you see during elimination when it happens.",
+				"rubric": "Full credit requires: (1) lines meeting at one point gives a unique solution; (2) parallel distinct lines gives no solution, and elimination ends in a false statement such as $0=4$; (3) the same line twice gives infinitely many solutions, and elimination ends in a true statement such as $0=0$.",
+				"modelAnswer": "Each equation is a line. If they cross, there is exactly one solution and elimination yields values for both unknowns. If they are parallel and distinct, there is no solution, and elimination produces a contradiction like $0=4$. If they are the same line, every point on it is a solution, and elimination gives the identity $0=0$, leaving a free variable."
+			}
+		],
+		"m0-l006-inequalities-absolute-value": [
 			{
 				"kind": "mc",
 				"prompt": "Solve $-2x+3>11$ and write the answer as an interval.",
@@ -143,21 +199,13 @@
 				"explanation": "$|x-3|$ is the distance from $x$ to $3$. Distance less than $2$ means $x$ lies within $2$ of $3$: $1<x<5$. Distance greater than $2$ would give the two outer rays."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "You have a 2.0 M and a 0.50 M stock solution of the same solute. How many mL of the 2.0 M solution must be mixed with the 0.50 M solution to make 100 mL of 1.1 M solution? (Assume volumes add.) Give your answer in mL.",
-				"answer": 40.0,
-				"tolerance": 0.02,
-				"unit": "mL",
-				"explanation": "Let $x$ be the mL of 2.0 M: $2.0x+0.50(100-x)=1.1(100)$, so $1.5x=60$ and $x=40$ mL (so 60 mL of the 0.50 M)."
-			},
-			{
 				"kind": "short",
 				"prompt": "Why is it unsafe to solve $\\dfrac{x+1}{x-2}\\ge0$ by multiplying both sides by $(x-2)$? Describe the sign-analysis method that works instead.",
 				"rubric": "Full credit: notes (x-2) can be positive or negative so the inequality direction would flip depending on the sign (unknown in advance); describes finding critical points (zeros of numerator and denominator), splitting the line into intervals, testing the sign of each factor, and noting the endpoint x=2 is excluded (denominator zero) while x=-1 is included.",
 				"modelAnswer": "Multiplying by $(x-2)$ flips the inequality when $x<2$ but not when $x>2$, and we don't know which case we are in, so one rule can't be applied. Instead find where each factor changes sign (at $x=-1$ and $x=2$), split the number line into intervals, and check the sign of the quotient on each. The quotient is $\\ge0$ for $x\\le-1$ or $x>2$; $x=-1$ is included because the quotient is $0$, but $x=2$ is excluded because the denominator vanishes."
 			}
 		],
-		"m0-l004-functions-composition-inverses": [
+		"m0-l007-functions-domain-range": [
 			{
 				"kind": "mc",
 				"prompt": "What is the domain of $f(x)=\\dfrac{\\sqrt{x-1}}{\\ln(x-2)}$?",
@@ -170,6 +218,26 @@
 				"answer": 3,
 				"explanation": "We need $x-1\\ge0$, $x-2>0$ (the log's argument must be positive), and $\\ln(x-2)\\neq0$, i.e. $x\\neq3$. Together: $x>2$ and $x\\neq3$."
 			},
+			{
+				"kind": "mc",
+				"prompt": "Which relation does NOT define $y$ as a function of $x$?",
+				"options": [
+					"$y=x^2$",
+					"$y=|x|$",
+					"$y=\\sqrt[3]{x}$",
+					"$x^2+y^2=4$"
+				],
+				"answer": 3,
+				"explanation": "The circle $x^2+y^2=4$ fails the vertical line test: $x=1$ gives both $y=\\sqrt3$ and $y=-\\sqrt3$. The other three assign exactly one $y$ to each $x$."
+			},
+			{
+				"kind": "short",
+				"prompt": "A student says \"$f(x)=\\dfrac1{\\sqrt{x-2}}$ is just the number $1/\\sqrt{x-2}$\". Explain the difference between a function and its value at a point, and find the domain of this $f$.",
+				"rubric": "Full credit requires: (1) the function $f$ is the rule or mapping, while $f(x)$ is the output value at a particular input; (2) the domain is the set of inputs for which the rule makes sense; (3) $x-2$ must be strictly positive (the square root needs $\\ge0$ and the denominator cannot be $0$), so the domain is $x>2$.",
+				"modelAnswer": "The function $f$ is the whole rule that sends each allowed input to one output; $f(x)$ is the single output for a particular $x$. The domain is the set of allowed inputs. Here the square root needs $x-2\\ge0$ and the denominator cannot vanish, so $x-2>0$ and the domain is $(2,\\infty)$."
+			}
+		],
+		"m0-l008-composition-inverse-functions": [
 			{
 				"kind": "mc",
 				"prompt": "Which decomposition of $h(x)=e^{\\sqrt{x^2+1}}$ into inner and outer pieces is correct (working from the inside out)?",
@@ -208,7 +276,7 @@
 				"modelAnswer": "For every allowed volume there is exactly one pressure, so $P(V)$ is a function. Its domain is $V>0$ because the formula is undefined at $V=0$ and negative volumes aren't physical. On that domain it is one-to-one (strictly decreasing), so it has the inverse $V(P)=nRT/P$. Swapping the roles of input and output reflects the graph across the line $y=x$."
 			}
 		],
-		"m0-l005-transformations-rates": [
+		"m0-l009-transformations-symmetry-piecewise": [
 			{
 				"kind": "mc",
 				"prompt": "The point $(1,4)$ lies on the graph of $y=f(x)$. Where does it land on the graph of $y=2f(x-3)+1$?",
@@ -234,6 +302,14 @@
 				"explanation": "$x^3$ is odd and $\\cos x$ is even, so the product is odd: $f(-x)=-f(x)$. Over a symmetric interval, the positive and negative areas cancel exactly."
 			},
 			{
+				"kind": "short",
+				"prompt": "A particle meets a rectangular barrier of height $V_0$ between $x=0$ and $x=L$ and feels no potential elsewhere. Write this potential as a piecewise function and explain why you must think about open versus closed endpoints, and what the graph looks like.",
+				"rubric": "Full credit: gives V(x)=0 for x<0, V0 for 0<=x<=L (or equivalent), 0 for x>L; explains that a piecewise function must assign exactly one value at each x so endpoints must be assigned to one piece (closed dot) and the other left open; graph has two jumps (discontinuities) with open/closed dots.",
+				"modelAnswer": "$V(x)=0$ for $x<0$; $V(x)=V_0$ for $0\\le x\\le L$; $V(x)=0$ for $x>L$. A function must give exactly one output per input, so each endpoint has to belong to exactly one piece; that is what the closed dot (value taken) and open dot (value excluded) on the graph show. The graph is a flat line at $0$, a jump up to height $V_0$ over $[0,L]$, and a jump back down. The jumps are discontinuities of the model, an idealisation of a steep but smooth real potential."
+			}
+		],
+		"m0-l010-average-rate-of-change": [
+			{
 				"kind": "numeric",
 				"prompt": "The concentration of a reactant is $[A](t)=0.80\\,e^{-0.10\\,t}$ M, with $t$ in seconds. Find the average rate of change of $[A]$ from $t=0$ to $t=10$ s. Give the answer in M/s (it should be negative).",
 				"answer": -0.05057,
@@ -255,12 +331,12 @@
 			},
 			{
 				"kind": "short",
-				"prompt": "A particle meets a rectangular barrier of height $V_0$ between $x=0$ and $x=L$ and feels no potential elsewhere. Write this potential as a piecewise function and explain why you must think about open versus closed endpoints, and what the graph looks like.",
-				"rubric": "Full credit: gives V(x)=0 for x<0, V0 for 0<=x<=L (or equivalent), 0 for x>L; explains that a piecewise function must assign exactly one value at each x so endpoints must be assigned to one piece (closed dot) and the other left open; graph has two jumps (discontinuities) with open/closed dots.",
-				"modelAnswer": "$V(x)=0$ for $x<0$; $V(x)=V_0$ for $0\\le x\\le L$; $V(x)=0$ for $x>L$. A function must give exactly one output per input, so each endpoint has to belong to exactly one piece; that is what the closed dot (value taken) and open dot (value excluded) on the graph show. The graph is a flat line at $0$, a jump up to height $V_0$ over $[0,L]$, and a jump back down. The jumps are discontinuities of the model, an idealisation of a steep but smooth real potential."
+				"prompt": "Explain what the slope of a secant line measures, what units it has for $[A](t)$ in molar concentration against time in seconds, and why shrinking the interval to zero width is the idea that leads to derivatives.",
+				"rubric": "Full credit requires: (1) the secant slope $\\Delta f/\\Delta x$ is the average rate of change of $f$ over the interval; (2) units are M/s (output units per input unit) and its sign tells whether $[A]$ decreased or increased; (3) as the interval shrinks the secant slope approaches the instantaneous rate, the tangent slope.",
+				"modelAnswer": "The secant slope $\\Delta[A]/\\Delta t$ is the average rate of change of concentration over the interval, with units of M/s; a negative value means $[A]$ fell overall. If the two endpoints are pulled together, the secant line turns into the tangent line and the average rate becomes the instantaneous rate, which is exactly what the derivative defines."
 			}
 		],
-		"m0-l006-polynomials-rational": [
+		"m0-l011-polynomial-division-zeros": [
 			{
 				"kind": "mc",
 				"prompt": "What is the remainder when $p(x)=x^3-2x^2+x-5$ is divided by $x-2$?",
@@ -273,6 +349,21 @@
 				"answer": 3,
 				"explanation": "By the remainder theorem, the remainder is $p(2)=8-8+2-5=-3$. A zero remainder would mean $x-2$ is a factor."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "The cubic $2x^3-3x^2-11x+6$ has three real zeros, all rational. Find the smallest positive zero (as a decimal).",
+				"answer": 0.5,
+				"tolerance": 0.02,
+				"explanation": "Rational zeros theorem: candidates $\\pm1,2,3,6,\\pm\\frac12,\\frac32$. Testing $x=3$ works, and dividing leaves $2x^2+3x-2=(2x-1)(x+2)$. Zeros are $-2,\\ \\tfrac12,\\ 3$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what the fundamental theorem of algebra says about an $n$th-degree polynomial, and what the multiplicity of a zero means for the graph at that zero.",
+				"rubric": "Full credit: every degree-n polynomial factors completely over the complex numbers into n linear factors, so has exactly n roots counting multiplicity (some may be complex or repeated); multiplicity = number of times (x-a) appears; odd multiplicity -> graph crosses the axis, even -> touches/bounces; higher multiplicity flattens the graph near the zero.",
+				"modelAnswer": "Over the complex numbers, any degree-$n$ polynomial factors completely into $n$ linear factors $a_n(x-r_1)\\cdots(x-r_n)$, so it has exactly $n$ roots when each is counted with its multiplicity. Multiplicity is how many times $(x-r)$ appears as a factor. At a zero of odd multiplicity the graph crosses the $x$-axis; at even multiplicity it touches and turns back, and a higher multiplicity makes the graph flatter near the zero. Real polynomials' non-real roots come in conjugate pairs."
+			}
+		],
+		"m0-l012-rational-functions-partial-fractions": [
 			{
 				"kind": "mc",
 				"prompt": "Consider $f(x)=\\dfrac{x^2-1}{x^2-x-2}$. Which description is correct?",
@@ -298,20 +389,13 @@
 				"explanation": "Cover-up: at $x=1$, $A=\\frac{3+5}{1+2}=\\frac83$; at $x=-2$, $B=\\frac{-6+5}{-2-1}=\\frac13$. Check by recombining: numerator $\\frac83(x+2)+\\frac13(x-1)=3x+5$."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "The cubic $2x^3-3x^2-11x+6$ has three real zeros, all rational. Find the smallest positive zero (as a decimal).",
-				"answer": 0.5,
-				"tolerance": 0.02,
-				"explanation": "Rational zeros theorem: candidates $\\pm1,2,3,6,\\pm\\frac12,\\frac32$. Testing $x=3$ works, and dividing leaves $2x^2+3x-2=(2x-1)(x+2)$. Zeros are $-2,\\ \\tfrac12,\\ 3$."
-			},
-			{
 				"kind": "short",
-				"prompt": "Explain what the fundamental theorem of algebra says about an $n$th-degree polynomial, and what the multiplicity of a zero means for the graph at that zero.",
-				"rubric": "Full credit: every degree-n polynomial factors completely over the complex numbers into n linear factors, so has exactly n roots counting multiplicity (some may be complex or repeated); multiplicity = number of times (x-a) appears; odd multiplicity -> graph crosses the axis, even -> touches/bounces; higher multiplicity flattens the graph near the zero.",
-				"modelAnswer": "Over the complex numbers, any degree-$n$ polynomial factors completely into $n$ linear factors $a_n(x-r_1)\\cdots(x-r_n)$, so it has exactly $n$ roots when each is counted with its multiplicity. Multiplicity is how many times $(x-r)$ appears as a factor. At a zero of odd multiplicity the graph crosses the $x$-axis; at even multiplicity it touches and turns back, and a higher multiplicity makes the graph flatter near the zero. Real polynomials' non-real roots come in conjugate pairs."
+				"prompt": "Explain how to read the vertical asymptotes, holes and horizontal asymptote of a rational function from its factored numerator and denominator, and why a shared factor gives a hole rather than an asymptote.",
+				"rubric": "Full credit requires: (1) factor numerator and denominator; (2) a factor of the denominator that does not cancel gives a vertical asymptote; (3) a factor common to both cancels and leaves a hole (a removable point where the function is undefined but the limit is finite); (4) the horizontal asymptote follows from comparing degrees (ratio of leading coefficients when degrees are equal, $0$ when the denominator is larger).",
+				"modelAnswer": "After factoring, any denominator factor that survives cancellation makes $f$ blow up there, a vertical asymptote. A factor shared by numerator and denominator cancels, so near that $x$ the function behaves like the simplified one with a finite value: the point is simply missing, a hole. The horizontal asymptote comes from comparing degrees: equal degrees give the ratio of leading coefficients, a larger denominator degree gives $y=0$."
 			}
 		],
-		"m0-l007-exponentials-logs": [
+		"m0-l013-exponentials-logs-laws": [
 			{
 				"kind": "mc",
 				"prompt": "What are the domain and range of $y=\\log_2 x$, and how is its graph related to $y=2^x$?",
@@ -337,6 +421,14 @@
 				"explanation": "Power law: $2\\ln x=\\ln x^2$, $3\\ln z=\\ln z^3$. Product and quotient laws turn sums and differences into products and quotients. Note $\\ln(a+b)\\neq\\ln a+\\ln b$."
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain why $e$ is called the natural base for exponentials, and why $b^x=e^{x\\ln b}$ means that every exponential is secretly the same function.",
+				"rubric": "Full credit: e is the base for which the slope of b^x equals the function itself (d/dx e^x = e^x, growth rate proportional to current size); writing b^x = e^{x ln b} shows any exponential is e^{kx} with k = ln b, i.e. different bases just rescale the rate constant (doubling time vs half-life etc.).",
+				"modelAnswer": "$e$ is the unique base for which the graph of $b^x$ has slope equal to its own height at every point, i.e. $\\frac{d}{dx}e^x=e^x$, which is exactly what 'growth proportional to the current amount' means. Any other base is $b^x=(e^{\\ln b})^x=e^{x\\ln b}$, which is $e^{kx}$ with $k=\\ln b$. So all exponentials are the same shape with a different rate constant, and base $e$ keeps the calculus simplest."
+			}
+		],
+		"m0-l014-log-equations-chemistry": [
+			{
 				"kind": "mc",
 				"prompt": "Solve $\\log_2 x+\\log_2(x-2)=3$. Which statement is correct?",
 				"options": [
@@ -357,13 +449,25 @@
 				"explanation": "Taking logs, $\\ln\\frac{k_2}{k_1}=\\frac{E_a}{R}\\left(\\frac1{T_1}-\\frac1{T_2}\\right)$, so $E_a=\\frac{8.314\\ln4}{1/300-1/320}\\approx 55.3$ kJ/mol."
 			},
 			{
+				"kind": "mc",
+				"prompt": "The pH of a solution drops from 7 to 4. How does $[\\mathrm{H^+}]$ change?",
+				"options": [
+					"It increases by a factor of 3",
+					"It decreases by a factor of 1000",
+					"It increases by a factor of 1000",
+					"It increases by a factor of about 1.75"
+				],
+				"answer": 2,
+				"explanation": "Since $\\mathrm{pH}=-\\log_{10}[\\mathrm{H^+}]$, each pH unit is a factor of 10, so a drop of 3 units multiplies $[\\mathrm{H^+}]$ by $10^3$. Logarithmic scales turn ratios into differences."
+			},
+			{
 				"kind": "short",
-				"prompt": "Explain why $e$ is called the natural base for exponentials, and why $b^x=e^{x\\ln b}$ means that every exponential is secretly the same function.",
-				"rubric": "Full credit: e is the base for which the slope of b^x equals the function itself (d/dx e^x = e^x, growth rate proportional to current size); writing b^x = e^{x ln b} shows any exponential is e^{kx} with k = ln b, i.e. different bases just rescale the rate constant (doubling time vs half-life etc.).",
-				"modelAnswer": "$e$ is the unique base for which the graph of $b^x$ has slope equal to its own height at every point, i.e. $\\frac{d}{dx}e^x=e^x$, which is exactly what 'growth proportional to the current amount' means. Any other base is $b^x=(e^{\\ln b})^x=e^{x\\ln b}$, which is $e^{kx}$ with $k=\\ln b$. So all exponentials are the same shape with a different rate constant, and base $e$ keeps the calculus simplest."
+				"prompt": "Given rate constants at two temperatures, describe how you would use logarithms to extract $E_a$ from $k=Ae^{-E_a/RT}$, and why the unknown prefactor $A$ drops out.",
+				"rubric": "Full credit requires: (1) take $\\ln$ of both rate constants: $\\ln k=\\ln A-E_a/RT$; (2) subtract the two equations so $\\ln A$ cancels, giving $\\ln(k_2/k_1)=\\frac{E_a}{R}\\left(\\frac1{T_1}-\\frac1{T_2}\\right)$; (3) solve for $E_a$; (4) the log is needed because the exponent sits in an unknown, and the log turns the ratio into a difference.",
+				"modelAnswer": "Taking logs gives $\\ln k=\\ln A-E_a/(RT)$. Subtracting the equation at $T_1$ from the one at $T_2$ cancels $\\ln A$, leaving $\\ln(k_2/k_1)=(E_a/R)(1/T_1-1/T_2)$, which you can solve directly for $E_a$. The logarithm is the tool that brings the exponent down and turns the ratio of rate constants into a difference."
 			}
 		],
-		"m0-l008-exponential-models": [
+		"m0-l015-exponential-growth-decay-models": [
 			{
 				"kind": "mc",
 				"prompt": "A first-order reaction is 87.5% complete after 30 minutes. What is its half-life?",
@@ -376,6 +480,22 @@
 				"answer": 0,
 				"explanation": "87.5% consumed leaves $12.5\\%=\\left(\\tfrac12\\right)^3$, which is three half-lives. So $3t_{1/2}=30$ min and $t_{1/2}=10$ min. (Equivalently $k=\\ln2/t_{1/2}$.)"
 			},
+			{
+				"kind": "numeric",
+				"prompt": "A solution has absorbance $A=0.60$ at some wavelength (using $A=\\log_{10}(I_0/I)$). What percentage of the incident light is transmitted? Give the percentage.",
+				"answer": 25.12,
+				"tolerance": 0.02,
+				"unit": "%",
+				"explanation": "$I/I_0=10^{-A}=10^{-0.60}\\approx0.251$, i.e. about 25%. This is the same exponential-decay mathematics as radioactive decay, with path length playing the role of time."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what continuous compounding means and why $(1+1/n)^n$ approaches the number $e$ as $n$ grows.",
+				"rubric": "Full credit: compounding n times per year at rate 1 multiplies by (1+1/n) each time; more frequent compounding gives diminishing extra gain and the product approaches a finite limit, e = 2.718...; continuous compounding means growth rate proportional to current amount, giving N0 e^{rt}. Links to exponential growth/decay with rate constant.",
+				"modelAnswer": "If you compound at 100% per year $n$ times, each step multiplies by $(1+1/n)$, giving $(1+1/n)^n$ after a year. More frequent compounding helps less and less: $n=1,2,12,\\infty$ gives $2,\\ 2.25,\\ 2.613,\\ \\to 2.71828\\dots=e$. In the limit the growth is continuous, each instant adding a bit proportional to the current amount, which gives $N(t)=N_0e^{rt}$: the same law as first-order decay but with the opposite sign of the rate constant."
+			}
+		],
+		"m0-l016-semi-log-linearisation": [
 			{
 				"kind": "mc",
 				"prompt": "Measured data plotted as $\\log y$ against $\\log x$ lie on a straight line of slope $3$. What does this say about the relationship?",
@@ -402,20 +522,20 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "A solution has absorbance $A=0.60$ at some wavelength (using $A=\\log_{10}(I_0/I)$). What percentage of the incident light is transmitted? Give the percentage.",
-				"answer": 25.12,
+				"prompt": "A first-order reaction has $[A]=0.80$ M at $t=0$ and $[A]=0.30$ M at $t=50$ s. Using the slope of $\\ln[A]$ against $t$, find the rate constant $k$ in s$^{-1}$.",
+				"answer": 0.0196166,
 				"tolerance": 0.02,
-				"unit": "%",
-				"explanation": "$I/I_0=10^{-A}=10^{-0.60}\\approx0.251$, i.e. about 25%. This is the same exponential-decay mathematics as radioactive decay, with path length playing the role of time."
+				"unit": "s^-1",
+				"explanation": "The slope of $\\ln[A]$ vs $t$ is $-k$: $k=\\ln(0.80/0.30)/50=0.01962$ s$^{-1}$."
 			},
 			{
 				"kind": "short",
-				"prompt": "Explain what continuous compounding means and why $(1+1/n)^n$ approaches the number $e$ as $n$ grows.",
-				"rubric": "Full credit: compounding n times per year at rate 1 multiplies by (1+1/n) each time; more frequent compounding gives diminishing extra gain and the product approaches a finite limit, e = 2.718...; continuous compounding means growth rate proportional to current amount, giving N0 e^{rt}. Links to exponential growth/decay with rate constant.",
-				"modelAnswer": "If you compound at 100% per year $n$ times, each step multiplies by $(1+1/n)$, giving $(1+1/n)^n$ after a year. More frequent compounding helps less and less: $n=1,2,12,\\infty$ gives $2,\\ 2.25,\\ 2.613,\\ \\to 2.71828\\dots=e$. In the limit the growth is continuous, each instant adding a bit proportional to the current amount, which gives $N(t)=N_0e^{rt}$: the same law as first-order decay but with the opposite sign of the rate constant."
+				"prompt": "Explain why plotting $\\ln[A]$ against $t$ gives a straight line for a first-order reaction, and how you read $k$ and $[A]_0$ from the line.",
+				"rubric": "Full credit requires: (1) $[A]=[A]_0e^{-kt}$ so $\\ln[A]=\\ln[A]_0-kt$ is linear in $t$; (2) slope $=-k$; (3) intercept $=\\ln[A]_0$; (4) a curved plot signals the order assumption is wrong.",
+				"modelAnswer": "First-order decay is $[A]=[A]_0e^{-kt}$. Taking the natural log turns the exponential into $\\ln[A]=\\ln[A]_0-kt$, a straight line in $t$ with slope $-k$ and intercept $\\ln[A]_0$. If the data bend on this plot, the reaction is not first order."
 			}
 		],
-		"m0-l009-angles-unit-circle": [
+		"m0-l017-radians-arc-length-angular-speed": [
 			{
 				"kind": "mc",
 				"prompt": "A circular sector has central angle $150^\\circ$ and radius $6$ cm. What is the arc length?",
@@ -429,6 +549,22 @@
 				"explanation": "Convert first: $150^\\circ=\\frac{5\\pi}{6}$ rad. Then $s=r\\theta=6\\cdot\\frac{5\\pi}{6}=5\\pi$ cm. $s=r\\theta$ only works with $\\theta$ in radians."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "Earth rotates once in about $86\\,164$ s (a sidereal day). Find the speed of a point on the equator ($r=6.378\\times10^6$ m) in m/s using $v=r\\omega$.",
+				"answer": 465.1,
+				"tolerance": 0.02,
+				"unit": "m/s",
+				"explanation": "$\\omega=2\\pi/86164\\approx7.29\\times10^{-5}$ rad/s, so $v=r\\omega\\approx465$ m/s. Radians are what make $v=r\\omega$ work without extra factors."
+			},
+			{
+				"kind": "short",
+				"prompt": "What is a radian, geometrically, and why does $s=r\\theta$ (and $v=r\\omega$) take its simplest form only when angles are measured in radians?",
+				"rubric": "Full credit requires: (1) one radian is the angle that subtends an arc equal in length to the radius; (2) angle in radians is arc length divided by radius, a pure ratio, so $s=r\\theta$ has no extra conversion factor; (3) in degrees one would need $s=r\\theta\\pi/180$, and likewise $v=r\\omega$ requires $\\omega$ in rad/s.",
+				"modelAnswer": "A radian is the angle whose arc length equals the radius, so the angle in radians is simply arc divided by radius, a dimensionless ratio. That makes $s=r\\theta$ exact with no conversion constant, and $v=r\\omega$ holds only if $\\omega$ is in rad/s. In degrees every such formula would carry a factor of $\\pi/180$."
+			}
+		],
+		"m0-l018-unit-circle-quadrants": [
+			{
 				"kind": "mc",
 				"prompt": "For $\\theta=210^\\circ$, which values of $(\\sin\\theta,\\cos\\theta)$ are correct?",
 				"options": [
@@ -439,14 +575,6 @@
 				],
 				"answer": 1,
 				"explanation": "$210^\\circ$ lies in the third quadrant, $30^\\circ$ past the negative $x$-axis, so the reference angle is $30^\\circ$. Both coordinates are negative: $\\sin=-\\frac12$, $\\cos=-\\frac{\\sqrt3}{2}$."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "Earth rotates once in about $86\\,164$ s (a sidereal day). Find the speed of a point on the equator ($r=6.378\\times10^6$ m) in m/s using $v=r\\omega$.",
-				"answer": 465.1,
-				"tolerance": 0.02,
-				"unit": "m/s",
-				"explanation": "$\\omega=2\\pi/86164\\approx7.29\\times10^{-5}$ rad/s, so $v=r\\omega\\approx465$ m/s. Radians are what make $v=r\\omega$ work without extra factors."
 			},
 			{
 				"kind": "mc",
@@ -467,7 +595,35 @@
 				"modelAnswer": "A radian is defined as arc length divided by radius, a pure ratio of lengths, so it is the natural angular unit: $s=r\\theta$, $v=r\\omega$, and the small-angle result $\\sin\\theta\\approx\\theta$ hold with no extra factors (in degrees every one of them acquires a $\\pi/180$). On the unit circle the point at angle $\\theta$ has coordinates $(\\cos\\theta,\\sin\\theta)$ at distance $1$ from the origin, so the identity is just the Pythagorean theorem $x^2+y^2=1$."
 			}
 		],
-		"m0-l010-right-triangle-inverse-trig": [
+		"m0-l019-right-triangles-six-functions": [
+			{
+				"kind": "numeric",
+				"prompt": "A force of $12.0$ N acts at $35^\\circ$ above the horizontal. Find the horizontal component of the force in newtons.",
+				"answer": 9.83,
+				"tolerance": 0.02,
+				"unit": "N",
+				"explanation": "The horizontal component is the side adjacent to the angle: $F\\cos35^\\circ=12.0(0.819)\\approx9.83$ N. The vertical component, $F\\sin35^\\circ$, is about $6.88$ N."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the second quadrant ($\\pi/2<\\theta<\\pi$), which of $\\sec\\theta,\\ \\csc\\theta,\\ \\cot\\theta$ are positive?",
+				"options": [
+					"Only $\\sec\\theta$",
+					"Only $\\cot\\theta$",
+					"All three",
+					"Only $\\csc\\theta$"
+				],
+				"answer": 3,
+				"explanation": "In quadrant II, $\\sin>0$ and $\\cos<0$. $\\csc=1/\\sin$ is positive, $\\sec=1/\\cos$ is negative, and $\\cot=\\cos/\\sin$ is negative."
+			},
+			{
+				"kind": "short",
+				"prompt": "Define $\\tan$, $\\sec$, $\\csc$ and $\\cot$ in terms of sine and cosine, and use that to explain why $\\tan\\theta$ blows up at $\\theta=\\pi/2$ while $\\sin\\theta$ stays bounded.",
+				"rubric": "Full credit requires: (1) $\\tan=\\sin/\\cos$, $\\sec=1/\\cos$, $\\csc=1/\\sin$, $\\cot=\\cos/\\sin$; (2) at $\\pi/2$, $\\cos=0$ so any function with $\\cos$ in the denominator is undefined; (3) the numerator $\\sin\\pi/2=1$ does not vanish, so $\\tan$ grows without bound near $\\pi/2$, while $\\sin$ itself is always between $-1$ and $1$.",
+				"modelAnswer": "Writing $\\tan=\\sin/\\cos$, $\\sec=1/\\cos$, $\\csc=1/\\sin$ and $\\cot=\\cos/\\sin$ makes the singularities obvious: $\\cos(\\pi/2)=0$ while $\\sin(\\pi/2)=1$, so $\\tan$ and $\\sec$ diverge there. Sine and cosine are coordinates on the unit circle and never leave $[-1,1]$."
+			}
+		],
+		"m0-l020-inverse-trig-functions": [
 			{
 				"kind": "mc",
 				"prompt": "If $\\cos\\theta=\\tfrac35$ with $0\\le\\theta\\le\\pi$, what is $\\sin(\\arccos\\tfrac35)$?",
@@ -493,33 +649,13 @@
 				"explanation": "$\\sin\\frac{5\\pi}6=\\frac12$, but $\\arcsin$ returns only values in $[-\\frac\\pi2,\\frac\\pi2]$, and the angle there with sine $\\frac12$ is $\\frac\\pi6$. The inverse undoes the function only on the restricted domain."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "A force of $12.0$ N acts at $35^\\circ$ above the horizontal. Find the horizontal component of the force in newtons.",
-				"answer": 9.83,
-				"tolerance": 0.02,
-				"unit": "N",
-				"explanation": "The horizontal component is the side adjacent to the angle: $F\\cos35^\\circ=12.0(0.819)\\approx9.83$ N. The vertical component, $F\\sin35^\\circ$, is about $6.88$ N."
-			},
-			{
-				"kind": "mc",
-				"prompt": "In the second quadrant ($\\pi/2<\\theta<\\pi$), which of $\\sec\\theta,\\ \\csc\\theta,\\ \\cot\\theta$ are positive?",
-				"options": [
-					"Only $\\sec\\theta$",
-					"Only $\\cot\\theta$",
-					"All three",
-					"Only $\\csc\\theta$"
-				],
-				"answer": 3,
-				"explanation": "In quadrant II, $\\sin>0$ and $\\cos<0$. $\\csc=1/\\sin$ is positive, $\\sec=1/\\cos$ is negative, and $\\cot=\\cos/\\sin$ is negative."
-			},
-			{
 				"kind": "short",
 				"prompt": "Why must the domain of $\\sin x$ be restricted before an inverse $\\arcsin$ can be defined, and why is the restriction $[-\\pi/2,\\pi/2]$ a sensible choice?",
 				"rubric": "Full credit: sin x repeats and fails the horizontal line test (many x give the same value), so no single-valued inverse; one restricts to an interval on which it is one-to-one and still covers the full range [-1,1]; [-pi/2, pi/2] is continuous, contains 0, and covers all outputs once. Notes arcsin(sin x) = x only on that interval.",
 				"modelAnswer": "A function has an inverse only if each output comes from exactly one input (the horizontal line test). $\\sin x$ takes every value in $[-1,1]$ infinitely often, so an unrestricted inverse would be multivalued. Restricting to $[-\\pi/2,\\pi/2]$ gives an interval on which $\\sin$ is strictly increasing, covers the whole range $[-1,1]$ exactly once, and contains $0$ continuously. The price is that $\\arcsin(\\sin x)=x$ holds only for $x$ in that interval."
 			}
 		],
-		"m0-l011-sinusoids": [
+		"m0-l021-sinusoid-graphs-parameters": [
 			{
 				"kind": "mc",
 				"prompt": "For $y=3\\sin(2x-\\pi)+1$, which set of properties is correct?",
@@ -545,14 +681,6 @@
 				"explanation": "At $t=0$ we need $x=A$ and zero velocity. $A\\cos\\omega t$ gives $x(0)=A$ and $\\dot x(0)=0$, so $\\phi=0$. The other forms start at $0$ or at $-A$."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "The C=O stretch of a carbonyl vibrates at a frequency of about $5.1\\times10^{13}$ Hz. Find the angular frequency $\\omega$ in units of $10^{14}$ rad/s.",
-				"answer": 3.204,
-				"tolerance": 0.02,
-				"unit": "10^14 rad/s",
-				"explanation": "$\\omega=2\\pi f=2\\pi(5.1\\times10^{13})\\approx3.2\\times10^{14}$ rad/s. The factor $2\\pi$ converts cycles per second to radians per second."
-			},
-			{
 				"kind": "mc",
 				"prompt": "For $y=\\tan(2x)$, what are the period and the first positive vertical asymptote?",
 				"options": [
@@ -566,12 +694,40 @@
 			},
 			{
 				"kind": "short",
+				"prompt": "For $y=A\\sin(B(x-h))+D$, explain what each of $A$, $B$, $h$ and $D$ does to the graph, and why $\\tan x$ has vertical asymptotes while $\\sin x$ does not.",
+				"rubric": "Full credit requires: (1) $A$ scales the amplitude, $B$ compresses the period to $2\\pi/B$, $h$ shifts the graph right by $h$, $D$ moves the midline; (2) $\\tan x=\\sin x/\\cos x$ is undefined where $\\cos x=0$, giving asymptotes at odd multiples of $\\pi/2$; (3) $\\sin x$ has no denominator so it stays bounded.",
+				"modelAnswer": "$A$ stretches the oscillation vertically (amplitude $|A|$), $B$ squeezes the period to $2\\pi/B$, $h$ slides the curve right by $h$, and $D$ lifts the midline. Tangent is $\\sin/\\cos$, so it is undefined wherever $\\cos x=0$, giving vertical asymptotes at odd multiples of $\\pi/2$, whereas sine has no denominator."
+			}
+		],
+		"m0-l022-frequency-simple-harmonic-motion": [
+			{
+				"kind": "numeric",
+				"prompt": "The C=O stretch of a carbonyl vibrates at a frequency of about $5.1\\times10^{13}$ Hz. Find the angular frequency $\\omega$ in units of $10^{14}$ rad/s.",
+				"answer": 3.204,
+				"tolerance": 0.02,
+				"unit": "10^14 rad/s",
+				"explanation": "$\\omega=2\\pi f=2\\pi(5.1\\times10^{13})\\approx3.2\\times10^{14}$ rad/s. The factor $2\\pi$ converts cycles per second to radians per second."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two identical oscillators have $x_1=A\\cos(\\omega t)$ and $x_2=A\\cos(\\omega t+\\pi)$. How do their motions compare?",
+				"options": [
+					"They oscillate with the same period but $x_2$ has twice the amplitude",
+					"They move in step, but $x_2$ has half the frequency of $x_1$",
+					"They are identical, since adding $\\pi$ to the phase just shifts it by one period",
+					"Same amplitude and period, but exactly opposite: when one is at $+A$ the other is at $-A$"
+				],
+				"answer": 3,
+				"explanation": "A phase of $\\pi$ shifts the cosine by half a period, which flips its sign: $\\cos(\\omega t+\\pi)=-\\cos\\omega t$. A full period would need a phase shift of $2\\pi$, and $\\phi$ never changes amplitude or frequency."
+			},
+			{
+				"kind": "short",
 				"prompt": "In $x(t)=A\\cos(\\omega t+\\phi)$, explain physically what $A$, $\\omega$ and $\\phi$ each control, and what two identical oscillators with different $\\phi$ look like side by side.",
 				"rubric": "Full credit: A = maximum displacement (set by energy), omega = how fast it oscillates (set by system: k/m), phi = phase set by the initial conditions, i.e. where in the cycle the motion is at t=0; two oscillators with same A, omega, different phi have the same shape but one is time-shifted (leads/lags) by phi/omega.",
 				"modelAnswer": "$A$ is the amplitude, the maximum displacement, set by how much energy is put in. $\\omega$ is the angular frequency, set by the system itself (for a spring $\\sqrt{k/m}$), and gives period $2\\pi/\\omega$. $\\phi$ is the phase constant, which records where in its cycle the oscillator is at $t=0$, i.e. the initial conditions. Two identical oscillators with different $\\phi$ trace the same curve, one shifted in time by $\\phi/\\omega$: one leads, one lags."
 			}
 		],
-		"m0-l012-identities": [
+		"m0-l023-basic-sum-double-angle-identities": [
 			{
 				"kind": "mc",
 				"prompt": "Which of these is NOT a valid expression for $\\cos2\\theta$?",
@@ -585,6 +741,21 @@
 				"explanation": "Setting $a=b=\\theta$ in $\\cos(a+b)$ gives $\\cos^2\\theta-\\sin^2\\theta$; using $\\sin^2+\\cos^2=1$ gives the other two valid forms. $2\\sin^2\\theta-1$ has the wrong sign: at $\\theta=0$ it gives $-1$, not $\\cos0=1$."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "Use the sum formula with $75^\\circ=45^\\circ+30^\\circ$ to compute $\\sin75^\\circ$ as a decimal.",
+				"answer": 0.9659,
+				"tolerance": 0.02,
+				"explanation": "$\\sin(45^\\circ+30^\\circ)=\\sin45^\\circ\\cos30^\\circ+\\cos45^\\circ\\sin30^\\circ=\\frac{\\sqrt2}{2}\\frac{\\sqrt3}{2}+\\frac{\\sqrt2}{2}\\frac12=\\frac{\\sqrt6+\\sqrt2}{4}\\approx0.9659$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from $\\sin^2\\theta+\\cos^2\\theta=1$, derive $1+\\tan^2\\theta=\\sec^2\\theta$, and explain why, when verifying an identity, you should transform one side into the other rather than start from the claimed identity.",
+				"rubric": "Full credit: divide both sides by cos^2 theta (assuming cos != 0) giving tan^2 + 1 = sec^2; explains that starting from the claim and manipulating both sides assumes what is to be proved (and may use non-reversible steps); a proof transforms one side using known identities until it equals the other.",
+				"modelAnswer": "Divide $\\sin^2\\theta+\\cos^2\\theta=1$ by $\\cos^2\\theta$ (valid where $\\cos\\theta\\ne0$): $\\tan^2\\theta+1=\\sec^2\\theta$. In verifying an identity you can't start from the claim and do the same thing to both sides, because that presumes the thing you want to show and some steps (squaring, multiplying by zero) aren't reversible. Instead take one side and use established identities to turn it into the other."
+			}
+		],
+		"m0-l024-power-reduction-product-to-sum": [
+			{
 				"kind": "mc",
 				"prompt": "What is the average of $\\sin^2(\\omega t)$ over one full period (for example, the average power in an AC circuit)?",
 				"options": [
@@ -595,13 +766,6 @@
 				],
 				"answer": 2,
 				"explanation": "Power reduction: $\\sin^2\\omega t=\\tfrac12(1-\\cos2\\omega t)$. The cosine term averages to zero over a period, leaving $\\tfrac12$. ($1/\\sqrt2$ is the RMS value, the square root of this average.)"
-			},
-			{
-				"kind": "numeric",
-				"prompt": "Use the sum formula with $75^\\circ=45^\\circ+30^\\circ$ to compute $\\sin75^\\circ$ as a decimal.",
-				"answer": 0.9659,
-				"tolerance": 0.02,
-				"explanation": "$\\sin(45^\\circ+30^\\circ)=\\sin45^\\circ\\cos30^\\circ+\\cos45^\\circ\\sin30^\\circ=\\frac{\\sqrt2}{2}\\frac{\\sqrt3}{2}+\\frac{\\sqrt2}{2}\\frac12=\\frac{\\sqrt6+\\sqrt2}{4}\\approx0.9659$."
 			},
 			{
 				"kind": "mc",
@@ -616,13 +780,20 @@
 				"explanation": "$\\sin a+\\sin b=2\\sin\\frac{a+b}2\\cos\\frac{a-b}2$: a $442$ Hz tone with an envelope $\\cos(2\\pi\\cdot2t)$. The envelope passes through a maximum magnitude twice per cycle, so the loudness beats at $|f_1-f_2|=4$ Hz."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "Using $\\sin^2x=\\tfrac12(1-\\cos2x)$, evaluate $\\int_0^{\\pi}\\sin^2x\\,dx$.",
+				"answer": 1.5708,
+				"tolerance": 0.01,
+				"explanation": "The $\\cos2x$ term integrates to zero over a full half-turn of $2x$, leaving $\\int_0^\\pi\\tfrac12\\,dx=\\pi/2\\approx1.5708$."
+			},
+			{
 				"kind": "short",
-				"prompt": "Starting from $\\sin^2\\theta+\\cos^2\\theta=1$, derive $1+\\tan^2\\theta=\\sec^2\\theta$, and explain why, when verifying an identity, you should transform one side into the other rather than start from the claimed identity.",
-				"rubric": "Full credit: divide both sides by cos^2 theta (assuming cos != 0) giving tan^2 + 1 = sec^2; explains that starting from the claim and manipulating both sides assumes what is to be proved (and may use non-reversible steps); a proof transforms one side using known identities until it equals the other.",
-				"modelAnswer": "Divide $\\sin^2\\theta+\\cos^2\\theta=1$ by $\\cos^2\\theta$ (valid where $\\cos\\theta\\ne0$): $\\tan^2\\theta+1=\\sec^2\\theta$. In verifying an identity you can't start from the claim and do the same thing to both sides, because that presumes the thing you want to show and some steps (squaring, multiplying by zero) aren't reversible. Instead take one side and use established identities to turn it into the other."
+				"prompt": "Two cosines of nearby frequencies $\\omega_1$ and $\\omega_2$ are added. Use the sum-to-product formula to explain why you hear a fast tone under a slowly varying loudness, and what sets the beat frequency.",
+				"rubric": "Full credit requires: (1) $\\cos a+\\cos b=2\\cos\\frac{a+b}2\\cos\\frac{a-b}2$; (2) the factor at the average frequency is the fast carrier; (3) the factor at half the difference is the slow envelope; (4) loudness peaks twice per envelope cycle, so the beat frequency is $|f_1-f_2|$.",
+				"modelAnswer": "The sum becomes $2\\cos(\\tfrac{\\omega_1-\\omega_2}2t)\\cos(\\tfrac{\\omega_1+\\omega_2}2t)$: a fast oscillation at the average frequency multiplied by a slow envelope at half the difference. The envelope's magnitude peaks twice per envelope cycle, so the loudness pulsates at $|f_1-f_2|$."
 			}
 		],
-		"m0-l013-trig-equations-triangles": [
+		"m0-l025-trig-equations-law-of-sines-cosines": [
 			{
 				"kind": "mc",
 				"prompt": "What is the general solution of $\\sin x=\\tfrac12$?",
@@ -634,18 +805,6 @@
 				],
 				"answer": 3,
 				"explanation": "Sine is positive in quadrants I and II, with reference angle $\\pi/6$, giving $\\pi/6$ and $5\\pi/6$ in each period of $2\\pi$. A solver that only reports the calculator's $\\arcsin$ value misses half the solutions."
-			},
-			{
-				"kind": "mc",
-				"prompt": "Two sides of a triangle are $7$ and $5$, with a $60^\\circ$ angle between them. Which equation gives the third side $c$?",
-				"options": [
-					"$c^2=7^2+5^2$",
-					"$c^2=7^2+5^2+2(7)(5)\\cos60^\\circ$",
-					"$c^2=7^2+5^2-2(7)(5)\\cos60^\\circ$",
-					"$c=7+5-2(7)(5)\\cos60^\\circ$"
-				],
-				"answer": 2,
-				"explanation": "The law of cosines is a Pythagorean theorem with a correction, $-2ab\\cos C$. At $C=90^\\circ$ the correction vanishes. Here $c^2=74-35=39$."
 			},
 			{
 				"kind": "mc",
@@ -669,12 +828,40 @@
 			},
 			{
 				"kind": "short",
+				"prompt": "Explain how the law of cosines generalises the Pythagorean theorem, and why a triangle given by two sides and the angle opposite one of them (SSA) can have two solutions while SAS cannot.",
+				"rubric": "Full credit requires: (1) at $C=90^\\circ$, $\\cos C=0$ and $c^2=a^2+b^2-2ab\\cos C$ reduces to Pythagoras; (2) SAS fixes the triangle uniquely (third side from the law of cosines); (3) in SSA the law of sines gives $\\sin B$, and both $B$ and $180^\\circ-B$ can satisfy it, so two triangles may fit.",
+				"modelAnswer": "With $C=90^\\circ$ the term $-2ab\\cos C$ vanishes and the law of cosines is exactly $c^2=a^2+b^2$; other angles correct for the skew. Two sides and the included angle fix the triangle uniquely. In SSA the law of sines gives only $\\sin B$, and an obtuse and an acute angle share that sine, so sometimes both triangles close."
+			}
+		],
+		"m0-l026-small-angle-approximation-pendulum": [
+			{
+				"kind": "short",
 				"prompt": "Explain geometrically why $\\sin\\theta\\approx\\theta$ for small $\\theta$, why this is valid only when $\\theta$ is in radians, and how it turns the pendulum equation into simple harmonic motion.",
 				"rubric": "Full credit: on the unit circle the arc length is theta (radians) and sin theta is the vertical height; for small angles arc and height nearly coincide (error ~0.1% at 5 deg, ~2% at 20 deg); the pendulum equation theta'' = -(g/L) sin theta becomes theta'' = -(g/L) theta, the SHM equation, giving T=2pi sqrt(L/g) independent of amplitude (approximately). Note larger amplitude -> longer period.",
 				"modelAnswer": "On the unit circle the angle $\\theta$ in radians is the arc length, while $\\sin\\theta$ is the height of the endpoint. For a small angle the arc and the height almost coincide: the error in $\\sin\\theta\\approx\\theta$ is about $0.1\\%$ at $5^\\circ$ and about $2\\%$ at $20^\\circ$. In degrees the statement is false ($\\sin1^\\circ\\neq1$). For a pendulum, $\\ddot\\theta=-(g/L)\\sin\\theta$ becomes $\\ddot\\theta=-(g/L)\\theta$, which is simple harmonic motion with period $2\\pi\\sqrt{L/g}$ independent of amplitude. For large swings the true period is longer."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "By what percentage does $\\theta$ (in radians) overestimate $\\sin\\theta$ at $\\theta=20^\\circ$? Give $100(\\theta-\\sin\\theta)/\\sin\\theta$ in percent.",
+				"answer": 2.06003,
+				"tolerance": 0.03,
+				"unit": "%",
+				"explanation": "$\\theta=0.34907$ rad and $\\sin\\theta=0.34202$, so the error is $(0.34907-0.34202)/0.34202\\approx2.06\\%$. The leading error is $\\theta^3/6$, which grows quickly with angle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which step turns the pendulum equation $\\ddot\\theta=-(g/\\ell)\\sin\\theta$ into simple harmonic motion?",
+				"options": [
+					"Replacing $\\sin\\theta$ by $\\theta$ in degrees, valid for any amplitude",
+					"Replacing $\\sin\\theta$ by $\\theta$, valid for small angles measured in radians",
+					"Replacing $\\sin\\theta$ by $1$, valid near the bottom of the swing",
+					"Replacing $\\sin\\theta$ by $\\cos\\theta$, valid when the string is long"
+				],
+				"answer": 1,
+				"explanation": "Near $\\theta=0$, $\\sin\\theta\\approx\\theta$ (radians), which makes the restoring term linear in $\\theta$: $\\ddot\\theta=-(g/\\ell)\\theta$, the SHM equation with $\\omega=\\sqrt{g/\\ell}$."
 			}
 		],
-		"m0-l014-complex-numbers": [
+		"m0-l027-complex-arithmetic-polar-form": [
 			{
 				"kind": "numeric",
 				"prompt": "Compute the modulus $|z|$ of $z=\\dfrac{3+4i}{1-2i}$.",
@@ -694,6 +881,14 @@
 				"answer": 0,
 				"explanation": "In polar form $1+i=\\sqrt2\\,e^{i\\pi/4}$, so the eighth power has modulus $(\\sqrt2)^8=16$ and angle $8\\cdot\\frac\\pi4=2\\pi$, i.e. the positive real axis. De Moivre's theorem raises moduli to the power and multiplies angles."
 			},
+			{
+				"kind": "short",
+				"prompt": "Explain why dividing complex numbers is done by multiplying top and bottom by the conjugate of the denominator, and what $|z|^2=z\\bar z$ shows about the conjugate.",
+				"rubric": "Full credit requires: (1) $(c+di)(c-di)=c^2+d^2$ is real, so multiplying by the conjugate clears $i$ from the denominator; (2) the numerator and denominator are multiplied by the same factor so the value is unchanged; (3) $z\\bar z=a^2+b^2=|z|^2$ is the squared length, so the conjugate is the reflection that produces a real, positive number.",
+				"modelAnswer": "Multiplying $(c+di)$ by its conjugate $(c-di)$ gives the real number $c^2+d^2$, so multiplying numerator and denominator by the conjugate (which leaves the value unchanged) removes $i$ from the denominator. In general $z\\bar z=a^2+b^2=|z|^2$, the squared distance from the origin: conjugation reflects across the real axis so the product is real and positive."
+			}
+		],
+		"m0-l028-euler-formula-roots": [
 			{
 				"kind": "mc",
 				"prompt": "Which description fits the solutions of $z^3=8$ in the complex plane?",
@@ -725,7 +920,7 @@
 				"modelAnswer": "Writing $z_1=r_1e^{i\\theta_1}$ and $z_2=r_2e^{i\\theta_2}$, the ordinary exponent law gives $z_1z_2=r_1r_2e^{i(\\theta_1+\\theta_2)}$: moduli multiply and angles add. (Expanding the product of the cos+isin forms gives the sum formulas for sine and cosine.) Since $|e^{i\\theta}|^2=\\cos^2\\theta+\\sin^2\\theta=1$, $e^{ikx}$ always lies on the unit circle: it's a pure phase that rotates with $x$ without changing size, which is exactly the form of a plane-wave wavefunction."
 			}
 		],
-		"m0-l015-vectors-polar": [
+		"m0-l029-vectors-dot-product": [
 			{
 				"kind": "numeric",
 				"prompt": "Find the angle between the vectors $\\vec a=(1,2,2)$ and $\\vec b=(2,-1,2)$, in degrees.",
@@ -734,6 +929,26 @@
 				"unit": "degrees",
 				"explanation": "$\\vec a\\cdot\\vec b=2-2+4=4$ and $|\\vec a|=|\\vec b|=3$, so $\\cos\\theta=4/9$ and $\\theta\\approx63.6^\\circ$."
 			},
+			{
+				"kind": "mc",
+				"prompt": "What is the scalar component of $\\vec a=(3,4)$ along $\\vec b=(1,1)$, that is $\\vec a\\cdot\\hat b$?",
+				"options": [
+					"$7$",
+					"$7/2$",
+					"$7/\\sqrt2\\approx4.95$",
+					"$\\sqrt{12}\\approx3.46$"
+				],
+				"answer": 2,
+				"explanation": "The component along $\\vec b$ uses the unit vector $\\hat b=(1,1)/\\sqrt2$: $\\vec a\\cdot\\hat b=(3+4)/\\sqrt2=7/\\sqrt2$. Using $\\vec a\\cdot\\vec b=7$ without dividing by $|\\vec b|$ is the common slip."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what the dot product $\\vec a\\cdot\\vec b=|\\vec a||\\vec b|\\cos\\theta$ measures, when it is zero, when it is maximal, and how it connects to the work $W=\\vec F\\cdot\\vec d$.",
+				"rubric": "Full credit: measures how much one vector points along the other (|a| times the component of b along a); zero when perpendicular; maximal (|a||b|) when parallel; work counts only the part of the force along the displacement, so a force perpendicular to motion does no work.",
+				"modelAnswer": "The dot product is the length of $\\vec a$ times the component of $\\vec b$ along $\\vec a$; it measures how much the two vectors point the same way. It is zero for perpendicular vectors (no overlap), maximal ($|\\vec a||\\vec b|$) when they are parallel, and negative when they oppose. Work $W=\\vec F\\cdot\\vec d$ uses exactly this: only the part of the force along the displacement does work, so e.g. the centripetal force on a circular orbit does none."
+			}
+		],
+		"m0-l030-polar-parametric-conics": [
 			{
 				"kind": "mc",
 				"prompt": "A point has Cartesian coordinates $(-1,-1)$. What is its polar angle $\\theta$ (measured counterclockwise from the positive $x$-axis, in $[0,2\\pi)$)?",
@@ -772,12 +987,12 @@
 			},
 			{
 				"kind": "short",
-				"prompt": "Explain what the dot product $\\vec a\\cdot\\vec b=|\\vec a||\\vec b|\\cos\\theta$ measures, when it is zero, when it is maximal, and how it connects to the work $W=\\vec F\\cdot\\vec d$.",
-				"rubric": "Full credit: measures how much one vector points along the other (|a| times the component of b along a); zero when perpendicular; maximal (|a||b|) when parallel; work counts only the part of the force along the displacement, so a force perpendicular to motion does no work.",
-				"modelAnswer": "The dot product is the length of $\\vec a$ times the component of $\\vec b$ along $\\vec a$; it measures how much the two vectors point the same way. It is zero for perpendicular vectors (no overlap), maximal ($|\\vec a||\\vec b|$) when they are parallel, and negative when they oppose. Work $W=\\vec F\\cdot\\vec d$ uses exactly this: only the part of the force along the displacement does work, so e.g. the centripetal force on a circular orbit does none."
+				"prompt": "Explain how to convert a point between polar and rectangular coordinates, why the angle needs care about the quadrant, and how eliminating the parameter from $x=2\\cos t,\\ y=3\\sin t$ identifies the curve.",
+				"rubric": "Full credit requires: (1) $x=r\\cos\\theta$, $y=r\\sin\\theta$ and $r=\\sqrt{x^2+y^2}$; (2) $\\tan\\theta=y/x$ has two solutions per period, so the quadrant (sign of $x$ and $y$, i.e. atan2) must be used; (3) $\\cos^2t+\\sin^2t=1$ gives $x^2/4+y^2/9=1$, an ellipse.",
+				"modelAnswer": "Going to rectangular is $x=r\\cos\\theta$, $y=r\\sin\\theta$; going back is $r=\\sqrt{x^2+y^2}$ and $\\theta$ from $\\tan\\theta=y/x$, but $\\tan$ repeats every $\\pi$, so you must look at the signs of $x$ and $y$ (atan2) to place the quadrant. For $x=2\\cos t$, $y=3\\sin t$, using $\\cos^2t+\\sin^2t=1$ gives $x^2/4+y^2/9=1$, an ellipse."
 			}
 		],
-		"m0-l016-dimensional-analysis": [
+		"m0-l031-dimensions-scaling-arguments": [
 			{
 				"kind": "mc",
 				"prompt": "For a mass $m$ on a spring of stiffness $k$ (units of force per length), which candidate for the oscillation period is dimensionally consistent?",
@@ -802,6 +1017,14 @@
 				"answer": 0,
 				"explanation": "Since $R\\propto E^{1/5}$, doubling $E$ multiplies $R$ by $2^{1/5}\\approx1.15$. Dimensional analysis fixes the exponents, though not the dimensionless constant out front."
 			},
+			{
+				"kind": "short",
+				"prompt": "Explain how dimensional analysis suggests that the radius of a blast wave scales as $R\\sim(Et^2/\\rho)^{1/5}$, and what it cannot tell you.",
+				"rubric": "Full credit requires: (1) $R$, $E$, $\\rho$ and $t$ have dimensions $L$, $ML^2T^{-2}$, $ML^{-3}$ and $T$; (2) the only combination of $E$, $\\rho$, $t$ with dimensions of length is $(Et^2/\\rho)^{1/5}$; (3) it cannot give the dimensionless prefactor, which needs the actual physics or an experiment.",
+				"modelAnswer": "Matching dimensions, only $(Et^2/\\rho)^{1/5}$ has the units of length: $(ML^2T^{-2}\\cdot T^2/ML^{-3})^{1/5}=(L^5)^{1/5}=L$. So the radius must scale this way up to a dimensionless constant. What dimensional analysis cannot supply is that constant (of order 1); that needs a real calculation or a measurement."
+			}
+		],
+		"m0-l032-units-fermi-dimensionless-groups": [
 			{
 				"kind": "numeric",
 				"prompt": "A bond has a dissociation energy of $0.50$ eV per molecule. Convert this to kJ/mol (use $1\\ \\mathrm{eV}=1.602\\times10^{-19}$ J and $N_A=6.022\\times10^{23}$ mol$^{-1}$).",
@@ -829,7 +1052,7 @@
 				"modelAnswer": "A normal breath is about $0.5$ L. At roughly body temperature, $n=PV/RT\\approx(10^5\\times5\\times10^{-4})/(8.3\\times310)\\approx0.02$ mol. Multiplying by $N_A=6\\times10^{23}$ gives $\\sim10^{22}$ molecules. The input volume could be off by a factor of 2 or 3, so the answer is good to within an order of magnitude, which is all a Fermi estimate promises."
 			}
 		],
-		"m0-l017-series-binomial-approx": [
+		"m0-l033-series-binomial-theorem-counting": [
 			{
 				"kind": "numeric",
 				"prompt": "Sum the infinite geometric series $5+3+1.8+1.08+\\cdots$ (each term is $0.6$ times the previous one).",
@@ -849,6 +1072,26 @@
 				"answer": 0,
 				"explanation": "Choosing which $3$ of $10$ are excited, order not mattering: $\\binom{10}{3}=\\frac{10!}{3!\\,7!}=120$. $720=10\\cdot9\\cdot8$ counts ordered selections; dividing by $3!$ removes the overcounting."
 			},
+			{
+				"kind": "mc",
+				"prompt": "What is the coefficient of $x^3$ in the expansion of $(1+2x)^5$?",
+				"options": [
+					"$10$",
+					"$40$",
+					"$32$",
+					"$80$"
+				],
+				"answer": 3,
+				"explanation": "The $x^3$ term is $\\binom53(2x)^3=10\\cdot8x^3=80x^3$. Forgetting the factor $2^3$ gives $10$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the geometric series $\\sum r^k$ converges to $1/(1-r)$ only when $|r|<1$, and why the number of ways to choose $k$ items from $n$ is $n!/(k!(n-k)!)$ rather than $n!/k!$.",
+				"rubric": "Full credit requires: (1) partial sums are $(1-r^n)/(1-r)$ and $r^n\\to0$ only if $|r|<1$; (2) arrangements of $n$ items number $n!$ but ordering within the chosen group and within the rest does not matter; (3) so divide by $k!$ and $(n-k)!$.",
+				"modelAnswer": "The partial sum of $n$ terms is $(1-r^n)/(1-r)$, which settles to $1/(1-r)$ only if $r^n\\to0$, i.e. $|r|<1$. For combinations, the $n!$ orderings of all items overcount: reordering the $k$ chosen and the $n-k$ unchosen items gives the same selection, so divide by $k!\\,(n-k)!$."
+			}
+		],
+		"m0-l034-binomial-approximation-errors": [
 			{
 				"kind": "mc",
 				"prompt": "Use $(1+x)^p\\approx1+px$ to estimate $\\gamma=1/\\sqrt{1-v^2/c^2}$ for $v=0.1c$.",

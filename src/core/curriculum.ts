@@ -91,6 +91,7 @@ export function validateProgram(program: Program, catalog: BooksCatalog): Curric
 	for (const course of program.courseList) {
 		claim(course.id, `course ${course.id}`);
 		for (const p of course.prereqs) if (!courseIds.has(p)) err(`course ${course.id}`, `unknown prereq course "${p}"`);
+		for (const p of course.coreqs) if (!courseIds.has(p)) err(`course ${course.id}`, `unknown coreq course "${p}"`);
 		for (const b of course.books) if (!bookIds.has(b.bookId)) err(`course ${course.id}`, `unknown book "${b.bookId}"`);
 		let minutes = 0;
 		for (const unit of course.units) {

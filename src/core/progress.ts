@@ -94,6 +94,8 @@ export interface ProgressSnapshot {
 	};
 	plan: CourseWindow[];
 	projection: CourseWindow[];
+	/** Courses studied in parallel (the schedule's lanes). */
+	parallel: number;
 	next: string[];
 	reviewsDue: string[];
 	xp: number;
@@ -105,6 +107,8 @@ export interface ProgressSnapshot {
 export interface ProgressOptions {
 	now: Date;
 	hoursPerWeek?: number;
+	/** Courses studied at once (default 3: e.g. math + physics + enrichment). */
+	parallelCourses?: number;
 	/** Explicit program start; defaults to the first ledger event or now. */
 	startDate?: string;
 }
@@ -172,7 +176,7 @@ export function simulateSchedule(
 	index: ProgramIndex,
 	remainingHours: Record<string, number>,
 	hoursPerWeek: number,
-	parallel = 2,
+	parallel = 3,
 	maxWeeks = 1500,
 ): CourseWindow[] {
 	const order = index.program.courseList.map((c) => c.id);
@@ -381,10 +385,11 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 	const recentHoursPerWeek = recentMinutes / 60 / weeksActive;
 	const plannedHours = index.program.courseList.reduce((s, c) => s + c.hours, 0);
 	const fullHours = Object.fromEntries(index.program.courseList.map((c) => [c.id, c.hours]));
-	const plan = simulateSchedule(index, fullHours, index.program.hoursPerWeek);
+	const parallel = Math.max(1, Math.min(6, opts.parallelCourses ?? 3));
+	const plan = simulateSchedule(index, fullHours, index.program.hoursPerWeek, parallel);
 	const projectionPace = recentMinutes > 0 ? Math.max(1, recentHoursPerWeek) : hoursPerWeek;
 	const weeksSoFar = Math.max(0, Math.floor((Date.parse(today) - Date.parse(startDate)) / (7 * DAY)));
-	const projection = simulateSchedule(index, remainingHours, projectionPace).map((w) =>
+	const projection = simulateSchedule(index, remainingHours, projectionPace, parallel).map((w) =>
 		remainingHours[w.courseId]! <= 1e-9 ? { ...w, startWeek: 0, endWeek: 0 } : { ...w, startWeek: w.startWeek + weeksSoFar, endWeek: w.endWeek + weeksSoFar },
 	);
 	const targetWeeks = Math.max(...plan.map((w) => w.endWeek), index.program.targetWeeks);
@@ -476,6 +481,7 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 		},
 		plan,
 		projection,
+		parallel,
 		next,
 		reviewsDue,
 		xp: Math.round(xp),

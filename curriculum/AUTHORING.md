@@ -19,8 +19,8 @@ objectives so precise that a tutor knows exactly what "mastered" means.
 - **Size**: the sum of lesson `minutes` must be 60–75% of the course `hours` (the rest is problem sets and exams).
   Lessons are SHORT: 30–45 min each (reading + tutor session + the 3–4 question quick check; a longer lecture video is fine, its overflow doesn't count). One lesson = one idea, 2–3 objectives.
 - **Lessons**: 2–3 `objectives` each (one coherent idea per lesson), phrased as observable skills ("Derive …", "Compute …", "Explain why …").
-  Include `keyEquations` as LaTeX without `$`. Add `demoIdeas` (1–2 one-line ideas for an interactive browser
-  simulation/visualisation) wherever a concept is dynamic or geometric. Add `practice` pointers to real
+  Include `keyEquations` as LaTeX without `$`. Give MOST lessons `demoIdeas` (1–2 one-line briefs for an interactive browser
+  simulation: what the learner manipulates and what they see); skip only lessons where a demo would be decoration. Add `practice` pointers to real
   end-of-chapter exercises of the primary book ("Griffiths EM Problem 2.15") only when you are confident they exist
   and fit. Otherwise leave them out.
 - **Readings**: `{bookId, ref, title}`, where `ref` is the section number as printed in that edition

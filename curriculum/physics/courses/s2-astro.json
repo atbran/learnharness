@@ -6,7 +6,9 @@
 	"depth": "survey",
 	"hours": 35,
 	"prereqs": [
-		"p3-modern",
+		"p3-modern"
+	],
+	"coreqs": [
 		"p7-statmech"
 	],
 	"subject": "Astrophysics",
@@ -28,20 +30,17 @@
 			"summary": "How astronomers get distance, luminosity, temperature, and composition from starlight: parallax, magnitudes, Planck's law, and the Boltzmann and Saha equations (the same Boltzmann populations and ionization equilibria a chemist uses in spectroscopy).",
 			"lessons": [
 				{
-					"id": "s2-l001-distance-magnitudes-luminosity",
-					"title": "Distances, magnitudes, and luminosity",
-					"minutes": 90,
+					"id": "s2-l001-parallax-magnitude-scale",
+					"title": "Parallax and the magnitude scale",
+					"minutes": 35,
 					"objectives": [
 						"Compute a stellar distance in parsecs from a parallax angle in arcseconds and convert between parsecs, light-years, and meters.",
-						"Convert between apparent magnitude, absolute magnitude, and distance using the distance modulus m - M = 5 log10(d/10 pc).",
-						"Use the inverse-square law F = L/(4 pi d^2) to compare the luminosities of two stars from their flux ratio or magnitude difference.",
-						"Explain why the magnitude scale is logarithmic and that a difference of 5 magnitudes is exactly a factor of 100 in flux."
+						"Explain why the magnitude scale is logarithmic and why a difference of 5 magnitudes is exactly a factor of 100 in flux.",
+						"Convert a magnitude difference between two stars into a flux ratio, and back, using m1 - m2 = -2.5 log10(F1/F2)."
 					],
 					"keyEquations": [
 						"d\\,[\\mathrm{pc}] = \\frac{1}{p\\,[\\mathrm{arcsec}]}",
-						"m_1 - m_2 = -2.5\\log_{10}\\frac{F_1}{F_2}",
-						"m - M = 5\\log_{10}\\frac{d}{10\\,\\mathrm{pc}}",
-						"F = \\frac{L}{4\\pi d^2}"
+						"m_1 - m_2 = -2.5\\log_{10}\\frac{F_1}{F_2}"
 					],
 					"readings": [
 						{
@@ -58,11 +57,6 @@
 					"lectures": [
 						{
 							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
-							"title": "Class 4, Video 5: Apparent and Absolute Magnitudes",
-							"url": "https://www.youtube.com/watch?v=1D6R55ZCwF8"
-						},
-						{
-							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
 							"title": "Class 4, Video 1: Parallax",
 							"url": "https://www.youtube.com/watch?v=sodr0MD_bS0"
 						},
@@ -73,23 +67,54 @@
 						}
 					],
 					"demoIdeas": [
-						"Slider for a star's distance that shows its parallax shift against background stars and the resulting change in apparent magnitude and flux."
-					]
+						"Slider for a star's distance from 1 to 1000 pc: Earth orbits the Sun, the star shifts against background stars by the parallax angle, and its apparent magnitude and flux relative to a reference star update, with a flag where the angle drops below 1 milliarcsecond."
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l002-blackbody-color-temperature",
-					"title": "Blackbody radiation, color, and temperature",
-					"minutes": 90,
+					"id": "s2-l002-distance-modulus-luminosity",
+					"title": "Distance modulus, absolute magnitude, and luminosity",
+					"minutes": 40,
 					"objectives": [
+						"Convert between apparent magnitude, absolute magnitude, and distance using the distance modulus m - M = 5 log10(d/10 pc).",
+						"Use the inverse-square law F = L/(4 pi d^2) to compare the luminosities of two stars from their flux ratio or magnitude difference.",
+						"Combine a parallax distance with a measured flux to determine a star's luminosity."
+					],
+					"keyEquations": [
+						"m - M = 5\\log_{10}\\frac{d}{10\\,\\mathrm{pc}}",
+						"F = \\frac{L}{4\\pi d^2}"
+					],
+					"readings": [
+						{
+							"bookId": "carroll-ostlie",
+							"ref": "§3.2",
+							"title": "The Magnitude Scale"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
+							"title": "Class 4, Video 5: Apparent and Absolute Magnitudes",
+							"url": "https://www.youtube.com/watch?v=1D6R55ZCwF8"
+						}
+					],
+					"demoIdeas": [
+						"Sliders for apparent and absolute magnitude: read off the distance modulus, the distance in pc and the luminosity in solar units, while a spherical-shell diagram dilutes the same photons over 4πd² as distance grows."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l003-planck-law-wien-displacement",
+					"title": "Planck's law and Wien's displacement law",
+					"minutes": 40,
+					"objectives": [
+						"Explain how Planck's energy quantization resolves the ultraviolet catastrophe and why the Planck spectrum is cut off at high frequency.",
 						"State Planck's law and derive Wien's displacement law by locating the peak of B_lambda(T); recite the numerical constant.",
-						"Obtain the Stefan-Boltzmann law L = 4 pi R^2 sigma T_eff^4 from the integral of the Planck function and use it to find a star's radius from L and T_eff.",
-						"Explain how the B-V color index tracks temperature and why it is independent of distance.",
-						"Explain how Planck's energy quantization resolves the ultraviolet catastrophe and connect the same Planck distribution to lamp sources and thermal radiation in IR/UV spectroscopy."
+						"Connect the Planck distribution to thermal lamp sources and thermal radiation in IR/UV spectroscopy."
 					],
 					"keyEquations": [
 						"B_\\lambda(T) = \\frac{2hc^2}{\\lambda^5}\\frac{1}{e^{hc/\\lambda kT}-1}",
-						"\\lambda_{\\max}T = 2.898\\times10^{-3}\\,\\mathrm{m\\,K}",
-						"L = 4\\pi R^2\\sigma T_{\\rm eff}^4"
+						"\\lambda_{\\max}T = 2.898\\times10^{-3}\\,\\mathrm{m\\,K}"
 					],
 					"readings": [
 						{
@@ -107,6 +132,37 @@
 							"bookId": "carroll-ostlie",
 							"ref": "§3.5",
 							"title": "The Quantization of Energy"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
+							"title": "Lecture 15: Black-Body Radiation and the Early History of the Universe, Part I",
+							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-15-black-body-radiation-and-the-early-history-of-the-universe/"
+						}
+					],
+					"demoIdeas": [
+						"Temperature slider (2000-30000 K) drawing the Planck curve on log axes with the peak following Wien's law and the visible band shaded; toggle the classical Rayleigh-Jeans curve to see it diverge in the ultraviolet."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l004-stefan-boltzmann-color-index",
+					"title": "Stefan-Boltzmann law, stellar radii, and the color index",
+					"minutes": 40,
+					"objectives": [
+						"Obtain the Stefan-Boltzmann law L = 4 pi R^2 sigma T_eff^4 from the integral of the Planck function and use it to find a star's radius from L and T_eff.",
+						"Explain why a cool red giant can be far more luminous than the Sun (a large radius outweighs a low surface flux).",
+						"Explain how the B-V color index tracks temperature and why it is independent of distance."
+					],
+					"keyEquations": [
+						"L = 4\\pi R^2\\sigma T_{\\rm eff}^4"
+					],
+					"readings": [
+						{
+							"bookId": "carroll-ostlie",
+							"ref": "§3.4",
+							"title": "Blackbody Radiation"
 						},
 						{
 							"bookId": "carroll-ostlie",
@@ -122,23 +178,22 @@
 						}
 					],
 					"demoIdeas": [
-						"Planck curve with a temperature slider showing the peak shift, with B and V filter bands overlaid and the resulting color index read out."
-					]
+						"Sliders for radius and effective temperature: show L from 4πR²σT⁴, the star's colour swatch and B-V computed from B and V filter bands on the Planck curve, and lines of constant radius on an HR-diagram plane."
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l003-spectral-lines-hr-diagram",
-					"title": "Spectral lines, Boltzmann and Saha, and the HR diagram",
-					"minutes": 90,
+					"id": "s2-l005-spectral-lines-boltzmann",
+					"title": "Spectral lines and Boltzmann excitation",
+					"minutes": 40,
 					"objectives": [
 						"Compute Balmer-series wavelengths from the Rydberg formula and explain absorption lines as bound-bound transitions.",
 						"Apply the Boltzmann equation to find the ratio of populations of two atomic levels at temperature T (the same factor that governs vibrational and electronic populations in molecular spectroscopy).",
-						"Apply the Saha equation as an ionization equilibrium (a gas-phase equilibrium constant) to explain why hydrogen Balmer lines are strongest near 10,000 K, not in the hottest stars.",
-						"Order the spectral classes O B A F G K M by temperature and place main-sequence stars, giants, and white dwarfs on the HR diagram using L, T, and R contours."
+						"Explain why Balmer absorption needs atoms in n = 2 and so is weak in the coolest stars even though hydrogen is abundant there."
 					],
 					"keyEquations": [
 						"\\frac{1}{\\lambda} = R_H\\left(\\frac{1}{n_l^2}-\\frac{1}{n_u^2}\\right)",
-						"\\frac{N_b}{N_a} = \\frac{g_b}{g_a}e^{-(E_b-E_a)/kT}",
-						"\\frac{N_{i+1}N_e}{N_i} = \\frac{2g_{i+1}}{g_i}\\left(\\frac{2\\pi m_e kT}{h^2}\\right)^{3/2}e^{-\\chi_i/kT}"
+						"\\frac{N_b}{N_a} = \\frac{g_b}{g_a}e^{-(E_b-E_a)/kT}"
 					],
 					"readings": [
 						{
@@ -155,6 +210,36 @@
 							"bookId": "carroll-ostlie",
 							"ref": "§8.1",
 							"title": "The Formation of Spectral Lines"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
+							"title": "Class 18, Video 2: Excitation Equilibrium (Boltzmann)",
+							"url": "https://www.youtube.com/watch?v=ZEHA-_PTmcM"
+						}
+					],
+					"demoIdeas": [
+						"Temperature slider that shows hydrogen level populations n=1, 2, 3 as bars from the Boltzmann factor together with the resulting Balmer-line strength; switch to vibrational levels of a molecule to compare with spectroscopy."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l006-saha-ionization-hr-diagram",
+					"title": "Saha ionization, spectral classes, and the HR diagram",
+					"minutes": 40,
+					"objectives": [
+						"Apply the Saha equation as an ionization equilibrium (a gas-phase equilibrium constant) to explain why hydrogen Balmer lines are strongest near 10,000 K, not in the hottest stars.",
+						"Order the spectral classes O B A F G K M by temperature and place main-sequence stars, giants, and white dwarfs on the HR diagram using L, T, and R contours."
+					],
+					"keyEquations": [
+						"\\frac{N_{i+1}N_e}{N_i} = \\frac{2g_{i+1}}{g_i}\\left(\\frac{2\\pi m_e kT}{h^2}\\right)^{3/2}e^{-\\chi_i/kT}"
+					],
+					"readings": [
+						{
+							"bookId": "carroll-ostlie",
+							"ref": "§8.1",
+							"title": "The Formation of Spectral Lines"
 						},
 						{
 							"bookId": "carroll-ostlie",
@@ -163,11 +248,6 @@
 						}
 					],
 					"lectures": [
-						{
-							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
-							"title": "Class 18, Video 2: Excitation Equilibrium (Boltzmann)",
-							"url": "https://www.youtube.com/watch?v=ZEHA-_PTmcM"
-						},
 						{
 							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
 							"title": "Class 18, Video 5: Saha equation applied to hydrogen: Balmer lines",
@@ -182,7 +262,8 @@
 					"demoIdeas": [
 						"Saha-Boltzmann explorer: temperature slider that plots absorption strength for H, He, Ca II, and TiO and marks the spectral class peaks.",
 						"Clickable HR diagram that reports L, T, R, and spectral class for each star."
-					]
+					],
+					"practice": []
 				}
 			]
 		},
@@ -192,27 +273,49 @@
 			"summary": "A star as a self-gravitating ball of gas in balance: hydrostatic equilibrium, the equation of state (ideal gas, radiation, degeneracy from P7), nuclear energy sources, and energy transport yield the main sequence.",
 			"lessons": [
 				{
-					"id": "s2-l004-hydrostatic-equilibrium-virial",
-					"title": "Hydrostatic equilibrium and the virial theorem",
-					"minutes": 80,
+					"id": "s2-l007-hydrostatic-equilibrium-central-pressure",
+					"title": "Hydrostatic equilibrium and the central pressure of a star",
+					"minutes": 35,
 					"objectives": [
 						"Derive the equation of hydrostatic equilibrium dP/dr = -G M_r rho / r^2 by balancing forces on a thin shell, and write mass continuity dM_r/dr = 4 pi r^2 rho.",
-						"Estimate the central pressure and temperature of the Sun from scaling arguments with the mean density and mean molecular weight.",
-						"State the virial theorem 2K + U = 0 for a gravitating gas and show that a contracting star heats up while its total energy decreases (negative heat capacity).",
-						"Compute the Kelvin-Helmholtz timescale for the Sun and explain why gravitational contraction cannot power it for billions of years."
+						"Estimate the central pressure and temperature of the Sun from scaling arguments with the mean density and mean molecular weight."
 					],
 					"keyEquations": [
 						"\\frac{dP}{dr} = -\\frac{G M_r\\rho}{r^2}",
-						"\\frac{dM_r}{dr} = 4\\pi r^2\\rho",
-						"2K + U = 0",
-						"\\tau_{KH}\\sim\\frac{GM^2}{RL}"
+						"\\frac{dM_r}{dr} = 4\\pi r^2\\rho"
 					],
 					"readings": [
 						{
 							"bookId": "carroll-ostlie",
 							"ref": "§10.1",
 							"title": "Hydrostatic Equilibrium"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Astronomy Notes (astronomynotes.com) Stellar Structure playlist",
+							"title": "How stars are put together and how they shine",
+							"url": "https://youtu.be/B3rjYBGXjOg"
+						}
+					],
+					"demoIdeas": [
+						"Sliders for M and R of a uniform-density star: stack thin shells, show weight versus pressure difference on each shell, and plot P(r) with the central pressure scaling GM²/R⁴."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l008-virial-theorem-kelvin-helmholtz",
+					"title": "The virial theorem and the Kelvin-Helmholtz timescale",
+					"minutes": 35,
+					"objectives": [
+						"State the virial theorem 2K + U = 0 for a gravitating gas and show that a contracting star heats up while its total energy decreases (negative heat capacity).",
+						"Compute the Kelvin-Helmholtz timescale for the Sun and explain why gravitational contraction cannot power it for billions of years."
+					],
+					"keyEquations": [
+						"2K + U = 0",
+						"\\tau_{KH}\\sim\\frac{GM^2}{RL}"
+					],
+					"readings": [
 						{
 							"bookId": "carroll-ostlie",
 							"ref": "§2.4",
@@ -227,30 +330,53 @@
 						}
 					],
 					"demoIdeas": [
-						"Shell-balance visualiser: change M and R of a uniform-density star and watch the required central pressure and the virial temperature update."
-					]
+						"Slide the radius of a contracting gas ball from large to small: plot K, U and E=K+U against R with the virial temperature, showing T rising while E falls, plus a readout of the Kelvin-Helmholtz time for chosen M and L."
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l005-equation-of-state-degeneracy",
-					"title": "Equation of state: ideal gas, radiation, degeneracy",
-					"minutes": 80,
+					"id": "s2-l009-gas-radiation-pressure",
+					"title": "Gas pressure, mean molecular weight, and radiation pressure",
+					"minutes": 35,
 					"objectives": [
 						"Write the ideal-gas pressure with mean molecular weight mu and compute mu for fully ionized hydrogen/helium/metals mixtures.",
-						"Write radiation pressure P_rad = aT^4/3 and find the temperature and mass regime where it rivals gas pressure.",
-						"Derive the scaling of electron degeneracy pressure, P proportional to rho^(5/3) nonrelativistic and rho^(4/3) relativistic, from the Pauli principle and the uncertainty relation (the free-electron gas of a metal).",
-						"Decide, for a given (rho, T), whether ideal gas, radiation, or degenerate-electron pressure dominates."
+						"Write radiation pressure P_rad = aT^4/3 and find the temperature and mass regime where it rivals gas pressure."
 					],
 					"keyEquations": [
 						"P_{\\rm gas} = \\frac{\\rho kT}{\\mu m_H}",
-						"P_{\\rm rad} = \\tfrac13 aT^4",
-						"P_{\\rm NR} = \\frac{(3\\pi^2)^{2/3}\\hbar^2}{5m_e}\\left(\\frac{\\rho}{\\mu_e m_H}\\right)^{5/3}"
+						"P_{\\rm rad} = \\tfrac13 aT^4"
 					],
 					"readings": [
 						{
 							"bookId": "carroll-ostlie",
 							"ref": "§10.2",
 							"title": "Pressure Equation of State"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
+							"title": "Class 16, Video 4: Radiation Pressure",
+							"url": "https://www.youtube.com/watch?v=8jO8hX3EEQs"
+						}
+					],
+					"demoIdeas": [
+						"Sliders for density, temperature and the X, Y, Z composition: bars for gas and radiation pressure and the value of μ, with the ratio P_rad/P_gas shown as the stellar mass slider is raised from 1 to 100 solar masses."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l010-electron-degeneracy-pressure",
+					"title": "Electron degeneracy pressure and which pressure dominates",
+					"minutes": 40,
+					"objectives": [
+						"Derive the scaling of electron degeneracy pressure, P proportional to rho^(5/3) nonrelativistic and rho^(4/3) relativistic, from the Pauli principle and the uncertainty relation (the free-electron gas of a metal).",
+						"Decide, for a given (rho, T), whether ideal gas, radiation, or degenerate-electron pressure dominates."
+					],
+					"keyEquations": [
+						"P_{\\rm NR} = \\frac{(3\\pi^2)^{2/3}\\hbar^2}{5m_e}\\left(\\frac{\\rho}{\\mu_e m_H}\\right)^{5/3}"
+					],
+					"readings": [
 						{
 							"bookId": "carroll-ostlie",
 							"ref": "§16.3",
@@ -268,29 +394,52 @@
 							"source": "Prof. G. Srinivasan, Astronomy and Astrophysics: An Introductory Survey (Astronomical Society of India)",
 							"title": "Lecture 10: Quantum Statistics and the Fermi-Dirac distribution",
 							"url": "https://www.youtube.com/watch?v=n6R8r3okul4"
-						},
-						{
-							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
-							"title": "Class 16, Video 4: Radiation Pressure",
-							"url": "https://www.youtube.com/watch?v=8jO8hX3EEQs"
 						}
 					],
 					"demoIdeas": [
 						"Phase diagram of log rho versus log T shading regions where gas, radiation, or degenerate pressure dominates, with tracks of stars of different mass."
-					]
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l006-nuclear-fusion-energy-sources",
-					"title": "Nuclear fusion as the stellar energy source",
-					"minutes": 90,
+					"id": "s2-l011-mass-defect-main-sequence-lifetime",
+					"title": "Mass defect and the main-sequence lifetime",
+					"minutes": 35,
 					"objectives": [
 						"Compute the energy released in 4 H -> He-4 from the mass defect and the fraction of rest mass converted (about 0.7%), and estimate the Sun's nuclear lifetime.",
-						"Explain why fusion needs quantum tunneling through the Coulomb barrier at about 10^7 K, and describe the Gamow peak as the product of the Boltzmann tail and the tunneling probability (compare an Arrhenius rate).",
-						"Describe the pp chain and the CNO cycle and compare their temperature sensitivities (roughly T^4 versus T^16 to T^20).",
 						"Explain what sets the lifetime of a star on the main sequence and why massive stars die young."
 					],
 					"keyEquations": [
-						"E = \\Delta m\\,c^2",
+						"E = \\Delta m\\,c^2"
+					],
+					"readings": [
+						{
+							"bookId": "carroll-ostlie",
+							"ref": "§10.3",
+							"title": "Stellar Energy Sources"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Astronomy Notes (astronomynotes.com) Stellar Structure playlist",
+							"title": "The Sun as our closest example of a star",
+							"url": "https://youtu.be/k1F6EtMeV18"
+						}
+					],
+					"demoIdeas": [
+						"Mass slider from 0.1 to 50 solar masses using L ∝ M^3.5: log-log plot of fuel, luminosity and main-sequence lifetime, with the age of the universe marked to show which stars have already died."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l012-tunneling-gamow-peak-pp-cno",
+					"title": "Quantum tunneling, the Gamow peak, and the pp and CNO cycles",
+					"minutes": 40,
+					"objectives": [
+						"Explain why fusion needs quantum tunneling through the Coulomb barrier at about 10^7 K, and describe the Gamow peak as the product of the Boltzmann tail and the tunneling probability (compare an Arrhenius rate).",
+						"Describe the pp chain and the CNO cycle and compare their temperature sensitivities (roughly T^4 versus T^16 to T^20)."
+					],
+					"keyEquations": [
 						"\\sigma(E)\\propto\\frac{S(E)}{E}\\,e^{-\\sqrt{E_G/E}}",
 						"E_G = 2m_rc^2(\\pi\\alpha Z_1Z_2)^2"
 					],
@@ -309,39 +458,28 @@
 						}
 					],
 					"demoIdeas": [
-						"Gamow peak plot: Maxwell-Boltzmann tail times tunneling probability versus energy with a temperature slider."
-					]
+						"Temperature slider that draws the Maxwell-Boltzmann tail, the tunnelling probability and their product (the Gamow peak) versus energy.",
+						"Energy generation versus temperature on log axes for the pp chain (T⁴) and the CNO cycle (T^17), with the crossover near 1.7×10⁷ K marked."
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l007-energy-transport-stellar-models",
-					"title": "Energy transport, stellar models, and the main sequence",
-					"minutes": 90,
+					"id": "s2-l013-energy-transport-structure-equations",
+					"title": "Radiative and convective transport and the equations of stellar structure",
+					"minutes": 40,
 					"objectives": [
 						"Distinguish radiative from convective energy transport and state the criterion for convective instability qualitatively.",
-						"Write the four equations of stellar structure (mass, hydrostatic equilibrium, energy generation, energy transport) with their boundary conditions.",
-						"Use homology and the radiative diffusion equation to derive the main-sequence scalings L proportional to M^3 (roughly) and a lifetime t proportional to M/L.",
-						"State the Vogt-Russell theorem and explain how a numerical integration (shooting) builds a stellar model."
+						"Write the four equations of stellar structure (mass, hydrostatic equilibrium, energy generation, energy transport) with their boundary conditions."
 					],
 					"keyEquations": [
 						"\\frac{dT}{dr} = -\\frac{3\\kappa\\rho L_r}{64\\pi\\sigma r^2T^3}",
-						"\\frac{dL_r}{dr} = 4\\pi r^2\\rho\\,\\epsilon",
-						"t_{\\rm MS}\\sim\\frac{0.1\\,Mc^2\\cdot 0.007}{L}"
+						"\\frac{dL_r}{dr} = 4\\pi r^2\\rho\\,\\epsilon"
 					],
 					"readings": [
 						{
 							"bookId": "carroll-ostlie",
 							"ref": "§10.4",
 							"title": "Energy Transport and Thermodynamics"
-						},
-						{
-							"bookId": "carroll-ostlie",
-							"ref": "§10.5",
-							"title": "Stellar Model Building"
-						},
-						{
-							"bookId": "carroll-ostlie",
-							"ref": "§10.6",
-							"title": "The Main Sequence"
 						}
 					],
 					"lectures": [
@@ -362,8 +500,44 @@
 						}
 					],
 					"demoIdeas": [
+						"Opacity and luminosity sliders for a layer of stellar interior: compare the radiative temperature gradient with the adiabatic gradient and colour the layer convective when it is exceeded."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l014-homology-mass-luminosity-stellar-models",
+					"title": "Homology, the mass-luminosity relation, and building a stellar model",
+					"minutes": 40,
+					"objectives": [
+						"Use homology and the radiative diffusion equation to derive the main-sequence scalings L proportional to M^3 (roughly) and a lifetime t proportional to M/L.",
+						"State the Vogt-Russell theorem and explain how a numerical integration (shooting) builds a stellar model."
+					],
+					"keyEquations": [
+						"t_{\\rm MS}\\sim\\frac{0.1\\,Mc^2\\cdot 0.007}{L}"
+					],
+					"readings": [
+						{
+							"bookId": "carroll-ostlie",
+							"ref": "§10.5",
+							"title": "Stellar Model Building"
+						},
+						{
+							"bookId": "carroll-ostlie",
+							"ref": "§10.6",
+							"title": "The Main Sequence"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
+							"title": "Class 20, Video 5: Temperature Equation (Radiative Flux) (the diffusion equation behind the homology scaling)",
+							"url": "https://www.youtube.com/watch?v=Yv_hMQANH9A"
+						}
+					],
+					"demoIdeas": [
 						"Shooting-method stellar model (simple polytrope) with sliders for mass and composition, plotting P(r), T(r), and L(r)."
-					]
+					],
+					"practice": []
 				}
 			]
 		},
@@ -373,14 +547,12 @@
 			"summary": "From collapsing clouds to the main sequence, giants, white dwarfs, supernovae, neutron stars, and black holes, driven by degeneracy pressure and nuclear fuel exhaustion.",
 			"lessons": [
 				{
-					"id": "s2-l008-star-formation-and-evolution",
-					"title": "Star formation and post-main-sequence evolution",
-					"minutes": 90,
+					"id": "s2-l015-jeans-collapse-protostars",
+					"title": "Jeans collapse and pre-main-sequence contraction",
+					"minutes": 40,
 					"objectives": [
 						"Derive the Jeans criterion for gravitational collapse of an isothermal cloud and estimate the Jeans mass of a molecular cloud.",
-						"Describe pre-main-sequence contraction qualitatively and why protostars start on the Hayashi track.",
-						"Trace the evolution of a 1 and a 10 solar-mass star across the HR diagram: main sequence, red giant branch, helium ignition, AGB or core collapse.",
-						"Use the main-sequence turnoff of a star cluster to estimate its age."
+						"Describe pre-main-sequence contraction qualitatively and why protostars start on the Hayashi track."
 					],
 					"keyEquations": [
 						"M_J \\approx \\left(\\frac{5kT}{G\\mu m_H}\\right)^{3/2}\\left(\\frac{3}{4\\pi\\rho_0}\\right)^{1/2}"
@@ -395,7 +567,30 @@
 							"bookId": "carroll-ostlie",
 							"ref": "§12.3",
 							"title": "Pre-Main-Sequence Evolution"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "David Sobral (Lancaster University): Section 9, Star formation, the IMF and intro to stellar evolution",
+							"title": "9.4 - The virial theorem, the condition for a cloud to collapse and the Jeans mass",
+							"url": "https://www.youtube.com/watch?v=ck9kDaaFyLM"
+						}
+					],
+					"demoIdeas": [
+						"Sliders for cloud temperature, density and mass: plot Jeans mass against density for several temperatures, mark whether the chosen cloud lies in the collapse region, and animate the free-fall collapse when it does."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l016-post-main-sequence-evolution-cluster-ages",
+					"title": "Post-main-sequence evolution and the ages of star clusters",
+					"minutes": 40,
+					"objectives": [
+						"Trace the evolution of a 1 and a 10 solar-mass star across the HR diagram: main sequence, red giant branch, helium ignition, AGB or core collapse.",
+						"Use the main-sequence turnoff of a star cluster to estimate its age."
+					],
+					"keyEquations": [],
+					"readings": [
 						{
 							"bookId": "carroll-ostlie",
 							"ref": "§13.1",
@@ -415,11 +610,6 @@
 					],
 					"lectures": [
 						{
-							"source": "David Sobral (Lancaster University): Section 9, Star formation, the IMF and intro to stellar evolution",
-							"title": "9.4 - The virial theorem, the condition for a cloud to collapse and the Jeans mass",
-							"url": "https://www.youtube.com/watch?v=ck9kDaaFyLM"
-						},
-						{
 							"source": "Prof. G. Srinivasan, Astronomy and Astrophysics: An Introductory Survey (Astronomical Society of India)",
 							"title": "Lecture 11: Life history of stars - Low mass stars",
 							"url": "https://www.youtube.com/watch?v=CouFXgUNK-M"
@@ -432,21 +622,19 @@
 					],
 					"demoIdeas": [
 						"HR diagram with an animated evolutionary track for a chosen initial mass and a cluster isochrone slider showing the turnoff moving."
-					]
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l009-white-dwarfs-chandrasekhar",
-					"title": "White dwarfs and the Chandrasekhar limit",
-					"minutes": 75,
+					"id": "s2-l017-white-dwarf-structure-mass-radius",
+					"title": "White-dwarf structure and the mass-radius relation",
+					"minutes": 35,
 					"objectives": [
 						"Explain a white dwarf as a star supported by electron degeneracy pressure and compute its typical density and radius.",
-						"Derive the mass-radius relation R proportional to M^(-1/3) by balancing gravity against nonrelativistic degeneracy pressure.",
-						"Argue why relativistic degeneracy (P proportional to rho^(4/3)) gives a maximum mass near 1.4 solar masses, the Chandrasekhar limit.",
-						"Describe white-dwarf cooling and how an accreting white dwarf reaching the limit produces a Type Ia supernova."
+						"Derive the mass-radius relation R proportional to M^(-1/3) by balancing gravity against nonrelativistic degeneracy pressure."
 					],
 					"keyEquations": [
-						"R\\propto M^{-1/3}",
-						"M_{\\rm Ch}\\simeq\\frac{5.83}{\\mu_e^{2}}\\,M_\\odot"
+						"R\\propto M^{-1/3}"
 					],
 					"readings": [
 						{
@@ -458,7 +646,37 @@
 							"bookId": "carroll-ostlie",
 							"ref": "§16.3",
 							"title": "The Physics of Degenerate Matter"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
+							"title": "Class 23, Video 3: White Dwarfs: Mass-Radius relationship",
+							"url": "https://www.youtube.com/watch?v=al8o6YzGW4k"
 						},
+						{
+							"source": "Prof. G. Srinivasan, Astronomy and Astrophysics: An Introductory Survey (Astronomical Society of India)",
+							"title": "Lecture 17: Quantum Stars",
+							"url": "https://www.youtube.com/watch?v=ph0vQrNbK-8"
+						}
+					],
+					"demoIdeas": [
+						"Mass-radius curve of white dwarfs that bends toward zero radius at the Chandrasekhar mass as the Fermi momentum becomes relativistic."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l018-chandrasekhar-limit-type-ia",
+					"title": "The Chandrasekhar limit and Type Ia supernovae",
+					"minutes": 40,
+					"objectives": [
+						"Argue why relativistic degeneracy (P proportional to rho^(4/3)) gives a maximum mass near 1.4 solar masses, the Chandrasekhar limit.",
+						"Describe white-dwarf cooling and how an accreting white dwarf reaching the limit produces a Type Ia supernova."
+					],
+					"keyEquations": [
+						"M_{\\rm Ch}\\simeq\\frac{5.83}{\\mu_e^{2}}\\,M_\\odot"
+					],
+					"readings": [
 						{
 							"bookId": "carroll-ostlie",
 							"ref": "§16.4",
@@ -473,39 +691,30 @@
 					],
 					"lectures": [
 						{
-							"source": "Prof. G. Srinivasan, Astronomy and Astrophysics: An Introductory Survey (Astronomical Society of India)",
-							"title": "Lecture 17: Quantum Stars",
-							"url": "https://www.youtube.com/watch?v=ph0vQrNbK-8"
-						},
-						{
-							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
-							"title": "Class 23, Video 3: White Dwarfs: Mass-Radius relationship",
-							"url": "https://www.youtube.com/watch?v=al8o6YzGW4k"
-						},
-						{
 							"source": "Wladimir Lyra, ASTR 503 (New Mexico State University)",
 							"title": "Class 23, Video 4: White Dwarfs: Chandrasekhar Limit",
 							"url": "https://www.youtube.com/watch?v=w5vwdlOtbfs"
+						},
+						{
+							"source": "Prof. G. Srinivasan, Astronomy and Astrophysics: An Introductory Survey (Astronomical Society of India)",
+							"title": "Lecture 17: Quantum Stars",
+							"url": "https://www.youtube.com/watch?v=ph0vQrNbK-8"
 						}
 					],
 					"demoIdeas": [
 						"Mass-radius curve of white dwarfs that bends toward zero radius at the Chandrasekhar mass as the Fermi momentum becomes relativistic."
-					]
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l010-supernovae-neutron-stars-black-holes",
-					"title": "Supernovae, neutron stars, pulsars, and black holes",
-					"minutes": 90,
+					"id": "s2-l019-core-collapse-supernovae",
+					"title": "Core collapse and the classification of supernovae",
+					"minutes": 40,
 					"objectives": [
 						"Describe the stages of core-collapse in a massive star (iron core, photodisintegration, neutronization, bounce) and show that about 99% of the energy leaves as neutrinos using E ~ GM^2/R.",
-						"Classify supernovae (Type Ia, Ib/c, II) by spectra and progenitor.",
-						"Estimate neutron-star radius (about 10 km) and density from neutron degeneracy and compare with nuclear density.",
-						"Explain a pulsar as a rotating magnetized neutron star and estimate its surface magnetic field and age from the period P and period derivative.",
-						"Compute the Schwarzschild radius r_s = 2GM/c^2 and state when a remnant becomes a black hole (set up for S3)."
+						"Classify supernovae (Type Ia, Ib/c, II) by spectra and progenitor."
 					],
 					"keyEquations": [
-						"R_S = \\frac{2GM}{c^2}",
-						"B\\approx3.2\\times10^{19}\\sqrt{P\\dot P}\\ \\mathrm{G}",
 						"E_{\\rm grav}\\sim\\frac{GM^2}{R}"
 					],
 					"readings": [
@@ -518,7 +727,32 @@
 							"bookId": "carroll-ostlie",
 							"ref": "§15.3",
 							"title": "Core-Collapse Supernovae"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
+							"title": "Lecture 22: Supernovae",
+							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-22"
+						}
+					],
+					"demoIdeas": [
+						"Sliders for core mass and final radius: compute GM²/R and split it into neutrinos, kinetic energy and light on a log bar chart; a classification flow chart where toggling H and Si lines gives Type Ia, Ib/c or II."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l020-neutron-stars-pulsars",
+					"title": "Neutron stars and pulsars",
+					"minutes": 40,
+					"objectives": [
+						"Estimate neutron-star radius (about 10 km) and density from neutron degeneracy and compare with nuclear density.",
+						"Explain a pulsar as a rotating magnetized neutron star and estimate its surface magnetic field and age from the period P and period derivative."
+					],
+					"keyEquations": [
+						"B\\approx3.2\\times10^{19}\\sqrt{P\\dot P}\\ \\mathrm{G}"
+					],
+					"readings": [
 						{
 							"bookId": "carroll-ostlie",
 							"ref": "§16.6",
@@ -528,7 +762,33 @@
 							"bookId": "carroll-ostlie",
 							"ref": "§16.7",
 							"title": "Pulsars"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
+							"title": "Lecture 14: Pulsars",
+							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-14"
+						}
+					],
+					"demoIdeas": [
+						"Pulsar lighthouse: rotating dipole beam sweeping past an observer producing a pulse train with adjustable P and viewing angle."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l021-black-holes-schwarzschild-radius",
+					"title": "Black holes and the Schwarzschild radius",
+					"minutes": 35,
+					"objectives": [
+						"Compute the Schwarzschild radius r_s = 2GM/c^2 for a given mass.",
+						"State when a collapsing remnant becomes a black hole (a mass above the neutron-star maximum, so that no known pressure can stop the collapse).",
+						"Explain how stellar-mass black holes are identified in binary systems by measuring the mass of an unseen compact companion."
+					],
+					"keyEquations": [
+						"R_S = \\frac{2GM}{c^2}"
+					],
+					"readings": [
 						{
 							"bookId": "carroll-ostlie",
 							"ref": "§17.3",
@@ -537,16 +797,6 @@
 						}
 					],
 					"lectures": [
-						{
-							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
-							"title": "Lecture 22: Supernovae",
-							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-22"
-						},
-						{
-							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
-							"title": "Lecture 14: Pulsars",
-							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-14"
-						},
 						{
 							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
 							"title": "Lecture 12: Stellar Mass Black Holes",
@@ -559,8 +809,9 @@
 						}
 					],
 					"demoIdeas": [
-						"Pulsar lighthouse: rotating dipole beam sweeping past an observer producing a pulse train with adjustable P and viewing angle."
-					]
+						"Mass slider from 1 solar mass to 10⁹: Schwarzschild radius and mean density inside it against familiar objects; a binary-orbit panel where the unseen companion's mass slider shows when a compact object must exceed the neutron-star limit."
+					],
+					"practice": []
 				}
 			]
 		},
@@ -570,40 +821,21 @@
 			"summary": "The Milky Way and other galaxies as dynamical systems: rotation curves reveal dark matter, and the cosmic distance ladder leads to Hubble's law.",
 			"lessons": [
 				{
-					"id": "s2-l011-galaxies-rotation-curves-dark-matter",
-					"title": "Galaxies, rotation curves, and dark matter",
-					"minutes": 90,
+					"id": "s2-l022-milky-way-galaxy-types-enclosed-mass",
+					"title": "Galaxy types, the Milky Way, and mass from orbital speeds",
+					"minutes": 35,
 					"objectives": [
 						"Place galaxies on the Hubble sequence and describe the Milky Way's disk, bulge, and halo.",
-						"Derive the enclosed-mass relation M(<r) = v^2 r / G for circular orbits and estimate the Milky Way's mass from the Sun's orbital speed and distance.",
-						"Show that a Keplerian curve v proportional to r^(-1/2) is expected beyond the visible mass and explain what flat observed curves imply about a dark halo.",
-						"Describe the rungs of the distance ladder (parallax, Cepheid period-luminosity, Type Ia supernovae) and how errors propagate.",
-						"List independent lines of evidence for dark matter: cluster dynamics, gravitational lensing, and the Bullet Cluster."
+						"Derive the enclosed-mass relation M(<r) = v^2 r / G for circular orbits and estimate the Milky Way's mass from the Sun's orbital speed and distance."
 					],
 					"keyEquations": [
-						"M(<r) = \\frac{v^2(r)\\,r}{G}",
-						"v\\propto r^{-1/2}\\ (\\text{Keplerian})"
+						"M(<r) = \\frac{v^2(r)\\,r}{G}"
 					],
 					"readings": [
 						{
 							"bookId": "ryden",
 							"ref": "§7.1",
 							"title": "Visible Matter"
-						},
-						{
-							"bookId": "ryden",
-							"ref": "§7.2",
-							"title": "Dark Matter in Galaxies"
-						},
-						{
-							"bookId": "ryden",
-							"ref": "§7.3",
-							"title": "Dark Matter in Clusters"
-						},
-						{
-							"bookId": "ryden",
-							"ref": "§7.4",
-							"title": "Gravitational Lensing"
 						},
 						{
 							"bookId": "carroll-ostlie",
@@ -616,6 +848,64 @@
 							"ref": "§25.1",
 							"title": "The Hubble Sequence",
 							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Sliders for orbital speed and radius that return the enclosed mass v²r/G; a clickable Hubble tuning-fork diagram showing bulge fraction and disk structure of each galaxy type."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l023-rotation-curves-dark-halos",
+					"title": "Flat rotation curves and dark halos",
+					"minutes": 40,
+					"objectives": [
+						"Show that a Keplerian curve v proportional to r^(-1/2) is expected beyond the visible mass.",
+						"Explain what flat observed rotation curves imply about the enclosed mass M(<r) proportional to r and a dark halo with density falling as 1/r^2.",
+						"Compare the enclosed mass at large radius with the visible mass of a galaxy."
+					],
+					"keyEquations": [
+						"v\\propto r^{-1/2}\\ (\\text{Keplerian})"
+					],
+					"readings": [
+						{
+							"bookId": "ryden",
+							"ref": "§7.2",
+							"title": "Dark Matter in Galaxies"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
+							"title": "Lecture 20: Dark Matter (galaxy rotation curves and dark halos)",
+							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-20"
+						}
+					],
+					"demoIdeas": [
+						"Rotation-curve builder: stack bulge, disk, and halo mass profiles and compare with observed flat curve data."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l024-distance-ladder-dark-matter-evidence",
+					"title": "The distance ladder and independent evidence for dark matter",
+					"minutes": 40,
+					"objectives": [
+						"Describe the rungs of the distance ladder (parallax, Cepheid period-luminosity, Type Ia supernovae) and how errors propagate.",
+						"List independent lines of evidence for dark matter: cluster dynamics, gravitational lensing, and the Bullet Cluster."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "ryden",
+							"ref": "§7.3",
+							"title": "Dark Matter in Clusters"
+						},
+						{
+							"bookId": "ryden",
+							"ref": "§7.4",
+							"title": "Gravitational Lensing"
 						},
 						{
 							"bookId": "carroll-ostlie",
@@ -627,13 +917,14 @@
 					"lectures": [
 						{
 							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
-							"title": "Lecture 20: Dark Matter",
+							"title": "Lecture 20: Dark Matter (cluster dynamics, lensing and other evidence)",
 							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-20"
 						}
 					],
 					"demoIdeas": [
-						"Rotation-curve builder: stack bulge, disk, and halo mass profiles and compare with observed flat curve data."
-					]
+						"Distance-ladder chart: pick the rung (parallax, Cepheid period-luminosity, Type Ia) and enter a calibration error to see error bars compound up the ladder to the Hubble-flow distance."
+					],
+					"practice": []
 				}
 			]
 		},
@@ -643,20 +934,16 @@
 			"summary": "Homogeneous, isotropic expansion described by a scale factor; the Friedmann equation from Newtonian energy conservation and its GR form; model universes and the benchmark Lambda-CDM cosmology.",
 			"lessons": [
 				{
-					"id": "s2-l012-hubble-law-robertson-walker",
-					"title": "Hubble's law, redshift, and the Robertson-Walker metric",
-					"minutes": 90,
+					"id": "s2-l025-cosmological-principle-hubble-law",
+					"title": "The cosmological principle and Hubble's law",
+					"minutes": 40,
 					"objectives": [
 						"State the cosmological principle and what homogeneous and isotropic mean observationally.",
 						"Derive Hubble's law v = H0 d from uniform expansion r = a(t) x and identify H = adot/a.",
-						"Define comoving coordinates and the scale factor, and relate cosmological redshift to scale factor, 1 + z = a(t0)/a(t_e).",
-						"Write the Robertson-Walker metric with curvature k and compute proper distance to a comoving object.",
 						"Estimate the Hubble time and Hubble distance from H0 of about 70 km/s/Mpc."
 					],
 					"keyEquations": [
-						"v = H_0 d,\\quad H = \\frac{\\dot a}{a}",
-						"1+z = \\frac{a(t_0)}{a(t_e)}",
-						"ds^2 = -c^2dt^2 + a^2(t)\\left[\\frac{dr^2}{1-kr^2}+r^2d\\Omega^2\\right]"
+						"v = H_0 d,\\quad H = \\frac{\\dot a}{a}"
 					],
 					"readings": [
 						{
@@ -668,7 +955,43 @@
 							"bookId": "ryden",
 							"ref": "§2.3",
 							"title": "Redshift is Proportional to Distance"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
+							"title": "Course home and video lectures",
+							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/video_galleries/video-lectures/"
 						},
+						{
+							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
+							"title": "Lecture 4: The Kinematics of the Homogeneous Expanding Universe",
+							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-4-the-kinematics-of-the-homogeneous-expanding-universe/"
+						},
+						{
+							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
+							"title": "Lecture 16: Hubble's Law and the Big Bang",
+							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-16"
+						}
+					],
+					"demoIdeas": [
+						"Expanding grid with comoving galaxies, a photon whose wavelength stretches with a(t), and a live Hubble diagram."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l026-scale-factor-redshift-robertson-walker",
+					"title": "The scale factor, cosmological redshift, and the Robertson-Walker metric",
+					"minutes": 40,
+					"objectives": [
+						"Define comoving coordinates and the scale factor, and relate cosmological redshift to scale factor, 1 + z = a(t0)/a(t_e).",
+						"Write the Robertson-Walker metric with curvature k and compute proper distance to a comoving object."
+					],
+					"keyEquations": [
+						"1+z = \\frac{a(t_0)}{a(t_e)}",
+						"ds^2 = -c^2dt^2 + a^2(t)\\left[\\frac{dr^2}{1-kr^2}+r^2d\\Omega^2\\right]"
+					],
+					"readings": [
 						{
 							"bookId": "ryden",
 							"ref": "§3.4",
@@ -688,44 +1011,27 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
-							"title": "Course home and video lectures",
-							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/video_galleries/video-lectures/"
-						},
-						{
-							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
-							"title": "Lecture 4: The Kinematics of the Homogeneous Expanding Universe",
-							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-4-the-kinematics-of-the-homogeneous-expanding-universe/"
-						},
-						{
-							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
 							"title": "Lecture 5: Cosmological Redshift and the Dynamics of Homogeneous Expansion, Part I",
 							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-5-cosmological-redshift-and-the-dynamics-of-homogeneous-expansion/"
-						},
-						{
-							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
-							"title": "Lecture 16: Hubble's Law and the Big Bang",
-							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-16"
 						}
 					],
 					"demoIdeas": [
 						"Expanding grid with comoving galaxies, a photon whose wavelength stretches with a(t), and a live Hubble diagram."
-					]
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l013-friedmann-equations",
-					"title": "The Friedmann equations",
-					"minutes": 90,
+					"id": "s2-l027-friedmann-fluid-acceleration-equations",
+					"title": "Deriving the Friedmann, fluid, and acceleration equations",
+					"minutes": 45,
 					"objectives": [
 						"Derive the Friedmann equation from energy conservation for a test shell in an expanding uniform sphere and state its general-relativistic form with curvature.",
-						"Derive the fluid equation from the first law dE = -P dV applied to a comoving volume (adiabatic expansion of a gas of photons or dust) and state the acceleration equation.",
-						"Use P = w rho c^2 to show rho proportional to a^(-3(1+w)) for matter (w = 0), radiation (w = 1/3), and a cosmological constant (w = -1).",
-						"Compute the critical density rho_c = 3H^2/(8 pi G) and the density parameter Omega, and say what Omega > 1 and < 1 mean for curvature."
+						"Derive the fluid equation from the first law dE = -P dV applied to a comoving volume (adiabatic expansion of a gas of photons or dust) and state the acceleration equation."
 					],
 					"keyEquations": [
 						"\\left(\\frac{\\dot a}{a}\\right)^2 = \\frac{8\\pi G}{3c^2}\\varepsilon - \\frac{kc^2}{R_0^2a^2}",
 						"\\dot\\varepsilon + 3\\frac{\\dot a}{a}(\\varepsilon+P) = 0",
-						"\\frac{\\ddot a}{a} = -\\frac{4\\pi G}{3c^2}(\\varepsilon+3P)",
-						"\\rho_c = \\frac{3H^2}{8\\pi G}"
+						"\\frac{\\ddot a}{a} = -\\frac{4\\pi G}{3c^2}(\\varepsilon+3P)"
 					],
 					"readings": [
 						{
@@ -745,16 +1051,6 @@
 						},
 						{
 							"bookId": "ryden",
-							"ref": "§4.4",
-							"title": "Equations of State"
-						},
-						{
-							"bookId": "ryden",
-							"ref": "§4.5",
-							"title": "Learning to Love Lambda"
-						},
-						{
-							"bookId": "ryden",
 							"ref": "§4.1",
 							"title": "Einstein's Field Equation",
 							"optional": true
@@ -770,7 +1066,37 @@
 							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
 							"title": "Lecture 7: The Dynamics of Homogeneous Expansion, Part III",
 							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-7-the-dynamics-of-homogeneous-expansion-part-iii/"
+						}
+					],
+					"demoIdeas": [
+						"Slider for the equation-of-state parameter w: log-log plot of density versus scale factor for matter, radiation, Λ and the chosen w with slope -3(1+w), next to an animated test shell in an expanding sphere."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l028-equation-of-state-critical-density",
+					"title": "Equations of state, critical density, and curvature",
+					"minutes": 40,
+					"objectives": [
+						"Use P = w rho c^2 to show rho proportional to a^(-3(1+w)) for matter (w = 0), radiation (w = 1/3), and a cosmological constant (w = -1).",
+						"Compute the critical density rho_c = 3H^2/(8 pi G) and the density parameter Omega, and say what Omega > 1 and < 1 mean for curvature."
+					],
+					"keyEquations": [
+						"\\rho_c = \\frac{3H^2}{8\\pi G}"
+					],
+					"readings": [
+						{
+							"bookId": "ryden",
+							"ref": "§4.4",
+							"title": "Equations of State"
 						},
+						{
+							"bookId": "ryden",
+							"ref": "§4.5",
+							"title": "Learning to Love Lambda"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
 							"title": "Lecture 8: The Dynamics of Homogeneous Expansion, Part IV",
@@ -784,22 +1110,20 @@
 					],
 					"demoIdeas": [
 						"Energy-density versus scale-factor plot (matter, radiation, Lambda) with a movable a to read off dominant component."
-					]
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l014-model-universes-benchmark",
-					"title": "Model universes and the benchmark cosmology",
-					"minutes": 90,
+					"id": "s2-l029-single-component-universes-age",
+					"title": "Single-component universes and the age of the universe",
+					"minutes": 40,
 					"objectives": [
 						"Solve the Friedmann equation for single-component flat universes: a proportional to t^(2/3) for matter, t^(1/2) for radiation, e^(Ht) for Lambda.",
-						"Compute the age of a flat matter-only universe t0 = 2/(3 H0) and compare it with the Lambda-CDM age of about 13.8 Gyr.",
-						"Find the redshift of matter-radiation equality (about 3400) and describe when each component dominated.",
-						"Describe the benchmark model (Omega_m near 0.3, Omega_Lambda near 0.7, Omega_r about 10^-4) and classify possible fates of the universe."
+						"Compute the age of a flat matter-only universe t0 = 2/(3 H0) and compare it with the Lambda-CDM age of about 13.8 Gyr."
 					],
 					"keyEquations": [
 						"a(t)\\propto t^{2/[3(1+w)]}",
-						"t_0 = \\frac{2}{3H_0}",
-						"\\frac{H^2}{H_0^2} = \\Omega_r a^{-4} + \\Omega_m a^{-3} + \\Omega_\\kappa a^{-2} + \\Omega_\\Lambda"
+						"t_0 = \\frac{2}{3H_0}"
 					],
 					"readings": [
 						{
@@ -811,7 +1135,26 @@
 							"bookId": "ryden",
 							"ref": "§5.3",
 							"title": "Single-component Universes"
-						},
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Choose w (matter, radiation, Λ or your own): integrate the Friedmann equation to plot a(t), read off the age 2/(3(1+w)H₀) and shade where the expansion decelerates or accelerates."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l030-benchmark-model-equality-fate",
+					"title": "The benchmark model, matter-radiation equality, and the fate of the universe",
+					"minutes": 40,
+					"objectives": [
+						"Find the redshift of matter-radiation equality (about 3400) and describe when each component dominated.",
+						"Describe the benchmark model (Omega_m near 0.3, Omega_Lambda near 0.7, Omega_r about 10^-4) and classify possible fates of the universe."
+					],
+					"keyEquations": [
+						"\\frac{H^2}{H_0^2} = \\Omega_r a^{-4} + \\Omega_m a^{-3} + \\Omega_\\kappa a^{-2} + \\Omega_\\Lambda"
+					],
+					"readings": [
 						{
 							"bookId": "ryden",
 							"ref": "§5.4",
@@ -837,7 +1180,8 @@
 					],
 					"demoIdeas": [
 						"Friedmann solver with sliders for Omega_m, Omega_Lambda, and Omega_r that integrates a(t) and reports the age and fate."
-					]
+					],
+					"practice": []
 				}
 			]
 		},
@@ -847,20 +1191,16 @@
 			"summary": "Distances in an expanding universe, supernovae and dark energy, the CMB, Big Bang nucleosynthesis, and inflation.",
 			"lessons": [
 				{
-					"id": "s2-l015-distances-supernovae-dark-energy",
-					"title": "Cosmic distances, supernovae, and dark energy",
-					"minutes": 90,
+					"id": "s2-l031-luminosity-angular-diameter-distance",
+					"title": "Luminosity distance and angular-diameter distance",
+					"minutes": 40,
 					"objectives": [
 						"Define luminosity distance and angular-diameter distance in an expanding universe and explain why d_L = (1+z)^2 d_A.",
-						"Compute d_L for a flat matter-dominated universe at small z and show it reduces to cz/H0.",
-						"Explain how Type Ia supernovae as standard candles revealed cosmic acceleration and read Omega_Lambda off a magnitude-redshift diagram.",
-						"Compute the deceleration parameter q0 = Omega_m/2 - Omega_Lambda and interpret its sign.",
-						"Describe the cosmological constant as vacuum energy and state the size of the mismatch with the naive quantum-field estimate."
+						"Compute d_L for a flat matter-dominated universe at small z and show it reduces to cz/H0."
 					],
 					"keyEquations": [
 						"d_L = a_0 r(1+z)",
-						"d_A = \\frac{a_0 r}{1+z}",
-						"q_0 = \\frac{\\Omega_m}{2}-\\Omega_\\Lambda"
+						"d_A = \\frac{a_0 r}{1+z}"
 					],
 					"readings": [
 						{
@@ -877,7 +1217,27 @@
 							"bookId": "ryden",
 							"ref": "§6.3",
 							"title": "Angular-diameter Distance"
-						},
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Redshift slider from 0 to 5 with Ω_m and Ω_Λ sliders: plot d_L and d_A against z and the angular size of a 10 kpc galaxy, showing the maximum of d_A near z of about 1.6."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l032-supernovae-acceleration-vacuum-energy",
+					"title": "Type Ia supernovae, cosmic acceleration, and vacuum energy",
+					"minutes": 45,
+					"objectives": [
+						"Explain how Type Ia supernovae as standard candles revealed cosmic acceleration and read Omega_Lambda off a magnitude-redshift diagram.",
+						"Compute the deceleration parameter q0 = Omega_m/2 - Omega_Lambda and interpret its sign.",
+						"Describe the cosmological constant as vacuum energy and state the size of the mismatch with the naive quantum-field estimate."
+					],
+					"keyEquations": [
+						"q_0 = \\frac{\\Omega_m}{2}-\\Omega_\\Lambda"
+					],
+					"readings": [
 						{
 							"bookId": "ryden",
 							"ref": "§6.4",
@@ -892,11 +1252,6 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
-							"title": "Lecture 18: Cosmic Microwave Background Spectrum and the Cosmological Constant, Part I",
-							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-18-cosmic-microwave-background-spectrum-and-the-cosmological-constant/"
-						},
-						{
-							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
 							"title": "Lecture 20: Supernovae Ia and Vacuum Energy Density",
 							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-20-supernovae-ia-and-vacuum-energy-density/"
 						},
@@ -904,25 +1259,28 @@
 							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
 							"title": "Lecture 21: Dark Energy and the Accelerating Universe and the Big Rip",
 							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-21"
+						},
+						{
+							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
+							"title": "Lecture 18: Cosmic Microwave Background Spectrum and the Cosmological Constant, Part I",
+							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-18-cosmic-microwave-background-spectrum-and-the-cosmological-constant/"
 						}
 					],
 					"demoIdeas": [
 						"Hubble diagram of distance modulus versus redshift with Omega_m and Omega_Lambda sliders against sample supernova points."
-					]
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l016-cmb",
-					"title": "The cosmic microwave background",
-					"minutes": 90,
+					"id": "s2-l033-cmb-cooled-blackbody",
+					"title": "The CMB as a cooled blackbody",
+					"minutes": 40,
 					"objectives": [
 						"Show that blackbody radiation stays blackbody in an expanding universe with T proportional to 1/a, so T(z) = T0 (1+z) with T0 = 2.725 K.",
-						"Use the Saha equation for hydrogen to estimate why recombination happens near 3000 K (about 0.25 eV) rather than at 13.6 eV (an ionization equilibrium with a huge photon-to-baryon ratio).",
-						"Describe the CMB's measured properties: near-perfect Planck spectrum, dipole from our motion, and anisotropies at 10^-5.",
-						"Explain qualitatively how the acoustic peaks encode the geometry (first peak), baryon density, and dark-matter density."
+						"Describe the CMB's measured properties: near-perfect Planck spectrum, dipole from our motion, and anisotropies at 10^-5."
 					],
 					"keyEquations": [
 						"T(z) = T_0(1+z)",
-						"\\frac{n_{p}n_e}{n_H} = \\left(\\frac{m_ekT}{2\\pi\\hbar^2}\\right)^{3/2}e^{-13.6\\,\\mathrm{eV}/kT}",
 						"\\frac{\\Delta T}{T}\\sim10^{-5}"
 					],
 					"readings": [
@@ -936,6 +1294,42 @@
 							"ref": "§8.1",
 							"title": "Observing the CMB"
 						},
+						{
+							"bookId": "carroll-ostlie",
+							"ref": "§29.2",
+							"title": "The Cosmic Microwave Background",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
+							"title": "Lecture 16: Black-Body Radiation and the Early History of the Universe, Part II",
+							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-16-black-body-radiation-and-the-early-history-of-the-universe-part-ii/"
+						},
+						{
+							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
+							"title": "Lecture 23: Other Constraints: The Cosmic Microwave Background",
+							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-23"
+						}
+					],
+					"demoIdeas": [
+						"Scale-factor slider: the CMB Planck curve shifts to longer wavelength with T = T₀/a and the photon density dilutes as a⁻³; add a dipole map by choosing the observer's velocity."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l034-recombination-acoustic-peaks",
+					"title": "Recombination and the acoustic peaks",
+					"minutes": 40,
+					"objectives": [
+						"Use the Saha equation for hydrogen to estimate why recombination happens near 3000 K (about 0.25 eV) rather than at 13.6 eV (an ionization equilibrium with a huge photon-to-baryon ratio).",
+						"Explain qualitatively how the acoustic peaks encode the geometry (first peak), baryon density, and dark-matter density."
+					],
+					"keyEquations": [
+						"\\frac{n_{p}n_e}{n_H} = \\left(\\frac{m_ekT}{2\\pi\\hbar^2}\\right)^{3/2}e^{-13.6\\,\\mathrm{eV}/kT}"
+					],
+					"readings": [
 						{
 							"bookId": "ryden",
 							"ref": "§8.2",
@@ -966,11 +1360,6 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
-							"title": "Lecture 16: Black-Body Radiation and the Early History of the Universe, Part II",
-							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-16-black-body-radiation-and-the-early-history-of-the-universe-part-ii/"
-						},
-						{
-							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
 							"title": "Lecture 17: Black-Body Radiation and the Early History of the Universe, Part III",
 							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-17-black-body-radiation-and-the-early-history-of-the-universe-part-iii/"
 						},
@@ -982,23 +1371,20 @@
 					],
 					"demoIdeas": [
 						"Ionization fraction x_e versus temperature from the Saha equation with a baryon-to-photon ratio slider, marking the 'surface of last scattering'."
-					]
+					],
+					"practice": []
 				},
 				{
-					"id": "s2-l017-nucleosynthesis-inflation",
-					"title": "Big Bang nucleosynthesis and inflation",
-					"minutes": 90,
+					"id": "s2-l035-bbn-neutron-proton-helium",
+					"title": "Big Bang nucleosynthesis: freeze-out, deuterium, and helium",
+					"minutes": 40,
 					"objectives": [
 						"Derive the neutron-to-proton ratio n/p = exp(-Q/kT) with Q = 1.29 MeV at freeze-out, and include neutron decay until deuterium forms.",
-						"Compute the primordial helium mass fraction Y_p = 2(n/p)/(1+n/p), about 0.25, and explain the deuterium bottleneck (a Saha-type equilibrium with a very small baryon-to-photon ratio).",
-						"State the flatness, horizon, and monopole problems of the hot Big Bang model.",
-						"Explain how a period of quasi-exponential expansion, a proportional to e^(Ht), solves them and estimate the roughly 60 e-folds required.",
-						"Describe slow-roll inflation with a scalar field and how quantum fluctuations seed density perturbations."
+						"Compute the primordial helium mass fraction Y_p = 2(n/p)/(1+n/p), about 0.25, and explain the deuterium bottleneck (a Saha-type equilibrium with a very small baryon-to-photon ratio)."
 					],
 					"keyEquations": [
 						"\\frac{n}{p} = e^{-Q/kT},\\quad Q = 1.29\\,\\mathrm{MeV}",
-						"Y_p = \\frac{2(n/p)}{1+n/p}",
-						"a\\propto e^{Ht},\\quad N = \\ln\\frac{a_f}{a_i}"
+						"Y_p = \\frac{2(n/p)}{1+n/p}"
 					],
 					"readings": [
 						{
@@ -1020,7 +1406,24 @@
 							"bookId": "ryden",
 							"ref": "§9.4",
 							"title": "Beyond Deuterium"
-						},
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Abundance versus temperature curves for n, p, D, He-4 with a baryon-to-photon slider."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l036-flatness-horizon-monopole-problems",
+					"title": "The flatness, horizon, and monopole problems",
+					"minutes": 35,
+					"objectives": [
+						"State the flatness, horizon, and monopole problems of the hot Big Bang model.",
+						"Explain why each problem requires fine-tuned initial conditions in the standard hot Big Bang model."
+					],
+					"keyEquations": [],
+					"readings": [
 						{
 							"bookId": "ryden",
 							"ref": "§10.1",
@@ -1035,7 +1438,38 @@
 							"bookId": "ryden",
 							"ref": "§10.3",
 							"title": "The Monopole Problem"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
+							"title": "Lecture 21: Problems of the Conventional (Non-inflationary) Hot Big Bang Model",
+							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-21-problems-of-the-conventional-non-inflationary-hot-big-bang-model/"
 						},
+						{
+							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
+							"title": "Lecture 22: The Higgs Field and the Cosmological Magnetic Monopole Problem",
+							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-22-game-plan/"
+						}
+					],
+					"demoIdeas": [
+						"Horizon-problem diagram: comoving horizon with and without an inflationary phase.",
+						"Slider for the initial |Ω-1| at nucleosynthesis: plot Ω(a) running away from 1 in a decelerating universe, with and without a period of inflation."
+					],
+					"practice": []
+				},
+				{
+					"id": "s2-l037-inflation-slow-roll-perturbations",
+					"title": "Inflation: exponential expansion, slow roll, and the seeds of structure",
+					"minutes": 40,
+					"objectives": [
+						"Explain how a period of quasi-exponential expansion, a proportional to e^(Ht), solves the flatness, horizon, and monopole problems and estimate the roughly 60 e-folds required.",
+						"Describe slow-roll inflation with a scalar field and how quantum fluctuations seed density perturbations."
+					],
+					"keyEquations": [
+						"a\\propto e^{Ht},\\quad N = \\ln\\frac{a_f}{a_i}"
+					],
+					"readings": [
 						{
 							"bookId": "ryden",
 							"ref": "§10.4",
@@ -1056,24 +1490,15 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
-							"title": "Lecture 21: Problems of the Conventional (Non-inflationary) Hot Big Bang Model",
-							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-21-problems-of-the-conventional-non-inflationary-hot-big-bang-model/"
-						},
-						{
-							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
-							"title": "Lecture 22: The Higgs Field and the Cosmological Magnetic Monopole Problem",
-							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-22-game-plan/"
-						},
-						{
-							"source": "MIT OCW 8.286 The Early Universe (Guth, Fall 2013)",
 							"title": "Lecture 23: Inflation",
 							"url": "https://ocw.mit.edu/courses/8-286-the-early-universe-fall-2013/resources/lecture-23-inflation/"
 						}
 					],
 					"demoIdeas": [
-						"Abundance versus temperature curves for n, p, D, He-4 with a baryon-to-photon slider.",
-						"Horizon-problem diagram: comoving horizon with and without an inflationary phase."
-					]
+						"Slider for the number of e-folds N: plot the comoving horizon against scale factor and see when today's observable universe fits inside one pre-inflation causal patch (N about 60).",
+						"Ball rolling down a flat potential V(φ) with H(t) and a(t) plotted, showing near-exponential growth that ends when the slope steepens."
+					],
+					"practice": []
 				}
 			]
 		}

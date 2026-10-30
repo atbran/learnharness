@@ -44,7 +44,7 @@ const program: Program = { ...meta, courses: courseList.map((c) => c.id), course
 let issues: CurriculumIssue[] = validateProgram(program, catalog);
 if (only) {
 	issues = issues.map((i) =>
-		/unknown prereq/.test(i.message) ? { ...i, level: "warning" as const } : i,
+		/unknown (prereq|coreq)/.test(i.message) ? { ...i, level: "warning" as const } : i,
 	);
 }
 for (const i of issues) console.log(`${i.level === "error" ? "ERROR  " : "warning"}  ${i.where}: ${i.message}`);

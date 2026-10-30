@@ -24,6 +24,7 @@ export function progressSnapshot(now = new Date()): ProgressSnapshot {
 	return deriveProgress(programIndex(), stores.curriculumStore.readEvents(), {
 		now,
 		hoursPerWeek: settings.hoursPerWeek ?? undefined,
+		parallelCourses: settings.parallelCourses ?? undefined,
 		startDate: settings.startDate ?? undefined,
 	});
 }
@@ -155,6 +156,7 @@ export interface ProgramView {
 		depth: string;
 		hours: number;
 		prereqs: string[];
+		coreqs: string[];
 		subject: string;
 		summary: string;
 		exams: { id: string; kind: string; title: string; minutes: number; passMark: number; covers: string[] }[];
@@ -184,6 +186,7 @@ export function programView(): ProgramView {
 			depth: c.depth,
 			hours: c.hours,
 			prereqs: c.prereqs,
+			coreqs: c.coreqs,
 			subject: c.subject,
 			summary: c.summary,
 			exams: c.exams.map((e) => ({ id: e.id, kind: e.kind, title: e.title, minutes: e.minutes, passMark: e.passMark, covers: e.covers })),

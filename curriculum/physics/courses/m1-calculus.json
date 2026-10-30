@@ -31,19 +31,15 @@
 			"summary": "The limit as the core idea of calculus: one- and two-sided limits, limit laws, the squeeze theorem, continuity, and the epsilon-delta definition; the same 'close enough' reasoning behind every physical idealisation (point mass, instantaneous rate).",
 			"lessons": [
 				{
-					"id": "m1-l001-limits-intuition",
-					"title": "Limits: the idea, numerically and graphically",
-					"minutes": 80,
+					"id": "m1-l001-limit-idea-estimating",
+					"title": "The idea of a limit: secant to tangent, and estimating limits",
+					"minutes": 38,
 					"objectives": [
 						"Explain, in words and with a secant-to-tangent picture, how the slope of a secant line becomes the slope of a tangent line as the interval shrinks to zero.",
-						"Estimate a limit from a table of values and from a graph, and say when a limit does not exist (jump, blow-up, oscillation).",
-						"Evaluate one-sided limits and state that a two-sided limit exists exactly when both one-sided limits exist and agree.",
-						"Evaluate limits at which the function is undefined by algebraic simplification (factor-and-cancel, rationalise, common denominator)."
+						"Estimate a limit from a table of values and from a graph, and say when a limit does not exist (jump, blow-up, oscillation)."
 					],
 					"keyEquations": [
-						"\\lim_{x\\to a}f(x)=L",
-						"\\lim_{x\\to a}f(x)=L \\iff \\lim_{x\\to a^-}f(x)=\\lim_{x\\to a^+}f(x)=L",
-						"\\lim_{x\\to2}\\frac{x^2-4}{x-2}=4"
+						"\\lim_{x\\to a}f(x)=L"
 					],
 					"readings": [
 						{
@@ -67,7 +63,32 @@
 							"source": "3Blue1Brown",
 							"title": "Limits and the definition of derivatives",
 							"url": "https://www.3blue1brown.com/lessons/limits"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Zoom-to-limit: zoom a graph toward x = a with a table of f(a +/- h) beside it, including functions with a hole, a jump and an oscillation; a secant swings into the tangent as h shrinks."
+					]
+				},
+				{
+					"id": "m1-l002-one-sided-limits-algebra",
+					"title": "One-sided limits and evaluating limits algebraically",
+					"minutes": 38,
+					"objectives": [
+						"Evaluate one-sided limits and state that a two-sided limit exists exactly when both one-sided limits exist and agree.",
+						"Evaluate limits at which the function is undefined by algebraic simplification (factor-and-cancel, rationalise, common denominator)."
+					],
+					"keyEquations": [
+						"\\lim_{x\\to a}f(x)=L \\iff \\lim_{x\\to a^-}f(x)=\\lim_{x\\to a^+}f(x)=L",
+						"\\lim_{x\\to2}\\frac{x^2-4}{x-2}=4"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§2.2",
+							"title": "The Limit of a Function"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 4: Limits and continuity",
@@ -75,30 +96,56 @@
 						}
 					],
 					"demoIdeas": [
-						"Zoom-to-limit: zoom a graph toward x = a with a table of f(a +/- h) beside it, including functions with a hole, a jump and an oscillation."
+						"Choose a function with a jump, hole or blow-up and watch the left and right approaches animate toward a with the one-sided limits read out; a button cancels the common factor to reveal the hole."
 					]
 				},
 				{
-					"id": "m1-l002-limit-laws-continuity",
-					"title": "Limit laws, the squeeze theorem, and continuity",
-					"minutes": 90,
+					"id": "m1-l003-limit-laws-squeeze",
+					"title": "Limit laws and the squeeze theorem: sin x over x",
+					"minutes": 40,
 					"objectives": [
 						"Apply the limit laws (sum, product, quotient, power) and know the conditions under which each holds.",
-						"Use the squeeze theorem to prove lim_{x->0} sin x / x = 1 and lim (1 - cos x)/x = 0, and state why these limits matter for the derivatives of the trig functions.",
-						"State the three-part definition of continuity at a point and classify removable, jump and infinite discontinuities.",
-						"State the intermediate value theorem and use it to show that an equation has a root in an interval."
+						"Use the squeeze theorem to prove lim_{x->0} sin x / x = 1 and lim (1 - cos x)/x = 0, and state why these limits matter for the derivatives of the trig functions."
 					],
 					"keyEquations": [
 						"\\lim_{x\\to0}\\frac{\\sin x}{x}=1",
-						"\\lim_{x\\to0}\\frac{1-\\cos x}{x}=0",
-						"f \\text{ continuous at } a \\iff \\lim_{x\\to a}f(x)=f(a)"
+						"\\lim_{x\\to0}\\frac{1-\\cos x}{x}=0"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-calc1",
 							"ref": "§2.3",
 							"title": "The Limit Laws"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 8 clip 1: Limit of sin(x)/x",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-limit-of-sin-x-x/"
 						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 8: Limits of sine and cosine",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-8-limits-of-sine-and-cosine/"
+						}
+					],
+					"demoIdeas": [
+						"Squeeze visualiser: draw sin x / x between cos x and 1 on the unit circle, shrinking the angle and showing the inequality chain; a slider for k shows sin(kx)/x approaching k."
+					]
+				},
+				{
+					"id": "m1-l004-continuity-ivt",
+					"title": "Continuity, types of discontinuity, and the intermediate value theorem",
+					"minutes": 38,
+					"objectives": [
+						"State the three-part definition of continuity at a point and classify removable, jump and infinite discontinuities.",
+						"State the intermediate value theorem and use it to show that an equation has a root in an interval."
+					],
+					"keyEquations": [
+						"f \\text{ continuous at } a \\iff \\lim_{x\\to a}f(x)=f(a)"
+					],
+					"readings": [
 						{
 							"bookId": "openstax-calc1",
 							"ref": "§2.4",
@@ -113,37 +160,25 @@
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 8 clip 1: Limit of sin(x)/x",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-limit-of-sin-x-x/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 4: Limits and continuity",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-4-limits-and-continuity/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 5: Discontinuity",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-5-discontinuity/"
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 8: Limits of sine and cosine",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-8-limits-of-sine-and-cosine/"
+							"title": "Session 4: Limits and continuity",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-4-limits-and-continuity/"
 						}
 					],
 					"demoIdeas": [
-						"Squeeze visualiser: draw sin x / x between cos x and 1 on the unit circle, shrinking the angle and showing the inequality chain."
+						"Drag the endpoints of a graph and a horizontal line y = c: the intermediate value theorem marks the crossing points, and a jump in the graph visibly breaks the guarantee."
 					]
 				},
 				{
-					"id": "m1-l003-epsilon-delta",
-					"title": "The precise definition of a limit",
-					"minutes": 80,
+					"id": "m1-l005-epsilon-delta-definition-negation",
+					"title": "The epsilon-delta definition of a limit and its negation",
+					"minutes": 36,
 					"objectives": [
 						"State the epsilon-delta definition of lim_{x->a} f(x) = L as a logical statement with quantifiers.",
-						"Given epsilon, find a valid delta for a linear function and for x^2 near a point, and explain what 'delta may depend on epsilon' means.",
-						"Write a short epsilon-delta proof for a limit of a linear function.",
 						"Negate the definition to say what it means for a limit not to equal L."
 					],
 					"keyEquations": [
@@ -164,7 +199,36 @@
 						}
 					],
 					"demoIdeas": [
-						"Epsilon-delta game: the user drags an epsilon band around L, the page shows the largest delta window that keeps the graph inside it."
+						"Epsilon-delta game: drag an epsilon band around L and the page shows the largest delta window that keeps the graph inside it; for a function with a jump no delta works."
+					]
+				},
+				{
+					"id": "m1-l006-epsilon-delta-proofs",
+					"title": "Finding delta and writing epsilon-delta proofs",
+					"minutes": 42,
+					"objectives": [
+						"Given epsilon, find a valid delta for a linear function and for x^2 near a point, and explain what 'delta may depend on epsilon' means.",
+						"Write a short epsilon-delta proof for a limit of a linear function."
+					],
+					"keyEquations": [
+						"\\forall\\varepsilon>0\\ \\exists\\delta>0:\\ 0<|x-a|<\\delta\\Rightarrow|f(x)-L|<\\varepsilon"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§2.5",
+							"title": "The Precise Definition of a Limit"
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown",
+							"title": "(ε, δ) \"epsilon delta\" definitions of limits",
+							"url": "https://www.3blue1brown.com/lessons/epsilon-delta"
+						}
+					],
+					"demoIdeas": [
+						"Epsilon-delta workbench for 3x - 1 and x^2 near a point: shrink epsilon and compare the true best delta with the formula delta = epsilon/3 or min(1, epsilon/7)."
 					]
 				}
 			]
@@ -175,15 +239,13 @@
 			"summary": "The derivative as limit and as function; all the differentiation rules, implicit differentiation, derivatives of inverse, exponential and log functions, and rates of change including related rates.",
 			"lessons": [
 				{
-					"id": "m1-l004-derivative-definition",
-					"title": "The derivative: definition, interpretation, and as a function",
-					"minutes": 90,
+					"id": "m1-l007-derivative-definition-tangent",
+					"title": "The derivative from the definition: slope, rate, and tangent line",
+					"minutes": 42,
 					"objectives": [
 						"Write the derivative as a limit of difference quotients and compute it from the definition for polynomials, 1/x and sqrt(x).",
 						"Interpret f'(a) as the slope of the tangent line, the instantaneous rate of change, and, given units, as a physical quantity (e.g. velocity, reaction rate d[A]/dt).",
-						"Write the equation of the tangent line to y = f(x) at x = a.",
-						"Sketch the graph of f' from the graph of f and vice versa.",
-						"Explain the relationship between differentiability and continuity, with the example f(x) = |x| at 0."
+						"Write the equation of the tangent line to y = f(x) at x = a."
 					],
 					"keyEquations": [
 						"f'(a)=\\lim_{h\\to0}\\frac{f(a+h)-f(a)}{h}",
@@ -195,24 +257,9 @@
 							"bookId": "openstax-calc1",
 							"ref": "§3.1",
 							"title": "Defining the Derivative"
-						},
-						{
-							"bookId": "openstax-calc1",
-							"ref": "§3.2",
-							"title": "The Derivative as a Function"
 						}
 					],
 					"lectures": [
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 2 clip 1: Example 1: y=1/x",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-example-1-y-1-x/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 3 clip 1: Introduction to Rates of Change",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-introduction-to-rates-of-change/"
-						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 1: Introduction to derivatives",
@@ -225,9 +272,41 @@
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 2 clip 1: Example 1: y=1/x",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-example-1-y-1-x/"
+						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 3 clip 1: Introduction to Rates of Change",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-introduction-to-rates-of-change/"
+						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 3: Derivative as rate of change",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-3-derivative-as-rate-of-change/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Secant-to-tangent: slide h to zero on a chosen curve and watch the secant turn into the tangent while the difference quotient converges; read off the tangent-line equation at any point."
+					]
+				},
+				{
+					"id": "m1-l008-derivative-function-differentiability",
+					"title": "The graph of f prime, and differentiability versus continuity",
+					"minutes": 38,
+					"objectives": [
+						"Sketch the graph of f' from the graph of f and vice versa.",
+						"Explain the relationship between differentiability and continuity, with the example f(x) = |x| at 0."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§3.2",
+							"title": "The Derivative as a Function"
+						}
+					],
+					"lectures": [
 						{
 							"source": "3Blue1Brown",
 							"title": "The paradox of the derivative",
@@ -235,18 +314,16 @@
 						}
 					],
 					"demoIdeas": [
-						"Secant-to-tangent: slide h to zero on a chosen curve and watch the secant turn into the tangent while the difference quotient converges."
+						"Draw or pick f and see the graph of f' build live beneath it; include |x| and x^(2/3) to see the corner and cusp where f' fails to exist."
 					]
 				},
 				{
-					"id": "m1-l005-differentiation-rules",
-					"title": "Differentiation rules: power, sum, product, quotient",
-					"minutes": 90,
+					"id": "m1-l009-power-sum-product-quotient-rules",
+					"title": "The power, sum, product, and quotient rules",
+					"minutes": 42,
 					"objectives": [
 						"Derive the power rule for integer exponents and apply it for rational exponents.",
-						"Differentiate with the constant multiple, sum, product and quotient rules and explain why (fg)' is not f'g'.",
-						"Differentiate the same expression two ways (e.g. rewriting a quotient as a product) and confirm that the answers agree.",
-						"Compute higher derivatives and interpret the second derivative as acceleration or curvature."
+						"Differentiate with the constant multiple, sum, product and quotient rules and explain why (fg)' is not f'g'."
 					],
 					"keyEquations": [
 						"\\frac{d}{dx}x^n=nx^{n-1}",
@@ -263,11 +340,6 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 12 clip 1: Higher Derivatives",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-higher-derivatives/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 6: Calculating derivatives",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-6-calculating-derivatives/"
 						},
@@ -282,11 +354,6 @@
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-10-quotient-rule/"
 						},
 						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 12: Higher derivatives",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-12-higher-derivatives/"
-						},
-						{
 							"source": "3Blue1Brown",
 							"title": "Power Rule through geometry",
 							"url": "https://www.3blue1brown.com/lessons/derivatives-power-rule"
@@ -297,31 +364,57 @@
 					]
 				},
 				{
-					"id": "m1-l006-trig-chain-rule",
-					"title": "Derivatives of trigonometric functions and the chain rule",
-					"minutes": 90,
+					"id": "m1-l010-two-ways-higher-derivatives",
+					"title": "Checking derivatives two ways, and higher derivatives",
+					"minutes": 38,
+					"objectives": [
+						"Differentiate the same expression two ways (e.g. rewriting a quotient as a product) and confirm that the answers agree.",
+						"Compute higher derivatives and interpret the second derivative as acceleration or curvature."
+					],
+					"keyEquations": [
+						"f''(x)=\\frac{d}{dx}f'(x)=\\frac{d^2f}{dx^2}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§3.3",
+							"title": "Differentiation Rules"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 12 clip 1: Higher Derivatives",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-higher-derivatives/"
+						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 12: Higher derivatives",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-12-higher-derivatives/"
+						}
+					],
+					"demoIdeas": [
+						"Position x(t) with its velocity and acceleration plots below and an animated particle; the particle is coloured by whether it is speeding up or slowing down."
+					]
+				},
+				{
+					"id": "m1-l011-trig-derivatives-from-limits",
+					"title": "Derivatives of the trigonometric functions",
+					"minutes": 38,
 					"objectives": [
 						"Derive d/dx sin x = cos x and d/dx cos x = -sin x from the definition using the two basic limits.",
-						"Differentiate tan, sec, csc, cot using the quotient rule.",
-						"State the chain rule in Leibniz form and apply it to nested compositions, e.g. d/dx sin(x^2), d/dx (3x+1)^7.",
-						"Differentiate x(t) = A cos(omega t + phi) twice and show that it satisfies x'' = -omega^2 x."
+						"Differentiate tan, sec, csc, cot using the quotient rule."
 					],
 					"keyEquations": [
 						"\\frac{d}{dx}\\sin x=\\cos x",
 						"\\frac{d}{dx}\\cos x=-\\sin x",
-						"\\frac{d}{dx}f(g(x))=f'(g(x))\\,g'(x)",
-						"\\frac{dy}{dx}=\\frac{dy}{du}\\frac{du}{dx}"
+						"\\frac{d}{dx}\\tan x=\\sec^2x"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-calc1",
 							"ref": "§3.5",
 							"title": "Derivatives of Trigonometric Functions"
-						},
-						{
-							"bookId": "openstax-calc1",
-							"ref": "§3.6",
-							"title": "The Chain Rule"
 						}
 					],
 					"lectures": [
@@ -329,7 +422,33 @@
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 7: Derivatives of sine and cosine",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-a-definition-and-basic-rules/session-7-derivatives-of-sine-and-cosine/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Plot sin x with a draggable tangent whose slope traces out a second curve building cos x; an h slider shows the difference quotient converging."
+					]
+				},
+				{
+					"id": "m1-l012-chain-rule-oscillations",
+					"title": "The chain rule and simple harmonic motion",
+					"minutes": 42,
+					"objectives": [
+						"State the chain rule in Leibniz form and apply it to nested compositions, e.g. d/dx sin(x^2), d/dx (3x+1)^7.",
+						"Differentiate x(t) = A cos(omega t + phi) twice and show that it satisfies x'' = -omega^2 x."
+					],
+					"keyEquations": [
+						"\\frac{d}{dx}f(g(x))=f'(g(x))\\,g'(x)",
+						"\\frac{dy}{dx}=\\frac{dy}{du}\\frac{du}{dx}",
+						"x(t)=A\\cos(\\omega t+\\phi)\\ \\Rightarrow\\ \\ddot x=-\\omega^2x"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§3.6",
+							"title": "The Chain Rule"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 11: Chain rule",
@@ -342,26 +461,20 @@
 						}
 					],
 					"demoIdeas": [
-						"Gear-train chain rule: three linked gears with ratios u'(x) and f'(u), and a graph showing the overall rate is the product."
+						"Gear-train chain rule: three linked gears with ratios u'(x) and f'(u), plus a mass-spring x(t) = A cos(omega t + phi) with sliders showing x'' tracking -omega^2 x."
 					]
 				},
 				{
-					"id": "m1-l007-implicit-inverse-exp-log",
-					"title": "Implicit differentiation and derivatives of inverse, exponential, and logarithmic functions",
-					"minutes": 90,
+					"id": "m1-l013-implicit-differentiation-inverse-functions",
+					"title": "Implicit differentiation and derivatives of inverse functions",
+					"minutes": 40,
 					"objectives": [
 						"Differentiate an implicitly defined curve (e.g. x^2 + y^2 = r^2, a van der Waals isotherm) and find dy/dx at a point.",
-						"State the formula (f^{-1})'(b) = 1/f'(a) and use it to derive the derivatives of arcsin, arccos, and arctan.",
-						"Show d/dx e^x = e^x, d/dx ln x = 1/x, and d/dx b^x = b^x ln b.",
-						"Use logarithmic differentiation to differentiate f(x)^{g(x)} and long products or quotients.",
-						"Differentiate k = A exp(-Ea/RT) with respect to T and interpret the result as the temperature sensitivity of a rate constant."
+						"State the formula (f^{-1})'(b) = 1/f'(a) and use it to derive the derivatives of arcsin, arccos, and arctan."
 					],
 					"keyEquations": [
-						"\\frac{d}{dx}e^x=e^x",
-						"\\frac{d}{dx}\\ln x=\\frac1x",
 						"\\frac{d}{dx}\\arctan x=\\frac1{1+x^2}",
-						"(f^{-1})'(b)=\\frac1{f'(f^{-1}(b))}",
-						"\\frac{d}{dx}b^x=b^x\\ln b"
+						"(f^{-1})'(b)=\\frac1{f'(f^{-1}(b))}"
 					],
 					"readings": [
 						{
@@ -373,11 +486,6 @@
 							"bookId": "openstax-calc1",
 							"ref": "§3.8",
 							"title": "Implicit Differentiation"
-						},
-						{
-							"bookId": "openstax-calc1",
-							"ref": "§3.9",
-							"title": "Derivatives of Exponential and Logarithmic Functions"
 						}
 					],
 					"lectures": [
@@ -397,14 +505,42 @@
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-b-implicit-differentiation-and-inverse-functions/session-15-implicit-differentiation-and-inverse-functions/"
 						},
 						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 17: The exponential function its derivative and its inverse",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-b-implicit-differentiation-and-inverse-functions/session-17-the-exponential-function-its-derivative-and-its-inverse/"
-						},
-						{
 							"source": "3Blue1Brown",
 							"title": "Implicit differentiation, what's going on here?",
 							"url": "https://www.3blue1brown.com/lessons/implicit-differentiation"
+						}
+					],
+					"demoIdeas": [
+						"Implicit-curve tangent: pick a point on an implicit curve (circle, lemniscate, vdW isotherm) and see dy/dx computed and the tangent drawn; an inverse-function mode reflects the tangent across y = x."
+					]
+				},
+				{
+					"id": "m1-l014-exp-log-derivatives-arrhenius",
+					"title": "Derivatives of exponentials and logarithms, logarithmic differentiation, and Arrhenius sensitivity",
+					"minutes": 42,
+					"objectives": [
+						"Show d/dx e^x = e^x, d/dx ln x = 1/x, and d/dx b^x = b^x ln b.",
+						"Use logarithmic differentiation to differentiate f(x)^{g(x)} and long products or quotients.",
+						"Differentiate k = A exp(-Ea/RT) with respect to T and interpret the result as the temperature sensitivity of a rate constant."
+					],
+					"keyEquations": [
+						"\\frac{d}{dx}e^x=e^x",
+						"\\frac{d}{dx}\\ln x=\\frac1x",
+						"\\frac{d}{dx}b^x=b^x\\ln b",
+						"\\frac1k\\frac{dk}{dT}=\\frac{E_a}{RT^2}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§3.9",
+							"title": "Derivatives of Exponential and Logarithmic Functions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 17: The exponential function its derivative and its inverse",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/part-b-implicit-differentiation-and-inverse-functions/session-17-the-exponential-function-its-derivative-and-its-inverse/"
 						},
 						{
 							"source": "3Blue1Brown",
@@ -413,22 +549,19 @@
 						}
 					],
 					"demoIdeas": [
-						"Implicit-curve tangent: pick a point on an implicit curve (circle, lemniscate, vdW isotherm) and see dy/dx computed and the tangent drawn."
+						"Sliders for E_a and T plot k(T) and the logarithmic sensitivity E_a/(RT^2); a base slider b shows the slope of b^x always equal to ln b times b^x."
 					]
 				},
 				{
-					"id": "m1-l008-rates-related-rates",
-					"title": "Derivatives as rates of change and related rates",
-					"minutes": 85,
+					"id": "m1-l015-kinematics-related-rates-strategy",
+					"title": "Velocity, acceleration, and the strategy for related rates",
+					"minutes": 40,
 					"objectives": [
 						"Compute position, velocity, acceleration, and speed from x(t) and interpret signs and units.",
-						"Set up a related-rates problem: draw the picture, name variables, write the constraint, differentiate in time, substitute, and interpret.",
-						"Solve classic related-rates problems (sliding ladder, filling cone, expanding balloon) and give units in the answer.",
-						"Use marginal-style reasoning in chemistry: given the volume of a gas as a function of time at fixed P and T, find the rate of change of n or the pressure."
+						"Set up a related-rates problem: draw the picture, name variables, write the constraint, differentiate in time, substitute, and interpret."
 					],
 					"keyEquations": [
-						"v=\\frac{dx}{dt},\\quad a=\\frac{dv}{dt}=\\frac{d^2x}{dt^2}",
-						"\\frac{d}{dt}\\left(\\tfrac43\\pi r^3\\right)=4\\pi r^2\\frac{dr}{dt}"
+						"v=\\frac{dx}{dt},\\quad a=\\frac{dv}{dt}=\\frac{d^2x}{dt^2}"
 					],
 					"readings": [
 						{
@@ -445,13 +578,37 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 32 clip 1: Ring on a String",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-ring-on-a-string/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 31: Related rates",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-b-optimization-related-rates-and-newtons-method/session-31-related-rates/"
+						}
+					],
+					"demoIdeas": [
+						"Particle on a line: x(t), v(t) and a(t) plots with live arrows, colouring intervals where the particle speeds up and slows down."
+					]
+				},
+				{
+					"id": "m1-l016-classic-related-rates-gas",
+					"title": "Classic related-rates problems and gas-law rates",
+					"minutes": 40,
+					"objectives": [
+						"Solve classic related-rates problems (sliding ladder, filling cone, expanding balloon) and give units in the answer.",
+						"Use marginal-style reasoning in chemistry: given the volume of a gas as a function of time at fixed P and T, find the rate of change of n or the pressure."
+					],
+					"keyEquations": [
+						"\\frac{d}{dt}\\left(\\tfrac43\\pi r^3\\right)=4\\pi r^2\\frac{dr}{dt}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§4.1",
+							"title": "Related Rates"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 32 clip 1: Ring on a String",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-ring-on-a-string/"
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
@@ -460,7 +617,7 @@
 						}
 					],
 					"demoIdeas": [
-						"Sliding-ladder lab: drag the foot of a ladder and compare the numerical dy/dt with the formula from the related-rates equation."
+						"Sliding-ladder lab: drag the foot of a ladder and compare the numerical dy/dt with the related-rates formula, including the blow-up near the ground; a balloon tab inflates at constant dV/dt and shows dr/dt falling."
 					]
 				}
 			]
@@ -471,20 +628,17 @@
 			"summary": "Linear and quadratic approximation, differentials, the mean value theorem, extrema and curve sketching, optimisation, limits at infinity, L'Hopital's rule and Newton's method; approximation is the physicist's main use of the derivative.",
 			"lessons": [
 				{
-					"id": "m1-l009-linear-approximation-differentials",
-					"title": "Linear approximation, differentials, and quadratic approximation",
-					"minutes": 90,
+					"id": "m1-l017-linearisation-differentials-error",
+					"title": "Linearisation, differentials, and propagated error",
+					"minutes": 42,
 					"objectives": [
 						"Write the linearisation L(x) = f(a) + f'(a)(x - a) and use it to estimate values such as sqrt(4.1) and (1.02)^10.",
 						"Compute the differential dy = f'(x) dx and use it to estimate propagated error and relative error in a measured quantity (e.g. volume from a measured radius).",
-						"Derive the second-order approximation f(a) + f'(a)h + f''(a)h^2/2 and compare it with the linear one for e^x, sin x, and (1+x)^p.",
-						"Justify the physics approximations sin x ~ x, (1 + x)^n ~ 1 + n x, and e^x ~ 1 + x near zero, with the error estimate.",
 						"Treat df = f'(x)dx as the first-order change of a quantity such as PV or E(T), the idea behind exact differentials later in thermodynamics."
 					],
 					"keyEquations": [
 						"L(x)=f(a)+f'(a)(x-a)",
 						"dy=f'(x)\\,dx",
-						"f(a+h)\\approx f(a)+f'(a)h+\\tfrac12f''(a)h^2",
 						"\\frac{\\Delta V}{V}\\approx3\\frac{\\Delta r}{r}"
 					],
 					"readings": [
@@ -512,6 +666,35 @@
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 36: Differentials",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-c-mean-value-theorem-antiderivatives-and-differential-equations/session-36-differentials/"
+						}
+					],
+					"demoIdeas": [
+						"Tangent-approximation scope: a function with its tangent line at a movable point, the error curve |f - L| on a log axis, and a sphere-volume panel that propagates a radius uncertainty."
+					]
+				},
+				{
+					"id": "m1-l018-quadratic-approximation-standard-forms",
+					"title": "Second-order approximation and the standard small-quantity approximations",
+					"minutes": 38,
+					"objectives": [
+						"Derive the second-order approximation f(a) + f'(a)h + f''(a)h^2/2 and compare it with the linear one for e^x, sin x, and (1+x)^p.",
+						"Justify the physics approximations sin x ~ x, (1 + x)^n ~ 1 + n x, and e^x ~ 1 + x near zero, with the error estimate."
+					],
+					"keyEquations": [
+						"f(a+h)\\approx f(a)+f'(a)h+\\tfrac12f''(a)h^2"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§4.2",
+							"title": "Linear Approximations and Differentials"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 25: Introduction to quadratic appoximation",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-a-approximation-and-curve-sketching/session-25-introduction-to-quadratic-appoximation/"
 						},
@@ -519,30 +702,23 @@
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 26: Using quadratic approximations",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-a-approximation-and-curve-sketching/session-26-using-quadratic-approximations/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 36: Differentials",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-c-mean-value-theorem-antiderivatives-and-differential-equations/session-36-differentials/"
 						}
 					],
 					"demoIdeas": [
-						"Tangent-approximation scope: a function with its tangent line and parabola at a movable point, plus the error curve |f - L| on a log axis."
+						"Choose f (e^x, sin x, (1 + x)^p) and compare linear and quadratic approximations at a movable point, with the error plotted against x."
 					]
 				},
 				{
-					"id": "m1-l010-mvt-extrema-shape",
-					"title": "Extrema, the mean value theorem, and the shape of a graph",
-					"minutes": 90,
+					"id": "m1-l019-extrema-and-mean-value-theorem",
+					"title": "Critical points, extrema tests, and the mean value theorem",
+					"minutes": 40,
 					"objectives": [
 						"Find critical points and classify local and global extrema using the first-derivative and second-derivative tests.",
-						"State the mean value theorem and Rolle's theorem and use them to show that f' = 0 implies f is constant.",
-						"Determine intervals of concavity and inflection points from the sign of f'', and relate them to the shape of a potential-energy curve (stable and unstable equilibria).",
-						"Sketch a function using intercepts, asymptotes, f', and f'' as a coordinated analysis."
+						"State the mean value theorem and Rolle's theorem and use them to show that f' = 0 implies f is constant."
 					],
 					"keyEquations": [
-						"f'(c)=\\frac{f(b)-f(a)}{b-a}\\ \\text{for some }c\\in(a,b)",
-						"f'(c)=0,\\ f''(c)>0\\Rightarrow\\text{local minimum}"
+						"f'(c)=0,\\ f''(c)>0\\Rightarrow\\text{local minimum}",
+						"f'(c)=\\frac{f(b)-f(a)}{b-a}\\ \\text{for some }c\\in(a,b)"
 					],
 					"readings": [
 						{
@@ -554,19 +730,9 @@
 							"bookId": "openstax-calc1",
 							"ref": "§4.4",
 							"title": "The Mean Value Theorem"
-						},
-						{
-							"bookId": "openstax-calc1",
-							"ref": "§4.5",
-							"title": "Derivatives and the Shape of a Graph"
 						}
 					],
 					"lectures": [
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 28 clip 1: General Strategy for Graph Sketching",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-general-strategy-for-graph-sketching/"
-						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 34: Introduction to the mean value theorem",
@@ -576,7 +742,31 @@
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 35: Using the mean value theorem",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-c-mean-value-theorem-antiderivatives-and-differential-equations/session-35-using-the-mean-value-theorem/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Drag the endpoints of a secant on a curve and the points where the tangent is parallel to it (mean value theorem) light up; critical points are coloured by the sign change of f'."
+					]
+				},
+				{
+					"id": "m1-l020-concavity-potential-curves-sketching",
+					"title": "Concavity, equilibria of a potential, and curve sketching",
+					"minutes": 40,
+					"objectives": [
+						"Determine intervals of concavity and inflection points from the sign of f'', and relate them to the shape of a potential-energy curve (stable and unstable equilibria).",
+						"Sketch a function using intercepts, asymptotes, f', and f'' as a coordinated analysis."
+					],
+					"keyEquations": [
+						"U'(x_0)=0,\\ U''(x_0)>0\\ \\Rightarrow\\ \\text{stable equilibrium}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§4.5",
+							"title": "Derivatives and the Shape of a Graph"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 27: Sketching graphs i polynomials and rational functions",
@@ -586,25 +776,27 @@
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 28: Sketching graphs ii general strategies",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-a-approximation-and-curve-sketching/session-28-sketching-graphs-ii-general-strategies/"
+						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 28 clip 1: General Strategy for Graph Sketching",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-general-strategy-for-graph-sketching/"
 						}
 					],
 					"demoIdeas": [
-						"Potential-well explorer: edit a V(x) curve and mark equilibria; the page classifies stable and unstable points from V'' and shows small-oscillation frequency."
+						"Potential-well explorer: edit a V(x) curve and mark equilibria; the page classifies stable and unstable points from V'' and shows the small-oscillation frequency."
 					]
 				},
 				{
-					"id": "m1-l011-optimization-asymptotes",
-					"title": "Applied optimisation and limits at infinity",
-					"minutes": 90,
+					"id": "m1-l021-limits-at-infinity-optimisation-setup",
+					"title": "Limits at infinity, asymptotes, and setting up optimisation problems",
+					"minutes": 38,
 					"objectives": [
 						"Compute limits at infinity of rational, algebraic, and exponential expressions and identify horizontal and oblique asymptotes.",
-						"Set up an optimisation problem: define the objective, the constraint, the domain, and check the endpoints.",
-						"Solve classic optimisation problems (maximum area, minimum material, brightest point) and confirm the answer is a maximum or minimum.",
-						"Find the maximum of the Planck-style function x^3/(e^x - 1) or of a Boltzmann population N(E) = g(E) e^(-E/kT) by setting the derivative to zero and solving numerically."
+						"Set up an optimisation problem: define the objective, the constraint, the domain, and check the endpoints."
 					],
 					"keyEquations": [
-						"\\lim_{x\\to\\infty}\\frac{ax^n+\\dots}{bx^n+\\dots}=\\frac ab",
-						"f'(x)=0"
+						"\\lim_{x\\to\\infty}\\frac{ax^n+\\dots}{bx^n+\\dots}=\\frac ab"
 					],
 					"readings": [
 						{
@@ -623,7 +815,31 @@
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 29: Optimization problems",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-b-optimization-related-rates-and-newtons-method/session-29-optimization-problems/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Plot a rational function and zoom out to watch it hug its horizontal or oblique asymptote, with a table of f(10^k) beside it."
+					]
+				},
+				{
+					"id": "m1-l022-optimisation-boltzmann-planck",
+					"title": "Solving optimisation problems and Planck- and Boltzmann-type maxima",
+					"minutes": 42,
+					"objectives": [
+						"Solve classic optimisation problems (maximum area, minimum material, brightest point) and confirm the answer is a maximum or minimum.",
+						"Find the maximum of the Planck-style function x^3/(e^x - 1) or of a Boltzmann population N(E) = g(E) e^(-E/kT) by setting the derivative to zero and solving numerically."
+					],
+					"keyEquations": [
+						"f'(x)=0"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§4.7",
+							"title": "Applied Optimization Problems"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 30: Optimization problems ii",
@@ -631,22 +847,19 @@
 						}
 					],
 					"demoIdeas": [
-						"Optimiser: a can-design or fence problem with a draggable variable showing the objective value and the derivative's sign change at the optimum."
+						"Optimiser: a fence or can-design problem with a draggable variable showing the objective and the sign change of its derivative; a second tab plots x^3/(e^x - 1) and sqrt(E) e^(-E/kT) with a T slider moving the peak."
 					]
 				},
 				{
-					"id": "m1-l012-lhopital-newton",
-					"title": "L'Hopital's rule and Newton's method",
-					"minutes": 90,
+					"id": "m1-l023-indeterminate-forms-lhopital",
+					"title": "Indeterminate forms and L'Hopital's rule",
+					"minutes": 40,
 					"objectives": [
 						"Recognise indeterminate forms 0/0, infinity/infinity, 0*infinity, infinity - infinity, 1^infinity, and 0^0 and rewrite them for L'Hopital's rule.",
-						"Apply L'Hopital's rule correctly, checking its hypotheses, and compare growth rates of exponentials, powers and logarithms.",
-						"Derive Newton's method x_{n+1} = x_n - f(x_n)/f'(x_n) from the tangent line and apply two or three iterations by hand.",
-						"Explain when Newton's method fails or converges slowly, and use it to solve a transcendental equation (e.g. a Wien's law condition or an equilibrium expression)."
+						"Apply L'Hopital's rule correctly, checking its hypotheses, and compare growth rates of exponentials, powers and logarithms."
 					],
 					"keyEquations": [
 						"\\lim\\frac{f}{g}=\\lim\\frac{f'}{g'}",
-						"x_{n+1}=x_n-\\frac{f(x_n)}{f'(x_n)}",
 						"\\lim_{x\\to\\infty}\\frac{\\ln x}{x^p}=0"
 					],
 					"readings": [
@@ -654,11 +867,6 @@
 							"bookId": "openstax-calc1",
 							"ref": "§4.8",
 							"title": "L’Hôpital’s Rule"
-						},
-						{
-							"bookId": "openstax-calc1",
-							"ref": "§4.9",
-							"title": "Newton’s Method"
 						}
 					],
 					"lectures": [
@@ -683,14 +891,38 @@
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-a-lhospitals-rule-and-improper-integrals/session-90-advanced-examples-of-lhospitals-rule/"
 						},
 						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 33: Newtons method",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-b-optimization-related-rates-and-newtons-method/session-33-newtons-method/"
-						},
-						{
 							"source": "3Blue1Brown",
 							"title": "L'Hôpital's rule",
 							"url": "https://www.3blue1brown.com/lessons/l-hopitals-rule"
+						}
+					],
+					"demoIdeas": [
+						"Plot f/g and f'/g' near the point with a table of values converging to the same number; a growth-rate race shows x^n, e^x and ln x as x grows."
+					]
+				},
+				{
+					"id": "m1-l024-newtons-method",
+					"title": "Newton's method",
+					"minutes": 40,
+					"objectives": [
+						"Derive Newton's method x_{n+1} = x_n - f(x_n)/f'(x_n) from the tangent line and apply two or three iterations by hand.",
+						"Explain when Newton's method fails or converges slowly, and use it to solve a transcendental equation (e.g. a Wien's law condition or an equilibrium expression)."
+					],
+					"keyEquations": [
+						"x_{n+1}=x_n-\\frac{f(x_n)}{f'(x_n)}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§4.9",
+							"title": "Newton’s Method"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 33: Newtons method",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-b-optimization-related-rates-and-newtons-method/session-33-newtons-method/"
 						}
 					],
 					"demoIdeas": [
@@ -705,26 +937,47 @@
 			"summary": "Antiderivatives, Riemann sums, the definite integral, both parts of the fundamental theorem, substitution, integrals of exponentials and inverse trigonometric forms, and applications to area, volume, average value and work.",
 			"lessons": [
 				{
-					"id": "m1-l013-antiderivatives-riemann",
-					"title": "Antiderivatives and approximating area: Riemann sums",
-					"minutes": 80,
+					"id": "m1-l025-antiderivatives-initial-value",
+					"title": "Antiderivatives and initial value problems",
+					"minutes": 38,
 					"objectives": [
 						"Find antiderivatives of polynomials, trig, and exponential functions, and verify them by differentiation, including the arbitrary constant.",
-						"Solve a simple initial value problem v(t) = a t + v0 for position (kinematics from constant acceleration).",
-						"Approximate an area by left, right, and midpoint Riemann sums with n rectangles and see how the error depends on n.",
-						"Write a Riemann sum in sigma notation and take the limit as n -> infinity to define the integral."
+						"Solve a simple initial value problem v(t) = a t + v0 for position (kinematics from constant acceleration)."
 					],
 					"keyEquations": [
-						"\\int x^n\\,dx=\\frac{x^{n+1}}{n+1}+C",
-						"\\sum_{i=1}^n f(x_i^*)\\Delta x",
-						"\\Delta x=\\frac{b-a}{n}"
+						"\\int x^n\\,dx=\\frac{x^{n+1}}{n+1}+C"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-calc1",
 							"ref": "§4.10",
 							"title": "Antiderivatives"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 37: Antiderivatives",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-c-mean-value-theorem-antiderivatives-and-differential-equations/session-37-antiderivatives/"
+						}
+					],
+					"demoIdeas": [
+						"Slope field with the family y = F(x) + C: drag C or set an initial condition to pick the particular solution; a kinematics tab builds x(t) from v(t) with a starting-position slider."
+					]
+				},
+				{
+					"id": "m1-l026-riemann-sums-integral-definition",
+					"title": "Riemann sums and the definition of the integral",
+					"minutes": 38,
+					"objectives": [
+						"Approximate an area by left, right, and midpoint Riemann sums with n rectangles and see how the error depends on n.",
+						"Write a Riemann sum in sigma notation and take the limit as n -> infinity to define the integral."
+					],
+					"keyEquations": [
+						"\\sum_{i=1}^n f(x_i^*)\\Delta x",
+						"\\Delta x=\\frac{b-a}{n}"
+					],
+					"readings": [
 						{
 							"bookId": "openstax-calc1",
 							"ref": "§5.1",
@@ -736,11 +989,6 @@
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 43 clip 1: Introduction to Definite Integrals",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-introduction-to-definite-integrals/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 37: Antiderivatives",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-2-applications-of-differentiation/part-c-mean-value-theorem-antiderivatives-and-differential-equations/session-37-antiderivatives/"
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
@@ -763,19 +1011,16 @@
 					]
 				},
 				{
-					"id": "m1-l014-definite-integral-ftc",
-					"title": "The definite integral and the fundamental theorem of calculus",
-					"minutes": 95,
+					"id": "m1-l027-definite-integral-properties-signed-area",
+					"title": "The definite integral: properties, evaluation, and signed area",
+					"minutes": 42,
 					"objectives": [
 						"Define the definite integral as a limit of Riemann sums and state its properties (linearity, additivity, comparison, sign for reversed limits).",
-						"State both parts of the fundamental theorem of calculus and explain why differentiation and integration are inverse operations.",
-						"Evaluate definite integrals by finding an antiderivative and computing F(b) - F(a).",
-						"Differentiate a function defined as an integral, d/dx of the integral from a to g(x) of f(t) dt, using the chain rule.",
-						"Distinguish between signed area and total area and compute each."
+						"Distinguish between signed area and total area and compute each.",
+						"Evaluate definite integrals by finding an antiderivative and computing F(b) - F(a)."
 					],
 					"keyEquations": [
 						"\\int_a^bf(x)\\,dx=\\lim_{n\\to\\infty}\\sum f(x_i^*)\\Delta x",
-						"\\frac{d}{dx}\\int_a^xf(t)\\,dt=f(x)",
 						"\\int_a^bf(x)\\,dx=F(b)-F(a)"
 					],
 					"readings": [
@@ -783,7 +1028,36 @@
 							"bookId": "openstax-calc1",
 							"ref": "§5.2",
 							"title": "The Definite Integral"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 47: Introduction of the fundamental theorem of calculus",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-a-definition-of-the-definite-integral-and-first-fundamental-theorem/session-47-introduction-of-the-fundamental-theorem-of-calculus/"
 						},
+						{
+							"source": "3Blue1Brown",
+							"title": "Integration and the fundamental theorem of calculus",
+							"url": "https://www.3blue1brown.com/lessons/integration"
+						}
+					],
+					"demoIdeas": [
+						"Velocity-time graph with a sliding upper limit: shaded signed area gives displacement while a second read-out shows total distance travelled."
+					]
+				},
+				{
+					"id": "m1-l028-fundamental-theorem-of-calculus",
+					"title": "The fundamental theorem of calculus",
+					"minutes": 40,
+					"objectives": [
+						"State both parts of the fundamental theorem of calculus and explain why differentiation and integration are inverse operations.",
+						"Differentiate a function defined as an integral, d/dx of the integral from a to g(x) of f(t) dt, using the chain rule."
+					],
+					"keyEquations": [
+						"\\frac{d}{dx}\\int_a^xf(t)\\,dt=f(x)"
+					],
+					"readings": [
 						{
 							"bookId": "openstax-calc1",
 							"ref": "§5.3",
@@ -795,11 +1069,6 @@
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 48 clip 1: Interpretation of the Fundamental Theorem",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-interpretation-of-the-fundamental-theorem/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 47: Introduction of the fundamental theorem of calculus",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-a-definition-of-the-definite-integral-and-first-fundamental-theorem/session-47-introduction-of-the-fundamental-theorem-of-calculus/"
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
@@ -818,11 +1087,6 @@
 						},
 						{
 							"source": "3Blue1Brown",
-							"title": "Integration and the fundamental theorem of calculus",
-							"url": "https://www.3blue1brown.com/lessons/integration"
-						},
-						{
-							"source": "3Blue1Brown",
 							"title": "What does area have to do with slope?",
 							"url": "https://www.3blue1brown.com/lessons/area-and-slope"
 						}
@@ -832,18 +1096,15 @@
 					]
 				},
 				{
-					"id": "m1-l015-net-change-substitution",
-					"title": "Net change and integration by substitution",
-					"minutes": 85,
+					"id": "m1-l029-net-change-and-work",
+					"title": "Net change, displacement versus distance, and work",
+					"minutes": 38,
 					"objectives": [
 						"Use the net change theorem to compute displacement from velocity, and distinguish displacement from total distance travelled.",
-						"Recognise the pattern f(g(x))g'(x) and integrate by u-substitution, changing the limits of integration for definite integrals.",
-						"Choose between u-substitution and manipulation (e.g. completing the square) based on the integrand.",
 						"Compute work as the integral of force over displacement for a variable force such as a spring F = -kx or gas expansion W = integral P dV."
 					],
 					"keyEquations": [
 						"\\int_a^bf'(x)\\,dx=f(b)-f(a)",
-						"\\int f(g(x))g'(x)\\,dx=\\int f(u)\\,du",
 						"W=\\int_{x_1}^{x_2}F\\,dx"
 					],
 					"readings": [
@@ -851,7 +1112,25 @@
 							"bookId": "openstax-calc1",
 							"ref": "§5.4",
 							"title": "Integration Formulas and the Net Change Theorem"
-						},
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Spring F = -kx: drag the extension and the shaded area under F against x gives the work; a P-V diagram shades the work for expansion along different paths."
+					]
+				},
+				{
+					"id": "m1-l030-u-substitution",
+					"title": "Integration by substitution",
+					"minutes": 40,
+					"objectives": [
+						"Recognise the pattern f(g(x))g'(x) and integrate by u-substitution, changing the limits of integration for definite integrals.",
+						"Choose between u-substitution and manipulation (e.g. completing the square) based on the integrand."
+					],
+					"keyEquations": [
+						"\\int f(g(x))g'(x)\\,dx=\\int f(u)\\,du"
+					],
+					"readings": [
 						{
 							"bookId": "openstax-calc1",
 							"ref": "§5.5",
@@ -870,19 +1149,16 @@
 					]
 				},
 				{
-					"id": "m1-l016-exp-log-inverse-trig-integrals",
-					"title": "Integrals involving exponential, logarithmic, and inverse trigonometric functions",
-					"minutes": 80,
+					"id": "m1-l031-log-exp-integrals-isothermal-work",
+					"title": "Integrals of 1/x and exponentials, the integral definition of ln, and isothermal work",
+					"minutes": 42,
 					"objectives": [
 						"Integrate 1/x as ln|x| + C and e^x, a^x, and combinations by substitution.",
-						"Recognise and integrate the forms 1/sqrt(a^2 - x^2) and 1/(a^2 + x^2) as arcsin and arctan.",
 						"Define ln x as the integral from 1 to x of dt/t and use this to derive its properties (ln xy = ln x + ln y).",
 						"Evaluate the isothermal reversible work of an ideal gas, W = -nRT ln(V2/V1), by integrating P dV."
 					],
 					"keyEquations": [
 						"\\int\\frac1x\\,dx=\\ln|x|+C",
-						"\\int\\frac{dx}{\\sqrt{a^2-x^2}}=\\arcsin\\frac xa+C",
-						"\\int\\frac{dx}{a^2+x^2}=\\frac1a\\arctan\\frac xa+C",
 						"\\ln x=\\int_1^x\\frac{dt}{t}"
 					],
 					"readings": [
@@ -890,19 +1166,9 @@
 							"bookId": "openstax-calc1",
 							"ref": "§5.6",
 							"title": "Integrals Involving Exponential and Logarithmic Functions"
-						},
-						{
-							"bookId": "openstax-calc1",
-							"ref": "§5.7",
-							"title": "Integrals Resulting in Inverse Trigonometric Functions"
 						}
 					],
 					"lectures": [
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 54 clip 1: Alternate Definition of Natural Log",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-alternate-definition-of-natural-log/"
-						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 53 clip 1: Antiderivative of 1/x",
@@ -910,8 +1176,8 @@
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 55 clip 1: The Bell Curve",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-the-bell-curve/"
+							"title": "Session 54 clip 1: Alternate Definition of Natural Log",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-alternate-definition-of-natural-log/"
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
@@ -927,28 +1193,52 @@
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 55: Creating new functions using the second fundamental theorem",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-b-second-fundamental-theorem-areas-volumes/session-55-creating-new-functions-using-the-second-fundamental-theorem/"
+						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 55 clip 1: The Bell Curve",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-the-bell-curve/"
 						}
 					],
 					"demoIdeas": [
-						"Shaded-area ln: a curve y = 1/t with the area from 1 to x shaded and the numeric value compared with ln x."
+						"Shaded-area ln: the area under y = 1/t from 1 to x compared with ln x; a P-V isotherm with a temperature slider shades the isothermal work and shows its dependence on V2/V1."
 					]
 				},
 				{
-					"id": "m1-l017-integral-applications",
-					"title": "Applications of integration: area, volume, average value, mass and centre of mass",
-					"minutes": 100,
+					"id": "m1-l032-inverse-trig-integral-forms",
+					"title": "Integrals giving arcsine and arctangent",
+					"minutes": 36,
+					"objectives": [
+						"Recognise and integrate the forms 1/sqrt(a^2 - x^2) and 1/(a^2 + x^2) as arcsin and arctan.",
+						"Verify an inverse-trig antiderivative by differentiation and adapt it to integrands such as 1/(9 + 4x^2) by a substitution u = kx."
+					],
+					"keyEquations": [
+						"\\int\\frac{dx}{\\sqrt{a^2-x^2}}=\\arcsin\\frac xa+C",
+						"\\int\\frac{dx}{a^2+x^2}=\\frac1a\\arctan\\frac xa+C"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc1",
+							"ref": "§5.7",
+							"title": "Integrals Resulting in Inverse Trigonometric Functions"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slider for a: plot 1/(a^2 + x^2) with the area from 0 to x, and overlay (1/a) arctan(x/a) to show they match, with a derivative check."
+					]
+				},
+				{
+					"id": "m1-l033-area-and-volume-integrals",
+					"title": "Area between curves and volumes of revolution",
+					"minutes": 45,
 					"objectives": [
 						"Compute the area between curves by integrating top minus bottom and choose dx or dy to simplify the integral.",
-						"Compute volumes of solids by slicing (disk/washer) and by cylindrical shells, and derive the volume of a sphere.",
-						"Define and compute the average value of a function over an interval and state the mean value theorem for integrals.",
-						"Compute the mass of a rod with density rho(x) and the position of its centre of mass x_cm = (integral x rho dx)/(integral rho dx).",
-						"Compute the expectation value of a function weighted by a probability density (preview of quantum expectation values)."
+						"Compute volumes of solids by slicing (disk/washer) and by cylindrical shells, and derive the volume of a sphere."
 					],
 					"keyEquations": [
 						"A=\\int_a^b[f(x)-g(x)]\\,dx",
-						"V=\\int_a^b\\pi[R(x)^2-r(x)^2]\\,dx",
-						"\\bar f=\\frac1{b-a}\\int_a^bf(x)\\,dx",
-						"x_{cm}=\\frac{\\int x\\rho(x)\\,dx}{\\int\\rho(x)\\,dx}"
+						"V=\\int_a^b\\pi[R(x)^2-r(x)^2]\\,dx"
 					],
 					"readings": [
 						{
@@ -965,7 +1255,53 @@
 							"bookId": "openstax-calc1",
 							"ref": "§6.3",
 							"title": "Volumes of Revolution: Cylindrical Shells"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 56: Geometric interpretation of definite integrals",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-b-second-fundamental-theorem-areas-volumes/session-56-geometric-interpretation-of-definite-integrals/"
 						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 57: How to calculate volumes",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-b-second-fundamental-theorem-areas-volumes/session-57-how-to-calculate-volumes/"
+						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 57 clip 1: Volumes by Slicing",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-volumes-by-slicing/"
+						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 58 clip 1: Volume of a Sphere",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-volume-of-a-sphere/"
+						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 58: Volume of a sphere revolving about x axis",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-b-second-fundamental-theorem-areas-volumes/session-58-volume-of-a-sphere-revolving-about-x-axis/"
+						}
+					],
+					"demoIdeas": [
+						"Solid-of-revolution builder: rotate any y = f(x) about an axis and see the stack of disks or shells and the cross-section area plotted against x; area between curves shows the top-minus-bottom strips."
+					]
+				},
+				{
+					"id": "m1-l034-averages-centre-of-mass-expectation",
+					"title": "Average value, centre of mass, and expectation values",
+					"minutes": 42,
+					"objectives": [
+						"Define and compute the average value of a function over an interval and state the mean value theorem for integrals.",
+						"Compute the mass of a rod with density rho(x) and the position of its centre of mass x_cm = (integral x rho dx)/(integral rho dx).",
+						"Compute the expectation value of a function weighted by a probability density (preview of quantum expectation values)."
+					],
+					"keyEquations": [
+						"\\bar f=\\frac1{b-a}\\int_a^bf(x)\\,dx",
+						"x_{cm}=\\frac{\\int x\\rho(x)\\,dx}{\\int\\rho(x)\\,dx}"
+					],
+					"readings": [
 						{
 							"bookId": "openstax-calc1",
 							"ref": "§6.5",
@@ -980,31 +1316,6 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 57 clip 1: Volumes by Slicing",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-volumes-by-slicing/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 58 clip 1: Volume of a Sphere",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/resources/clip-1-volume-of-a-sphere/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 56: Geometric interpretation of definite integrals",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-b-second-fundamental-theorem-areas-volumes/session-56-geometric-interpretation-of-definite-integrals/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 57: How to calculate volumes",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-b-second-fundamental-theorem-areas-volumes/session-57-how-to-calculate-volumes/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 58: Volume of a sphere revolving about x axis",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-b-second-fundamental-theorem-areas-volumes/session-58-volume-of-a-sphere-revolving-about-x-axis/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 60: Integrals and averages",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-c-average-value-probability-and-numerical-integration/session-60-integrals-and-averages/"
 						},
@@ -1015,7 +1326,7 @@
 						}
 					],
 					"demoIdeas": [
-						"Solid-of-revolution builder: rotate any y = f(x) about an axis and see the stack of disks and the integrand's cross-section area plotted."
+						"Rod with a density slider and a balance beam showing the centre of mass; a probability density P(x) with the expectation value marked and the average value of f as a rectangle of equal area."
 					]
 				}
 			]
@@ -1026,14 +1337,12 @@
 			"summary": "Integration by parts, trigonometric integrals and substitution, partial fractions, strategy, and improper integrals and numerical integration; the toolkit for evaluating the integrals that appear in quantum and statistical mechanics.",
 			"lessons": [
 				{
-					"id": "m1-l018-integration-by-parts",
-					"title": "Integration by parts",
-					"minutes": 85,
+					"id": "m1-l035-parts-formula-liate",
+					"title": "Integration by parts: the formula and choosing u and dv",
+					"minutes": 40,
 					"objectives": [
 						"Derive the integration-by-parts formula from the product rule.",
-						"Choose u and dv using the LIATE heuristic and evaluate integrals such as x e^x, x^2 sin x, ln x, and arctan x.",
-						"Apply parts repeatedly and recognise when it returns the original integral (e.g. e^x sin x) so that it can be solved algebraically.",
-						"Evaluate definite integrals by parts, including the boundary term uv evaluated at the limits."
+						"Choose u and dv using the LIATE heuristic and evaluate integrals such as x e^x, x^2 sin x, ln x, and arctan x."
 					],
 					"keyEquations": [
 						"\\int u\\,dv=uv-\\int v\\,du",
@@ -1058,18 +1367,44 @@
 					]
 				},
 				{
-					"id": "m1-l019-trig-integrals-substitution",
-					"title": "Trigonometric integrals and trigonometric substitution",
-					"minutes": 95,
+					"id": "m1-l036-parts-repeated-definite",
+					"title": "Repeated parts, cyclic integrals, and definite integrals by parts",
+					"minutes": 38,
+					"objectives": [
+						"Apply parts repeatedly and recognise when it returns the original integral (e.g. e^x sin x) so that it can be solved algebraically.",
+						"Evaluate definite integrals by parts, including the boundary term uv evaluated at the limits."
+					],
+					"keyEquations": [
+						"\\int_a^bu\\,dv=\\left[uv\\right]_a^b-\\int_a^bv\\,du"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc2",
+							"ref": "§3.1",
+							"title": "Integration by Parts"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 76: Integration by parts",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-4-techniques-of-integration/part-b-partial-fractions-integration-by-parts-arc-length-and-surface-area/session-76-integration-by-parts/"
+						}
+					],
+					"demoIdeas": [
+						"Step through repeated parts on x^2 sin x or e^x sin x with a table of derivative and integral columns, plus a numeric check of the antiderivative against a quadrature."
+					]
+				},
+				{
+					"id": "m1-l037-trig-integrals-powers",
+					"title": "Integrals of powers of trigonometric functions",
+					"minutes": 40,
 					"objectives": [
 						"Integrate sin^m x cos^n x using odd-power splitting and power-reduction identities for even powers.",
-						"Integrate tan^m x sec^n x by the appropriate identity and substitution.",
-						"Choose between x = a sin theta, a tan theta, and a sec theta for integrands with sqrt(a^2 - x^2), sqrt(a^2 + x^2), sqrt(x^2 - a^2), and convert the answer back to x using a triangle.",
-						"Complete the square to bring a quadratic under a radical to standard form, as needed for hydrogen-atom and Coulomb-field integrals."
+						"Integrate tan^m x sec^n x by the appropriate identity and substitution."
 					],
 					"keyEquations": [
 						"\\int\\sin^2x\\,dx=\\frac x2-\\frac{\\sin2x}{4}+C",
-						"x=a\\sin\\theta\\Rightarrow\\sqrt{a^2-x^2}=a\\cos\\theta",
 						"\\int\\sec x\\,dx=\\ln|\\sec x+\\tan x|+C"
 					],
 					"readings": [
@@ -1077,11 +1412,6 @@
 							"bookId": "openstax-calc2",
 							"ref": "§3.2",
 							"title": "Trigonometric Integrals"
-						},
-						{
-							"bookId": "openstax-calc2",
-							"ref": "§3.3",
-							"title": "Trigonometric Substitution"
 						}
 					],
 					"lectures": [
@@ -1104,7 +1434,31 @@
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 71: Integrals involving secant cosecant and cotangent",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-4-techniques-of-integration/part-a-trigonometric-powers-trigonometric-substitution-and-completing-the-square/session-71-integrals-involving-secant-cosecant-and-cotangent/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Plot sin^m x cos^n x over [0, pi] with sliders for m and n and the area shaded; odd powers show the symmetry that makes them easy and the average of sin^2 sits at 1/2."
+					]
+				},
+				{
+					"id": "m1-l038-trig-substitution-complete-square",
+					"title": "Trigonometric substitution and completing the square",
+					"minutes": 42,
+					"objectives": [
+						"Choose between x = a sin theta, a tan theta, and a sec theta for integrands with sqrt(a^2 - x^2), sqrt(a^2 + x^2), sqrt(x^2 - a^2), and convert the answer back to x using a triangle.",
+						"Complete the square to bring a quadratic under a radical to standard form, as needed for hydrogen-atom and Coulomb-field integrals."
+					],
+					"keyEquations": [
+						"x=a\\sin\\theta\\Rightarrow\\sqrt{a^2-x^2}=a\\cos\\theta"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc2",
+							"ref": "§3.3",
+							"title": "Trigonometric Substitution"
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 72: Trig substitution",
@@ -1117,18 +1471,16 @@
 						}
 					],
 					"demoIdeas": [
-						"Reference-triangle tool: pick a radical form and see the triangle with labelled sides that undoes the substitution."
+						"Reference-triangle tool: pick a radical form and see the triangle with labelled sides that undoes the substitution, plus a completing-the-square step."
 					]
 				},
 				{
-					"id": "m1-l020-partial-fractions-strategy",
-					"title": "Partial fractions and integration strategy",
-					"minutes": 85,
+					"id": "m1-l039-partial-fractions-integration",
+					"title": "Partial fractions and integrating the pieces",
+					"minutes": 42,
 					"objectives": [
 						"Decompose a rational function into partial fractions for distinct linear, repeated linear, and irreducible quadratic factors, using the cover-up method where applicable.",
-						"Integrate the resulting terms into logs and arctangents.",
-						"Apply partial fractions to a first-order kinetics expression such as the integrated rate law for A + B -> P.",
-						"Select an integration technique from the form of an integrand and explain the choice, including when a table or computer algebra is appropriate."
+						"Integrate the resulting terms into logs and arctangents."
 					],
 					"keyEquations": [
 						"\\frac{P(x)}{(x-a)(x-b)}=\\frac{A}{x-a}+\\frac{B}{x-b}",
@@ -1139,11 +1491,6 @@
 							"bookId": "openstax-calc2",
 							"ref": "§3.4",
 							"title": "Partial Fractions"
-						},
-						{
-							"bookId": "openstax-calc2",
-							"ref": "§3.5",
-							"title": "Other Strategies for Integration"
 						}
 					],
 					"lectures": [
@@ -1164,32 +1511,81 @@
 						}
 					],
 					"demoIdeas": [
-						"Decomposition checker: type a rational function and see A, B, C solved by cover-up and by matching coefficients side by side."
+						"Decomposition checker: type a rational function and see A, B, C solved by cover-up and by matching coefficients side by side, with the pieces plotted against the original."
 					]
 				},
 				{
-					"id": "m1-l021-improper-numerical",
-					"title": "Improper integrals and numerical integration",
-					"minutes": 90,
+					"id": "m1-l040-kinetics-integration-strategy",
+					"title": "Rate laws by partial fractions and choosing an integration technique",
+					"minutes": 38,
+					"objectives": [
+						"Apply partial fractions to a first-order kinetics expression such as the integrated rate law for A + B -> P.",
+						"Select an integration technique from the form of an integrand and explain the choice, including when a table or computer algebra is appropriate."
+					],
+					"keyEquations": [
+						"\\frac{dx}{dt}=k(a-x)(b-x)"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc2",
+							"ref": "§3.5",
+							"title": "Other Strategies for Integration"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"A + B -> P kinetics: sliders for a, b and k plot x(t) from the partial-fraction solution and show how the curve approaches the limiting reagent."
+					]
+				},
+				{
+					"id": "m1-l041-improper-integrals-convergence",
+					"title": "Improper integrals, convergence, and the gamma-type integral",
+					"minutes": 42,
 					"objectives": [
 						"Define improper integrals with infinite limits or an unbounded integrand as limits and evaluate them.",
 						"Determine convergence of the p-integrals and use the comparison test for improper integrals.",
-						"Evaluate the Gaussian integral over the whole line by the polar-coordinate trick (setup now, completion in M2) and cite the result integral e^(-x^2) dx = sqrt(pi).",
-						"Apply the trapezoid and Simpson's rules and describe how their errors scale with step size.",
 						"Evaluate integral x^n e^(-x) dx = n! and relate it to the gamma function and to hydrogen radial-wavefunction normalisation."
 					],
 					"keyEquations": [
 						"\\int_1^\\infty\\frac{dx}{x^p}\\ \\text{converges}\\iff p>1",
-						"\\int_0^\\infty x^ne^{-x}\\,dx=n!",
-						"\\int_{-\\infty}^{\\infty}e^{-x^2}\\,dx=\\sqrt\\pi",
-						"\\int_a^bf\\,dx\\approx\\frac h3[f_0+4f_1+2f_2+\\dots+f_n]"
+						"\\int_0^\\infty x^ne^{-x}\\,dx=n!"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-calc2",
 							"ref": "§3.7",
 							"title": "Improper Integrals"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 91: Improper integrals",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-a-lhospitals-rule-and-improper-integrals/session-91-improper-integrals/"
 						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 92: Integral comparison",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-a-lhospitals-rule-and-improper-integrals/session-92-integral-comparison/"
+						}
+					],
+					"demoIdeas": [
+						"Slider for the upper limit L: the area under 1/x^p up to L as p changes, converging for p > 1 and growing without bound for p <= 1; a gamma-function panel plots x^n e^(-x) for n."
+					]
+				},
+				{
+					"id": "m1-l042-gaussian-numerical-integration",
+					"title": "The Gaussian integral and numerical integration",
+					"minutes": 38,
+					"objectives": [
+						"Evaluate the Gaussian integral over the whole line by the polar-coordinate trick (setup now, completion in M2) and cite the result integral e^(-x^2) dx = sqrt(pi).",
+						"Apply the trapezoid and Simpson's rules and describe how their errors scale with step size."
+					],
+					"keyEquations": [
+						"\\int_{-\\infty}^{\\infty}e^{-x^2}\\,dx=\\sqrt\\pi",
+						"\\int_a^bf\\,dx\\approx\\frac h3[f_0+4f_1+2f_2+\\dots+f_n]"
+					],
+					"readings": [
 						{
 							"bookId": "openstax-calc2",
 							"ref": "§3.6",
@@ -1204,27 +1600,17 @@
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 91: Improper integrals",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-a-lhospitals-rule-and-improper-integrals/session-91-improper-integrals/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 92: Integral comparison",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-a-lhospitals-rule-and-improper-integrals/session-92-integral-comparison/"
+							"title": "Session 65: Bell curve conclusion",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-c-average-value-probability-and-numerical-integration/session-65-bell-curve-conclusion/"
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 63: Numerical integration",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-c-average-value-probability-and-numerical-integration/session-63-numerical-integration/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 65: Bell curve conclusion",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-3-the-definite-integral-and-its-applications/part-c-average-value-probability-and-numerical-integration/session-65-bell-curve-conclusion/"
 						}
 					],
 					"demoIdeas": [
-						"Truncation explorer: integrate e^(-x^2) from -L to L and watch the value converge to sqrt(pi) as L grows, next to a divergent 1/x tail."
+						"Truncation explorer: integrate e^(-x^2) from -L to L and watch the value converge to sqrt(pi), next to trapezoid and Simpson error against step size on a log-log plot."
 					]
 				}
 			]
@@ -1235,19 +1621,15 @@
 			"summary": "Sequences, infinite series, and the standard tests for convergence; the foundation of power series and every perturbative expansion that follows.",
 			"lessons": [
 				{
-					"id": "m1-l022-sequences-series",
-					"title": "Sequences, infinite series, and the divergence and integral tests",
-					"minutes": 90,
+					"id": "m1-l043-sequences-and-sums-of-series",
+					"title": "Sequences, partial sums, and geometric and telescoping series",
+					"minutes": 40,
 					"objectives": [
 						"Determine whether a sequence converges and compute its limit, using monotone-and-bounded reasoning where needed.",
-						"Define the sum of an infinite series as the limit of partial sums and sum geometric and telescoping series.",
-						"Apply the divergence test (nth-term test) and the integral test, and state what each does and does not prove.",
-						"State and use the p-series result, and explain why the harmonic series diverges although its terms go to zero."
+						"Define the sum of an infinite series as the limit of partial sums and sum geometric and telescoping series."
 					],
 					"keyEquations": [
-						"\\sum_{n=0}^\\infty ar^n=\\frac a{1-r},\\ |r|<1",
-						"\\sum_{n=1}^\\infty\\frac1{n^p}\\ \\text{converges}\\iff p>1",
-						"a_n\\not\\to0\\Rightarrow\\sum a_n\\ \\text{diverges}"
+						"\\sum_{n=0}^\\infty ar^n=\\frac a{1-r},\\ |r|<1"
 					],
 					"readings": [
 						{
@@ -1261,15 +1643,40 @@
 							"title": "Infinite Series"
 						},
 						{
-							"bookId": "openstax-calc2",
-							"ref": "§5.3",
-							"title": "The Divergence and Integral Tests"
-						},
-						{
 							"bookId": "boas",
 							"ref": "Ch. 1",
 							"title": "Infinite Series, Power Series",
 							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 94: Infinite series",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-94-infinite-series/"
+						}
+					],
+					"demoIdeas": [
+						"Partial-sum plotter: plot S_N for geometric, telescoping and harmonic series so the learner sees convergence versus slow divergence."
+					]
+				},
+				{
+					"id": "m1-l044-divergence-integral-p-series-tests",
+					"title": "The divergence test, the integral test, and p-series",
+					"minutes": 40,
+					"objectives": [
+						"Apply the divergence test (nth-term test) and the integral test, and state what each does and does not prove.",
+						"State and use the p-series result, and explain why the harmonic series diverges although its terms go to zero."
+					],
+					"keyEquations": [
+						"\\sum_{n=1}^\\infty\\frac1{n^p}\\ \\text{converges}\\iff p>1",
+						"a_n\\not\\to0\\Rightarrow\\sum a_n\\ \\text{diverges}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc2",
+							"ref": "§5.3",
+							"title": "The Divergence and Integral Tests"
 						}
 					],
 					"lectures": [
@@ -1285,44 +1692,31 @@
 						},
 						{
 							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 94: Infinite series",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-94-infinite-series/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 96: Stacking blocks",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-96-stacking-blocks/"
 						}
 					],
 					"demoIdeas": [
-						"Partial-sum plotter: plot S_N for geometric, harmonic and p-series so the learner sees convergence versus slow divergence."
+						"Compare the sum of 1/n^p with rectangles under the curve for a p slider, and watch the partial sums level off for p > 1 or grow like ln N for p = 1."
 					]
 				},
 				{
-					"id": "m1-l023-convergence-tests",
-					"title": "Comparison, alternating, ratio, and root tests",
-					"minutes": 90,
+					"id": "m1-l045-comparison-ratio-root-tests",
+					"title": "Comparison, ratio, and root tests",
+					"minutes": 42,
 					"objectives": [
 						"Apply the comparison and limit comparison tests with a suitable benchmark series.",
-						"Apply the alternating series test and bound the truncation error by the first omitted term.",
 						"Apply the ratio and root tests, particularly to factorial and exponential terms, and recognise when they are inconclusive.",
-						"Distinguish absolute from conditional convergence and state why rearranging a conditionally convergent series can change the sum.",
 						"Choose a test for a given series and justify the choice in one or two sentences."
 					],
 					"keyEquations": [
-						"L=\\lim_{n\\to\\infty}\\left|\\frac{a_{n+1}}{a_n}\\right|<1\\Rightarrow\\text{converges absolutely}",
-						"\\sum_{n=1}^\\infty\\frac{(-1)^{n+1}}{n}=\\ln2"
+						"L=\\lim_{n\\to\\infty}\\left|\\frac{a_{n+1}}{a_n}\\right|<1\\Rightarrow\\text{converges absolutely}"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-calc2",
 							"ref": "§5.4",
 							"title": "Comparison Tests"
-						},
-						{
-							"bookId": "openstax-calc2",
-							"ref": "§5.5",
-							"title": "Alternating Series"
 						},
 						{
 							"bookId": "openstax-calc2",
@@ -1338,7 +1732,30 @@
 						}
 					],
 					"demoIdeas": [
-						"Test advisor: enter a_n and watch the ratio |a_{n+1}/a_n| plotted for large n against 1, with a verdict on the ratio test."
+						"Test advisor: enter a_n and watch the ratio |a_(n+1)/a_n| plotted for large n against 1, with a verdict on the ratio test and a benchmark series overlaid for comparison."
+					]
+				},
+				{
+					"id": "m1-l046-alternating-absolute-conditional",
+					"title": "Alternating series, absolute and conditional convergence",
+					"minutes": 38,
+					"objectives": [
+						"Apply the alternating series test and bound the truncation error by the first omitted term.",
+						"Distinguish absolute from conditional convergence and state why rearranging a conditionally convergent series can change the sum."
+					],
+					"keyEquations": [
+						"\\sum_{n=1}^\\infty\\frac{(-1)^{n+1}}{n}=\\ln2"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc2",
+							"ref": "§5.5",
+							"title": "Alternating Series"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Partial sums of the alternating harmonic series bracket ln 2 with the first-omitted-term bound shown; a rearrange button reorders the terms so the sum drifts to a different value."
 					]
 				}
 			]
@@ -1349,26 +1766,47 @@
 			"summary": "Power series, radius of convergence, Taylor and Maclaurin series, error bounds, and the standard expansions; heavily used in physics, from the pendulum and relativistic kinetic energy to the harmonic approximation of molecular potentials.",
 			"lessons": [
 				{
-					"id": "m1-l024-power-series",
-					"title": "Power series and their calculus",
-					"minutes": 90,
+					"id": "m1-l047-radius-interval-series-arithmetic",
+					"title": "Radius and interval of convergence, and arithmetic of power series",
+					"minutes": 40,
 					"objectives": [
 						"Find the radius and interval of convergence of a power series using the ratio test and check the endpoints.",
-						"Differentiate and integrate a power series term by term within its radius of convergence.",
-						"Obtain new series from the geometric series by substitution, differentiation and integration (e.g. series for 1/(1+x^2), arctan x, ln(1+x)).",
 						"Add, multiply, and divide power series to a given order."
 					],
 					"keyEquations": [
-						"\\sum_{n=0}^\\infty c_n(x-a)^n",
-						"\\frac1{1-x}=\\sum_{n=0}^\\infty x^n,\\ |x|<1",
-						"\\arctan x=\\sum_{n=0}^\\infty\\frac{(-1)^nx^{2n+1}}{2n+1}"
+						"\\sum_{n=0}^\\infty c_n(x-a)^n"
 					],
 					"readings": [
 						{
 							"bookId": "openstax-calc2",
 							"ref": "§6.1",
 							"title": "Power Series and Functions"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 97: Power series",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-97-power-series/"
+						}
+					],
+					"demoIdeas": [
+						"Radius-of-convergence viewer: partial sums of a chosen series plotted against the function, with the interval of convergence shaded and an endpoint check."
+					]
+				},
+				{
+					"id": "m1-l048-term-by-term-calculus-new-series",
+					"title": "Term-by-term calculus and new series from the geometric series",
+					"minutes": 40,
+					"objectives": [
+						"Differentiate and integrate a power series term by term within its radius of convergence.",
+						"Obtain new series from the geometric series by substitution, differentiation and integration (e.g. series for 1/(1+x^2), arctan x, ln(1+x))."
+					],
+					"keyEquations": [
+						"\\frac1{1-x}=\\sum_{n=0}^\\infty x^n,\\ |x|<1",
+						"\\arctan x=\\sum_{n=0}^\\infty\\frac{(-1)^nx^{2n+1}}{2n+1}"
+					],
+					"readings": [
 						{
 							"bookId": "openstax-calc2",
 							"ref": "§6.2",
@@ -1378,32 +1816,63 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 97: Power series",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-97-power-series/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 100: Operations on power series",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-100-operations-on-power-series/"
 						}
 					],
 					"demoIdeas": [
-						"Radius-of-convergence viewer: partial sums of a chosen series plotted against the function, with the interval of convergence shaded."
+						"Start from the geometric series, click integrate or differentiate or substitute, and watch the series for arctan x or ln(1 + x) build up, with partial sums plotted inside and outside |x| < 1."
 					]
 				},
 				{
-					"id": "m1-l025-taylor-series",
-					"title": "Taylor and Maclaurin series",
-					"minutes": 90,
+					"id": "m1-l049-taylor-coefficients-polynomials",
+					"title": "Taylor coefficients, polynomials about a point, and best approximation",
+					"minutes": 40,
 					"objectives": [
 						"Derive the Taylor series coefficients c_n = f^(n)(a)/n! by matching derivatives at a point.",
-						"Write from memory the Maclaurin series for e^x, sin x, cos x, 1/(1-x), ln(1+x), and (1+x)^p, with their intervals of convergence.",
 						"Construct Taylor polynomials of a given degree about a point other than 0.",
-						"Show that Euler's formula e^(ix) = cos x + i sin x follows from the series for e^x, sin x, and cos x.",
 						"Interpret the n-th Taylor polynomial as the best degree-n polynomial approximation near the expansion point."
 					],
 					"keyEquations": [
-						"f(x)=\\sum_{n=0}^\\infty\\frac{f^{(n)}(a)}{n!}(x-a)^n",
+						"f(x)=\\sum_{n=0}^\\infty\\frac{f^{(n)}(a)}{n!}(x-a)^n"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc2",
+							"ref": "§6.3",
+							"title": "Taylor and Maclaurin Series"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 98: Taylors series",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-98-taylors-series/"
+						},
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 99: Taylors series continued",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-99-taylors-series-continued/"
+						},
+						{
+							"source": "3Blue1Brown",
+							"title": "Higher order derivatives",
+							"url": "https://www.3blue1brown.com/lessons/higher-order-derivatives"
+						}
+					],
+					"demoIdeas": [
+						"Choose f and a centre a: the derivatives at a produce the coefficients and the degree-n polynomial hugs the curve; drag the centre to re-expand."
+					]
+				},
+				{
+					"id": "m1-l050-standard-maclaurin-series-euler",
+					"title": "The standard Maclaurin series and Euler's formula",
+					"minutes": 40,
+					"objectives": [
+						"Write from memory the Maclaurin series for e^x, sin x, cos x, 1/(1-x), ln(1+x), and (1+x)^p, with their intervals of convergence.",
+						"Show that Euler's formula e^(ix) = cos x + i sin x follows from the series for e^x, sin x, and cos x."
+					],
+					"keyEquations": [
 						"e^x=\\sum_{n=0}^\\infty\\frac{x^n}{n!}",
 						"\\sin x=x-\\frac{x^3}{3!}+\\frac{x^5}{5!}-\\cdots",
 						"\\cos x=1-\\frac{x^2}{2!}+\\frac{x^4}{4!}-\\cdots",
@@ -1424,16 +1893,6 @@
 					],
 					"lectures": [
 						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 98: Taylors series",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-98-taylors-series/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 99: Taylors series continued",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-99-taylors-series-continued/"
-						},
-						{
 							"source": "3Blue1Brown",
 							"title": "Taylor series",
 							"url": "https://www.3blue1brown.com/lessons/taylor-series"
@@ -1442,30 +1901,51 @@
 							"source": "3Blue1Brown",
 							"title": "Taylor series (geometric view)",
 							"url": "https://www.3blue1brown.com/lessons/taylor-series-geometric-view"
-						},
-						{
-							"source": "3Blue1Brown",
-							"title": "Higher order derivatives",
-							"url": "https://www.3blue1brown.com/lessons/higher-order-derivatives"
 						}
 					],
 					"demoIdeas": [
-						"Taylor builder: add terms one at a time to sin x, e^x, ln(1+x) and watch the polynomial hug the curve; show where it fails outside the radius."
+						"Animate partial sums of e^(ix) in the complex plane spiralling onto cos x + i sin x on the unit circle, with the even and odd terms shown as the real and imaginary parts."
 					]
 				},
 				{
-					"id": "m1-l026-working-taylor-physics",
-					"title": "Working with Taylor series: error bounds and physics approximations",
-					"minutes": 90,
+					"id": "m1-l051-taylor-error-bounds-limits",
+					"title": "Error bounds and using series for limits and integrals",
+					"minutes": 42,
 					"objectives": [
 						"Bound the error of a Taylor polynomial using Taylor's remainder theorem and the alternating-series estimate.",
 						"Evaluate limits and integrals by expanding in series (e.g. (sin x - x)/x^3, integral of sin(x^2)).",
-						"Expand the relativistic energy E = mc^2 / sqrt(1 - v^2/c^2) to get mc^2 + mv^2/2, and a pendulum or Morse potential about its minimum to get the harmonic approximation.",
-						"Expand a molecular potential V(r) about its minimum r_e to second order to identify the force constant k = V''(r_e) and the vibrational frequency.",
 						"Choose the expansion variable and order for a given physical regime (small x versus large x) and state the validity condition."
 					],
 					"keyEquations": [
-						"|R_n(x)|\\le\\frac{M}{(n+1)!}|x-a|^{n+1}",
+						"|R_n(x)|\\le\\frac{M}{(n+1)!}|x-a|^{n+1}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc2",
+							"ref": "§6.4",
+							"title": "Working with Taylor Series"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.01SC (2010)",
+							"title": "Session 100: Operations on power series",
+							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-100-operations-on-power-series/"
+						}
+					],
+					"demoIdeas": [
+						"Taylor builder with an error band: sliders for degree n and x show the polynomial against the function and the remainder bound, including a case where it fails outside the radius."
+					]
+				},
+				{
+					"id": "m1-l052-physics-expansions-harmonic-approximation",
+					"title": "Physical expansions: relativistic energy and the harmonic approximation",
+					"minutes": 38,
+					"objectives": [
+						"Expand the relativistic energy E = mc^2 / sqrt(1 - v^2/c^2) to get mc^2 + mv^2/2, and a pendulum or Morse potential about its minimum to get the harmonic approximation.",
+						"Expand a molecular potential V(r) about its minimum r_e to second order to identify the force constant k = V''(r_e) and the vibrational frequency."
+					],
+					"keyEquations": [
 						"V(r)\\approx V(r_e)+\\tfrac12V''(r_e)(r-r_e)^2",
 						"\\omega=\\sqrt{V''(r_e)/\\mu}",
 						"\\gamma\\approx1+\\frac{v^2}{2c^2}"
@@ -1480,17 +1960,12 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 18.01SC (2010)",
-							"title": "Session 100: Operations on power series",
-							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-100-operations-on-power-series/"
-						},
-						{
-							"source": "MIT OCW 18.01SC (2010)",
 							"title": "Session 101: Conclusion",
 							"url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/unit-5-exploring-the-infinite/part-b-taylor-series/session-101-conclusion/"
 						}
 					],
 					"demoIdeas": [
-						"Anharmonic well: overlay a Morse potential and its harmonic Taylor approximation and show where the approximation breaks down as energy rises."
+						"Anharmonic well: overlay a Morse potential and its harmonic Taylor approximation and show where it breaks down as energy rises; a v/c slider compares relativistic kinetic energy with mv^2/2."
 					]
 				}
 			]
@@ -1501,21 +1976,16 @@
 			"summary": "Separable and first-order linear ODEs, exponential growth and decay, and the logistic equation, enough for kinetics and for the full ODE course (M4).",
 			"lessons": [
 				{
-					"id": "m1-l027-first-order-odes",
-					"title": "Separable and first-order linear differential equations",
-					"minutes": 80,
+					"id": "m1-l053-verifying-separable-direction-fields",
+					"title": "Solutions of differential equations, separable equations, and direction fields",
+					"minutes": 40,
 					"objectives": [
 						"Verify that a function solves a differential equation and distinguish general from particular solutions with initial conditions.",
 						"Solve separable equations dy/dx = g(x)h(y) by separating variables and integrating, and solve exponential growth and decay.",
-						"Solve a first-order linear equation y' + p(x)y = q(x) with an integrating factor.",
-						"Solve the first-order and second-order integrated rate laws and a Newton cooling equation, and state the half-life dependence on initial concentration for each order.",
 						"Read a direction field and sketch solution curves; describe the logistic equation's equilibria and stability."
 					],
 					"keyEquations": [
-						"\\frac{dy}{dx}=g(x)h(y)\\Rightarrow\\int\\frac{dy}{h(y)}=\\int g(x)\\,dx",
-						"\\mu(x)=e^{\\int p(x)\\,dx}",
-						"\\frac{d[A]}{dt}=-k[A]\\Rightarrow[A]=[A]_0e^{-kt}",
-						"\\frac1{[A]}=\\frac1{[A]_0}+kt"
+						"\\frac{dy}{dx}=g(x)h(y)\\Rightarrow\\int\\frac{dy}{h(y)}=\\int g(x)\\,dx"
 					],
 					"readings": [
 						{
@@ -1537,11 +2007,6 @@
 							"bookId": "openstax-calc2",
 							"ref": "§4.4",
 							"title": "The Logistic Equation"
-						},
-						{
-							"bookId": "openstax-calc2",
-							"ref": "§4.5",
-							"title": "First-Order Linear Equations"
 						}
 					],
 					"lectures": [
@@ -1562,7 +2027,32 @@
 						}
 					],
 					"demoIdeas": [
-						"Direction-field sandbox: click an initial condition to trace a solution curve through the field for kinetics, cooling and logistic models."
+						"Direction-field sandbox: click an initial condition to trace a solution curve through the field for kinetics, cooling and logistic models, marking equilibria and their stability."
+					]
+				},
+				{
+					"id": "m1-l054-integrating-factor-rate-laws-cooling",
+					"title": "Integrating factors, rate laws, and Newton cooling",
+					"minutes": 40,
+					"objectives": [
+						"Solve a first-order linear equation y' + p(x)y = q(x) with an integrating factor.",
+						"Solve the first-order and second-order integrated rate laws and a Newton cooling equation, and state the half-life dependence on initial concentration for each order."
+					],
+					"keyEquations": [
+						"\\mu(x)=e^{\\int p(x)\\,dx}",
+						"\\frac{d[A]}{dt}=-k[A]\\Rightarrow[A]=[A]_0e^{-kt}",
+						"\\frac1{[A]}=\\frac1{[A]_0}+kt"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-calc2",
+							"ref": "§4.5",
+							"title": "First-Order Linear Equations"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Plot first- and second-order decay [A](t) with sliders for k and [A]0, with half-lives marked to show one constant and one concentration-dependent; a cooling curve with an environment-temperature slider."
 					]
 				}
 			]

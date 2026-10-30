@@ -1,0 +1,1870 @@
+{
+	"courseId": "c2-spectroscopy-nmr",
+	"checks": {
+		"c2-l001-spectroscopy-scales-populations": [
+			{
+				"kind": "mc",
+				"prompt": "Rotational, vibrational and electronic transitions of a molecule appear in the microwave, infrared and UV–vis regions in that order. What underlies this ordering?",
+				"options": [
+					"The molecule's temperature sets each photon energy, and rotating molecules are colder than vibrating ones",
+					"Nuclei are thousands of times heavier than electrons, so energy scales fall by roughly $(m_e/M)^{1/2}$ at each step",
+					"Electrons carry more charge than nuclei, so they absorb photons of larger momentum than the nuclei in any molecule do",
+					"Selection rules forbid low-energy photons from exciting electronic motion at any intensity or frequency"
+				],
+				"answer": 1,
+				"explanation": "Electronic, vibrational and rotational energies scale as $1:\\kappa^2:\\kappa^4$ with $\\kappa^2\\approx(m_e/M)^{1/2}$, which is why the three kinds of spectra sit in different regions."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A $^1$H nucleus is observed at 600 MHz at 298 K. Using $P=\\tanh(h\\nu/2k_BT)$, what is the net polarization $(N_\\alpha-N_\\beta)/(N_\\alpha+N_\\beta)$? Give the answer in units of $10^{-5}$.",
+				"answer": 4.831,
+				"tolerance": 0.02,
+				"explanation": "$h\\nu/2k_BT = 4.831e-05$, so $P\\approx 4.83\\times10^{-5}$: only about 5 spins in $10^5$ are unbalanced, which is why NMR is intrinsically insensitive.",
+				"unit": "×10⁻⁵"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A carbonyl stretch absorbs at 1700 cm⁻¹. What is its frequency in THz?",
+				"answer": 50.96,
+				"tolerance": 0.02,
+				"explanation": "$\\nu=\\tilde\\nu c = 1700\\,\\mathrm{cm^{-1}}\\times 2.998\\times10^{10}\\,\\mathrm{cm/s} = 51.0$ THz, about 10$^5$ times the NMR frequency.",
+				"unit": "THz"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain, using the Boltzmann factor, why the NMR transition of $^1$H at 600 MHz is far less sensitive than an IR transition at 1700 cm⁻¹ even though NMR uses the same kind of absorption of a photon.",
+				"rubric": "Full credit requires: (1) the population difference is set by $e^{-\\Delta E/k_BT}$ or $h\\nu/kT$; (2) for NMR $h\\nu/kT\\sim10^{-4}$ so the two levels are nearly equally populated and only ~$10^{-5}$ of the spins give net absorption; (3) for IR $h\\nu/kT\\sim8$, so nearly all molecules are in the ground state and the whole sample can absorb; (4) the consequence for sensitivity (and why higher field or lower T helps NMR).",
+				"modelAnswer": "Net absorption needs more molecules in the lower level than the upper. For IR at 1700 cm⁻¹ the excited fraction is about 2.7e-04, so essentially everything is in the ground state. For NMR the energy spacing is a million times smaller than kT, so the Boltzmann factor is almost 1 and the polarization is only about 4.8e-05. Most spins cancel each other, hence the low sensitivity, which improves roughly in proportion to B0/T."
+			}
+		],
+		"c2-l002-dipole-hamiltonian-rabi": [
+			{
+				"kind": "mc",
+				"prompt": "The electric-dipole approximation treats the light field as uniform over the molecule. In which situation does it fail most seriously?",
+				"options": [
+					"Short-wavelength radiation, such as hard X-rays, whose wavelength is comparable to the size of the absorber",
+					"Radio-frequency waves acting on a nuclear spin, because the RF wavelength is far longer than any sample",
+					"Visible light on a small organic molecule, because the molecule is far smaller than the visible wavelength",
+					"Infrared light on a gas-phase diatomic, because the molecule is rotating while it absorbs the photon and the field varies along it"
+				],
+				"answer": 0,
+				"explanation": "The approximation needs $\\lambda\\gg$ molecular size. For RF the wavelength is metres, so the dipole (magnetic) approximation is excellent; it fails only when $\\lambda$ approaches the size of the system."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A two-level molecule with transition dipole 1.0 D sits in a resonant field of amplitude $E_0=10^6$ V/m. Using $\\Omega=\\mu E_0/\\hbar$, how long is a $\\pi$ pulse ($\\Omega t=\\pi$)? Give the answer in ps.",
+				"answer": 99.32,
+				"tolerance": 0.02,
+				"explanation": "$\\Omega=3.163e+10$ rad/s, so $t_\\pi=\\pi/\\Omega=99.3$ ps. A π pulse transfers the molecule completely from one level to the other.",
+				"unit": "ps"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A strong resonant coherent field acts on an isolated two-level system that starts in the ground state. What happens to the excited-state population?",
+				"options": [
+					"It rises to one half and stays there because stimulated emission balances absorption exactly, as for saturation",
+					"It rises exponentially toward 1 with a rate set by the radiative lifetime of the excited state, as in spontaneous decay",
+					"It stays near zero because a coherent field carries no energy at the transition frequency",
+					"It oscillates between 0 and 1 at the Rabi frequency, so a pulse of the right length inverts the population"
+				],
+				"answer": 3,
+				"explanation": "Coherent driving with no relaxation gives $P_2=\\sin^2(\\Omega t/2)$. The saturation at one half belongs to an incoherent or strongly relaxing system."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the optical Rabi oscillation and an NMR 90° pulse are the same physics. State what plays the role of the dipole coupling $\\mu E_0$ in NMR, and what the pulse length controls.",
+				"rubric": "Full credit requires: (1) the NMR interaction is $-\\boldsymbol\\mu\\cdot\\mathbf B_1$ (magnetic dipole in the RF field), so $\\hbar\\omega_1=\\gamma\\hbar B_1$ plays the role of $\\mu E_0$; (2) a two-level system (α, β) driven resonantly oscillates between states at $\\omega_1$; (3) pulse length times $\\omega_1$ sets the rotation angle (90° gives equal superposition, 180° inverts); (4) off-resonance gives the detuned Rabi formula.",
+				"modelAnswer": "Both are a two-level system driven resonantly by an oscillating field. In NMR the coupling is the magnetic one, $\\gamma B_1$, in place of $\\mu E_0/\\hbar$. The populations of α and β oscillate at the nutation frequency $\\omega_1$, so a pulse of duration $\\tau$ rotates the magnetization by $\\beta=\\omega_1\\tau$: a 90° pulse makes an equal superposition (maximum transverse magnetization) and a 180° pulse inverts the populations. Off resonance the oscillation is faster but incomplete, as in the detuned Rabi formula."
+			}
+		],
+		"c2-l003-fermi-golden-rule": [
+			{
+				"kind": "mc",
+				"prompt": "In first-order perturbation theory the probability of a transition under a constant perturbation is $P(\\omega,t)\\propto\\sin^2(\\omega t/2)/\\omega^2$ with $\\omega$ the detuning. What happens as $t$ grows?",
+				"options": [
+					"The peak widens in proportion to $t$ because the energy uncertainty grows with the observation time, as the uncertainty principle requires",
+					"The peak height stays fixed while its area shrinks as $1/t$, so the transition rate falls with time",
+					"The central peak grows as $t^2$ while narrowing as $1/t$, so its area grows linearly in $t$, which gives a constant rate",
+					"The peak saturates at probability one at all detunings, so the transition rate is not defined"
+				],
+				"answer": 2,
+				"explanation": "Peak height $\\propto t^2$, width $\\propto 1/t$, area $\\propto t$. Integrating over a continuum of final states therefore gives probability linear in time, i.e. a rate $w=(2\\pi/\\hbar)|V|^2\\rho$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A weak constant perturbation acts on a two-level system for exactly 1.00 ms. The transition probability versus detuning is $\\propto\\sin^2(\\Delta\\omega t/2)/(\\Delta\\omega)^2$. What is the full width at half maximum, in Hz?",
+				"answer": 885.9,
+				"tolerance": 0.02,
+				"explanation": "Half maximum occurs at $x=\\Delta\\omega t/2=1.3916$, so the FWHM is $4x/t$ in rad/s, i.e. $886$ Hz $\\approx0.886/t$. Shorter observation means broader response (time-energy trade-off).",
+				"unit": "Hz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A band in a solution UV spectrum has integrated area (over frequency) of the molar absorptivity $\\int\\varepsilon\\,d\\tilde\\nu$. What does that area give direct access to?",
+				"options": [
+					"The lifetime of the final state, because a broader band always means a shorter-lived upper state and a larger area",
+					"The squared transition dipole $|\\mu_{fi}|^2$, because the integrated rate is proportional to it whatever the line shape",
+					"The population of the initial level, because only molecules in that level can absorb the photon",
+					"The solvent polarity, because the area of a band is fixed by the dielectric constant"
+				],
+				"answer": 1,
+				"explanation": "The line shape redistributes the intensity but its integral stays proportional to $|\\mu_{fi}|^2$ (the oscillator strength). Width reflects broadening mechanisms, not the integrated strength."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the conditions under which the golden rule is valid, and say what replaces it for a strong, resonant, coherent pulse such as an NMR radio-frequency pulse.",
+				"rubric": "Full credit requires: (1) weak perturbation (first order) and a continuum or broad distribution of final states, or an incoherent/broadband field; (2) time long compared with $1/$bandwidth so the rate is constant; (3) for a strong coherent resonant field between discrete levels, the full two-level (Rabi) treatment with amplitude oscillations replaces it; (4) tie to NMR pulses producing rotations rather than rates.",
+				"modelAnswer": "The golden rule needs a weak perturbation and a quasi-continuum of final states (or a broad, incoherent light source) observed for times long compared with the inverse bandwidth, so that probability grows linearly in time. For a strong coherent field acting on two discrete levels, as with an RF pulse on a nuclear spin, the amplitudes oscillate (Rabi oscillation) and one solves the two-level problem exactly; the spin is rotated by an angle $\\omega_1\\tau$ rather than undergoing a rate process."
+			}
+		],
+		"c2-l004-einstein-coefficients": [
+			{
+				"kind": "mc",
+				"prompt": "Equilibrium with Planck radiation requires $A_{21}/B_{21}=8\\pi h\\nu^3/c^3$. What does the $\\nu^3$ factor tell you?",
+				"options": [
+					"Spontaneous emission dominates at high frequency, so optical transitions decay quickly while radio-frequency ones barely radiate",
+					"Stimulated emission becomes dominant at high frequency, so lasers are easiest to build in the ultraviolet where photon density is greatest",
+					"Absorption and emission become equally probable at high frequency, so ground-state populations equalize",
+					"Spontaneous emission requires a thermal field, so it disappears as the temperature goes to zero"
+				],
+				"answer": 0,
+				"explanation": "$A_{21}\\propto\\nu^3|\\mu|^2$ is the rate in the absence of any applied field. The cubic dependence is why visible excited states live nanoseconds while RF levels essentially never emit spontaneously."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A molecule has a 500 nm electronic transition with transition dipole 2.0 D. Using $A_{21}=\\omega^3|\\mu|^2/(3\\pi\\varepsilon_0\\hbar c^3)$, estimate its radiative lifetime in ns.",
+				"answer": 99.64,
+				"tolerance": 0.05,
+				"explanation": "$\\omega=3.767e+15$ rad/s gives $A_{21}=1.004e+07\\ \\mathrm{s^{-1}}$, so $\\tau_{rad}\\approx99.6$ ns, typical of an allowed electronic transition.",
+				"unit": "ns"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the spontaneous-emission lifetime of a $^1$H spin transition at 600 MHz using the magnetic-dipole rate $A=\\mu_0\\omega^3|\\mu_{12}|^2/(3\\pi\\hbar c^3)$ with $|\\mu_{12}|^2=2\\mu_p^2$ and $\\mu_p=1.41\\times10^{-26}$ J/T. Give the answer in years.",
+				"answer": 31670000000000.0,
+				"tolerance": 0.1,
+				"explanation": "$A=1.00e-21\\ \\mathrm{s^{-1}}$, i.e. a lifetime of about 3.2e+13 years, longer than the age of the universe by orders of magnitude.",
+				"unit": "years"
+			},
+			{
+				"kind": "short",
+				"prompt": "What does the NMR lifetime estimate tell you about the origin of $T_1$ relaxation of protons in a liquid? Explain in your own words.",
+				"rubric": "Full credit requires: (1) spontaneous emission is negligible at RF frequencies (lifetime far beyond experimental timescales); (2) relaxation must therefore be stimulated, driven by fluctuating local magnetic fields from molecular motion that have spectral power at $\\omega_0$; (3) the ratio of stimulated to spontaneous rates $1/(e^{h\\nu/kT}-1)\\approx kT/h\\nu$ is enormous at 600 MHz.",
+				"modelAnswer": "Spontaneous emission would take of order $10^{13}$ years, so it cannot restore equilibrium in seconds. At RF frequencies the thermal field makes stimulated processes dominate by a factor of about $kT/h\\nu\\sim10^4$. In a liquid the relevant 'radiation' is the fluctuating local magnetic field produced by molecular tumbling (dipolar, CSA and other interactions); its spectral density at the Larmor frequency drives transitions between α and β, and this is $T_1$ relaxation."
+			}
+		],
+		"c2-l005-selection-rules-symmetry": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the Laporte rule (g ↔ u only) follow from the form of the transition integral $\\langle f|\\hat\\mu|i\\rangle$?",
+				"options": [
+					"The dipole operator is even under inversion, so the integral vanishes unless the states have opposite parity",
+					"A photon has parity zero, so the molecule must end in a state of the same parity as the one it started in, as with all light",
+					"The dipole operator commutes with the Hamiltonian, so it can only connect degenerate states of the molecule, such as g and u partners",
+					"The dipole operator is odd under inversion, so the integral of an odd integrand vanishes unless the two states have opposite parity"
+				],
+				"answer": 3,
+				"explanation": "$\\hat\\mu=-e\\sum\\mathbf r_i$ changes sign under inversion. For a centrosymmetric molecule $\\langle g|\\mu|g\\rangle=0=\\langle u|\\mu|u\\rangle$, so only g ↔ u transitions survive."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In $C_{2v}$ the coordinates transform as $z\\sim A_1$, $x\\sim B_1$, $y\\sim B_2$. Which transition from an $A_1$ ground state is electric-dipole allowed with $y$ polarization?",
+				"options": [
+					"$A_1\\to A_2$, because the product of $A_1$ and $A_2$ contains the totally symmetric representation",
+					"$A_1\\to B_1$, because $B_1$ is the representation of the $y$ coordinate in this point group",
+					"$A_1\\to B_2$, because $A_1\\otimes B_2\\otimes B_2\\ni A_1$",
+					"$A_1\\to A_1$, because the totally symmetric states always couple through the $y$ component of the dipole"
+				],
+				"answer": 2,
+				"explanation": "The excited state must have the symmetry of the component: $B_2$ for $y$. $A_1\\to A_1$ is allowed but polarized along $z$, and $A_1\\to A_2$ is forbidden."
+			},
+			{
+				"kind": "short",
+				"prompt": "The n→π* band of a ketone near 300 nm has ε ≈ 20 M⁻¹cm⁻¹, while a π→π* band has ε ≈ 10⁴. Why is the n→π* band weak but not absent? Name at least two mechanisms that give it intensity.",
+				"rubric": "Full credit requires: (1) the electric-dipole integral is zero (or nearly) by symmetry/poor orbital overlap, e.g. A₂ ← A₁ in $C_{2v}$, so it is weak but 'forbidden' in the strict sense; (2) vibronic (Herzberg–Teller) coupling to a vibration of suitable symmetry; (3) any of: magnetic-dipole contribution, breakdown of symmetry in a lower-symmetry environment, mixing with π→π* states; (4) distinction of 'forbidden by symmetry but weakly allowed' from truly impossible ($\\Delta S\\neq0$ without spin-orbit).",
+				"modelAnswer": "The transition dipole between the lone-pair n orbital (in the molecular plane) and π* (perpendicular) is zero by symmetry in the idealized planar geometry (A₂ ← A₁), and the orbitals overlap very little. Intensity is borrowed from allowed transitions by vibronic coupling (an out-of-plane vibration of the right symmetry mixes in π→π* character), by lower local symmetry in real molecules, and weakly by the magnetic-dipole term. These routes are small, so ε is ~100 instead of ~10⁴, but nonzero."
+			}
+		],
+		"c2-l006-line-shapes-broadening": [
+			{
+				"kind": "mc",
+				"prompt": "A damped oscillation $e^{i\\omega_0t-t/T_2}$ is Fourier transformed. What line shape and full width at half maximum (in Hz) result?",
+				"options": [
+					"A Gaussian with FWHM $1/(2\\pi T_2)$ in Hz",
+					"A Lorentzian with FWHM $1/(\\pi T_2)$",
+					"A Lorentzian with FWHM $1/T_2$",
+					"A Gaussian with FWHM $1/(\\pi T_2)$"
+				],
+				"answer": 1,
+				"explanation": "The transform of an exponential decay is $\\lambda/(\\lambda^2+\\Delta\\omega^2)$ with $\\lambda=1/T_2$; its FWHM in angular frequency is $2/T_2$, i.e. $1/(\\pi T_2)$ in Hz."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the Doppler (FWHM) width of the CO stretch at 2143 cm⁻¹ in a gas at 300 K using $\\Delta\\nu_D=\\nu_0\\sqrt{8k_BT\\ln2/(mc^2)}$ with $m=28.01$ u. Give the answer in MHz.",
+				"answer": 150.6,
+				"tolerance": 0.03,
+				"explanation": "$\\nu_0=6.425e+13$ Hz and the thermal factor is $2.344e-06$, so $\\Delta\\nu_D\\approx151$ MHz ($\\approx0.005$ cm⁻¹). Gas-phase IR lines are Doppler-limited at low pressure.",
+				"unit": "MHz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A low-pressure gas-phase IR line is Gaussian, but at high pressure it turns Lorentzian. Why?",
+				"options": [
+					"Collisions interrupt the oscillation, giving an exponential loss of phase (homogeneous), which outweighs the velocity spread",
+					"Collisions shift every molecule by the same Doppler amount, so a sum of identical shifts converts a Gaussian into a Lorentzian",
+					"Higher pressure raises the temperature, and a hotter gas always has a Lorentzian velocity distribution at any density",
+					"Pressure increases the radiative lifetime, so the natural width dominates the inhomogeneous width"
+				],
+				"answer": 0,
+				"explanation": "Doppler broadening is inhomogeneous (each molecule has its own frequency, Gaussian). Collisional dephasing is homogeneous (every molecule loses phase at the same rate), giving a Lorentzian."
+			},
+			{
+				"kind": "short",
+				"prompt": "A proton line in a well-shimmed solution has $T_2=0.5$ s. Explain how the linewidth follows from the FID, and why the line is Lorentzian. What does the width tell you about the coherence?",
+				"rubric": "Full credit requires: (1) the FID decays as $e^{-t/T_2}$; (2) the Fourier transform of an exponential decay is a Lorentzian; (3) FWHM $=1/(\\pi T_2)\\approx0.64$ Hz; (4) linewidth is the inverse of the time for which phase coherence survives (a time-frequency/uncertainty relation).",
+				"modelAnswer": "The transverse magnetization decays as $e^{-t/T_2}$ while precessing at $\\omega_0$. Fourier transforming an exponentially damped oscillation gives a Lorentzian, with FWHM $1/(\\pi T_2)=0.64$ Hz for $T_2=0.5$ s. The linewidth is just the inverse of the time over which the spins stay in phase, so a narrow line means long-lived coherence."
+			}
+		],
+		"c2-l007-rigid-rotor-microwave": [
+			{
+				"kind": "mc",
+				"prompt": "Why does CO show a pure-rotation microwave absorption spectrum while N₂ and CO₂ do not?",
+				"options": [
+					"Rotation of CO changes its moment of inertia, whereas N₂ and CO₂ have constant moments of inertia",
+					"CO has a smaller moment of inertia, so its rotational levels lie in the microwave while theirs lie elsewhere",
+					"Selection rules for rotation ($\\Delta J=\\pm1$) apply only to polar molecules and forbid homonuclear molecules by nuclear spin statistics alone",
+					"Rotation of CO turns a permanent dipole, producing an oscillating dipole at the rotation frequency; N₂ and CO₂ have none"
+				],
+				"answer": 3,
+				"explanation": "Absorption needs a transition dipole. A permanent dipole that rotates is an oscillating dipole; a symmetric molecule has none (it can still show rotational Raman lines through its anisotropic polarizability)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The $J=0\\to1$ absorption of $^{12}$C$^{16}$O lies at 115.271 GHz. Using $\\nu=2B$ and $I=h/(8\\pi^2B)$, find the bond length. Give the answer in Å (reduced mass 6.856 u).",
+				"answer": 1.131,
+				"tolerance": 0.01,
+				"explanation": "$B=57.636$ GHz gives $I=1.456e-46$ kg m², and $r=\\sqrt{I/\\mu}=1.1309$ Å, close to the accepted CO bond length of 1.128 Å.",
+				"unit": "Å"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Replacing $^{12}$C by $^{13}$C in CO (same bond force constant, same bond length) moves the rotational lines:",
+				"options": [
+					"To higher frequency, because the heavier nucleus carries more kinetic energy in rotation",
+					"Nowhere, because the electronic structure and bond length are unchanged by the isotope",
+					"To lower frequency, because the larger reduced mass raises $I$ and lowers $B$",
+					"Into closely spaced doublets, because the two isotopes rotate at slightly different speeds"
+				],
+				"answer": 2,
+				"explanation": "$B\\propto1/(\\mu r^2)$. Isotopic substitution changes $\\mu$ but not $r$ (Born–Oppenheimer), so lines shift down by the factor $\\mu_{12}/\\mu_{13}$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Homonuclear diatomics have no microwave absorption spectrum but do show rotational Raman lines (with $\\Delta J=\\pm2$). Explain the difference in terms of dipole moment and polarizability.",
+				"rubric": "Full credit requires: (1) microwave absorption needs a permanent dipole to give an oscillating dipole when rotating; (2) a homonuclear diatomic has none; (3) Raman scattering couples to the polarizability, which is anisotropic for a linear molecule and so oscillates at twice the rotation frequency; (4) hence $\\Delta J=\\pm2$ (and spacing 4B).",
+				"modelAnswer": "Absorbing a microwave photon needs an oscillating dipole, which only a rotating permanent dipole provides, so N₂ and H₂ are silent. Their polarizability, however, differs along and perpendicular to the bond, so it modulates at twice the rotation frequency, which lets light scatter with a change $\\Delta J=\\pm2$; the Raman lines are spaced by 4B."
+			}
+		],
+		"c2-l008-rotational-populations-intensities": [
+			{
+				"kind": "mc",
+				"prompt": "Why is the strongest line in the room-temperature rotational spectrum of CO not the one starting from $J=0$?",
+				"options": [
+					"The $J=0\\to1$ transition has zero transition dipole, so its intensity is lower than for the higher levels of the rotor",
+					"The $(2J+1)$ degeneracy outgrows the falling Boltzmann factor at low $J$, so the population peaks near $J\\approx7$",
+					"Higher rotational levels lie lower in energy because the rotor gains stability as it spins faster",
+					"Selection rules forbid $J=0\\to1$ in a heteronuclear molecule unless the molecule is also vibrationally excited at the time"
+				],
+				"answer": 1,
+				"explanation": "$N_J\\propto(2J+1)e^{-BJ(J+1)hc/kT}$: more states with larger $J$ compete against the Boltzmann factor, giving a maximum near $\\sqrt{kT/2hcB}$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the most populated rotational level of CO ($B=1.9225$ cm⁻¹) at 298 K using $J_{max}\\approx\\sqrt{k_BT/2hcB}-\\tfrac12$.",
+				"answer": 6.839,
+				"tolerance": 0.03,
+				"explanation": "$k_BT/hc=207.1$ cm⁻¹, so $J_{max}\\approx\\sqrt{207.1/(2\\times1.9225)}-0.5=6.84$, i.e. the J = 7 level."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Cooling H₂ gas over a catalyst at 20 K gives nearly pure para-H₂. What is the reason?",
+				"options": [
+					"The para form owns the lowest rotational level ($J=0$) and the catalyst allows the nuclear-spin flip needed to equilibrate",
+					"Para-H₂ has lower nuclear magnetic energy in a field, so cooling pumps the molecules into that state and holds them there",
+					"Ortho-H₂ condenses first on the cold catalyst surface and is removed from the gas, leaving the para form behind",
+					"Para-H₂ has the larger rotational degeneracy, so it dominates at all low temperatures even without any catalyst"
+				],
+				"answer": 0,
+				"explanation": "Ortho (nuclear triplet) needs odd $J$, para (singlet) needs even $J$. At low $T$ only $J=0$ is populated, which is para; the catalyst provides the spin-flip mechanism. This para-H₂ is used for hyperpolarized NMR."
+			},
+			{
+				"kind": "short",
+				"prompt": "Rotational intensities can act as a thermometer. Explain what you would see in the spectrum as temperature increases and why.",
+				"rubric": "Full credit requires: (1) the Boltzmann populations spread over more J levels as kT rises; (2) the intensity maximum shifts to higher J ($J_{max}\\propto\\sqrt T$) with higher lines gaining intensity; (3) the total envelope broadens and the peak intensity of individual lines falls (partition function $\\propto T$); (4) a fit of the envelope gives T.",
+				"modelAnswer": "At higher $T$ more rotational levels are populated, so the intensity envelope moves to higher $J$ ($J_{max}\\propto\\sqrt T$) and spreads out, while individual strong lines become weaker because the same molecules are shared among more levels ($q_{rot}\\propto T$). Fitting the shape of the envelope to $(2J+1)e^{-BJ(J+1)hc/kT}$ gives the rotational temperature."
+			}
+		],
+		"c2-l009-nonrigid-rotor-tops": [
+			{
+				"kind": "mc",
+				"prompt": "How does the spacing between successive microwave lines of a real diatomic compare with the rigid-rotor value $2B$ as $J$ increases?",
+				"options": [
+					"It grows slowly, because a fast-rotating bond becomes stiffer and gains additional rotational energy at high $J$",
+					"It stays constant, because the moment of inertia is fixed by the equilibrium bond length",
+					"It alternates in size, because even and odd $J$ levels have different centrifugal terms",
+					"It shrinks slowly, because rotation stretches the bond, raising $I$ and lowering the effective $B$"
+				],
+				"answer": 3,
+				"explanation": "Centrifugal force extends the bond, so $E_J=BJ(J+1)-DJ^2(J+1)^2$ and the line positions $2B(J+1)-4D(J+1)^3$ grow more slowly than linearly, i.e. the spacing shrinks."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For CO ($B=1.9313$ cm⁻¹, $\\tilde\\omega_e=2169.8$ cm⁻¹) use $D=4B^3/\\tilde\\omega_e^2$ to compute the centrifugal correction $DJ^2(J+1)^2$ for $J=10$. Give the answer in MHz.",
+				"answer": 2220.0,
+				"tolerance": 0.03,
+				"explanation": "$D=6.120e-06$ cm⁻¹, so $DJ^2(J+1)^2=0.0741$ cm⁻¹ = 2220 MHz. This is small compared with the line position (~$2B\\cdot 11\\approx 42$ cm⁻¹) but huge at microwave precision.",
+				"unit": "MHz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A symmetric-top microwave spectrum with the rule $\\Delta K=0$ looks much like that of a linear molecule. Why?",
+				"options": [
+					"The molecule behaves like a linear rotor because the third moment of inertia is zero for any symmetric top",
+					"The $K$ levels are degenerate so each transition collapses to one line for every $K$ with no distortion splitting",
+					"The $(A-B)K^2$ term is the same before and after the transition and cancels, leaving a spacing near $2B(J+1)$",
+					"The $K$ quantum number is not quantized, so the rotation about the symmetry axis is invisible to light"
+				],
+				"answer": 2,
+				"explanation": "$E_{JK}=BJ(J+1)+(A-B)K^2$ and $\\Delta K=0$ removes the second term. Only centrifugal distortion makes the lines K-dependent and gives the fine structure."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how microwave spectra of isotopically substituted molecules can be used to find a molecular structure, and why a diatomic needs only one measurement.",
+				"rubric": "Full credit requires: (1) rotational constants give moments of inertia $I=h/8\\pi^2B$; (2) isotopic substitution changes masses but not (to first order) the electronic structure and geometry, so each isotopologue provides new independent $I$ values; (3) enough independent $I$ values determine bond lengths and angles (Kraitchman-type substitution); (4) a diatomic has one geometric parameter $r$ and one $I$.",
+				"modelAnswer": "Each measured rotational constant gives a moment of inertia $I=h/(8\\pi^2B)$. A diatomic has a single parameter, $r$, so one $I$ is enough. A polyatomic has several bond lengths and angles, but each isotopologue provides new moments of inertia while the geometry is essentially unchanged, so measuring several isotopologues determines the atomic positions."
+			}
+		],
+		"c2-l010-normal-modes-hessian": [
+			{
+				"kind": "mc",
+				"prompt": "What do the eigenvalues of the mass-weighted Hessian $\\mathbf M^{-1/2}\\mathbf F\\mathbf M^{-1/2}$ represent?",
+				"options": [
+					"The force constants of the individual bonds, listed from the strongest to the weakest, with the eigenvectors giving their directions",
+					"The squared angular frequencies $\\omega^2$ of the normal modes; the eigenvectors give the mode shapes",
+					"The mode energies $\\hbar\\omega$, with the eigenvectors giving the occupation of each mode",
+					"The reduced masses of each mode, with the eigenvectors giving the direction of the dipole change"
+				],
+				"answer": 1,
+				"explanation": "Newton's equations $\\mathbf M\\ddot{\\mathbf x}=-\\mathbf F\\mathbf x$ in mass-weighted coordinates become $\\ddot{\\mathbf q}=-\\mathbf F_m\\mathbf q$, so each eigenvalue is $\\omega^2$ of an independent oscillator. Six zero eigenvalues (five for linear molecules) are translations and rotations."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Take a toy linear O–C–O model with two identical C–O stretching springs ($k=1700$ N/m) and masses 15.995, 12.000, 15.995 u. Diagonalize the 3×3 mass-weighted Hessian and give the wavenumber of the antisymmetric stretching mode in cm⁻¹.",
+				"answer": 2572.0,
+				"tolerance": 0.02,
+				"explanation": "The eigenvalues give modes at 0 (translation, 0), 1343 (symmetric) and 2572 cm⁻¹ (antisymmetric), matching $\\omega_{asym}=\\sqrt{k(1/m+2/M)}$. The real CO₂ bands (1388, 2349 cm⁻¹) differ because of stretch–stretch coupling and the bend.",
+				"unit": "cm⁻¹"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Treating a C–H stretch as a diatomic with the same force constant on deuteration, what is the ratio $\\tilde\\nu(\\mathrm{C{-}D})/\\tilde\\nu(\\mathrm{C{-}H})$?",
+				"answer": 0.7342,
+				"tolerance": 0.02,
+				"explanation": "$\\omega\\propto1/\\sqrt\\mu$ with $\\mu_{CH}=0.930$ u and $\\mu_{CD}=1.725$ u, so the ratio is $0.734$ (a C–H at 2900 cm⁻¹ moves to about 2130 cm⁻¹)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does an $N$-atom nonlinear molecule have $3N-6$ vibrations, and why is diagonalizing the Hessian enough to decouple them into independent oscillators?",
+				"rubric": "Full credit requires: (1) $3N$ Cartesian degrees of freedom minus 3 translations and 3 rotations (2 for linear); (2) near a minimum the potential is quadratic, $\\tfrac12\\sum F_{ij}x_ix_j$, with coupled equations of motion; (3) the mass-weighted Hessian is real symmetric so it has orthogonal eigenvectors; in that basis the equations decouple into independent harmonic oscillators; (4) quantum chemistry codes obtain $F$ as the second-derivative matrix of the energy.",
+				"modelAnswer": "There are $3N$ coordinates, but three describe translation and three rotation (two for a linear molecule) and do not change energy, leaving $3N-6$ vibrations. Near the minimum the potential is a quadratic form with a symmetric Hessian. Mass-weighting makes the kinetic energy diagonal, and diagonalizing the symmetric matrix gives orthogonal normal coordinates in which each mode obeys its own harmonic oscillator equation with $\\omega^2$ equal to the eigenvalue. A DFT frequency calculation simply computes this Hessian and diagonalizes it."
+			}
+		],
+		"c2-l011-anharmonic-morse": [
+			{
+				"kind": "mc",
+				"prompt": "Compared with a harmonic oscillator of the same force constant, the vibrational levels of a Morse oscillator:",
+				"options": [
+					"Become closer together as $v$ increases and converge to the dissociation limit $D_e$",
+					"Become further apart as $v$ increases because the wider anharmonic well contains more levels",
+					"Stay equally spaced but are shifted down by the anharmonic term at every vibrational level",
+					"Alternate between wider and narrower spacings as the bond length passes the inflection point"
+				],
+				"answer": 0,
+				"explanation": "$E_v=\\hbar\\omega(v+\\tfrac12)-\\hbar\\omega x_e(v+\\tfrac12)^2$ gives spacing $\\hbar\\omega[1-2x_e(v+1)]$, which shrinks linearly until the continuum."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "HCl has $\\tilde\\omega_e=2990.9$ cm⁻¹ and $\\tilde\\omega_ex_e=52.8$ cm⁻¹. Where does the first overtone ($v=0\\to2$) appear? Use $\\tilde\\nu=2\\tilde\\omega_e-6\\tilde\\omega_ex_e$ and give the answer in cm⁻¹.",
+				"answer": 5665.0,
+				"tolerance": 0.01,
+				"explanation": "The fundamental is at $2885.3$ cm⁻¹ and the first overtone at $5665.0$ cm⁻¹, slightly less than twice the fundamental ($5770.6$ cm⁻¹) because of anharmonicity.",
+				"unit": "cm⁻¹"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A hypothetical oscillator has a perfectly harmonic potential but a dipole $\\mu(x)=\\mu_0+\\mu_1x+\\mu_2x^2$. Is the $v=0\\to2$ overtone seen?",
+				"options": [
+					"No, because harmonic wavefunctions only connect levels that differ by one quantum",
+					"Yes, but only if the potential has a finite dissociation energy $D_e$",
+					"No, because $x^2$ is even and cannot connect $v=0$ with $v=2$",
+					"Yes, weakly, through the $x^2$ term of the dipole (electrical anharmonicity)"
+				],
+				"answer": 3,
+				"explanation": "$\\langle2|x^2|0\\rangle\\neq0$ even for harmonic wavefunctions, so electrical anharmonicity alone gives an overtone. Mechanical anharmonicity gives overtone intensity by mixing wavefunctions."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how a Birge–Sponer plot extracts a dissociation energy from vibrational data, and why the extrapolation is only approximate for real molecules.",
+				"rubric": "Full credit requires: (1) plot successive spacings $\\Delta G_{v+1/2}$ versus $v+1$; for Morse it is linear and decreases to zero at dissociation; (2) the area under the line equals the sum of spacings, i.e. the dissociation energy (from $v=0$ gives $D_0$); (3) real potentials curve (the last spacings are not linear) so a linear extrapolation overestimates (or deviates); (4) for HCl-like data the Morse formula $\\omega^2/4\\omega x_e$ similarly overshoots.",
+				"modelAnswer": "Spacing between successive levels is $\\omega_e-2\\omega_ex_e(v+1)$ for a Morse oscillator, so a plot of spacing against $v$ is a straight line that reaches zero at the dissociation limit. The area under the line is the sum of all spacings, i.e. the energy needed to go from the bottom of the well to dissociation. Real potentials deviate from Morse at high $v$ (long-range tail), so the linear extrapolation is approximate and typically overestimates $D_e$."
+			}
+		],
+		"c2-l012-ir-raman-symmetry": [
+			{
+				"kind": "mc",
+				"prompt": "Which statement about the stretching vibrations of CO₂ is correct?",
+				"options": [
+					"Both stretches are IR active, because in each of them the C–O bond lengths change during the vibration of the molecule",
+					"The symmetric stretch is IR active because the C–O bond dipoles oscillate in phase and add",
+					"The symmetric stretch is Raman active and IR inactive; the antisymmetric stretch is IR active and Raman inactive",
+					"Neither stretch is Raman active, because CO₂ has no permanent dipole moment to polarize"
+				],
+				"answer": 2,
+				"explanation": "In the symmetric stretch the dipole stays zero (IR silent) but the polarizability changes (Raman active). The antisymmetric stretch changes the dipole (IR active) but the polarizability is unchanged to first order, as required by the exclusion rule for centrosymmetric molecules."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 1000 cm⁻¹ vibration is observed by Raman scattering with a 532 nm laser at 298 K. What is the intensity ratio anti-Stokes/Stokes, $\\left(\\frac{\\nu_0+\\nu_v}{\\nu_0-\\nu_v}\\right)^4e^{-h\\nu_v/k_BT}$?",
+				"answer": 0.01225,
+				"tolerance": 0.03,
+				"explanation": "$\\tilde\\nu_0=18797$ cm⁻¹. The frequency factor is 1.531 and the Boltzmann factor is 0.0080, giving $0.0123$: anti-Stokes lines are weak because few molecules start in $v=1$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which functional group typically gives a strong Raman band but a weak or absent IR band?",
+				"options": [
+					"The O–H stretch of a hydrogen-bonded carboxylic acid dimer",
+					"The C≡C stretch of a symmetric internal alkyne",
+					"The C=O stretch of an aliphatic ketone",
+					"The N–H stretch of a primary amine"
+				],
+				"answer": 1,
+				"explanation": "A symmetric C≡C stretch changes the polarizability a lot but the dipole almost not at all. O–H, C=O and N–H stretches change the dipole strongly, so they are IR strong."
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from the expansions of the dipole and polarizability in a normal coordinate $Q$, explain the rule of mutual exclusion for a centrosymmetric molecule.",
+				"rubric": "Full credit requires: (1) IR needs $(\\partial\\mu/\\partial Q)\\neq0$, i.e. $Q$ transforms like $x,y,z$ (odd, u); Raman needs $(\\partial\\alpha/\\partial Q)\\neq0$, i.e. $Q$ transforms like quadratic functions $xx,xy,\\dots$ (even, g); (2) in a molecule with an inversion centre every mode is either g or u; (3) therefore no mode can be both IR and Raman active.",
+				"modelAnswer": "A fundamental is IR active if the mode changes the dipole, so $Q$ must transform like a coordinate $x,y,z$ (odd under inversion, u). It is Raman active if it changes the polarizability, so $Q$ must transform like a product such as $xy$ or $x^2$ (even, g). If the molecule has an inversion centre, each normal mode is strictly g or u, so it can satisfy only one condition: modes active in IR are silent in Raman and vice versa."
+			}
+		],
+		"c2-l013-rovibrational-spectra": [
+			{
+				"kind": "mc",
+				"prompt": "The vibration–rotation spectrum of HCl has a gap at the band centre rather than a central Q branch. Why?",
+				"options": [
+					"For a closed-shell diatomic with no axial angular momentum the rule is $\\Delta J=\\pm1$ only, so $J\\to J$ is forbidden",
+					"The vibrational transition has zero strength at the band centre because the dipole derivative vanishes there, as for a node",
+					"The Q branch is hidden under the ³⁵Cl/³⁷Cl isotope lines, which fall exactly at the band centre",
+					"The gap exists only in the gas phase because rotation is quenched by collisions in the liquid"
+				],
+				"answer": 0,
+				"explanation": "The photon carries one unit of angular momentum and there is no electronic or vibrational angular momentum along the axis, so $\\Delta J=\\pm1$. The gap between $R(0)$ and $P(1)$ is $2(B_0+B_1)$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For HCl, $B_0=10.440$ cm⁻¹ and $B_1=10.136$ cm⁻¹. Using $R(0)=\\nu_0+2B_1$ and $P(1)=\\nu_0-2B_0$, how wide is the gap between $R(0)$ and $P(1)$? Give the answer in cm⁻¹.",
+				"answer": 41.15,
+				"tolerance": 0.02,
+				"explanation": "$R(0)-P(1)=2B_1+2B_0=41.15$ cm⁻¹, about $4B$ as expected for the missing $J=0$ transition.",
+				"unit": "cm⁻¹"
+			},
+			{
+				"kind": "mc",
+				"prompt": "In v = 1 the bond is slightly longer, so $B_1<B_0$. How does this affect the line pattern?",
+				"options": [
+					"The P-branch lines converge as $J$ increases, while the R-branch lines spread apart",
+					"Both branches converge, because the larger bond length lowers the rotational constant in both branches",
+					"Both branches spread apart, because the heavier effective rotor has more closely spaced levels",
+					"The R-branch lines converge as $J$ increases, while the P-branch lines spread apart"
+				],
+				"answer": 3,
+				"explanation": "The $(B_1-B_0)J^2$ term is negative, so R-branch spacings $2B_1+2(B_1-B_0)(J+1)$ shrink while P-branch spacings grow; R can even form a band head if $B_1\\ll B_0$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does the IR spectrum of HCl in solution show a single broad band instead of the P and R branches seen in the gas phase?",
+				"rubric": "Full credit requires: (1) in a liquid collisions are far faster than the rotational period, so free rotation is lost (rotational coherence dephases in ps); (2) lines of width ≫ line spacing ($2B\\approx20$ cm⁻¹) merge into one envelope; (3) the band envelope remains a rough record of rotational diffusion.",
+				"modelAnswer": "In solution a molecule collides every picosecond or so, much faster than a rotational period, so quantized free rotation is destroyed and each rotational line is broadened by collisional dephasing to a width greater than the 20 cm⁻¹ spacing. The P and R lines merge into one envelope, with only the vibrational band origin and a rotational-diffusion width remaining."
+			}
+		],
+		"c2-l014-overtones-fermi-resonance": [
+			{
+				"kind": "mc",
+				"prompt": "The Raman spectrum of CO₂ shows two bands of comparable intensity near 1388 and 1286 cm⁻¹, although only the symmetric stretch is expected. Why?",
+				"options": [
+					"Two isotopologues of CO₂ are present in natural abundance and each contributes one symmetric-stretch band to the spectrum",
+					"The bend overtone borrows intensity from electrical anharmonicity alone, which is as strong as the fundamental in CO₂ here",
+					"The stretch $\\nu_1$ and the bend overtone $2\\nu_2$ have the same symmetry and nearly equal energy, so they mix and share intensity",
+					"A thermally populated bending hot band appears at lower wavenumber with an intensity similar to the fundamental of the stretch"
+				],
+				"answer": 2,
+				"explanation": "Fermi resonance: an anharmonic coupling $W$ between near-degenerate states of the same symmetry repels the levels and mixes their character, so the 'dark' overtone gains intensity."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two unperturbed vibrational levels lie at 1300 and 1370 cm⁻¹ and are coupled by $W=50$ cm⁻¹. What splitting between the two observed bands results, $\\sqrt{(E_a-E_b)^2+4W^2}$? Give the answer in cm⁻¹.",
+				"answer": 122.1,
+				"tolerance": 0.02,
+				"explanation": "$\\sqrt{70^2+100^2}=122.1$ cm⁻¹. The coupling pushes the levels apart (level repulsion), so the observed gap exceeds the unperturbed gap of 70 cm⁻¹.",
+				"unit": "cm⁻¹"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do overtones of C–H stretches appear prominently in near-IR spectra of organic compounds although each overtone is intrinsically weak?",
+				"options": [
+					"Heavy atoms carry larger transition dipoles, so every overtone of a bond to carbon is stronger than its fundamental band",
+					"Light X–H stretches are strongly anharmonic and act as nearly independent local oscillators with diagnostic overtone bands",
+					"The C–H overtones are allowed by electric-dipole symmetry, whereas the fundamental is forbidden in most molecules",
+					"Near-IR light is absorbed by electronic transitions of the C–H bond, which are spin-allowed in saturated compounds"
+				],
+				"answer": 1,
+				"explanation": "The large amplitude and anharmonicity of X–H stretches make overtones and combinations measurable, and their positions are characteristic of the group (the basis of NIR analysis of fats, water and sugars)."
+			},
+			{
+				"kind": "short",
+				"prompt": "In a Fermi resonance, how do the positions and intensities of the two bands change as the unperturbed levels are tuned from far apart to degenerate?",
+				"rubric": "Full credit requires: (1) far apart: bands at the unperturbed positions, one strong (the allowed fundamental) and one very weak (the overtone); (2) as they approach, the levels repel (avoided crossing) and the weak band gains intensity from the strong one; (3) at degeneracy the splitting is $2W$ and the intensities are equal (50:50 mixture); (4) total intensity conserved.",
+				"modelAnswer": "Far from resonance the fundamental is strong and the overtone is almost invisible. As they approach each other the levels repel along the avoided-crossing curve and the wavefunctions mix, so the weak band steals intensity. At exact degeneracy the two bands are split by $2W$ and have equal intensity, each an equal mixture of fundamental and overtone character. The total intensity is conserved."
+			}
+		],
+		"c2-l015-born-oppenheimer": [
+			{
+				"kind": "mc",
+				"prompt": "In the Born–Oppenheimer picture, what is the 'potential energy surface' on which the nuclei move?",
+				"options": [
+					"The electronic energy (plus nuclear repulsion) computed with the nuclei held fixed, as a function of their positions",
+					"The total energy of the molecule including the kinetic energy of the nuclei at each geometry, averaged over the vibrational motion",
+					"The energy of one electron moving in the field of the time-averaged nuclear positions in the molecule",
+					"The energy of the lowest vibrational state, evaluated separately at each nuclear geometry of the molecule"
+				],
+				"answer": 0,
+				"explanation": "Because nuclei are slow, the electrons adjust instantly; solving the electronic problem at fixed $\\mathbf R$ gives $E_{el}(\\mathbf R)$, which acts as the potential for nuclear motion."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The expansion parameter for vibrational energies in the Born–Oppenheimer treatment scales as $\\kappa^2=(m_e/M)^{1/2}$. Evaluate $\\kappa^2$ for a hydrogen atom ($M=1.00783$ u).",
+				"answer": 0.02333,
+				"tolerance": 0.02,
+				"explanation": "$m_e=5.486\\times10^{-4}$ u, so $\\kappa^2=\\sqrt{5.486\\times10^{-4}/1.00783}=0.0233$: vibrational energies are about 2% of electronic ones for the lightest atoms (heavier atoms are smaller still, hence the factors of 10–100 between electronic and vibrational energies seen in practice)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Under which circumstance does the Born–Oppenheimer approximation fail most seriously?",
+				"options": [
+					"For molecules containing heavy nuclei at high temperature, where nuclear kinetic energy is large",
+					"For any molecule with more than ten atoms, because the number of coupled vibrations becomes too large",
+					"For excited states with a large gap above the ground state, because the electrons then follow the nuclei closely and lag behind",
+					"Near an avoided crossing or conical intersection, where two electronic states are close and nuclear motion couples them"
+				],
+				"answer": 3,
+				"explanation": "The coupling is $\\langle\\psi_m|\\nabla_R\\psi_n\\rangle\\propto1/(E_n-E_m)$ times a nuclear velocity, so it is large when states approach each other, which is the origin of fast internal conversion and photochemistry."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why rotational, vibrational and electronic transitions fall in the microwave, infrared and visible/UV regions, using the Born–Oppenheimer ordering of energy scales.",
+				"rubric": "Full credit requires: (1) electrons are light, so their zero-point/orbital energy is of order eV (visible/UV); (2) nuclear vibrations involve the nuclear mass, so energy scales as $(m_e/M)^{1/2}$ relative to electronic, i.e. ~0.1 eV (IR); (3) rotation scales as $m_e/M$, i.e. ~$10^{-3}$–$10^{-4}$ eV (microwave); (4) the ratio $1:\\kappa^2:\\kappa^4$.",
+				"modelAnswer": "The electronic energy scale is set by electron mass and size, about 1–10 eV. A vibration involves the same potential but moves nuclei of mass $M$, so the frequency scales as $\\sqrt{k/M}$ and the energy is reduced by $\\kappa^2=(m_e/M)^{1/2}$, giving roughly 0.1 eV (infrared). Rotation energy is $\\hbar^2/2I$ with $I\\sim Mr^2$, reduced by $\\kappa^4=m_e/M$, giving about $10^{-4}$ eV (microwave). So the ordering is a direct consequence of the mass ratio."
+			}
+		],
+		"c2-l016-franck-condon": [
+			{
+				"kind": "mc",
+				"prompt": "The Condon approximation states that during an electronic transition:",
+				"options": [
+					"The nuclei move to the new equilibrium geometry during the absorption of the photon, which is why the observed bands are broad and smooth",
+					"The electrons change state so slowly that the nuclei feel the average of the initial and final electronic energies",
+					"The electronic transition dipole is taken as independent of the nuclear coordinates, so intensity is set by the nuclear overlap",
+					"The nuclear kinetic energy changes by exactly $h\\nu$, so the transition obeys a vibrational selection rule"
+				],
+				"answer": 2,
+				"explanation": "Within Born–Oppenheimer, $\\mu_{fi}\\approx\\mu_{el}\\langle\\chi_{v'}|\\chi_v\\rangle$. The 'vertical transition' picture is the statement that nuclei do not move during the (fs) electronic jump."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two displaced oscillators with equal frequency have a Huang–Rhys factor $S=1.2$. What fraction of the total absorption intensity is in the 0–0 line, $e^{-S}$?",
+				"answer": 0.3012,
+				"tolerance": 0.02,
+				"explanation": "$|\\langle0'|0\\rangle|^2=e^{-S}=e^{-1.2}=0.301$. The rest is spread over the progression, with $n$-th member $e^{-S}S^n/n!$; the factors sum to 1."
+			},
+			{
+				"kind": "mc",
+				"prompt": "An excited state has the same equilibrium geometry and force constants as the ground state. What does the vibronic absorption band look like?",
+				"options": [
+					"A long progression peaking near $v'=5$, because the electronic jump always excites vibration",
+					"A single dominant 0–0 line, because the vibrational wavefunctions overlap only for $v'=v$",
+					"A broad featureless continuum, because the overlap integrals are equal for all $v'$",
+					"A doublet formed by the 0–0 line and the 0–1 line with the intensity ratio $S$"
+				],
+				"answer": 1,
+				"explanation": "With zero displacement $S=0$: $e^{-S}S^n/n!$ vanishes for $n\\ge1$. Rigid aromatic dyes with small geometry change show a strong 0–0 band; molecules whose geometry changes strongly show long progressions."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in words why the intensity of a vibronic line is proportional to the square of an overlap integral of vibrational wavefunctions, and why the intensities of a progression sum to one.",
+				"rubric": "Full credit requires: (1) Born–Oppenheimer separates electronic and nuclear parts; with the Condon approximation the transition moment factorizes into an electronic dipole times $\\langle\\chi_{v'}|\\chi_v\\rangle$; (2) rate $\\propto|\\mu|^2$ so intensity $\\propto|\\langle\\chi_{v'}|\\chi_v\\rangle|^2$; (3) the final vibrational states form a complete set, so $\\sum_{v'}|\\langle\\chi_{v'}|\\chi_v\\rangle|^2=\\langle\\chi_v|\\chi_v\\rangle=1$ (closure); the electronic transition strength is thus distributed among vibronic lines.",
+				"modelAnswer": "Within Born–Oppenheimer the molecular transition dipole factorizes into an electronic part and the overlap of the initial and final nuclear wavefunctions. The absorption rate is the square of this, so each vibronic line has weight $|\\langle\\chi_{v'}|\\chi_v\\rangle|^2$. Because the excited-state vibrational functions are complete, the weights sum to 1: the total electronic band strength is conserved and the geometry change only decides how it is shared among the lines."
+			}
+		],
+		"c2-l017-vibronic-structure": [
+			{
+				"kind": "mc",
+				"prompt": "The fluorescence spectrum of a rigid dye is shifted to lower energy than its absorption and is roughly its mirror image. What causes the Stokes shift?",
+				"options": [
+					"Reorganization of the nuclei and solvent in the excited state before emission, and again in the ground state after it",
+					"Energy lost to the photon's momentum recoil when the molecule emits at a lower frequency than it absorbs",
+					"Intersystem crossing to the triplet state, which always lies below the emitting singlet in these molecules",
+					"Absorption by ground-state molecules of the short-wavelength part of the emission band within the sample"
+				],
+				"answer": 0,
+				"explanation": "In the displaced-oscillator model absorption and emission each lose $S\\hbar\\omega$ to vibrational relaxation, so the shift is $\\approx2S\\hbar\\omega$ (plus solvent reorganization). The mirror image arises because the ground- and excited-state vibrational ladders are similar."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A π→π* band has $\\varepsilon_{max}=15000$ M⁻¹cm⁻¹ and a Gaussian shape of FWHM 3000 cm⁻¹. Estimate the oscillator strength $f\\approx4.32\\times10^{-9}\\int\\varepsilon\\,d\\tilde\\nu$ (Gaussian area $=1.0645\\,\\varepsilon_{max}\\,\\mathrm{FWHM}$).",
+				"answer": 0.2069,
+				"tolerance": 0.03,
+				"explanation": "$\\int\\varepsilon\\,d\\tilde\\nu=4.790e+07$, so $f=0.207$: a strongly allowed transition."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the n→π* band of a ketone ($\\varepsilon\\sim20$) so much weaker than a π→π* band ($\\varepsilon\\sim10^4$)?",
+				"options": [
+					"The transition is spin-forbidden, since it changes the multiplicity from singlet to triplet during the absorption",
+					"The Franck–Condon factors for n→π* vanish because the C=O bond length does not change",
+					"The lone pair is too deep in energy to interact with the light, so the transition is a pure quadrupole transition in the molecule",
+					"The n and π* orbitals are orthogonal in the planar geometry, so the electric transition dipole is nearly zero by symmetry"
+				],
+				"answer": 3,
+				"explanation": "Singlet → singlet n→π* is only vibronically or weakly allowed (A₂ ← A₁ in C₂ᵥ). The weak intensity reflects the small transition dipole, not spin or Franck–Condon factors."
+			},
+			{
+				"kind": "short",
+				"prompt": "What is vibronic (Herzberg–Teller) coupling, and how does it let a symmetry-forbidden electronic band appear in a spectrum?",
+				"rubric": "Full credit requires: (1) the electronic transition dipole depends on the nuclear coordinate, $\\mu(Q)=\\mu_0+(\\partial\\mu/\\partial Q)Q$; (2) if $\\mu_0=0$ by symmetry, the linear term can be nonzero for a vibration $Q$ whose symmetry makes the product of electronic and vibrational symmetry match the dipole; (3) intensity appears in vibronic lines one quantum of that vibration away from the missing 0–0 line; (4) example: benzene $S_0\\to S_1$ near 260 nm.",
+				"modelAnswer": "The Condon approximation fixes the dipole at the equilibrium geometry. If the dipole vanishes there by symmetry, the geometry dependence $\\mu(Q)\\approx(\\partial\\mu/\\partial Q)Q$ may still be nonzero for a vibration of suitable symmetry, which mixes the dark state with a bright one. The transition then appears with one quantum of that vibration excited and the pure 0–0 line missing, as in the benzene 260 nm band."
+			}
+		],
+		"c2-l018-jablonski-rates": [
+			{
+				"kind": "mc",
+				"prompt": "Kasha's rule says fluorescence normally comes from the lowest excited singlet, whatever state was excited. What is the physical reason?",
+				"options": [
+					"Upper excited singlets have vanishing transition dipoles to the ground state, so they cannot emit",
+					"Emission from upper states is spin-forbidden, whereas emission from the lowest singlet is spin-allowed in every molecule",
+					"Internal conversion and vibrational relaxation among upper states take picoseconds, far faster than emission (nanoseconds)",
+					"Only the lowest excited singlet couples to the radiation field, because of the Born–Oppenheimer separation of states"
+				],
+				"answer": 2,
+				"explanation": "It is a kinetic statement: $k_{IC}\\gg k_r$ for the upper states. The energy-gap law makes IC slow only when the gap is large, e.g. S₁→S₀ in rigid aromatics."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A fluorophore has a quantum yield $\\Phi_f=0.30$ and lifetime $\\tau=6.0$ ns. What is the non-radiative rate constant $k_{nr}=(1-\\Phi_f)/\\tau$? Give the answer in $10^{8}$ s⁻¹.",
+				"answer": 1.167,
+				"tolerance": 0.02,
+				"explanation": "$k_r=\\Phi/\\tau=5.00e+07$ s⁻¹ and $k_{nr}=(1-\\Phi)/\\tau=1.167e+08$ s⁻¹. Non-radiative decay is more than twice as fast as radiative decay here.",
+				"unit": "×10⁸ s⁻¹"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A fluorophore has $\\tau_0=5.0$ ns and is quenched by a species with $k_q=2\\times10^9$ M⁻¹s⁻¹ at 0.020 M. What is the quenched lifetime from the Stern–Volmer relation? Give the answer in ns.",
+				"answer": 4.167,
+				"tolerance": 0.02,
+				"explanation": "$\\tau_0/\\tau=1+k_q\\tau_0[Q]=1+2\\times10^9\\times5\\times10^{-9}\\times0.02=1.2$, so $\\tau=4.17$ ns.",
+				"unit": "ns"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the radiative rate constant $k_r$ is tied to the strength of the absorption band, and why strongly absorbing dyes have nanosecond fluorescence lifetimes while weak n→π* emitters live much longer.",
+				"rubric": "Full credit requires: (1) $k_r$ is the Einstein $A$ coefficient and is proportional to $|\\mu_{fi}|^2\\nu^3$, as is absorption strength (oscillator strength $f$): $k_r\\approx0.667\\tilde\\nu^2f$; (2) strong absorber (large $f$, $\\varepsilon\\sim10^4$–$10^5$) has $k_r\\sim10^8$ s⁻¹ ⇒ ns lifetime; (3) a weak transition (small $f$) has small $k_r$ ⇒ longer radiative lifetime (hundreds of ns or more), so non-radiative channels often win and the quantum yield is low.",
+				"modelAnswer": "Absorption and spontaneous emission are governed by the same transition dipole: the oscillator strength $f$ sets the Einstein $A$, $k_r\\approx0.667\\tilde\\nu^2f$. A dye with $\\varepsilon\\sim10^4$–$10^5$ has $f$ of order 0.1–1 and $k_r\\sim10^8$ s⁻¹, so the radiative lifetime is nanoseconds. A weakly absorbing n→π* state has a small dipole and long radiative lifetime, so competing non-radiative decay usually dominates and the observed emission is weak."
+			}
+		],
+		"c2-l019-spin-orbit-phosphorescence": [
+			{
+				"kind": "mc",
+				"prompt": "Singlet–triplet transitions are forbidden in zeroth order, yet intersystem crossing and phosphorescence occur. What is the mechanism?",
+				"options": [
+					"The absorbed photon carries one unit of spin angular momentum and flips the electron spin directly during the absorption",
+					"Spin–orbit coupling mixes a little singlet character into the triplet, so the electric-dipole selection rule is partly relaxed",
+					"Vibrational motion supplies the spin angular momentum needed to change the multiplicity of the molecule during the crossing",
+					"The Coulomb Hamiltonian contains spin-flip terms that become important at high excitation energies in all molecules"
+				],
+				"answer": 1,
+				"explanation": "$\\hat H_{SO}$ couples spin and orbital motion, so spin is no longer a good quantum number. First-order perturbation theory gives a small admixture $\\langle S|H_{SO}|T\\rangle/\\Delta E$, and rates scale as its square."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A triplet state couples to a singlet with $\\langle S|H_{SO}|T\\rangle=30$ cm⁻¹ at an energy gap of 4000 cm⁻¹. If the singlet character borrows the singlet radiative rate $k_S=10^8$ s⁻¹, what is the phosphorescence radiative lifetime? Give the answer in µs.",
+				"answer": 177.8,
+				"tolerance": 0.03,
+				"explanation": "Admixture probability $(30/4000)^2=5.62e-05$, so $k_P=5.62e+03$ s⁻¹ and $\\tau_P=1/k_P=178$ µs, far longer than the nanosecond fluorescence lifetime.",
+				"unit": "µs"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Replacing hydrogen by bromine in an aromatic dye increases intersystem crossing and shortens the phosphorescence lifetime. Why?",
+				"options": [
+					"Spin–orbit coupling grows steeply with nuclear charge (roughly as $Z^4$), so $|H_{SO}|^2$ is much larger",
+					"Heavier atoms vibrate more slowly, improving the Franck–Condon overlap between the singlet and triplet manifolds",
+					"The heavy atom raises the singlet–triplet energy gap, which accelerates the radiationless crossing",
+					"The extra electrons of bromine delocalize the π system and raise the oscillator strength of the S₁ state"
+				],
+				"answer": 0,
+				"explanation": "The heavy-atom effect is a larger spin–orbit matrix element. It increases both $k_{ISC}$ and $k_P$ (and why Br/I substituents and metal complexes are used for triplet sensitizers and OLED phosphors)."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the El-Sayed rule and explain why triplet states, with lifetimes of µs to s, are efficiently quenched by molecular oxygen.",
+				"rubric": "Full credit requires: (1) ISC is much faster between states of different orbital character, e.g. ¹(n,π*) → ³(π,π*), because spin–orbit coupling needs a change of orbital angular momentum to compensate the spin change; (2) triplet lifetimes are long (µs–s) because T₁→S₀ is spin-forbidden; (3) ground-state O₂ is itself a triplet, so triplet–triplet energy transfer conserving total spin is allowed and diffusion-controlled during the long lifetime; (4) product: singlet oxygen.",
+				"modelAnswer": "El-Sayed: intersystem crossing is fast when the transition changes orbital type (n,π* ↔ π,π*), because the spin–orbit operator is a rotation of the electron's orbital angular momentum that makes up for the spin change. Triplets live long because T₁→S₀ is spin-forbidden. Ground-state O₂ is a triplet, so a triplet molecule can transfer its energy to it with total spin conserved (T + T → S + T(¹O₂)). With a long lifetime and diffusion-limited encounters, triplets are quenched efficiently, which is the route to singlet oxygen in photosensitization."
+			}
+		],
+		"c2-l020-spin-zeeman": [
+			{
+				"kind": "mc",
+				"prompt": "A $^{13}$C nucleus ($\\gamma>0$) and a $^{15}$N nucleus ($\\gamma<0$) sit in the same field $B_0\\hat z$. Which statement is correct?",
+				"options": [
+					"Both have α lower, because the field direction alone decides which state is favoured for any nucleus",
+					"$^{15}$N has a negative energy splitting, so it can only emit photons and never absorb them at this field",
+					"The splitting depends only on the spin quantum number $I$, so it is the same for the two nuclei in the same field",
+					"For $^{15}$N the β state lies lower in energy, and each nucleus has a splitting of magnitude $\\hbar|\\gamma|B_0$"
+				],
+				"answer": 3,
+				"explanation": "$E=-\\gamma\\hbar B_0m$. For $\\gamma>0$, α ($m=+\\frac12$) is lower; for $\\gamma<0$ the order reverses. The splitting magnitude is $\\hbar|\\gamma|B_0$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "At the field of a 600 MHz (¹H) magnet, what is the $^{15}$N Larmor frequency? Use $\\gamma_N=-2.7126\\times10^7$ rad s⁻¹T⁻¹ and $\\gamma_H=2.6752\\times10^8$ rad s⁻¹T⁻¹. Give the magnitude in MHz.",
+				"answer": 60.84,
+				"tolerance": 0.01,
+				"explanation": "$B_0=2\\pi(600\\,\\mathrm{MHz})/\\gamma_H=14.09$ T, so $|\\nu_N|=|\\gamma_N|B_0/2\\pi=60.84$ MHz.",
+				"unit": "MHz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A sample is cooled from 300 K to 150 K and moved from a 7 T to a 14 T magnet. By what factor does the thermal polarization change?",
+				"options": [
+					"It rises two-fold, because only the field enters the Zeeman splitting",
+					"It rises by a factor of about 1.4, because $P$ depends on $\\sqrt{B_0/T}$",
+					"It rises four-fold, because in the high-temperature limit $P\\propto B_0/T$",
+					"It saturates near one, because $P=\\tanh(\\hbar\\gamma B_0/2k_BT)$ is already unity"
+				],
+				"answer": 2,
+				"explanation": "$P=\\tanh(\\hbar\\gamma B_0/2k_BT)\\approx\\hbar\\gamma B_0/2k_BT\\sim10^{-5}$, far from saturation, so $P$ is linear in $B_0/T$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in physical terms why NMR is so insensitive, and why the detected signal improves faster than linearly with $B_0$.",
+				"rubric": "Full credit requires: (1) energy splitting $\\hbar\\gamma B_0$ is much smaller than $kT$, so only about $10^{-5}$ of spins contribute net magnetization; (2) $M_0\\propto\\gamma^2B_0/T$; (3) the induced voltage is proportional to the rate of change of flux, so it carries another factor $\\omega_0\\propto B_0$ (signal $\\propto B_0^2$); noise grows more slowly (about $B_0^{1/2}$), so S/N $\\sim B_0^{3/2}$; (4) high-γ nuclei (¹H) are more sensitive.",
+				"modelAnswer": "The Zeeman splitting is about $10^{-5}kT$ at room temperature, so the two states are nearly equally populated and only a net polarization of about $10^{-5}$ of the spins contributes to $M_0\\propto\\gamma^2B_0/T$. The coil voltage depends on the rate of change of flux, which also grows in proportion to $\\omega_0$, so the signal grows as $B_0^2$ while noise grows only as about $B_0^{1/2}$, giving a gain in S/N of roughly $B_0^{3/2}$."
+			}
+		],
+		"c2-l021-larmor-precession": [
+			{
+				"kind": "mc",
+				"prompt": "For a single spin-½ in a static field, which equation do the quantum expectation values $\\langle\\mathbf I\\rangle$ obey?",
+				"options": [
+					"A classical-like equation that holds only for large spin, and fails for spin-½ because of the quantization of angular momentum",
+					"Exactly the classical torque equation $d\\langle\\mathbf I\\rangle/dt=\\gamma\\langle\\mathbf I\\rangle\\times\\mathbf B$",
+					"A rate equation with jumps α ↔ β at the Larmor frequency, which averages to precession over many spins",
+					"The torque equation only when the spin is in an eigenstate, since superposition states do not precess"
+				],
+				"answer": 1,
+				"explanation": "The Heisenberg equation of motion for a Hamiltonian linear in the spin operators closes on the expectation values (Ehrenfest holds exactly), giving the classical precession law."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A $^1$H nucleus is in the Earth's magnetic field of 50 µT. What is its Larmor frequency, $\\gamma B_0/2\\pi$? Give the answer in kHz.",
+				"answer": 2.129,
+				"tolerance": 0.01,
+				"explanation": "$\\nu=\\gamma B_0/2\\pi=2.129$ kHz, in the audio range (used in Earth's-field NMR and proton magnetometers).",
+				"unit": "kHz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A spin is prepared along $+x$ and precesses in a field along $z$. What happens to the populations of α and β?",
+				"options": [
+					"Both stay at ½; only the relative phase between the α and β amplitudes advances at $\\omega_0$",
+					"The α population oscillates at the Larmor frequency, since the spin points alternately up and down",
+					"The α population decays toward 1 as the spin relaxes into the lower-energy state",
+					"The α and β populations exchange completely every Larmor period, which is why the vector rotates"
+				],
+				"answer": 0,
+				"explanation": "Precession is an evolution of the coherence (relative phase $e^{i\\omega_0t}$), not of populations. $|c_\\alpha|^2$ and $|c_\\beta|^2$ are constants of motion because $H\\propto I_z$ commutes with itself."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why can the bulk magnetization of uncoupled spins be treated as a classical vector, yet this picture fails to describe a pair of J-coupled spins?",
+				"rubric": "Full credit requires: (1) for an isolated spin the expectation values obey the classical torque equation exactly, and the ensemble is a sum of identical independent spins; (2) for coupled spins the relevant observables include two-spin terms such as $2I_xS_z$ that have no counterpart in the vector picture (anti-phase magnetization); (3) the evolution under $2\\pi J I_zS_z$ depends on the state of the partner, which a single vector cannot represent; (4) hence the density operator and product operators.",
+				"modelAnswer": "For one spin the expectation values obey the classical precession equation exactly, so a sum over many identical spins is a classical vector. For two J-coupled spins the evolution of I depends on whether S is up or down, producing two-spin states such as anti-phase magnetization $2I_xS_z$ that are not described by any single magnetization vector. We need the density operator (and its product-operator expansion) to keep track of them."
+			}
+		],
+		"c2-l022-rotating-frame-pulses": [
+			{
+				"kind": "mc",
+				"prompt": "An RF field of order a millitesla can rotate the magnetization even though $B_0$ is 14 T. Why does such a small field have such a large effect?",
+				"options": [
+					"The RF field is amplified by the coil's quality factor to a field comparable with $B_0$ in the sample",
+					"The RF field acts on the electron cloud, which then transmits a much larger field to the nucleus",
+					"The magnetization is unstable in a strong field and any small perturbation tips it into the transverse plane",
+					"In the rotating frame the large $B_0$ is cancelled at resonance, leaving $B_1$ as the only effective field"
+				],
+				"answer": 3,
+				"explanation": "In a frame rotating at $\\omega_0$ the Zeeman term vanishes ($\\Omega=0$), so the spin precesses about $B_1$ at $\\omega_1=\\gamma B_1$ regardless of how large $B_0$ is."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A $^1$H 90° pulse on resonance takes 8.0 µs. What $B_1$ amplitude does that require ($\\omega_1\\tau=\\pi/2$, $B_1=\\omega_1/\\gamma$)? Give the answer in µT.",
+				"answer": 734.0,
+				"tolerance": 0.02,
+				"explanation": "$\\omega_1=(\\pi/2)/8\\,\\mathrm{µs}=1.963e+05$ rad/s, i.e. $\\omega_1/2\\pi=31.25$ kHz, so $B_1=734$ µT (0.73 mT).",
+				"unit": "µT"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A weak 90° pulse with $\\omega_1/2\\pi=2$ kHz is applied to a $^{13}$C spectrum 30 kHz wide. What goes wrong at the edges?",
+				"options": [
+					"Spins far off resonance are flipped by more than 90°, so their signals appear inverted and larger than the rest",
+					"Spins far off resonance precess more slowly in the rotating frame, so they miss the pulse entirely and give no signal",
+					"Spins far off resonance see an effective field tilted almost to the $z$ axis, so they barely flip and have wrong phases",
+					"The pulse excites only the centre of the spectrum because the RF field cannot create a transverse component for the other spins"
+				],
+				"answer": 2,
+				"explanation": "The effective field makes angle $\\arctan(\\omega_1/\\Omega)$ with $z$. For $\\Omega\\gg\\omega_1$ it is nearly along $z$, so the rotation is small and about an axis tilted from $x$: poor excitation bandwidth of order $\\omega_1/2\\pi$."
+			},
+			{
+				"kind": "short",
+				"prompt": "The Rabi oscillation of an optical two-level system and the nutation of a spin under a resonant RF pulse look different. Explain why they are the same mathematics, and name the quantum-mechanical object that corresponds to the Bloch-sphere rotation.",
+				"rubric": "Full credit requires: (1) both are two-level systems driven resonantly by an oscillating field with RWA; (2) in NMR the rotating frame removes the carrier, leaving a static effective Hamiltonian $\\omega_1 I_x$ (or $\\Omega I_z+\\omega_1I_x$), which rotates the Bloch vector; (3) the same detuned Rabi formula with $\\sqrt{\\Omega^2+\\omega_1^2}$; (4) the propagator $e^{-i\\beta I_x}$ is an SU(2) rotation.",
+				"modelAnswer": "Both are a two-level system under a resonant oscillating coupling in the rotating-wave approximation. In NMR, going into the rotating frame removes the fast carrier and leaves a time-independent Hamiltonian $\\Omega I_z+\\omega_1I_x$. The propagator $e^{-i\\beta I_x}$ is a rotation of the spin-½ (an SU(2) element), i.e. a rotation of the Bloch vector by $\\beta=\\omega_1\\tau$; the detuned Rabi formula is the same expression with the effective frequency $\\sqrt{\\Omega^2+\\omega_1^2}$."
+			}
+		],
+		"c2-l023-bloch-t1-t2": [
+			{
+				"kind": "mc",
+				"prompt": "Which statement correctly distinguishes $T_1$ from $T_2$?",
+				"options": [
+					"$T_2$ is always at least as long as $T_1$, because dephasing needs more time than energy transfer",
+					"$T_1$ needs energy exchange with the lattice to change populations, while $T_2$ can decay by dephasing alone",
+					"$T_1$ describes decay of the transverse magnetization, and $T_2$ the recovery of the longitudinal one along the field",
+					"The two are always equal, differing only by the direction in which the magnetization is measured"
+				],
+				"answer": 1,
+				"explanation": "Longitudinal recovery requires energy flow between the spin system and its surroundings; transverse decay can also occur by loss of coherence among spins that are still in the same states. In practice $T_2\\le2T_1$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An inversion-recovery experiment is run on a sample with $T_1=2.5$ s. At what delay does the signal pass through zero, $\\tau_{null}=T_1\\ln2$? Give the answer in s.",
+				"answer": 1.733,
+				"tolerance": 0.02,
+				"explanation": "From $M_z=M_0(1-2e^{-\\tau/T_1})=0$: $\\tau=2.5\\ln2=1.733$ s. This null is a quick estimate of $T_1$.",
+				"unit": "s"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 1.0 s repetition time is used on a sample with $T_1=2.0$ s. What flip angle maximizes the steady-state signal, $\\cos\\theta_E=e^{-T_R/T_1}$? Give the answer in degrees.",
+				"answer": 52.66,
+				"tolerance": 0.02,
+				"explanation": "$e^{-0.5}=0.6065$ so $\\theta_E=52.7^\\circ$: a smaller flip angle than 90° gives more signal per unit time when spins have not fully relaxed.",
+				"unit": "degrees"
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is the measured linewidth of a peak usually determined by $T_2^*$ rather than $T_2$, and how would you measure each?",
+				"rubric": "Full credit requires: (1) $T_2^*$ includes static field inhomogeneity: $1/T_2^*=1/T_2+\\gamma\\Delta B_0$; (2) the FID decays with $T_2^*$ (line width $1/\\pi T_2^*$); (3) $T_2$ (the intrinsic part) is measured with a spin echo/CPMG, which refocuses the static inhomogeneity; (4) improving shimming increases $T_2^*$.",
+				"modelAnswer": "The FID decays by true $T_2$ processes plus dephasing from spatial variation of $B_0$ across the sample, so $1/T_2^*=1/T_2+\\gamma\\Delta B_0$ and the line width is $1/(\\pi T_2^*)$. $T_2$ is obtained from a spin-echo or CPMG experiment, where a 180° pulse refocuses the static inhomogeneity so that the echo amplitude decays only with $T_2$; good shimming brings $T_2^*$ close to $T_2$."
+			}
+		],
+		"c2-l024-fid-fourier-transform": [
+			{
+				"kind": "mc",
+				"prompt": "After Fourier transformation the real part of a phased signal is a Lorentzian absorption line and the imaginary part a dispersion line. Why are dispersion line shapes undesirable for analysis?",
+				"options": [
+					"They have long $1/\\Delta\\omega$ tails with positive and negative lobes that blur neighbouring peaks",
+					"They carry no frequency information, since they are centred at zero frequency and are always symmetric",
+					"They are exactly twice as wide as the absorption line, so the resolution is halved for every peak",
+					"They are always inverted relative to the absorption line, so neighbouring peaks cancel in the sum"
+				],
+				"answer": 0,
+				"explanation": "Absorption $\\propto\\lambda/(\\lambda^2+\\Delta\\omega^2)$ falls off as $1/\\Delta\\omega^2$, dispersion $-\\Delta\\omega/(\\lambda^2+\\Delta\\omega^2)$ as $1/\\Delta\\omega$ and changes sign. Phase correction mixes them to obtain pure absorption."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A well-shimmed singlet has a measured FWHM of 1.5 Hz. If the line is Lorentzian, what decay time $T_2^*$ does the FID have, $T_2^*=1/(\\pi\\Delta\\nu_{1/2})$? Give the answer in s.",
+				"answer": 0.2122,
+				"tolerance": 0.02,
+				"explanation": "$T_2^*=1/(\\pi\\times1.5)=0.212$ s: the FID is essentially gone after about $5T_2^*\\approx1$ s.",
+				"unit": "s"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does a single-channel (real) receiver, recording only $\\cos(\\omega t)$, give mirror-image peaks?",
+				"options": [
+					"The phase of the receiver rotates by 180° at the carrier, which flips the sign of all peaks",
+					"The real channel records only the dispersion part, which is antisymmetric about the carrier",
+					"The real channel has half the bandwidth, so lines beyond the Nyquist limit fold back over the spectrum of the sample",
+					"$\\cos\\omega t$ cannot distinguish $+\\Omega$ from $-\\Omega$ relative to the reference, so each line has a mirror"
+				],
+				"answer": 3,
+				"explanation": "Detecting both $\\cos$ and $\\sin$ (quadrature) gives $e^{i\\Omega t}$ and so the sign of $\\Omega$, putting the transmitter at the centre of the spectrum with no ambiguity."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the 'multiplex' advantage of pulsed FT-NMR over scanning the frequency (continuous wave), and what the phase correction does.",
+				"rubric": "Full credit requires: (1) a short intense pulse excites all frequencies at once and the receiver records them all simultaneously, so the spectrum is built in one transient; (2) repeated transients can be added and noise averages as $\\sqrt N$, so many scans give far better S/N in a given time than a swept scan of the same range; (3) phase correction adjusts zero- and first-order phase so that the real part is pure absorption, compensating for receiver phase and dead time.",
+				"modelAnswer": "In FT-NMR one short pulse excites every resonance in the spectral window and all of them are recorded simultaneously in the FID. A CW scan visits each frequency element one at a time, so in the same total time FT collects a gain of about the square root of the number of resolution elements in S/N. The complex FT mixes absorption and dispersion because of receiver phase and the delay before acquisition; zero- and first-order phase correction rotates each point to restore pure absorption lines."
+			}
+		],
+		"c2-l025-sampling-apodisation": [
+			{
+				"kind": "mc",
+				"prompt": "In the indirect dimension of a 2D experiment (sampled once per increment), a peak lies 500 Hz outside the spectral window. Where does it appear?",
+				"options": [
+					"It disappears completely, because the sampling rate cannot represent frequencies beyond the window of the experiment",
+					"At its true position but at reduced intensity, because the filter attenuates it",
+					"Folded back inside the window, displaced from its true position by a multiple of the spectral width",
+					"At the edge of the window as a broad, distorted hump with no sharp structure"
+				],
+				"answer": 2,
+				"explanation": "Frequencies above $SW/2$ alias: $\\Omega\\to\\Omega-SW$ (folding). In the direct dimension modern spectrometers oversample and filter digitally to suppress this; in indirect dimensions it must be avoided by choosing $SW_1$ to cover all peaks."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "You record a $^1$H spectrum at 600 MHz over 20 ppm ($SW=12\\,000$ Hz) with 32768 complex points. What is the acquisition time $T_{acq}=N\\Delta t$ (with $\\Delta t=1/SW$)? Give the answer in s.",
+				"answer": 2.731,
+				"tolerance": 0.02,
+				"explanation": "$\\Delta t=1/12000=83.3$ µs, so $T_{acq}=32768\\times83.3\\,\\mathrm{µs}=2.731$ s and the digital resolution is $1/T_{acq}=0.366$ Hz per point.",
+				"unit": "s"
+			},
+			{
+				"kind": "mc",
+				"prompt": "You multiply an FID by $e^{-\\pi\\,LB\\,t}$ with LB = 3 Hz when the natural linewidth is 0.5 Hz. What are the consequences?",
+				"options": [
+					"The resolution improves because the exponential sharpens the peak while leaving the noise unchanged",
+					"The S/N improves because the noisy tail is suppressed, but lines broaden to about 3.5 Hz and resolution is lost",
+					"The line positions shift by LB and the integrals change, because the exponential acts directly on the frequencies in the spectrum",
+					"Only the baseline is changed, because the exponential acts on the noise at the end of the FID"
+				],
+				"answer": 1,
+				"explanation": "Exponential multiplication convolves the spectrum with a Lorentzian of width LB, so widths add; the matched-filter choice LB ≈ natural width maximizes S/N."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why zero filling doesn't improve true resolution, and what happens to the spectrum if the FID has not decayed to zero at the end of acquisition.",
+				"rubric": "Full credit requires: (1) resolution is set by the acquisition time ($\\sim1/T_{acq}$); zero filling adds no new information, only interpolates between points of the same transform and gives smoother line shapes; (2) truncation multiplies the FID by a box, convolving the spectrum with a sinc: 'sinc wiggles' around lines; (3) apodisation (windowing) to reduce wiggles at the cost of broadening.",
+				"modelAnswer": "The information in the spectrum is limited to what was recorded in $T_{acq}$, so the intrinsic resolution is about $1/T_{acq}$. Zero filling adds more points to the transform but only interpolates the same spectrum, making the peaks look smoother. If the FID is cut off before it has decayed, the sudden truncation convolves the spectrum with a sinc function and produces oscillating wiggles; a decaying window removes them at the price of extra line broadening."
+			}
+		],
+		"c2-l026-spin-echoes": [
+			{
+				"kind": "mc",
+				"prompt": "In a Hahn echo $90^\\circ_x$–τ–$180^\\circ_y$–τ, the static field inhomogeneity is refocused but true $T_2$ decay is not. Why?",
+				"options": [
+					"The 180° pulse reverses phases from fixed offsets, but random fluctuations of a spin's frequency are not reversed",
+					"The 180° pulse increases $T_2$ by flipping the spins into the lower-energy state, where they stay coherent for longer",
+					"The echo only works when $T_2^*=T_2$, so any field inhomogeneity would prevent the refocusing of the phases",
+					"The 180° pulse lets the spins relax toward equilibrium while the phase is rewound, which restores the lost coherence"
+				],
+				"answer": 0,
+				"explanation": "A spin that precesses at constant offset $\\Omega$ gains phase $\\Omega\\tau$ before and $-\\Omega\\tau$ after the π pulse. Fluctuating fields change the offset randomly between the periods and leave a net phase."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In a spin-echo experiment the echo amplitude at $2\\tau=200$ ms is 30% of its value at $2\\tau\\to0$. What is $T_2$, using $S(2\\tau)=S(0)e^{-2\\tau/T_2}$? Give the answer in ms.",
+				"answer": 166.1,
+				"tolerance": 0.02,
+				"explanation": "$T_2=2\\tau/\\ln(1/0.30)=166.1$ ms. Unlike $T_2^*$ from the FID, this includes only irreversible dephasing.",
+				"unit": "ms"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two coupled protons ($J=7$ Hz) with different shifts receive a non-selective 180° pulse in the middle of a delay $2\\tau$. Compared with free evolution, what happens?",
+				"options": [
+					"Shifts and J-coupling are both refocused, so the signal is independent of $\\tau$ except for the usual $T_2$ decay of the echo",
+					"J-coupling is refocused and the shifts continue to evolve, so the lines split in proportion to $\\tau$ during the delay",
+					"Neither is refocused, since a 180° pulse on both spins swaps their roles and cancels the effect",
+					"The shifts are refocused but J evolution continues through the whole delay, giving cosine modulation $\\cos(2\\pi J\\tau)$"
+				],
+				"answer": 3,
+				"explanation": "A π pulse on both spins flips $I_z$ and $S_z$ together, so $I_zS_z$ is unchanged and J evolution continues, while the offsets enter linearly and are refocused. This J-modulation is the basis of editing sequences."
+			},
+			{
+				"kind": "short",
+				"prompt": "Use the rotating-frame picture to explain how a 180° pulse refocuses isochromats that fan out after a 90° pulse, and say what 'refocused' means for the echo signal.",
+				"rubric": "Full credit requires: (1) after a 90° pulse spins at different offsets precess at different rates and fan out; (2) the 180° pulse about an axis in the transverse plane reflects each vector across the axis, so fast spins that were ahead are now behind by the same angle; (3) they continue to precess at the same rates, so after another τ they all come together at the same phase; (4) the echo forms at 2τ with amplitude limited by true $T_2$ loss.",
+				"modelAnswer": "After the 90° pulse, isochromats with different offsets accumulate phase $\\Omega\\tau$ and fan out. The 180° pulse reflects each vector about its axis so a phase $+\\Omega\\tau$ becomes $-\\Omega\\tau$. Each spin then continues to precess at its own rate and after a further τ gains $+\\Omega\\tau$, so all phases cancel simultaneously at $t=2\\tau$ and the net magnetization re-forms, reduced only by irreversible $T_2$ processes."
+			}
+		],
+		"c2-l027-chemical-shift-shielding": [
+			{
+				"kind": "mc",
+				"prompt": "Two protons at 7.3 and 1.2 ppm are measured at 400 MHz and then at 800 MHz. How does their separation change?",
+				"options": [
+					"Doubled in ppm and doubled in Hz, because the stronger field increases the electron shielding",
+					"Unchanged in ppm and in Hz, because the shielding is a property of the molecule alone",
+					"Unchanged in ppm, but doubled in Hz, because the shielding is a fixed fraction of $B_0$",
+					"Doubled in ppm but unchanged in Hz, because the ppm scale is defined relative to the field"
+				],
+				"answer": 2,
+				"explanation": "$\\nu_i=\\nu_0(1-\\sigma_i)$, so $\\Delta\\nu=\\nu_0\\Delta\\sigma$ grows with $B_0$ whereas $\\delta=\\Delta\\sigma\\times10^6$ does not. J couplings stay fixed in Hz, so higher field makes spectra more first-order."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two proton resonances differ by 6.1 ppm. What is their separation in Hz at 800 MHz?",
+				"answer": 4880.0,
+				"tolerance": 0.01,
+				"explanation": "$\\Delta\\nu=6.1\\times10^{-6}\\times800\\times10^{6}\\ \\mathrm{Hz}=4880$ Hz. At 500 MHz the same lines would be 3050 Hz apart.",
+				"unit": "Hz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Protons held above the face of a benzene ring in a cyclophane are shifted upfield. What is the origin of the shift?",
+				"options": [
+					"The ring has high electron density above its face, which raises the diamagnetic shielding of the proton",
+					"The ring current induces a local field opposing $B_0$ above the ring face, so these protons are more shielded",
+					"The paramagnetic term $\\sigma_p$ dominates there, because the π orbitals have low-lying excited states",
+					"The ring current induces a field that adds to $B_0$ in the plane of the ring, which lowers the proton frequency"
+				],
+				"answer": 1,
+				"explanation": "The induced field lines of the ring current oppose $B_0$ above the ring and reinforce it in the plane (the aromatic H at 7+ ppm). The effect depends on orientation, so it is a tensor property."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why chemical shifts are quoted in ppm rather than Hz, and what the shielding constant $\\sigma$ physically represents.",
+				"rubric": "Full credit requires: (1) the electrons produce a local field proportional to $B_0$: $B_{loc}=B_0(1-\\sigma)$, so the frequency shift is proportional to the spectrometer frequency; (2) dividing by the reference frequency gives a number independent of $B_0$ (ppm); (3) $\\sigma$ is the induced field per applied field, with diamagnetic (opposes) and paramagnetic (reinforces) contributions and ring-current/anisotropy effects; (4) J couplings do not scale with $B_0$ so they are quoted in Hz.",
+				"modelAnswer": "The applied field induces currents in the electron cloud that create a small local field proportional to $B_0$, so the nucleus sees $B_0(1-\\sigma)$. The resonance frequency shift is therefore proportional to the spectrometer frequency, and dividing by it gives a field-independent ppm number. σ is the ratio of induced to applied field: it has a diamagnetic part that opposes $B_0$ and a paramagnetic part that reinforces it, plus anisotropy effects such as ring currents."
+			}
+		],
+		"c2-l028-j-coupling-hamiltonian": [
+			{
+				"kind": "mc",
+				"prompt": "Why does the scalar coupling $J$ survive rapid isotropic tumbling in solution, while the through-space dipolar coupling is averaged to zero?",
+				"options": [
+					"$J$ has an orientation-independent (isotropic) part, whereas the dipolar interaction is traceless and averages to zero",
+					"$J$ acts through the electrons, which tumble faster than the molecule and so average it only partly in solution",
+					"The dipolar coupling is weaker than $J$ in every molecule, so it is lost under the line width",
+					"$J$ is a property of the spin energy levels, but the dipolar coupling is a property of the sample magnet and its field"
+				],
+				"answer": 0,
+				"explanation": "$H_J=2\\pi J\\,\\mathbf I\\cdot\\mathbf S$ is a scalar product, the same in every orientation. The dipolar term has the form $(3\\cos^2\\theta-1)$, whose isotropic average is zero."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Take the Karplus parameters $A=7$, $B=-1$, $C=5$ Hz in ${}^3J(\\theta)=A\\cos^2\\theta+B\\cos\\theta+C$. What is ${}^3J$ for an anti-periplanar (180°) H–C–C–H arrangement? Give the answer in Hz.",
+				"answer": 13.0,
+				"tolerance": 0.02,
+				"explanation": "$\\cos180^\\circ=-1$, so ${}^3J=7+1+5=13$ Hz. A gauche arrangement (60°) gives 6.25 Hz: large couplings signal trans-diaxial protons.",
+				"unit": "Hz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "The full coupling term $2\\pi J\\,\\mathbf I\\cdot\\mathbf S$ reduces to $2\\pi J\\,I_zS_z$ when:",
+				"options": [
+					"The two spins are chemically equivalent, so their precession is locked together at one frequency in the rotating frame",
+					"The coupling exceeds the shift difference, so the spins no longer precess independently",
+					"The sample is in a very weak magnetic field, so the spins no longer define a quantization axis for the coupling",
+					"The shift difference $|\\nu_I-\\nu_S|$ is much larger than $|J|$, so the flip-flop terms are non-secular"
+				],
+				"answer": 3,
+				"explanation": "The flip-flop terms $I_+S_-+I_-S_+$ connect states with energy difference $2\\pi|\\nu_I-\\nu_S|$; when this exceeds $J$ they are only a tiny perturbation (second order). This is the weak-coupling (AX) limit."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically why ³J depends on the dihedral angle and why J does not depend on $B_0$ in Hz while chemical shifts do.",
+				"rubric": "Full credit requires: (1) $J$ is transmitted by the bonding electrons (Fermi contact), through the overlap of the orbitals in the H–C–C–H pathway; the overlap and spin polarization depend on the dihedral angle (maximum when anti or syn, minimum near 90°); (2) the coupling energy $hJ$ arises from the interaction of nuclear spins with the electron spin polarization, which does not depend on the applied field; (3) shifts come from $B_{loc}=B_0(1-\\sigma)$ and scale with $B_0$.",
+				"modelAnswer": "J is carried by electron spin polarization along the bonds: each nucleus polarizes the electrons it overlaps (Fermi contact), and the neighbouring nucleus feels that polarization. For three-bond couplings the orbital overlap across the central C–C bond depends on the dihedral angle, hence the Karplus curve. The effect depends only on the internal electronic structure, not on $B_0$, so J is a fixed number in Hz, whereas shifts arise from induced fields proportional to $B_0$."
+			}
+		],
+		"c2-l029-weak-coupling-multiplets": [
+			{
+				"kind": "mc",
+				"prompt": "The CH₂ protons of an ethyl group appear as a quartet with intensities 1:3:3:1. What is the reason?",
+				"options": [
+					"The CH₂ protons couple to three non-equivalent neighbours with identical couplings, giving three separate splittings",
+					"The CH₃ group can rotate, giving the four lines as four rotamers with populations in the ratio 1:3:3:1",
+					"The three equivalent CH₃ neighbours have $2^3=8$ spin states grouped by total $m$ with multiplicities 1:3:3:1",
+					"The quartet is the AX pattern of two spins whose intensities depend on the shift difference between the two nuclei"
+				],
+				"answer": 2,
+				"explanation": "Each CH₃ spin orientation shifts the CH₂ line by $\\pm J/2$; equivalent neighbours make total shifts $\\sum m_iJ$ with binomial weights. Lines occur at $-\\frac32J,-\\frac12J,\\frac12J,\\frac32J$ relative to the centre."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A proton couples to three equivalent protons ($J=7$ Hz) and to one further proton ($J=3$ Hz). What is the total width from the first to the last line of its multiplet? Give the answer in Hz.",
+				"answer": 24.0,
+				"tolerance": 0.01,
+				"explanation": "The pattern is a doublet of quartets: $3\\times7+3=24$ Hz from outer line to outer line, with 8 lines.",
+				"unit": "Hz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "The two protons of a CH₂ group are chemically equivalent. Why do they not split each other's signals?",
+				"options": [
+					"Their coupling constant is zero because both protons lie on the same carbon and share the same bonding electrons",
+					"Their mutual coupling shifts only the singlet-like state; the allowed triplet-like transitions are unchanged",
+					"Their chemical shifts are equal, so the coupling vanishes when the two Larmor frequencies are identical in the spectrum",
+					"The coupling is averaged out by rapid exchange of the two protons between the two sites on the carbon"
+				],
+				"answer": 1,
+				"explanation": "For equivalent spins the symmetric RF perturbation only connects states of the same total spin, and the coupling energy $J\\,\\mathbf I_1\\cdot\\mathbf I_2$ is the same for the initial and final triplet states, so it cancels in transition frequencies."
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from $E=-\\nu_Im_I-\\nu_Sm_S+Jm_Im_S$, show how the four-line AX pattern arises and explain which transitions are observed.",
+				"rubric": "Full credit requires: (1) four levels labelled αα, αβ, βα, ββ with the given energies; (2) allowed transitions flip a single spin ($\\Delta m=\\pm1$ of one spin only): two transitions for I and two for S; (3) the I transitions differ by $\\pm J/2$ depending on the state of S (they occur at $\\nu_I\\mp J/2$) giving a doublet of splitting $J$, similarly for S; (4) intensities equal in the weak-coupling limit.",
+				"modelAnswer": "The four product states αα, αβ, βα, ββ have energies set by the two Zeeman terms and a coupling term $Jm_Im_S$. Single-quantum transitions flip one spin: I flips with S in α or in β, giving two lines at $\\nu_I\\mp J/2$, and similarly two lines for S at $\\nu_S\\mp J/2$. So each spin shows a doublet split by $J$, and all four lines have equal intensity in the weak-coupling limit."
+			}
+		],
+		"c2-l030-ab-strong-coupling": [
+			{
+				"kind": "mc",
+				"prompt": "As the shift difference $\\Delta\\nu$ of an AB system is reduced to zero at fixed $J$, what happens to the four-line pattern?",
+				"options": [
+					"The two inner lines merge into one line carrying all the intensity, and the outer lines vanish",
+					"All four lines become equal in intensity and spaced by $J$, as for an AX system",
+					"The doublets of A and B coincide, so each line doubles in height but stays at its original position in the spectrum",
+					"The spectrum disappears, because chemically equivalent spins have no allowed transitions in the magnetic field"
+				],
+				"answer": 0,
+				"explanation": "Outer intensity $\\propto1-\\sin2\\theta=1-J/D\\to0$ when $D\\to J$. A single line remains because equivalent spins show no coupling in the spectrum."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An AB system has $\\Delta\\nu=20$ Hz and $J=12$ Hz. With $D=\\sqrt{\\Delta\\nu^2+J^2}$, what is the intensity ratio of an inner line to an outer line, $(D+J)/(D-J)$?",
+				"answer": 3.119,
+				"tolerance": 0.02,
+				"explanation": "$D=23.324$ Hz, so the ratio is $(23.32+12)/(23.32-12)=3.12$. The lines are at $\\pm17.66$ and $\\pm5.66$ Hz from the centre."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The same two protons ($\\Delta\\delta$ = 0.05 ppm, $J=12$ Hz) are recorded at 300 MHz and at 800 MHz. What change is seen?",
+				"options": [
+					"The pattern becomes more strongly coupled at 800 MHz, because J is larger in a stronger magnetic field for these protons",
+					"The pattern is unchanged, because it depends only on the ppm separation of the two protons",
+					"The pattern collapses to a singlet at 800 MHz, because the two spins become effectively equivalent at the higher field",
+					"The AB pattern at 300 MHz becomes closer to a true AX pattern at 800 MHz, because $\\Delta\\nu$ grows and $J$ does not"
+				],
+				"answer": 3,
+				"explanation": "At 300 MHz $\\Delta\\nu=15$ Hz (strongly roofed); at 800 MHz $\\Delta\\nu=40$ Hz, so $\\Delta\\nu/J\\approx3.3$ and the pattern is closer to first order. Higher field simplifies spectra."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the two-spin AB problem is exactly solvable by a 2×2 diagonalization and what the mixing angle tells you.",
+				"rubric": "Full credit requires: (1) the Hamiltonian conserves total $m=m_I+m_S$, so αα and ββ are eigenstates and αβ, βα mix only with each other; (2) the 2×2 block has diagonal elements $\\pm\\Delta\\nu/2$ and off-diagonal $J/2$, giving energies $\\pm D/2$ and mixing angle $\\tan2\\theta=J/\\Delta\\nu$; (3) the mixing shifts intensity from outer to inner lines (roofing) and, for $\\Delta\\nu\\to0$, the eigenstates become singlet and triplet combinations (symmetry).",
+				"modelAnswer": "Because the Hamiltonian commutes with the total $I_z+S_z$, the states αα and ββ are eigenstates and only αβ and βα can mix, in a 2×2 block with diagonal $\\pm\\Delta\\nu/2$ and off-diagonal $J/2$. Its eigenvalues are $\\pm D/2$, with $D=\\sqrt{\\Delta\\nu^2+J^2}$, and the mixing angle satisfies $\\tan2\\theta=J/\\Delta\\nu$. For small $\\Delta\\nu/J$ the states become the triplet and singlet combinations, and the transition probabilities shift weight to the inner lines."
+			}
+		],
+		"c2-l031-anisotropic-motional-averaging": [
+			{
+				"kind": "mc",
+				"prompt": "Tumbling in solution removes dipolar splittings from a high-resolution spectrum, yet the dipolar interaction remains the main source of $T_1$. How?",
+				"options": [
+					"The coupling is truly zero in solution, so relaxation comes only from the scalar coupling $J$ between the nuclei",
+					"The coupling becomes isotropic on tumbling and adds a constant to $J$, which then drives the relaxation of the spins",
+					"The orientation average of $(3\\cos^2\\theta-1)$ is zero, but its fluctuations near the Larmor frequency still drive transitions",
+					"The average vanishes only for the secular part, so the non-secular part gives a permanent splitting"
+				],
+				"answer": 2,
+				"explanation": "The mean of a fluctuating interaction is zero but its power spectrum $J(\\omega)$ is not: random reorientation at rates ~$\\omega_0$ causes spin flips. This fluctuation is the subject of relaxation theory."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the dipolar coupling constant $b/2\\pi$ for two protons 1.78 Å apart (geminal CH₂), $b=(\\mu_0/4\\pi)\\gamma^2\\hbar/r^3$. Give the answer in kHz.",
+				"answer": 21.3,
+				"tolerance": 0.03,
+				"explanation": "$b=1.338e+05$ rad/s so $b/2\\pi=21.3$ kHz, thousands of times larger than the few-Hz couplings seen in solution, showing how complete the averaging is.",
+				"unit": "kHz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the magic angle 54.74° used for magic-angle spinning of solids?",
+				"options": [
+					"At that angle the sample coil has maximal filling factor, which maximizes the NMR signal from the spinning rotor",
+					"At that angle $3\\cos^2\\theta-1=0$, so spinning about that axis averages rank-2 anisotropic interactions to zero",
+					"It is the angle at which the Larmor frequency is exactly equal to the spinning frequency of the rotor in the field",
+					"At that angle the magnetic field has no gradient across the rotor, so shimming is not needed"
+				],
+				"answer": 1,
+				"explanation": "The anisotropy of shielding, dipolar and first-order quadrupolar couplings is $\\propto P_2(\\cos\\theta)=\\frac12(3\\cos^2\\theta-1)$; spinning at $\\theta_m=\\arccos(1/\\sqrt3)$ replicates the isotropic tumbling average."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how fast molecular tumbling turns a broad powder pattern into a single sharp line, and what 'fast' must be compared with.",
+				"rubric": "Full credit requires: (1) in a static sample each orientation has its own frequency $\\propto(3\\cos^2\\theta-1)$, giving a broad powder pattern; (2) if the molecule samples all orientations in a time short compared with the inverse of the pattern width ($\\tau_c\\ll1/\\omega_{aniso}$), each spin sees the average frequency (the isotropic value); (3) motional narrowing: the residual width scales as $\\omega_{aniso}^2\\tau_c$; (4) in viscous or large systems the average is incomplete and lines broaden.",
+				"modelAnswer": "In a static sample each molecule's frequency depends on its orientation through $(3\\cos^2\\theta-1)$, producing a broad powder pattern. When tumbling is fast, i.e. the correlation time is short compared with the inverse of the anisotropic frequency spread, each spin sees the orientation average, which is zero for the anisotropic part, leaving the isotropic value as a sharp line. The remaining width scales as $\\omega_{aniso}^2\\tau_c$, so slower tumbling in larger molecules or viscous solvents broadens lines again."
+			}
+		],
+		"c2-l032-density-operator": [
+			{
+				"kind": "mc",
+				"prompt": "A pure state $(|\\alpha\\rangle+|\\beta\\rangle)/\\sqrt2$ and a 50:50 mixture of $|\\alpha\\rangle$ and $|\\beta\\rangle$ have the same populations. How do their density matrices differ?",
+				"options": [
+					"The pure state has off-diagonal elements $\\rho_{\\alpha\\beta}=\\frac12$ (coherence); the mixture has zero ones",
+					"The pure state has zero off-diagonal elements, while the mixture has $\\rho_{\\alpha\\beta}=\\frac12$ as its coherence",
+					"They are identical, because the populations are the same and only populations enter the matrix",
+					"The pure state has larger diagonal elements, since a pure state has all spins in the α state"
+				],
+				"answer": 0,
+				"explanation": "Off-diagonal elements measure phase coherence. The mixture has random phases, whose average is zero, so it has no transverse magnetization; the pure superposition points along $x$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can the identity part of the thermal density operator, $\\tfrac12\\mathbf1+(\\ldots)I_z$, be dropped in NMR calculations?",
+				"options": [
+					"It is exponentially small at room temperature, so it can be neglected compared with the $I_z$ term in the operator",
+					"It averages to zero over the ensemble, so it contributes no net population to either level of the spin",
+					"It is not Hermitian, so it cannot describe a physical state of the ensemble of spins in the sample",
+					"It commutes with every Hamiltonian and gives zero for any traceless observable, so it never contributes"
+				],
+				"answer": 3,
+				"explanation": "$\\mathbf 1$ is unchanged by any unitary evolution, and $\\mathrm{Tr}(\\mathbf1\\,I_k)=0$ for the traceless spin operators. Only the deviation from the identity carries the dynamics and the signal."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "How many independent operators (including the identity) are needed to expand the density operator of 4 coupled spins-½ in the product-operator basis?",
+				"answer": 256.0,
+				"tolerance": 0.001,
+				"explanation": "The Hilbert space has dimension $2^4=16$, so $\\rho$ is a 16×16 matrix with $16^2=4^4=256$ independent operators, which is why product-operator bookkeeping becomes heavy for many spins."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a coherence between the α and β states is the quantum-mechanical description of transverse magnetization, and how you would read $\\langle I_x\\rangle$ and $\\langle I_y\\rangle$ from the density matrix.",
+				"rubric": "Full credit requires: (1) $\\langle I_x\\rangle=\\mathrm{Tr}(\\rho I_x)$ involves the off-diagonal elements $\\rho_{\\alpha\\beta},\\rho_{\\beta\\alpha}$ because $I_x$ has only off-diagonal elements in the Zeeman basis; (2) $\\langle I_x\\rangle=\\mathrm{Re}\\rho_{\\alpha\\beta}$, $\\langle I_y\\rangle=-\\mathrm{Im}\\rho_{\\alpha\\beta}$ (convention); (3) populations alone (diagonal) give only $\\langle I_z\\rangle$; so transverse magnetization needs phase-coherent superposition across the ensemble.",
+				"modelAnswer": "$I_x$ and $I_y$ have only off-diagonal matrix elements in the α/β basis, so $\\mathrm{Tr}(\\rho I_x)$ picks out $\\mathrm{Re}\\,\\rho_{\\alpha\\beta}$ and $\\mathrm{Tr}(\\rho I_y)$ picks out $-\\mathrm{Im}\\,\\rho_{\\alpha\\beta}$ (for the usual convention). Populations on the diagonal only give $\\langle I_z\\rangle$. So an ensemble has net transverse magnetization only when its members are in superpositions with a common phase, i.e. a coherence between α and β."
+			}
+		],
+		"c2-l033-liouville-rotations": [
+			{
+				"kind": "mc",
+				"prompt": "Under the Hamiltonian $H=\\Omega I_z$, how does the operator $I_x$ evolve (using $e^{-i\\Omega tI_z}\\,I_x\\,e^{i\\Omega tI_z}$)?",
+				"options": [
+					"$I_x\\to I_xe^{-\\Omega t}$, an exponential decay in which the operator is damped by the Zeeman term",
+					"$I_x\\to I_x$, unchanged, because $I_x$ commutes with the Hamiltonian $\\Omega I_z$",
+					"$I_x\\to I_x\\cos\\Omega t+I_y\\sin\\Omega t$, a rotation about the $z$ axis through angle $\\Omega t$",
+					"$I_x\\to I_z\\cos\\Omega t+I_x\\sin\\Omega t$, a rotation about the $y$ axis through angle $\\Omega t$"
+				],
+				"answer": 2,
+				"explanation": "Using $[I_z,I_x]=iI_y$ repeatedly, $e^{-i\\Omega tI_z}I_xe^{i\\Omega tI_z}=I_x\\cos\\Omega t+I_y\\sin\\Omega t$. $I_x$ does not commute with $I_z$, so it does evolve."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Equilibrium magnetization $I_z$ is rotated by a 90°ₓ pulse (taking $I_z\\to-I_y$) and then evolves for 1.25 ms under $H=\\Omega I_z$ with $\\Omega/2\\pi=100$ Hz, using $I_y\\to I_y\\cos\\Omega t-I_x\\sin\\Omega t$. What is the coefficient of $I_x$?",
+				"answer": 0.7071,
+				"tolerance": 0.02,
+				"explanation": "$-I_y\\to-I_y\\cos\\Omega t+I_x\\sin\\Omega t$ with $\\Omega t=2\\pi\\times100\\times1.25\\times10^{-3}=\\pi/4$, so the coefficient of $I_x$ is $\\sin(\\pi/4)=0.7071$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do the commutation relations $[I_x,I_y]=iI_z$ (and cyclic) suffice to compute the effect of pulses and shifts on $\\rho$?",
+				"options": [
+					"Commutators measure how fast the operators relax, so they give the damping of each term in the density operator",
+					"The series $e^{-i\\phi A}Be^{i\\phi A}$ closes: repeated commutators cycle among $I_x,I_y,I_z$ and sum to $\\cos\\phi$, $\\sin\\phi$",
+					"The Hamiltonian only has $I_z$ terms, so every other commutator vanishes after one step of the evolution",
+					"The relations ensure that all operators are diagonal in the Zeeman basis, which simplifies the algebra of the pulses"
+				],
+				"answer": 1,
+				"explanation": "$[I_z,I_x]=iI_y$, $[I_z,I_y]=-iI_x$: applying $-i[\\,\\cdot\\,,\\,\\cdot\\,]$ twice returns the original operator with a minus sign, i.e. the series of $\\cos$ and $\\sin$ (a rotation)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in words why rotating the operator $\\rho$ with $e^{-iH t}\\rho\\, e^{iHt}$ is equivalent to rotating the Bloch magnetization vector, and why this makes the product-operator method possible.",
+				"rubric": "Full credit requires: (1) the coefficients of $I_x,I_y,I_z$ in $\\rho$ are proportional to $\\langle I_x\\rangle,\\langle I_y\\rangle,\\langle I_z\\rangle$, i.e. the magnetization vector; (2) the commutator algebra shows the pulse or shift transforms these coefficients as a rotation; (3) for several spins the same algebra applies to the product operators, with J evolution as a rotation generated by $2I_zS_z$, so each step is a simple rotation rule.",
+				"modelAnswer": "The coefficients of $I_x$, $I_y$, $I_z$ in the expansion of $\\rho$ are proportional to the expectation values, so they form the magnetization vector. The commutator algebra shows that conjugating by $e^{-i\\phi I_k}$ rotates these coefficients by angle φ about axis $k$, exactly as the Bloch vector rotates. The same algebra works for products of operators, where each pulse, shift or coupling evolution is one more rotation, which is the basis of the product-operator method."
+			}
+		],
+		"c2-l034-product-operators": [
+			{
+				"kind": "mc",
+				"prompt": "In the product-operator description, what does the term $2I_xS_z$ look like in the spectrum of spin I?",
+				"options": [
+					"An anti-phase doublet: two lines separated by $J$ with opposite signs, because the sign depends on the state of S",
+					"An in-phase doublet separated by $J$, because both lines have the same sign as for $I_x$ in the spectrum",
+					"A single line at the I chemical shift, because the $S_z$ factor averages over the two S states in the sample",
+					"No signal, because the factor $S_z$ is longitudinal and the term is therefore unobservable at the receiver coil"
+				],
+				"answer": 0,
+				"explanation": "$2I_xS_z=I_x(\\text{S}\\alpha)-I_x(\\text{S}\\beta)$ (in units of ½): I coherence with opposite sign for S in α and β, i.e. a doublet with one positive and one negative line."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A one-bond $^1J_{CH}$ is 145 Hz. After how long does in-phase proton magnetization become fully anti-phase, $t=1/(2J)$? Give the answer in ms.",
+				"answer": 3.448,
+				"tolerance": 0.01,
+				"explanation": "$I_x\\to I_x\\cos\\pi Jt+2I_yS_z\\sin\\pi Jt$ is purely anti-phase when $\\pi Jt=\\pi/2$, i.e. $t=1/2J=3.448$ ms: the delay used in INEPT and HSQC.",
+				"unit": "ms"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which of the following product operators for two spins gives no signal at the receiver?",
+				"options": [
+					"$2I_xS_z$, because the $S_z$ factor is longitudinal, which cancels the $I_x$ signal",
+					"$I_y$, because the signal of in-phase magnetization is cancelled by the opposite phase of $I_x$",
+					"$2I_yS_z$, because a product of two operators is a multiple-quantum term that cannot be detected",
+					"$2I_zS_z$, because it is longitudinal two-spin order with no transverse component"
+				],
+				"answer": 3,
+				"explanation": "Detectable terms are single-quantum transverse coherences (one spin transverse, the other either in-phase or longitudinal). $2I_zS_z$ has no transverse component; $2I_xS_y$-type terms are zero- and double-quantum."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what 'anti-phase' means physically and why J-coupling evolution turns in-phase magnetization into anti-phase magnetization.",
+				"rubric": "Full credit requires: (1) during the delay, the I magnetization of molecules with S in α precesses at $\\Omega_I+\\pi J$ and with S in β at $\\Omega_I-\\pi J$, so the two sets of vectors fan out in opposite directions; (2) after time $1/2J$ they are 180° apart, so the net magnetization of each is $\\pm$ along the same axis but with signs set by the S state (difference: $2I_yS_z$); (3) this appears as a doublet with positive and negative lines; (4) the product operator formalism tracks this as $\\cos\\pi Jt\\,I_x+\\sin\\pi Jt\\,2I_yS_z$.",
+				"modelAnswer": "Spins I in molecules where S is α precess slightly faster ($+\\pi J$) than those where S is β ($-\\pi J$). Starting along $x$, the two halves of the ensemble fan out symmetrically in opposite senses; at $t=1/2J$ they point in opposite directions (+y and −y), so the net in-phase magnetization is zero while their difference is non-zero. That difference is the anti-phase term $2I_yS_z$, which gives a doublet with one positive and one negative line."
+			}
+		],
+		"c2-l035-spin-echo-j-modulation": [
+			{
+				"kind": "mc",
+				"prompt": "In a heteronuclear I–S pair, a spin echo $\\tau$–180°(I only)–$\\tau$ is applied. What is the outcome for the I spin at the end?",
+				"options": [
+					"Only its chemical shift is refocused; the coupling to S continues to evolve through the whole delay of the echo",
+					"Only its coupling to S is refocused; the chemical shift continues to evolve through the whole delay of the echo",
+					"Both its shift evolution and its coupling to S are refocused, because the 180° on I inverts $I_y$ and leaves $S_z$ alone",
+					"Neither is refocused, because the 180° pulse on one spin is cancelled by the precession of the partner spin S"
+				],
+				"answer": 2,
+				"explanation": "$2I_yS_z\\to-2I_yS_z$ under a 180° on I only, so J evolution accumulated in the first half is undone in the second; the offset is refocused as in any echo. A 180° on both spins would leave J evolving."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In an APT-type experiment the delay is $T=0.75/J$. What is the relative intensity of a CH₃ carbon, $\\cos^3(\\pi JT)$, with a quaternary carbon defined as +1?",
+				"answer": -0.3536,
+				"tolerance": 0.02,
+				"explanation": "$\\cos(0.75\\pi)=-0.7071$, so CH₃ gives $(-0.7071)^3=-0.3536$. CH₂ gives +0.5, CH gives −0.707, and C gives +1."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At $T=1/J$ in an APT spectrum, which carbons have the same sign as a quaternary carbon?",
+				"options": [
+					"CH carbons only, because a single attached proton is the only case with a positive $\\cos\\pi$",
+					"CH₂ carbons ($\\cos^2\\pi=+1$), while CH and CH₃ carbons are inverted",
+					"CH₃ and CH₂ carbons, because an odd number of protons gives a positive sign",
+					"All protonated carbons, because the sign depends only on whether any proton is attached"
+				],
+				"answer": 1,
+				"explanation": "Intensity $\\propto\\cos^n(\\pi JT)$ with $\\pi JT=\\pi$: $(-1)^n$, so n = 0 and 2 are positive, n = 1 and 3 negative."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does a spin echo give a multiplicity-dependent modulation of the signal, and how does this connect to INEPT and HSQC?",
+				"rubric": "Full credit requires: (1) in a heteronuclear echo with 180° pulses on both spins, shift evolution is refocused but J evolution continues, so the carbon signal is modulated by $\\cos(\\pi J T)$ per attached proton; (2) for $n$ protons the factor is $\\cos^n$; (3) so choosing $T$ assigns multiplicity; (4) the same J evolution creates the anti-phase terms exploited in INEPT/HSQC (delays $1/4J$).",
+				"modelAnswer": "A 180° pulse on both spins refocuses the carbon shift but leaves the $I_zS_z$ coupling term alone, so the carbon signal is multiplied by $\\cos(\\pi JT)$ for each coupled proton, giving $\\cos^n(\\pi JT)$ for CHₙ. Choosing $T=1/J$ gives alternating signs for even and odd $n$, which edits the multiplicities. The same J evolution is used in INEPT and HSQC, where delays of $1/4J$ convert in-phase to anti-phase coherence to enable transfer."
+			}
+		],
+		"c2-l036-coherence-order-selection": [
+			{
+				"kind": "mc",
+				"prompt": "All pulse phases in a sequence are shifted by $\\phi$. By what factor is a coherence of order $p$ multiplied?",
+				"options": [
+					"$e^{-ip\\phi}$, so coherences of different order acquire different phases and can be separated by cycling",
+					"$e^{-i\\phi}$ for every order, so the phase shift just rotates the detected signal as a whole without selecting anything",
+					"$\\cos(p\\phi)$, so odd-order coherences vanish when the phase cycle sums over four steps",
+					"$e^{-i\\phi/p}$, so higher orders are less sensitive to the phase shifts of the pulses"
+				],
+				"answer": 0,
+				"explanation": "A z-rotation by $\\phi$ multiplies $\\rho_p$ by $e^{-ip\\phi}$. A phase cycle that steps the pulse phase and the receiver phase accordingly adds only the wanted pathway."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A ¹³C coherence (order 1) is dephased by a gradient, and a ¹H coherence refocuses it. To select the pathway, the gradient areas must balance: $G_1\\gamma_C=G_2\\gamma_H$. What ratio $G_1/G_2$ is required? ($\\gamma_H=2.6752\\times10^8$, $\\gamma_C=6.7283\\times10^7$ rad s⁻¹T⁻¹)",
+				"answer": 3.976,
+				"tolerance": 0.02,
+				"explanation": "$G_1/G_2=\\gamma_H/\\gamma_C=3.976$, hence the familiar ~4:1 gradient ratio (e.g. 80:20.1 %) in HSQC."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can pulsed field gradients select a coherence pathway in a single scan, while phase cycling needs several scans?",
+				"options": [
+					"Gradients change the coherence order directly, converting unwanted coherences into the wanted ones",
+					"Gradients make the RF pulses stronger, so that unwanted pathways are excited less than the wanted ones in a single scan",
+					"Phase cycling cannot select multiple-quantum coherences, but gradients select only double-quantum terms",
+					"Gradients dephase unwanted coherences in space within one scan, whereas cycling cancels them by adding scans"
+				],
+				"answer": 3,
+				"explanation": "A gradient imposes a helical phase $p\\gamma G\\tau z$ along the sample; only a pathway whose net phase is unwound by a later gradient survives the integration over the sample."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how a gradient pair selects a given coherence transfer pathway, and why the sign and ratio of the gradients matter.",
+				"rubric": "Full credit requires: (1) the first gradient imparts phase $p_1\\gamma_1G_1\\tau_1 z$ to coherence of order $p_1$, varying across the sample; (2) unless a later gradient (with coherence order $p_2$) imparts the opposite phase, the sum over positions averages to zero; (3) the condition $\\sum p_k\\gamma_kG_k\\tau_k=0$ selects only the wanted pathway; (4) signs/ratios select echo vs anti-echo pathways and compensate different γ.",
+				"modelAnswer": "A gradient makes the phase of a coherence of order $p$ vary linearly along the sample as $p\\gamma G\\tau z$. Summed over the sample this averages to zero unless a later gradient unwinds it. So only a pathway for which $\\sum_kp_k\\gamma_kG_k\\tau_k=0$ gives signal; with different γ and coherence orders, the gradient ratio and sign must be set to match the wanted pathway, and the other pathways are dephased."
+			}
+		],
+		"c2-l037-inept": [
+			{
+				"kind": "mc",
+				"prompt": "What is the origin of the signal enhancement in INEPT, and how does it differ from the NOE?",
+				"options": [
+					"Cross-relaxation between the ¹H and ¹³C spins that builds up slowly over a mixing time of hundreds of milliseconds",
+					"Saturation of the ¹H transitions that changes the ¹³C populations through dipolar relaxation",
+					"Coherent transfer of the larger ¹H Boltzmann polarization to ¹³C through $J$, not cross-relaxation",
+					"A temperature increase of the ¹³C spin system caused by the heating of the sample by the ¹H pulses and decoupling"
+				],
+				"answer": 2,
+				"explanation": "INEPT moves polarization with pulses and delays of order $1/4J$ in a coherent process; the enhancement is $\\gamma_H/\\gamma_C\\approx4$. The NOE needs time and dipolar relaxation."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "What is the ideal INEPT enhancement for ¹⁵N relative to direct excitation of ¹⁵N, $|\\gamma_H/\\gamma_N|$?",
+				"answer": 9.862,
+				"tolerance": 0.02,
+				"explanation": "$|\\gamma_H/\\gamma_N|=2.6752\\times10^8/2.7126\\times10^7=9.86$; for ¹³C it is 3.98. The sign of $\\gamma_N$ only changes the sign of the enhanced signal."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For ¹³C the signal gain from INEPT is $\\gamma_H/\\gamma_C$. Since S/N grows as $\\sqrt{n_{scans}}$, by what factor is the experiment time reduced for equal S/N, $(\\gamma_H/\\gamma_C)^2$?",
+				"answer": 15.81,
+				"tolerance": 0.02,
+				"explanation": "$(\\gamma_H/\\gamma_C)^2=15.8$ in time, before accounting for the shorter ¹H recycle delay, which gives further savings."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why must the INEPT delay be set to $1/4J$, and why does it also allow a faster repetition rate than a direct ¹³C experiment?",
+				"rubric": "Full credit requires: (1) J evolution during the first period converts in-phase ¹H coherence to anti-phase $2I_yS_z$ with amplitude $\\sin(2\\pi J\\tau)$, maximal at $2\\pi J\\tau=\\pi/2$ i.e. $\\tau=1/4J$ (with the 180° pulses refocusing shifts); (2) the second 90° pulses convert anti-phase I coherence into S coherence; (3) the repetition rate is set by the ¹H $T_1$ (typically shorter than ¹³C) since polarization comes from ¹H.",
+				"modelAnswer": "In the echo that starts INEPT, J evolution turns $I_x$ into $2I_yS_z$ with amplitude $\\sin(2\\pi J\\tau)$, which is maximal at $\\tau=1/4J$ (the 180° pulses refocus the shifts). The two 90° pulses then move that anti-phase term onto the ¹³C spin. Since the polarization is taken from ¹H, the recycle delay is governed by the ¹H $T_1$, which is typically much shorter than the ¹³C $T_1$, so more scans can be collected per unit time."
+			}
+		],
+		"c2-l038-2d-two-time-ft": [
+			{
+				"kind": "mc",
+				"prompt": "In a 2D NMR experiment, what is the physical meaning of the $t_1$ dimension?",
+				"options": [
+					"The real-time acquisition inside one FID, recorded at the same time as $t_2$ by a second detector in the probe",
+					"A series of separate experiments with an incremented evolution time; the signal is sampled point by point in $t_1$",
+					"The spectral width of the experiment, expressed as a time that sets the digital resolution",
+					"The longitudinal relaxation time of the spins, measured during the mixing period of the pulse sequence in the experiment"
+				],
+				"answer": 1,
+				"explanation": "Each $t_1$ value needs its own FID. The signal modulated by $e^{i\\Omega_1t_1}$ across increments, once Fourier transformed, gives the indirect-dimension spectrum."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 2D experiment uses 256 $t_1$ increments, 2 FIDs per increment (States), 4 scans each, a 1.5 s relaxation delay and 0.3 s acquisition. How long does it take? Give the answer in minutes.",
+				"answer": 61.44,
+				"tolerance": 0.02,
+				"explanation": "$256\\times2\\times4\\times(1.5+0.3)\\ \\mathrm{s}=3686$ s $=61.4$ min. The indirect dimension is expensive: each increment costs a full set of scans.",
+				"unit": "min"
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why are two FIDs (cosine- and sine-modulated, as in States or echo/anti-echo) recorded for each $t_1$ increment?",
+				"options": [
+					"To distinguish the sign of $\\Omega_1$ and obtain pure absorption line shapes in $F_1$",
+					"To double the signal-to-noise ratio, since averaging two FIDs gives $\\sqrt2$ more signal",
+					"To suppress artefacts from the first pulse, because the two FIDs cancel the pulse breakthrough",
+					"To widen the spectral window in $F_1$, because each FID contributes half of the frequency range"
+				],
+				"answer": 0,
+				"explanation": "A single cosine-modulated dataset cannot distinguish $+\\Omega_1$ from $-\\Omega_1$ and gives phase-twisted lines; having both modulation components gives a complex signal and pure-phase 2D line shapes."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how a double Fourier transform of $S(t_1,t_2)$ produces a cross peak at $(\\Omega_1,\\Omega_2)$, and what each of the two frequency coordinates represents.",
+				"rubric": "Full credit requires: (1) the signal contains a term $e^{i\\Omega_1t_1}e^{i\\Omega_2t_2}$ where $\\Omega_1$ is the frequency during evolution of the starting coherence (spin A) and $\\Omega_2$ the frequency of the detected coherence (spin B) after mixing; (2) FT in $t_2$ for each $t_1$ gives peaks at $\\Omega_2$ whose amplitude and phase are modulated at $\\Omega_1$ as $t_1$ is stepped; (3) the second FT along $t_1$ locates it at $\\Omega_1$; (4) cross peaks occur when the mixing period transfers coherence from one spin to another.",
+				"modelAnswer": "During $t_1$ the coherence of spin A evolves at $\\Omega_A$, then the mixing period moves it to spin B, which is detected during $t_2$ at $\\Omega_B$. FT in $t_2$ gives a peak at $\\Omega_B$ for each $t_1$ whose amplitude varies with $t_1$ as $e^{i\\Omega_At_1}$. A second FT along $t_1$ converts that modulation into a frequency, placing the peak at $(\\Omega_A,\\Omega_B)$. A diagonal peak is when the detected spin is the same as the evolving one."
+			}
+		],
+		"c2-l039-cosy-hsqc": [
+			{
+				"kind": "mc",
+				"prompt": "Why does a COSY cross peak between two protons require a scalar coupling between them?",
+				"options": [
+					"The second pulse only excites spins that are coupled, so uncoupled spins give no signal at all in the spectrum of the sample",
+					"The cross peak arises from cross-relaxation, which requires a coupling between the two spins of the molecule in the mixing time",
+					"The coupling shifts the frequency of S, so a different mixing time is needed to detect it",
+					"The anti-phase term $2I_yS_z$ needed for transfer is created by J evolution, so without $J$ no coherence moves to S"
+				],
+				"answer": 3,
+				"explanation": "$I_x\\xrightarrow{\\pi Jt_1}2I_yS_z$ and the second 90° pulse converts one factor of the product into transverse S coherence. At $J=0$ there is no anti-phase term and no cross peak."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Inverse detection (HSQC) gives S/N $\\propto\\gamma_{exc}\\gamma_{det}^{3/2}$. Compared with direct ¹³C observation, by what factor does an ¹H-excited, ¹H-detected experiment gain, $(\\gamma_H/\\gamma_C)^{5/2}$?",
+				"answer": 31.52,
+				"tolerance": 0.03,
+				"explanation": "$(\\gamma_H/\\gamma_C)^{5/2}=3.976^{2.5}=31.5$ in the ideal case; real gains are smaller (probe, noise, relaxation), but are still large enough to make HSQC routine for 1 mg samples."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In HSQC, why is the ¹³C chemical shift measured in $t_1$ but the signal detected on ¹H?",
+				"options": [
+					"¹³C has no observable transverse magnetization, so it can only be detected through its protons",
+					"¹H has a longer $T_2$ than ¹³C, so detection on ¹H always gives narrower lines for every compound and every field",
+					"Excitation and detection on the high-γ ¹H give the largest sensitivity, while ¹³C evolves in the indirect time",
+					"¹³C decoupling is impossible during detection, so the experiment is arranged to avoid detecting ¹³C altogether in the sequence"
+				],
+				"answer": 2,
+				"explanation": "Signal strength scales as $\\gamma_{exc}\\gamma_{det}^{3/2}$, so exciting and detecting ¹H gains ~30 over direct ¹³C observation, while the indirect dimension is sampled slowly with ¹³C evolution."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe the coherence pathway that produces an HSQC cross peak and what that peak tells you about the molecule.",
+				"rubric": "Full credit requires: (1) INEPT converts ¹H polarization into anti-phase ¹H coherence and then to ¹³C anti-phase coherence; (2) ¹³C chemical shift evolves in $t_1$ (with a 180° pulse on ¹H mid-$t_1$ to remove J); (3) reverse INEPT moves the coherence back to ¹H, which is detected during $t_2$ with ¹³C decoupling; (4) a cross peak at ($\\delta_C,\\delta_H$) means the proton is directly bonded to that carbon (one-bond $J_{CH}\\approx145$ Hz).",
+				"modelAnswer": "INEPT creates anti-phase ¹H coherence and transfers it to the bonded ¹³C. During $t_1$ the ¹³C coherence evolves at its own offset (the ¹H J-coupling is refocused by a 180° pulse in the middle). A reverse INEPT returns the coherence to ¹H, which is detected in $t_2$. A peak at ($\\delta_C$, $\\delta_H$) means that proton is bonded directly to that carbon through the one-bond coupling of about 145 Hz."
+			}
+		],
+		"c2-l040-fluctuating-fields-spectral-density": [
+			{
+				"kind": "mc",
+				"prompt": "A fluctuating local field with correlation time $\\tau_c$ drives spin transitions at the Larmor frequency $\\omega_0$. How does the transition rate depend on the motion?",
+				"options": [
+					"It is proportional to the mean value of the local field, because a stronger average field flips the spins faster at resonance",
+					"It is proportional to the spectral density $J(\\omega_0)$, the power of the fluctuations at the transition frequency",
+					"It is proportional to $J(0)$, since only the slowest motions can supply energy to the spin system",
+					"It is independent of $\\omega_0$, because any random field has equal power at all frequencies"
+				],
+				"answer": 1,
+				"explanation": "By the golden rule the rate is $|V|^2\\times$ (density of fluctuation power at $\\omega_0$) $=\\gamma^2\\langle b_\\perp^2\\rangle J(\\omega_0)$. A field fluctuating much faster or slower than $\\omega_0$ is inefficient."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the rotational correlation time of a spherical protein with hydrodynamic radius 1.9 nm in water at 298 K ($\\eta=0.89$ mPa s) from $\\tau_c=4\\pi\\eta a^3/(3k_BT)$. Give the answer in ns.",
+				"answer": 6.215,
+				"tolerance": 0.03,
+				"explanation": "$\\tau_c=4\\pi(8.9\\times10^{-4})(1.9\\times10^{-9})^3/(3k_BT)=6.21$ ns, close to the measured ~6 ns for lysozyme (14 kDa). It scales as the volume, i.e. the molecular mass.",
+				"unit": "ns"
+			},
+			{
+				"kind": "mc",
+				"prompt": "A sample of a small molecule is cooled so that the solvent becomes more viscous and $\\tau_c$ lengthens (still $\\omega_0\\tau_c\\ll1$). What happens to the lines?",
+				"options": [
+					"They broaden, because slower motion gives a larger $J(0)$ and incomplete averaging of local fields",
+					"They narrow, because the spins freeze into fixed orientations and stop dephasing as the solvent becomes more viscous",
+					"They are unchanged, because linewidths depend only on the field homogeneity of the magnet and not on the motion",
+					"They split, because slow motion reveals the through-space dipolar coupling as discrete lines"
+				],
+				"answer": 0,
+				"explanation": "In extreme narrowing $1/T_2=1/T_1\\propto\\tau_c$: sluggish molecules relax faster and give broader lines (up to the point where anisotropic interactions are not averaged)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does an exponential correlation function $e^{-|\\tau|/\\tau_c}$ lead to a Lorentzian spectral density, and what physical information is in the width of $J(\\omega)$?",
+				"rubric": "Full credit requires: (1) the spectral density is the Fourier transform of the correlation function; the FT of a two-sided exponential is a Lorentzian $2\\tau_c/(1+\\omega^2\\tau_c^2)$ (the same mathematics as an FID and its line shape); (2) its width is $1/\\tau_c$: fast motion gives a broad, flat spectrum; slow motion a narrow one concentrated at low frequency; (3) relaxation rates are determined by how much of this power falls at $\\omega_0$, $2\\omega_0$ and 0.",
+				"modelAnswer": "The spectral density is the Fourier transform of the correlation function, and the transform of a decaying exponential is a Lorentzian, the same relation as for an FID and its line. The width of $J(\\omega)$ is $1/\\tau_c$: fast tumbling spreads the power over a wide, flat frequency range, while slow tumbling concentrates it at low frequency. Relaxation rates are set by how much of the power is at the frequencies that connect the spin states."
+			}
+		],
+		"c2-l041-bpp-correlation-time": [
+			{
+				"kind": "mc",
+				"prompt": "The correlation time $\\tau_c$ of a molecule increases from 10 ps to 100 ns at fixed field. How do $T_1$ and $T_2$ of its protons behave?",
+				"options": [
+					"Both fall steadily, because slower motion always means faster relaxation of the spins at every correlation time",
+					"$T_1$ falls steadily and $T_2$ passes through a minimum when $\\omega_0\\tau_c\\approx1$ for the protons of the molecule",
+					"Both pass through a minimum at the same value of $\\tau_c$, because they are equal in all regimes",
+					"$T_2$ falls steadily, while $T_1$ falls to a minimum near $\\omega_0\\tau_c\\approx0.6$ and then rises again"
+				],
+				"answer": 3,
+				"explanation": "$R_2$ contains $J(0)\\propto\\tau_c$ which keeps rising. $R_1$ needs motion at $\\omega_0$ and $2\\omega_0$: it is most efficient when $\\omega_0\\tau_c\\sim1$ and then decreases as the motion becomes too slow."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two protons 1.78 Å apart (geminal CH₂) tumble with $\\tau_c=20$ ps (extreme narrowing). Using $R_1=\\tfrac32b^2\\tau_c$ with $b=(\\mu_0/4\\pi)\\gamma^2\\hbar/r^3$, what is $T_1$? Give the answer in s.",
+				"answer": 1.861,
+				"tolerance": 0.05,
+				"explanation": "$b=1.338e+05$ rad/s so $R_1=1.5b^2\\tau_c=0.537\\ \\mathrm{s^{-1}}$ and $T_1=1.86$ s, a realistic order of magnitude for a small molecule's CH₂ protons (neighbouring spins add more).",
+				"unit": "s"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "At what correlation time is $T_1$ shortest for a 600 MHz proton, i.e. where does $\\tau_c/(1+\\omega_0^2\\tau_c^2)+4\\tau_c/(1+4\\omega_0^2\\tau_c^2)$ peak? (Maximum at $\\omega_0\\tau_c=0.616$.) Give the answer in ns.",
+				"answer": 0.1633,
+				"tolerance": 0.03,
+				"explanation": "$\\omega_0=2\\pi\\times600$ MHz $=3.770e+09$ rad/s, so $\\tau_c=0.616/\\omega_0=0.163$ ns, typical of a peptide of a few hundred daltons in a viscous solvent.",
+				"unit": "ns"
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a large protein gives broad NMR lines, even though its $T_1$ is longer than that of a small molecule at the same field.",
+				"rubric": "Full credit requires: (1) large $\\tau_c$ (tens of ns) means $\\omega_0\\tau_c\\gg1$; (2) $R_2$ includes the zero-frequency term $J(0)\\propto\\tau_c$ that grows with size, so $T_2$ becomes short (ms) and the linewidth $1/\\pi T_2$ large (tens of Hz); (3) $R_1$ depends on $J(\\omega_0)\\propto1/(\\omega_0^2\\tau_c)$ that decreases, so $T_1$ is long (after passing through the minimum); (4) hence $T_2\\ll T_1$ and the need for TROSY, deuteration, high fields.",
+				"modelAnswer": "For a protein $\\omega_0\\tau_c\\gg1$. Transverse relaxation contains the zero-frequency spectral density $J(0)\\propto\\tau_c$, which keeps growing with size, so $T_2$ becomes milliseconds and lines are tens of Hz wide. Longitudinal relaxation requires motion at $\\omega_0$, whose power $J(\\omega_0)\\propto1/(\\omega_0^2\\tau_c)$ falls, so $T_1$ lengthens. Thus $T_2\\ll T_1$ for large molecules, which is why techniques such as TROSY and deuteration are needed."
+			}
+		],
+		"c2-l042-redfield-detailed-balance": [
+			{
+				"kind": "mc",
+				"prompt": "Suppose the bath fluctuations were treated as classical, so the upward and downward transition rates were equal, $W_\\uparrow=W_\\downarrow$. What would relaxation produce?",
+				"options": [
+					"The Boltzmann polarization at the lattice temperature, since relaxation always restores thermal equilibrium of the spins",
+					"Full polarization into the lower state, since downward transitions release energy to the bath",
+					"Equal populations (zero magnetization, infinite spin temperature), instead of the Boltzmann polarization",
+					"An oscillating magnetization at the Larmor frequency, since the field is classical and coherent for the spins here"
+				],
+				"answer": 2,
+				"explanation": "With $W_\\uparrow=W_\\downarrow$ the rate equation drives populations to equality. The quantum-mechanical bath satisfies $W_\\uparrow/W_\\downarrow=e^{-\\hbar\\omega_0/kT}$, which is what restores the thermal polarization."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An electron spin at X-band (9.5 GHz) and 298 K reaches thermal equilibrium by detailed balance, $P=\\tanh(h\\nu/2k_BT)$. What is its polarization? Give the answer in units of $10^{-4}$.",
+				"answer": 7.65,
+				"tolerance": 0.02,
+				"explanation": "$h\\nu/2k_BT=7.650e-04$ so $P=7.65\\times10^{-4}$, about 16 times that of ¹H at 600 MHz: the ratio $\\gamma_e/\\gamma_p$ times the field ratio.",
+				"unit": "×10⁻⁴"
+			},
+			{
+				"kind": "mc",
+				"prompt": "What is the physical origin of the detailed-balance ratio $W_\\uparrow/W_\\downarrow=e^{-\\hbar\\omega_0/k_BT}$?",
+				"options": [
+					"The spin selection rule favours downward transitions, because the lower level has a larger transition dipole to the upper",
+					"The bath is thermal, so it is less likely to give the spin the energy $\\hbar\\omega_0$ than to absorb it, by the Boltzmann factor",
+					"The two levels have different degeneracies, so the number of final states for upward flips is smaller than for the downward",
+					"$T_1$ is longer than $T_2$, so decay toward the lower level is more probable than excitation to the upper level"
+				],
+				"answer": 1,
+				"explanation": "Quantum correlation functions of a thermal bath obey $J(-\\omega)=e^{-\\hbar\\omega/kT}J(\\omega)$ (fluctuation–dissipation theorem). This tiny asymmetry (~$10^{-5}$ for NMR) produces the equilibrium polarization."
+			},
+			{
+				"kind": "short",
+				"prompt": "Outline how Redfield theory yields relaxation rates, and why the 'classical' BPP formulas can still be used for NMR even though they miss the asymmetry between up and down rates.",
+				"rubric": "Full credit requires: (1) second-order perturbation of the density-operator equation in the random Hamiltonian $H_1(t)$, with Born (weak coupling) and Markov (short correlation time) approximations and secular approximation, gives $d\\sigma/dt=-i[H_0,\\sigma]-\\hat\\Gamma(\\sigma-\\sigma_{eq})$ with rates from spectral densities at transition frequencies; (2) the asymmetry of rates is $\\hbar\\omega/kT\\sim10^{-5}$, so the rates themselves are symmetric to excellent approximation; (3) the asymmetry is retained only to give the right $\\sigma_{eq}$ (replace $\\sigma$ by $\\sigma-\\sigma_{eq}$).",
+				"modelAnswer": "Treating the random part of the Hamiltonian to second order, with the Born, Markov and secular approximations, gives a master equation whose rates are spectral densities evaluated at the transition frequencies of $H_0$. Because $\\hbar\\omega_0/kT\\sim10^{-5}$, up and down rates differ by only that fraction, so the classical spectral densities are accurate; the asymmetry is not needed for the rates but is put in by hand as $\\sigma\\to\\sigma-\\sigma_{eq}$, which ensures relaxation toward the thermal state rather than toward zero."
+			}
+		],
+		"c2-l043-solomon-noe": [
+			{
+				"kind": "mc",
+				"prompt": "A molecule of intermediate size ($\\omega_0\\tau_c\\approx1.1$) shows almost no homonuclear NOE. What is the reason?",
+				"options": [
+					"The double-quantum rate $W_2$ and the zero-quantum rate $W_0$ contributions to $\\sigma=W_2-W_0$ cancel",
+					"The protons are too far apart, so the cross-relaxation that is proportional to $r^{-6}$ vanishes",
+					"The $T_1$ of the molecule is too short, so the enhanced magnetization relaxes before it can be detected",
+					"The scalar coupling exceeds the dipolar coupling, so the dipolar mechanism is switched off"
+				],
+				"answer": 0,
+				"explanation": "$\\sigma\\propto6J(2\\omega_0)-J(0)$: positive for fast tumbling (the $W_2$ term wins), negative for slow tumbling ($W_0$), and zero at $\\omega_0\\tau_c=\\sqrt5/2\\approx1.12$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "At what correlation time does the homonuclear NOE of protons vanish at 600 MHz, with $\\omega_0\\tau_c=\\sqrt5/2$? Give the answer in ns.",
+				"answer": 0.2966,
+				"tolerance": 0.02,
+				"explanation": "Solving $6/(1+4x^2)=1$ gives $x=\\sqrt5/2=1.118$, so $\\tau_c=1.118/(2\\pi\\times600\\,\\mathrm{MHz})=0.297$ ns. At 1 GHz the null shifts to 0.18 ns.",
+				"unit": "ns"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In a ¹³C{¹H} experiment with continuous proton decoupling in extreme narrowing the maximum NOE enhancement is $\\eta=\\gamma_H/(2\\gamma_C)$. By what factor is the ¹³C signal multiplied, $1+\\eta$?",
+				"answer": 2.988,
+				"tolerance": 0.02,
+				"explanation": "$\\eta=\\gamma_H/2\\gamma_C=1.988$ so the signal is multiplied by 2.99, about a factor of 3 for a protonated carbon dominated by dipolar relaxation."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain physically why the NOE is positive for small molecules and negative for large ones, in terms of which spin transitions the tumbling motion can drive.",
+				"rubric": "Full credit requires: (1) cross-relaxation via flip-flop (zero-quantum, ΔE ≈ small, needs low-frequency motion) $W_0\\propto J(0)$ and flip-flip (double-quantum, ΔE = 2ω₀, needs fast motion) $W_2\\propto J(2\\omega_0)$; (2) fast tumbling has power at 2ω₀ so $W_2$ dominates, giving positive σ and positive NOE; (3) slow tumbling puts the power at low frequency, so $W_0$ dominates, giving negative σ and negative NOE; (4) crossover at $\\omega_0\\tau_c\\approx1.1$.",
+				"modelAnswer": "Cross-relaxation can occur by double-quantum flips (both spins α→β, needs fluctuations at about $2\\omega_0$) or zero-quantum flip-flops (one up, one down, needs low-frequency fluctuations). Small, fast-tumbling molecules have spectral power at high frequency, so double-quantum transitions win and the NOE is positive. Large, slow molecules have power concentrated near zero frequency, so zero-quantum transitions win and the NOE is negative; around $\\omega_0\\tau_c\\approx1.1$ the two cancel."
+			}
+		],
+		"c2-l044-noesy-roesy-distances": [
+			{
+				"kind": "mc",
+				"prompt": "Why are NOESY distances calibrated from spectra recorded at short mixing times?",
+				"options": [
+					"At short times the NOE is positive for all molecules, whereas at long times its sign depends on the size",
+					"At short times $T_1$ relaxation has not yet reduced the intensities, so the volumes are all equal",
+					"At short times the scalar couplings are refocused, which removes the COSY-type contributions to the cross peaks entirely",
+					"At short times the build-up is linear, $a\\approx\\sigma\\tau_m$, before spin diffusion relays magnetization through other spins"
+				],
+				"answer": 3,
+				"explanation": "At long mixing times the magnetization goes A → B → C, so the A–C cross peak no longer reports only on $r_{AC}$. The initial-rate approximation keeps the $r^{-6}$ relation valid."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A geminal CH₂ pair (1.78 Å) gives a reference NOESY cross-peak volume of 100 (arbitrary units). Another cross peak recorded under the same conditions has volume 6.25. What is the corresponding distance, $r=r_{ref}(a_{ref}/a)^{1/6}$? Give the answer in Å.",
+				"answer": 2.826,
+				"tolerance": 0.02,
+				"explanation": "$(100/6.25)^{1/6}=16^{1/6}=1.5874$, so $r=2.83$ Å. A factor of 16 in intensity is only a 59% change in distance, which is why the method is accurate to ~10% only with careful calibration.",
+				"unit": "Å"
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a peptide of ~1000 Da at 600 MHz, a NOESY spectrum shows very weak cross peaks. Why is ROESY preferred?",
+				"options": [
+					"ROESY is more sensitive because it uses a stronger magnetic field in the spin-lock period of the experiment",
+					"ROESY avoids spin diffusion entirely because the spin-lock decouples the spins from one another during the mixing",
+					"In the rotating frame the cross-relaxation rate stays positive at all correlation times, so there is no null near 1.1",
+					"ROESY measures the scalar couplings, which are larger than the dipolar couplings for medium-sized molecules like peptides"
+				],
+				"answer": 2,
+				"explanation": "The ROE cross-relaxation rate involves $J(0)$ and $J(2\\omega)$ with the same sign, so it never crosses zero; however it also generates TOCSY artefacts that must be recognized."
+			},
+			{
+				"kind": "short",
+				"prompt": "The NOE gives an $r^{-6}$ distance dependence. State two reasons this makes it a short-range probe, and one source of systematic error in practice.",
+				"rubric": "Full credit requires: (1) the dipolar cross-relaxation rate falls as $r^{-6}$, so the effect becomes negligible beyond about 5–6 Å; (2) conversely, an error in intensity of a factor of 2 changes the distance by only $2^{1/6}\\approx12\\%$, so approximate calibration is adequate (useful); (3) systematic errors: internal motion/different correlation times for different pairs, spin diffusion at long mixing times, wrong reference distance, methyl group rotation.",
+				"modelAnswer": "Cross-relaxation falls as $r^{-6}$, so beyond roughly 5 Å there is no detectable signal: the NOE is a short-range ruler. The same steep dependence means that a factor of two error in intensity gives only a 12% error in distance. Typical systematic errors are spin diffusion at long mixing times, differing internal mobility (a different effective $\\tau_c$) for different pairs, and an incorrect reference distance."
+			}
+		],
+		"c2-l045-mechanisms-exchange": [
+			{
+				"kind": "mc",
+				"prompt": "CSA relaxation grows as $B_0^2$, whereas dipolar relaxation in extreme narrowing does not depend on the field. What follows at very high field?",
+				"options": [
+					"CSA disappears at high field because the shielding tensor averages to zero when $B_0$ is large for these nuclei",
+					"CSA grows in importance for ¹³C, ¹⁵N and ¹⁹F, and its interference with dipolar relaxation is exploited in TROSY",
+					"Dipolar relaxation dominates even more, because the larger field increases the spin–spin coupling between the nuclei in the sample",
+					"The NOE grows with the field in proportion to $B_0^2$, so distances become easier to measure"
+				],
+				"answer": 1,
+				"explanation": "CSA interaction energy is $\\gamma B_0\\Delta\\sigma$, so the rate grows as $B_0^2$. In TROSY the CSA and dipolar fields can cancel for one multiplet component, giving a narrow line."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two N-methyl signals of an amide are 60 Hz apart in slow exchange and coalesce at 393 K. Using $k_c=\\pi\\Delta\\nu/\\sqrt2$ and the Eyring equation $\\Delta G^\\ddagger=RT_c\\ln(k_BT_c/hk_c)$, find $\\Delta G^\\ddagger$ in kJ/mol.",
+				"answer": 81.17,
+				"tolerance": 0.02,
+				"explanation": "$k_c=133.3\\ \\mathrm{s^{-1}}$ and $k_BT_c/h=8.189e+12\\ \\mathrm{s^{-1}}$, so $\\Delta G^\\ddagger=81.2$ kJ/mol, typical of the C–N rotation barrier in amides.",
+				"unit": "kJ/mol"
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the fast-exchange limit a single averaged line is seen. How does its width change when the exchange rate $k$ is increased further?",
+				"options": [
+					"It narrows, because the exchange broadening scales as $(\\Delta\\nu)^2/k$",
+					"It broadens, because more exchange events cause more transitions between the two sites",
+					"It is unchanged, because the average position of the line is independent of the rate of exchange",
+					"It splits again into two lines, because faster exchange resolves the two sites"
+				],
+				"answer": 0,
+				"explanation": "Fast exchange averages the frequencies; the excess line width $\\approx\\pi(\\Delta\\nu)^2/2k$ falls as $k$ rises (and the line broadens as the temperature is lowered toward coalescence)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe how a variable-temperature NMR experiment gives an activation barrier, and name one assumption behind the coalescence formula.",
+				"rubric": "Full credit requires: (1) record spectra over a temperature range through the slow-exchange (two lines), coalescence (flat top at $T_c$) and fast-exchange regimes; (2) at coalescence $k_c=\\pi\\Delta\\nu/\\sqrt2$ for equal populations; (3) convert $k_c$ to $\\Delta G^\\ddagger$ by the Eyring equation (or fit line shapes at several $T$ for $\\Delta H^\\ddagger$, $\\Delta S^\\ddagger$); (4) assumptions: two equally populated sites, no J coupling, Δν independent of temperature.",
+				"modelAnswer": "Spectra are recorded as the temperature is raised: two separate lines (slow exchange), broadening and merging at the coalescence temperature $T_c$, then a single sharpening line (fast exchange). At coalescence $k_c=\\pi\\Delta\\nu/\\sqrt2$, and the Eyring equation converts $k_c$ at $T_c$ into $\\Delta G^\\ddagger$. The formula assumes two equally populated sites without mutual J coupling and a shift difference that is independent of temperature."
+			}
+		],
+		"c2-l046-mri-gradients-kspace": [
+			{
+				"kind": "mc",
+				"prompt": "Why does Fourier-transforming the signal recorded under a magnetic-field gradient give an image profile?",
+				"options": [
+					"The gradient aligns the spins along $x$, so the signal amplitude directly measures the position of each spin",
+					"The gradient slows the relaxation of spins in one region, so signals from different positions are resolved in time",
+					"The gradient creates a different $T_1$ at each position, so the Fourier transform of the recovery curves gives the position",
+					"Each position precesses at its own frequency $\\gamma(B_0+Gx)$, so the amplitude at that frequency is the density there"
+				],
+				"answer": 3,
+				"explanation": "$S(t)=\\int\\rho(x)e^{i\\gamma Gxt}dx$ is the Fourier transform of $\\rho$ at spatial frequency $k=\\gamma Gt/2\\pi$; the frequency axis of the spectrum becomes a position axis."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A slice-selection gradient of 10 mT/m is used with an RF pulse bandwidth of 2 kHz for ¹H ($\\gamma/2\\pi=42.577$ MHz/T). What slice thickness results, $\\Delta z=BW/(\\gamma G/2\\pi)$? Give the answer in mm.",
+				"answer": 4.697,
+				"tolerance": 0.02,
+				"explanation": "$\\gamma G/2\\pi=42.577\\ \\mathrm{MHz/T}\\times0.010\\ \\mathrm{T/m}=425.8$ kHz/m, so $\\Delta z=2000/425775\\ \\mathrm{m}=4.70$ mm.",
+				"unit": "mm"
+			},
+			{
+				"kind": "mc",
+				"prompt": "To double the field of view in an MRI acquisition (same number of points), how must the k-space sampling be changed?",
+				"options": [
+					"The spacing $\\Delta k$ must be doubled, since FOV grows in proportion to the step in k-space",
+					"The largest $k$ value must be doubled, since FOV is set by the highest spatial frequency sampled",
+					"The spacing $\\Delta k$ must be halved, since FOV $=1/\\Delta k$",
+					"The sampling can stay as it is, since FOV is set only by the gradient strength and not by k-space"
+				],
+				"answer": 2,
+				"explanation": "Sampling theorem: the real-space period is the inverse of the k-space step. The extent $k_{max}$ sets the resolution $\\sim1/(2k_{max})$, not the field of view."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how image contrast between tissues can come from the Bloch equations, using $T_R$ and $T_E$.",
+				"rubric": "Full credit requires: (1) signal $\\propto\\rho\\,(1-e^{-T_R/T_1})e^{-T_E/T_2}$ for a simple spin-echo/gradient-echo sequence; (2) short $T_R$ and short $T_E$ give T1 weighting (tissues with short $T_1$ recover more and appear bright); (3) long $T_R$ and long $T_E$ give T2 weighting (long $T_2$ tissues bright); (4) the contrast comes from different relaxation times of tissues (a consequence of different $\\tau_c$ and environments).",
+				"modelAnswer": "After excitation the transverse signal decays as $e^{-T_E/T_2}$ and the longitudinal magnetization before the next pulse has recovered a fraction $1-e^{-T_R/T_1}$. With short $T_R$ the tissues with short $T_1$ give more signal (T1-weighted); with long $T_R$ and long $T_E$ the differences in $T_2$ dominate (T2-weighted). Since relaxation times depend on molecular environment, the image contrast reflects the tissue."
+			}
+		],
+		"c2-l047-epr": [
+			{
+				"kind": "mc",
+				"prompt": "The methyl radical shows four equally spaced EPR lines (1:3:3:1) and a nitroxide shows three lines (1:1:1). What determines the number and intensity pattern?",
+				"options": [
+					"The number of unpaired electrons, which is three in the methyl radical and two in the nitroxide in these samples",
+					"The number of lines is $2nI+1$ for $n$ equivalent nuclei: three ¹H ($I=\\frac12$) give four, one ¹⁴N ($I=1$) gives three",
+					"The number of electron spin orientations, which is four for a doublet radical and three for a triplet radical in the field",
+					"The number of inequivalent g values, since the lines arise from different orientations of the molecule in the field"
+				],
+				"answer": 1,
+				"explanation": "Each nuclear spin orientation shifts the resonance by $a\\,m_I$. Equivalent protons give binomial intensities (1:3:3:1), and ¹⁴N gives three equal lines."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "What magnetic field is needed for EPR resonance of a free radical ($g=2.0023$) at 9.5 GHz, $B=h\\nu/(g\\mu_B)$? Give the answer in mT.",
+				"answer": 339.0,
+				"tolerance": 0.01,
+				"explanation": "$B=h\\nu/(g\\mu_B)=339.0$ mT, i.e. X-band EPR uses a ~0.34 T magnet, while proton NMR at this field would be at 14.4 MHz.",
+				"unit": "mT"
+			},
+			{
+				"kind": "mc",
+				"prompt": "At the same field and temperature, how does the electron spin polarization compare with the proton polarization?",
+				"options": [
+					"About 660 times larger, because in the high-temperature limit $P\\propto\\gamma$",
+					"About the same, because both are spin-½ particles in the same field at the same temperature",
+					"About 660² times larger, because both the magnetic moment and the splitting scale with $\\gamma$",
+					"About 660 times smaller, because the electron is lighter and therefore thermalizes more quickly"
+				],
+				"answer": 0,
+				"explanation": "$P\\approx\\hbar\\gamma B_0/2k_BT$, so $P_e/P_p=\\gamma_e/\\gamma_p=658$. The factor is exploited in DNP, where electron polarization is transferred to nuclei."
+			},
+			{
+				"kind": "short",
+				"prompt": "EPR and NMR use the same spin Hamiltonian ideas. Explain what carries over unchanged and what is physically different.",
+				"rubric": "Full credit requires: (1) same formalism: Zeeman plus hyperfine (like J) Hamiltonian, density operator, rotating frame, pulses as rotations, Bloch equations; (2) differences: electron $\\gamma$ is ~660 times larger (GHz frequencies at 0.3 T), polarization much larger; (3) electron relaxation is much faster (ns–µs), so pulses must be short and sensitivity gains come from lines being broad; (4) spectra are dominated by g-anisotropy and hyperfine coupling to many nuclei.",
+				"modelAnswer": "The Hamiltonian is of the same form, a Zeeman term plus a coupling (the hyperfine coupling plays the role of J), and the density operator, rotating frame, pulses as rotations and Bloch equations all carry over. The differences are quantitative but important: the electron's γ is ~660 times that of the proton, so resonance is at GHz frequencies and polarization is large, but electron relaxation times are nanoseconds to microseconds, requiring much faster pulses, and spectra are dominated by g-anisotropy and hyperfine coupling to many nuclei."
+			}
+		],
+		"c2-l048-spectra-from-physics": [
+			{
+				"kind": "mc",
+				"prompt": "Which pairing of measurement and physical quantity is correct?",
+				"options": [
+					"The IR stretching frequency of a bond gives its moment of inertia, and microwave lines give its force constant in solution",
+					"The UV absorption wavelength gives the J-coupling, and the fluorescence lifetime gives the dihedral angle of the bond",
+					"The rotational Raman spacing gives the Franck–Condon factor, and the T₁ minimum gives the bond length in the molecule",
+					"Vicinal ³J(HH) gives a dihedral angle through the Karplus relation, and the NOE rate gives a distance through $r^{-6}$"
+				],
+				"answer": 3,
+				"explanation": "Microwave lines give $B$ and hence $I$ (bond lengths); IR gives $\\omega=\\sqrt{k/\\mu}$ (force constants); Franck–Condon gives geometry change; J gives dihedrals; the NOE gives distances."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A fluorescence emission has a lifetime of 5.0 ns. What is the lifetime-limited (natural) linewidth of the transition, $\\Delta\\nu=1/(2\\pi\\tau)$? Give the answer in MHz.",
+				"answer": 31.83,
+				"tolerance": 0.02,
+				"explanation": "$\\Delta\\nu=1/(2\\pi\\times5\\ \\mathrm{ns})=31.8$ MHz ($\\approx0.001$ cm⁻¹), far smaller than the several-thousand-cm⁻¹ width of a solution electronic band, which is mostly vibronic structure and solvent broadening.",
+				"unit": "MHz"
+			},
+			{
+				"kind": "mc",
+				"prompt": "An NMR line can be only ~1 Hz wide, whereas a solution UV–vis band is thousands of cm⁻¹ wide. What is the main reason for the difference?",
+				"options": [
+					"The NMR frequency is lower, and a lower frequency always gives a proportionally narrower line in every spectroscopy",
+					"NMR transitions are strongly allowed, whereas UV–vis transitions are weak, and strong lines are narrower than weak lines always",
+					"Spin coherence lasts seconds because nuclear spins couple weakly to the environment, whereas electronic coherence is lost within femtoseconds",
+					"NMR lines are measured in a magnetic field, which suppresses the Doppler and pressure broadening that affect optical lines in gases"
+				],
+				"answer": 2,
+				"explanation": "Linewidth is the inverse of the dephasing time. Nuclear spins are shielded from the environment (T₂ ~ s); electronic transitions couple to many vibrations and solvent modes (fs–ps), and vibronic structure adds further width."
+			},
+			{
+				"kind": "short",
+				"prompt": "Take a simple ketone such as acetophenone. For each of its IR, UV–vis and ¹H NMR spectra, name one feature and the physical quantity or selection rule that produces it.",
+				"rubric": "Full credit requires three correct pairings, e.g.: IR — C=O stretch near 1685 cm⁻¹ from $\\sqrt{k/\\mu}$ with a large $d\\mu/dQ$ (strong); UV–vis — strong π→π* band (ε ~ 10⁴) and weak n→π* band (ε ~ 10², symmetry-weak transition dipole), broadened by vibronic structure and solvent; NMR — aromatic proton shifts ~7–8 ppm from the ring current, methyl singlet at ~2.6 ppm, ortho–meta multiplets from $J\\approx8$ Hz, linewidth from $T_2$.",
+				"modelAnswer": "IR: the C=O stretch near 1685 cm⁻¹ has frequency $\\sqrt{k/\\mu}/2\\pi c$ set by the bond's force constant, and it is strong because the stretch changes the dipole a lot (large $d\\mu/dQ$). UV–vis: the π→π* band is intense (large allowed transition dipole) while the n→π* band near 320 nm is weak (symmetry-forbidden, borrowed through vibronic coupling), and both are broad due to vibronic structure and solvent. NMR: aromatic protons at 7–8 ppm are deshielded by the ring current, and ortho–meta couplings of about 8 Hz give multiplets whose width is set by $T_2$."
+			}
+		]
+	}
+}

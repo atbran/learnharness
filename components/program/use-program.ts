@@ -22,6 +22,7 @@ export interface CourseView {
 	depth: string;
 	hours: number;
 	prereqs: string[];
+	coreqs: string[];
 	subject: string;
 	summary: string;
 	exams: { id: string; kind: string; title: string; minutes: number; passMark: number; covers: string[] }[];

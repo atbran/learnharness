@@ -98,7 +98,7 @@ export const examSchema = z.object({
 });
 export type Exam = z.infer<typeof examSchema>;
 
-export const TRACKS = ["math", "physics", "survey", "capstone", "elective"] as const;
+export const TRACKS = ["math", "physics", "chemphys", "survey", "capstone", "elective"] as const;
 export type Track = (typeof TRACKS)[number];
 
 export const courseSchema = z.object({
@@ -110,6 +110,10 @@ export const courseSchema = z.object({
 	hours: z.number().positive(),
 	/** Course ids that must be passed (or substantially done) first. */
 	prereqs: z.array(id()).default([]),
+	/** Courses meant to be taken ALONGSIDE this one (Calculus I with
+	 *  Physics I, as at a university). Never blocking — they shape the
+	 *  schedule and the "take with" hint, not what's unlocked. */
+	coreqs: z.array(id()).default([]),
 	/** Radar axis, e.g. "Calculus", "Quantum". */
 	subject: z.string().min(1),
 	summary: z.string().min(1),

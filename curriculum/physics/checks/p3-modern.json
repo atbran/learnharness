@@ -1,7 +1,7 @@
 {
 	"courseId": "p3-modern",
 	"checks": {
-		"p3-l001-postulates-simultaneity": [
+		"p3-l001-galilean-ether-michelson-morley": [
 			{
 				"kind": "mc",
 				"prompt": "The Michelson-Morley experiment compared light travel times along two perpendicular arms of an interferometer as the apparatus was rotated, and found no fringe shift. What is the correct conclusion?",
@@ -14,6 +14,33 @@
 				"answer": 0,
 				"explanation": "If light travelled at $c$ relative to an ether through which Earth moves at about 30 km/s, rotating the apparatus should shift the fringes by a measurable amount. The null result shows no preferred frame for light, consistent with Einstein's second postulate. Earth moves at different velocities through the year, so a lucky coincidence of rest in the ether is excluded."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "In the ether picture, the Earth moves at $v=30\\ \\mathrm{km/s}$ and rotating a Michelson interferometer by $90^\\circ$ should shift the fringes by $N=\\dfrac{2L}{\\lambda}\\dfrac{v^2}{c^2}$. For arm length $L=11$ m and $\\lambda=550$ nm, how many fringes should have been seen? (The observed shift was less than about 0.01.)",
+				"answer": 0.40055,
+				"tolerance": 0.05,
+				"explanation": "$N=\\dfrac{2(11)}{5.5\\times10^{-7}}\\times(10^{-4})^2\\approx0.40$ fringe, easily detectable, yet the observed shift was far smaller. This null result undermined the ether."
+			},
+			{
+				"kind": "mc",
+				"prompt": "An observer moves at $30$ km/s toward a distant star. Using the Galilean transformation, how should the speed of the starlight they measure compare with that measured by an observer at rest in the ether?",
+				"options": [
+					"Smaller by $30$ km/s, since light is overtaken",
+					"Identical, since light has no mass to be boosted",
+					"Larger by $30$ km/s, since velocities simply add",
+					"Larger by a factor $v/c$, since light speeds up"
+				],
+				"answer": 2,
+				"explanation": "The Galilean rule $u'=u+v$ says an observer moving toward the source sees light faster by $v$. Michelson-Morley found no such dependence on the Earth's motion, which is the conflict that Einstein resolved."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the Galilean velocity-addition rule and a constant speed of light cannot both be right, and what the Michelson-Morley experiment contributed to the conflict.",
+				"rubric": "Full credit requires: Galilean addition predicts a different light speed in a moving frame; M-M looked for that dependence on the Earth's motion through the ether and found none; so at least one classical assumption (Galilean addition, absolute time, or the ether) must go.",
+				"modelAnswer": "Under $x'=x-vt$, $t'=t$, light travelling at $c$ in one frame would travel at $c\\mp v$ in a frame moving relative to it. Michelson and Morley searched for the resulting fringe shift when the interferometer was rotated relative to the supposed ether wind and found essentially none, so light's speed does not depend on the observer's motion. That is incompatible with Galilean addition, so the classical assumptions must be revised."
+			}
+		],
+		"p3-l002-einstein-postulates-simultaneity": [
 			{
 				"kind": "mc",
 				"prompt": "A spaceship moving at $0.5c$ relative to Earth fires a laser pulse straight ahead. What speed do Earth observers measure for the light?",
@@ -39,32 +66,13 @@
 				"explanation": "The train observer receives the front flash first (she moves toward it), but she knows both flashes came from points equidistant from her and travelled at $c$ in her frame, so she infers the front strike occurred earlier. Simultaneity of spatially separated events is frame-dependent."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "In the ether picture, the Earth moves at $v=30\\ \\mathrm{km/s}$ and rotating a Michelson interferometer by $90^\\circ$ should shift the fringes by $N=\\dfrac{2L}{\\lambda}\\dfrac{v^2}{c^2}$. For arm length $L=11$ m and $\\lambda=550$ nm, how many fringes should have been seen? (The observed shift was less than about 0.01.)",
-				"answer": 0.40055,
-				"tolerance": 0.05,
-				"explanation": "$N=\\dfrac{2(11)}{5.5\\times10^{-7}}\\times(10^{-4})^2\\approx0.40$ fringe, easily detectable, yet the observed shift was far smaller. This null result undermined the ether."
-			},
-			{
 				"kind": "short",
 				"prompt": "Explain in your own words how the train-and-lightning thought experiment shows that simultaneity is relative, and which classical assumption it forces us to abandon.",
 				"rubric": "Full credit requires: both observers use the same light speed $c$ in their own frame; events simultaneous in one frame (flashes reach the ground observer together) are not simultaneous in the other because the train observer moves toward one flash; therefore the classical assumption of absolute (universal) time, with Galilean velocity addition, must be dropped.",
 				"modelAnswer": "Light travels at $c$ in every frame. The ground observer, equidistant from both strikes, receives the flashes together and concludes the strikes were simultaneous. The train observer, moving toward the front flash, receives it first; since she also measures light at $c$ and knows she is midway, she concludes the front strike happened earlier. Both are right in their own frames, so time and simultaneity are not absolute; the classical assumption of a universal time (and Galilean velocity addition) must go."
 			}
 		],
-		"p3-l002-dilation-contraction": [
-			{
-				"kind": "mc",
-				"prompt": "Cosmic-ray muons ($\\tau_0\\approx2.2\\ \\mu$s) created high in the atmosphere reach the ground at $v\\approx0.995c$. In the muon's own rest frame, which explanation is correct?",
-				"options": [
-					"The muon's clock runs slow, so it lives longer in its own frame",
-					"The muon's lifetime is longer in its frame because it is closer to the speed of light",
-					"The atmosphere is length-contracted",
-					"The muons reach the ground only because they are produced much closer to it"
-				],
-				"answer": 2,
-				"explanation": "In the Earth frame the muon's lifetime is dilated; in the muon frame its lifetime is normal (2.2 $\\mu$s) but the atmosphere rushes by and is contracted by $\\gamma\\approx10$. Both descriptions predict the same survival fraction."
-			},
+		"p3-l003-time-dilation-light-clock": [
 			{
 				"kind": "numeric",
 				"prompt": "A muon moving at $0.995c$ has proper lifetime $2.197\\ \\mu$s. How far does it travel (in the Earth frame) on average before decaying? Give the answer in km.",
@@ -99,12 +107,40 @@
 			},
 			{
 				"kind": "short",
+				"prompt": "Use a light clock (a pulse bouncing between two mirrors) to explain why a moving observer measures a longer time between ticks than the observer at rest with the clock.",
+				"rubric": "Full credit requires: in the clock's frame the light goes straight up and down; in the other frame the light follows a longer diagonal path; since the speed of light is the same in both frames, the longer path takes more time, so $\\Delta t=\\gamma\\Delta t_0$.",
+				"modelAnswer": "In the clock's rest frame each tick is a vertical round trip of length $2h$. A frame in which the clock moves sees the light travel along a longer zig-zag path. Since light moves at $c$ in both frames, the longer path takes more time, so moving clocks tick more slowly: $\\Delta t=\\gamma\\Delta t_0$ with $\\gamma=1/\\sqrt{1-v^2/c^2}$."
+			}
+		],
+		"p3-l004-length-contraction-muons": [
+			{
+				"kind": "mc",
+				"prompt": "Cosmic-ray muons ($\\tau_0\\approx2.2\\ \\mu$s) created high in the atmosphere reach the ground at $v\\approx0.995c$. In the muon's own rest frame, which explanation is correct?",
+				"options": [
+					"The muon's clock runs slow, so it lives longer in its own frame",
+					"The muon's lifetime is longer in its frame because it is closer to the speed of light",
+					"The atmosphere is length-contracted",
+					"The muons reach the ground only because they are produced much closer to it"
+				],
+				"answer": 2,
+				"explanation": "In the Earth frame the muon's lifetime is dilated; in the muon frame its lifetime is normal (2.2 $\\mu$s) but the atmosphere rushes by and is contracted by $\\gamma\\approx10$. Both descriptions predict the same survival fraction."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Cosmic-ray muons travel at $0.995c$ through an atmosphere that is $10$ km thick in the Earth frame. How thick is the atmosphere in the muon's rest frame? Give the answer in km.",
+				"answer": 0.9987,
+				"tolerance": 0.02,
+				"unit": "km",
+				"explanation": "The atmosphere moves past the muon at $0.995c$, so its thickness is contracted by $\\gamma=10.01$: $L=10/10.01\\approx1.0$ km. The muon (proper lifetime 2.2 $\\mu$s) covers this in about $1.0\\text{ km}/0.995c\\approx3.3\\ \\mu$s, similar to a few lifetimes, so many survive; the Earth-frame and muon-frame accounts agree."
+			},
+			{
+				"kind": "short",
 				"prompt": "Explain in your own words how length contraction follows from time dilation, using a moving rod passing a fixed marker, and say why dimensions perpendicular to the motion are not contracted.",
 				"rubric": "Full credit requires: in the marker's frame both events (front, then back of the rod reaching the marker) happen at the marker, so $\\Delta t=L/v$ is a proper time; in the rod's frame the marker crosses the rod in $\\Delta t'=L_0/v$, which is dilated, $\\Delta t'=\\gamma\\Delta t$; hence $L=L_0/\\gamma$; perpendicular lengths are unchanged because there is no relative motion along them (a symmetry argument with two sticks).",
 				"modelAnswer": "Let a rod of proper length $L_0$ pass a marker at speed $v$. In the marker's frame the passage takes $\\Delta t=L/v$, and both events occur at the marker, so $\\Delta t$ is a proper time. In the rod's frame the marker takes $\\Delta t'=L_0/v$ to cross, and this is the dilated time: $\\Delta t'=\\gamma\\Delta t$. Hence $L_0/v=\\gamma L/v$, i.e. $L=L_0/\\gamma$. Lengths perpendicular to the motion are unchanged: if they contracted, two identical sticks passing each other would each be seen shorter by the other, a contradiction that a mark left on one stick would expose."
 			}
 		],
-		"p3-l003-lorentz-transformation": [
+		"p3-l005-lorentz-transformation-interval": [
 			{
 				"kind": "numeric",
 				"prompt": "An event occurs at $x=600$ m, $t=2.0\\ \\mu$s in frame S. Frame S$'$ moves along $+x$ at $v=0.6c$ relative to S. Take $c=3.00\\times10^8$ m/s and use $t'=\\gamma(t-vx/c^2)$. Find $t'$ in microseconds.",
@@ -112,13 +148,6 @@
 				"tolerance": 0.02,
 				"unit": "microseconds",
 				"explanation": "$\\gamma=1.25$ and $vx/c^2=0.6\\times600/(3\\times10^8)=1.20\\ \\mu$s, so $t'=1.25\\times(2.0-1.20)=1.0\\ \\mu$s."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "A spaceship moves at $0.90c$ relative to Earth and fires a probe forward at $0.90c$ relative to the ship. Using $u=(u'+v)/(1+u'v/c^2)$, what is the probe's speed relative to Earth, as a fraction of $c$?",
-				"answer": 0.99448,
-				"tolerance": 0.02,
-				"explanation": "$u=(0.9+0.9)/(1+0.81)=1.8/1.81\\approx0.9945\\,c$: close to but below $c$. The Galilean sum would be $1.8c$."
 			},
 			{
 				"kind": "mc",
@@ -131,6 +160,33 @@
 				],
 				"answer": 3,
 				"explanation": "Time and space intervals separately change under a boost (dilation, contraction), but the combination $s^2=c^2\\Delta t^2-\\Delta x^2$ is preserved, as the Lorentz transformation guarantees: it is the relativistic analogue of distance being preserved under rotation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Event 2 occurs $300$ m away from event 1 and $2.0\\ \\mu$s later (take $c=3.0\\times10^8$ m/s). Is there an inertial frame in which they occur at the same place?",
+				"options": [
+					"Yes: $c\\Delta t=600$ m exceeds $\\Delta x=300$ m (timelike)",
+					"No: the events are at different places in every frame",
+					"Yes, but only in a frame moving faster than light",
+					"No: $\\Delta x\\ne0$ makes the interval spacelike"
+				],
+				"answer": 0,
+				"explanation": "$c^2\\Delta t^2-\\Delta x^2>0$ is timelike, and a frame moving at $v=\\Delta x/\\Delta t=0.5c$ sees both events at the same place. The sign of the invariant interval, not the positions, decides whether such a frame exists."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how time dilation and length contraction both follow from the Lorentz transformation, and what the transformation reduces to when $v\\ll c$.",
+				"rubric": "Full credit requires: a clock at rest in S$'$ has $\\Delta x'=0$, giving $\\Delta t=\\gamma\\Delta t'$; a rod at rest in S$'$ is measured with both ends at the same time in S, giving $L=L_0/\\gamma$; for $v\\ll c$, $\\gamma\\to1$ and $vx/c^2\\to0$, recovering the Galilean transformation.",
+				"modelAnswer": "For a clock at rest in S$'$ ($\\Delta x'=0$), inverting the transformation gives $\\Delta t=\\gamma\\Delta t'$. For a rod at rest in S$'$, measuring both ends at the same time in S gives $\\Delta x'=\\gamma\\Delta x$, i.e. $L=L_0/\\gamma$. When $v\\ll c$, $\\gamma\\approx1$ and $vx/c^2\\approx0$, so $x'\\approx x-vt$ and $t'\\approx t$: the Galilean transformation."
+			}
+		],
+		"p3-l006-velocity-addition-rapidity": [
+			{
+				"kind": "numeric",
+				"prompt": "A spaceship moves at $0.90c$ relative to Earth and fires a probe forward at $0.90c$ relative to the ship. Using $u=(u'+v)/(1+u'v/c^2)$, what is the probe's speed relative to Earth, as a fraction of $c$?",
+				"answer": 0.99448,
+				"tolerance": 0.02,
+				"explanation": "$u=(0.9+0.9)/(1+0.81)=1.8/1.81\\approx0.9945\\,c$: close to but below $c$. The Galilean sum would be $1.8c$."
 			},
 			{
 				"kind": "mc",
@@ -151,25 +207,13 @@
 				"modelAnswer": "Algebra on $u=(u'+v)/(1+u'v/c^2)$ gives $1-u^2/c^2=\\dfrac{(1-u'^2/c^2)(1-v^2/c^2)}{(1+u'v/c^2)^2}$. If $|u'|<c$ and $|v|<c$ the numerator is positive, so $1-u^2/c^2>0$ and $|u|<c$. If $u'=c$, the first factor is zero, so $u=c$ for any boost $v$: light moves at $c$ in every frame, as the second postulate demands."
 			}
 		],
-		"p3-l004-doppler-spacetime": [
+		"p3-l007-relativistic-doppler-redshift": [
 			{
 				"kind": "numeric",
 				"prompt": "A galaxy has a measured redshift $z=0.5$ (interpreted as a recession Doppler shift). Using $1+z=\\sqrt{(1+\\beta)/(1-\\beta)}$, find $\\beta=v/c$.",
 				"answer": 0.38462,
 				"tolerance": 0.02,
 				"explanation": "Squaring, $(1+z)^2=(1+\\beta)/(1-\\beta)$, so $\\beta=\\dfrac{(1+z)^2-1}{(1+z)^2+1}=\\dfrac{1.25}{3.25}\\approx0.385$. The naive $v=zc$ would give $0.5c$."
-			},
-			{
-				"kind": "mc",
-				"prompt": "Event A is at $x=0$, $t=0$, and event B is at $x=4\\times10^8$ m, $t=1.0$ s. Could A have influenced B?",
-				"options": [
-					"Yes, since B happens after A in this frame",
-					"Yes, if the signal is fast enough, which relativity allows",
-					"No: the separation is spacelike ($\\Delta x>c\\Delta t$)",
-					"Only if the observer is moving with the signal"
-				],
-				"answer": 2,
-				"explanation": "Light covers only $3\\times10^8$ m in 1 s, so B is outside A's light cone. For a spacelike interval some frames see B before A, which is harmless because no causal link is possible."
 			},
 			{
 				"kind": "mc",
@@ -184,6 +228,26 @@
 				"explanation": "At the instant of emission toward the observer in the lab frame, the line of sight is perpendicular to the velocity, so the classical Doppler term vanishes. The source's moving clock runs slow, so it emits fewer wave crests per lab time: $f_{\\rm obs}=f_{\\rm src}/\\gamma$."
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the relativistic Doppler shift for a receding source is larger than the classical one, and how cosmological redshift differs conceptually from a Doppler shift.",
+				"rubric": "Full credit requires: receding source's wavelengths are stretched by the classical motion and further stretched because its clock runs slow (time dilation, factor $\\gamma$), giving $\\sqrt{(1+\\beta)/(1-\\beta)}$; cosmological redshift arises because space itself expands while the light travels, stretching wavelengths, not because the galaxy moves through space.",
+				"modelAnswer": "For a receding source, the classical Doppler effect stretches the wavelength because the source moves away between wave crests; in addition, time dilation makes the source's clock run slow, stretching it further by $\\gamma$. Together they give $f_{\\rm obs}=f_{\\rm src}\\sqrt{(1-\\beta)/(1+\\beta)}$. Cosmological redshift is different: galaxies are essentially at rest in expanding space, and the light's wavelength grows as the space it travels through expands."
+			}
+		],
+		"p3-l008-spacetime-diagrams-causality": [
+			{
+				"kind": "mc",
+				"prompt": "Event A is at $x=0$, $t=0$, and event B is at $x=4\\times10^8$ m, $t=1.0$ s. Could A have influenced B?",
+				"options": [
+					"Yes, since B happens after A in this frame",
+					"Yes, if the signal is fast enough, which relativity allows",
+					"No: the separation is spacelike ($\\Delta x>c\\Delta t$)",
+					"Only if the observer is moving with the signal"
+				],
+				"answer": 2,
+				"explanation": "Light covers only $3\\times10^8$ m in 1 s, so B is outside A's light cone. For a spacelike interval some frames see B before A, which is harmless because no causal link is possible."
+			},
+			{
 				"kind": "mc",
 				"prompt": "On a spacetime diagram with $ct$ vertical and $x$ horizontal, what is true about the worldline of a massive particle?",
 				"options": [
@@ -196,13 +260,61 @@
 				"explanation": "A massive particle has $|dx/dt|<c$, so its worldline makes an angle with the time axis smaller than $45^\\circ$ (steeper than the light rays). A particle at rest has a vertical worldline; light has $45^\\circ$."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "Two events are separated by $\\Delta t=3.0\\ \\mu$s and $\\Delta x=600$ m in some frame (take $c=3.00\\times10^8$ m/s). Find the proper time between them, the time in the frame where they occur at the same place, in microseconds.",
+				"answer": 2.2361,
+				"tolerance": 0.02,
+				"unit": "microseconds",
+				"explanation": "The interval is timelike ($c\\Delta t=900$ m $>600$ m). The proper time is $\\Delta\\tau=\\sqrt{\\Delta t^2-(\\Delta x/c)^2}=\\sqrt{9-4}=2.24\\ \\mu$s, shorter than the $3.0\\ \\mu$s measured in the original frame."
+			},
+			{
 				"kind": "short",
-				"prompt": "Explain in your own words why the relativistic Doppler shift for a receding source is larger than the classical one, and how cosmological redshift differs conceptually from a Doppler shift.",
-				"rubric": "Full credit requires: receding source's wavelengths are stretched by the classical motion and further stretched because its clock runs slow (time dilation, factor $\\gamma$), giving $\\sqrt{(1+\\beta)/(1-\\beta)}$; cosmological redshift arises because space itself expands while the light travels, stretching wavelengths, not because the galaxy moves through space.",
-				"modelAnswer": "For a receding source, the classical Doppler effect stretches the wavelength because the source moves away between wave crests; in addition, time dilation makes the source's clock run slow, stretching it further by $\\gamma$. Together they give $f_{\\rm obs}=f_{\\rm src}\\sqrt{(1-\\beta)/(1+\\beta)}$. Cosmological redshift is different: galaxies are essentially at rest in expanding space, and the light's wavelength grows as the space it travels through expands."
+				"prompt": "Explain what the light cone of an event is, and why events outside it cannot be causally connected even though different observers disagree about their time order.",
+				"rubric": "Full credit requires: the light cone is the set of events reachable by light signals; no signal or influence can travel faster than $c$, so only events inside (timelike) can be causally related; for spacelike separations the time order depends on the frame, so no consistent cause and effect can exist.",
+				"modelAnswer": "The light cone of an event is the surface traced by light rays from that event; the events inside it are those that could be reached by something travelling slower than $c$. An event outside it is spacelike separated, so it is out of reach of any signal. Because different observers can order spacelike-separated events differently, such events cannot be cause and effect, which preserves causality for everyone."
 			}
 		],
-		"p3-l005-momentum-energy": [
+		"p3-l009-relativistic-momentum-energy": [
+			{
+				"kind": "mc",
+				"prompt": "A photon has zero rest mass yet carries momentum and can exert radiation pressure. How does relativity allow this?",
+				"options": [
+					"Photons have a tiny nonzero mass that is hard to measure",
+					"The momentum of light comes only from its wave nature, not from its energy",
+					"$p=\\gamma mv$ gives $0\\times\\infty$, which is defined to be $E/c$ by convention",
+					"$E^2=(pc)^2+(mc^2)^2$ with $m=0$ gives $p=E/c$"
+				],
+				"answer": 3,
+				"explanation": "The relation $E^2=(pc)^2+(mc^2)^2$ is the general one. For $m=0$, $E=pc$, so light of energy $E$ carries momentum $E/c$ and pushes on surfaces. $\\gamma mv$ is the form for massive particles only."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why a massive particle can never be accelerated to the speed of light, and what happens to its speed as you keep pumping energy into it.",
+				"rubric": "Full credit requires: total energy $E=\\gamma mc^2$ diverges as $v\\to c$, so infinite work would be required; added energy increases $\\gamma$ (and momentum) but speed saturates just below $c$ (e.g. at LHC protons travel within a part in $10^{8}$ of $c$); Newtonian $\\tfrac12mv^2$ would wrongly allow $v>c$.",
+				"modelAnswer": "The energy $E=\\gamma mc^2$ and momentum $p=\\gamma mv$ grow without bound as $v\\to c$ because $\\gamma\\to\\infty$, so reaching $c$ would need infinite energy. Extra energy supplied to the particle goes mostly into increasing $\\gamma$ rather than the speed, which creeps ever closer to $c$ (accelerator protons at several TeV differ from $c$ only in the ninth decimal place). The Newtonian $K=\\tfrac12mv^2$ misses this and would allow arbitrary speeds."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Suppose one tried to keep $\\mathbf p=m\\mathbf v$ for relativistic collisions. What would go wrong?",
+				"options": [
+					"Total momentum conserved in one frame would fail in another",
+					"Momentum would fail to be conserved in every frame",
+					"Energy would no longer be conserved even in the collision's rest frame",
+					"Momentum would depend on position rather than velocity"
+				],
+				"answer": 0,
+				"explanation": "Applying the Lorentz transformation to a collision that conserves $m\\mathbf v$ in one frame gives a collision that does not conserve it in another, violating the principle of relativity. The fix is $\\mathbf p=\\gamma m\\mathbf v$, which conserves momentum in all frames."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An electron ($mc^2=511$ keV) moves at $0.60c$. Find its relativistic kinetic energy $K=(\\gamma-1)mc^2$ in keV.",
+				"answer": 127.75,
+				"tolerance": 0.02,
+				"unit": "keV",
+				"explanation": "At $v=0.6c$, $\\gamma=1.25$, so $K=0.25(511)=127.8$ keV. The Newtonian $\\tfrac12mv^2=0.18(511)=92$ keV underestimates it by about 30% at this speed."
+			}
+		],
+		"p3-l010-energy-scales-accelerated-electrons": [
 			{
 				"kind": "numeric",
 				"prompt": "An electron is accelerated through a potential difference of $100$ kV (kinetic energy $100$ keV; rest energy $511$ keV). Find its speed as a fraction of $c$.",
@@ -230,25 +342,41 @@
 				"explanation": "Rest energy includes all internal energy (elastic, thermal, chemical), so adding energy $E$ adds mass $E/c^2$. The effect is far below anything measurable for a spring, but it is the same effect that gives a mass defect to nuclei."
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain why a massive particle can never be accelerated to the speed of light, and what happens to its speed as you keep adding energy.",
+				"rubric": "Full credit requires: $E=\\gamma mc^2$ diverges as $v\\to c$, so infinite energy would be needed; additional energy goes mostly into increasing $\\gamma$ and momentum rather than speed; the speed approaches $c$ asymptotically.",
+				"modelAnswer": "The total energy $E=\\gamma mc^2$ grows without bound as $v\\to c$, so reaching $c$ would need infinite energy. As you pump in more energy, $\\gamma$ and the momentum keep growing but the speed creeps ever closer to $c$ without reaching it (a 10 GeV electron is already at $v=0.9999999997c$)."
+			}
+		],
+		"p3-l011-four-vectors-invariant-mass": [
+			{
 				"kind": "mc",
-				"prompt": "A photon has zero rest mass yet carries momentum and can exert radiation pressure. How does relativity allow this?",
+				"prompt": "Why can a free electron not completely absorb a photon ($e^-+\\gamma\\to e^-$)?",
 				"options": [
-					"Photons have a tiny nonzero mass that is hard to measure",
-					"The momentum of light comes only from its wave nature, not from its energy",
-					"$p=\\gamma mv$ gives $0\\times\\infty$, which is defined to be $E/c$ by convention",
-					"$E^2=(pc)^2+(mc^2)^2$ with $m=0$ gives $p=E/c$"
+					"Because photons carry no momentum",
+					"The invariant mass of the initial state exceeds $m_ec^2$",
+					"Because charge would not be conserved",
+					"Because it would violate the Pauli exclusion principle"
 				],
-				"answer": 3,
-				"explanation": "The relation $E^2=(pc)^2+(mc^2)^2$ is the general one. For $m=0$, $E=pc$, so light of energy $E$ carries momentum $E/c$ and pushes on surfaces. $\\gamma mv$ is the form for massive particles only."
+				"answer": 1,
+				"explanation": "In the electron's initial rest frame the photon adds both energy and momentum, so the initial invariant mass squared is larger than $m_e^2c^4$, but a lone electron in the final state has exactly $m_e^2c^4$. Absorption works only if a third body (an atom, nucleus) can take up momentum, as in the photoelectric effect."
 			},
 			{
 				"kind": "short",
-				"prompt": "Explain in your own words why a massive particle can never be accelerated to the speed of light, and what happens to its speed as you keep pumping energy into it.",
-				"rubric": "Full credit requires: total energy $E=\\gamma mc^2$ diverges as $v\\to c$, so infinite work would be required; added energy increases $\\gamma$ (and momentum) but speed saturates just below $c$ (e.g. at LHC protons travel within a part in $10^{8}$ of $c$); Newtonian $\\tfrac12mv^2$ would wrongly allow $v>c$.",
-				"modelAnswer": "The energy $E=\\gamma mc^2$ and momentum $p=\\gamma mv$ grow without bound as $v\\to c$ because $\\gamma\\to\\infty$, so reaching $c$ would need infinite energy. Extra energy supplied to the particle goes mostly into increasing $\\gamma$ rather than the speed, which creeps ever closer to $c$ (accelerator protons at several TeV differ from $c$ only in the ninth decimal place). The Newtonian $K=\\tfrac12mv^2$ misses this and would allow arbitrary speeds."
+				"prompt": "What is the invariant mass of a system of particles, and why is it the right quantity for deciding whether a reaction is energetically possible?",
+				"rubric": "Full credit requires: $M^2c^4=(\\sum E)^2-|\\sum\\mathbf p|^2c^2$ is the same in all frames; it equals the total energy in the centre-of-momentum frame; the reaction can occur only if $Mc^2\\ge\\sum m_fc^2$ (final rest masses), so the threshold is where equality holds.",
+				"modelAnswer": "The invariant mass is $M^2c^4=(\\sum E)^2-|\\sum\\mathbf p|^2c^2$, the same in every frame, and equal to the system's total energy in the frame where total momentum is zero. Since the reaction products must have at least their rest-mass energy in that frame, a reaction can proceed only if $Mc^2\\ge\\sum m_fc^2$; the threshold is where they are equal and the products are at rest in the centre-of-momentum frame."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A particle has total energy $E=5.0$ GeV and momentum $pc=4.9$ GeV. Using the invariant $E^2-(pc)^2=(mc^2)^2$, find its rest energy $mc^2$ in GeV.",
+				"answer": 0.995,
+				"tolerance": 0.02,
+				"unit": "GeV",
+				"explanation": "$mc^2=\\sqrt{25-24.01}=\\sqrt{0.99}=0.995$ GeV, close to a proton's rest energy. The norm of the four-momentum is the same in every frame and equals the rest energy."
 			}
 		],
-		"p3-l006-four-vectors-collisions": [
+		"p3-l012-decays-collisions-thresholds": [
 			{
 				"kind": "numeric",
 				"prompt": "Find the minimum kinetic energy a proton beam needs to produce antiprotons on a fixed proton target via $p+p\\to p+p+p+\\bar p$. Take $m_pc^2=938.3$ MeV and use that threshold means all four final particles are at rest in the centre-of-momentum frame. Give the answer in GeV.",
@@ -278,25 +406,13 @@
 				"explanation": "The invariant $s=(\\sum p)^2c^2$ measures the energy available in the centre-of-momentum frame. For a fixed target $\\sqrt s\\sim\\sqrt{2mc^2E}$ grows only as $\\sqrt E$; for equal head-on beams $\\sqrt s=2E$."
 			},
 			{
-				"kind": "mc",
-				"prompt": "Why can a free electron not completely absorb a photon ($e^-+\\gamma\\to e^-$)?",
-				"options": [
-					"Because photons carry no momentum",
-					"The invariant mass of the initial state exceeds $m_ec^2$",
-					"Because charge would not be conserved",
-					"Because it would violate the Pauli exclusion principle"
-				],
-				"answer": 1,
-				"explanation": "In the electron's initial rest frame the photon adds both energy and momentum, so the initial invariant mass squared is larger than $m_e^2c^4$, but a lone electron in the final state has exactly $m_e^2c^4$. Absorption works only if a third body (an atom, nucleus) can take up momentum, as in the photoelectric effect."
-			},
-			{
 				"kind": "short",
-				"prompt": "What is the invariant mass of a system of particles, and why is it the right quantity for deciding whether a reaction is energetically possible?",
-				"rubric": "Full credit requires: $M^2c^4=(\\sum E)^2-|\\sum\\mathbf p|^2c^2$ is the same in all frames; it equals the total energy in the centre-of-momentum frame; the reaction can occur only if $Mc^2\\ge\\sum m_fc^2$ (final rest masses), so the threshold is where equality holds.",
-				"modelAnswer": "The invariant mass is $M^2c^4=(\\sum E)^2-|\\sum\\mathbf p|^2c^2$, the same in every frame, and equal to the system's total energy in the frame where total momentum is zero. Since the reaction products must have at least their rest-mass energy in that frame, a reaction can proceed only if $Mc^2\\ge\\sum m_fc^2$; the threshold is where they are equal and the products are at rest in the centre-of-momentum frame."
+				"prompt": "Explain how conservation of four-momentum in the centre-of-momentum frame leads to the threshold condition for producing a particle in a collision.",
+				"rubric": "Full credit requires: at threshold all final-state particles are at rest in the CM frame, so the invariant mass equals the sum of the final rest masses; the invariant mass of the initial state depends on the beam energy and is the same in all frames; set them equal.",
+				"modelAnswer": "The invariant mass $\\sqrt{s}$ of the colliding pair is the same in all frames, and in the CM frame it is simply the total energy there. The minimum $\\sqrt{s}$ for producing the final particles is the sum of their rest masses (all at rest in the CM frame). Setting $s_{initial}=(\\sum m_fc^2)^2$ gives the minimum beam energy."
 			}
 		],
-		"p3-l007-blackbody-photoelectric": [
+		"p3-l013-blackbody-planck": [
 			{
 				"kind": "numeric",
 				"prompt": "Treat human skin as a blackbody at $T=310$ K. Using Wien's law $\\lambda_{\\max}T=2.898\\times10^{-3}$ m K, find the peak emission wavelength in micrometres.",
@@ -304,14 +420,6 @@
 				"tolerance": 0.02,
 				"unit": "um",
 				"explanation": "$\\lambda_{\\max}=2.898\\times10^{-3}/310\\approx9.35\\ \\mu$m, in the thermal infrared. This is why thermal cameras work in the 8-14 $\\mu$m window."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "Light of wavelength $400$ nm falls on sodium, whose work function is $\\phi=2.28$ eV. Use $hc=1240$ eV nm. Find the stopping voltage $V_0$ in volts.",
-				"answer": 0.8196,
-				"tolerance": 0.03,
-				"unit": "V",
-				"explanation": "Photon energy $=hc/\\lambda=3.10$ eV, so $K_{\\max}=3.10-2.28=0.82$ eV and $V_0=0.82$ V."
 			},
 			{
 				"kind": "mc",
@@ -324,6 +432,34 @@
 				],
 				"answer": 1,
 				"explanation": "Modes can only gain energy in lumps of $hf$. When $hf\\gg k_BT$ the probability of receiving a lump is exponentially small, so these modes carry almost no energy, and the total stays finite. At low frequency equipartition is recovered."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A piece of iron is heated until it glows. As its temperature rises, what happens to the peak wavelength of its emission and to the total power radiated?",
+				"options": [
+					"The peak shifts to longer wavelength and the power rises as $T$",
+					"The peak shifts to shorter wavelength and the power rises steeply, as $T^4$",
+					"The peak stays fixed and only the power rises as $T^4$",
+					"The peak shifts to shorter wavelength but the power stays fixed"
+				],
+				"answer": 1,
+				"explanation": "Wien's law gives $\\lambda_{max}\\propto1/T$, so hotter objects glow from red toward white and blue, and the Stefan-Boltzmann law gives total power $\\propto T^4$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how Planck's quantisation $E=nhf$ removes the ultraviolet catastrophe of the classical (Rayleigh-Jeans) treatment.",
+				"rubric": "Full credit requires: classically each mode gets $k_BT$ so infinitely many high-frequency modes give divergent energy; with quantised energies a mode of frequency $f$ can only absorb energy in units $hf$; for $hf\\gg k_BT$ the mode is almost never excited, cutting off the spectrum.",
+				"modelAnswer": "Classically every cavity mode carries $k_BT$, so the number of modes grows as $f^2$ and the energy density diverges at high frequency. If a mode of frequency $f$ can only be excited in lumps of $hf$, then for $hf\\gg k_BT$ the thermal energy is rarely enough to excite even one quantum, so the high-frequency modes are frozen out and the spectrum falls off."
+			}
+		],
+		"p3-l014-photoelectric-effect": [
+			{
+				"kind": "numeric",
+				"prompt": "Light of wavelength $400$ nm falls on sodium, whose work function is $\\phi=2.28$ eV. Use $hc=1240$ eV nm. Find the stopping voltage $V_0$ in volts.",
+				"answer": 0.8196,
+				"tolerance": 0.03,
+				"unit": "V",
+				"explanation": "Photon energy $=hc/\\lambda=3.10$ eV, so $K_{\\max}=3.10-2.28=0.82$ eV and $V_0=0.82$ V."
 			},
 			{
 				"kind": "mc",
@@ -344,7 +480,7 @@
 				"modelAnswer": "Classical waves would predict that (1) any frequency eventually ejects electrons if intense enough, (2) dim light needs time to build up energy, (3) brighter light gives faster electrons. In fact there is a threshold frequency, emission is instantaneous, and the maximum kinetic energy depends on frequency but not intensity. In the photon picture, light arrives in quanta of energy $hf$ and each is absorbed by one electron, giving $K_{\\max}=hf-\\phi$. Intensity only controls how many photons (hence electrons) there are."
 			}
 		],
-		"p3-l008-compton-bohr": [
+		"p3-l015-compton-scattering": [
 			{
 				"kind": "numeric",
 				"prompt": "X-rays scatter from a free electron at an angle of $60^\\circ$. Using $\\Delta\\lambda=\\frac{h}{m_ec}(1-\\cos\\theta)$, find the wavelength shift in picometres.",
@@ -352,14 +488,6 @@
 				"tolerance": 0.02,
 				"unit": "pm",
 				"explanation": "The Compton wavelength is $h/m_ec=2.426$ pm, so $\\Delta\\lambda=2.426\\times(1-0.5)=1.213$ pm."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "Use the Rydberg formula $1/\\lambda=R_H(1/n_f^2-1/n_i^2)$ with $R_H=1.0968\\times10^7\\ \\mathrm{m^{-1}}$ to find the wavelength of the H$\\alpha$ line ($n_i=3\\to n_f=2$) in nanometres.",
-				"answer": 656.46,
-				"tolerance": 0.02,
-				"unit": "nm",
-				"explanation": "$1/\\lambda=1.0968\\times10^7\\times(1/4-1/9)=1.523\\times10^6\\ \\mathrm{m^{-1}}$, so $\\lambda\\approx656.5$ nm: the red Balmer line."
 			},
 			{
 				"kind": "mc",
@@ -374,6 +502,22 @@
 				"explanation": "Treating the photon as a particle with momentum $h/\\lambda$ colliding with a free electron gives $\\Delta\\lambda=(h/m_ec)(1-\\cos\\theta)$. Classical wave scattering would give no shift at all, so the observed shift is direct evidence for photon momentum."
 			},
 			{
+				"kind": "short",
+				"prompt": "The Compton shift is at most about $4.9$ pm. Explain why it is easily measured with X-rays but negligible for visible light.",
+				"rubric": "Full credit requires: the shift depends only on angle and is a fixed fraction of $h/m_ec\\sim2.4$ pm; compare with the wavelength: for X-rays ($\\sim70$ pm) the relative change is a few percent, for visible ($\\sim500$ nm) it is $\\sim10^{-5}$ and undetectable.",
+				"modelAnswer": "The shift $\\Delta\\lambda\\le2h/m_ec\\approx4.9$ pm is independent of the incident wavelength. For 70 pm X-rays that is several percent, easily resolved. For 500 nm visible light the same shift is about one part in $10^{5}$, far too small to notice, so light looks like it scatters elastically."
+			}
+		],
+		"p3-l016-bohr-model-hydrogen": [
+			{
+				"kind": "numeric",
+				"prompt": "Use the Rydberg formula $1/\\lambda=R_H(1/n_f^2-1/n_i^2)$ with $R_H=1.0968\\times10^7\\ \\mathrm{m^{-1}}$ to find the wavelength of the H$\\alpha$ line ($n_i=3\\to n_f=2$) in nanometres.",
+				"answer": 656.46,
+				"tolerance": 0.02,
+				"unit": "nm",
+				"explanation": "$1/\\lambda=1.0968\\times10^7\\times(1/4-1/9)=1.523\\times10^6\\ \\mathrm{m^{-1}}$, so $\\lambda\\approx656.5$ nm: the red Balmer line."
+			},
+			{
 				"kind": "mc",
 				"prompt": "Which of the following is a genuine failure of the Bohr model of the atom?",
 				"options": [
@@ -386,13 +530,25 @@
 				"explanation": "The Bohr model reproduces hydrogen's gross spectrum, but it gets the angular momentum of the ground state wrong (actual $L=0$), gives no intensities, fine structure or Zeeman patterns, and fails for helium and heavier atoms. Not radiating was a postulate, not a derived result."
 			},
 			{
+				"kind": "mc",
+				"prompt": "A hydrogen atom emits a photon in the transition $4\\to2$ and another in $3\\to2$. How do the two photons compare?",
+				"options": [
+					"The $4\\to2$ photon has higher energy and shorter wavelength",
+					"The $4\\to2$ photon has lower energy and longer wavelength",
+					"Both have the same energy, set by the final state $n=2$",
+					"The $4\\to2$ photon has higher energy but longer wavelength"
+				],
+				"answer": 0,
+				"explanation": "$E_4-E_2=2.55$ eV (486 nm, H$\\beta$) exceeds $E_3-E_2=1.89$ eV (656 nm, H$\\alpha$). The photon energy is the difference of the two levels, not set by the final state alone, and $\\lambda=hc/E$ shrinks as energy grows."
+			},
+			{
 				"kind": "short",
-				"prompt": "The Compton shift is at most about $4.9$ pm. Explain why it is easily measured with X-rays but negligible for visible light.",
-				"rubric": "Full credit requires: the shift depends only on angle and is a fixed fraction of $h/m_ec\\sim2.4$ pm; compare with the wavelength: for X-rays ($\\sim70$ pm) the relative change is a few percent, for visible ($\\sim500$ nm) it is $\\sim10^{-5}$ and undetectable.",
-				"modelAnswer": "The shift $\\Delta\\lambda\\le2h/m_ec\\approx4.9$ pm is independent of the incident wavelength. For 70 pm X-rays that is several percent, easily resolved. For 500 nm visible light the same shift is about one part in $10^{5}$, far too small to notice, so light looks like it scatters elastically."
+				"prompt": "Explain how Bohr's condition $L=n\\hbar$ leads to discrete energy levels and discrete spectral lines, and why this model could not account for all atoms.",
+				"rubric": "Full credit requires: quantised angular momentum selects discrete circular orbits with energies $-13.6/n^2$ eV; photons are emitted or absorbed in jumps with $hf=E_i-E_f$, giving lines; model fails for multi-electron atoms, fine structure and ignores wave nature and the correct $L=0$ ground state.",
+				"modelAnswer": "Requiring $L=n\\hbar$ together with Coulomb force balance picks out discrete radii $r_n=n^2a_0$ and energies $E_n=-13.6\\text{ eV}/n^2$. Light is emitted or absorbed only when the electron jumps between levels, so $hf=E_i-E_f$ gives discrete lines. The model fails for atoms with more than one electron, cannot explain fine structure or line intensities, and wrongly gives the ground state $L=\\hbar$ rather than 0."
 			}
 		],
-		"p3-l009-matter-waves": [
+		"p3-l017-de-broglie-diffraction": [
 			{
 				"kind": "numeric",
 				"prompt": "Find the de Broglie wavelength of an electron accelerated from rest through $100$ V, using $\\lambda=h/\\sqrt{2m_eeV}$. Give the answer in angstroms.",
@@ -422,6 +578,14 @@
 				"explanation": "Diffraction and interference are noticeable only when the wavelength is comparable to the size of the apertures or spacings. Everyday objects have $\\lambda\\ll$ any physical feature, so the wave nature is real but unobservable."
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain how the Davisson-Germer experiment provides evidence that electrons have wave properties, and how the observed diffraction angle is used to check the de Broglie wavelength.",
+				"rubric": "Full credit requires: electrons scattered from a nickel crystal show intensity maxima at specific angles, like X-ray Bragg diffraction; the crystal spacing and angle give a wavelength through the Bragg condition that matches $h/p$ for the accelerating voltage.",
+				"modelAnswer": "Electrons reflected from a nickel crystal showed a strong peak at a particular angle for a particular accelerating voltage, as in Bragg diffraction of X-rays. From the known lattice spacing and angle, $n\\lambda=d\\sin\\theta$ gives the wavelength, which agreed with $\\lambda=h/p$ computed from the voltage. Only waves diffract, so electrons behave as waves."
+			}
+		],
+		"p3-l018-standing-waves-double-slit": [
+			{
 				"kind": "mc",
 				"prompt": "In the Bohr model, why are only certain circular orbits allowed, according to de Broglie?",
 				"options": [
@@ -438,23 +602,23 @@
 				"prompt": "In the single-electron double-slit experiment, individual electrons land as dots, yet an interference pattern builds up. Explain what this shows, and what happens to the pattern if you detect which slit each electron passes through.",
 				"rubric": "Full credit requires: each electron is detected as a localized particle but the probability distribution for landing follows the wave interference from both slits (the wave passes through both); determining which slit (which-path information) destroys the interference, leaving two single-slit patterns; complementarity: wave and particle aspects cannot both be observed in the same experiment.",
 				"modelAnswer": "Each electron arrives as a single localised dot, yet the dots accumulate into fringes: the probability of landing at a point is given by a wave that went through both slits and interfered with itself, not by electrons interacting with each other. If we measure which slit the electron used, the two paths become distinguishable, the interference disappears and we see two overlapping single-slit patterns. Particle-like path information and wave-like interference are complementary."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In the Bohr model, the $n=2$ orbit has radius $r_2=4a_0$ with $a_0=0.529$ Å. If a whole number of de Broglie wavelengths must fit around the orbit ($2\\pi r=n\\lambda$), what is the electron's de Broglie wavelength in this orbit, in angstroms?",
+				"answer": 6.648,
+				"tolerance": 0.02,
+				"unit": "angstroms",
+				"explanation": "$\\lambda=2\\pi r_2/2=\\pi(4)(0.529)=6.65$ Å: two wavelengths fit around the circumference $13.3$ Å. This standing-wave condition is equivalent to Bohr's $L=n\\hbar$."
 			}
 		],
-		"p3-l010-wavefunction-uncertainty": [
+		"p3-l019-born-interpretation-expectation": [
 			{
 				"kind": "numeric",
 				"prompt": "A particle in a box of length $L$ has $\\psi(x)=\\sqrt{2/L}\\sin(\\pi x/L)$. What is the probability of finding it in the left quarter of the box, $0<x<L/4$?",
 				"answer": 0.090845,
 				"tolerance": 0.03,
 				"explanation": "$P=\\int_0^{L/4}\\frac2L\\sin^2\\frac{\\pi x}L dx=\\frac14-\\frac{\\sin(\\pi/2)}{2\\pi}\\approx0.091$, well below $0.25$ because the ground state is concentrated in the middle."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "An electron is confined to a region of size $\\Delta x=0.50$ Å (an atom). Estimate its minimum kinetic energy as $\\Delta p^2/2m$ with $\\Delta p=\\hbar/(2\\Delta x)$. Give the answer in eV.",
-				"answer": 3.81,
-				"tolerance": 0.1,
-				"unit": "eV",
-				"explanation": "$\\Delta p=\\hbar/2\\Delta x=1.05\\times10^{-24}$ kg m/s, so $E\\approx\\hbar^2/(8m\\Delta x^2)\\approx3.8$ eV: the right order of magnitude (eV) for atomic and chemical energies, simply from confinement."
 			},
 			{
 				"kind": "mc",
@@ -467,6 +631,30 @@
 				],
 				"answer": 0,
 				"explanation": "The wavefunction is an amplitude, not a probability. Its sign or complex phase is what makes interference possible: e.g. the node of a $p$ orbital separates lobes of opposite sign, both with positive probability density."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A particle has wave function $\\psi(x)=Ae^{-|x|/a}$ with $a=0.50$ nm. Normalise it: find $A$ in nm$^{-1/2}$.",
+				"answer": 1.4142,
+				"tolerance": 0.02,
+				"unit": "nm^-1/2",
+				"explanation": "$\\int|\\psi|^2dx=A^2\\cdot2\\int_0^\\infty e^{-2x/a}dx=A^2a=1$, so $A=1/\\sqrt a=1/\\sqrt{0.50}=1.414\\ \\mathrm{nm^{-1/2}}$. The units of $\\psi$ are $1/\\sqrt{\\text{length}}$ so that $|\\psi|^2dx$ is dimensionless."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain Born's interpretation of the wave function, including why $\\psi$ itself is not a probability and why the wave function must be normalised.",
+				"rubric": "Full credit requires: $|\\psi|^2dx$ is the probability of finding the particle between $x$ and $x+dx$; $\\psi$ can be negative or complex so cannot itself be a probability; the total probability of finding the particle somewhere must be 1, so $\\int|\\psi|^2dx=1$.",
+				"modelAnswer": "The wave function is an amplitude: the probability of finding the particle in a small interval $dx$ is $|\\psi|^2dx$. Since $\\psi$ may be negative or complex (only $|\\psi|^2$ is real and non-negative), it cannot be a probability by itself. The particle must be found somewhere, so the probabilities sum to 1, which fixes the normalisation $\\int|\\psi|^2dx=1$."
+			}
+		],
+		"p3-l020-uncertainty-principle-linewidths": [
+			{
+				"kind": "numeric",
+				"prompt": "An electron is confined to a region of size $\\Delta x=0.50$ Å (an atom). Estimate its minimum kinetic energy as $\\Delta p^2/2m$ with $\\Delta p=\\hbar/(2\\Delta x)$. Give the answer in eV.",
+				"answer": 3.81,
+				"tolerance": 0.1,
+				"unit": "eV",
+				"explanation": "$\\Delta p=\\hbar/2\\Delta x=1.05\\times10^{-24}$ kg m/s, so $E\\approx\\hbar^2/(8m\\Delta x^2)\\approx3.8$ eV: the right order of magnitude (eV) for atomic and chemical energies, simply from confinement."
 			},
 			{
 				"kind": "mc",
@@ -487,7 +675,7 @@
 				"modelAnswer": "A state that lasts only a time $\\tau$ cannot have a precisely defined energy: $\\Delta E\\,\\tau\\gtrsim\\hbar/2$, so $\\Delta E\\sim\\hbar/\\tau$. Photons emitted when it decays therefore have a spread of energies of this size, the natural linewidth $\\Delta\\nu\\sim1/(2\\pi\\tau)$. Short-lived excited states give broad lines and metastable states give very sharp ones."
 			}
 		],
-		"p3-l011-schrodinger-box-oscillator": [
+		"p3-l021-schrodinger-box-polyenes": [
 			{
 				"kind": "numeric",
 				"prompt": "Model the six $\\pi$ electrons of hexatriene as free particles in a 1D box of length $L=0.70$ nm. Three levels are filled ($n=1,2,3$); the lowest absorption is $n=3\\to4$, with $\\Delta E=7h^2/(8m_eL^2)$. Find the absorption wavelength in nm.",
@@ -495,13 +683,6 @@
 				"tolerance": 0.03,
 				"unit": "nm",
 				"explanation": "$\\Delta E=7h^2/(8m_eL^2)\\approx5.4$ eV, so $\\lambda=hc/\\Delta E\\approx231$ nm, in the right ultraviolet region (the measured value is about 258 nm)."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "The vibrational frequency is $\\omega=\\sqrt{k/\\mu}$ with the same force constant $k$ for C-H and C-D (reduced masses with $m_C=12$, $m_H=1.0078$, $m_D=2.0141$ u). Find the ratio $\\omega_{\\rm CH}/\\omega_{\\rm CD}$.",
-				"answer": 1.362,
-				"tolerance": 0.02,
-				"explanation": "$\\mu_{CH}=12(1.0078)/13.0078=0.930$ u and $\\mu_{CD}=12(2.0141)/14.0141=1.725$ u, so the ratio is $\\sqrt{1.725/0.930}\\approx1.36$. The C-D stretch appears at about 2100 cm$^{-1}$ versus 2900 cm$^{-1}$ for C-H."
 			},
 			{
 				"kind": "mc",
@@ -529,12 +710,39 @@
 			},
 			{
 				"kind": "short",
+				"prompt": "Explain how the boundary conditions on $\\psi$ for the infinite square well lead to quantised energies, and why the lowest energy is not zero.",
+				"rubric": "Full credit requires: $\\psi$ must vanish at the walls and be continuous, so only sine waves with an integer number of half-wavelengths fit ($k=n\\pi/L$); energy $\\hbar^2k^2/2m$ is then discrete; $n=0$ gives $\\psi\\equiv0$, so the ground state has at least a half-wavelength curvature and nonzero energy.",
+				"modelAnswer": "Outside the well $\\psi=0$, so continuity forces $\\psi(0)=\\psi(L)=0$. Only sinusoids with an integer number of half-wavelengths fit, $k_n=n\\pi/L$, giving $E_n=\\hbar^2k_n^2/2m$. The state $n=0$ would be $\\psi\\equiv0$ (no particle), so the lowest state must curve to fit in the box and has nonzero kinetic energy, the confinement or zero-point energy."
+			}
+		],
+		"p3-l022-harmonic-oscillator-vibration": [
+			{
+				"kind": "numeric",
+				"prompt": "The vibrational frequency is $\\omega=\\sqrt{k/\\mu}$ with the same force constant $k$ for C-H and C-D (reduced masses with $m_C=12$, $m_H=1.0078$, $m_D=2.0141$ u). Find the ratio $\\omega_{\\rm CH}/\\omega_{\\rm CD}$.",
+				"answer": 1.362,
+				"tolerance": 0.02,
+				"explanation": "$\\mu_{CH}=12(1.0078)/13.0078=0.930$ u and $\\mu_{CD}=12(2.0141)/14.0141=1.725$ u, so the ratio is $\\sqrt{1.725/0.930}\\approx1.36$. The C-D stretch appears at about 2100 cm$^{-1}$ versus 2900 cm$^{-1}$ for C-H."
+			},
+			{
+				"kind": "short",
 				"prompt": "Explain what zero-point energy is for a molecular vibration and how it makes a C-D bond harder to break than a C-H bond, leading to a kinetic isotope effect.",
 				"rubric": "Full credit requires: the oscillator's lowest energy is $\\tfrac12\\hbar\\omega\\ne0$ (uncertainty/confinement); $\\omega\\propto1/\\sqrt\\mu$ so C-D has lower $\\omega$ and lower zero-point energy; the dissociation energy measured from the ground level is therefore larger for C-D, so reactions that break it are slower (primary KIE).",
 				"modelAnswer": "The oscillator cannot sit at the bottom of its well with zero momentum, so its ground state has energy $\\tfrac12\\hbar\\omega$. Deuterium has a larger reduced mass, so $\\omega$ and hence the zero-point energy are lower for C-D than for C-H. Both start from the same potential curve top, so more energy is needed to dissociate the C-D bond from its lower ground level; reactions that break it are slower, giving a kinetic isotope effect."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How are the energy levels of a quantum harmonic oscillator spaced?",
+				"options": [
+					"Increasingly far apart as $n$ grows, as in a box",
+					"Equally, by $\\hbar\\omega$, giving one IR absorption frequency",
+					"Closer together as $n$ grows, as in hydrogen",
+					"Unevenly, with spacing $\\hbar\\omega/n$"
+				],
+				"answer": 1,
+				"explanation": "$E_n=(n+\\tfrac12)\\hbar\\omega$ gives levels equally spaced by $\\hbar\\omega$, so a harmonic bond absorbs IR at the single frequency $\\omega/2\\pi$. Real bonds are anharmonic, so the spacing narrows slightly at high $n$."
 			}
 		],
-		"p3-l012-tunneling": [
+		"p3-l023-barrier-penetration-transmission": [
 			{
 				"kind": "numeric",
 				"prompt": "An electron with energy $E=1$ eV meets a rectangular barrier $V_0=4$ eV, width $a=0.50$ nm. Estimate the transmission probability $T\\approx e^{-2\\kappa a}$ with $\\kappa=\\sqrt{2m(V_0-E)}/\\hbar$.",
@@ -562,6 +770,14 @@
 				"explanation": "Tunnelling is a wave phenomenon: solutions of the Schrodinger equation in the forbidden region are real exponentials, and matching to an oscillating wave beyond gives a finite transmission. The particle is never detected 'inside' with negative kinetic energy; that is a classical misreading."
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain why a particle with $E<V_0$ can be found inside and beyond a classically forbidden barrier, and what determines how quickly the wave function decays inside it.",
+				"rubric": "Full credit requires: the Schrodinger equation inside the barrier has real exponential solutions $e^{-\\kappa x}$ rather than oscillations; the wave function and its derivative must be continuous so it does not vanish abruptly; the decay constant $\\kappa=\\sqrt{2m(V_0-E)}/\\hbar$ grows with mass and with the energy deficit.",
+				"modelAnswer": "Inside the barrier $\\frac{\\hbar^2}{2m}\\psi''=(V_0-E)\\psi$ has decaying exponential solutions $e^{-\\kappa x}$ instead of oscillations. Continuity of $\\psi$ and $\\psi'$ at the edge means the wave function leaks in and, if the barrier is thin, emerges on the other side with a small but nonzero amplitude. The decay rate $\\kappa=\\sqrt{2m(V_0-E)}/\\hbar$ is larger for heavier particles and for larger energy deficits."
+			}
+		],
+		"p3-l024-tunnelling-applications": [
+			{
 				"kind": "mc",
 				"prompt": "A scanning tunnelling microscope tip, a fraction of a nanometre above a surface, measures current to map atoms. Why does this give atomic-scale vertical resolution?",
 				"options": [
@@ -578,17 +794,21 @@
 				"prompt": "Explain how the tunnelling probability depends on the mass of the particle, the width of the barrier and the energy deficit $V_0-E$, and give one chemical and one nuclear example.",
 				"rubric": "Full credit requires: $T\\sim e^{-2\\kappa a}$ with $\\kappa=\\sqrt{2m(V_0-E)}/\\hbar$, so $T$ falls exponentially with width $a$, with $\\sqrt{m}$ and with $\\sqrt{V_0-E}$; light particles (electrons, protons) tunnel far more than heavy; chemical example: proton transfer/kinetic isotope effect or STM; nuclear example: alpha decay (or fusion in the Sun).",
 				"modelAnswer": "The transmission goes as $e^{-2\\kappa a}$ with $\\kappa=\\sqrt{2m(V_0-E)}/\\hbar$: it falls exponentially with barrier width, and exponentially with the square roots of the mass and of the energy deficit. So tunnelling is important for light particles through thin, low barriers. Examples: proton (and hydrogen-atom) transfer in reactions, which shows large H/D kinetic isotope effects, and alpha decay of nuclei, where the alpha particle tunnels through the Coulomb barrier."
+			},
+			{
+				"kind": "mc",
+				"prompt": "$^{238}$U alpha-decays with a half-life of 4.5 billion years, while $^{212}$Po (alpha energy only about twice as large) has a half-life of about 0.3 $\\mu$s. What explains the enormous difference?",
+				"options": [
+					"Polonium nuclei are smaller, so the alpha escapes classically over it",
+					"Uranium's alpha particle is heavier and so moves too slowly to escape",
+					"Polonium's alpha particle has enough energy to go straight over it",
+					"Tunnelling probability is exponentially sensitive to the barrier faced"
+				],
+				"answer": 3,
+				"explanation": "The alpha particle must tunnel through the Coulomb barrier, and $T\\sim e^{-2\\kappa a}$ is exponentially sensitive to the energy deficit and barrier width. A factor of 2 in energy changes the half-life by some 24 orders of magnitude (Geiger-Nuttall law)."
 			}
 		],
-		"p3-l013-hydrogen-spin": [
-			{
-				"kind": "numeric",
-				"prompt": "An atom with orbital angular momentum $l=1$ is placed in a magnetic field of $1.0$ T. The energy of the $m_l$ sublevel is $E=m_l\\mu_BB$ with $\\mu_B=e\\hbar/2m_e$. What is the splitting between adjacent $m_l$ levels, in micro-electron-volts?",
-				"answer": 57.884,
-				"tolerance": 0.02,
-				"unit": "ueV",
-				"explanation": "$\\mu_BB=5.788\\times10^{-5}$ eV $=57.9\\ \\mu$eV per tesla. Compare this with $k_BT\\approx25{,}000\\ \\mu$eV at room temperature: the splitting is tiny, which is why thermal populations of Zeeman levels differ only slightly."
-			},
+		"p3-l025-hydrogen-quantum-numbers-orbitals": [
 			{
 				"kind": "mc",
 				"prompt": "How many distinct states $(n,l,m_l,m_s)$ does the $n=3$ shell of hydrogen contain?",
@@ -614,6 +834,22 @@
 				"explanation": "$|\\psi|^2$ is a density per volume, peaked at the centre. The chance of finding the electron in a shell of radius $r$ also depends on how many places there are at that radius ($4\\pi r^2dr$). The compromise is $a_0$, which coincides with the Bohr radius."
 			},
 			{
+				"kind": "short",
+				"prompt": "Describe what each of the four quantum numbers $n$, $l$, $m_l$ and $m_s$ controls physically, and how the allowed values of each depend on the previous ones.",
+				"rubric": "Full credit requires: $n$ sets energy and size; $l=0..n-1$ sets orbital angular momentum and shape (s, p, d); $m_l=-l..l$ sets the orientation (z-component); $m_s=\\pm1/2$ is the spin projection; allowed values nest, giving $2n^2$ states per shell.",
+				"modelAnswer": "$n$ (1, 2, 3, ...) sets the energy and overall size. For each $n$, $l=0,1,\\dots,n-1$ sets the orbital angular momentum $\\sqrt{l(l+1)}\\hbar$ and the shape (s, p, d, f). For each $l$, $m_l=-l,\\dots,l$ sets the orientation (the $z$-component $m_l\\hbar$). The spin projection $m_s=\\pm\\tfrac12$ is independent. Counting gives $2n^2$ states in shell $n$."
+			}
+		],
+		"p3-l026-orbital-magnetism-spin-resonance": [
+			{
+				"kind": "numeric",
+				"prompt": "An atom with orbital angular momentum $l=1$ is placed in a magnetic field of $1.0$ T. The energy of the $m_l$ sublevel is $E=m_l\\mu_BB$ with $\\mu_B=e\\hbar/2m_e$. What is the splitting between adjacent $m_l$ levels, in micro-electron-volts?",
+				"answer": 57.884,
+				"tolerance": 0.02,
+				"unit": "ueV",
+				"explanation": "$\\mu_BB=5.788\\times10^{-5}$ eV $=57.9\\ \\mu$eV per tesla. Compare this with $k_BT\\approx25{,}000\\ \\mu$eV at room temperature: the splitting is tiny, which is why thermal populations of Zeeman levels differ only slightly."
+			},
+			{
 				"kind": "mc",
 				"prompt": "A beam of silver atoms (ground-state valence electron in an $s$ orbital, $l=0$) passes through an inhomogeneous magnetic field and splits into exactly two beams. What does this show?",
 				"options": [
@@ -632,7 +868,7 @@
 				"modelAnswer": "In a magnetic field the two spin states have energies differing by $\\Delta E=g\\mu B$ (electrons) or $\\gamma\\hbar B$ (nuclei). Radiation with $hf=\\Delta E$ drives transitions between them: resonance absorption, used in EPR (electron spin, GHz microwaves) and NMR (nuclear spin, MHz radio waves). Since $\\Delta E$ is far below $k_BT$ the upper and lower levels are nearly equally populated; only the small excess in the lower level gives net absorption, so signals are intrinsically weak, which is why higher fields help."
 			}
 		],
-		"p3-l014-exclusion-spectra-lasers": [
+		"p3-l027-pauli-configurations-periodic-trends": [
 			{
 				"kind": "mc",
 				"prompt": "How many unpaired electrons does a ground-state iron atom (Z = 26, configuration [Ar]$3d^64s^2$) have?",
@@ -657,6 +893,26 @@
 				"answer": 1,
 				"explanation": "Neon's electrons are in the $n=2$ shell and feel $Z_{\\rm eff}\\approx5.8$. In sodium the added electron starts a new shell ($n=3$) with $Z_{\\rm eff}\\approx2$ and a larger radius, so it is easily removed: closed shells are stable, and alkali metals are reactive."
 			},
+			{
+				"kind": "mc",
+				"prompt": "Moving from sodium to chlorine across the third period, how does the atomic radius change, and why?",
+				"options": [
+					"It increases, because each atom has more electrons",
+					"It stays constant, because all outer electrons are in $n=3$",
+					"It decreases, because the nuclear charge felt by the outer electrons rises",
+					"It decreases, because the electrons are lost to the nucleus"
+				],
+				"answer": 2,
+				"explanation": "All third-period atoms add electrons to the same shell, which shield one another poorly, while $Z$ grows. The effective nuclear charge rises, pulling the outer electrons in; the first ionisation energy rises for the same reason."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how the Pauli exclusion principle and Hund's rule determine the ground-state configuration of carbon ($2p^2$) and why nitrogen ($2p^3$) has three unpaired electrons.",
+				"rubric": "Full credit requires: no two electrons can share all four quantum numbers, so each orbital holds at most two electrons of opposite spin; Hund's rule: in degenerate orbitals electrons occupy separate orbitals with parallel spins first, lowering repulsion; hence 2p electrons of C and N occupy different p orbitals.",
+				"modelAnswer": "Pauli exclusion allows at most two electrons per orbital, with opposite spins. Hund's rule says that degenerate orbitals are filled singly with parallel spins before pairing, which minimises electron-electron repulsion. The three 2p orbitals of nitrogen each hold one electron, giving three unpaired spins; carbon has two unpaired electrons in 2p."
+			}
+		],
+		"p3-l028-spectra-xrays-lasers": [
 			{
 				"kind": "numeric",
 				"prompt": "The K$\\alpha$ X-ray line of copper ($Z=29$) has energy $8.05$ keV. Using Moseley's law ($\\sqrt f\\propto Z-1$), predict the K$\\alpha$ energy of iron ($Z=26$) in keV.",
@@ -684,7 +940,7 @@
 				"modelAnswer": "In a two-level system the rate of stimulated emission from the upper level equals the rate of absorption from the lower, so the best you can do by pumping is equalise the two populations; there is never net gain. Population inversion, $N_2>N_1$, needs a third level that is pumped and quickly relaxes into a long-lived upper laser level (or a four-level scheme). Then each passing photon stimulates more emission than absorption, producing identical, coherent photons."
 			}
 		],
-		"p3-l015-nuclei-binding-decay": [
+		"p3-l029-nuclear-structure-binding-energy": [
 			{
 				"kind": "numeric",
 				"prompt": "Using atomic masses $m(^1\\mathrm H)=1.007825$ u, $m_n=1.008665$ u, $m(^{56}\\mathrm{Fe})=55.934936$ u and $1\\ \\mathrm u=931.5$ MeV/$c^2$, find the binding energy per nucleon of iron-56 in MeV.",
@@ -692,14 +948,6 @@
 				"tolerance": 0.02,
 				"unit": "MeV",
 				"explanation": "Mass defect $=26(1.007825)+30(1.008665)-55.934936=0.52846$ u $=492.3$ MeV; per nucleon (56): $8.79$ MeV, near the top of the binding-energy curve."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "A wooden artefact retains $30\\%$ of the $^{14}$C activity of living wood. The half-life of $^{14}$C is $5730$ years. How old is it, in years?",
-				"answer": 9952.8,
-				"tolerance": 0.02,
-				"unit": "years",
-				"explanation": "$N/N_0=e^{-\\lambda t}=0.30\\Rightarrow t=t_{1/2}\\log_2(1/0.30)=5730\\times1.737\\approx9950$ years: nearly two half-lives. This is first-order kinetics with $k=\\ln2/t_{1/2}$."
 			},
 			{
 				"kind": "mc",
@@ -712,6 +960,22 @@
 				],
 				"answer": 3,
 				"explanation": "The curve of $B/A$ rises steeply for light nuclei and falls slowly for heavy ones, peaking near $^{56}$Fe (8.8 MeV). Moving toward the peak from either side releases the difference in total binding as energy; nothing can be extracted from iron itself."
+			},
+			{
+				"kind": "short",
+				"prompt": "The nuclear radius follows $R=R_0A^{1/3}$ with $R_0\\approx1.2$ fm. What does this tell you about nuclear density and about the nature of the strong force?",
+				"rubric": "Full credit requires: volume $\\propto R^3\\propto A$, so every nucleus has about the same density (about $2\\times10^{17}$ kg/m$^3$); each nucleon occupies about the same volume, so the strong force is short-range and saturates (a nucleon interacts only with its nearest neighbours), unlike the Coulomb force.",
+				"modelAnswer": "Since the volume $\\tfrac43\\pi R^3\\propto A$, the number of nucleons per unit volume is the same for all nuclei, about $0.16\\ \\mathrm{fm^{-3}}$ (roughly $10^{17}$ kg/m$^3$). Each nucleon takes up a fixed volume, which means the strong force is short-ranged and saturates: nucleons interact only with their nearest neighbours, so binding energy per nucleon is about constant instead of growing with $A$."
+			}
+		],
+		"p3-l030-radioactive-decay-law": [
+			{
+				"kind": "numeric",
+				"prompt": "A wooden artefact retains $30\\%$ of the $^{14}$C activity of living wood. The half-life of $^{14}$C is $5730$ years. How old is it, in years?",
+				"answer": 9952.8,
+				"tolerance": 0.02,
+				"unit": "years",
+				"explanation": "$N/N_0=e^{-\\lambda t}=0.30\\Rightarrow t=t_{1/2}\\log_2(1/0.30)=5730\\times1.737\\approx9950$ years: nearly two half-lives. This is first-order kinetics with $k=\\ln2/t_{1/2}$."
 			},
 			{
 				"kind": "mc",
@@ -727,12 +991,12 @@
 			},
 			{
 				"kind": "short",
-				"prompt": "The nuclear radius follows $R=R_0A^{1/3}$ with $R_0\\approx1.2$ fm. What does this tell you about nuclear density and about the nature of the strong force?",
-				"rubric": "Full credit requires: volume $\\propto R^3\\propto A$, so every nucleus has about the same density (about $2\\times10^{17}$ kg/m$^3$); each nucleon occupies about the same volume, so the strong force is short-range and saturates (a nucleon interacts only with its nearest neighbours), unlike the Coulomb force.",
-				"modelAnswer": "Since the volume $\\tfrac43\\pi R^3\\propto A$, the number of nucleons per unit volume is the same for all nuclei, about $0.16\\ \\mathrm{fm^{-3}}$ (roughly $10^{17}$ kg/m$^3$). Each nucleon takes up a fixed volume, which means the strong force is short-ranged and saturates: nucleons interact only with their nearest neighbours, so binding energy per nucleon is about constant instead of growing with $A$."
+				"prompt": "Explain why radioactive decay follows a first-order exponential law and why the half-life does not depend on how much material is present. How is this the same as first-order chemical kinetics?",
+				"rubric": "Full credit requires: each nucleus has a fixed probability per unit time of decaying, independent of the others, so the decay rate is proportional to the number present; $dN/dt=-\\lambda N$ gives exponential decay with constant half-life $\\ln2/\\lambda$; the same as a first-order rate law $-d[A]/dt=k[A]$.",
+				"modelAnswer": "Each nucleus decays with a fixed probability per unit time $\\lambda$, regardless of its age or the presence of other nuclei. The decay rate is therefore proportional to the number remaining, $dN/dt=-\\lambda N$, so $N=N_0e^{-\\lambda t}$ and the time to halve is always $\\ln2/\\lambda$. This is identical to first-order kinetics, $-d[A]/dt=k[A]$, with $k\\leftrightarrow\\lambda$."
 			}
 		],
-		"p3-l016-reactions-fission-fusion": [
+		"p3-l031-nuclear-reactions-fission": [
 			{
 				"kind": "numeric",
 				"prompt": "Find the energy released in the fusion reaction ${}^2\\mathrm H+{}^3\\mathrm H\\to{}^4\\mathrm{He}+n$, given atomic masses $2.014102$, $3.016049$, $4.002602$ and $1.008665$ u ($1$ u $=931.5$ MeV/$c^2$). Answer in MeV.",
@@ -741,6 +1005,38 @@
 				"unit": "MeV",
 				"explanation": "$\\Delta m=(2.014102+3.016049)-(4.002602+1.008665)=0.018884$ u, so $Q=0.018884\\times931.5=17.6$ MeV, shared mostly by the neutron (14.1 MeV) and the alpha particle (3.5 MeV)."
 			},
+			{
+				"kind": "mc",
+				"prompt": "A nuclear reactor is operating at steady power. On average, how many neutrons from each fission go on to cause another fission?",
+				"options": [
+					"About 2.5, the number released per fission",
+					"Exactly one ($k_{\\rm eff}=1$)",
+					"Fewer than one, so the reaction would die out",
+					"Zero; fission is caused by cosmic rays"
+				],
+				"answer": 1,
+				"explanation": "Each fission releases about 2.4 neutrons, but only a fraction trigger further fission. Criticality means $k_{\\rm eff}=1$: constant power. $k>1$ is supercritical (power grows), $k<1$ subcritical (it fades)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the fission reaction $^{235}$U $+\\,n\\to{}^{141}$Ba $+\\,{}^{92}$Kr $+\\,x\\,n$, how many neutrons $x$ are released?",
+				"options": [
+					"Three neutrons, from conservation of nucleon number",
+					"Two neutrons, since two fragments form",
+					"One neutron, replacing the absorbed one",
+					"Zero, since the neutron is absorbed"
+				],
+				"answer": 0,
+				"explanation": "Nucleon number must balance: $235+1=236=141+92+x$, so $x=3$. Having more than one neutron per fission is what makes a chain reaction possible."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what the effective multiplication factor $k_{\\rm eff}$ means for a fission chain reaction, and what happens for $k_{\\rm eff}<1$, $=1$ and $>1$.",
+				"rubric": "Full credit requires: $k_{\\rm eff}$ is the average number of neutrons from one fission that go on to cause another fission; $<1$ dies out, $=1$ steady (critical, reactors), $>1$ grows exponentially (supercritical, weapons).",
+				"modelAnswer": "$k_{\\rm eff}$ is the number of neutrons from one fission generation that cause fission in the next. If $k_{\\rm eff}<1$ the reaction dies away, if $k_{\\rm eff}=1$ it is steady and critical (a reactor at constant power), and if $k_{\\rm eff}>1$ the rate grows exponentially. Control rods absorb neutrons to hold $k_{\\rm eff}$ at 1."
+			}
+		],
+		"p3-l032-fusion-energy-scales": [
 			{
 				"kind": "numeric",
 				"prompt": "Each fission of $^{235}$U releases about $200$ MeV. Compare the energy per kilogram of uranium fissioned with burning gasoline ($46$ MJ/kg). How many million times larger is it? (Give the ratio in units of $10^6$.)",
@@ -759,18 +1055,6 @@
 				],
 				"answer": 2,
 				"explanation": "Typical thermal energies are 1000 times below the barrier; the classical rate would be zero. Tunnelling gives a small probability per encounter, and the Sun's huge number of protons and long lifetime make the overall rate adequate; this is why stellar fusion is slow and steady."
-			},
-			{
-				"kind": "mc",
-				"prompt": "A nuclear reactor is operating at steady power. On average, how many neutrons from each fission go on to cause another fission?",
-				"options": [
-					"About 2.5, the number released per fission",
-					"Exactly one ($k_{\\rm eff}=1$)",
-					"Fewer than one, so the reaction would die out",
-					"Zero; fission is caused by cosmic rays"
-				],
-				"answer": 1,
-				"explanation": "Each fission releases about 2.4 neutrons, but only a fraction trigger further fission. Criticality means $k_{\\rm eff}=1$: constant power. $k>1$ is supercritical (power grows), $k<1$ subcritical (it fades)."
 			},
 			{
 				"kind": "short",

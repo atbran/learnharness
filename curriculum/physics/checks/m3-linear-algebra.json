@@ -1,19 +1,7 @@
 {
 	"courseId": "m3-linear-algebra",
 	"checks": {
-		"m3-l001-vectors-matrices": [
-			{
-				"kind": "mc",
-				"prompt": "For a matrix $A$ and vector $x$, which statement about $Ax=b$ is correct?",
-				"options": [
-					"Solvable exactly when $b$ is in the span of the rows of $A$.",
-					"Solvable exactly when $b$ is in the span of the columns of $A$.",
-					"Solvable exactly when $b$ is perpendicular to every column of $A$.",
-					"Solvable whenever $A$ has at least as many rows as columns."
-				],
-				"answer": 1,
-				"explanation": "$Ax = x_1\\,\\text{col}_1 + \\dots + x_n\\,\\text{col}_n$, so $Ax=b$ asks whether $b$ is a linear combination of the columns, and $x$ lists the coefficients. Row spans and shapes alone do not decide solvability."
-			},
+		"m3-l001-linear-combinations-span-dot-products": [
 			{
 				"kind": "mc",
 				"prompt": "The vectors $v_1=(1,0,2)$, $v_2=(0,1,1)$, $v_3=(1,1,3)$ in $\\mathbb{R}^3$ are given. What is their span?",
@@ -35,6 +23,26 @@
 				"explanation": "$\\cos\\theta = \\dfrac{u\\cdot v}{|u||v|} = \\dfrac{11}{3\\cdot 5}=\\dfrac{11}{15}$, so $\\theta \\approx 42.8^\\circ$. Cauchy-Schwarz guarantees this ratio is between $-1$ and $1$."
 			},
 			{
+				"kind": "short",
+				"prompt": "In your own words, what is the span of a set of vectors, and why does the Cauchy-Schwarz inequality $|v\\cdot w|\\le\\|v\\|\\|w\\|$ hold? Use the angle between $v$ and $w$.",
+				"rubric": "Full credit requires: (1) the span is the set of all linear combinations $c_1v_1+\\dots+c_kv_k$ (a line, plane, or all of the space, always through the origin); (2) $v\\cdot w=\\|v\\|\\|w\\|\\cos\\theta$; (3) since $|\\cos\\theta|\\le1$, the dot product cannot exceed the product of the lengths, with equality only when the vectors are parallel.",
+				"modelAnswer": "The span of $v_1,\\dots,v_k$ is every linear combination $c_1v_1+\\dots+c_kv_k$: a line, a plane, or more, but always passing through the origin. Because $v\\cdot w=\\|v\\|\\|w\\|\\cos\\theta$ and $|\\cos\\theta|\\le1$, we get $|v\\cdot w|\\le\\|v\\|\\|w\\|$, with equality exactly when $v$ and $w$ are parallel."
+			}
+		],
+		"m3-l002-matrix-times-vector-column-picture": [
+			{
+				"kind": "mc",
+				"prompt": "For a matrix $A$ and vector $x$, which statement about $Ax=b$ is correct?",
+				"options": [
+					"Solvable exactly when $b$ is in the span of the rows of $A$.",
+					"Solvable exactly when $b$ is in the span of the columns of $A$.",
+					"Solvable exactly when $b$ is perpendicular to every column of $A$.",
+					"Solvable whenever $A$ has at least as many rows as columns."
+				],
+				"answer": 1,
+				"explanation": "$Ax = x_1\\,\\text{col}_1 + \\dots + x_n\\,\\text{col}_n$, so $Ax=b$ asks whether $b$ is a linear combination of the columns, and $x$ lists the coefficients. Row spans and shapes alone do not decide solvability."
+			},
+			{
 				"kind": "numeric",
 				"prompt": "Let $A=\\begin{pmatrix}2&1\\\\1&3\\\\0&4\\end{pmatrix}$ and $x=(3,-1)$. Compute $Ax$ as $3\\,\\text{col}_1 - 1\\,\\text{col}_2$ and give its third component.",
 				"answer": -4.0,
@@ -48,7 +56,41 @@
 				"modelAnswer": "Each entry of $x$ is the amount of one column of $A$ you mix in, so $Ax$ is a recipe for building a vector from the columns. Every possible output is therefore a point in the span of the columns, and $Ax=b$ asks whether the target $b$ can be built from those ingredients. This view carries over to any matrix shape and leads straight to column space, rank and basis, while the row-by-row dot-product view only tells you how to compute one number at a time."
 			}
 		],
-		"m3-l002-geometry-elimination": [
+		"m3-l003-row-column-pictures-gaussian-elimination": [
+			{
+				"kind": "mc",
+				"prompt": "The system $2x+y=5$, $x-y=1$ is drawn in both pictures. What does the column picture show?",
+				"options": [
+					"Two lines in the plane that meet at the single point $(2,1)$.",
+					"The columns $(2,1)$ and $(1,-1)$ are perpendicular, so no solution exists.",
+					"The vector $(5,1)$ equals $2(2,1)+1(1,-1)$, a combination of the columns.",
+					"The vector $(5,1)$ lies along the first column $(2,1)$, so $y=0$."
+				],
+				"answer": 2,
+				"explanation": "Solving gives $x=2$, $y=1$, and $2(2,1)+1(1,-1)=(5,1)$: the right-hand side is built from the columns. The first option is the row picture, where the solution is where two lines cross."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Eliminate on $A=\\begin{pmatrix}2&1&1\\\\4&-6&0\\\\-2&7&2\\end{pmatrix}$ (no row exchanges). What is the third pivot?",
+				"answer": 1.0,
+				"tolerance": 0.02,
+				"explanation": "Subtract 2 times row 1 from row 2 (multiplier 2) and $-1$ times row 1 from row 3. Then row 3 minus $(-1)$ times row 2 gives the pivot $1$. The pivots are $2,-8,1$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the same matrix $A=\\begin{pmatrix}2&1&1\\\\4&-6&0\\\\-2&7&2\\end{pmatrix}$, what is the multiplier $\\ell_{32}$ used to clear the $(3,2)$ position after the first column is cleared?",
+				"answer": -1.0,
+				"tolerance": 0.02,
+				"explanation": "After step one, rows 2 and 3 are $(0,-8,-2)$ and $(0,8,3)$, so $\\ell_{32} = 8/(-8) = -1$. Each multiplier becomes an entry of $E_{32}$ (and later of $L$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "During elimination, what is a pivot, what does a multiplier $\\ell_{ij}$ record, and what does it tell you if a pivot position turns out to be zero with no row below it that can fix it?",
+				"rubric": "Full credit requires: (1) a pivot is the entry used to clear the entries below it in its column; (2) the multiplier $\\ell_{ij}=a_{ij}/a_{jj}$ is how many copies of the pivot row are subtracted from row $i$; (3) if a pivot cannot be found in some column, the system is singular: it has either no solution or infinitely many.",
+				"modelAnswer": "The pivot is the entry in the current row and column that is used to eliminate the entries below it. The multiplier $\\ell_{ij}=a_{ij}/a_{jj}$ records how many copies of the pivot row are subtracted from row $i$. If a column has no usable pivot (even after row exchanges), the matrix is singular, and the system has either no solution or infinitely many."
+			}
+		],
+		"m3-l004-elimination-outcomes-elementary-matrices": [
 			{
 				"kind": "mc",
 				"prompt": "The system $x+y=2$, $2x+2y=5$ is solved by elimination. What happens and what does it mean?",
@@ -74,27 +116,13 @@
 				"explanation": "The last equation reads $0=0$, so it is consistent but carries no information: one free variable remains and the planes share a line. A contradictory row like $(0\\;0\\;0\\,|\\,1)$ would instead mean no solution."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "Eliminate on $A=\\begin{pmatrix}2&1&1\\\\4&-6&0\\\\-2&7&2\\end{pmatrix}$ (no row exchanges). What is the third pivot?",
-				"answer": 1.0,
-				"tolerance": 0.02,
-				"explanation": "Subtract 2 times row 1 from row 2 (multiplier 2) and $-1$ times row 1 from row 3. Then row 3 minus $(-1)$ times row 2 gives the pivot $1$. The pivots are $2,-8,1$."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "For the same matrix $A=\\begin{pmatrix}2&1&1\\\\4&-6&0\\\\-2&7&2\\end{pmatrix}$, what is the multiplier $\\ell_{32}$ used to clear the $(3,2)$ position after the first column is cleared?",
-				"answer": -1.0,
-				"tolerance": 0.02,
-				"explanation": "After step one, rows 2 and 3 are $(0,-8,-2)$ and $(0,8,3)$, so $\\ell_{32} = 8/(-8) = -1$. Each multiplier becomes an entry of $E_{32}$ (and later of $L$)."
-			},
-			{
 				"kind": "short",
 				"prompt": "Explain how a $2\\times 2$ system looks in the row picture and in the column picture, and how elimination (done as multiplication by elementary matrices $E_{ij}$) tells you which of the three outcomes occurs.",
 				"rubric": "Full credit requires: row picture = two lines meeting (or not); column picture = combining column vectors to reach the right-hand side; elimination step = left-multiplication by $E_{ij}$ with the multiplier; pivots decide outcome: full pivots -> unique, missing pivot with inconsistent row -> none, missing pivot with consistent row -> infinitely many.",
 				"modelAnswer": "In the row picture each equation is a line and the solution is where they cross; in the column picture the two columns are vectors and we ask what mix of them reaches the right side. Each elimination step subtracts a multiple of one row from another, which is multiplication by an elementary matrix $E_{ij}$ holding that multiplier. If we get a full set of pivots the solution is unique; if a pivot is missing we either hit a contradiction like $0=1$ (no solution, parallel lines) or $0=0$ (a free variable, infinitely many solutions)."
 			}
 		],
-		"m3-l003-matrix-ops-inverses": [
+		"m3-l005-matrix-multiplication-four-views": [
 			{
 				"kind": "mc",
 				"prompt": "Rotate a book $90^\\circ$ about the $x$-axis and then $90^\\circ$ about the $y$-axis. Doing the two rotations in the opposite order gives a different final orientation. What does this show?",
@@ -107,6 +135,21 @@
 				"answer": 2,
 				"explanation": "Matrix multiplication is associative but generally not commutative, and 3D rotations are the standard physical example. This non-commutativity underlies angular-momentum commutators later on."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "Let $A=\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}$ and $B=\\begin{pmatrix}0&1\\\\1&2\\end{pmatrix}$. Find the $(2,2)$ entry of $AB$.",
+				"answer": 11.0,
+				"tolerance": 0.02,
+				"explanation": "Row 2 of $A$ times column 2 of $B$: $3\\cdot1 + 4\\cdot2 = 11$. Equivalently $AB=\\sum_k(\\text{col}_k A)(\\text{row}_k B)$, whose $(2,2)$ entry is $3\\cdot1+4\\cdot2$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe two different ways to compute a product $AB$ and say what each is good for. Why is $AB\\ne BA$ in general although $(AB)C=A(BC)$?",
+				"rubric": "Full credit requires: (1) any two views: row times column gives each entry as a dot product; columns of $A$ combined by the entries of each column of $B$; rows of $B$ combined by the rows of $A$; or columns times rows summing to rank-one pieces; (2) $AB$ means 'apply $B$ first, then $A$', and doing two operations in a different order generally gives a different result (e.g. rotations); (3) associativity holds because grouping does not change the order in which the operations are applied.",
+				"modelAnswer": "Each entry $(AB)_{ij}$ is row $i$ of $A$ dotted with column $j$ of $B$; equivalently each column of $AB$ is $A$ times a column of $B$, i.e. a combination of the columns of $A$. The first view is best for computing a single entry, the second for understanding what $AB$ does to vectors. $AB$ means 'do $B$, then $A$', so reversing the order generally changes the outcome (rotations about different axes do not commute), but regrouping a chain without changing its order, $(AB)C=A(BC)$, cannot matter."
+			}
+		],
+		"m3-l006-inverses-gauss-jordan": [
 			{
 				"kind": "mc",
 				"prompt": "If $A$ and $B$ are invertible, which expression equals $(AB)^{-1}$?",
@@ -127,20 +170,13 @@
 				"explanation": "$\\det A = 24-14 = 10$ and $A^{-1}=\\frac{1}{10}\\begin{pmatrix}6&-2\\\\-7&4\\end{pmatrix}$, so the $(2,1)$ entry is $-0.7$."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "Let $A=\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}$ and $B=\\begin{pmatrix}0&1\\\\1&2\\end{pmatrix}$. Find the $(2,2)$ entry of $AB$.",
-				"answer": 11.0,
-				"tolerance": 0.02,
-				"explanation": "Row 2 of $A$ times column 2 of $B$: $3\\cdot1 + 4\\cdot2 = 11$. Equivalently $AB=\\sum_k(\\text{col}_k A)(\\text{row}_k B)$, whose $(2,2)$ entry is $3\\cdot1+4\\cdot2$."
-			},
-			{
 				"kind": "short",
 				"prompt": "Why does the order reverse in $(AB)^{-1}=B^{-1}A^{-1}$, and how can you tell from the pivots (Gauss-Jordan) whether a square matrix has an inverse?",
 				"rubric": "Full credit requires: an everyday or algebraic argument for reversal (undo the last step first; verify $(AB)(B^{-1}A^{-1})=I$); and that an inverse exists iff elimination produces $n$ pivots (Gauss-Jordan turns $[A\\,|\\,I]$ into $[I\\,|\\,A^{-1}]$), failing when a pivot is missing.",
 				"modelAnswer": "If $AB$ means 'do $B$, then $A$', undoing it requires first undoing $A$ and then undoing $B$, giving $B^{-1}A^{-1}$ (put on socks, then shoes; remove shoes first). Algebraically $AB\\,B^{-1}A^{-1}=A\\,I\\,A^{-1}=I$. For existence, run Gauss-Jordan on $[A\\,|\\,I]$: if you get $n$ pivots you can reduce the left block to $I$ and the right block is $A^{-1}$; a missing pivot means the matrix is singular and has no inverse."
 			}
 		],
-		"m3-l004-lu-transposes": [
+		"m3-l007-lu-factorisation-substitution": [
 			{
 				"kind": "mc",
 				"prompt": "In $A=LU$ (no row exchanges), why can the multipliers be written into $L$ exactly as they were used, with no mixing?",
@@ -173,21 +209,40 @@
 				"explanation": "Forward substitution $Lc=b$ gives $c=(5,-12,2)$, then back substitution $Ux=c$ gives $x=(1,1,2)$, so $x_3=2$."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "LU factorisation costs about $n^3/3$ operations. If a factorisation of an $n=100$ matrix takes 1 s, how many seconds does an $n=400$ matrix take?",
-				"answer": 64.0,
-				"tolerance": 0.02,
-				"unit": "s",
-				"explanation": "The cost scales as $n^3$, so quadrupling $n$ multiplies the time by $4^3=64$. This is why dense linear algebra gets expensive fast."
-			},
+				"kind": "short",
+				"prompt": "Explain what $L$ and $U$ each store after elimination, and why factoring $A=LU$ once is the efficient way to solve $Ax=b$ for many different right-hand sides $b$.",
+				"rubric": "Full credit requires: (1) $U$ is the upper-triangular result of elimination and $L$ is lower-triangular with the multipliers $\\ell_{ij}$ (and ones on its diagonal); (2) solving $Lc=b$ by forward substitution and $Ux=c$ by back substitution costs only about $n^2$ operations; (3) the expensive step (about $n^3/3$ operations) depends only on $A$, so it is done once and reused for every $b$.",
+				"modelAnswer": "$U$ is the triangular matrix elimination ends with, and $L$ holds the multipliers used to get there (ones on the diagonal). Given $A=LU$, each new right-hand side needs only a forward substitution $Lc=b$ and a back substitution $Ux=c$, about $n^2$ operations. The costly $\\sim n^3/3$ elimination depends only on $A$, so it is paid once."
+			}
+		],
+		"m3-l008-permutations-transposes": [
 			{
 				"kind": "short",
 				"prompt": "What goes wrong when a zero pivot appears, how do row exchanges fix it (giving $PA=LU$), and why is $P^{-1}=P^T$ for a permutation matrix?",
 				"rubric": "Full credit requires: a zero pivot blocks elimination in that position, but a nonzero entry below can be swapped up if $A$ is invertible; $P$ records the swaps; $P$ has orthonormal columns (one 1 per row/column) so $P^TP=I$.",
 				"modelAnswer": "If a pivot position holds zero, you cannot divide by it, but if the matrix is invertible some row below has a nonzero entry in that column; exchanging rows brings it up. The permutation matrix $P$ records all these swaps so that $PA=LU$ works. A permutation matrix has a single 1 in each row and column, so its columns are orthonormal and $P^TP=I$, meaning $P^{-1}=P^T$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The cyclic permutation matrix $P=\\begin{pmatrix}0&1&0\\\\0&0&1\\\\1&0&0\\end{pmatrix}$ moves row 2 to row 1, row 3 to row 2 and row 1 to row 3. What is $P^{-1}$?",
+				"options": [
+					"$P$ itself, since every permutation matrix is its own inverse.",
+					"It has no inverse, since $P$ has zeros on its diagonal.",
+					"$P^T$ (equal to $P^2$ here), since $P^TP=I$ for permutations.",
+					"$-P$, since undoing a rearrangement negates it."
+				],
+				"answer": 2,
+				"explanation": "The columns of a permutation matrix are orthonormal, so $P^TP=I$ and $P^{-1}=P^T$. Here $P^3=I$, so $P^{-1}=P^2=P^T$, which differs from $P$: only swaps of two rows are self-inverse."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Let $A=\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}$ and $B=\\begin{pmatrix}0&1\\\\1&2\\end{pmatrix}$. Find the $(1,2)$ entry of $(AB)^T$.",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"explanation": "$AB=\\begin{pmatrix}2&5\\\\4&11\\end{pmatrix}$, so $(AB)^T=\\begin{pmatrix}2&4\\\\5&11\\end{pmatrix}$ and its $(1,2)$ entry is $4$. Equivalently $(AB)^T=B^TA^T$."
 			}
 		],
-		"m3-l005-subspaces-nullspace": [
+		"m3-l009-subspaces-column-space": [
 			{
 				"kind": "mc",
 				"prompt": "Which of these subsets of $\\mathbb{R}^3$ is a subspace?",
@@ -214,6 +269,21 @@
 			},
 			{
 				"kind": "numeric",
+				"prompt": "The vector $b=(1,2,c)$ lies in the column space of $A=\\begin{pmatrix}1&0&1\\\\0&1&1\\\\1&1&2\\end{pmatrix}$ for exactly one value of $c$. Find $c$.",
+				"answer": 3.0,
+				"tolerance": 0.02,
+				"explanation": "The third column is the sum of the first two, so $C(A)$ is the plane of vectors $(x,y,x+y)$. For $b=(1,2,c)$ we need $c=1+2=3$."
+			},
+			{
+				"kind": "short",
+				"prompt": "What does the column space $C(A)$ tell you about solving $Ax=b$, and why can't a plane that misses the origin, such as $x+y+z=1$, be a subspace?",
+				"rubric": "Full credit requires: (1) $Ax=b$ is solvable exactly when $b$ is in $C(A)$, because $Ax$ is a combination of the columns; (2) a subspace must be closed under addition and scalar multiplication, so it must contain the zero vector (take the scalar 0); (3) the plane $x+y+z=1$ does not contain the origin, and the sum of two of its vectors lies on $x+y+z=2$, so it fails.",
+				"modelAnswer": "$Ax$ is always a combination of the columns of $A$, so $Ax=b$ has a solution exactly when $b$ lies in $C(A)$. A subspace must contain every combination of its vectors, in particular $0\\cdot v=0$ and sums such as $v+w$. The plane $x+y+z=1$ misses the origin, and the sum of two of its points lies on $x+y+z=2$, so it is not a subspace."
+			}
+		],
+		"m3-l010-nullspace-special-solutions": [
+			{
+				"kind": "numeric",
 				"prompt": "Find the dimension of the nullspace of $A=\\begin{pmatrix}1&2&3&4\\\\2&4&6&8\\\\1&0&1&0\\end{pmatrix}$.",
 				"answer": 2.0,
 				"tolerance": 0.02,
@@ -233,7 +303,34 @@
 				"modelAnswer": "A vector in the nullspace is a recipe for combining the columns of $A$ to get zero, so a nonzero nullspace means the columns are dependent. If $Ax=0$ and $Ay=0$ then $A(x+y)=0$ and $A(cx)=0$, so it is a subspace. In the reduced form $R$ each free column is a combination of the pivot columns; setting one free variable to 1 (others 0) and moving the pivot-column entries to the other side with a minus sign gives the special solutions, and all of $N(A)$ is their combinations."
 			}
 		],
-		"m3-l006-complete-solution": [
+		"m3-l011-particular-plus-nullspace-solution": [
+			{
+				"kind": "mc",
+				"prompt": "Two vectors $x_1$ and $x_2$ both solve $Ax=b$. What can you say about the difference $x_1-x_2$?",
+				"options": [
+					"It solves $Ax=2b$, since the two right-hand sides add up.",
+					"It solves $Ax=b$ as well, since each of $x_1,x_2$ does.",
+					"It lies in the nullspace, since $A(x_1-x_2)=b-b=0$.",
+					"It must be zero, since a solution of $Ax=b$ is unique."
+				],
+				"answer": 2,
+				"explanation": "By linearity $A(x_1-x_2)=Ax_1-Ax_2=b-b=0$. So every solution is one particular solution plus a nullspace vector: $x=x_p+x_n$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Solve $Ax=b$ for $A=\\begin{pmatrix}1&3&1&2\\\\0&0&1&4\\end{pmatrix}$, $b=(1,6)$, with the free variables $x_2=x_4=0$ (a particular solution). Give $x_1$.",
+				"answer": -5.0,
+				"tolerance": 0.02,
+				"explanation": "With $x_2=x_4=0$: $x_3=6$ from row 2, then $x_1+x_3=1$ gives $x_1=-5$. Adding any nullspace vector gives the complete solution."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the complete solution to $Ax=b$ has the form $x=x_p+x_n$, and how the rank decides both solvability and the number of free parameters.",
+				"rubric": "Full credit requires: $A(x_p+x_n)=b+0$ and any two solutions differ by a nullspace vector; rank = number of pivots; solvable for all b if r=m, free parameters = n-r.",
+				"modelAnswer": "If $x_p$ solves $Ax=b$ and $x_n$ satisfies $Ax_n=0$, then $A(x_p+x_n)=b$; conversely the difference of two solutions is in the nullspace, so all solutions are $x_p$ plus the nullspace. The rank $r$ counts independent pivots: if $r=m$ every $b$ is reachable, otherwise only $b$ in the column space; and there are $n-r$ free variables, which sets the size of the family of solutions."
+			}
+		],
+		"m3-l012-rank-cases-balancing-reactions": [
 			{
 				"kind": "mc",
 				"prompt": "$A$ is a $3\\times5$ matrix with rank 3. What can you say about $Ax=b$?",
@@ -260,13 +357,6 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "Solve $Ax=b$ for $A=\\begin{pmatrix}1&3&1&2\\\\0&0&1&4\\end{pmatrix}$, $b=(1,6)$, with the free variables $x_2=x_4=0$ (a particular solution). Give $x_1$.",
-				"answer": -5.0,
-				"tolerance": 0.02,
-				"explanation": "With $x_2=x_4=0$: $x_3=6$ from row 2, then $x_1+x_3=1$ gives $x_1=-5$. Adding any nullspace vector gives the complete solution."
-			},
-			{
-				"kind": "numeric",
 				"prompt": "Balance $\\text{C}_2\\text{H}_6+a\\,\\text{O}_2\\to 2\\,\\text{CO}_2+3\\,\\text{H}_2\\text{O}$. How many moles of $\\text{O}_2$ per mole of ethane ($a$)?",
 				"answer": 3.5,
 				"tolerance": 0.02,
@@ -274,12 +364,12 @@
 			},
 			{
 				"kind": "short",
-				"prompt": "Explain why the complete solution to $Ax=b$ has the form $x=x_p+x_n$, and how the rank decides both solvability and the number of free parameters.",
-				"rubric": "Full credit requires: $A(x_p+x_n)=b+0$ and any two solutions differ by a nullspace vector; rank = number of pivots; solvable for all b if r=m, free parameters = n-r.",
-				"modelAnswer": "If $x_p$ solves $Ax=b$ and $x_n$ satisfies $Ax_n=0$, then $A(x_p+x_n)=b$; conversely the difference of two solutions is in the nullspace, so all solutions are $x_p$ plus the nullspace. The rank $r$ counts independent pivots: if $r=m$ every $b$ is reachable, otherwise only $b$ in the column space; and there are $n-r$ free variables, which sets the size of the family of solutions."
+				"prompt": "Explain why balancing a chemical equation is a nullspace problem, and what it means chemically when the nullspace of the element-balance matrix is two-dimensional rather than one-dimensional.",
+				"rubric": "Full credit requires: (1) put the species as columns and the elements as rows, with products counted negative; a balanced reaction is a coefficient vector $x$ with $Ax=0$; (2) the nullspace dimension is the number of independent balanced reactions, and any balanced reaction is a combination of basis vectors; (3) a two-dimensional nullspace means two independent reactions (e.g. extra species allow two separate balanced processes) so the balance is not unique up to scale.",
+				"modelAnswer": "With species as columns and elements as rows, and products counted negatively, a balanced reaction is a vector $x$ with $Ax=0$. Every balanced reaction is a combination of nullspace basis vectors. If the nullspace is one-dimensional the balanced reaction is unique up to an overall scale; if it is two-dimensional there are two independent balanced reactions, and any balanced equation is a mix of them."
 			}
 		],
-		"m3-l007-independence-basis-dim": [
+		"m3-l013-independence-and-basis": [
 			{
 				"kind": "mc",
 				"prompt": "You have four vectors in $\\mathbb{R}^3$. Which statement is true?",
@@ -292,6 +382,21 @@
 				"answer": 1,
 				"explanation": "Independence means $N(A)=\\{0\\}$. With $n=4>m=3$ there are at most 3 pivots, hence at least one free variable. Pairwise non-parallel is not enough, and every basis of $\\mathbb{R}^3$ has exactly 3 vectors."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "Find the dimension of the span of $(1,0,1)$, $(1,1,2)$ and $(0,1,1)$ in $\\mathbb{R}^3$.",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "The third vector equals the second minus the first, so only two are independent: rank 2, a plane."
+			},
+			{
+				"kind": "short",
+				"prompt": "What is a basis, why does every basis of a given space contain the same number of vectors, and how does rank relate to the dimensions of the row space and column space?",
+				"rubric": "Full credit requires: basis = independent and spanning; same size (dimension) because more vectors than the dimension would be dependent and fewer cannot span; rank = number of pivots = dim C(A) = dim C(A^T).",
+				"modelAnswer": "A basis is a set of vectors that is independent (no redundancy) and spans the space (reaches everything). If one basis had more vectors than another, the extra ones would have to be dependent, and if it had fewer it could not span, so all bases have the same size, which defines the dimension. The rank is the number of pivots, and it equals both the dimension of the column space and of the row space."
+			}
+		],
+		"m3-l014-rank-dimension-bases-from-pivots": [
 			{
 				"kind": "mc",
 				"prompt": "After row reduction $A\\to R$, a basis for the column space $C(A)$ is formed by:",
@@ -306,13 +411,6 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "Find the dimension of the span of $(1,0,1)$, $(1,1,2)$ and $(0,1,1)$ in $\\mathbb{R}^3$.",
-				"answer": 2.0,
-				"tolerance": 0.02,
-				"explanation": "The third vector equals the second minus the first, so only two are independent: rank 2, a plane."
-			},
-			{
-				"kind": "numeric",
 				"prompt": "A $3\\times5$ matrix $A=\\begin{pmatrix}1&2&0&1&3\\\\0&0&1&2&1\\\\1&2&1&3&4\\end{pmatrix}$ has row 3 = row 1 + row 2. What is the dimension of its nullspace?",
 				"answer": 3.0,
 				"tolerance": 0.02,
@@ -320,12 +418,12 @@
 			},
 			{
 				"kind": "short",
-				"prompt": "What is a basis, why does every basis of a given space contain the same number of vectors, and how does rank relate to the dimensions of the row space and column space?",
-				"rubric": "Full credit requires: basis = independent and spanning; same size (dimension) because more vectors than the dimension would be dependent and fewer cannot span; rank = number of pivots = dim C(A) = dim C(A^T).",
-				"modelAnswer": "A basis is a set of vectors that is independent (no redundancy) and spans the space (reaches everything). If one basis had more vectors than another, the extra ones would have to be dependent, and if it had fewer it could not span, so all bases have the same size, which defines the dimension. The rank is the number of pivots, and it equals both the dimension of the column space and of the row space."
+				"prompt": "Explain how row reduction to $R$ gives bases for the column space and the nullspace, and why the basis for $C(A)$ uses the pivot columns of the original $A$ rather than the columns of $R$.",
+				"rubric": "Full credit requires: (1) the pivot columns of $A$ are independent and every other column is a combination of them, so they form a basis of $C(A)$; (2) the special solutions (one per free column) form a basis of $N(A)$; (3) row operations preserve the dependencies among the columns (the nullspace) but change the columns themselves, so $C(R)\\ne C(A)$ in general.",
+				"modelAnswer": "The pivot columns of $A$ are independent and every free column is a combination of them, so they are a basis for $C(A)$; the special solutions, one for each free variable, form a basis for $N(A)$. Row operations leave the nullspace unchanged and so preserve which columns depend on which, but they change the columns themselves, so the column space of $R$ is generally different from that of $A$: use the pivot columns of $A$."
 			}
 		],
-		"m3-l008-four-subspaces": [
+		"m3-l015-four-subspaces-dimensions-bases": [
 			{
 				"kind": "mc",
 				"prompt": "Row-reducing $A$ to $R=EA$ leaves some zero rows at the bottom of $R$. The matching rows of $E$ give a basis for which subspace?",
@@ -339,6 +437,21 @@
 				"explanation": "A zero row of $EA$ means $(\\text{row of }E)\\cdot A=0$, i.e. a vector with $y^TA=0$. These are exactly the left-nullspace vectors, and there are $m-r$ of them."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "A $5\\times8$ matrix has rank 3. What is the dimension of its left nullspace $N(A^T)$?",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "$\\dim N(A^T)=m-r=5-3=2$. Together: $\\dim C(A)=3$, $\\dim N(A)=5$, $\\dim C(A^T)=3$, $\\dim N(A^T)=2$."
+			},
+			{
+				"kind": "short",
+				"prompt": "For an $m\\times n$ matrix of rank $r$, state the dimensions of the four fundamental subspaces and explain how to find a basis for each of them using $R$ and the elimination matrix $E$ with $EA=R$.",
+				"rubric": "Full credit requires: (1) $\\dim C(A)=\\dim C(A^T)=r$, $\\dim N(A)=n-r$, $\\dim N(A^T)=m-r$; (2) bases for $C(A)$ and $N(A)$ from pivot columns and special solutions, and for $C(A^T)$ from the nonzero rows of $R$; (3) a basis for $N(A^T)$ from the rows of $E$ that correspond to zero rows of $R$ (since $y^TA=0$ there).",
+				"modelAnswer": "$\\dim C(A)=\\dim C(A^T)=r$, $\\dim N(A)=n-r$ and $\\dim N(A^T)=m-r$. Pivot columns of $A$ give a basis for $C(A)$, special solutions give $N(A)$, and the nonzero rows of $R$ give $C(A^T)$. The rows of $E$ that produce zero rows of $R$ satisfy $y^TA=0$, so they give a basis for $N(A^T)$."
+			}
+		],
+		"m3-l016-rank-nullity-rank-one-matrices": [
+			{
 				"kind": "mc",
 				"prompt": "A reaction network has 6 species and its element-balance matrix has rank 3. How many independent balanced reactions (independent vectors of stoichiometric coefficients) can exist?",
 				"options": [
@@ -349,13 +462,6 @@
 				],
 				"answer": 2,
 				"explanation": "Balanced reactions are vectors with balance matrix times coefficients $=0$, so they form the nullspace of dimension $n-r = 6-3 = 3$."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "A $5\\times8$ matrix has rank 3. What is the dimension of its left nullspace $N(A^T)$?",
-				"answer": 2.0,
-				"tolerance": 0.02,
-				"explanation": "$\\dim N(A^T)=m-r=5-3=2$. Together: $\\dim C(A)=3$, $\\dim N(A)=5$, $\\dim C(A^T)=3$, $\\dim N(A^T)=2$."
 			},
 			{
 				"kind": "numeric",
@@ -371,7 +477,7 @@
 				"modelAnswer": "Of the $n$ columns, $r$ are pivot columns that give independent directions and $n-r$ are free columns that can be expressed in terms of them. The free columns are what give the nullspace dimension $n-r$, so rank plus nullity counts all $n$ inputs. On the input side the row space (dimension $r$) and nullspace (dimension $n-r$) together account for $\\mathbb{R}^n$; on the output side the column space ($r$) and left nullspace ($m-r$) together account for $\\mathbb{R}^m$."
 			}
 		],
-		"m3-l009-orthogonal-subspaces": [
+		"m3-l017-orthogonal-complements": [
 			{
 				"kind": "mc",
 				"prompt": "Why is every vector in the nullspace of $A$ perpendicular to every row of $A$ (and to the whole row space)?",
@@ -384,6 +490,21 @@
 				"answer": 2,
 				"explanation": "Reading $Ax=0$ row by row gives $\\text{row}_i\\cdot x=0$ for every $i$. The row space is spanned by these rows, so $x$ is perpendicular to all of it."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "A subspace $V$ of $\\mathbb R^6$ has dimension 2. What is the dimension of its orthogonal complement $V^\\perp$?",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"explanation": "The dimensions of a subspace and its orthogonal complement add up to the dimension of the whole space: $\\dim V+\\dim V^\\perp=6$, so $\\dim V^\\perp=4$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is every vector in the nullspace perpendicular to the row space, and why do the two together fill all of $\\mathbb R^n$, so that they are orthogonal complements rather than merely orthogonal?",
+				"rubric": "Full credit requires: (1) $Ax=0$ says each row dotted with $x$ is zero, so $x$ is perpendicular to every row and to all their combinations; (2) $\\dim C(A^T)+\\dim N(A)=r+(n-r)=n$; (3) orthogonal subspaces whose dimensions add to $n$ leave no room for anything else, so every vector of $\\mathbb R^n$ splits uniquely into a row-space part and a nullspace part.",
+				"modelAnswer": "$Ax=0$ says that every row of $A$ has zero dot product with $x$, so $x$ is perpendicular to the whole row space. Since $r+(n-r)=n$ the two subspaces have dimensions that add to $n$; two orthogonal subspaces with that property leave no direction uncovered, so every vector of $\\mathbb R^n$ is uniquely a row-space part plus a nullspace part."
+			}
+		],
+		"m3-l018-row-null-decomposition-ata": [
 			{
 				"kind": "mc",
 				"prompt": "$A$ is $5\\times3$ and its columns are linearly dependent. What can you say about the $3\\times3$ matrix $A^TA$?",
@@ -404,20 +525,40 @@
 				"explanation": "The row space is the line through $(1,1)$: $x_r=(2,2)$. The remainder $x_n=(1,-1)$ satisfies $Ax_n=0$, with length $\\sqrt2\\approx1.414$. $A$ sends $x$ to $Ax=4=Ax_r$; the nullspace part is invisible to $A$."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "For $a=(1,2,2)$ spanning a line, give the length of the component of $x=(1,1,1)$ along $a$.",
-				"answer": 1.666667,
-				"tolerance": 0.02,
-				"explanation": "$\\dfrac{a\\cdot x}{|a|}=\\dfrac{5}{3}\\approx1.667$. This is the length of the projection of $x$ onto the line."
-			},
-			{
 				"kind": "short",
 				"prompt": "Describe what a matrix $A$ does to the row-space part and to the nullspace part of an input vector $x$, and why this means each output $b$ in the column space has exactly one row-space preimage.",
 				"rubric": "Full credit requires: $x=x_r+x_n$ with $x_r\\perp x_n$; $A x_n = 0$ so only $x_r$ matters; $A$ maps the row space one-to-one onto the column space (invertible between them), so each $b$ in $C(A)$ comes from exactly one row-space vector.",
 				"modelAnswer": "Every input splits uniquely into a row-space piece and a nullspace piece that are perpendicular. $A$ annihilates the nullspace piece and carries the row-space piece to the output. Within the row space, $A$ is a one-to-one map onto the column space (both have dimension $r$), so each reachable output $b$ comes from exactly one vector in the row space, with all other solutions differing by a nullspace vector."
 			}
 		],
-		"m3-l010-projections-least-squares": [
+		"m3-l019-projection-onto-line-and-subspace": [
+			{
+				"kind": "mc",
+				"prompt": "A projection matrix satisfies $P^2=P$. What is the physical or geometric reason?",
+				"options": [
+					"$P$ is symmetric, and symmetry alone forces $P^2=P$ for every matrix.",
+					"After one projection the vector is already in the subspace.",
+					"Projecting twice returns the original vector, so $P$ undoes itself.",
+					"Every projection matrix has determinant 1."
+				],
+				"answer": 1,
+				"explanation": "$Pb$ is in $C(A)$, and $P$ leaves every vector of $C(A)$ unchanged. (Symmetry is a separate property, giving orthogonal projection, and a singular $P$ has determinant 0 unless $P=I$.)"
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Project $b=(1,2,3)$ onto the line through $a=(2,1,2)$. Give the second component of the projection $p$.",
+				"answer": 1.111111,
+				"tolerance": 0.02,
+				"explanation": "$p=\\dfrac{a^Tb}{a^Ta}a=\\dfrac{2+2+6}{9}(2,1,2)=\\dfrac{10}{9}(2,1,2)$, whose second component is $10/9\\approx1.111$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Using a picture, explain why the projection of $b$ onto the line through $a$ is $\\dfrac{a^Tb}{a^Ta}\\,a$, and what the leftover vector $b-p$ looks like.",
+				"rubric": "Full credit requires: (1) $p=\\hat x a$ is the point on the line closest to $b$; (2) the error $e=b-\\hat xa$ must be perpendicular to $a$, so $a^T(b-\\hat xa)=0$; (3) solving gives $\\hat x=a^Tb/a^Ta$, so $p=(a^Tb/a^Ta)a$ and $e\\perp a$.",
+				"modelAnswer": "The closest point on the line to $b$ is $p=\\hat xa$, and the error $e=b-\\hat xa$ must be perpendicular to $a$, otherwise one could move along the line to get closer. Setting $a^T(b-\\hat xa)=0$ gives $\\hat x=a^Tb/a^Ta$, so $p=\\dfrac{a^Tb}{a^Ta}a$, and $e$ is perpendicular to the line."
+			}
+		],
+		"m3-l020-normal-equations-geometry": [
 			{
 				"kind": "mc",
 				"prompt": "In a least-squares fit $\\min\\|Ax-b\\|^2$, what is true of the residual $e=b-A\\hat x$?",
@@ -431,17 +572,20 @@
 				"explanation": "The closest point $p=A\\hat x$ in $C(A)$ is the projection of $b$, so the error $b-p$ is perpendicular to $C(A)$. That is $A^T(b-A\\hat x)=0$, the normal equations."
 			},
 			{
-				"kind": "mc",
-				"prompt": "A projection matrix satisfies $P^2=P$. What is the physical or geometric reason?",
-				"options": [
-					"$P$ is symmetric, and symmetry alone forces $P^2=P$ for every matrix.",
-					"After one projection the vector is already in the subspace.",
-					"Projecting twice returns the original vector, so $P$ undoes itself.",
-					"Every projection matrix has determinant 1."
-				],
-				"answer": 1,
-				"explanation": "$Pb$ is in $C(A)$, and $P$ leaves every vector of $C(A)$ unchanged. (Symmetry is a separate property, giving orthogonal projection, and a singular $P$ has determinant 0 unless $P=I$.)"
+				"kind": "short",
+				"prompt": "Explain in your own words why minimising $\\|Ax-b\\|^2$ leads to the normal equations $A^TA\\hat x=A^Tb$ and why this is a projection of $b$ onto the column space. Why is a calibration curve an example?",
+				"rubric": "Full credit requires: closest point in a subspace is where the error is perpendicular to it; this gives $A^T(b-A\\hat x)=0$; the fitted values $A\\hat x$ are the projection of the data vector onto the span of the model columns; calibration: data vector projected onto span{ones, concentration}.",
+				"modelAnswer": "The set of all achievable predictions $Ax$ is the column space of $A$. The point in that subspace closest to the data $b$ is found by dropping a perpendicular, so the leftover error must be perpendicular to every column: $A^T(b-A\\hat x)=0$, i.e. $A^TA\\hat x=A^Tb$. A calibration fit has columns (ones, concentrations); the measured absorbances form a vector in a higher-dimensional space, and the fitted line is its projection onto the plane spanned by those columns."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "For $A=\\begin{pmatrix}1&1\\\\1&2\\\\1&3\\end{pmatrix}$ (the matrix for fitting a line $C+Dt$ at $t=1,2,3$), give the $(2,2)$ entry of $A^TA$.",
+				"answer": 14.0,
+				"tolerance": 0.02,
+				"explanation": "The $(2,2)$ entry of $A^TA$ is the dot product of the second column with itself: $1^2+2^2+3^2=14$."
+			}
+		],
+		"m3-l021-line-parabola-fitting-calibration": [
 			{
 				"kind": "numeric",
 				"prompt": "Fit a line $y=C+Dt$ by least squares to the points $(1,1),(2,2),(3,2),(4,4)$. Give the slope $D$.",
@@ -458,13 +602,25 @@
 				"explanation": "The projection onto a single column gives $\\hat x=\\dfrac{c\\cdot A_{\\rm bs}}{c\\cdot c}=\\dfrac{0.250}{0.21}\\approx 1.190$ mM$^{-1}$. Calibration slopes are projections."
 			},
 			{
+				"kind": "mc",
+				"prompt": "To fit a parabola $y=C+Dt+Et^2$ to $m$ data points by least squares, what are the columns of the matrix $A$?",
+				"options": [
+					"The data column $(y_i)$, $(t_i)$ and $(t_i^2)$, so that the data joins the fit.",
+					"A column of ones, $(t_i)$ and $(t_i^2)$, since the model is linear in $C,D,E$.",
+					"Only a column of ones and $(t_i)$, since a parabola cannot be fitted linearly.",
+					"The columns $(e^{t_i})$, $(t_i)$ and a column of ones, as curved fits need exponentials."
+				],
+				"answer": 1,
+				"explanation": "The model $C+Dt+Et^2$ is linear in the unknowns $C,D,E$ even though it is quadratic in $t$, so the columns are the basis functions $1,\\ t,\\ t^2$ evaluated at the data points. The data vector $b=(y_i)$ is the right-hand side, not a column."
+			},
+			{
 				"kind": "short",
-				"prompt": "Explain in your own words why minimising $\\|Ax-b\\|^2$ leads to the normal equations $A^TA\\hat x=A^Tb$ and why this is a projection of $b$ onto the column space. Why is a calibration curve an example?",
-				"rubric": "Full credit requires: closest point in a subspace is where the error is perpendicular to it; this gives $A^T(b-A\\hat x)=0$; the fitted values $A\\hat x$ are the projection of the data vector onto the span of the model columns; calibration: data vector projected onto span{ones, concentration}.",
-				"modelAnswer": "The set of all achievable predictions $Ax$ is the column space of $A$. The point in that subspace closest to the data $b$ is found by dropping a perpendicular, so the leftover error must be perpendicular to every column: $A^T(b-A\\hat x)=0$, i.e. $A^TA\\hat x=A^Tb$. A calibration fit has columns (ones, concentrations); the measured absorbances form a vector in a higher-dimensional space, and the fitted line is its projection onto the plane spanned by those columns."
+				"prompt": "In a Beer-Lambert calibration, explain why the least-squares fit is a projection of the absorbance vector onto the column space, and what the residual vector represents.",
+				"rubric": "Full credit requires: (1) the model $A_{\\rm bs}=\\varepsilon\\ell\\,c$ makes the predictions a multiple of the concentration vector, i.e. a vector in the column space; (2) least squares picks the point in that space closest to the measured absorbance vector, which is the orthogonal projection; (3) the residual is the part of the data the model cannot reproduce (noise or deviations); it is perpendicular to the concentration column.",
+				"modelAnswer": "The model predicts absorbances $\\varepsilon\\ell\\,c_i$, i.e. multiples of the concentration vector, so the predictions live in the column space of $A$. Least squares finds the vector in that space closest to the measured absorbances, which is the orthogonal projection. The residual is what the model cannot explain (noise and deviations from linearity), and it is perpendicular to the concentration column."
 			}
 		],
-		"m3-l011-gram-schmidt-qr": [
+		"m3-l022-orthogonal-matrices-orthonormal-least-squares": [
 			{
 				"kind": "mc",
 				"prompt": "If $Q$ has orthonormal columns and is square, what does multiplying a vector by $Q$ do?",
@@ -477,6 +633,21 @@
 				"answer": 0,
 				"explanation": "$Q^TQ=I$ gives $(Qx)\\cdot(Qy)=x\\cdot y$, so lengths and angles are unchanged. Also $\\det Q=\\pm1$, but that is a sign (orientation), not a scale factor."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "With orthonormal columns, least squares is simply $\\hat x=Q^Tb$. For $q_1=(1,1,0)/\\sqrt2$ and $b=(2,4,6)$, give $\\hat x_1=q_1\\cdot b$.",
+				"answer": 4.242641,
+				"tolerance": 0.02,
+				"explanation": "$\\hat x_1=(2+4)/\\sqrt2=6/\\sqrt2\\approx4.243$. With orthonormal columns each coefficient is found independently, with no system to solve."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why does orthonormality make least-squares fitting almost trivial? What does $A^TA$ become when the columns of $A$ are orthonormal?",
+				"rubric": "Full credit requires: (1) orthonormal columns give $Q^TQ=I$; (2) so the normal equations $Q^TQ\\hat x=Q^Tb$ reduce to $\\hat x=Q^Tb$, each coefficient being a single dot product $q_i\\cdot b$ with no system to solve; (3) the projection is $QQ^Tb$, the sum of the components of $b$ along each $q_i$.",
+				"modelAnswer": "With orthonormal columns $Q^TQ=I$, so the normal equations $Q^TQ\\hat x=Q^Tb$ collapse to $\\hat x=Q^Tb$: each coefficient is just the dot product $q_i\\cdot b$ with no linear system to solve, and the projection is $QQ^Tb$, the sum of the components of $b$ along the $q_i$."
+			}
+		],
+		"m3-l023-gram-schmidt-qr-factorisation": [
 			{
 				"kind": "mc",
 				"prompt": "In $A=QR$ from Gram-Schmidt, why is $R$ upper triangular?",
@@ -497,20 +668,13 @@
 				"explanation": "$q_1=(1,1,0)/\\sqrt2$, $r_{12}=q_1\\cdot a_2=1/\\sqrt2$, and $a_2-r_{12}q_1=(0.5,-0.5,1)$ has length $\\sqrt{1.5}\\approx1.2247$."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "With orthonormal columns, least squares is simply $\\hat x=Q^Tb$. For $q_1=(1,1,0)/\\sqrt2$ and $b=(2,4,6)$, give $\\hat x_1=q_1\\cdot b$.",
-				"answer": 4.242641,
-				"tolerance": 0.02,
-				"explanation": "$\\hat x_1=(2+4)/\\sqrt2=6/\\sqrt2\\approx4.243$. With orthonormal columns each coefficient is found independently, with no system to solve."
-			},
-			{
 				"kind": "short",
 				"prompt": "Why does orthonormality make least-squares fitting almost trivial, and what does the matrix $R$ in $A=QR$ record?",
 				"rubric": "Full credit requires: with $Q^TQ=I$, $A^TA$ becomes $I$ so $\\hat x=Q^Tb$ (each coefficient is a dot product); R records the dot products $q_j^Ta_k$ (the Gram-Schmidt coefficients) and lengths, expressing the original columns in the new orthonormal basis.",
 				"modelAnswer": "If the columns are orthonormal, $Q^TQ=I$, so the normal equations $Q^TQ\\hat x=Q^Tb$ collapse to $\\hat x=Q^Tb$: each coefficient is just the dot product of $b$ with one basis vector, with no coupling between them. In $A=QR$, Gram-Schmidt rewrites each original column $a_k$ in terms of the new orthonormal vectors, and $R$ stores those coefficients: the off-diagonal entries are the components removed, and the diagonal entries are the lengths of what was left."
 			}
 		],
-		"m3-l012-det-properties-formulas": [
+		"m3-l024-determinant-defining-properties": [
 			{
 				"kind": "mc",
 				"prompt": "A $3\\times 3$ matrix $A$ has $\\det A=5$. What is $\\det(2A)$?",
@@ -537,13 +701,6 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "Compute $\\det A$ for $A=\\begin{pmatrix}2&1&1\\\\4&-6&0\\\\-2&7&2\\end{pmatrix}$ (product of pivots $2,-8,1$).",
-				"answer": -16.0,
-				"tolerance": 0.02,
-				"explanation": "The pivots are $2,-8,1$, with no row exchanges, so $\\det A=2\\cdot(-8)\\cdot1=-16$."
-			},
-			{
-				"kind": "numeric",
 				"prompt": "If $\\det A=-16$ and $\\det B=12$ for $3\\times3$ matrices, what is $\\det(A^{-1}B)$?",
 				"answer": -0.75,
 				"tolerance": 0.02,
@@ -556,7 +713,34 @@
 				"modelAnswer": "The defining properties are: (1) $\\det I = 1$; (2) the sign reverses when two rows are exchanged; (3) the determinant is linear in each row separately. If two rows are equal, exchanging them leaves the matrix unchanged but must flip the sign of the determinant, so $\\det A=-\\det A$, giving $\\det A=0$. Row-subtraction then shows the determinant is unchanged by elimination, so it equals the product of the pivots."
 			}
 		],
-		"m3-l013-cramer-volume": [
+		"m3-l025-computing-determinants-cofactors-big-formula": [
+			{
+				"kind": "numeric",
+				"prompt": "Compute $\\det A$ for $A=\\begin{pmatrix}2&1&1\\\\4&-6&0\\\\-2&7&2\\end{pmatrix}$ (product of pivots $2,-8,1$).",
+				"answer": -16.0,
+				"tolerance": 0.02,
+				"explanation": "The pivots are $2,-8,1$, with no row exchanges, so $\\det A=2\\cdot(-8)\\cdot1=-16$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does the big formula for a $3\\times3$ determinant have exactly six terms?",
+				"options": [
+					"There is one term for each entry of the matrix, so $9-3=6$ remain after cancellations.",
+					"One term for each of the $3!=6$ ways to pick one entry from every row and column.",
+					"There are two terms for each row of the matrix: one added and one subtracted.",
+					"One term for each of the six $2\\times2$ minors that appear in the cofactor expansion."
+				],
+				"answer": 1,
+				"explanation": "Each term is a product of one entry from every row and every column, which corresponds to a permutation of the columns, and there are $3!=6$ permutations, each with a sign."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how cofactor expansion along a row follows from the linearity of the determinant in each row, and why elimination is usually the better way to compute a large determinant.",
+				"rubric": "Full credit requires: (1) write the chosen row as a sum of multiples of unit vectors and use linearity in that row, leaving $n$ smaller determinants (the cofactors, with sign $(-1)^{i+j}$); (2) cofactor expansion costs about $n!$ operations; (3) elimination costs about $n^3/3$ and the determinant is just the product of the pivots (with a sign for each row exchange).",
+				"modelAnswer": "Splitting one row as $a_{i1}e_1+\\dots+a_{in}e_n$ and using linearity in that row gives $\\det A=\\sum_ja_{ij}C_{ij}$, where each cofactor is a smaller determinant with sign $(-1)^{i+j}$. This costs of order $n!$ operations for an $n\\times n$ matrix, whereas elimination takes about $n^3/3$ and gives the determinant as the product of the pivots, with a sign flip for each row exchange."
+			}
+		],
+		"m3-l026-cramers-rule-cofactor-inverse": [
 			{
 				"kind": "mc",
 				"prompt": "Why is Cramer's rule rarely used to solve large linear systems numerically?",
@@ -569,6 +753,21 @@
 				"answer": 1,
 				"explanation": "Cramer's rule is exact and useful for formulas and small cases (symbolic work), but computing all those determinants is wasteful; elimination (LU) solves the system with a single factorisation."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "Solve $3x+2y=7$, $x-y=1$ with Cramer's rule. Give $x$.",
+				"answer": 1.8,
+				"tolerance": 0.02,
+				"explanation": "$x=\\dfrac{\\det\\begin{pmatrix}7&2\\\\1&-1\\end{pmatrix}}{\\det\\begin{pmatrix}3&2\\\\1&-1\\end{pmatrix}}=\\dfrac{-9}{-5}=1.8$ (and $y=0.8$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Where does the formula $A^{-1}=C^T/\\det A$ come from (what does $AC^T$ equal?), and what does it show about when $A^{-1}$ exists?",
+				"rubric": "Full credit requires: (1) multiplying $A$ by the cofactor matrix transposed gives $\\det A$ on the diagonal (cofactor expansion along a row) and $0$ off the diagonal (an expansion with a repeated row); (2) hence $AC^T=(\\det A)I$; (3) dividing by $\\det A$ gives the inverse, which therefore exists exactly when $\\det A\\ne0$.",
+				"modelAnswer": "Row $i$ of $A$ times column $i$ of $C^T$ is the cofactor expansion of $\\det A$ along row $i$. Row $i$ times column $j\\ne i$ is the expansion of a matrix with two equal rows, which is $0$. So $AC^T=(\\det A)I$, and $A^{-1}=C^T/\\det A$, which exists exactly when $\\det A\\ne0$."
+			}
+		],
+		"m3-l027-determinant-volume-jacobian": [
 			{
 				"kind": "mc",
 				"prompt": "Why does the Jacobian determinant appear when you change variables in a multiple integral, e.g. $dx\\,dy=r\\,dr\\,d\\theta$?",
@@ -589,20 +788,40 @@
 				"explanation": "$|\\det|=|1(1\\cdot1-3\\cdot0)-2(0\\cdot1-3\\cdot2)+0|=|1+12|=13$."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "Solve $3x+2y=7$, $x-y=1$ with Cramer's rule. Give $x$.",
-				"answer": 1.8,
-				"tolerance": 0.02,
-				"explanation": "$x=\\dfrac{\\det\\begin{pmatrix}7&2\\\\1&-1\\end{pmatrix}}{\\det\\begin{pmatrix}3&2\\\\1&-1\\end{pmatrix}}=\\dfrac{-9}{-5}=1.8$ (and $y=0.8$)."
-			},
-			{
 				"kind": "short",
 				"prompt": "Explain geometrically why $|\\det A|$ is the volume of the box spanned by the columns, and what $\\det A=0$ says about that box.",
 				"rubric": "Full credit requires: $|\\det A|$ = volume of parallelepiped (unit cube maps to it); sign = orientation; zero determinant = columns dependent so the box is flat (zero volume, lies in a lower-dimensional space), consistent with singular matrix.",
 				"modelAnswer": "$A$ maps the unit cube to the parallelepiped whose edges are the columns of $A$, and $|\\det A|$ is the factor by which volume is scaled. The sign tells whether orientation is preserved. If $\\det A=0$ the columns are dependent, so the box collapses into a lower-dimensional flat shape with zero volume; $A$ squashes space and cannot be undone, which is why it has no inverse."
 			}
 		],
-		"m3-l014-eigen-intro": [
+		"m3-l028-eigenvalue-definition-characteristic-equation": [
+			{
+				"kind": "numeric",
+				"prompt": "Find the larger eigenvalue of $A=\\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}$.",
+				"answer": 5.0,
+				"tolerance": 0.02,
+				"explanation": "$\\lambda^2-7\\lambda+10=0$ gives $\\lambda=5,2$. Check: trace $=7=5+2$ and $\\det=10=5\\cdot2$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A matrix $A$ has an eigenvector $x$ with eigenvalue $\\lambda=-2$. What does $A$ do to the line through $x$?",
+				"options": [
+					"It rotates the line by $90^\\circ$ and doubles its length.",
+					"It maps the line to itself, reversing direction and stretching by $2$.",
+					"It collapses the line to the origin, since $\\lambda$ is negative.",
+					"It maps the line to itself without any change of direction or length."
+				],
+				"answer": 1,
+				"explanation": "$Ax=-2x$ keeps $x$ on its own line, but the negative sign reverses its direction and $|\\lambda|=2$ stretches it by a factor of 2."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why are the eigenvalues of $A$ the roots of $\\det(A-\\lambda I)=0$, and how do you find the eigenvectors once an eigenvalue is known?",
+				"rubric": "Full credit requires: (1) $Ax=\\lambda x$ means $(A-\\lambda I)x=0$ has a nonzero solution; (2) that happens exactly when $A-\\lambda I$ is singular, i.e. $\\det(A-\\lambda I)=0$; (3) for each root $\\lambda$, the eigenvectors are the nonzero vectors of the nullspace of $A-\\lambda I$, found by elimination.",
+				"modelAnswer": "$Ax=\\lambda x$ is $(A-\\lambda I)x=0$, which has a nonzero solution only if $A-\\lambda I$ is singular, i.e. $\\det(A-\\lambda I)=0$. This is a polynomial equation in $\\lambda$. For each root, the eigenvectors are the nonzero vectors in the nullspace of $A-\\lambda I$, which elimination finds."
+			}
+		],
+		"m3-l029-trace-determinant-complex-huckel": [
 			{
 				"kind": "mc",
 				"prompt": "The rotation matrix $\\begin{pmatrix}0&-1\\\\1&0\\end{pmatrix}$ (a $90^\\circ$ rotation) has what eigenvalues, and why?",
@@ -629,13 +848,6 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "Find the larger eigenvalue of $A=\\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}$.",
-				"answer": 5.0,
-				"tolerance": 0.02,
-				"explanation": "$\\lambda^2-7\\lambda+10=0$ gives $\\lambda=5,2$. Check: trace $=7=5+2$ and $\\det=10=5\\cdot2$."
-			},
-			{
-				"kind": "numeric",
 				"prompt": "A $3\\times3$ matrix has eigenvalues $2$ and $3$ and its trace is $10$. What is its determinant?",
 				"answer": 30.0,
 				"tolerance": 0.02,
@@ -648,7 +860,7 @@
 				"modelAnswer": "An eigenvector is a direction that the matrix only stretches (or flips) by the factor $\\lambda$ without turning it. If the matrix rotates every real direction, as a rotation does, there are no real eigenvectors and the eigenvalues are complex, carrying the rotation angle and scale. A defective matrix has a repeated eigenvalue but too few independent eigenvectors, so there is no full eigenbasis; a shear is the typical example."
 			}
 		],
-		"m3-l015-diagonalization": [
+		"m3-l030-diagonalisation-powers-of-a": [
 			{
 				"kind": "mc",
 				"prompt": "Which of these matrices cannot be diagonalised?",
@@ -662,6 +874,21 @@
 				"explanation": "A matrix is diagonalisable exactly when it has $n$ independent eigenvectors. A repeated eigenvalue is not the problem ($2I$ is already diagonal); the shear has $A-I$ of rank 1, giving only one eigenvector."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "Using $A=S\\Lambda S^{-1}$ for the Fibonacci matrix, $F_k=(\\varphi^k-\\psi^k)/\\sqrt5$. Estimate $F_{30}$ (use $\\varphi^{30}/\\sqrt5$, rounded).",
+				"answer": 832040.0,
+				"tolerance": 0.02,
+				"explanation": "$\\varphi=(1+\\sqrt5)/2\\approx1.618$ is the dominant eigenvalue, and $\\varphi^{30}/\\sqrt5\\approx832{,}040$ (the $\\psi^k$ term is negligible). Growth rate is set by the largest eigenvalue."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why $A^k=S\\Lambda^kS^{-1}$ makes powers of $A$ easy, and what goes wrong if $A$ does not have $n$ independent eigenvectors.",
+				"rubric": "Full credit requires: (1) $A^k=(S\\Lambda S^{-1})^k=S\\Lambda^kS^{-1}$ because the inner $S^{-1}S$ factors cancel; (2) $\\Lambda^k$ just raises each diagonal entry to the $k$-th power; (3) without a full set of independent eigenvectors $S$ is not invertible, so $A$ cannot be diagonalised (e.g. a Jordan block).",
+				"modelAnswer": "In $(S\\Lambda S^{-1})^k$ every inner $S^{-1}S$ cancels, leaving $S\\Lambda^kS^{-1}$, and $\\Lambda^k$ is just the diagonal of $\\lambda_i^k$: no repeated matrix multiplication. This needs $n$ independent eigenvectors so that $S$ is invertible; a defective matrix such as $\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}$ has too few and cannot be diagonalised."
+			}
+		],
+		"m3-l031-convergence-markov-matrices": [
+			{
 				"kind": "mc",
 				"prompt": "Why does repeatedly applying a Markov (probability-conserving) matrix $A^kx_0$ settle to a steady state?",
 				"options": [
@@ -672,13 +899,6 @@
 				],
 				"answer": 0,
 				"explanation": "$A^kx_0=\\sum c_i\\lambda_i^kx_i$. With $\\lambda_1=1$ and $|\\lambda_{i>1}|<1$ only the first term remains: the steady-state distribution (also the equilibrium populations of a kinetic scheme)."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "Using $A=S\\Lambda S^{-1}$ for the Fibonacci matrix, $F_k=(\\varphi^k-\\psi^k)/\\sqrt5$. Estimate $F_{30}$ (use $\\varphi^{30}/\\sqrt5$, rounded).",
-				"answer": 832040.0,
-				"tolerance": 0.02,
-				"explanation": "$\\varphi=(1+\\sqrt5)/2\\approx1.618$ is the dominant eigenvalue, and $\\varphi^{30}/\\sqrt5\\approx832{,}040$ (the $\\psi^k$ term is negligible). Growth rate is set by the largest eigenvalue."
 			},
 			{
 				"kind": "numeric",
@@ -694,7 +914,7 @@
 				"modelAnswer": "Writing $x$ in the eigenvector basis, $A$ just multiplies each component by its eigenvalue, so applying $A$ $k$ times multiplies by $\\lambda_i^k$: $A^kx=\\sum c_i\\lambda_i^kx_i$. The terms with $|\\lambda_i|<1$ decay, those with $|\\lambda_i|>1$ grow, and the largest eigenvalue eventually dominates; if it is exactly 1 and the rest are smaller, the vector converges to a steady state."
 			}
 		],
-		"m3-l016-ode-systems": [
+		"m3-l032-linear-ode-systems-eigenvalues-stability": [
 			{
 				"kind": "mc",
 				"prompt": "The system $\\dot u=Au$ has eigenvalues $-1\\pm2i$. How do solutions behave?",
@@ -708,6 +928,21 @@
 				"explanation": "$e^{(-1\\pm2i)t}=e^{-t}(\\cos2t\\pm i\\sin2t)$: the imaginary part gives oscillation and the real part gives the decay. Stability depends on the real parts of the eigenvalues."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "Solve $\\dot u=\\begin{pmatrix}1&2\\\\2&1\\end{pmatrix}u$ with $u(0)=(1,0)$. Give $u_1(1)$.",
+				"answer": 10.226708,
+				"tolerance": 0.02,
+				"explanation": "Eigenvalues $3,-1$ with eigenvectors $(1,1),(1,-1)$; $u(0)=\\tfrac12(1,1)+\\tfrac12(1,-1)$, so $u_1(t)=\\tfrac12e^{3t}+\\tfrac12e^{-t}$ and $u_1(1)\\approx10.23$."
+			},
+			{
+				"kind": "short",
+				"prompt": "For $\\dot u=Au$, how do the eigenvalues of $A$ determine whether solutions decay, grow or oscillate? Contrast real eigenvalues, a complex pair with negative real part, and a pair with positive real part.",
+				"rubric": "Full credit requires: (1) solutions are combinations of $e^{\\lambda_it}x_i$; (2) real negative eigenvalues give decay, a positive real eigenvalue gives growth; (3) a complex pair $\\alpha\\pm i\\beta$ gives oscillation at $\\beta$ inside an envelope $e^{\\alpha t}$, decaying if $\\alpha<0$ and growing if $\\alpha>0$; stability needs every $\\operatorname{Re}\\lambda<0$.",
+				"modelAnswer": "Each eigenpair contributes $c_ie^{\\lambda_it}x_i$. A negative real $\\lambda$ decays, a positive one grows. A complex pair $\\alpha\\pm i\\beta$ gives oscillation at frequency $\\beta$ inside an envelope $e^{\\alpha t}$: a spiral into the origin if $\\alpha<0$, out of it if $\\alpha>0$. The system is stable when every eigenvalue has negative real part."
+			}
+		],
+		"m3-l033-matrix-exponential-second-order-kinetics": [
+			{
 				"kind": "mc",
 				"prompt": "For the consecutive first-order reactions $A\\xrightarrow{k_1}B\\xrightarrow{k_2}C$ written as $\\dot u=Au$ (with $u=[A,B,C]$), what are the eigenvalues of $A$?",
 				"options": [
@@ -718,13 +953,6 @@
 				],
 				"answer": 1,
 				"explanation": "The matrix is lower triangular with diagonal $-k_1,-k_2,0$. The rate constants are decay rates (negative eigenvalues), and the zero eigenvalue reflects conservation of total material, with the steady state being pure $C$."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "Solve $\\dot u=\\begin{pmatrix}1&2\\\\2&1\\end{pmatrix}u$ with $u(0)=(1,0)$. Give $u_1(1)$.",
-				"answer": 10.226708,
-				"tolerance": 0.02,
-				"explanation": "Eigenvalues $3,-1$ with eigenvectors $(1,1),(1,-1)$; $u(0)=\\tfrac12(1,1)+\\tfrac12(1,-1)$, so $u_1(t)=\\tfrac12e^{3t}+\\tfrac12e^{-t}$ and $u_1(1)\\approx10.23$."
 			},
 			{
 				"kind": "numeric",
@@ -740,19 +968,7 @@
 				"modelAnswer": "In the eigenbasis the system decouples into independent equations $\\dot c_i=\\lambda_ic_i$, each solved by $e^{\\lambda_it}$; transforming back gives $u(t)=Se^{\\Lambda t}S^{-1}u(0)=e^{At}u(0)$ (equivalently, substitute $A=S\\Lambda S^{-1}$ into the power series of $e^{At}$). Every mode behaves as $e^{\\lambda t}$, so the system decays to zero if all eigenvalues have negative real parts and blows up if any has a positive real part; the imaginary parts only add oscillation."
 			}
 		],
-		"m3-l017-symmetric": [
-			{
-				"kind": "mc",
-				"prompt": "Two identical masses on springs have force-constant matrix $K=k\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}$ with eigenvalues $k$ (vector $(1,1)$) and $3k$ (vector $(1,-1)$). Which statement is right?",
-				"options": [
-					"The out-of-phase $(1,-1)$ mode is faster, and the two modes are orthogonal.",
-					"The in-phase $(1,1)$ mode is faster.",
-					"Both modes share one frequency.",
-					"The $(1,-1)$ mode is faster, but the modes are not orthogonal because of the coupling."
-				],
-				"answer": 0,
-				"explanation": "$\\omega^2=\\lambda/m$, so the larger eigenvalue $3k$ is the faster mode: the middle spring is stretched and compressed, so the restoring force is larger. The spectral theorem guarantees orthogonal eigenvectors for symmetric $K$."
-			},
+		"m3-l034-spectral-theorem-principal-axes": [
 			{
 				"kind": "mc",
 				"prompt": "The quadratic form $x^TSx=1$ has $S$ with eigenvalues $1$ and $4$. What is its shape?",
@@ -764,6 +980,33 @@
 				],
 				"answer": 2,
 				"explanation": "In the eigenbasis, $\\lambda_1y_1^2+\\lambda_2y_2^2=1$ has semi-axes $1/\\sqrt{\\lambda_i}$: a larger eigenvalue gives a shorter axis. Both eigenvalues positive gives an ellipse."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why are the eigenvectors of a real symmetric matrix for different eigenvalues orthogonal, and why does that matter for normal modes of a molecule?",
+				"rubric": "Full credit requires: argument $\\lambda_1 x_1\\cdot x_2=Sx_1\\cdot x_2=x_1\\cdot Sx_2=\\lambda_2x_1\\cdot x_2$ so $(\\lambda_1-\\lambda_2)x_1\\cdot x_2=0$; consequence: independent, non-interacting modes, each oscillating at its own frequency; eigenvalues give $\\omega^2$.",
+				"modelAnswer": "Using symmetry, $\\lambda_1(x_1\\cdot x_2)=(Sx_1)\\cdot x_2=x_1\\cdot(Sx_2)=\\lambda_2(x_1\\cdot x_2)$, so if $\\lambda_1\\ne\\lambda_2$ the dot product must be zero. For vibrations this means the normal modes form an orthogonal set of independent motions: energy put into one mode stays in it, each mode oscillating at its own frequency $\\omega=\\sqrt{\\lambda/m}$, and any motion is a superposition of them."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A symmetric matrix has eigenvalues $3$ and $1$ with orthonormal eigenvectors $q_1=(1,1)/\\sqrt2$ and $q_2=(1,-1)/\\sqrt2$. Using $S=3q_1q_1^T+1\\,q_2q_2^T$, find the $(1,2)$ entry of $S$.",
+				"answer": 1.0,
+				"tolerance": 0.02,
+				"explanation": "$q_1q_1^T=\\tfrac12\\begin{pmatrix}1&1\\\\1&1\\end{pmatrix}$ and $q_2q_2^T=\\tfrac12\\begin{pmatrix}1&-1\\\\-1&1\\end{pmatrix}$, so the $(1,2)$ entry is $3\\cdot\\tfrac12+1\\cdot(-\\tfrac12)=1$, giving $S=\\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}$."
+			}
+		],
+		"m3-l035-normal-modes-huckel-spectral": [
+			{
+				"kind": "mc",
+				"prompt": "Two identical masses on springs have force-constant matrix $K=k\\begin{pmatrix}2&-1\\\\-1&2\\end{pmatrix}$ with eigenvalues $k$ (vector $(1,1)$) and $3k$ (vector $(1,-1)$). Which statement is right?",
+				"options": [
+					"The out-of-phase $(1,-1)$ mode is faster, and the two modes are orthogonal.",
+					"The in-phase $(1,1)$ mode is faster.",
+					"Both modes share one frequency.",
+					"The $(1,-1)$ mode is faster, but the modes are not orthogonal because of the coupling."
+				],
+				"answer": 0,
+				"explanation": "$\\omega^2=\\lambda/m$, so the larger eigenvalue $3k$ is the faster mode: the middle spring is stretched and compressed, so the restoring force is larger. The spectral theorem guarantees orthogonal eigenvectors for symmetric $K$."
 			},
 			{
 				"kind": "numeric",
@@ -782,12 +1025,12 @@
 			},
 			{
 				"kind": "short",
-				"prompt": "Why are the eigenvectors of a real symmetric matrix for different eigenvalues orthogonal, and why does that matter for normal modes of a molecule?",
-				"rubric": "Full credit requires: argument $\\lambda_1 x_1\\cdot x_2=Sx_1\\cdot x_2=x_1\\cdot Sx_2=\\lambda_2x_1\\cdot x_2$ so $(\\lambda_1-\\lambda_2)x_1\\cdot x_2=0$; consequence: independent, non-interacting modes, each oscillating at its own frequency; eigenvalues give $\\omega^2$.",
-				"modelAnswer": "Using symmetry, $\\lambda_1(x_1\\cdot x_2)=(Sx_1)\\cdot x_2=x_1\\cdot(Sx_2)=\\lambda_2(x_1\\cdot x_2)$, so if $\\lambda_1\\ne\\lambda_2$ the dot product must be zero. For vibrations this means the normal modes form an orthogonal set of independent motions: energy put into one mode stays in it, each mode oscillating at its own frequency $\\omega=\\sqrt{\\lambda/m}$, and any motion is a superposition of them."
+				"prompt": "Explain why diagonalising the force-constant matrix gives the normal modes of a molecule, and how this parallels the Hückel orbitals being eigenvectors of the Hückel matrix.",
+				"rubric": "Full credit requires: (1) the equations of motion are $m\\ddot x=-Kx$ with $K$ real symmetric, so $K$ has orthonormal eigenvectors; (2) in the eigenvector (mode) coordinates the equations decouple into independent oscillators with $\\omega^2=\\lambda/m$; (3) likewise the Hückel Hamiltonian is a real symmetric matrix whose eigenvalues are orbital energies and whose orthonormal eigenvectors are the LCAO coefficients of the molecular orbitals.",
+				"modelAnswer": "With $m\\ddot x=-Kx$ and $K$ real symmetric, the orthonormal eigenvectors of $K$ are independent patterns of motion: in those coordinates each mode is a decoupled oscillator with $\\omega^2=\\lambda/m$. The Hückel matrix is likewise real symmetric: its eigenvalues are the orbital energies and its orthonormal eigenvectors are the LCAO coefficients of the molecular orbitals."
 			}
 		],
-		"m3-l018-positive-definite": [
+		"m3-l036-positive-definite-tests": [
 			{
 				"kind": "mc",
 				"prompt": "Which of these symmetric matrices is positive definite?",
@@ -800,6 +1043,21 @@
 				"answer": 1,
 				"explanation": "Positive entries are not enough: the second and third matrices have determinants $-3$ and $-1$ (a negative eigenvalue). The last has $\\det>0$ but both eigenvalues negative. Positive definite needs all eigenvalues (or pivots) positive."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "For the symmetric matrix $\\begin{pmatrix}2&-1&0\\\\-1&2&-1\\\\0&-1&2\\end{pmatrix}$, elimination gives pivots $2,\\ 3/2,\\ ?$. What is the third pivot?",
+				"answer": 1.333333,
+				"tolerance": 0.02,
+				"explanation": "The pivots are $2,\\tfrac32,\\tfrac43$, all positive, so the matrix is positive definite. The product $2\\cdot\\tfrac32\\cdot\\tfrac43=4=\\det$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Why is $A^TA$ always positive semidefinite, and why is that relevant to least-squares fitting?",
+				"rubric": "Full credit requires: $x^TA^TAx=\\|Ax\\|^2\\ge0$; positive definite when columns independent ($Ax=0$ only for $x=0$); the least-squares cost $\\|Ax-b\\|^2$ is a quadratic with Hessian $2A^TA$, so it has a unique minimum (a bowl) when A has independent columns.",
+				"modelAnswer": "For any $x$, $x^TA^TAx=(Ax)\\cdot(Ax)=\\|Ax\\|^2\\ge0$, so $A^TA$ is positive semidefinite; it is strictly positive when $Ax=0$ only for $x=0$, i.e. independent columns. The least-squares error $\\|Ax-b\\|^2$ is a quadratic function of $x$ with Hessian $2A^TA$, so independent columns make it a bowl with a single minimum at the solution of the normal equations."
+			}
+		],
+		"m3-l037-hessian-minima-saddles-transition-states": [
 			{
 				"kind": "mc",
 				"prompt": "A critical point of a potential energy surface has a Hessian with eigenvalues $+2$ and $-3$ (in some units). What is the point?",
@@ -814,13 +1072,6 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "For the symmetric matrix $\\begin{pmatrix}2&-1&0\\\\-1&2&-1\\\\0&-1&2\\end{pmatrix}$, elimination gives pivots $2,\\ 3/2,\\ ?$. What is the third pivot?",
-				"answer": 1.333333,
-				"tolerance": 0.02,
-				"explanation": "The pivots are $2,\\tfrac32,\\tfrac43$, all positive, so the matrix is positive definite. The product $2\\cdot\\tfrac32\\cdot\\tfrac43=4=\\det$."
-			},
-			{
-				"kind": "numeric",
 				"prompt": "The quadratic form $f=x^2+4xy+c\\,y^2$ has a minimum at the origin only if $c$ exceeds a threshold. What is that value of $c$?",
 				"answer": 4.0,
 				"tolerance": 0.02,
@@ -828,12 +1079,12 @@
 			},
 			{
 				"kind": "short",
-				"prompt": "Why is $A^TA$ always positive semidefinite, and why is that relevant to least-squares fitting?",
-				"rubric": "Full credit requires: $x^TA^TAx=\\|Ax\\|^2\\ge0$; positive definite when columns independent ($Ax=0$ only for $x=0$); the least-squares cost $\\|Ax-b\\|^2$ is a quadratic with Hessian $2A^TA$, so it has a unique minimum (a bowl) when A has independent columns.",
-				"modelAnswer": "For any $x$, $x^TA^TAx=(Ax)\\cdot(Ax)=\\|Ax\\|^2\\ge0$, so $A^TA$ is positive semidefinite; it is strictly positive when $Ax=0$ only for $x=0$, i.e. independent columns. The least-squares error $\\|Ax-b\\|^2$ is a quadratic function of $x$ with Hessian $2A^TA$, so independent columns make it a bowl with a single minimum at the solution of the normal equations."
+				"prompt": "How do the eigenvalues of the Hessian at a critical point of a potential energy surface show whether it is a minimum, maximum or saddle point, and why does a transition state have exactly one negative eigenvalue?",
+				"rubric": "Full credit requires: (1) near a critical point $f\\approx f_0+\\tfrac12x^THx$, and in the eigenvector coordinates this is $f_0+\\tfrac12\\sum\\lambda_iy_i^2$; (2) all positive eigenvalues give a minimum, all negative a maximum, mixed signs a saddle; (3) a transition state is a maximum along the reaction coordinate but a minimum in all other directions, so it has exactly one negative eigenvalue.",
+				"modelAnswer": "Near a critical point $f\\approx f_0+\\tfrac12x^THx=f_0+\\tfrac12\\sum\\lambda_iy_i^2$ in the eigenvector coordinates $y$. All $\\lambda_i>0$ means a minimum, all negative a maximum, and mixed signs a saddle. A transition state is the highest point along the reaction path but the lowest in every perpendicular direction, so its Hessian has exactly one negative eigenvalue."
 			}
 		],
-		"m3-l019-complex-vectors": [
+		"m3-l038-hermitian-inner-product-complex-vectors": [
 			{
 				"kind": "mc",
 				"prompt": "For $z=(1,i)$, the plain transpose gives $z^Tz=1+i^2=0$ even though $z\\ne0$. What fixes this?",
@@ -845,18 +1096,6 @@
 				],
 				"answer": 1,
 				"explanation": "A length must be real and positive. Conjugating one factor makes each term $\\bar z_kz_k=|z_k|^2\\ge0$, so $z^Hz=0$ only for $z=0$. For $z=(1,i)$, $z^Hz=2$."
-			},
-			{
-				"kind": "mc",
-				"prompt": "In bra-ket notation, what matrix object is the bra $\\langle\\psi|$ when $|\\psi\\rangle$ is a column vector?",
-				"options": [
-					"The plain transpose of the column, with no complex conjugation applied.",
-					"The complex-conjugate column, conjugated entry by entry but not turned.",
-					"The matrix inverse of the ket, chosen so that $\\langle\\psi|\\psi\\rangle=1$.",
-					"The conjugate-transpose row, so $\\langle\\psi|\\phi\\rangle=\\psi^H\\phi$."
-				],
-				"answer": 3,
-				"explanation": "Bras are conjugate-transpose rows, so $\\langle\\psi|\\psi\\rangle=\\sum|\\psi_k|^2$ is a probability-like norm. The inner product is conjugate-linear in the first slot, so $\\langle\\psi|\\phi\\rangle=\\overline{\\langle\\phi|\\psi\\rangle}$."
 			},
 			{
 				"kind": "numeric",
@@ -874,12 +1113,66 @@
 			},
 			{
 				"kind": "short",
+				"prompt": "Why does the correct inner product of complex vectors put a complex conjugate on one factor, and what does it mean for two complex vectors to be orthogonal?",
+				"rubric": "Full credit requires: (1) a plain $z^Tz$ can be zero or complex for a nonzero $z$ (e.g. $(1,i)$), so it cannot define a length; (2) $z^Hz=\\sum|z_k|^2$ is real and positive; (3) two vectors are orthogonal when $z^Hw=0$, which is a complex condition (both real and imaginary parts vanish).",
+				"modelAnswer": "For $z=(1,i)$ the plain product $z^Tz=1+i^2=0$, so it cannot be a length. Conjugating one factor gives $z^Hz=\\sum|z_k|^2$, which is real and positive. Orthogonality means $z^Hw=0$, a complex equation, so both its real and imaginary parts must vanish."
+			}
+		],
+		"m3-l039-conjugate-transpose-bra-ket": [
+			{
+				"kind": "mc",
+				"prompt": "In bra-ket notation, what matrix object is the bra $\\langle\\psi|$ when $|\\psi\\rangle$ is a column vector?",
+				"options": [
+					"The plain transpose of the column, with no complex conjugation applied.",
+					"The complex-conjugate column, conjugated entry by entry but not turned.",
+					"The matrix inverse of the ket, chosen so that $\\langle\\psi|\\psi\\rangle=1$.",
+					"The conjugate-transpose row, so $\\langle\\psi|\\phi\\rangle=\\psi^H\\phi$."
+				],
+				"answer": 3,
+				"explanation": "Bras are conjugate-transpose rows, so $\\langle\\psi|\\psi\\rangle=\\sum|\\psi_k|^2$ is a probability-like norm. The inner product is conjugate-linear in the first slot, so $\\langle\\psi|\\phi\\rangle=\\overline{\\langle\\phi|\\psi\\rangle}$."
+			},
+			{
+				"kind": "short",
 				"prompt": "Why does the correct inner product for complex vectors use a conjugate, what rule replaces $(AB)^T=B^TA^T$, and how does it connect to bra-ket notation?",
 				"rubric": "Full credit requires: conjugate needed so that length squared is real/positive; $(AB)^H=B^HA^H$; $|\\psi\\rangle$ = column, $\\langle\\psi|$ = conjugate row; $\\langle\\psi|\\phi\\rangle$ is the same Hermitian inner product (complex number, conjugate when swapped).",
 				"modelAnswer": "Without conjugation a nonzero complex vector can have zero or complex 'length', so we conjugate one vector: $\\langle z,w\\rangle=z^Hw$, giving $\\|z\\|^2=\\sum|z_k|^2>0$. For products, $(AB)^H=B^HA^H$: transpose and conjugate. A physicist's ket $|\\psi\\rangle$ is the column, the bra $\\langle\\psi|$ is its conjugate-transpose row, and $\\langle\\psi|\\phi\\rangle$ is exactly $\\psi^H\\phi$, the overlap of two states."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In bra-ket notation let $|\\psi\\rangle=\\tfrac1{\\sqrt2}(1,\\,i)^T$ and $|\\phi\\rangle=\\tfrac1{\\sqrt2}(1,\\,1)^T$. Find the probability $|\\langle\\psi|\\phi\\rangle|^2$.",
+				"answer": 0.5,
+				"tolerance": 0.02,
+				"explanation": "$\\langle\\psi|\\phi\\rangle=\\psi^H\\phi=\\tfrac12(1\\cdot1+(-i)\\cdot1)=\\tfrac{1-i}{2}$, and its squared modulus is $\\tfrac14(1+1)=\\tfrac12$."
 			}
 		],
-		"m3-l020-hermitian-unitary": [
+		"m3-l040-hermitian-matrices-observables": [
+			{
+				"kind": "numeric",
+				"prompt": "Find the larger eigenvalue of the Hermitian matrix $H=\\begin{pmatrix}1&1-i\\\\1+i&2\\end{pmatrix}$.",
+				"answer": 3.0,
+				"tolerance": 0.02,
+				"explanation": "Trace $=3$ and $\\det=2-|1-i|^2=2-2=0$, so the eigenvalues are $0$ and $3$ (real, as Hermitian demands)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a Hermitian matrix has real eigenvalues and orthogonal eigenvectors, and why $e^{-iHt}$ is unitary when $H$ is Hermitian.",
+				"rubric": "Full credit requires: $\\lambda\\|x\\|^2=x^HHx$ is real since $(x^HHx)^*=x^HH^Hx=x^HHx$; orthogonality by the same swap argument; $U=e^{-iHt}$ has $U^HU=e^{iHt}e^{-iHt}=I$ (or eigenvalues $e^{-i\\lambda t}$ of modulus 1).",
+				"modelAnswer": "For $Hx=\\lambda x$, the number $x^HHx=\\lambda\\|x\\|^2$ equals its own conjugate because $H=H^H$, so $\\lambda$ is real; the same swap shows eigenvectors with different eigenvalues are orthogonal. Writing $H=U\\Lambda U^H$, $e^{-iHt}=Ue^{-i\\Lambda t}U^H$ has eigenvalues $e^{-i\\lambda t}$ of modulus one, and $(e^{-iHt})^H e^{-iHt}=e^{iHt}e^{-iHt}=I$, so it preserves probability."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A Hermitian matrix $H$ has two different eigenvalues $E_1\\ne E_2$ with eigenvectors $v_1,v_2$. Which statement is true?",
+				"options": [
+					"Both eigenvalues are real, but $v_1$ and $v_2$ need not be orthogonal.",
+					"$v_1$ and $v_2$ are orthogonal, but the eigenvalues can be complex.",
+					"$v_1^Hv_2=0$ and both eigenvalues are real, because $H=H^H$.",
+					"The eigenvalues are real and equal, because $H$ equals its conjugate transpose."
+				],
+				"answer": 2,
+				"explanation": "If $Hv=Ev$ then $E\\,v^Hv=v^HHv=(H^Hv)^Hv=\\bar E\\,v^Hv$, so $E$ is real. For two eigenvalues, $(E_1-E_2)v_1^Hv_2=0$ forces orthogonality. These are the properties that make Hermitian matrices good observables."
+			}
+		],
+		"m3-l041-unitary-matrices-time-evolution": [
 			{
 				"kind": "mc",
 				"prompt": "Which pairing correctly describes quantum mechanics?",
@@ -892,6 +1185,21 @@
 				"answer": 0,
 				"explanation": "Hermitian matrices have real eigenvalues, which are the possible measurement results. Unitary matrices preserve $\\langle\\psi|\\psi\\rangle$, so $e^{-iHt/\\hbar}$ keeps total probability equal to 1."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "A spin starts in $|0\\rangle$ and evolves under the unitary $U=e^{i\\theta\\sigma_x}=\\cos\\theta\\,I+i\\sin\\theta\\,\\sigma_x$ with $\\theta=\\pi/6$. What is the probability to find it in $|1\\rangle$?",
+				"answer": 0.25,
+				"tolerance": 0.02,
+				"explanation": "$U|0\\rangle=\\cos\\theta|0\\rangle+i\\sin\\theta|1\\rangle$, so $P(1)=\\sin^2(\\pi/6)=0.25$. Probabilities still add to 1 because $U$ is unitary."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what it means for a unitary matrix to preserve the inner product, why every eigenvalue of a unitary matrix has modulus 1, and why that guarantees that total probability stays 1 during time evolution.",
+				"rubric": "Full credit requires: (1) $U^HU=I$ gives $(Uz)^H(Uw)=z^Hw$, so lengths and angles are preserved; (2) if $Uv=\\lambda v$ then $\\|Uv\\|=|\\lambda|\\|v\\|=\\|v\\|$, so $|\\lambda|=1$; (3) the state evolves as $\\psi(t)=U\\psi(0)$ with $\\|U\\psi\\|=\\|\\psi\\|$, so the total probability $\\|\\psi\\|^2=1$ is conserved.",
+				"modelAnswer": "$U^HU=I$ means $(Uz)^H(Uw)=z^Hw$: inner products, and so lengths and angles, are unchanged. If $Uv=\\lambda v$ then $\\|v\\|=\\|Uv\\|=|\\lambda|\\|v\\|$, so $|\\lambda|=1$. A state evolving as $\\psi(t)=U\\psi(0)$ therefore keeps $\\|\\psi\\|^2=\\sum|c_k|^2=1$ at all times: probability is conserved."
+			}
+		],
+		"m3-l042-pauli-matrices-spin-nmr": [
 			{
 				"kind": "mc",
 				"prompt": "The Pauli matrices are both Hermitian and unitary. What must their eigenvalues be?",
@@ -906,38 +1214,20 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "Find the larger eigenvalue of the Hermitian matrix $H=\\begin{pmatrix}1&1-i\\\\1+i&2\\end{pmatrix}$.",
-				"answer": 3.0,
+				"prompt": "A proton in a field $B=9.4$ T has the two-level Hamiltonian $H=\\tfrac12\\hbar\\gamma B\\,\\sigma_z$, so the two energy levels differ by $\\hbar\\gamma B$. With $\\gamma=2.675\\times10^{8}\\ \\mathrm{rad\\,s^{-1}T^{-1}}$, find the resonance frequency $\\nu=\\gamma B/2\\pi$ in MHz.",
+				"answer": 400.195104,
 				"tolerance": 0.02,
-				"explanation": "Trace $=3$ and $\\det=2-|1-i|^2=2-2=0$, so the eigenvalues are $0$ and $3$ (real, as Hermitian demands)."
-			},
-			{
-				"kind": "numeric",
-				"prompt": "A spin starts in $|0\\rangle$ and evolves under the unitary $U=e^{i\\theta\\sigma_x}=\\cos\\theta\\,I+i\\sin\\theta\\,\\sigma_x$ with $\\theta=\\pi/6$. What is the probability to find it in $|1\\rangle$?",
-				"answer": 0.25,
-				"tolerance": 0.02,
-				"explanation": "$U|0\\rangle=\\cos\\theta|0\\rangle+i\\sin\\theta|1\\rangle$, so $P(1)=\\sin^2(\\pi/6)=0.25$. Probabilities still add to 1 because $U$ is unitary."
+				"unit": "MHz",
+				"explanation": "The eigenvalues of $\\tfrac12\\hbar\\gamma B\\sigma_z$ are $\\pm\\tfrac12\\hbar\\gamma B$, so the splitting is $\\hbar\\gamma B=h\\nu$ with $\\nu=\\gamma B/2\\pi=2.675\\times10^8\\times9.4/(2\\pi)\\approx4.0\\times10^8$ Hz $=400$ MHz: the '400 MHz' NMR spectrometer."
 			},
 			{
 				"kind": "short",
-				"prompt": "Explain why a Hermitian matrix has real eigenvalues and orthogonal eigenvectors, and why $e^{-iHt}$ is unitary when $H$ is Hermitian.",
-				"rubric": "Full credit requires: $\\lambda\\|x\\|^2=x^HHx$ is real since $(x^HHx)^*=x^HH^Hx=x^HHx$; orthogonality by the same swap argument; $U=e^{-iHt}$ has $U^HU=e^{iHt}e^{-iHt}=I$ (or eigenvalues $e^{-i\\lambda t}$ of modulus 1).",
-				"modelAnswer": "For $Hx=\\lambda x$, the number $x^HHx=\\lambda\\|x\\|^2$ equals its own conjugate because $H=H^H$, so $\\lambda$ is real; the same swap shows eigenvectors with different eigenvalues are orthogonal. Writing $H=U\\Lambda U^H$, $e^{-iHt}=Ue^{-i\\Lambda t}U^H$ has eigenvalues $e^{-i\\lambda t}$ of modulus one, and $(e^{-iHt})^H e^{-iHt}=e^{iHt}e^{-iHt}=I$, so it preserves probability."
+				"prompt": "Explain why the eigenvalues of $H=\\tfrac12\\hbar\\gamma B\\,\\sigma_z$ are the two NMR energy levels, which spin states they belong to, and how their spacing sets the resonance frequency.",
+				"rubric": "Full credit requires: (1) $\\sigma_z$ is diagonal with eigenvalues $\\pm1$ and eigenvectors $|\\uparrow\\rangle,|\\downarrow\\rangle$, so $H$ has energies $\\pm\\tfrac12\\hbar\\gamma B$; (2) these belong to the two spin states aligned or anti-aligned with the field; (3) a photon is absorbed when $h\\nu$ equals the spacing $\\hbar\\gamma B$, so the resonance frequency is $\\nu=\\gamma B/2\\pi$, proportional to the field.",
+				"modelAnswer": "$\\sigma_z=\\mathrm{diag}(1,-1)$ has eigenvectors $|\\uparrow\\rangle$ and $|\\downarrow\\rangle$, so $H$ has energies $\\pm\\tfrac12\\hbar\\gamma B$ for spin aligned or anti-aligned with the field. The levels are $\\hbar\\gamma B$ apart, and a photon is absorbed when $h\\nu=\\hbar\\gamma B$, i.e. $\\nu=\\gamma B/2\\pi$: the resonance frequency grows linearly with the magnetic field."
 			}
 		],
-		"m3-l021-fft": [
-			{
-				"kind": "mc",
-				"prompt": "What is the key idea that lets the FFT compute an $n$-point DFT in about $n\\log_2 n$ operations instead of $n^2$?",
-				"options": [
-					"It discards the small Fourier coefficients and computes only the large ones.",
-					"It works only for real signals.",
-					"$F_n$ factors into sparse matrices built from half-size transforms.",
-					"It uses the inverse matrix."
-				],
-				"answer": 2,
-				"explanation": "The FFT is exact, not approximate. Splitting by even/odd indices reduces one size-$n$ transform to two size-$n/2$ transforms plus $O(n)$ work, and recursion over $\\log_2n$ levels gives $O(n\\log n)$."
-			},
+		"m3-l043-fourier-matrix-dft": [
 			{
 				"kind": "mc",
 				"prompt": "What does it mean that $F_n/\\sqrt n$ is a unitary matrix?",
@@ -952,17 +1242,37 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "Compare the cost of a direct DFT ($n^2$) with an FFT ($n\\log_2n$) for $n=1024$. By what factor is the FFT faster?",
-				"answer": 102.4,
-				"tolerance": 0.02,
-				"explanation": "$n^2/(n\\log_2n)=n/\\log_2n=1024/10=102.4$. For $n=10^6$ the factor is about $5\\times10^4$."
-			},
-			{
-				"kind": "numeric",
 				"prompt": "A signal $x_j=\\cos(2\\pi\\cdot2\\,j/8)$, $j=0..7$, is Fourier transformed with an 8-point DFT. What is the magnitude of the coefficient at frequency index $k=2$?",
 				"answer": 4.0,
 				"tolerance": 0.02,
 				"explanation": "$\\cos$ is half of $e^{2\\pi i2j/8}$ plus half of its conjugate; the DFT sums 8 terms of size $1/2$ aligned in phase, giving magnitude $8/2=4$ at $k=2$ (and $k=6$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "Interpret the discrete Fourier transform as an expansion in an orthonormal basis: what are the basis vectors, and what do the Fourier coefficients of a signal measure?",
+				"rubric": "Full credit requires: (1) the columns of $F_n/\\sqrt n$ are the complex exponentials $(1,w^k,w^{2k},\\dots)$ with $w=e^{2\\pi i/n}$, which are orthonormal; (2) the coefficients are $c_k=\\frac1n$ (or $1/\\sqrt n$) times the inner product of the signal with the $k$-th exponential, found by $F^{-1}=F^H/n$; (3) $|c_k|$ measures how much of the signal oscillates at the $k$-th frequency.",
+				"modelAnswer": "The columns of $F_n/\\sqrt n$ are the sampled complex exponentials $(1,w^k,w^{2k},\\dots)$, $w=e^{2\\pi i/n}$, and they are orthonormal, so $F^{-1}$ is just $F^H$ (up to scale). The DFT coefficient $c_k$ is the inner product of the signal with the $k$-th exponential, and $|c_k|$ measures how much of the signal oscillates at the $k$-th frequency."
+			}
+		],
+		"m3-l044-fast-fourier-transform-algorithm": [
+			{
+				"kind": "mc",
+				"prompt": "What is the key idea that lets the FFT compute an $n$-point DFT in about $n\\log_2 n$ operations instead of $n^2$?",
+				"options": [
+					"It discards the small Fourier coefficients and computes only the large ones.",
+					"It works only for real signals.",
+					"$F_n$ factors into sparse matrices built from half-size transforms.",
+					"It uses the inverse matrix."
+				],
+				"answer": 2,
+				"explanation": "The FFT is exact, not approximate. Splitting by even/odd indices reduces one size-$n$ transform to two size-$n/2$ transforms plus $O(n)$ work, and recursion over $\\log_2n$ levels gives $O(n\\log n)$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Compare the cost of a direct DFT ($n^2$) with an FFT ($n\\log_2n$) for $n=1024$. By what factor is the FFT faster?",
+				"answer": 102.4,
+				"tolerance": 0.02,
+				"explanation": "$n^2/(n\\log_2n)=n/\\log_2n=1024/10=102.4$. For $n=10^6$ the factor is about $5\\times10^4$."
 			},
 			{
 				"kind": "short",
@@ -971,7 +1281,7 @@
 				"modelAnswer": "The DFT finds how much of each complex exponential is in a sampled signal; because those exponentials form an orthonormal basis, the coefficients are just inner products and the original signal is recovered by summing the basis vectors back up. The FFT notices that the even-indexed and odd-indexed samples each form a half-size DFT using the same exponentials squared, so one size-$n$ transform becomes two size-$n/2$ transforms plus a linear pass; recursing $\\log_2n$ times costs $n\\log n$ instead of $n^2$."
 			}
 		],
-		"m3-l022-svd": [
+		"m3-l045-svd-factorisation-geometry": [
 			{
 				"kind": "mc",
 				"prompt": "Geometrically, what does $A=U\\Sigma V^T$ do to the unit circle in $\\mathbb{R}^2$?",
@@ -997,6 +1307,14 @@
 				"explanation": "$A^TA=V\\Sigma^TU^TU\\Sigma V^T=V\\Sigma^2V^T$, a symmetric eigenproblem that exists for every matrix, even rectangular or defective ones. Then $u_i=Av_i/\\sigma_i$."
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain in words what $A=U\\Sigma V^T$ does to a vector geometrically, and where the singular values and the matrices $U$ and $V$ come from.",
+				"rubric": "Full credit requires: (1) $V^T$ rotates (or reflects) to the right-singular-vector axes, $\\Sigma$ stretches each axis by $\\sigma_i$, and $U$ rotates into the output space; (2) $V$ and $\\sigma_i^2$ come from the eigenvectors and eigenvalues of $A^TA$, and $U$ from those of $AA^T$ (or $u_i=Av_i/\\sigma_i$); (3) the unit circle becomes an ellipse with semi-axes $\\sigma_i$ along the $u_i$.",
+				"modelAnswer": "$V^T$ rotates the input onto the orthonormal axes $v_i$, $\\Sigma$ stretches the $i$-th axis by $\\sigma_i$, and $U$ rotates the result into the output space, so a unit circle becomes an ellipse with semi-axes $\\sigma_i$ along the $u_i$. The $v_i$ and $\\sigma_i^2$ are the eigenvectors and eigenvalues of $A^TA$, and $u_i=Av_i/\\sigma_i$."
+			}
+		],
+		"m3-l046-svd-by-hand-four-subspaces": [
+			{
 				"kind": "numeric",
 				"prompt": "Find the largest singular value of $A=\\begin{pmatrix}3&0\\\\4&5\\end{pmatrix}$.",
 				"answer": 6.708204,
@@ -1017,7 +1335,7 @@
 				"modelAnswer": "In $A=U\\Sigma V^T$, the first $r$ columns of $V$ (with nonzero $\\sigma_i$) form an orthonormal basis for the row space, and the remaining $n-r$ columns span the nullspace since $Av_i=0$ there. Likewise the first $r$ columns of $U$ form a basis for the column space and the last $m-r$ for the left nullspace. $A$ maps $v_i\\to\\sigma_iu_i$, pairing a row-space direction with a column-space direction."
 			}
 		],
-		"m3-l023-svd-pca-pinv": [
+		"m3-l047-low-rank-approximation-pca": [
 			{
 				"kind": "mc",
 				"prompt": "A data matrix has singular values $10, 5, 0.1, 0.01$. Why is the rank-2 truncation a good approximation?",
@@ -1030,6 +1348,22 @@
 				"answer": 0,
 				"explanation": "The truncated SVD $\\sum_{i\\le k}\\sigma_iu_iv_i^T$ is the closest rank-$k$ matrix, with 2-norm error $\\sigma_{k+1}$. Large singular values carry the dominant structure (e.g. component spectra); tiny ones are typically noise."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "In a PCA of a spectral data set the singular values are $6,\\,3,\\,2$. What percentage of the total variance (sum of $\\sigma_i^2$) does the first principal component capture?",
+				"answer": 73.469388,
+				"tolerance": 0.02,
+				"unit": "%",
+				"explanation": "Variance scales as $\\sigma^2$: $36/(36+9+4)=36/49\\approx73.5\\%$. Two components capture $45/49\\approx92\\%$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe the steps of PCA on a set of spectra (centre, SVD or covariance, principal components) and say what the singular values tell you about how many independent components a mixture data set contains.",
+				"rubric": "Full credit requires: (1) subtract the mean spectrum from each spectrum; (2) take the SVD of the centred data matrix (equivalently eigendecompose the covariance matrix); the right singular vectors are the principal components; (3) the squared singular values give the variance carried by each component, so a sharp drop after $k$ values suggests about $k$ independent components (plus noise).",
+				"modelAnswer": "Subtract the mean spectrum, then take the SVD of the centred data matrix; the right singular vectors are the principal components (the eigenvectors of the covariance matrix). The squared singular values give the variance along each component, so if they drop sharply after $k$ values, the mixtures are built from about $k$ independent component spectra, with the rest being noise."
+			}
+		],
+		"m3-l048-pseudoinverse-condition-number": [
 			{
 				"kind": "mc",
 				"prompt": "A matrix has singular values $1000$ and $0.001$. What does its condition number $\\sigma_{\\max}/\\sigma_{\\min}=10^6$ tell you?",
@@ -1050,21 +1384,13 @@
 				"explanation": "The singular values are about $5.01$ and $0.002$, so the condition number is roughly $2.5\\times10^3$. Nearly dependent columns make solving $Ax=b$ very sensitive."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "In a PCA of a spectral data set the singular values are $6,\\,3,\\,2$. What percentage of the total variance (sum of $\\sigma_i^2$) does the first principal component capture?",
-				"answer": 73.469388,
-				"tolerance": 0.02,
-				"unit": "%",
-				"explanation": "Variance scales as $\\sigma^2$: $36/(36+9+4)=36/49\\approx73.5\\%$. Two components capture $45/49\\approx92\\%$."
-			},
-			{
 				"kind": "short",
 				"prompt": "What does the pseudoinverse $A^+=V\\Sigma^+U^T$ give you, and how would SVD or PCA help you analyse a set of spectra of mixtures?",
 				"rubric": "Full credit requires: $A^+b$ is the least-squares solution of smallest norm (inverts nonzero $\\sigma$, ignores zero ones, lies in the row space); spectra: SVD/PCA finds a few dominant components (rank = number of independent species), the rest is noise; centre data first for PCA.",
 				"modelAnswer": "$A^+$ inverts $A$ only on the directions it actually uses (dividing by nonzero $\\sigma_i$) and ignores the rest, so $A^+b$ is the least-squares solution that also has the smallest length, even when $A$ is rank-deficient or rectangular. For a data set of mixture spectra the SVD finds the few orthogonal spectral components that explain nearly all the variance; the number of large singular values estimates how many independent absorbing species are present, and the small ones are noise."
 			}
 		],
-		"m3-l024-linear-transformations": [
+		"m3-l049-linear-transformations-matrix-of-t": [
 			{
 				"kind": "mc",
 				"prompt": "Which of these maps of the plane to itself is NOT a linear transformation?",
@@ -1077,6 +1403,21 @@
 				"answer": 1,
 				"explanation": "Linearity requires $T(0)=0$ (and $T(cv)=cT(v)$, $T(u+v)=T(u)+T(v)$). Translation moves the origin, so it fails; it is an affine, not linear, map."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "Let $D=d/dx$ act on polynomials of degree $\\le2$ with basis $\\{1,x,x^2\\}$. The matrix of $D$ has columns $D(1),D(x),D(x^2)$ written in the basis. Give the entry in row 2, column 3.",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "$D(x^2)=2x=0\\cdot1+2\\cdot x+0\\cdot x^2$, so column 3 is $(0,2,0)^T$ and the $(2,3)$ entry is 2. The matrix $\\begin{pmatrix}0&1&0\\\\0&0&2\\\\0&0&0\\end{pmatrix}$ has nullspace spanned by the constant."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how to build the matrix of a linear transformation from its action on a basis, and how the kernel and range relate to the nullspace and column space.",
+				"rubric": "Full credit requires: column j = coordinates of $T(\\text{basis vector}_j)$ in the output basis (linearity then determines T everywhere); kernel = vectors mapped to 0 = nullspace of the matrix; range = span of the images = column space; the matrix depends on the chosen bases.",
+				"modelAnswer": "Because $T$ is linear, knowing what it does to each input basis vector determines it completely: write each image $T(v_j)$ in the output basis and use those coordinates as column $j$. Then the coordinates of $T(x)$ are $A$ times the coordinates of $x$. The kernel (inputs sent to zero) is the nullspace of $A$, and the range (all outputs) is spanned by the images, i.e. the column space; the entries change with the choice of bases but these subspaces are intrinsic."
+			}
+		],
+		"m3-l050-composition-kernel-range": [
 			{
 				"kind": "mc",
 				"prompt": "Transformation $T$ has matrix $A$ and $S$ has matrix $B$ (same basis). What is the matrix of 'apply $T$ first, then $S$'?",
@@ -1091,13 +1432,6 @@
 			},
 			{
 				"kind": "numeric",
-				"prompt": "Let $D=d/dx$ act on polynomials of degree $\\le2$ with basis $\\{1,x,x^2\\}$. The matrix of $D$ has columns $D(1),D(x),D(x^2)$ written in the basis. Give the entry in row 2, column 3.",
-				"answer": 2.0,
-				"tolerance": 0.02,
-				"explanation": "$D(x^2)=2x=0\\cdot1+2\\cdot x+0\\cdot x^2$, so column 3 is $(0,2,0)^T$ and the $(2,3)$ entry is 2. The matrix $\\begin{pmatrix}0&1&0\\\\0&0&2\\\\0&0&0\\end{pmatrix}$ has nullspace spanned by the constant."
-			},
-			{
-				"kind": "numeric",
 				"prompt": "What is the dimension of the kernel of $d^2/dx^2$ acting on polynomials of degree $\\le4$?",
 				"answer": 2.0,
 				"tolerance": 0.02,
@@ -1105,12 +1439,12 @@
 			},
 			{
 				"kind": "short",
-				"prompt": "Explain how to build the matrix of a linear transformation from its action on a basis, and how the kernel and range relate to the nullspace and column space.",
-				"rubric": "Full credit requires: column j = coordinates of $T(\\text{basis vector}_j)$ in the output basis (linearity then determines T everywhere); kernel = vectors mapped to 0 = nullspace of the matrix; range = span of the images = column space; the matrix depends on the chosen bases.",
-				"modelAnswer": "Because $T$ is linear, knowing what it does to each input basis vector determines it completely: write each image $T(v_j)$ in the output basis and use those coordinates as column $j$. Then the coordinates of $T(x)$ are $A$ times the coordinates of $x$. The kernel (inputs sent to zero) is the nullspace of $A$, and the range (all outputs) is spanned by the images, i.e. the column space; the entries change with the choice of bases but these subspaces are intrinsic."
+				"prompt": "Why is the matrix of 'apply $T$ first, then $S$' equal to $BA$ and not $AB$? Illustrate with a rotation followed by a projection.",
+				"rubric": "Full credit requires: (1) a vector $v$ is first multiplied by $A$ (the matrix of $T$), giving $Av$, and then by $B$, giving $B(Av)=(BA)v$; (2) the matrix written next to the vector acts first, so the order is reversed relative to the order in time; (3) the example shows the order matters: projecting then rotating differs from rotating then projecting.",
+				"modelAnswer": "$S(T(v))=B(Av)=(BA)v$: the matrix next to the vector acts first, so the transformation applied first appears on the right. Rotating a vector and then projecting it on the $x$-axis is not the same as projecting first and then rotating (the second keeps the vector on the $x$-axis before rotating it off), which is why $BA\\ne AB$."
 			}
 		],
-		"m3-l025-change-of-basis": [
+		"m3-l051-change-of-basis-similar-matrices": [
 			{
 				"kind": "mc",
 				"prompt": "$B=M^{-1}AM$ is similar to $A$. Which quantity is NOT necessarily the same for $A$ and $B$?",
@@ -1122,18 +1456,6 @@
 				],
 				"answer": 1,
 				"explanation": "Similar matrices represent the same transformation in different bases, so eigenvalues, trace and determinant (all intrinsic) agree. Eigenvectors are the same geometric directions but their coordinate lists differ: $x_B=M^{-1}x_A$."
-			},
-			{
-				"kind": "mc",
-				"prompt": "Why can't $A=\\begin{pmatrix}2&1\\\\0&2\\end{pmatrix}$ be diagonalised?",
-				"options": [
-					"Its eigenvalues are complex, so no real eigenbasis can be formed.",
-					"It is not symmetric, and only symmetric matrices can be diagonalised.",
-					"Its determinant is nonzero.",
-					"The eigenvalue 2 is repeated, yet there is only one eigenvector."
-				],
-				"answer": 3,
-				"explanation": "$A-2I=\\begin{pmatrix}0&1\\\\0&0\\end{pmatrix}$ has a one-dimensional nullspace, so there is one eigenvector. Many nonsymmetric matrices are diagonalisable; the issue is the count of independent eigenvectors."
 			},
 			{
 				"kind": "numeric",
@@ -1151,12 +1473,39 @@
 			},
 			{
 				"kind": "short",
+				"prompt": "Explain what a change of basis does to the coordinates of a vector and to the matrix of a transformation, and why similar matrices describe the same transformation.",
+				"rubric": "Full credit requires: (1) the same vector has different coordinate lists in different bases, related by $x=Mx'$; (2) the matrix of the same transformation in the new basis is $B=M^{-1}AM$; (3) similar matrices are the same linear map written in different bases, which is why they share eigenvalues, trace and determinant.",
+				"modelAnswer": "A vector keeps its identity but its coordinate list changes with the basis: $x=Mx'$ where the columns of $M$ are the new basis vectors. The same transformation then has matrix $B=M^{-1}AM$ in the new basis. Similar matrices are the same transformation seen in different coordinates, which is why their eigenvalues, trace and determinant agree."
+			}
+		],
+		"m3-l052-eigenbasis-jordan-form": [
+			{
+				"kind": "mc",
+				"prompt": "Why can't $A=\\begin{pmatrix}2&1\\\\0&2\\end{pmatrix}$ be diagonalised?",
+				"options": [
+					"Its eigenvalues are complex, so no real eigenbasis can be formed.",
+					"It is not symmetric, and only symmetric matrices can be diagonalised.",
+					"Its determinant is nonzero.",
+					"The eigenvalue 2 is repeated, yet there is only one eigenvector."
+				],
+				"answer": 3,
+				"explanation": "$A-2I=\\begin{pmatrix}0&1\\\\0&0\\end{pmatrix}$ has a one-dimensional nullspace, so there is one eigenvector. Many nonsymmetric matrices are diagonalisable; the issue is the count of independent eigenvectors."
+			},
+			{
+				"kind": "short",
 				"prompt": "Explain diagonalisation as 'choosing the eigenbasis', and why symmetric or Hermitian matrices always admit an orthonormal eigenbasis while a defective matrix does not admit any.",
 				"rubric": "Full credit requires: in the eigenbasis the transformation acts as independent stretches (diagonal matrix $\\Lambda=S^{-1}AS$); spectral theorem for symmetric/Hermitian; defective = not enough eigenvectors, only a Jordan block (eigenvalue plus a nilpotent shear) is achievable.",
 				"modelAnswer": "If we use eigenvectors as the coordinate directions, $A$ just stretches each coordinate by its eigenvalue, so the matrix is diagonal: $\\Lambda=S^{-1}AS$. Symmetric/Hermitian matrices always have a full set of mutually orthogonal eigenvectors (spectral theorem), so the basis can be chosen orthonormal. A defective matrix has a repeated eigenvalue without enough independent eigenvectors, so the best one can do is a Jordan form: the eigenvalue on the diagonal plus a 1 above it, which represents a stretch combined with a shear."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The Jordan block $A=\\begin{pmatrix}3&1\\\\0&3\\end{pmatrix}$ cannot be diagonalised. Compute the $(1,2)$ entry of $A^5$.",
+				"answer": 405.0,
+				"tolerance": 0.02,
+				"explanation": "For a Jordan block $J^n=\\begin{pmatrix}\\lambda^n&n\\lambda^{n-1}\\\\0&\\lambda^n\\end{pmatrix}$, so the $(1,2)$ entry of $A^5$ is $5\\cdot3^4=405$. The extra factor $n$ is the signature of a defective matrix (compare $te^{\\lambda t}$ for ODEs)."
 			}
 		],
-		"m3-l026-inner-product-spaces": [
+		"m3-l053-abstract-vector-spaces-function-inner-products": [
 			{
 				"kind": "mc",
 				"prompt": "With the inner product $\\langle f,g\\rangle=\\int_{-1}^{1}fg\\,dx$, which pair of functions is orthogonal?",
@@ -1169,6 +1518,21 @@
 				"answer": 0,
 				"explanation": "$\\int_{-1}^{1}x^3dx=0$. But $\\int 1\\cdot x^2dx=2/3\\ne0$ and a nonzero function is never orthogonal to itself ($\\langle f,f\\rangle=\\int f^2>0$). Gram-Schmidt on $1,x,x^2$ then yields Legendre polynomials."
 			},
+			{
+				"kind": "numeric",
+				"prompt": "Project $f=x^3$ onto $x$ in this function space: find $\\langle x^3,x\\rangle/\\langle x,x\\rangle$ on $[-1,1]$.",
+				"answer": 0.6,
+				"tolerance": 0.02,
+				"explanation": "$\\int x^4dx=2/5$ and $\\int x^2dx=2/3$, so the coefficient is $(2/5)/(2/3)=3/5=0.6$. The remainder $x^3-\\tfrac35x$ is orthogonal to $x$ (it is proportional to $P_3$)."
+			},
+			{
+				"kind": "short",
+				"prompt": "What is the analogy between functions and vectors, and between Hermitian matrices and self-adjoint operators, that lets us treat Fourier or Legendre expansions as 'projection onto a basis'?",
+				"rubric": "Full credit requires: functions as vectors in a space with inner product $\\int fg$; orthogonal basis functions with coefficients = inner products ($\\langle f,\\phi_n\\rangle/\\langle\\phi_n,\\phi_n\\rangle$); self-adjoint operator ~ Hermitian matrix with real eigenvalues and orthogonal eigenfunctions, so an expansion is a change of basis.",
+				"modelAnswer": "A function can be thought of as an infinite list of values, with an inner product $\\int f^*g$ playing the role of the dot product. Then a set of orthogonal functions such as sines or Legendre polynomials is an orthogonal basis, and the expansion coefficient of $f$ is the projection $\\langle f,\\phi_n\\rangle/\\langle\\phi_n,\\phi_n\\rangle$, just as with vectors. Self-adjoint differential operators play the role of Hermitian matrices, with real eigenvalues and orthogonal eigenfunctions, which supplies the natural bases."
+			}
+		],
+		"m3-l054-legendre-gram-schmidt-self-adjoint": [
 			{
 				"kind": "mc",
 				"prompt": "Why are eigenfunctions of a self-adjoint (Hermitian) operator with different eigenvalues orthogonal?",
@@ -1189,20 +1553,13 @@
 				"explanation": "$c=\\langle x^2,1\\rangle/\\langle1,1\\rangle=(2/3)/2=1/3$, giving $x^2-\\tfrac13\\propto P_2(x)$ (with $x$ already orthogonal to both by parity)."
 			},
 			{
-				"kind": "numeric",
-				"prompt": "Project $f=x^3$ onto $x$ in this function space: find $\\langle x^3,x\\rangle/\\langle x,x\\rangle$ on $[-1,1]$.",
-				"answer": 0.6,
-				"tolerance": 0.02,
-				"explanation": "$\\int x^4dx=2/5$ and $\\int x^2dx=2/3$, so the coefficient is $(2/5)/(2/3)=3/5=0.6$. The remainder $x^3-\\tfrac35x$ is orthogonal to $x$ (it is proportional to $P_3$)."
-			},
-			{
 				"kind": "short",
-				"prompt": "What is the analogy between functions and vectors, and between Hermitian matrices and self-adjoint operators, that lets us treat Fourier or Legendre expansions as 'projection onto a basis'?",
-				"rubric": "Full credit requires: functions as vectors in a space with inner product $\\int fg$; orthogonal basis functions with coefficients = inner products ($\\langle f,\\phi_n\\rangle/\\langle\\phi_n,\\phi_n\\rangle$); self-adjoint operator ~ Hermitian matrix with real eigenvalues and orthogonal eigenfunctions, so an expansion is a change of basis.",
-				"modelAnswer": "A function can be thought of as an infinite list of values, with an inner product $\\int f^*g$ playing the role of the dot product. Then a set of orthogonal functions such as sines or Legendre polynomials is an orthogonal basis, and the expansion coefficient of $f$ is the projection $\\langle f,\\phi_n\\rangle/\\langle\\phi_n,\\phi_n\\rangle$, just as with vectors. Self-adjoint differential operators play the role of Hermitian matrices, with real eigenvalues and orthogonal eigenfunctions, which supplies the natural bases."
+				"prompt": "Describe how Gram-Schmidt applied to $1,x,x^2,\\dots$ on $[-1,1]$ with weight 1 produces the Legendre polynomials, and why each polynomial comes out as an even or odd function.",
+				"rubric": "Full credit requires: (1) start with $p_0=1$ and subtract from each new power its projections onto all earlier polynomials using $\\langle f,g\\rangle=\\int_{-1}^1fg\\,dx$; (2) e.g. $p_1=x$ and $p_2=x^2-\\tfrac13$; (3) the interval and weight are symmetric under $x\\to-x$, so even and odd powers are automatically orthogonal, and each $p_n$ contains only powers of the same parity as $n$.",
+				"modelAnswer": "Start with $p_0=1$, then subtract from each new power its components along the earlier polynomials using $\\langle f,g\\rangle=\\int_{-1}^{1}fg\\,dx$: $p_1=x$, $p_2=x^2-\\tfrac13$, and so on (these are Legendre polynomials up to normalisation). The interval and weight are symmetric under $x\\to-x$, so even powers are orthogonal to odd ones, and each $p_n$ contains only powers with the same parity as $n$."
 			}
 		],
-		"m3-l027-commuting-operators-tensor": [
+		"m3-l055-commutators-compatible-observables": [
 			{
 				"kind": "mc",
 				"prompt": "Two Hermitian matrices $A$ and $B$ satisfy $AB=BA$. What follows?",
@@ -1235,6 +1592,26 @@
 				"explanation": "$AB=\\begin{pmatrix}0&-1\\\\1&0\\end{pmatrix}$ and $BA=\\begin{pmatrix}0&1\\\\-1&0\\end{pmatrix}$, so $[A,B]=\\begin{pmatrix}0&-2\\\\2&0\\end{pmatrix}$. This is $-2i\\sigma_y$, consistent with $[\\sigma_x,\\sigma_z]=-2i\\sigma_y$."
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain why commuting observables can be measured simultaneously, and how a two-spin Hilbert space is built from a Kronecker product.",
+				"rubric": "Full credit requires: commuting Hermitian operators share eigenvectors, so a state can have definite values of both; for two spins, basis states are $|a\\rangle\\otimes|b\\rangle$ (dimension $2\\times2=4$) and an operator on spin 1 alone is $A\\otimes I$, on spin 2 alone $I\\otimes B$ (Kronecker products).",
+				"modelAnswer": "If two Hermitian operators commute they can be diagonalised together, so there are states that are simultaneously eigenstates of both and a measurement of one does not disturb the other. For two spin-1/2 particles the joint state space has basis $|a\\rangle\\otimes|b\\rangle$, dimension $4$; an operator acting only on spin 1 is $A\\otimes I$ and one acting only on spin 2 is $I\\otimes B$, and these commute, as operators on different spins should. A coupled-spin Hamiltonian is a sum of such Kronecker products."
+			}
+		],
+		"m3-l056-tensor-products-pauli-algebra-coupled-spins": [
+			{
+				"kind": "mc",
+				"prompt": "Which commutation relation do the Pauli matrices satisfy?",
+				"options": [
+					"$[\\sigma_x,\\sigma_y]=0$, since all three matrices are Hermitian.",
+					"$[\\sigma_x,\\sigma_y]=2i\\,\\sigma_z$, together with its cyclic permutations.",
+					"$[\\sigma_x,\\sigma_y]=2\\,\\sigma_z$, with no factor of $i$.",
+					"$[\\sigma_x,\\sigma_y]=i\\,\\sigma_z$, the same factor as for spin operators."
+				],
+				"answer": 1,
+				"explanation": "Multiplying out, $\\sigma_x\\sigma_y=i\\sigma_z$ and $\\sigma_y\\sigma_x=-i\\sigma_z$, so the commutator is $2i\\sigma_z$. The spin operators $S=\\tfrac\\hbar2\\sigma$ then satisfy $[S_x,S_y]=i\\hbar S_z$."
+			},
+			{
 				"kind": "numeric",
 				"prompt": "A molecule has 5 coupled spin-1/2 nuclei. What is the dimension of its spin Hilbert space (the Kronecker product of five $2\\times2$ spaces)?",
 				"answer": 32.0,
@@ -1242,10 +1619,17 @@
 				"explanation": "Dimensions multiply: $2^5=32$. The spin Hamiltonian is a $32\\times32$ Hermitian matrix built from Kronecker products, which is why simulating NMR of large spin systems grows costly."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "For $A=\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}$ and $B=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}$, find the $(1,4)$ entry of the Kronecker product $A\\otimes B$.",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "$A\\otimes B=\\begin{pmatrix}a_{11}B&a_{12}B\\\\a_{21}B&a_{22}B\\end{pmatrix}$. The $(1,4)$ entry lies in the top-right block $a_{12}B=2B$, in position $(1,2)$ of that block: $2\\cdot1=2$."
+			},
+			{
 				"kind": "short",
-				"prompt": "Explain why commuting observables can be measured simultaneously, and how a two-spin Hilbert space is built from a Kronecker product.",
-				"rubric": "Full credit requires: commuting Hermitian operators share eigenvectors, so a state can have definite values of both; for two spins, basis states are $|a\\rangle\\otimes|b\\rangle$ (dimension $2\\times2=4$) and an operator on spin 1 alone is $A\\otimes I$, on spin 2 alone $I\\otimes B$ (Kronecker products).",
-				"modelAnswer": "If two Hermitian operators commute they can be diagonalised together, so there are states that are simultaneously eigenstates of both and a measurement of one does not disturb the other. For two spin-1/2 particles the joint state space has basis $|a\\rangle\\otimes|b\\rangle$, dimension $4$; an operator acting only on spin 1 is $A\\otimes I$ and one acting only on spin 2 is $I\\otimes B$, and these commute, as operators on different spins should. A coupled-spin Hamiltonian is a sum of such Kronecker products."
+				"prompt": "Why do two coupled spin-1/2 nuclei need a 4-dimensional Hilbert space, and how is a coupling term such as $J\\,\\sigma_z\\otimes\\sigma_z$ built from single-spin operators?",
+				"rubric": "Full credit requires: (1) each spin has a 2-dimensional space and the composite system has the Kronecker product space of dimension $2\\times2=4$ (basis $\\uparrow\\uparrow,\\uparrow\\downarrow,\\downarrow\\uparrow,\\downarrow\\downarrow$); (2) a single-spin operator acting on spin 1 is $A\\otimes I$, and on spin 2 is $I\\otimes B$; (3) a coupling is the Kronecker product of operators on both spins, $\\sigma_z\\otimes\\sigma_z$, which is diagonal in the product basis with entries $\\pm1$.",
+				"modelAnswer": "Each spin-1/2 has a two-dimensional space, and the composite system lives in the Kronecker product space of dimension $2\\times2=4$, with basis $\\uparrow\\uparrow,\\uparrow\\downarrow,\\downarrow\\uparrow,\\downarrow\\downarrow$. An operator on spin 1 alone is $A\\otimes I$ and on spin 2 alone $I\\otimes B$; a coupling such as $J\\sigma_z\\otimes\\sigma_z$ acts on both and is diagonal in the product basis with entries $\\pm J$."
 			}
 		]
 	}

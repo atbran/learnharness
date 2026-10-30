@@ -271,14 +271,19 @@ function itemsToLines(items: unknown[]): string {
 
 /** One pass over the whole PDF: per-page text, page labels, outline, and
  *  metadata. Deterministic, no LLM. `onProgress(done, total)` per page. */
-export async function pdfBookExtract(filePath: string, onProgress?: (done: number, total: number) => void): Promise<BookExtract> {
+export async function pdfBookExtract(
+	filePath: string,
+	onProgress?: (done: number, total: number) => void,
+	opts: { maxPages?: number } = {},
+): Promise<BookExtract> {
 	const { doc, task } = await openDocument(filePath);
 	try {
 		const labels = ((await doc.getPageLabels().catch(() => null)) ?? null) as string[] | null;
 		const metaRaw = (await doc.getMetadata().catch(() => null)) as { info?: Record<string, unknown> } | null;
 		const info = metaRaw?.info ?? {};
 		const pages: BookExtract["pages"] = [];
-		for (let i = 1; i <= doc.numPages; i++) {
+		const last = Math.min(doc.numPages, opts.maxPages ?? doc.numPages);
+		for (let i = 1; i <= last; i++) {
 			const page = await doc.getPage(i);
 			const content = await page.getTextContent();
 			pages.push({ page: i, label: labels?.[i - 1] ?? null, text: itemsToLines(content.items as unknown[]) });

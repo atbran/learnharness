@@ -6,8 +6,12 @@
 	"depth": "survey",
 	"hours": 45,
 	"prereqs": [
-		"p4-classical",
-		"m5-methods"
+		"p3-modern",
+		"m2-multivariable"
+	],
+	"coreqs": [
+		"m5-methods",
+		"p4-classical"
 	],
 	"subject": "Relativity",
 	"summary": "A physical-first introduction to general relativity following Hartle: the equivalence principle, geodesics, the Schwarzschild solution and its tests, black holes, gravitational waves, and cosmology, with the tensor calculus and Einstein equation introduced after the physics is in hand.",
@@ -28,18 +32,14 @@
 			"summary": "The equivalence principle motivates describing gravity as curvature of spacetime; special relativity is reviewed in the language of four-vectors, and the metric becomes the central object.",
 			"lessons": [
 				{
-					"id": "s3-l001-equivalence-principle",
-					"title": "The equivalence principle and why gravity is geometry",
-					"minutes": 90,
+					"id": "s3-l001-equivalence-principle-free-fall",
+					"title": "The equivalence principle and why free fall suggests geometry",
+					"minutes": 40,
 					"objectives": [
 						"State the weak equivalence principle (gravitational mass equals inertial mass) and the Einstein equivalence principle, and describe an Eotvos-type torsion-balance test.",
-						"Use an accelerating-elevator thought experiment to derive the gravitational redshift Delta f / f = g h / c^2 and gravitational time dilation.",
-						"Estimate the GPS clock corrections (about +45 us/day gravitational, -7 us/day velocity) from the weak-field time-dilation formula.",
 						"Explain why universality of free fall suggests that gravity is a property of spacetime (curvature) rather than a force, and why the local inertial frame is only local (tidal effects)."
 					],
 					"keyEquations": [
-						"\\frac{\\Delta f}{f} = \\frac{g h}{c^2}",
-						"d\\tau = \\sqrt{1+\\frac{2\\Phi}{c^2}}\\,dt",
 						"m_{\\rm grav}=m_{\\rm inertial}"
 					],
 					"readings": [
@@ -60,16 +60,6 @@
 						},
 						{
 							"bookId": "hartle",
-							"ref": "§6.3",
-							"title": "Clocks in a Gravitational Field"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§6.4",
-							"title": "The Global Positioning System"
-						},
-						{
-							"bookId": "hartle",
 							"ref": "§6.5",
 							"title": "Spacetime Is Curved",
 							"optional": true
@@ -84,12 +74,7 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Course home and video lectures",
-							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/video_galleries/video-lectures/"
-						},
-						{
-							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 6: The Principle of Equivalence",
+							"title": "Lecture 6: The Principle of Equivalence (equivalence principle part)",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-6-the-principle-of-equivalence/"
 						},
 						{
@@ -108,20 +93,55 @@
 					]
 				},
 				{
-					"id": "s3-l002-special-relativity-four-vectors",
-					"title": "Special relativity in four-vector language",
-					"minutes": 90,
+					"id": "s3-l002-gravitational-redshift-gps-clocks",
+					"title": "Gravitational redshift, time dilation, and GPS clocks",
+					"minutes": 40,
 					"objectives": [
-						"Compute the invariant interval between two events and classify the separation as timelike, spacelike, or null.",
-						"Derive time dilation and length contraction from the Lorentz boost and verify that the interval is invariant.",
-						"Construct the four-velocity u^mu and four-momentum p^mu = (E/c, p) and show p.p = -m^2 c^2.",
-						"Raise and lower indices with the Minkowski metric using the summation convention.",
-						"Explain proper time as the length of a worldline and why a free particle's worldline maximizes proper time (twin paradox)."
+						"Use an accelerating-elevator thought experiment to derive the gravitational redshift Delta f / f = g h / c^2 and gravitational time dilation.",
+						"Estimate the GPS clock corrections (about +45 us/day gravitational, -7 us/day velocity) from the weak-field time-dilation formula."
 					],
 					"keyEquations": [
-						"ds^2 = -c^2dt^2 + dx^2+dy^2+dz^2 = \\eta_{\\mu\\nu}dx^\\mu dx^\\nu",
-						"\\tau = \\frac1c\\int\\sqrt{-\\eta_{\\mu\\nu}dx^\\mu dx^\\nu}",
-						"p^\\mu p_\\mu = -m^2c^2"
+						"\\frac{\\Delta f}{f} = \\frac{g h}{c^2}",
+						"d\\tau = \\sqrt{1+\\frac{2\\Phi}{c^2}}\\,dt"
+					],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§6.3",
+							"title": "Clocks in a Gravitational Field"
+						},
+						{
+							"bookId": "hartle",
+							"ref": "§6.4",
+							"title": "The Global Positioning System"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Course home and video lectures",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/video_galleries/video-lectures/"
+						},
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 6: The Principle of Equivalence (clocks and redshift part)",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-6-the-principle-of-equivalence/"
+						}
+					],
+					"demoIdeas": [
+						"GPS clock budget calculator: orbital radius slider showing the gravitational (+) and velocity (-) clock-rate contributions and the net drift per day."
+					]
+				},
+				{
+					"id": "s3-l003-interval-boosts-time-dilation",
+					"title": "The spacetime interval, Lorentz boosts, and time dilation",
+					"minutes": 40,
+					"objectives": [
+						"Compute the invariant interval between two events and classify the separation as timelike, spacelike, or null.",
+						"Derive time dilation and length contraction from the Lorentz boost and verify that the interval is invariant."
+					],
+					"keyEquations": [
+						"ds^2 = -c^2dt^2 + dx^2+dy^2+dz^2 = \\eta_{\\mu\\nu}dx^\\mu dx^\\nu"
 					],
 					"readings": [
 						{
@@ -133,7 +153,38 @@
 							"bookId": "hartle",
 							"ref": "§4.5",
 							"title": "Lorentz Boosts"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 1: Introduction and The Geometric Viewpoint on Physics",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-1-introduction-and-the-geometric-viewpoint-on-physics/"
 						},
+						{
+							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
+							"title": "Lecture 11: Special and General Relativity (cont.)",
+							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-11"
+						}
+					],
+					"demoIdeas": [
+						"Spacetime diagram tool: draw worldlines, boost to another frame, and read off simultaneity, light cones, and the invariant interval."
+					]
+				},
+				{
+					"id": "s3-l004-four-vectors-proper-time-twins",
+					"title": "Four-vectors, proper time, and the twin paradox",
+					"minutes": 45,
+					"objectives": [
+						"Raise and lower indices with the Minkowski metric using the summation convention.",
+						"Construct the four-velocity u^mu and four-momentum p^mu = (E/c, p) and show p.p = -m^2 c^2.",
+						"Explain proper time as the length of a worldline and why a free particle's worldline maximizes proper time (twin paradox)."
+					],
+					"keyEquations": [
+						"\\tau = \\frac1c\\int\\sqrt{-\\eta_{\\mu\\nu}dx^\\mu dx^\\nu}",
+						"p^\\mu p_\\mu = -m^2c^2"
+					],
+					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§5.1",
@@ -169,19 +220,16 @@
 						}
 					],
 					"demoIdeas": [
-						"Spacetime diagram tool: draw worldlines, boost to another frame, and read off simultaneity, light cones, and the invariant interval."
+						"Twin worldline plotter: draw an out-and-back path on a Minkowski diagram with a speed slider and read off each twin's accumulated proper time, seeing the straight worldline always give the longest."
 					]
 				},
 				{
-					"id": "s3-l003-metric-coordinates-curved-space",
-					"title": "The metric, coordinates, and curved space",
-					"minutes": 90,
+					"id": "s3-l005-metric-line-element-coordinates",
+					"title": "The metric, line element, and coordinates",
+					"minutes": 40,
 					"objectives": [
 						"Compute lengths, areas, and volumes from a metric line element, using the 2-sphere ds^2 = R^2(d theta^2 + sin^2 theta d phi^2) as the model example.",
-						"Write flat space in polar and spherical coordinates and distinguish coordinate artifacts from invariant geometric facts.",
-						"Read light cones and coordinate speeds of light from a given metric.",
-						"Define a local inertial frame (g_{mu nu} = eta_{mu nu} at a point, first derivatives vanishing) and explain why it exists.",
-						"Test for intrinsic curvature with measurable quantities (circumference-to-radius ratio, angle sum of a triangle) rather than from an embedding."
+						"Write flat space in polar and spherical coordinates and distinguish coordinate artifacts from invariant geometric facts."
 					],
 					"keyEquations": [
 						"ds^2 = g_{\\mu\\nu}dx^\\mu dx^\\nu",
@@ -213,7 +261,37 @@
 							"bookId": "hartle",
 							"ref": "§7.3",
 							"title": "The Summation Convention"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford / Susskind: General Relativity (Theoretical Minimum, 2012)",
+							"title": "Lecture 2: Tensor mathematics",
+							"url": "https://www.youtube.com/watch?v=5VKyRVLMMQ4"
 						},
+						{
+							"source": "Alexander Maloney (McGill): General Relativity",
+							"title": "Lecture 8: Metrics, Geodesics and Geometry (metrics and geometry)",
+							"url": "https://www.youtube.com/watch?v=0yr2-TIVTSw"
+						}
+					],
+					"demoIdeas": [
+						"Coordinate-grid viewer: draw the same flat plane in Cartesian and polar coordinates and compute lengths and areas from each line element, showing that only the invariants agree."
+					]
+				},
+				{
+					"id": "s3-l006-local-inertial-frames-light-cones-curvature",
+					"title": "Light cones, local inertial frames, and intrinsic curvature",
+					"minutes": 40,
+					"objectives": [
+						"Read light cones and coordinate speeds of light from a given metric.",
+						"Define a local inertial frame (g_{mu nu} = eta_{mu nu} at a point, first derivatives vanishing) and explain why it exists.",
+						"Test for intrinsic curvature with measurable quantities (circumference-to-radius ratio, angle sum of a triangle) rather than from an embedding."
+					],
+					"keyEquations": [
+						"ds^2 = g_{\\mu\\nu}dx^\\mu dx^\\nu"
+					],
+					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§7.4",
@@ -233,18 +311,13 @@
 					],
 					"lectures": [
 						{
-							"source": "Stanford / Susskind: General Relativity (Theoretical Minimum, 2012)",
-							"title": "Lecture 2: Tensor mathematics",
-							"url": "https://www.youtube.com/watch?v=5VKyRVLMMQ4"
-						},
-						{
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
 							"title": "Lecture 7: The Principle of Equivalence, continued; Parallel Transport",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-7-the-principle-of-equivalence-continued-parallel-transport/"
 						},
 						{
 							"source": "Alexander Maloney (McGill): General Relativity",
-							"title": "Lecture 8: Metrics, Geodesics and Geometry",
+							"title": "Lecture 8: Metrics, Geodesics and Geometry (local frames and curvature)",
 							"url": "https://www.youtube.com/watch?v=0yr2-TIVTSw"
 						}
 					],
@@ -260,42 +333,22 @@
 			"summary": "Free fall as geodesic motion; the Schwarzschild solution outside a spherical mass and its observable consequences: redshift, perihelion precession, light bending, and time delay.",
 			"lessons": [
 				{
-					"id": "s3-l004-geodesics-christoffel",
-					"title": "Geodesics and Christoffel symbols",
-					"minutes": 100,
+					"id": "s3-l007-geodesic-equation-christoffel-symbols",
+					"title": "The geodesic equation and Christoffel symbols",
+					"minutes": 40,
 					"objectives": [
 						"Derive the geodesic equation by extremizing proper time with the Euler-Lagrange equations.",
-						"Read off the Christoffel symbols from the Euler-Lagrange equations and verify them for flat space in polar coordinates and for the 2-sphere.",
-						"Use a cyclic coordinate or Killing vector to find conserved quantities (energy and angular momentum) along a geodesic.",
-						"Show that the Newtonian limit of the geodesic equation is d^2x/dt^2 = -grad Phi when g_00 = -(1 + 2 Phi/c^2).",
-						"Write the equations of null geodesics for light rays."
+						"Read off the Christoffel symbols from the Euler-Lagrange equations and verify them for flat space in polar coordinates and for the 2-sphere."
 					],
 					"keyEquations": [
 						"\\frac{d^2x^\\mu}{d\\tau^2} + \\Gamma^\\mu{}_{\\alpha\\beta}\\frac{dx^\\alpha}{d\\tau}\\frac{dx^\\beta}{d\\tau} = 0",
-						"\\Gamma^\\mu{}_{\\alpha\\beta} = \\tfrac12 g^{\\mu\\nu}\\left(\\partial_\\alpha g_{\\nu\\beta}+\\partial_\\beta g_{\\nu\\alpha}-\\partial_\\nu g_{\\alpha\\beta}\\right)",
-						"p_\\mu\\xi^\\mu = \\text{const}"
+						"\\Gamma^\\mu{}_{\\alpha\\beta} = \\tfrac12 g^{\\mu\\nu}\\left(\\partial_\\alpha g_{\\nu\\beta}+\\partial_\\beta g_{\\nu\\alpha}-\\partial_\\nu g_{\\alpha\\beta}\\right)"
 					],
 					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§8.1",
 							"title": "The Geodesic Equation"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§8.2",
-							"title": "Solving the Geodesic Equation—Symmetries and Conservation Laws"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§8.3",
-							"title": "Null Geodesics"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§8.4",
-							"title": "Local Inertial Frames and Freely Falling Frames",
-							"optional": true
 						},
 						{
 							"bookId": "carroll-gr-notes",
@@ -316,19 +369,58 @@
 					]
 				},
 				{
-					"id": "s3-l005-schwarzschild-redshift",
-					"title": "The Schwarzschild metric and gravitational redshift",
-					"minutes": 90,
+					"id": "s3-l008-conserved-quantities-newtonian-limit-null-geodesics",
+					"title": "Conserved quantities, the Newtonian limit, and null geodesics",
+					"minutes": 45,
+					"objectives": [
+						"Use a cyclic coordinate or Killing vector to find conserved quantities (energy and angular momentum) along a geodesic.",
+						"Show that the Newtonian limit of the geodesic equation is d^2x/dt^2 = -grad Phi when g_00 = -(1 + 2 Phi/c^2).",
+						"Write the equations of null geodesics for light rays."
+					],
+					"keyEquations": [
+						"p_\\mu\\xi^\\mu = \\text{const}"
+					],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§8.2",
+							"title": "Solving the Geodesic Equation—Symmetries and Conservation Laws"
+						},
+						{
+							"bookId": "hartle",
+							"ref": "§8.3",
+							"title": "Null Geodesics"
+						},
+						{
+							"bookId": "hartle",
+							"ref": "§8.4",
+							"title": "Local Inertial Frames and Freely Falling Frames",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 9: Geodesics",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-9-geodesics/"
+						}
+					],
+					"demoIdeas": [
+						"Weak-field geodesic demo: set the potential Phi with a slider and compare the integrated geodesic of a slow particle with the Newtonian path, then switch to a light ray to see it bend twice as much."
+					]
+				},
+				{
+					"id": "s3-l009-schwarzschild-metric-redshift",
+					"title": "The Schwarzschild metric, its coordinates, and gravitational redshift",
+					"minutes": 45,
 					"objectives": [
 						"Write the Schwarzschild line element and identify r_s = 2GM/c^2; compute r_s for the Earth (about 9 mm) and the Sun (about 3 km).",
 						"Interpret the coordinates t and r (areal radius) and distinguish coordinate time from the proper time of a static observer.",
-						"Derive the gravitational redshift between static observers at r1 and r2 as the ratio of sqrt(1 - r_s/r) factors.",
-						"Derive the effective potential for orbits from the conserved energy and angular momentum."
+						"Derive the gravitational redshift between static observers at r1 and r2 as the ratio of sqrt(1 - r_s/r) factors."
 					],
 					"keyEquations": [
 						"ds^2 = -\\left(1-\\frac{2GM}{c^2r}\\right)c^2dt^2 + \\frac{dr^2}{1-2GM/c^2r} + r^2d\\Omega^2",
-						"\\frac{\\nu_{\\rm obs}}{\\nu_{\\rm em}} = \\sqrt{\\frac{1-r_s/r_{\\rm em}}{1-r_s/r_{\\rm obs}}}",
-						"V_{\\rm eff}(r) = \\left(1-\\frac{r_s}{r}\\right)\\left(1+\\frac{L^2}{m^2c^2r^2}\\right)"
+						"\\frac{\\nu_{\\rm obs}}{\\nu_{\\rm em}} = \\sqrt{\\frac{1-r_s/r_{\\rm em}}{1-r_s/r_{\\rm obs}}}"
 					],
 					"readings": [
 						{
@@ -365,23 +457,95 @@
 						}
 					],
 					"demoIdeas": [
+						"Redshift ladder: sliders for emitter and receiver radii in units of r_s, showing the clock-rate factor sqrt(1 - r_s/r) at each and the resulting frequency shift of a light signal."
+					]
+				},
+				{
+					"id": "s3-l010-effective-potential-schwarzschild-orbits",
+					"title": "Conserved quantities and the effective potential for Schwarzschild orbits",
+					"minutes": 40,
+					"objectives": [
+						"Derive the radial equation (dr/dtau)^2 + V_eff(r) = E^2 from the conserved energy and angular momentum and the normalization of the four-velocity.",
+						"Derive the effective potential V_eff = (1 - r_s/r)(1 + L^2/(m^2 c^2 r^2)) and compare it with the Newtonian one, identifying the new attractive term -r_s L^2/(m^2 c^2 r^3)."
+					],
+					"keyEquations": [
+						"V_{\\rm eff}(r) = \\left(1-\\frac{r_s}{r}\\right)\\left(1+\\frac{L^2}{m^2c^2r^2}\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§9.1",
+							"title": "Schwarzschild Geometry"
+						},
+						{
+							"bookId": "carroll-gr-notes",
+							"ref": "Ch. 5",
+							"title": "The Schwarzschild Solution"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford / Susskind: General Relativity (Theoretical Minimum, 2012)",
+							"title": "Lecture 5: Metric for a gravitational field",
+							"url": "https://www.youtube.com/watch?v=quWN1V9jOf0"
+						}
+					],
+					"demoIdeas": [
 						"Effective-potential plotter for Schwarzschild with sliders for angular momentum and energy, marking circular orbits and the ISCO."
 					]
 				},
 				{
-					"id": "s3-l006-orbits-perihelion",
-					"title": "Orbits and the precession of the perihelion",
-					"minutes": 90,
+					"id": "s3-l011-circular-orbits-isco-photon-sphere",
+					"title": "Circular orbits, the ISCO, the photon sphere, and accretion efficiency",
+					"minutes": 40,
 					"objectives": [
 						"Reduce the radial equation of motion for massive particles to (dr/dtau)^2 + V_eff = E^2 and classify bound, unbound, and plunging orbits.",
 						"Locate circular orbits, the innermost stable circular orbit at r = 6GM/c^2, and the photon sphere at r = 3GM/c^2.",
-						"Derive the perihelion advance Delta phi = 6 pi G M / (c^2 a (1 - e^2)) per orbit by perturbation of the Newtonian orbit and compute about 43 arcseconds per century for Mercury.",
 						"Compute the binding energy released at the ISCO and relate it to accretion efficiency (about 5.7%)."
 					],
 					"keyEquations": [
-						"\\Delta\\varphi = \\frac{6\\pi GM}{c^2a(1-e^2)}",
 						"r_{\\rm ISCO} = \\frac{6GM}{c^2}",
 						"r_{\\rm ph} = \\frac{3GM}{c^2}"
+					],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§9.3",
+							"title": "Particle Orbits—Precession of the Perihelion"
+						},
+						{
+							"bookId": "carroll-gr-notes",
+							"ref": "Ch. 5",
+							"title": "The Schwarzschild Solution",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 23: Black Holes II",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-23-black-holes-ii/"
+						},
+						{
+							"source": "Stanford / Susskind: General Relativity (Theoretical Minimum, 2012)",
+							"title": "Lecture 6: Black holes",
+							"url": "https://www.youtube.com/watch?v=yv2-KPagCQs"
+						}
+					],
+					"demoIdeas": [
+						"Orbit-type map: slide the radius from 1.5 r_s outward and color circular orbits as stable, unstable, or absent, marking the photon sphere at 3GM/c^2 and the ISCO at 6GM/c^2."
+					]
+				},
+				{
+					"id": "s3-l012-perihelion-precession-mercury",
+					"title": "Perihelion precession and Mercury's 43 arcseconds",
+					"minutes": 40,
+					"objectives": [
+						"Explain why the Newtonian inverse-square law gives closed orbits and how a small 1/r^3 correction to the orbit equation makes the ellipse rotate.",
+						"Derive the perihelion advance Delta phi = 6 pi G M / (c^2 a (1 - e^2)) per orbit by perturbation of the Newtonian orbit and compute about 43 arcseconds per century for Mercury."
+					],
+					"keyEquations": [
+						"\\Delta\\varphi = \\frac{6\\pi GM}{c^2a(1-e^2)}"
 					],
 					"readings": [
 						{
@@ -401,16 +565,6 @@
 							"source": "Alexander Maloney (McGill): General Relativity",
 							"title": "Lecture 18: Tests of GR. Precession of the Perihelion of Mercury",
 							"url": "https://www.youtube.com/watch?v=0HF-g39VU1A"
-						},
-						{
-							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 23: Black Holes II",
-							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-23-black-holes-ii/"
-						},
-						{
-							"source": "Stanford / Susskind: General Relativity (Theoretical Minimum, 2012)",
-							"title": "Lecture 6: Black holes",
-							"url": "https://www.youtube.com/watch?v=yv2-KPagCQs"
 						}
 					],
 					"demoIdeas": [
@@ -418,25 +572,46 @@
 					]
 				},
 				{
-					"id": "s3-l007-light-bending-solar-system-tests",
-					"title": "Light bending, time delay, and solar-system tests",
-					"minutes": 90,
+					"id": "s3-l013-light-deflection-shapiro-delay",
+					"title": "Light deflection and the Shapiro time delay",
+					"minutes": 40,
 					"objectives": [
 						"Derive the deflection of light by a mass, Delta phi = 4GM/(c^2 b), and compute 1.75 arcseconds for starlight grazing the Sun.",
-						"Compute the Shapiro time delay for a radar signal passing near the Sun.",
-						"Define the PPN parameters beta and gamma and map each classical test (redshift, perihelion, deflection, delay) onto them.",
-						"Compute the Einstein-ring angle theta_E for a point-mass lens and describe observable lensing effects."
+						"Compute the Shapiro time delay for a radar signal passing near the Sun."
 					],
 					"keyEquations": [
-						"\\Delta\\phi = \\frac{4GM}{c^2b}",
-						"\\theta_E = \\sqrt{\\frac{4GM}{c^2}\\frac{D_{LS}}{D_LD_S}}"
+						"\\Delta\\phi = \\frac{4GM}{c^2b}"
 					],
 					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§9.4",
 							"title": "Light Ray Orbits—The Deflection and Time Delay of Light"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
+							"title": "Lecture 10: Tests of Relativity",
+							"url": "https://oyc.yale.edu/astronomy/astr-160/lecture-10"
+						}
+					],
+					"demoIdeas": [
+						"Light-ray tracer: slider for impact parameter b past a point mass, plotting the deflection angle 4GM/(c^2 b) and the extra round-trip delay as the ray approaches the limb."
+					]
+				},
+				{
+					"id": "s3-l014-ppn-parameters-gravitational-lensing",
+					"title": "PPN parameters and gravitational lensing",
+					"minutes": 40,
+					"objectives": [
+						"Define the PPN parameters beta and gamma and map each classical test (redshift, perihelion, deflection, delay) onto them.",
+						"Compute the Einstein-ring angle theta_E for a point-mass lens and describe observable lensing effects."
+					],
+					"keyEquations": [
+						"\\theta_E = \\sqrt{\\frac{4GM}{c^2}\\frac{D_{LS}}{D_LD_S}}"
+					],
+					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§10.2",
@@ -479,15 +654,13 @@
 			"summary": "The Schwarzschild horizon, collapse, Kruskal extension, astrophysical black holes, Hawking radiation, and the Kerr geometry.",
 			"lessons": [
 				{
-					"id": "s3-l008-schwarzschild-black-hole-horizon",
-					"title": "The Schwarzschild black hole and its horizon",
-					"minutes": 100,
+					"id": "s3-l015-coordinate-singularity-infall-event-horizon",
+					"title": "Coordinate singularities, radial infall, and the event horizon",
+					"minutes": 45,
 					"objectives": [
 						"Show that r = r_s is a coordinate singularity (finite curvature invariants) while r = 0 is a true singularity.",
 						"Compute the proper time for radial infall to the singularity (finite) and the coordinate time to the horizon (infinite).",
-						"Use Eddington-Finkelstein coordinates to show light cones tilt inward and define the event horizon.",
-						"Describe the Kruskal-Szekeres maximal extension and why the Einstein-Rosen bridge is not traversable.",
-						"Explain tidal stretching ('spaghettification') and compute its size for a given black-hole mass."
+						"Use Eddington-Finkelstein coordinates to show light cones tilt inward and define the event horizon."
 					],
 					"keyEquations": [
 						"ds^2 = -\\left(1-\\frac{r_s}{r}\\right)dv^2 + 2\\,dv\\,dr + r^2d\\Omega^2",
@@ -503,11 +676,6 @@
 							"bookId": "hartle",
 							"ref": "§12.2",
 							"title": "Collapse to a Black Hole"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§12.3",
-							"title": "Kruskal-Szekeres Coordinates"
 						},
 						{
 							"bookId": "carroll-gr-notes",
@@ -526,11 +694,6 @@
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
 							"title": "Lecture 22: Black Holes I",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-22-black-holes-i/"
-						},
-						{
-							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 23: Black Holes II",
-							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-23-black-holes-ii/"
 						}
 					],
 					"demoIdeas": [
@@ -538,19 +701,50 @@
 					]
 				},
 				{
-					"id": "s3-l009-astrophysical-black-holes-hawking",
-					"title": "Astrophysical black holes and Hawking radiation",
-					"minutes": 90,
+					"id": "s3-l016-kruskal-extension-tidal-forces",
+					"title": "Kruskal extension and tidal forces near black holes",
+					"minutes": 40,
 					"objectives": [
-						"Summarize the evidence for stellar-mass black holes in X-ray binaries and a supermassive black hole at the Galactic center.",
-						"Derive or quote the Hawking temperature T_H = hbar c^3 / (8 pi G M k_B) and compute it for a solar-mass hole (about 60 nK).",
-						"State the Bekenstein-Hawking entropy S = k_B c^3 A / (4 G hbar) and the four laws of black-hole mechanics as an analogy with thermodynamics, and explain why area-scaling entropy is a puzzle for statistical mechanics.",
-						"Estimate the evaporation time of a black hole as proportional to M^3."
+						"Describe the Kruskal-Szekeres maximal extension and why the Einstein-Rosen bridge is not traversable.",
+						"Explain tidal stretching ('spaghettification') and compute its size for a given black-hole mass."
 					],
 					"keyEquations": [
-						"T_H = \\frac{\\hbar c^3}{8\\pi G M k_B}",
-						"S_{BH} = \\frac{k_Bc^3A}{4G\\hbar}",
-						"t_{\\rm evap}\\propto M^3"
+						"\\Delta a \\approx \\frac{2GM\\,L}{r^3}"
+					],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§12.3",
+							"title": "Kruskal-Szekeres Coordinates"
+						},
+						{
+							"bookId": "carroll-gr-notes",
+							"ref": "Ch. 5",
+							"title": "The Schwarzschild Solution",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 23: Black Holes II",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-23-black-holes-ii/"
+						}
+					],
+					"demoIdeas": [
+						"Tidal-stretch meter: sliders for black-hole mass (1 to 10^9 solar masses) and astronaut height, showing the head-to-feet acceleration difference at the horizon and the radius at which it becomes lethal."
+					]
+				},
+				{
+					"id": "s3-l017-black-hole-evidence-hawking-temperature",
+					"title": "Evidence for black holes and the Hawking temperature",
+					"minutes": 40,
+					"objectives": [
+						"Summarize the evidence for stellar-mass black holes in X-ray binaries and a supermassive black hole at the Galactic center.",
+						"Derive or quote the Hawking temperature T_H = hbar c^3 / (8 pi G M k_B) and compute it for a solar-mass hole (about 62 nK)."
+					],
+					"keyEquations": [
+						"T_H = \\frac{\\hbar c^3}{8\\pi G M k_B}"
 					],
 					"readings": [
 						{
@@ -562,11 +756,6 @@
 							"bookId": "hartle",
 							"ref": "§13.2",
 							"title": "Black Holes in Galaxy Centers"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§13.3",
-							"title": "Quantum Evaporation of Black Holes—Hawking Radiation"
 						}
 					],
 					"lectures": [
@@ -587,18 +776,40 @@
 						}
 					],
 					"demoIdeas": [
+						"Orbit-fit viewer: slide the central mass and watch Keplerian orbits of S-stars change, then compare the fitted mass with the Hawking temperature versus mass curve and the 2.7 K CMB line."
+					]
+				},
+				{
+					"id": "s3-l018-black-hole-entropy-evaporation",
+					"title": "Black-hole entropy, the laws of black-hole mechanics, and evaporation",
+					"minutes": 40,
+					"objectives": [
+						"State the Bekenstein-Hawking entropy S = k_B c^3 A / (4 G hbar) and the four laws of black-hole mechanics as an analogy with thermodynamics, and explain why area-scaling entropy is a puzzle for statistical mechanics.",
+						"Estimate the evaporation time of a black hole as proportional to M^3."
+					],
+					"keyEquations": [
+						"S_{BH} = \\frac{k_Bc^3A}{4G\\hbar}",
+						"t_{\\rm evap}\\propto M^3"
+					],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§13.3",
+							"title": "Quantum Evaporation of Black Holes—Hawking Radiation"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
 						"Black-hole thermodynamics calculator: enter a mass to get r_s, T_H, entropy in units of k_B, and evaporation time."
 					]
 				},
 				{
-					"id": "s3-l010-rotation-kerr",
-					"title": "Rotation, frame dragging, and the Kerr geometry",
-					"minutes": 90,
+					"id": "s3-l019-frame-dragging-kerr-horizons",
+					"title": "Frame dragging and the horizons of the Kerr geometry",
+					"minutes": 40,
 					"objectives": [
 						"Explain frame dragging (Lense-Thirring) and what Gravity Probe B and LAGEOS measure.",
-						"Locate the outer and inner horizons of the Kerr metric r_pm = (GM/c^2)(1 +- sqrt(1 - a_*^2)) and the static limit of the ergosphere.",
-						"Describe the Penrose process for extracting rotational energy and cosmic censorship.",
-						"Explain how spin shifts the ISCO inward and raises accretion efficiency."
+						"Locate the outer and inner horizons of the Kerr metric r_pm = (GM/c^2)(1 +- sqrt(1 - a_*^2)) and the static limit of the ergosphere."
 					],
 					"keyEquations": [
 						"r_\\pm = \\frac{GM}{c^2}\\left(1\\pm\\sqrt{1-a_*^2}\\right),\\quad a_*=\\frac{cJ}{GM^2}"
@@ -617,11 +828,6 @@
 						},
 						{
 							"bookId": "hartle",
-							"ref": "§15.1",
-							"title": "Cosmic Censorship"
-						},
-						{
-							"bookId": "hartle",
 							"ref": "§15.2",
 							"title": "The Kerr Geometry"
 						},
@@ -629,6 +835,38 @@
 							"bookId": "hartle",
 							"ref": "§15.3",
 							"title": "The Horizon of a Rotating Black Hole"
+						},
+						{
+							"bookId": "hartle",
+							"ref": "§15.5",
+							"title": "The Ergosphere"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
+							"title": "Update 2: Do Black Holes Spin? (frame dragging and horizons)",
+							"url": "https://oyc.yale.edu/astronomy/astr-160/update-2"
+						}
+					],
+					"demoIdeas": [
+						"Kerr horizon and ergosphere cross-section with a spin slider a_* from 0 to 1 and a plot of ISCO radius versus spin."
+					]
+				},
+				{
+					"id": "s3-l020-penrose-process-spin-accretion",
+					"title": "The Penrose process, cosmic censorship, and spin-dependent accretion",
+					"minutes": 40,
+					"objectives": [
+						"Describe the Penrose process for extracting rotational energy and cosmic censorship.",
+						"Explain how spin shifts the ISCO inward and raises accretion efficiency."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§15.1",
+							"title": "Cosmic Censorship"
 						},
 						{
 							"bookId": "hartle",
@@ -645,12 +883,12 @@
 					"lectures": [
 						{
 							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
-							"title": "Update 2: Do Black Holes Spin?",
+							"title": "Update 2: Do Black Holes Spin? (spin and accretion)",
 							"url": "https://oyc.yale.edu/astronomy/astr-160/update-2"
 						}
 					],
 					"demoIdeas": [
-						"Kerr horizon and ergosphere cross-section with a spin slider a_* from 0 to 1 and a plot of ISCO radius versus spin."
+						"Penrose splitter: slide the spin a_* and the splitting radius inside the ergosphere, showing the negative-energy fragment, the energy gained by the escaping fragment, and the efficiency limit."
 					]
 				}
 			]
@@ -661,30 +899,22 @@
 			"summary": "Gravitational waves as ripples of spacetime curvature: what they do to matter, how interferometers detect them, and the evidence from binary pulsars and LIGO.",
 			"lessons": [
 				{
-					"id": "s3-l011-gravitational-waves-polarization",
-					"title": "Gravitational waves and polarization",
-					"minutes": 90,
+					"id": "s3-l021-linearized-waves-polarizations-speed",
+					"title": "Weak-field waves, polarizations, and the speed of gravity",
+					"minutes": 40,
 					"objectives": [
 						"Write a weak-field metric g = eta + h and explain why a plane gravitational wave in transverse-traceless gauge has two polarizations, plus and cross.",
-						"Compute the motion of a ring of free test masses under plus and cross polarized waves and sketch it over one period.",
-						"Define the strain h = Delta L / L and estimate its size at Earth for a binary merger (about 10^-21).",
 						"Explain why the wave travels at the speed of light and is a spin-2 field."
 					],
 					"keyEquations": [
 						"g_{\\mu\\nu}=\\eta_{\\mu\\nu}+h_{\\mu\\nu}",
-						"\\Box h_{\\mu\\nu}=0",
-						"\\frac{\\delta L}{L} = \\tfrac12 h"
+						"\\Box h_{\\mu\\nu}=0"
 					],
 					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§16.1",
 							"title": "A Linearized Gravitational Wave"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§16.2",
-							"title": "Detecting Gravitational Waves"
 						},
 						{
 							"bookId": "hartle",
@@ -701,7 +931,41 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 16: Gravitational Radiation I",
+							"title": "Lecture 16: Gravitational Radiation I (wave equation and polarizations)",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-16-gravitational-radiation-i/"
+						}
+					],
+					"demoIdeas": [
+						"Plane-wave tensor builder: pick the propagation direction and amplitudes of the plus and cross components of h_ij and see which symmetric traceless tensors survive, with the polarization pattern drawn on a ring of test masses."
+					]
+				},
+				{
+					"id": "s3-l022-test-mass-motion-strain",
+					"title": "How waves move free test masses: the strain",
+					"minutes": 40,
+					"objectives": [
+						"Compute the motion of a ring of free test masses under plus and cross polarized waves and sketch it over one period.",
+						"Define the strain h = Delta L / L and estimate its size at Earth for a binary merger (about 10^-21)."
+					],
+					"keyEquations": [
+						"\\frac{\\delta L}{L} = \\tfrac12 h"
+					],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§16.2",
+							"title": "Detecting Gravitational Waves"
+						},
+						{
+							"bookId": "hartle",
+							"ref": "§16.3",
+							"title": "Gravitational Wave Polarization"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 16: Gravitational Radiation I (effect on test masses)",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-16-gravitational-radiation-i/"
 						},
 						{
@@ -715,18 +979,14 @@
 					]
 				},
 				{
-					"id": "s3-l012-detecting-gravitational-waves-ligo",
-					"title": "Detecting gravitational waves: interferometers and chirps",
-					"minutes": 90,
+					"id": "s3-l023-interferometers-strain-gw-energy-flux",
+					"title": "Interferometer response and the energy carried by gravitational waves",
+					"minutes": 40,
 					"objectives": [
-						"Explain how a Michelson interferometer responds to strain and compute the arm-length change (about 4 x 10^-19 m for 4 km arms at h = 10^-21).",
-						"Compute the energy flux carried by a gravitational wave and relate it to strain amplitude and frequency.",
-						"Use the Hulse-Taylor binary pulsar's orbital decay as indirect evidence for gravitational radiation.",
-						"Extract the chirp mass from the frequency and its rate of change of an inspiral signal."
+						"Explain how a Michelson interferometer responds to strain and compute the arm-length change (delta L = hL/2, about 2 x 10^-18 m for 4 km arms at h = 10^-21).",
+						"Compute the energy flux carried by a gravitational wave and relate it to strain amplitude and frequency."
 					],
 					"keyEquations": [
-						"\\mathcal M = \\frac{(m_1m_2)^{3/5}}{(m_1+m_2)^{1/5}}",
-						"\\dot f = \\frac{96}{5}\\pi^{8/3}\\left(\\frac{G\\mathcal M}{c^3}\\right)^{5/3}f^{11/3}",
 						"F = \\frac{c^3}{32\\pi G}\\left\\langle\\dot h_{ij}\\dot h_{ij}\\right\\rangle"
 					],
 					"readings": [
@@ -739,7 +999,37 @@
 							"bookId": "hartle",
 							"ref": "§16.5",
 							"title": "The Energy in Gravitational Waves"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 17: Gravitational Radiation II (interferometers and energy)",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-17-gravitational-radiation-ii/"
 						},
+						{
+							"source": "Open Yale Courses ASTR 160 Frontiers and Controversies in Astrophysics (Bailyn, 2007)",
+							"title": "Lecture 26: LIGO and Observing of Gravitational Waves",
+							"url": "https://oyc.yale.edu/node/1856"
+						}
+					],
+					"demoIdeas": [
+						"Michelson response simulator: sliders for strain amplitude, frequency, and arm length, plotting the arm-length change and the output interference fringe shift over time."
+					]
+				},
+				{
+					"id": "s3-l024-binary-inspiral-chirp-mass-pulsar",
+					"title": "Binary inspirals, the chirp mass, and the Hulse-Taylor pulsar",
+					"minutes": 40,
+					"objectives": [
+						"Use the Hulse-Taylor binary pulsar's orbital decay as indirect evidence for gravitational radiation.",
+						"Extract the chirp mass from the frequency and its rate of change of an inspiral signal."
+					],
+					"keyEquations": [
+						"\\mathcal M = \\frac{(m_1m_2)^{3/5}}{(m_1+m_2)^{1/5}}",
+						"\\dot f = \\frac{96}{5}\\pi^{8/3}\\left(\\frac{G\\mathcal M}{c^3}\\right)^{5/3}f^{11/3}"
+					],
+					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§11.3",
@@ -749,7 +1039,7 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 17: Gravitational Radiation II",
+							"title": "Lecture 17: Gravitational Radiation II (inspiral signals)",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-17-gravitational-radiation-ii/"
 						},
 						{
@@ -771,19 +1061,16 @@
 			"grad": true,
 			"lessons": [
 				{
-					"id": "s3-l013-tensors-index-notation",
-					"title": "Tensors and index notation",
-					"minutes": 90,
+					"id": "s3-l025-vectors-dual-vectors-tensor-transformations",
+					"title": "Vectors, dual vectors, and tensor transformation laws",
+					"minutes": 40,
 					"objectives": [
 						"Define vectors as tangent vectors to curves and dual vectors as linear maps, and write their transformation laws under coordinate changes.",
-						"Construct and transform (m,n) tensors, and test whether a given set of components transforms as a tensor.",
-						"Raise and lower indices with the metric and form scalars by contraction.",
-						"Show that the partial derivative of a vector field is not a tensor."
+						"Construct and transform (m,n) tensors, and test whether a given set of components transforms as a tensor."
 					],
 					"keyEquations": [
 						"V'^\\mu = \\frac{\\partial x'^\\mu}{\\partial x^\\nu}V^\\nu",
-						"T'^{\\mu}{}_{\\nu} = \\frac{\\partial x'^\\mu}{\\partial x^\\alpha}\\frac{\\partial x^\\beta}{\\partial x'^\\nu}T^\\alpha{}_\\beta",
-						"V_\\mu = g_{\\mu\\nu}V^\\nu"
+						"T'^{\\mu}{}_{\\nu} = \\frac{\\partial x'^\\mu}{\\partial x^\\alpha}\\frac{\\partial x^\\beta}{\\partial x'^\\nu}T^\\alpha{}_\\beta"
 					],
 					"readings": [
 						{
@@ -820,23 +1107,54 @@
 						}
 					],
 					"demoIdeas": [
+						"Basis-change visualizer: rotate or shear the coordinate basis with sliders and see a vector's components change contravariantly and a covector's components change covariantly while their contraction stays fixed."
+					]
+				},
+				{
+					"id": "s3-l026-index-gymnastics-metric-non-tensors",
+					"title": "Index gymnastics, the metric, and why partial derivatives fail",
+					"minutes": 40,
+					"objectives": [
+						"Raise and lower indices with the metric and form scalars by contraction.",
+						"Show that the partial derivative of a vector field is not a tensor."
+					],
+					"keyEquations": [
+						"V_\\mu = g_{\\mu\\nu}V^\\nu"
+					],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§20.3",
+							"title": "Tensors"
+						},
+						{
+							"bookId": "carroll-gr-notes",
+							"ref": "Ch. 2",
+							"title": "Manifolds"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 3: Tensors Continued (index gymnastics and contraction)",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-3-tensors-continued/"
+						}
+					],
+					"demoIdeas": [
 						"Index-gymnastics drill: random tensor expressions to contract, with checks for free versus dummy indices."
 					]
 				},
 				{
-					"id": "s3-l014-covariant-derivative-parallel-transport",
-					"title": "The covariant derivative and parallel transport",
-					"minutes": 90,
+					"id": "s3-l027-covariant-derivative-christoffel-formula",
+					"title": "The covariant derivative and the Christoffel formula",
+					"minutes": 40,
 					"objectives": [
 						"Define the covariant derivative nabla_mu V^nu = partial_mu V^nu + Gamma^nu_{mu lambda} V^lambda and show how Gamma transforms.",
-						"Derive the Christoffel formula from metric compatibility and the absence of torsion.",
-						"Parallel transport a vector around a closed loop on a sphere and compute the rotation angle.",
-						"Show that geodesics are curves that parallel transport their own tangent."
+						"Derive the Christoffel formula from metric compatibility and the absence of torsion."
 					],
 					"keyEquations": [
 						"\\nabla_\\mu V^\\nu = \\partial_\\mu V^\\nu + \\Gamma^\\nu{}_{\\mu\\lambda}V^\\lambda",
-						"\\nabla_\\lambda g_{\\mu\\nu} = 0",
-						"\\frac{DV^\\mu}{d\\lambda} = \\frac{dx^\\nu}{d\\lambda}\\nabla_\\nu V^\\mu = 0"
+						"\\nabla_\\lambda g_{\\mu\\nu} = 0"
 					],
 					"readings": [
 						{
@@ -844,6 +1162,35 @@
 							"ref": "§20.4",
 							"title": "The Covariant Derivative"
 						},
+						{
+							"bookId": "carroll-gr-notes",
+							"ref": "Ch. 3",
+							"title": "Curvature"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 5: The Stress Energy Tensor and the Christoffel Symbol",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-5-the-stress-energy-tensor-and-the-christoffel-symbol/"
+						}
+					],
+					"demoIdeas": [
+						"Polar-coordinate derivative demo: a vector field drawn on the plane in Cartesian and polar bases, showing the partial-derivative components alongside the Christoffel corrections that make the covariant derivative vanish for a constant field."
+					]
+				},
+				{
+					"id": "s3-l028-parallel-transport-holonomy-geodesics",
+					"title": "Parallel transport, holonomy, and geodesics as straightest lines",
+					"minutes": 40,
+					"objectives": [
+						"Parallel transport a vector around a closed loop on a sphere and compute the rotation angle.",
+						"Show that geodesics are curves that parallel transport their own tangent."
+					],
+					"keyEquations": [
+						"\\frac{DV^\\mu}{d\\lambda} = \\frac{dx^\\nu}{d\\lambda}\\nabla_\\nu V^\\mu = 0"
+					],
+					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§20.5",
@@ -858,11 +1205,6 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 5: The Stress Energy Tensor and the Christoffel Symbol",
-							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-5-the-stress-energy-tensor-and-the-christoffel-symbol/"
-						},
-						{
-							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
 							"title": "Lecture 7: The Principle of Equivalence Continued; Parallel Transport",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-7-the-principle-of-equivalence-continued-parallel-transport/"
 						}
@@ -872,17 +1214,14 @@
 					]
 				},
 				{
-					"id": "s3-l015-riemann-curvature-geodesic-deviation",
-					"title": "Riemann curvature and geodesic deviation",
-					"minutes": 100,
+					"id": "s3-l029-tidal-forces-geodesic-deviation",
+					"title": "Tidal forces and the equation of geodesic deviation",
+					"minutes": 40,
 					"objectives": [
 						"Derive the geodesic deviation equation and identify the tidal tensor with the Riemann tensor.",
-						"Define the Riemann tensor through the commutator of covariant derivatives and compute its components for the 2-sphere.",
-						"List the symmetries of the Riemann tensor and count its 20 independent components in four dimensions.",
 						"Relate the Riemann tensor in the Newtonian limit to the tidal tensor partial_i partial_j Phi."
 					],
 					"keyEquations": [
-						"R^\\rho{}_{\\sigma\\mu\\nu} = \\partial_\\mu\\Gamma^\\rho{}_{\\nu\\sigma}-\\partial_\\nu\\Gamma^\\rho{}_{\\mu\\sigma}+\\Gamma^\\rho{}_{\\mu\\lambda}\\Gamma^\\lambda{}_{\\nu\\sigma}-\\Gamma^\\rho{}_{\\nu\\lambda}\\Gamma^\\lambda{}_{\\mu\\sigma}",
 						"\\frac{D^2\\xi^\\mu}{d\\tau^2} = -R^\\mu{}_{\\nu\\rho\\sigma}u^\\nu\\xi^\\rho u^\\sigma"
 					],
 					"readings": [
@@ -895,7 +1234,31 @@
 							"bookId": "hartle",
 							"ref": "§21.2",
 							"title": "Equation of Geodesic Deviation"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 10: Spacetime Curvature",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-10-spacetime-curvature/"
+						}
+					],
+					"demoIdeas": [
+						"Two nearby geodesics on a sphere or saddle showing relative acceleration, with a readout of the sectional curvature."
+					]
+				},
+				{
+					"id": "s3-l030-riemann-tensor-definition-symmetries",
+					"title": "The Riemann tensor: definition, components, and symmetries",
+					"minutes": 40,
+					"objectives": [
+						"Define the Riemann tensor through the commutator of covariant derivatives and compute its components for the 2-sphere.",
+						"List the symmetries of the Riemann tensor and count its 20 independent components in four dimensions."
+					],
+					"keyEquations": [
+						"R^\\rho{}_{\\sigma\\mu\\nu} = \\partial_\\mu\\Gamma^\\rho{}_{\\nu\\sigma}-\\partial_\\nu\\Gamma^\\rho{}_{\\mu\\sigma}+\\Gamma^\\rho{}_{\\mu\\lambda}\\Gamma^\\lambda{}_{\\nu\\sigma}-\\Gamma^\\rho{}_{\\nu\\lambda}\\Gamma^\\lambda{}_{\\mu\\sigma}"
+					],
+					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§21.3",
@@ -910,33 +1273,24 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 10: Spacetime Curvature",
-							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-10-spacetime-curvature/"
-						},
-						{
-							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
 							"title": "Lecture 11: More on Spacetime Curvature",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-11-more-on-spacetime-curvature/"
 						}
 					],
 					"demoIdeas": [
-						"Two nearby geodesics on a sphere or saddle showing relative acceleration, with a readout of the sectional curvature."
+						"Commutator loop: transport a vector around a small rectangle on a sphere with sliders for the loop's size and latitude, displaying the rotation angle and its match to R times the enclosed area."
 					]
 				},
 				{
-					"id": "s3-l016-ricci-bianchi-einstein-tensor",
-					"title": "Ricci tensor, Bianchi identities, and the Einstein tensor",
-					"minutes": 90,
+					"id": "s3-l031-ricci-tensor-scalar-vacuum-curvature",
+					"title": "The Ricci tensor, Ricci scalar, and curvature in vacuum",
+					"minutes": 40,
 					"objectives": [
 						"Contract the Riemann tensor to obtain the Ricci tensor and Ricci scalar and compute them for the 2-sphere.",
-						"State the contracted Bianchi identity nabla_mu G^{mu nu} = 0 and explain its consequence.",
-						"Construct the Einstein tensor G = R - (1/2) R g and argue why it is the natural divergence-free tensor of second order in derivatives.",
 						"Explain why R_{mu nu} = 0 (vacuum) does not imply flat spacetime."
 					],
 					"keyEquations": [
-						"R_{\\mu\\nu} = R^\\lambda{}_{\\mu\\lambda\\nu}",
-						"G_{\\mu\\nu} = R_{\\mu\\nu}-\\tfrac12Rg_{\\mu\\nu}",
-						"\\nabla_\\mu G^{\\mu\\nu} = 0"
+						"R_{\\mu\\nu} = R^\\lambda{}_{\\mu\\lambda\\nu}"
 					],
 					"readings": [
 						{
@@ -944,6 +1298,36 @@
 							"ref": "§21.4",
 							"title": "The Einstein Equation in Vacuum"
 						},
+						{
+							"bookId": "carroll-gr-notes",
+							"ref": "Ch. 3",
+							"title": "Curvature"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 11: More on Spacetime Curvature",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-11-more-on-spacetime-curvature/"
+						}
+					],
+					"demoIdeas": [
+						"Curvature calculator: enter a metric and obtain Christoffels, Riemann, Ricci, and the Einstein tensor symbolically."
+					]
+				},
+				{
+					"id": "s3-l032-bianchi-identity-einstein-tensor",
+					"title": "The Bianchi identity and the Einstein tensor",
+					"minutes": 40,
+					"objectives": [
+						"State the contracted Bianchi identity nabla_mu G^{mu nu} = 0 and explain its consequence.",
+						"Construct the Einstein tensor G = R - (1/2) R g and argue why it is the natural divergence-free tensor of second order in derivatives."
+					],
+					"keyEquations": [
+						"G_{\\mu\\nu} = R_{\\mu\\nu}-\\tfrac12Rg_{\\mu\\nu}",
+						"\\nabla_\\mu G^{\\mu\\nu} = 0"
+					],
+					"readings": [
 						{
 							"bookId": "carroll-gr-notes",
 							"ref": "Ch. 3",
@@ -968,9 +1352,7 @@
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-12-the-einstein-field-equation/"
 						}
 					],
-					"demoIdeas": [
-						"Curvature calculator: enter a metric and obtain Christoffels, Riemann, Ricci, and the Einstein tensor symbolically."
-					]
+					"demoIdeas": []
 				}
 			]
 		},
@@ -981,17 +1363,14 @@
 			"grad": true,
 			"lessons": [
 				{
-					"id": "s3-l017-stress-energy-einstein-equation",
-					"title": "Stress-energy and the Einstein field equation",
-					"minutes": 100,
+					"id": "s3-l033-stress-energy-tensor-conservation",
+					"title": "The stress-energy tensor and its conservation",
+					"minutes": 40,
 					"objectives": [
 						"Write the stress-energy tensor for dust and a perfect fluid, and state energy-momentum conservation nabla_mu T^{mu nu} = 0.",
-						"State the Einstein field equation with the cosmological constant.",
-						"Derive the Newtonian limit, nabla^2 Phi = 4 pi G rho, from the 00 component of the field equation.",
 						"Compute components of T^{mu nu} in a fluid rest frame and in a boosted frame."
 					],
 					"keyEquations": [
-						"G_{\\mu\\nu}+\\Lambda g_{\\mu\\nu} = \\frac{8\\pi G}{c^4}T_{\\mu\\nu}",
 						"T^{\\mu\\nu} = \\left(\\rho+\\frac{p}{c^2}\\right)u^\\mu u^\\nu + p\\,g^{\\mu\\nu}",
 						"\\nabla_\\mu T^{\\mu\\nu}=0"
 					],
@@ -1005,7 +1384,36 @@
 							"bookId": "hartle",
 							"ref": "§22.2",
 							"title": "Conservation of Energy-Momentum"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 4: Volumes and Volume Elements; Conservation Laws",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-4-volumes-and-volume-elements-conservation-laws/"
 						},
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 5: The Stress Energy Tensor and the Christoffel Symbol",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-5-the-stress-energy-tensor-and-the-christoffel-symbol/"
+						}
+					],
+					"demoIdeas": [
+						"Stress-energy tensor visualizer: choose dust, radiation, or Lambda, boost the frame, and watch components mix."
+					]
+				},
+				{
+					"id": "s3-l034-einstein-field-equation-newtonian-limit",
+					"title": "The Einstein field equation and its Newtonian limit",
+					"minutes": 40,
+					"objectives": [
+						"State the Einstein field equation with the cosmological constant.",
+						"Derive the Newtonian limit, nabla^2 Phi = 4 pi G rho, from the 00 component of the field equation."
+					],
+					"keyEquations": [
+						"G_{\\mu\\nu}+\\Lambda g_{\\mu\\nu} = \\frac{8\\pi G}{c^4}T_{\\mu\\nu}"
+					],
+					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§22.3",
@@ -1025,16 +1433,6 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 4: Volumes and Volume Elements; Conservation Laws",
-							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-4-volumes-and-volume-elements-conservation-laws/"
-						},
-						{
-							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 5: The Stress Energy Tensor and the Christoffel Symbol",
-							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-5-the-stress-energy-tensor-and-the-christoffel-symbol/"
-						},
-						{
-							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
 							"title": "Lecture 12: The Einstein Field Equation",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-12-the-einstein-field-equation/"
 						},
@@ -1045,34 +1443,25 @@
 						}
 					],
 					"demoIdeas": [
-						"Stress-energy tensor visualizer: choose dust, radiation, or Lambda, boost the frame, and watch components mix."
+						"Poisson solver: draw a density profile and see the Newtonian potential and tidal tensor computed from the 00 component, with a toggle adding the weak-field metric g_00 = -(1+2Phi/c^2)."
 					]
 				},
 				{
-					"id": "s3-l018-spherical-symmetry-birkhoff",
-					"title": "Spherical symmetry, Schwarzschild from the field equations, and relativistic stars",
-					"minutes": 100,
+					"id": "s3-l035-schwarzschild-from-field-equations-birkhoff",
+					"title": "Schwarzschild from the field equations and Birkhoff's theorem",
+					"minutes": 40,
 					"objectives": [
 						"Derive the Schwarzschild metric by solving the vacuum Einstein equations for a static spherically symmetric ansatz.",
-						"State Birkhoff's theorem and explain why a pulsating spherical star does not radiate gravitational waves.",
-						"State the Tolman-Oppenheimer-Volkoff equation of hydrostatic equilibrium and compare it with the Newtonian version from S2.",
-						"State the Buchdahl bound (R > 9GM/4c^2) and explain what it implies for neutron stars."
+						"State Birkhoff's theorem and explain why a pulsating spherical star does not radiate gravitational waves."
 					],
 					"keyEquations": [
-						"ds^2 = -e^{2\\alpha(r)}c^2dt^2+e^{2\\beta(r)}dr^2+r^2d\\Omega^2",
-						"\\frac{dp}{dr} = -\\frac{G(\\rho+p/c^2)(m+4\\pi r^3p/c^2)}{r(r-2Gm/c^2)}"
+						"ds^2 = -e^{2\\alpha(r)}c^2dt^2+e^{2\\beta(r)}dr^2+r^2d\\Omega^2"
 					],
 					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§21.4",
 							"title": "The Einstein Equation in Vacuum"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§24.2",
-							"title": "Relativistic Hydrostatic Equilibrium",
-							"optional": true
 						},
 						{
 							"bookId": "carroll-gr-notes",
@@ -1085,7 +1474,32 @@
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
 							"title": "Lecture 20: Spherical Compact Sources I",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-20-spherical-compact-sources-i/"
-						},
+						}
+					],
+					"demoIdeas": [
+						"Pulsating-star exterior: slide the star's radial oscillation amplitude and frequency, showing the interior metric changing while the exterior Schwarzschild metric at a fixed radius stays constant."
+					]
+				},
+				{
+					"id": "s3-l036-tov-equation-buchdahl-bound",
+					"title": "Relativistic stars: the TOV equation and the Buchdahl bound",
+					"minutes": 40,
+					"objectives": [
+						"State the Tolman-Oppenheimer-Volkoff equation of hydrostatic equilibrium and compare it with the Newtonian version from S2.",
+						"State the Buchdahl bound (R > 9GM/4c^2) and explain what it implies for neutron stars."
+					],
+					"keyEquations": [
+						"\\frac{dp}{dr} = -\\frac{G(\\rho+p/c^2)(m+4\\pi r^3p/c^2)}{r(r-2Gm/c^2)}"
+					],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§24.2",
+							"title": "Relativistic Hydrostatic Equilibrium",
+							"optional": true
+						}
+					],
+					"lectures": [
 						{
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
 							"title": "Lecture 21: Spherical Compact Sources II",
@@ -1097,19 +1511,15 @@
 					]
 				},
 				{
-					"id": "s3-l019-linearized-gravity-wave-emission",
-					"title": "Linearized gravity and gravitational wave emission",
-					"minutes": 110,
+					"id": "s3-l037-linearized-einstein-equation-retarded-solution",
+					"title": "Linearized gravity and the retarded solution",
+					"minutes": 40,
 					"objectives": [
 						"Linearize the Einstein equation about flat spacetime and, in Lorenz gauge, obtain Box hbar_{mu nu} = -16 pi G T_{mu nu}/c^4.",
-						"Solve with the retarded Green's function (the same technique used for retarded potentials in electrodynamics) to obtain the radiation field of a source.",
-						"Derive the quadrupole formula for h_ij and the radiated power, and explain why there is no monopole or dipole gravitational radiation.",
-						"Apply it to a circular binary to get the orbital decay rate and the coalescence time."
+						"Solve with the retarded Green's function (the same technique used for retarded potentials in electrodynamics) to obtain the radiation field of a source."
 					],
 					"keyEquations": [
-						"\\Box\\bar h_{\\mu\\nu} = -\\frac{16\\pi G}{c^4}T_{\\mu\\nu}",
-						"h^{TT}_{ij} = \\frac{2G}{c^4r}\\ddot Q^{TT}_{ij}(t-r/c)",
-						"P = \\frac{G}{5c^5}\\left\\langle\\dddot Q_{ij}\\dddot Q_{ij}\\right\\rangle"
+						"\\Box\\bar h_{\\mu\\nu} = -\\frac{16\\pi G}{c^4}T_{\\mu\\nu}"
 					],
 					"readings": [
 						{
@@ -1126,12 +1536,83 @@
 							"bookId": "hartle",
 							"ref": "§23.2",
 							"title": "Solving the Wave Equation with a Source"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 14: Linearized Gravity I: Principles and Static Limit",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-14-linearized-gravity-i-principles-and-static-limit/"
 						},
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 15: Linearized Gravity II: Dynamic Sources (retarded solution part)",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-15-linearized-gravity-ii-dynamic-sources/"
+						}
+					],
+					"demoIdeas": [
+						"Retarded-field movie: a source of adjustable oscillation frequency and a ring of observers, showing the disturbance reaching each observer at t = r/c later and falling as 1/r."
+					]
+				},
+				{
+					"id": "s3-l038-quadrupole-formula-no-dipole-radiation",
+					"title": "The quadrupole formula and why gravity has no dipole radiation",
+					"minutes": 40,
+					"objectives": [
+						"Derive the quadrupole formula for h_ij and the radiated power from the retarded solution.",
+						"Explain why there is no monopole or dipole gravitational radiation (conservation of energy and momentum), so that the leading radiation is quadrupolar."
+					],
+					"keyEquations": [
+						"h^{TT}_{ij} = \\frac{2G}{c^4r}\\ddot Q^{TT}_{ij}(t-r/c)",
+						"P = \\frac{G}{5c^5}\\left\\langle\\dddot Q_{ij}\\dddot Q_{ij}\\right\\rangle"
+					],
+					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§23.4",
 							"title": "Production of Weak Gravitational Waves"
 						},
+						{
+							"bookId": "hartle",
+							"ref": "§23.6",
+							"title": "The Quadrupole Formula for the Energy Loss in Gravitational Waves"
+						},
+						{
+							"bookId": "carroll-gr-notes",
+							"ref": "Ch. 7",
+							"title": "Perturbation Theory and Gravitational Radiation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 15: Linearized Gravity II: Dynamic Sources (dynamic sources)",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-15-linearized-gravity-ii-dynamic-sources/"
+						},
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 16: Gravitational Radiation I",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-16-gravitational-radiation-i/"
+						}
+					],
+					"demoIdeas": [
+						"Radiating-source gallery: choose a spinning sphere, pulsating sphere, tumbling rod, or binary and see its quadrupole moment versus time and the resulting radiated power."
+					]
+				},
+				{
+					"id": "s3-l039-binary-inspiral-orbital-decay-coalescence",
+					"title": "Binary inspiral: orbital decay and time to coalescence",
+					"minutes": 40,
+					"objectives": [
+						"Apply the quadrupole power formula to a circular binary to get the radiated power and the orbital decay rate da/dt.",
+						"Integrate the orbital decay to obtain the coalescence time and apply it to a Hulse-Taylor-like binary."
+					],
+					"keyEquations": [
+						"P = \\frac{G}{5c^5}\\left\\langle\\dddot Q_{ij}\\dddot Q_{ij}\\right\\rangle",
+						"t_{\\rm coal}=\\frac{5}{256}\\frac{c^5a^4}{G^3m_1m_2(m_1+m_2)}"
+					],
+					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§23.5",
@@ -1147,33 +1628,12 @@
 							"ref": "§23.7",
 							"title": "Effects of Gravitational Radiation Detected in a Binary Pulsar",
 							"optional": true
-						},
-						{
-							"bookId": "carroll-gr-notes",
-							"ref": "Ch. 7",
-							"title": "Perturbation Theory and Gravitational Radiation",
-							"optional": true
 						}
 					],
 					"lectures": [
 						{
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 14: Linearized Gravity I: Principles and Static Limit",
-							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-14-linearized-gravity-i-principles-and-static-limit/"
-						},
-						{
-							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 15: Linearized Gravity II: Dynamic Sources",
-							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-15-linearized-gravity-ii-dynamic-sources/"
-						},
-						{
-							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 16: Gravitational Radiation I",
-							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-16-gravitational-radiation-i/"
-						},
-						{
-							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 17: Gravitational Radiation II",
+							"title": "Lecture 17: Gravitational Radiation II (binary inspirals)",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-17-gravitational-radiation-ii/"
 						}
 					],
@@ -1189,14 +1649,13 @@
 			"summary": "Applying the Einstein equation to a homogeneous and isotropic universe: FRW metric, the Friedmann equations, and the standard model of cosmology.",
 			"lessons": [
 				{
-					"id": "s3-l020-frw-friedmann-from-einstein",
-					"title": "The FRW metric and the Friedmann equations from GR",
-					"minutes": 100,
+					"id": "s3-l040-frw-metric-friedmann-equations",
+					"title": "The FRW metric and the Friedmann equations",
+					"minutes": 45,
 					"objectives": [
 						"Write the FRW metric from the symmetry assumptions of homogeneity and isotropy.",
 						"Derive the Friedmann and acceleration equations from the 00 and ii components of the Einstein equation with a perfect fluid.",
-						"Show consistency with the Newtonian derivation of S2 and identify what GR adds (the meaning of k and pressure as a source).",
-						"Solve for a(t) in flat matter-, radiation-, and Lambda-dominated universes."
+						"Show consistency with the Newtonian derivation of S2 and identify what GR adds (the meaning of k and pressure as a source)."
 					],
 					"keyEquations": [
 						"H^2 = \\frac{8\\pi G}{3}\\rho - \\frac{kc^2}{a^2}+\\frac{\\Lambda c^2}{3}",
@@ -1212,21 +1671,6 @@
 							"bookId": "hartle",
 							"ref": "§18.2",
 							"title": "The Cosmological Redshift"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§18.3",
-							"title": "Matter, Radiation, and Vacuum"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§18.4",
-							"title": "Evolution of the Flat FRW Models"
-						},
-						{
-							"bookId": "hartle",
-							"ref": "§18.7",
-							"title": "Dynamics of the Universe"
 						},
 						{
 							"bookId": "carroll-gr-notes",
@@ -1247,18 +1691,56 @@
 						}
 					],
 					"demoIdeas": [
+						"Friedmann sandbox: sliders for Omega_m, Omega_r, Omega_Lambda, and curvature k, plotting H(a) and the acceleration, and flagging when the expansion switches from decelerating to accelerating."
+					]
+				},
+				{
+					"id": "s3-l041-scale-factor-solutions-matter-radiation-lambda",
+					"title": "How densities dilute and the scale factor evolves",
+					"minutes": 40,
+					"objectives": [
+						"Show how the energy densities of matter, radiation, and a cosmological constant dilute with the scale factor (rho_m ~ a^-3, rho_r ~ a^-4, rho_Lambda constant) using the fluid equation.",
+						"Solve for a(t) in flat matter-, radiation-, and Lambda-dominated universes."
+					],
+					"keyEquations": [
+						"\\rho_m\\propto a^{-3},\\quad\\rho_r\\propto a^{-4},\\quad\\rho_\\Lambda=\\text{const}",
+						"a\\propto t^{2/3}\\ (\\text{matter}),\\quad a\\propto t^{1/2}\\ (\\text{radiation}),\\quad a\\propto e^{Ht}\\ (\\Lambda)"
+					],
+					"readings": [
+						{
+							"bookId": "hartle",
+							"ref": "§18.3",
+							"title": "Matter, Radiation, and Vacuum"
+						},
+						{
+							"bookId": "hartle",
+							"ref": "§18.4",
+							"title": "Evolution of the Flat FRW Models"
+						},
+						{
+							"bookId": "hartle",
+							"ref": "§18.7",
+							"title": "Dynamics of the Universe"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 18: Cosmology I (evolution of a(t))",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-18-cosmology-i/"
+						}
+					],
+					"demoIdeas": [
 						"FRW solver comparing flat matter, radiation, and Lambda universes with a plot of a(t) and H(t)."
 					]
 				},
 				{
-					"id": "s3-l021-horizons-observations-lcdm",
-					"title": "Horizons, curved FRW models, and the observed universe",
-					"minutes": 90,
+					"id": "s3-l042-comoving-distance-horizons-curved-frw",
+					"title": "Comoving distance, horizons, and curved FRW models",
+					"minutes": 40,
 					"objectives": [
 						"Compute comoving distance and the particle horizon for a given expansion history.",
-						"Describe closed, flat, and open FRW models using the spatially curved Robertson-Walker metric.",
-						"Explain how observations (supernovae, CMB, galaxy surveys) select Lambda-CDM and name open problems (nature of dark energy, tension in H0).",
-						"Relate the GR cosmology of this course to the observational picture developed in S2."
+						"Describe closed, flat, and open FRW models using the spatially curved Robertson-Walker metric."
 					],
 					"keyEquations": [
 						"\\chi(z) = \\int_0^z\\frac{c\\,dz'}{H(z')}",
@@ -1274,7 +1756,29 @@
 							"bookId": "hartle",
 							"ref": "§18.6",
 							"title": "Spatially Curved Robertson-Walker Metrics"
-						},
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
+							"title": "Lecture 19: Cosmology II (geometry and horizons)",
+							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-19-cosmology-ii/"
+						}
+					],
+					"demoIdeas": [
+						"Conformal diagram of an expanding universe showing light cones, particle horizon, and event horizon for different matter content."
+					]
+				},
+				{
+					"id": "s3-l043-observational-cosmology-lcdm",
+					"title": "From observations to Lambda-CDM and its open problems",
+					"minutes": 40,
+					"objectives": [
+						"Explain how observations (supernovae, CMB, galaxy surveys) select Lambda-CDM and name open problems (nature of dark energy, tension in H0).",
+						"Relate the GR cosmology of this course to the observational picture developed in S2."
+					],
+					"keyEquations": [],
+					"readings": [
 						{
 							"bookId": "hartle",
 							"ref": "§19.1",
@@ -1295,12 +1799,12 @@
 					"lectures": [
 						{
 							"source": "MIT OCW 8.962 General Relativity (Hughes, Spring 2020)",
-							"title": "Lecture 19: Cosmology II",
+							"title": "Lecture 19: Cosmology II (observations and cosmology)",
 							"url": "https://ocw.mit.edu/courses/8-962-general-relativity-spring-2020/resources/lecture-19-cosmology-ii/"
 						}
 					],
 					"demoIdeas": [
-						"Conformal diagram of an expanding universe showing light cones, particle horizon, and event horizon for different matter content."
+						"Hubble-diagram fitter: sliders for Omega_m and Omega_Lambda overlaid on supernova distance-redshift data points, showing how the best fit prefers acceleration."
 					]
 				}
 			]

@@ -1,0 +1,2374 @@
+{
+	"id": "c2-spectroscopy-nmr",
+	"code": "C2",
+	"title": "Molecular Spectroscopy & NMR",
+	"track": "chemphys",
+	"depth": "core",
+	"hours": 45,
+	"prereqs": [
+		"p3-modern",
+		"p7-statmech"
+	],
+	"coreqs": [
+		"p6-quantum"
+	],
+	"subject": "Chemical Physics",
+	"summary": "The physics behind the spectra an organic chemist reads every day. Light–matter interaction (the dipole Hamiltonian, Fermi's golden rule, Einstein coefficients, symmetry selection rules, line shapes), rotational and vibrational spectroscopy (rotor and populations, normal modes from the Hessian, anharmonicity, IR versus Raman), and electronic spectroscopy (Born–Oppenheimer, Franck–Condon, Jablonski diagrams as rate physics) lead into the core of the course: magnetic resonance as spin dynamics. That covers the Zeeman Hamiltonian, the rotating frame, RF pulses as rotations, Bloch equations, the FID as a Fourier transform, shielding and J-coupling (weak and strong), the density operator and product operators, INEPT, 2D NMR as a two-time Fourier transform, and relaxation theory (spectral densities, BPP, NOE) grounded in statistical mechanics, with short closing lessons on MRI and EPR.",
+	"books": [
+		{
+			"bookId": "levitt-spin",
+			"role": "primary"
+		},
+		{
+			"bookId": "keeler-nmr",
+			"role": "primary"
+		},
+		{
+			"bookId": "bernath-spectra",
+			"role": "primary"
+		},
+		{
+			"bookId": "atkins-mqm",
+			"role": "secondary"
+		}
+	],
+	"units": [
+		{
+			"id": "c2-u01-light-matter",
+			"title": "Light–Matter Interaction and Line Shapes",
+			"summary": "How a molecule absorbs and emits: the dipole interaction, Fermi's golden rule, Einstein coefficients, symmetry selection rules, and why lines have a width (the Lorentzian is the Fourier transform of exponential decay, the same fact that gives the NMR linewidth).",
+			"lessons": [
+				{
+					"id": "c2-l001-spectroscopy-scales-populations",
+					"title": "Spectroscopy as Energy-Level Reading: Scales and Populations",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Convert between frequency, wavenumber, wavelength and molar energy (Hz, cm⁻¹, nm, kJ/mol) and place NMR, microwave rotation, IR vibration and UV–vis electronic transitions on one energy axis.",
+						"Compute the thermal population difference of a two-level transition from the Boltzmann factor, and explain why it sets sensitivity: NMR polarization is about 10⁻⁵ at room temperature while IR and UV transitions start almost entirely from the ground state.",
+						"Explain what the vertical axis of a spectrum measures (absorption rate versus frequency) and which question each regime answers about a molecule (rotation, bond stiffness, electronic structure, spin environment)."
+					],
+					"keyEquations": [
+						"E=h\\nu=hc\\tilde\\nu",
+						"\\frac{N_\\beta}{N_\\alpha}=e^{-\\Delta E/k_BT}",
+						"P=\\tanh\\frac{h\\nu}{2k_BT}\\approx\\frac{h\\nu}{2k_BT}"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 1",
+							"title": "Introduction"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§2.1",
+							"title": "NMR frequencies and chemical shifts",
+							"optional": true
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§11.3",
+							"title": "Thermal Equilibrium",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 Physical Chemistry (Fall 2017)",
+							"title": "Lecture 19: Spectroscopy: Probing Molecules with Light",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/spectroscopy-probing-molecules-with-light/"
+						}
+					],
+					"demoIdeas": [
+						"Log-frequency ruler from radio to UV: pick a transition type and a temperature, see ΔE/kT, the Boltzmann population bars and the net polarization; slide B0 from 1 T to 23 T and watch the NMR polarization (and the ¹H, ¹³C, ¹⁵N differences) change."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l002-dipole-hamiltonian-rabi",
+					"title": "The Semiclassical Dipole Hamiltonian and Rabi Oscillations",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write the semiclassical interaction H′(t) = −μ̂·E(t) for a molecule in a classical light field, state the electric-dipole approximation and when it fails (wavelength ≫ molecular size), and name the magnetic-dipole analogue −μ̂·B that drives NMR.",
+						"Solve the driven two-level problem in the rotating-wave approximation: give the Rabi frequency Ω = μ₁₂E₀/ħ and the detuned Rabi formula, and explain why population oscillates between the levels.",
+						"Explain why a strong coherent field produces oscillations (the NMR pulse regime) while a weak broadband field gives a steady rate (the next lesson)."
+					],
+					"keyEquations": [
+						"\\hat H'(t)=-\\hat{\\boldsymbol\\mu}\\cdot\\mathbf E_0\\cos\\omega t",
+						"\\Omega=\\frac{\\mu_{12}E_0}{\\hbar}",
+						"P_2(t)=\\frac{\\Omega^2}{\\Omega^2+\\Delta^2}\\sin^2\\!\\left(\\tfrac12\\sqrt{\\Omega^2+\\Delta^2}\\,t\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "griffiths-qm",
+							"ref": "9.2",
+							"title": "Emission and Absorption of Radiation"
+						},
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 1",
+							"title": "Introduction",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.74 Introductory Quantum Mechanics II (Spring 2009), lecture notes",
+							"title": "Interaction of Light and Matter (lecture 4 notes)",
+							"url": "https://ocw.mit.edu/courses/5-74-introductory-quantum-mechanics-ii-spring-2009/resources/mit5_74s09_lec04_2/"
+						},
+						{
+							"source": "MIT OCW 5.61 Physical Chemistry (Fall 2017)",
+							"title": "Lecture 31: Time-Dependent Perturbation Theory II. H is Time-Dependent: Two-Level Problem",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/time-dependent-perturbation-theory-ii/"
+						}
+					],
+					"demoIdeas": [
+						"Rabi oscillation explorer: sliders for field amplitude and detuning; plot P₂(t) and the Bloch-vector path; overlay the weak-field perturbative result and show where it breaks down."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l003-fermi-golden-rule",
+					"title": "Fermi's Golden Rule and What an Absorption Intensity Measures",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"State Fermi's golden rule w = (2π/ħ)|V_fi|²ρ(E_f) and derive it from first-order time-dependent perturbation theory, showing how the sin²(ωt/2)/ω² kernel becomes a δ-function so that probability grows linearly in time.",
+						"Apply it to absorption: the rate is proportional to |μ_fi|² times the light intensity times a line-shape function, so the integrated band area measures |μ_fi|² while the band shape encodes the final-state distribution.",
+						"Explain when the golden rule fails (strong, short or coherent excitation, discrete isolated levels) and connect the failure to the Rabi regime and to NMR pulses."
+					],
+					"keyEquations": [
+						"w_{i\\to f}=\\frac{2\\pi}{\\hbar}\\left|\\langle f|\\hat H'|i\\rangle\\right|^2\\rho(E_f)",
+						"P_{i\\to f}(t)=\\frac{4|V_{fi}|^2}{\\hbar^2}\\frac{\\sin^2(\\omega_{fi}t/2)}{\\omega_{fi}^2}",
+						"\\lim_{t\\to\\infty}\\frac{\\sin^2(\\omega t/2)}{\\omega^2t}=\\frac{\\pi}{2}\\delta(\\omega)"
+					],
+					"readings": [
+						{
+							"bookId": "sakurai",
+							"ref": "5.7",
+							"title": "Time-Dependent Perturbation Theory"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "9.1",
+							"title": "Two-Level Systems",
+							"optional": true
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 6",
+							"title": "Techniques of approximation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 Physical Chemistry (Fall 2017)",
+							"title": "Lecture 30: Time-Dependent Perturbation Theory I. H is Time-Independent, Zewail Wavepacket",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/time-dependent-perturbation-theory-i/"
+						}
+					],
+					"demoIdeas": [
+						"Golden-rule kernel: watch P(ω,t) as t grows. The peak height grows as t², the width shrinks as 1/t and the area grows as t, which is why the rate becomes constant. Slider for a final-state continuum width to see when the linear regime holds."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l004-einstein-coefficients",
+					"title": "Einstein Coefficients, Transition Dipoles and Radiative Lifetimes",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Derive A₂₁/B₂₁ = 8πhν³/c³ and B₁₂ = B₂₁ (equal degeneracies) by demanding that the rate equations reproduce Planck's blackbody law, and write A₂₁ in terms of the transition dipole.",
+						"Compute a radiative lifetime from |μ₁₂| and ν, and compare a visible electronic transition (nanoseconds) with a 600 MHz nuclear-spin transition (astronomically long), concluding that NMR relaxation cannot be spontaneous emission.",
+						"Use the ratio of stimulated to spontaneous emission, 1/(e^{hν/kT} − 1), to explain why microwave/RF transitions are dominated by stimulated processes and why lasers need population inversion."
+					],
+					"keyEquations": [
+						"\\frac{dN_2}{dt}=-A_{21}N_2-B_{21}\\rho(\\nu)N_2+B_{12}\\rho(\\nu)N_1",
+						"\\frac{A_{21}}{B_{21}}=\\frac{8\\pi h\\nu^3}{c^3}",
+						"A_{21}=\\frac{\\omega^3|\\mu_{12}|^2}{3\\pi\\varepsilon_0\\hbar c^3}"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 1",
+							"title": "Introduction"
+						},
+						{
+							"bookId": "griffiths-qm",
+							"ref": "9.2",
+							"title": "Emission and Absorption of Radiation",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Thermal-radiation two-level system: sliders for temperature and transition frequency; plot the stimulated-to-spontaneous ratio 1/(e^{hν/kT}−1) and the equilibrium populations, marking the crossover at hν ≈ kT."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l005-selection-rules-symmetry",
+					"title": "Transition Dipoles and Selection Rules from Symmetry",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Explain a selection rule as the vanishing of ⟨f|μ̂|i⟩ by symmetry: the integral is nonzero only if Γ_f ⊗ Γ_(x,y,z) ⊗ Γ_i contains the totally symmetric representation.",
+						"Apply the rule to parity (Laporte), spin (ΔS = 0, since μ̂ does not act on spin) and a worked C₂ᵥ example, and state the polarization each allowed transition has.",
+						"Distinguish forbidden from weak: say how vibronic coupling, spin–orbit coupling and magnetic-dipole or quadrupole terms let a weak band appear (the n→π* carbonyl band near 300 nm, ε ≈ 20–100)."
+					],
+					"keyEquations": [
+						"\\langle f|\\hat\\mu_q|i\\rangle\\neq0\\;\\Rightarrow\\;\\Gamma_f\\otimes\\Gamma_q\\otimes\\Gamma_i\\ni A_1",
+						"\\Delta S=0,\\qquad \\Delta\\ell=\\pm1\\ \\text{(atoms)}",
+						"\\Gamma_{vibronic}=\\Gamma_{el}\\otimes\\Gamma_{vib}"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 1",
+							"title": "Introduction",
+							"optional": true
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 5",
+							"title": "Group theory",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.80 Small-Molecule Spectroscopy and Dynamics (Fall 2008)",
+							"title": "Lecture 30: What is in a character table and how do we use it?",
+							"url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/resources/lecture-30/"
+						}
+					],
+					"demoIdeas": [
+						"Symmetry-product calculator: choose a point group (C₂ᵥ, D₂ₕ, C₃ᵥ), an initial and final state, and see the direct-product table, whether the A₁ component appears, and which polarization (x, y, z) is allowed."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l006-line-shapes-broadening",
+					"title": "Line Shapes: Natural, Doppler and Pressure Broadening",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Show that a damped oscillation e^{iω₀t − t/T₂} has a Lorentzian Fourier transform with FWHM 1/(πT₂) in Hz, and relate natural linewidth to excited-state lifetime, Δν = 1/(2πτ).",
+						"Distinguish homogeneous (Lorentzian: natural, collisional, T₂) from inhomogeneous (Gaussian: Doppler, field inhomogeneity) broadening, compute the Doppler width ν₀√(8kT ln2/mc²), and describe the Voigt profile as their convolution.",
+						"Compare the widths a chemist sees: gas-phase IR lines (~100 MHz Doppler), fluorescence (~30 MHz lifetime width) and solution NMR lines (≈ 1 Hz), and say which mechanism sets each."
+					],
+					"keyEquations": [
+						"s(t)=e^{i\\omega_0t-t/T_2}\\;\\Rightarrow\\;g(\\omega)=\\frac{1/T_2}{(\\omega-\\omega_0)^2+1/T_2^2}",
+						"\\Delta\\nu_{1/2}=\\frac{1}{\\pi T_2}=\\frac{1}{2\\pi\\tau}",
+						"\\Delta\\nu_D=\\nu_0\\sqrt{\\frac{8k_BT\\ln2}{mc^2}}"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§2.2",
+							"title": "Linewidths, lineshapes and integrals"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§3.6",
+							"title": "Inhomogeneous Broadening",
+							"optional": true
+						},
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 1",
+							"title": "Introduction",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.74 Introductory Quantum Mechanics II (Spring 2009), lecture notes",
+							"title": "Time-Correlation Function Description of Absorption Lineshape (lecture 6 notes)",
+							"url": "https://ocw.mit.edu/courses/5-74-introductory-quantum-mechanics-ii-spring-2009/resources/mit5_74s09_lec06/"
+						}
+					],
+					"demoIdeas": [
+						"Line-shape lab: side-by-side time-domain decay and its Fourier transform; sliders for T₂ (Lorentzian), Doppler width (Gaussian) and their Voigt convolution, with a live readout of FWHM, area and peak height."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "c2-u02-rotation-vibration",
+			"title": "Rotational and Vibrational Spectroscopy",
+			"summary": "Microwave and infrared spectra as direct readouts of moments of inertia and force constants: rotors and populations, normal modes from the Hessian (the same Hessian a DFT job returns), anharmonicity, IR versus Raman selection by symmetry, and overtones.",
+			"lessons": [
+				{
+					"id": "c2-l007-rigid-rotor-microwave",
+					"title": "The Rigid Rotor and Microwave Spectra",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write E_J = hcB·J(J+1) with B = ħ/(4πcI) and I = μr², and derive the line positions ν = 2B(J+1) for J → J+1 from the selection rule ΔJ = ±1.",
+						"Extract a bond length from a measured line (e.g. CO at 115.27 GHz) and explain why isotopic substitution shifts the lines.",
+						"Explain why a microwave absorption spectrum needs a permanent dipole (so H₂, N₂, CO₂ and CH₄ are silent) and what the rotational Raman rule ΔJ = ±2 adds."
+					],
+					"keyEquations": [
+						"E_J=\\frac{\\hbar^2}{2I}J(J+1)=hcB\\,J(J+1)",
+						"\\nu_{J\\to J+1}=2B(J+1)",
+						"I=\\mu r^2,\\qquad \\mu=\\frac{m_1m_2}{m_1+m_2}"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 6",
+							"title": "Rotational Spectroscopy"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 9",
+							"title": "Molecular rotations and vibrations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 Physical Chemistry (Fall 2017)",
+							"title": "Lecture 17: Rigid Rotor I. Orbital Angular Momentum",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/rigid-rotor-i/"
+						},
+						{
+							"source": "MIT OCW 5.80 Small-Molecule Spectroscopy and Dynamics (Fall 2008)",
+							"title": "Lecture 22: Rotation of polyatomic molecules I",
+							"url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/resources/lecture-22/"
+						}
+					],
+					"demoIdeas": [
+						"Rotor ladder with transition arrows: choose masses and bond length, see the J levels, the equally spaced microwave lines at 2B(J+1), and the isotopologue shift when ¹²C is replaced by ¹³C."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l008-rotational-populations-intensities",
+					"title": "Rotational Populations, Intensities and Nuclear-Spin Statistics",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Compute rotational populations N_J ∝ (2J+1)exp(−hcBJ(J+1)/kT), find the most populated level J_max ≈ √(kT/2hcB) − ½, and explain the (2J+1) degeneracy as the origin of an intensity maximum away from J = 0.",
+						"Predict how a rotational spectrum changes with temperature and use the intensity envelope as a thermometer.",
+						"Explain ortho/para hydrogen: why nuclear-spin symmetry forces alternate J levels and a 3:1 intensity alternation, and how para-hydrogen is used as a hyperpolarization source for NMR."
+					],
+					"keyEquations": [
+						"\\frac{N_J}{N}=\\frac{(2J+1)\\,e^{-hcBJ(J+1)/k_BT}}{q_{rot}}",
+						"J_{max}\\approx\\sqrt{\\frac{k_BT}{2hcB}}-\\frac12",
+						"q_{rot}\\approx\\frac{k_BT}{\\sigma\\,hcB}"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 6",
+							"title": "Rotational Spectroscopy"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 9",
+							"title": "Molecular rotations and vibrations",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Rotational stick spectrum with sliders for temperature and B; shows the shifting intensity envelope and J_max. A toggle switches on H₂ nuclear-spin statistics (3:1 alternation) and the ortho/para equilibrium ratio versus temperature."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l009-nonrigid-rotor-tops",
+					"title": "Centrifugal Distortion and Symmetric Tops",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Derive centrifugal distortion by treating the bond as a spring, E_J = BJ(J+1) − DJ²(J+1)² with D = 4B³/ω̃ₑ², and estimate how far lines shift from the rigid-rotor pattern at high J.",
+						"Classify rotors as linear, spherical, symmetric or asymmetric tops from the three moments of inertia, and write the symmetric-top levels E(J,K) = BJ(J+1) + (A − B)K² with the rules ΔJ = ±1, ΔK = 0.",
+						"Explain how rotational constants from several isotopologues give a molecular structure (the basis of microwave structure determination)."
+					],
+					"keyEquations": [
+						"E_J=BJ(J+1)-DJ^2(J+1)^2,\\qquad D=\\frac{4B^3}{\\tilde\\omega_e^2}",
+						"E_{JK}=BJ(J+1)+(A-B)K^2",
+						"I_A\\le I_B\\le I_C"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 6",
+							"title": "Rotational Spectroscopy"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 9",
+							"title": "Molecular rotations and vibrations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.80 Small-Molecule Spectroscopy and Dynamics (Fall 2008)",
+							"title": "Lecture 24: Pure rotation spectra of polyatomic molecules",
+							"url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/resources/lecture-24/"
+						}
+					],
+					"demoIdeas": [
+						"Non-rigid rotor: slider for D (set by the force constant) compresses the line spacing as J grows; a second panel shows the symmetric-top K-ladder and the effect of A and B on a prolate versus an oblate top."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l010-normal-modes-hessian",
+					"title": "Normal Modes from the Mass-Weighted Hessian",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Expand the potential to second order about a minimum, build the mass-weighted Hessian F_ij/√(m_i m_j), and show that its eigenvalues are ω² and its eigenvectors are decoupled normal coordinates, giving 3N − 6 (linear: 3N − 5) vibrations.",
+						"Compute by hand the stretching modes of a symmetric linear triatomic (the CO₂ toy model) and interpret the symmetric and antisymmetric eigenvectors.",
+						"Connect the calculation to a DFT frequency job (the Hessian from quantum chemistry) and to isotope shifts, where ω ∝ 1/√m so H → D lowers an X–H stretch by about 1/√2."
+					],
+					"keyEquations": [
+						"V\\approx V_0+\\tfrac12\\sum_{ij}F_{ij}x_ix_j",
+						"\\mathbf F_m=\\mathbf M^{-1/2}\\mathbf F\\mathbf M^{-1/2},\\qquad \\mathbf F_m\\mathbf q=\\omega^2\\mathbf q",
+						"\\omega_{sym}=\\sqrt{k/m},\\quad \\omega_{asym}=\\sqrt{\\tfrac{k}{m}\\left(1+\\tfrac{2m}{M}\\right)}"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 7",
+							"title": "Vibrational Spectroscopy"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 9",
+							"title": "Molecular rotations and vibrations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.80 Small-Molecule Spectroscopy and Dynamics (Fall 2008)",
+							"title": "Lecture 25: Polyatomic vibrations: normal mode calculations",
+							"url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/resources/lecture-25/"
+						}
+					],
+					"demoIdeas": [
+						"Ball-and-spring molecule builder: edit masses and force constants, see the eigenfrequencies of the mass-weighted Hessian, and animate each normal mode. An isotope slider (H → D) shows the frequency shift; a table lists the mode vectors."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l011-anharmonic-morse",
+					"title": "Anharmonicity and the Morse Oscillator",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write the Morse potential and its levels E_v = ħω(v+½) − ħωx_e(v+½)² with x_e = ħω/4D_e, and explain why level spacing shrinks toward dissociation.",
+						"Predict the positions of the fundamental (ω − 2ωx_e) and first overtone (2ω − 6ωx_e) and extract ω_e, ω_ex_e and a dissociation-energy estimate from them (Birge–Sponer).",
+						"Explain why anharmonicity makes Δv = ±2, ±3 weakly allowed, and separate mechanical anharmonicity (potential shape) from electrical anharmonicity (non-linear dipole function)."
+					],
+					"keyEquations": [
+						"V(r)=D_e\\left(1-e^{-a(r-r_e)}\\right)^2,\\qquad a=\\sqrt{k/2D_e}",
+						"E_v=\\hbar\\omega\\left(v+\\tfrac12\\right)-\\hbar\\omega x_e\\left(v+\\tfrac12\\right)^2",
+						"x_e=\\frac{\\hbar\\omega}{4D_e}"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 7",
+							"title": "Vibrational Spectroscopy"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 9",
+							"title": "Molecular rotations and vibrations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.80 Small-Molecule Spectroscopy and Dynamics (Fall 2008)",
+							"title": "Lecture 3: Building an effective Hamiltonian (anharmonic oscillator, vibration–rotation interaction)",
+							"url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/resources/lecture-3/"
+						}
+					],
+					"demoIdeas": [
+						"Morse versus harmonic well: sliders for D_e and a; show the levels, the shrinking spacings, the fundamental and overtone positions, and a Birge–Sponer plot extrapolated to the dissociation limit."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l012-ir-raman-symmetry",
+					"title": "IR versus Raman Activity from Symmetry",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Derive IR activity (dμ/dQ ≠ 0) and Raman activity (dα/dQ ≠ 0) from the Taylor expansion of dipole and polarizability in the normal coordinate, and state the symmetry criterion (modes transforming like x, y, z for IR; like xx, xy, … for Raman).",
+						"Apply the criteria with a character table to CO₂ (rule of mutual exclusion in a centrosymmetric molecule) and H₂O (all three modes active).",
+						"Explain Raman scattering as inelastic two-photon scattering, compute the anti-Stokes/Stokes intensity ratio, and say which functional groups the organic chemist sees in one technique but not the other (symmetric C≡C)."
+					],
+					"keyEquations": [
+						"\\mu=\\mu_0+\\left(\\frac{\\partial\\mu}{\\partial Q}\\right)_0Q+\\dots",
+						"\\alpha=\\alpha_0+\\left(\\frac{\\partial\\alpha}{\\partial Q}\\right)_0Q+\\dots",
+						"\\frac{I_{AS}}{I_S}=\\left(\\frac{\\nu_0+\\nu_v}{\\nu_0-\\nu_v}\\right)^4e^{-h\\nu_v/k_BT}"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 7",
+							"title": "Vibrational Spectroscopy"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 9",
+							"title": "Molecular rotations and vibrations",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.80 Small-Molecule Spectroscopy and Dynamics (Fall 2008)",
+							"title": "Lecture 28: Polyatomic vibrations IV: symmetry",
+							"url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/resources/lecture-28/"
+						}
+					],
+					"demoIdeas": [
+						"Mode inspector: choose CO₂, H₂O or C₂H₂, animate each normal mode with arrows for the dipole change and an ellipsoid for the polarizability change, and see the resulting IR/Raman label with the symmetry label."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l013-rovibrational-spectra",
+					"title": "Rotation–Vibration Spectra: P and R Branches",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Combine E(v,J) = ω(v+½) + B_vJ(J+1) to derive the P- and R-branch positions, including the (B₁ − B₀)J² term, and explain the band-origin gap and the absent Q branch for a closed-shell diatomic.",
+						"Extract B₀, B₁ and the bond-length change on excitation from combination differences, and explain why the R branch converges while the P branch spreads out.",
+						"Explain the HCl isotope doublets (³⁵Cl/³⁷Cl) and why liquid-phase IR shows only broad envelopes (rotation is quenched by collisions)."
+					],
+					"keyEquations": [
+						"\\nu_R(J)=\\nu_0+2B_1+(3B_1-B_0)J+(B_1-B_0)J^2",
+						"\\nu_P(J)=\\nu_0-(B_1+B_0)J+(B_1-B_0)J^2",
+						"B_v=B_e-\\alpha_e\\left(v+\\tfrac12\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 7",
+							"title": "Vibrational Spectroscopy"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 9",
+							"title": "Molecular rotations and vibrations",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Rovibrational band builder: sliders for B₀, B₁ and temperature give the P/R stick spectrum and intensity envelope; a toggle adds the ³⁵Cl/³⁷Cl isotopologues and a collision-broadening slider collapses the gas-phase lines into the liquid-phase envelope."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l014-overtones-fermi-resonance",
+					"title": "Overtones, Combination Bands and Fermi Resonance",
+					"minutes": 35,
+					"prereqs": [],
+					"objectives": [
+						"Predict overtone and combination-band positions from fundamentals and anharmonic constants, and explain the intensity drop (~10–100 times weaker per quantum).",
+						"Treat Fermi resonance as a two-level mixing problem: levels split by √(Δ² + 4W²), intensity is shared between the two bands, and the CO₂ 1388/1286 cm⁻¹ dyad and the aldehyde C–H doublet are examples.",
+						"Describe the local-mode picture of X–H overtones (C–H, O–H, N–H in the near-IR) and why NIR bands carry chemical information despite being weak."
+					],
+					"keyEquations": [
+						"E_\\pm=\\frac{E_a+E_b}{2}\\pm\\frac12\\sqrt{(E_a-E_b)^2+4W^2}",
+						"I_\\pm\\propto\\frac12\\left(1\\pm\\frac{\\Delta}{\\sqrt{\\Delta^2+4W^2}}\\right)",
+						"\\tilde\\nu_{overtone}\\approx2\\tilde\\omega-6\\tilde\\omega x_e"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 7",
+							"title": "Vibrational Spectroscopy"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 9",
+							"title": "Molecular rotations and vibrations",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Fermi-resonance avoided crossing: slide the unperturbed gap through zero for a chosen coupling W and watch the two levels repel while the intensity bars exchange weight."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "c2-u03-electronic",
+			"title": "Electronic Spectroscopy",
+			"summary": "Electronic transitions as vertical jumps between potential energy surfaces: Born–Oppenheimer, Franck–Condon factors and vibronic structure, then fluorescence and phosphorescence treated as competing first-order rate processes in a Jablonski diagram.",
+			"lessons": [
+				{
+					"id": "c2-l015-born-oppenheimer",
+					"title": "The Born–Oppenheimer Approximation and Potential Energy Surfaces",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Show how the Born–Oppenheimer separation Ψ ≈ ψ_el(r;R)χ(R) arises from the mass ratio (expansion parameter κ = (m_e/M)^{1/4}), and define the potential energy surface as the electronic energy at fixed nuclear positions.",
+						"Identify what is neglected (nuclear kinetic-energy operator acting on ψ_el, i.e. non-adiabatic coupling) and when it matters (avoided crossings, conical intersections, light atoms).",
+						"Use the ordering of energy scales 1 : κ² : κ⁴ (electronic : vibrational : rotational) to explain why the three kinds of spectra appear in different spectral regions."
+					],
+					"keyEquations": [
+						"\\Psi(\\mathbf r,\\mathbf R)\\approx\\psi_{el}(\\mathbf r;\\mathbf R)\\,\\chi(\\mathbf R)",
+						"\\left[\\hat T_N+E_{el}(\\mathbf R)\\right]\\chi=E\\chi",
+						"\\kappa=\\left(\\frac{m_e}{M}\\right)^{1/4},\\qquad E_{el}:E_{vib}:E_{rot}\\sim1:\\kappa^2:\\kappa^4"
+					],
+					"readings": [
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 8",
+							"title": "An introduction to molecular structure",
+							"optional": true
+						},
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 9",
+							"title": "Electronic Spectroscopy of Diatomics",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.80 Small-Molecule Spectroscopy and Dynamics (Fall 2008)",
+							"title": "Lecture 8: The Born–Oppenheimer approximation",
+							"url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/resources/lecture-8/"
+						},
+						{
+							"source": "MIT OCW 5.80 Small-Molecule Spectroscopy and Dynamics (Fall 2008)",
+							"title": "Lecture 9: The Born–Oppenheimer approach to transitions",
+							"url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/resources/lecture-9/"
+						}
+					],
+					"demoIdeas": [
+						"Avoided crossing of two surfaces: a coupling slider moves from diabatic crossing to adiabatic avoided crossing; a mass slider shows the non-adiabatic coupling peak and the probability of hopping between surfaces."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l016-franck-condon",
+					"title": "Franck–Condon Factors and Vertical Transitions",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Derive the vibronic transition moment within the Born–Oppenheimer and Condon approximations, μ_fi ≈ μ_el⟨χ_v′|χ_v⟩, so that intensity is proportional to the Franck–Condon factor |⟨χ_v′|χ_v⟩|².",
+						"Compute Franck–Condon factors for two displaced oscillators of equal frequency: a Poisson distribution e^{−S}S^n/n! with Huang–Rhys factor S = mωΔ²/2ħ, whose most intense line is near n ≈ S.",
+						"Predict from the geometry change whether the 0–0 band or a long progression dominates (small versus large displacement), and state that the factors sum to one."
+					],
+					"keyEquations": [
+						"\\mu_{fi}\\approx\\mu_{el}\\,\\langle\\chi_{v'}|\\chi_{v}\\rangle",
+						"|\\langle n'|0\\rangle|^2=e^{-S}\\frac{S^n}{n!}",
+						"S=\\frac{m\\omega\\Delta^2}{2\\hbar}"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 9",
+							"title": "Electronic Spectroscopy of Diatomics"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 10",
+							"title": "Molecular electronic transitions",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 Physical Chemistry (Fall 2017)",
+							"title": "Lecture 33: Electronic Spectroscopy: Franck-Condon",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/electronic-spectroscopy-franck-condon/"
+						},
+						{
+							"source": "MIT OCW 5.74 Introductory Quantum Mechanics II (Spring 2009), lecture notes",
+							"title": "Nuclear Motion Coupled to Electronic Transition (lecture 8 notes)",
+							"url": "https://ocw.mit.edu/courses/5-74-introductory-quantum-mechanics-ii-spring-2009/resources/mit5_74s09_lec08/"
+						}
+					],
+					"demoIdeas": [
+						"Displaced oscillators: sliders for the displacement Δ and the frequency change; show the two wells, the overlap of ground-state wavefunction with each excited vibrational level, and the vibronic stick spectrum, with a Poisson overlay."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l017-vibronic-structure",
+					"title": "Vibronic Structure, Stokes Shift and Electronic Selection Rules",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Read an absorption/emission pair: identify the 0–0 line, the mirror-image relation and the Stokes shift (≈ 2Sħω in the displaced-oscillator model), and explain why solution spectra of organic dyes are broad.",
+						"State the electronic selection rules (ΔS = 0, Laporte, orbital symmetry) and estimate an oscillator strength from a molar absorption spectrum, f ≈ 4.32 × 10⁻⁹ ∫ε dν̃; contrast n→π* (ε ~ 10²) with π→π* (ε ~ 10⁴).",
+						"Explain how vibronic (Herzberg–Teller) coupling lends intensity to symmetry-forbidden bands such as the benzene 260 nm system."
+					],
+					"keyEquations": [
+						"f\\approx4.32\\times10^{-9}\\int\\varepsilon(\\tilde\\nu)\\,d\\tilde\\nu",
+						"\\Delta\\tilde\\nu_{Stokes}\\approx2S\\tilde\\omega",
+						"\\mu_{fi}(Q)\\approx\\mu_{fi}^{(0)}+\\left(\\frac{\\partial\\mu_{fi}}{\\partial Q}\\right)Q"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 9",
+							"title": "Electronic Spectroscopy of Diatomics"
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 10",
+							"title": "Molecular electronic transitions",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.80 Small-Molecule Spectroscopy and Dynamics (Fall 2008)",
+							"title": "Lecture 31: Electronic spectra of polyatomic molecules",
+							"url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/resources/lecture-31/"
+						},
+						{
+							"source": "MIT OCW 5.61 Physical Chemistry (Fall 2017)",
+							"title": "Lecture 34: Electronic Spectroscopy and Photochemistry",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/electronic-spectroscopy-and-photochemistry/"
+						}
+					],
+					"demoIdeas": [
+						"Absorption/emission synthesizer: Franck–Condon progression convolved with homogeneous and solvent (Gaussian) broadening; sliders for S, ħω, solvent width and temperature show the mirror image, the Stokes shift and hot bands."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l018-jablonski-rates",
+					"title": "The Jablonski Diagram as Rate Physics",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write the first-order kinetic scheme for S₁ (radiative k_r, internal conversion k_ic, intersystem crossing k_isc) and derive the fluorescence quantum yield Φ = k_r/(k_r + k_nr) and lifetime τ = 1/(k_r + k_nr).",
+						"Link k_r to the Einstein A coefficient and oscillator strength (k_r ≈ 0.667 ν̃² f for n = 1) and use it to explain why strongly absorbing dyes have nanosecond lifetimes.",
+						"Derive the Stern–Volmer law τ₀/τ = 1 + k_qτ₀[Q] and explain Kasha's rule from the competition between ps vibrational relaxation and ns emission."
+					],
+					"keyEquations": [
+						"\\Phi_f=\\frac{k_r}{k_r+k_{nr}},\\qquad \\tau=\\frac{1}{k_r+k_{nr}}",
+						"\\frac{\\tau_0}{\\tau}=1+k_q\\tau_0[Q]",
+						"k_r\\approx0.667\\,\\tilde\\nu^2 f\\ \\ (\\mathrm{s^{-1}},\\ \\tilde\\nu\\ \\text{in cm}^{-1})"
+					],
+					"readings": [
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 10",
+							"title": "Molecular electronic transitions",
+							"optional": true
+						},
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 9",
+							"title": "Electronic Spectroscopy of Diatomics",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 Physical Chemistry (Fall 2017)",
+							"title": "Lecture 34: Electronic Spectroscopy and Photochemistry",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/electronic-spectroscopy-and-photochemistry/"
+						}
+					],
+					"demoIdeas": [
+						"Jablonski kinetics simulator: sliders for k_r, k_ic, k_isc and k_P; plot S₁ and T₁ populations versus time, emission decays and the quantum-yield bar chart, with a quencher slider showing Stern–Volmer behaviour."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l019-spin-orbit-phosphorescence",
+					"title": "Spin–Orbit Coupling, Intersystem Crossing and Phosphorescence",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Explain why singlet–triplet transitions are spin-forbidden and how the spin–orbit operator mixes singlet character into the triplet with coefficient ⟨S|H_SO|T⟩/ΔE, so that the radiative rate is k_P ≈ |coefficient|²·k_S.",
+						"Apply the El-Sayed rule (ISC is faster between states of different orbital type, e.g. ¹(n,π*) → ³(π,π*)) and the heavy-atom effect (H_SO grows roughly as Z⁴).",
+						"Estimate a phosphorescence lifetime and say why it is microseconds to seconds, and why triplet states are long-lived enough to be quenched by O₂ (singlet-oxygen sensitization)."
+					],
+					"keyEquations": [
+						"|T'\\rangle\\approx|T\\rangle+\\frac{\\langle S|\\hat H_{SO}|T\\rangle}{E_T-E_S}|S\\rangle",
+						"k_P\\approx\\left|\\frac{\\langle S|\\hat H_{SO}|T\\rangle}{\\Delta E}\\right|^2k_S",
+						"\\zeta\\propto Z^4"
+					],
+					"readings": [
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 10",
+							"title": "Molecular electronic transitions",
+							"optional": true
+						},
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 9",
+							"title": "Electronic Spectroscopy of Diatomics",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 5.61 Physical Chemistry (Fall 2017)",
+							"title": "Lecture 34: Electronic Spectroscopy and Photochemistry",
+							"url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/resources/electronic-spectroscopy-and-photochemistry/"
+						}
+					],
+					"demoIdeas": [
+						"Singlet/triplet energy diagram: pick orbital types (n,π* or π,π*) and an atomic number; sliders for the gap and H_SO show ISC rate, singlet admixture and the resulting phosphorescence lifetime."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "c2-u04-spin-physics",
+			"title": "Spin in a Field: Precession, Pulses, Bloch Equations and the FID",
+			"summary": "The physics of a spin in a magnetic field: Zeeman Hamiltonian, Larmor precession (classical and quantum pictures agree), the rotating frame, RF pulses as rotations, Bloch equations with T₁ and T₂, and how the FID becomes the spectrum you read every day by Fourier transform.",
+			"lessons": [
+				{
+					"id": "c2-l020-spin-zeeman",
+					"title": "Spin, the Magnetic Moment and the Zeeman Hamiltonian",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"State the spin-1/2 algebra ([I_x, I_y] = iI_z, eigenvalues ±½), the moment μ = γħI and the Zeeman Hamiltonian H = −γB₀I_z, giving a splitting ħ|γ|B₀ and a Larmor frequency ω₀ = −γB₀.",
+						"Compute Larmor frequencies of ¹H, ¹³C, ¹⁵N, ³¹P and ¹⁹F at a given field from γ, and explain what the sign of γ does to which spin state is lower in energy.",
+						"Give the thermal polarization P ≈ ħγB₀/2kT, show why it is tiny at room temperature, and explain the consequence: the bulk magnetization M₀ ∝ γ²B₀/T and the signal-to-noise ratio grows faster than linearly with field."
+					],
+					"keyEquations": [
+						"\\hat H=-\\gamma B_0\\hat I_z,\\qquad \\omega_0=-\\gamma B_0,\\qquad \\nu_0=\\frac{|\\gamma|B_0}{2\\pi}",
+						"P\\approx\\frac{\\hbar|\\gamma|B_0}{2k_BT}",
+						"M_0=\\frac{N\\gamma^2\\hbar^2I(I+1)B_0}{3k_BT}"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§10.1",
+							"title": "Zeeman Eigenstates"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§2.5",
+							"title": "Larmor Frequency",
+							"optional": true
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§3.3",
+							"title": "The spectrum from one spin"
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 1 (Chapter 3): Energy levels",
+							"url": "https://www.youtube.com/watch?v=A502rWNKZyI"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Magnetic Resonance, Season 1, Episode 1A: Spin as a fundamental physical property",
+							"url": "https://www.youtube.com/watch?v=30Ao3IkjT_c"
+						},
+						{
+							"source": "Malcolm Levitt (Southampton)",
+							"title": "QMech8: Spin",
+							"url": "https://www.youtube.com/watch?v=8V4FMO4aNFQ"
+						}
+					],
+					"demoIdeas": [
+						"Zeeman level diagram versus B₀ with a nucleus selector (¹H, ¹³C, ¹⁵N, ³¹P, ¹⁹F, electron): shows ν₀, ΔE/kT and polarization, with a dot cloud of up/down spins whose imbalance is visible only after magnification."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l021-larmor-precession",
+					"title": "Larmor Precession: Classical and Quantum Pictures Agree",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Derive the classical torque equation dμ/dt = γμ × B and show that its solutions precess about B at ω = −γB.",
+						"Show from the Schrödinger/Heisenberg equations that ⟨I⟩ obeys exactly the same equation, and interpret precession as the phase e^{iω₀t} building up between α and β in the superposition cos(θ/2)|α⟩ + e^{iφ}sin(θ/2)|β⟩.",
+						"Explain why the bulk magnetization of uncoupled spins can be treated as a classical vector, and why that picture fails for coupled spins (setting up the density-operator and product-operator treatment)."
+					],
+					"keyEquations": [
+						"\\frac{d\\boldsymbol\\mu}{dt}=\\gamma\\,\\boldsymbol\\mu\\times\\mathbf B",
+						"\\langle\\hat I_x\\rangle=\\tfrac12\\sin\\theta\\cos\\phi,\\quad \\phi(t)=\\phi_0+\\omega_0t",
+						"\\frac{d\\langle\\hat{\\mathbf I}\\rangle}{dt}=\\gamma\\langle\\hat{\\mathbf I}\\rangle\\times\\mathbf B"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§2.4",
+							"title": "Spin Precession"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§10.5",
+							"title": "Spin Precession",
+							"optional": true
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§4.2",
+							"title": "Larmor precession"
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 2 (Chapter 4): The vector model",
+							"url": "https://www.youtube.com/watch?v=N1E7wD75tzM"
+						}
+					],
+					"demoIdeas": [
+						"Bloch sphere with a single spin: set polar angle and phase, choose a field direction, and watch the classical vector precess while the quantum expectation values ⟨I_x⟩, ⟨I_y⟩, ⟨I_z⟩ (from the state amplitudes) trace the same curve."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l022-rotating-frame-pulses",
+					"title": "The Rotating Frame and RF Pulses as Rotations",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Transform to a frame rotating at the transmitter frequency and show that H_rot = ΩI_z + ω₁(cosφ I_x + sinφ I_y) with offset Ω = ω₀ − ω_rf, giving an effective field of magnitude √(Ω² + ω₁²) tilted from z by tan θ = ω₁/Ω.",
+						"Show that an on-resonance pulse of length τ rotates the magnetization through β = ω₁τ about the pulse axis, and compute 90° and 180° durations and the B₁ amplitude from ω₁/2π.",
+						"Explain off-resonance effects (tilted effective field, excitation bandwidth of order ω₁/2π) and why hard pulses are needed to cover ¹³C shift ranges; relate the result to the Rabi oscillation of the optical two-level problem."
+					],
+					"keyEquations": [
+						"\\hat H_{rot}=\\Omega\\hat I_z+\\omega_1(\\cos\\phi\\,\\hat I_x+\\sin\\phi\\,\\hat I_y)",
+						"\\omega_{eff}=\\sqrt{\\Omega^2+\\omega_1^2},\\qquad \\tan\\theta=\\omega_1/\\Omega",
+						"\\beta=\\omega_1\\tau_p,\\qquad B_1=\\omega_1/|\\gamma|"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§10.6",
+							"title": "Rotating Frame"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§10.8",
+							"title": "Radio-frequency Pulse"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§4.4",
+							"title": "Pulses"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§4.11",
+							"title": "Off-resonance effects and soft pulses",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 2 (Chapter 4): The vector model",
+							"url": "https://www.youtube.com/watch?v=N1E7wD75tzM"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Magnetic Resonance, Season 1, Episode 4: Bloch equations and the rotating frame",
+							"url": "https://www.youtube.com/watch?v=PVq2VBvqf80"
+						}
+					],
+					"demoIdeas": [
+						"Bloch-sphere magnetization: choose pulse angle, phase and resonance offset, watch the vector nutate about the effective field in the rotating frame, then see the resulting FID and its Fourier transform change as the offset is swept."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l023-bloch-t1-t2",
+					"title": "The Bloch Equations: T₁, T₂ and Recovery",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write the Bloch equations with relaxation and solve them for free precession (an oscillating FID decaying as e^{−t/T₂}) and for recovery of M_z (saturation recovery and inversion recovery).",
+						"Distinguish T₁ (energy exchange with the lattice; populations) from T₂ (loss of phase coherence) and from T₂* (including field inhomogeneity), and state the physical reason T₂ ≤ 2T₁ (T₂ ≈ T₁ in small mobile molecules).",
+						"Choose a recycle delay: 5T₁ recovers 99.3% of M₀, the inversion-recovery null is at T₁ln2, and the Ernst angle cos θ_E = e^{−T_R/T₁} maximizes steady-state signal for repeated scans."
+					],
+					"keyEquations": [
+						"\\frac{dM_z}{dt}=-\\frac{M_z-M_0}{T_1},\\qquad \\frac{dM_{x,y}}{dt}=\\gamma(\\mathbf M\\times\\mathbf B)_{x,y}-\\frac{M_{x,y}}{T_2}",
+						"M_z(t)=M_0\\left(1-2e^{-t/T_1}\\right),\\qquad \\tau_{null}=T_1\\ln2",
+						"\\cos\\theta_E=e^{-T_R/T_1}"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§2.7",
+							"title": "Transverse Magnetization and Transverse Relaxation"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§12.1",
+							"title": "Inversion Recovery: Measurement of T1"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§9.5",
+							"title": "Longitudinal relaxation behaviour of isolated spins",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 3: Bloch Equations",
+							"url": "https://www.youtube.com/watch?v=-SBQnvmfOSc"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Magnetic Resonance, Season 1, Episode 4: Bloch equations and the rotating frame",
+							"url": "https://www.youtube.com/watch?v=PVq2VBvqf80"
+						}
+					],
+					"demoIdeas": [
+						"Bloch-equation integrator: sliders for T₁, T₂, offset, flip angle and repetition time; display the Bloch-sphere trajectory, the FID, an inversion-recovery curve with its null time, and steady-state signal versus flip angle (Ernst angle)."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l024-fid-fourier-transform",
+					"title": "From FID to Spectrum: the Fourier Transform",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write the FID as a sum of damped complex exponentials Σ A_k e^{iω_kt − t/T₂k} and show that its complex Fourier transform has a real absorption (Lorentzian) part and an imaginary dispersion part, with FWHM 1/(πT₂).",
+						"Explain quadrature detection (two receiver phases) as the way to distinguish positive from negative frequencies, and the multiplex advantage of exciting all lines with one short pulse compared with a swept experiment (links to the E1 DSP elective).",
+						"Describe zero- and first-order phase correction and why a mis-phased line shows dispersive wings."
+					],
+					"keyEquations": [
+						"s(t)=\\sum_kA_ke^{i\\omega_kt}e^{-t/T_{2,k}}",
+						"A(\\omega)=\\frac{\\lambda}{\\lambda^2+\\Delta\\omega^2},\\quad D(\\omega)=\\frac{-\\Delta\\omega}{\\lambda^2+\\Delta\\omega^2},\\quad \\lambda=1/T_2",
+						"\\Delta\\nu_{1/2}=\\frac{1}{\\pi T_2}"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§5.1",
+							"title": "How the Fourier transform works"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§5.3",
+							"title": "Lineshapes and phase"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§11.11",
+							"title": "NMR Signal and NMR Spectrum",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 3 (Chapter 5): Fourier transformation",
+							"url": "https://www.youtube.com/watch?v=VHZRglA8-Xg"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Spin Dynamics: Introduction to Fourier spectroscopy",
+							"url": "https://www.youtube.com/watch?v=4pmftj-reYs"
+						},
+						{
+							"source": "Glenn Facey (University of Ottawa NMR Facility)",
+							"title": "Manual Phase Correction of a 1D NMR Spectrum in TOPSPIN",
+							"url": "https://www.youtube.com/watch?v=hU0Pu3Fmsz4"
+						}
+					],
+					"demoIdeas": [
+						"FID synthesizer: choose up to three lines (frequency, T₂, phase) and see the FID, the real and imaginary spectra, and zero/first-order phase sliders that restore the absorption line; a toggle switches to single-channel detection to show the mirror-image artifact."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l025-sampling-apodisation",
+					"title": "Sampling, Resolution and Apodisation in FT-NMR",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Compute dwell time, acquisition time and digital resolution from the spectral width and number of points (Δt = 1/SW, T_acq = NΔt, δν = 1/T_acq) and explain how peaks outside the spectral window fold back.",
+						"Describe apodisation: exponential multiplication adds a Lorentzian line broadening LB, the matched filter maximizes S/N (LB ≈ natural width), and Gaussian or sine-bell windows trade S/N for resolution; zero filling interpolates but adds no information.",
+						"Predict the resulting linewidth (FWHM = natural + LB) and the truncation wiggles from a FID that has not decayed, and choose acquisition and processing parameters for a stated goal."
+					],
+					"keyEquations": [
+						"\\Delta t=\\frac1{SW},\\qquad T_{acq}=N\\Delta t,\\qquad \\delta\\nu=\\frac1{T_{acq}}",
+						"w(t)=e^{-\\pi\\,LB\\,t}\\;\\Rightarrow\\;\\text{FWHM}=\\Delta\\nu_{nat}+LB",
+						"\\text{matched filter: }w(t)\\propto e^{-t/T_2}"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§5.4",
+							"title": "Manipulating the FID and the spectrum"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§5.5",
+							"title": "Zero filling"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§5.6",
+							"title": "Truncation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Glenn Facey (University of Ottawa NMR Facility)",
+							"title": "NMR-Exponential Line Broadening",
+							"url": "https://www.youtube.com/watch?v=gvZx0CUhP7k"
+						}
+					],
+					"demoIdeas": [
+						"Apodisation lab: a synthetic FID with two close peaks; sliders for acquisition time, LB, Gaussian broadening, zero-fill factor and spectral width show spectrum, FWHM, S/N, truncation wiggles and folded peaks."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l026-spin-echoes",
+					"title": "Spin Echoes, T₂ and Refocusing",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Explain the Hahn echo 90°ₓ–τ–180°ᵧ–τ: a π pulse reverses the phase accumulated by each isochromat, so static field inhomogeneity and chemical-shift offsets are refocused at 2τ, and the echo amplitude decays with the true T₂ (not T₂*).",
+						"Show with the rotating-frame picture and with the density operator that the net phase is Ωτ − Ωτ = 0, and explain how CPMG trains measure T₂ and suppress dephasing from slow diffusion and exchange.",
+						"State what an echo does not refocus: a nonselective 180° does not refocus J-coupling evolution between homonuclear partners, which sets up the J-modulation of the product-operator lessons."
+					],
+					"keyEquations": [
+						"\\phi(2\\tau)=\\Omega\\tau-\\Omega\\tau=0",
+						"S(2\\tau)=S(0)\\,e^{-2\\tau/T_2}",
+						"\\frac{1}{T_2^*}=\\frac1{T_2}+\\gamma\\Delta B_0"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§4.9",
+							"title": "The spin echo"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§12.2",
+							"title": "Spin Echoes: Measurement of T2"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§12.4",
+							"title": "Gradient Echoes",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 18: Spin Echo and Solvent Suppression",
+							"url": "https://www.youtube.com/watch?v=QuW_htJW0dU"
+						}
+					],
+					"demoIdeas": [
+						"Isochromat dephasing: 200 spins on the equatorial disk with spread-out offsets; apply a 90°, wait τ, apply a 180° and watch the fan refocus into an echo; sliders for T₂, diffusion and CPMG spacing."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "c2-u05-spin-hamiltonian",
+			"title": "The Spin Hamiltonian: Shielding, J-Coupling and Strong Coupling",
+			"summary": "The terms of the liquid-state NMR Hamiltonian that produce the shifts and multiplets you read: chemical shift as shielding, the scalar coupling Hamiltonian, multiplets from the energy levels, the AB strong-coupling problem solved exactly, and the anisotropic interactions that tumbling averages away.",
+			"lessons": [
+				{
+					"id": "c2-l027-chemical-shift-shielding",
+					"title": "The Chemical Shift as Shielding",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write the shielded Zeeman interaction ω = −γB₀(1 − σ) and explain why the ppm scale δ = (ν − ν_ref)/ν_ref × 10⁶ is independent of B₀ while shifts in Hz grow linearly with field.",
+						"Decompose σ into diamagnetic and paramagnetic parts, and explain ring-current and bond-anisotropy effects (benzene, alkynes, C=O) as induced local fields that depend on molecular orientation (σ is a tensor).",
+						"Convert between ppm and Hz, and use Δν/J to judge when first-order analysis is safe."
+					],
+					"keyEquations": [
+						"\\omega=-\\gamma B_0(1-\\sigma)",
+						"\\delta=\\frac{\\nu-\\nu_{ref}}{\\nu_{ref}}\\times10^6",
+						"\\sigma=\\sigma_d+\\sigma_p,\\qquad \\hat H_{CS}=-\\gamma\\hat{\\mathbf I}\\cdot(\\mathbf 1-\\boldsymbol\\sigma)\\cdot\\mathbf B_0"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§9.1",
+							"title": "Chemical Shift"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§2.1",
+							"title": "NMR frequencies and chemical shifts"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§3.7",
+							"title": "Chemical Shifts",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Week 1, Lecture 4: Introduction to the concept of Chemical Shifts in NMR spectra",
+							"url": "https://www.youtube.com/watch?v=pdeU0_1T2ac"
+						}
+					],
+					"demoIdeas": [
+						"Shielding and field: set B₀ and three chemical shifts, toggle the axis between ppm and Hz; a benzene ring-current picture lets you drag a proton above and in the plane of the ring and see the induced field add or subtract."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l028-j-coupling-hamiltonian",
+					"title": "The J-Coupling Hamiltonian",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"State the scalar-coupling Hamiltonian H_J = 2πJ Î·Ŝ, explain its electron-mediated (Fermi-contact) origin and why it survives molecular tumbling, and give its units (Hz, independent of B₀).",
+						"Apply the secular approximation: when |ω_I − ω_S| ≫ 2π|J| the Hamiltonian reduces to 2πJ I_zS_z (weak coupling), and the AX energy levels follow directly.",
+						"Use the Karplus relation ³J(θ) = A cos²θ + B cosθ + C to connect J to dihedral angle, and contrast J with dipolar coupling (isotropic versus traceless)."
+					],
+					"keyEquations": [
+						"\\hat H_J=2\\pi J\\,\\hat{\\mathbf I}\\cdot\\hat{\\mathbf S}",
+						"\\hat H_J^{weak}=2\\pi J\\,\\hat I_z\\hat S_z",
+						"{}^3J(\\theta)=A\\cos^2\\theta+B\\cos\\theta+C"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§14.3",
+							"title": "Spin-Pair Hamiltonian"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§2.3",
+							"title": "Scalar coupling"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§3.5",
+							"title": "The energy levels for two coupled spins"
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 7: Spin-Spin Coupling",
+							"url": "https://www.youtube.com/watch?v=VEH5Rpbexdc"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Magnetic Resonance, Season 1, Episode 12: Liquid state NMR Hamiltonian",
+							"url": "https://www.youtube.com/watch?v=ZsTFo2W4UlA"
+						}
+					],
+					"demoIdeas": [
+						"Two-spin level diagram: sliders for ν_A, ν_B and J (including negative J) show the four levels, the four transitions and the doublets they make; a Karplus panel maps dihedral angle to ³J."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l029-weak-coupling-multiplets",
+					"title": "Weak Coupling: Multiplets from the Energy Levels",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Derive the four AX energy levels E = −ν_A m_A − ν_X m_X + J m_A m_X and the allowed transitions (one spin flips), showing two doublets split by J with equal intensities.",
+						"Extend to AX₂ and AX₃: the 1:2:1 triplet and 1:3:3:1 quartet from counting degenerate spin configurations, and explain why equivalent spins do not split each other.",
+						"Interpret first-order multiplets (the n + 1 rule, splitting trees, couplings to non-equivalent sets) as consequences of the Hamiltonian, and state when they fail."
+					],
+					"keyEquations": [
+						"E_{m_Im_S}=-\\nu_Im_I-\\nu_Sm_S+J\\,m_Im_S",
+						"\\text{AX}_n:\\ \\text{intensities}\\ \\binom{n}{k}",
+						"\\text{lines at }\\nu_I\\pm J/2"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§15.5",
+							"title": "Spectrum of the AX System: Spin-Spin Splitting"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§3.6",
+							"title": "The spectrum from two coupled spins"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§3.7",
+							"title": "Three spins",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 1 (Chapter 3): Energy levels",
+							"url": "https://www.youtube.com/watch?v=A502rWNKZyI"
+						},
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 9: Analysis of NMR spectra of molecules",
+							"url": "https://www.youtube.com/watch?v=tTg5dcWHvbs"
+						}
+					],
+					"demoIdeas": [
+						"Multiplet builder: choose an AXₙ (or A with two coupling sets) spin system; the app draws the energy-level tree, the splitting tree and the resulting multiplet, alongside Pascal's triangle and a full quantum simulation for comparison."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l030-ab-strong-coupling",
+					"title": "Strong Coupling: the AB System",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Diagonalize the AB Hamiltonian in the {αβ, βα} subspace to get a mixing angle with tan 2θ = J/Δν, line positions at ν̄ ± (D ± J)/2 with D = √(Δν² + J²), and inner/outer intensity ratio (D + J)/(D − J) (the roof effect).",
+						"Describe the limits: Δν ≫ J gives the AX pair; Δν → 0 collapses to one line, because the singlet state is not reached by the symmetric RF perturbation; relate this to spin permutation symmetry and to chemical equivalence.",
+						"Extract J and Δν from a measured AB quartet using Δν = √((f₁ − f₄)(f₂ − f₃)), and predict how the pattern changes between 300 MHz and 800 MHz."
+					],
+					"keyEquations": [
+						"D=\\sqrt{\\Delta\\nu^2+J^2},\\qquad \\tan2\\theta=\\frac{J}{\\Delta\\nu}",
+						"\\frac{I_{inner}}{I_{outer}}=\\frac{D+J}{D-J}",
+						"\\Delta\\nu=\\sqrt{(f_1-f_4)(f_2-f_3)}"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§12.1",
+							"title": "Strong coupling in a two-spin system"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§14.1",
+							"title": "Coupling Regimes"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Spin Dynamics: Strong, weak and secular coupling",
+							"url": "https://www.youtube.com/watch?v=7t1VqYPIOzk"
+						}
+					],
+					"demoIdeas": [
+						"AB simulator: sliders for Δν and J (or B₀ at fixed Δν in ppm) morph the quartet from AX through roofed AB to a single line; panels show the mixing angle and the singlet/triplet picture of the eigenstates."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l031-anisotropic-motional-averaging",
+					"title": "Anisotropic Interactions and Motional Averaging",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write the secular dipole–dipole Hamiltonian with coupling constant b = (μ₀/4π)γ_Iγ_Sħ/r³ and its (3cos²θ − 1) orientation dependence, and note that shielding is a tensor with an orientation-dependent anisotropy.",
+						"Explain motional averaging: rapid isotropic tumbling averages ⟨3cos²θ − 1⟩ to zero, so solution spectra show only isotropic shifts and J; solids need magic-angle spinning at θ_m = 54.74°.",
+						"Estimate a dipolar coupling in kHz for a given distance and connect it to why the same interaction, fluctuating, is the dominant source of relaxation."
+					],
+					"keyEquations": [
+						"b_{IS}=-\\frac{\\mu_0}{4\\pi}\\frac{\\gamma_I\\gamma_S\\hbar}{r^3},\\qquad \\omega_D\\propto b\\,(3\\cos^2\\theta-1)",
+						"\\langle3\\cos^2\\theta-1\\rangle_{iso}=0",
+						"\\theta_m=\\arccos(1/\\sqrt3)=54.74^\\circ"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§9.3",
+							"title": "Direct Dipole-Dipole Coupling"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§8.6",
+							"title": "Motional Averaging"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§8.5",
+							"title": "Internal Spin Hamiltonian",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Spin Dynamics: Spin interaction Hamiltonians, part II",
+							"url": "https://www.youtube.com/watch?v=SklICIaDkQI"
+						}
+					],
+					"demoIdeas": [
+						"Powder pattern versus tumbling: draw an orientation distribution of dipole-coupled pairs; a correlation-time slider collapses the pattern into a single narrow line (motional narrowing), and a spinning-angle slider shows (3cos²θ − 1) crossing zero at 54.74°."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "c2-u06-density-product-2d",
+			"title": "Density Matrix, Product Operators and Multidimensional NMR",
+			"grad": true,
+			"summary": "The quantum machinery behind modern pulse sequences: the density operator, rotations of operators, product operators for coupled spins, J-modulated echoes, coherence selection, INEPT polarization transfer, and 2D NMR (COSY, HSQC) as a two-time Fourier transform.",
+			"lessons": [
+				{
+					"id": "c2-l032-density-operator",
+					"title": "The Density Operator: Populations and Coherences",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Define the density operator ρ = Σ p_k|ψ_k⟩⟨ψ_k| for an ensemble, show ⟨A⟩ = Tr(ρA), and distinguish pure from mixed states; diagonal elements are populations and off-diagonal elements are coherences.",
+						"Write the thermal equilibrium state ρ_eq ≈ ½(1 + (ħγB₀/kT)I_z) in the high-temperature limit, and explain why the identity part can be dropped.",
+						"Map ρ onto observables: ⟨I_x⟩ and ⟨I_y⟩ come from the real and imaginary parts of the α–β coherence, so transverse magnetization is a coherence between Zeeman states."
+					],
+					"keyEquations": [
+						"\\hat\\rho=\\overline{|\\psi\\rangle\\langle\\psi|},\\qquad \\langle A\\rangle=\\mathrm{Tr}(\\hat\\rho\\hat A)",
+						"\\hat\\rho_{eq}=\\frac{e^{-\\hat H/k_BT}}{Z}\\approx\\tfrac12\\mathbf 1+\\frac{\\hbar\\gamma B_0}{2k_BT}\\hat I_z",
+						"\\langle\\hat I_x\\rangle=\\mathrm{Re}\\,\\rho_{\\alpha\\beta},\\qquad \\langle\\hat I_y\\rangle=-\\mathrm{Im}\\,\\rho_{\\alpha\\beta}"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§11.1",
+							"title": "Spin Density Operator"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§11.2",
+							"title": "Populations and Coherences"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§6.7",
+							"title": "Making faster progress: the density operator",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "ANZMAG",
+							"title": "Spin Density Operators",
+							"url": "https://www.youtube.com/watch?v=xx4baVjJbpA"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Spin Dynamics: Density operator formalism",
+							"url": "https://www.youtube.com/watch?v=VP4Jmu2caxg"
+						},
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 27: Density matrix description of NMR - I",
+							"url": "https://www.youtube.com/watch?v=0GLB8fDe-KM"
+						}
+					],
+					"demoIdeas": [
+						"Density-matrix viewer: choose a state (|α⟩, |+x⟩, thermal, 50:50 mixture) and see ρ as a 2×2 heat map (diagonal = populations, off-diagonal = coherence with amplitude and phase) next to the Bloch vector; pulse buttons update both."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l033-liouville-rotations",
+					"title": "Liouville–von Neumann Evolution: Pulses and Shifts as Rotations",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Derive dρ/dt = −i[H, ρ] from the Schrödinger equation and its solution ρ(t) = e^{−iHt}ρ(0)e^{iHt}.",
+						"Prove with the commutator series that e^{−iφI_z} I_x e^{iφI_z} = I_x cos φ + I_y sin φ (and cyclic permutations), so chemical-shift precession and RF pulses rotate the operators in Cartesian space exactly like the Bloch vector.",
+						"Compute an observable by this route: equilibrium I_z, a 90°ₓ pulse and free evolution at offset Ω gives the signal Tr(ρ I_+) ∝ e^{iΩt}."
+					],
+					"keyEquations": [
+						"\\frac{d\\hat\\rho}{dt}=-i[\\hat H,\\hat\\rho]",
+						"e^{-i\\phi\\hat I_z}\\hat I_xe^{i\\phi\\hat I_z}=\\hat I_x\\cos\\phi+\\hat I_y\\sin\\phi",
+						"[\\hat I_x,\\hat I_y]=i\\hat I_z"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§11.6",
+							"title": "Strong Radio-Frequency Pulse"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§11.7",
+							"title": "Free Precession Without Relaxation"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§6.5",
+							"title": "Time evolution",
+							"optional": true
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§6.6",
+							"title": "RF pulses",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 28: Density matrix description of NMR - II",
+							"url": "https://www.youtube.com/watch?v=plItweHS7GA"
+						},
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 29: Density matrix description of NMR - III",
+							"url": "https://www.youtube.com/watch?v=pfG7qyS13es"
+						}
+					],
+					"demoIdeas": [
+						"Operator-rotation visualizer: show the coefficients (c_x, c_y, c_z) of ρ as a vector; apply pulses (axis, angle) and free evolution (offset, time), with the commutator algebra displayed step by step beside the equivalent Bloch trajectory."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l034-product-operators",
+					"title": "Product Operators for Two Coupled Spins",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Build the 16-element Cartesian basis for two spins-½ (½E, I_k, S_k, 2I_kS_l), distinguish in-phase from anti-phase terms, and say which are observable and how they look (in-phase doublet versus anti-phase doublet).",
+						"Apply the three evolution rules: chemical shift (rotation about z), J-coupling (I_x → I_x cos πJt + 2I_yS_z sin πJt) and pulses (rotations), to follow a simple sequence term by term.",
+						"Interpret a product operator physically: 2I_xS_z is the I coherence with a sign set by the S state, i.e. the difference between the two lines of the I doublet."
+					],
+					"keyEquations": [
+						"I_x\\xrightarrow{\\ \\pi J t\\ (2I_zS_z)\\ }I_x\\cos\\pi Jt+2I_yS_z\\sin\\pi Jt",
+						"I_x\\xrightarrow{\\ \\Omega t\\ (I_z)\\ }I_x\\cos\\Omega t+I_y\\sin\\Omega t",
+						"\\text{basis size}=4^N"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§7.4",
+							"title": "Operators for two spins"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§7.5",
+							"title": "In-phase and anti-phase terms"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§15.6",
+							"title": "Product Operators"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§15.9",
+							"title": "Free Evolution of the Product Operators",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 4 (Chapter 7): Product operators (I)",
+							"url": "https://www.youtube.com/watch?v=ISkJn-Fgw8M"
+						},
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 5 (Chapter 7): Product operators (II)",
+							"url": "https://www.youtube.com/watch?v=kU2kkHf1LXo"
+						},
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 33: Product operator formalism",
+							"url": "https://www.youtube.com/watch?v=DqLLyAYgXV8"
+						}
+					],
+					"demoIdeas": [
+						"Product-operator calculator: a 16-coefficient state vector with buttons for pulses (axis, angle), shift evolution and J evolution; each step redraws the predicted spectrum (in-phase and anti-phase doublets) and the term list."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l035-spin-echo-j-modulation",
+					"title": "Spin Echoes with Coupling: J-Modulation and Editing",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Analyse the spin echo τ–180°–τ for a coupled I–S pair: a 180° on both spins refocuses the shift but lets J evolve (cos 2πJτ modulation), a 180° on one spin refocuses J but not the shift of the other, using product-operator rules.",
+						"Derive the multiplicity-dependent factor cos^n(πJT) of the attached-proton test (APT) and use it to assign CH₃, CH₂, CH and C.",
+						"Explain why this J-modulation is the basis of INEPT, HSQC and DEPT, and why the homonuclear echo carries the modulation of all couplings."
+					],
+					"keyEquations": [
+						"S(2\\tau)\\propto\\cos(2\\pi J\\tau)\\quad(\\text{180}^\\circ\\text{ on both spins})",
+						"\\text{APT: }I\\propto\\cos^{\\,n}(\\pi JT),\\ n=\\text{number of attached H}",
+						"\\text{J refocused if only one partner is inverted}"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§7.8",
+							"title": "Spin echoes and J-modulation"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§15.10",
+							"title": "Spin Echo Sandwich"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§12.4",
+							"title": "Spin echoes in InS spin systems",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 37: Observable and Non-observable basis operators, Spin echo",
+							"url": "https://www.youtube.com/watch?v=ThFFqaV3QGk"
+						},
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 38: Spin echo Continued",
+							"url": "https://www.youtube.com/watch?v=ygTrbho5yPw"
+						}
+					],
+					"demoIdeas": [
+						"J-modulated echo explorer: choose CHₙ, the delay T and which spins get the 180° pulse; the product-operator state, the sign of each ¹³C line and the APT spectrum update live."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l036-coherence-order-selection",
+					"title": "Coherence Order, Phase Cycling and Gradient Selection",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Define coherence order p (the change in total magnetic quantum number), identify observable single-quantum (p = ±1), zero- and double-quantum terms, and show that a z-rotation by φ multiplies coherence p by e^{−ipφ}.",
+						"Explain how phase cycling exploits this phase dependence to select a coherence transfer pathway, and how pulsed field gradients do it in a single scan by dephasing coherence in proportion to pγGτ.",
+						"Work out the gradient ratio needed to select a stated pathway, e.g. G₁/G₂ = γ_H/γ_C ≈ 4 for a ¹³C → ¹H transfer in HSQC."
+					],
+					"keyEquations": [
+						"\\hat\\rho_p\\;\\xrightarrow{\\ \\phi\\ (I_z)\\ }\\;e^{-ip\\phi}\\hat\\rho_p",
+						"\\phi_{grad}(z)=p\\,\\gamma\\,G\\,\\tau\\,z",
+						"\\sum_kp_k\\gamma_kG_k\\tau_k=0"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§7.12",
+							"title": "Coherence order and multiple-quantum coherences"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§11.2",
+							"title": "Coherence transfer pathways"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§11.11",
+							"title": "Introducing field gradient pulses",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 12 (Chapter 11): Coherence selection (I)",
+							"url": "https://www.youtube.com/watch?v=bG7poW0uT4I"
+						}
+					],
+					"demoIdeas": [
+						"Pathway selector: draw a coherence-order path through a pulse sequence, apply an N-step phase cycle and see which pathways survive; gradient-area sliders show helices of dephased magnetization along z for p = ±1, ±2."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l037-inept",
+					"title": "INEPT: Polarization Transfer from a High-γ Spin",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Follow INEPT with product operators (90°ₓ(H) – τ – 180°(H,C) – τ – 90°(H,C), τ = 1/4J): ¹H polarization becomes anti-phase ¹³C coherence, with enhancement γ_H/γ_C ≈ 4 for ¹³C and ≈ 10 for ¹⁵N.",
+						"Distinguish polarization transfer (a coherent process under J) from the NOE (cross-relaxation), and explain why the repetition rate depends on the ¹H T₁ rather than the slow ¹³C T₁.",
+						"Choose the refocusing delay to edit CH, CH₂ and CH₃ multiplicities using n·sin(2πJΔ)cos^{n−1}(2πJΔ), and state what decoupling requires."
+					],
+					"keyEquations": [
+						"\\tau=\\frac{1}{4J},\\qquad I_z\\xrightarrow{\\ \\mathrm{INEPT}\\ }2I_zS_y",
+						"\\text{enhancement}=\\frac{\\gamma_I}{\\gamma_S}",
+						"I_{I S_n}\\propto n\\sin(2\\pi J\\Delta)\\cos^{n-1}(2\\pi J\\Delta)"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§7.9",
+							"title": "Coherence transfer"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§7.10",
+							"title": "The INEPT experiment"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§16.3",
+							"title": "INEPT",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 25: INEPT and Sensitivity Enhancement",
+							"url": "https://www.youtube.com/watch?v=NzjaiMLBKIQ"
+						},
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 20: Polarization Transfer",
+							"url": "https://www.youtube.com/watch?v=rWxVmK0Y-dg"
+						}
+					],
+					"demoIdeas": [
+						"INEPT animator: step through pulses and delays on a coupled H–C pair, showing the operator state, the population picture of the ¹³C doublet before and after, the enhanced anti-phase doublet, and curves of intensity versus delay for CH, CH₂, CH₃."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l038-2d-two-time-ft",
+					"title": "Two-Dimensional NMR as a Two-Time Fourier Transform",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"State the general 2D scheme (preparation – t₁ evolution – mixing – t₂ detection) and show that the signal S(t₁, t₂) = Σ a_k e^{iΩ₁ₖt₁}e^{iΩ₂ₖt₂}e^{−decay} transforms by a double Fourier transform into peaks at (Ω₁, Ω₂).",
+						"Explain how F₁ frequency discrimination (States, States-TPPI, echo-antiecho) preserves phase-sensitive absorptive line shapes, and what 'phase twist' and magnitude mode cost in resolution.",
+						"Compute the resolution and duration of a 2D experiment from the number of increments, the spectral width in F₁ and the scans per increment."
+					],
+					"keyEquations": [
+						"S(t_1,t_2)=\\sum_ka_ke^{i\\Omega_{1k}t_1-t_1/T_{2k}}\\,e^{i\\Omega_{2k}t_2-t_2/T_{2k}}",
+						"S(\\omega_1,\\omega_2)=\\iint S(t_1,t_2)\\,e^{-i\\omega_1t_1-i\\omega_2t_2}\\,dt_1\\,dt_2",
+						"t_{1,max}=\\frac{N_1}{SW_1},\\qquad T_{exp}=N_1\\cdot n_{FID}\\cdot n_s\\cdot(d_1+aq)"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§8.1",
+							"title": "The general scheme for two-dimensional NMR"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§8.2",
+							"title": "Modulation and lineshapes"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§8.12",
+							"title": "Frequency discrimination and lineshapes",
+							"optional": true
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§5.9",
+							"title": "Two-Dimensional Spectroscopy",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 7 (Chapter 8): Two-dimensional NMR (I)",
+							"url": "https://www.youtube.com/watch?v=AqbLvmFHs28"
+						},
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 43: Types of 2D NMR Spectra",
+							"url": "https://www.youtube.com/watch?v=Tz68BM7OiME"
+						},
+						{
+							"source": "Glenn Facey (University of Ottawa NMR Facility)",
+							"title": "NMR - Removing t1 Noise from Heteronuclear 2D NMR Data",
+							"url": "https://www.youtube.com/watch?v=PWux92UrWGY"
+						}
+					],
+					"demoIdeas": [
+						"2D FT builder: place three spins with offsets and T₂; show the t₁ × t₂ time-domain matrix as an image with slices, then the 2D transform; toggles for States versus magnitude versus phase-twist, sliders for the number of t₁ increments, truncation and apodisation."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l039-cosy-hsqc",
+					"title": "COSY and HSQC from Product Operators",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Use product operators to show how COSY (90° – t₁ – 90° – t₂) turns in-phase I coherence into anti-phase terms by J evolution in t₁ and moves it to the partner spin by the second pulse, giving anti-phase cross peaks and in-phase diagonals.",
+						"Describe HSQC as INEPT – t₁(¹³C) – reverse INEPT – ¹H detection, explain what each peak encodes (a ¹H directly bonded to a ¹³C) and the inverse-detection sensitivity gain (γ_H/γ_C)^{5/2} ≈ 30 in the simple scaling.",
+						"Read a COSY or HSQC spectrum as a map of coherence pathways, and say why small J couplings give weak cross peaks (anti-phase components cancel when lines are broader than J)."
+					],
+					"keyEquations": [
+						"2I_yS_z\\xrightarrow{\\ 90^\\circ_x(I,S)\\ }-2I_zS_y",
+						"\\text{S/N}\\propto\\gamma_{exc}\\,\\gamma_{det}^{3/2}",
+						"\\text{HSQC: }\\ I_z\\to2I_zS_y\\xrightarrow{t_1}\\to2I_zS_y\\to I_y"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§8.3",
+							"title": "COSY"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§8.6",
+							"title": "Heteronuclear correlation spectra"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§8.7",
+							"title": "HSQC"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§16.1",
+							"title": "COSY",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 8 (Chapter 8): Two-dimensional NMR (II)",
+							"url": "https://www.youtube.com/watch?v=aX-ffusGP-I"
+						},
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 45: Two Dimensional Correlation Experiments",
+							"url": "https://www.youtube.com/watch?v=M9ANtfUm4sE"
+						}
+					],
+					"demoIdeas": [
+						"COSY/HSQC peak maker: define a small spin system with shifts and J couplings; the app simulates COSY (with in-phase and anti-phase fine structure) and an edited ¹H–¹³C HSQC, and animates which operator terms produce each peak."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "c2-u07-relaxation",
+			"title": "Relaxation Theory: Spectral Densities, BPP, NOE and Exchange",
+			"grad": true,
+			"summary": "Relaxation as statistical mechanics of fluctuating local fields: correlation functions and spectral densities, BPP rates and the T₁ minimum, Redfield theory and detailed balance, the Solomon equations and the NOE, distance measurement, and exchange.",
+			"lessons": [
+				{
+					"id": "c2-l040-fluctuating-fields-spectral-density",
+					"title": "Relaxation from Fluctuating Fields: Correlation Functions and Spectral Densities",
+					"minutes": 45,
+					"prereqs": [],
+					"objectives": [
+						"Model relaxation as a spin Hamiltonian H₀ + H₁(t) with a random local field, define the correlation function G(τ) = ⟨b(t)b(t+τ)⟩ = ⟨b²⟩e^{−|τ|/τ_c} and its Fourier transform, the spectral density J(ω) = 2τ_c/(1 + ω²τ_c²) (per unit ⟨b²⟩).",
+						"Explain by the golden rule that transitions between Zeeman levels are driven by the power of the fluctuation at the transition frequency, J(ω₀), so T₁ probes motion at ω₀ while T₂ also feels J(0).",
+						"Estimate a rotational correlation time from the Stokes–Einstein–Debye relation τ_c = 4πηa³/3kT and describe how it scales with size, viscosity and temperature."
+					],
+					"keyEquations": [
+						"G(\\tau)=\\langle b^2\\rangle e^{-|\\tau|/\\tau_c}",
+						"J(\\omega)=\\int_{-\\infty}^{\\infty}G(\\tau)e^{-i\\omega\\tau}d\\tau=\\frac{2\\langle b^2\\rangle\\tau_c}{1+\\omega^2\\tau_c^2}",
+						"\\tau_c=\\frac{4\\pi\\eta a^3}{3k_BT}"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§9.1",
+							"title": "The origin of relaxation"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§9.3",
+							"title": "Describing random motion - the correlation time"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§20.3",
+							"title": "Random Field Relaxation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 9 (Chapter 9): Relaxation (I)",
+							"url": "https://www.youtube.com/watch?v=c75CjlAqfVA"
+						},
+						{
+							"source": "Ilya Kuprov, ZULF NMR ITN",
+							"title": "Spin relaxation theory: a very gentle introduction (ZULF2020)",
+							"url": "https://www.youtube.com/watch?v=axvPmCZugoA"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Magnetic Resonance, Season 1, Episode 17A: Spin relaxation theory, part 1",
+							"url": "https://www.youtube.com/watch?v=sd8PdWDb4FI"
+						}
+					],
+					"demoIdeas": [
+						"Random-field lab: simulate a stochastic field b(t) with correlation time τ_c; show G(τ), the Lorentzian J(ω) with markers at ω₀ and 2ω₀, and an ensemble of spins relaxing with rates compared against the formulas."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l041-bpp-correlation-time",
+					"title": "BPP Theory: T₁, T₂ and the Correlation Time",
+					"minutes": 45,
+					"prereqs": [
+						"c2-l040-fluctuating-fields-spectral-density"
+					],
+					"objectives": [
+						"Write the dipolar (BPP) rates for like spins-½, R₁ = (3/10)b²[τ_c/(1+ω₀²τ_c²) + 4τ_c/(1+4ω₀²τ_c²)] and the corresponding R₂, and show that in extreme narrowing both reduce to (3/2)b²τ_c.",
+						"Locate the T₁ minimum near ω₀τ_c ≈ 0.6 and explain why T₂ keeps shrinking as τ_c grows while T₁ passes through a minimum and then lengthens with field.",
+						"Apply to real molecules: why small molecules give sharp lines with T₁ ≈ T₂ of seconds, why proteins have T₂ ≪ T₁ and broad lines, and what cooling or viscosity does."
+					],
+					"keyEquations": [
+						"R_1=\\frac{3}{10}b^2\\left[\\frac{\\tau_c}{1+\\omega_0^2\\tau_c^2}+\\frac{4\\tau_c}{1+4\\omega_0^2\\tau_c^2}\\right]",
+						"R_2=\\frac{3}{20}b^2\\left[3\\tau_c+\\frac{5\\tau_c}{1+\\omega_0^2\\tau_c^2}+\\frac{2\\tau_c}{1+4\\omega_0^2\\tau_c^2}\\right]",
+						"R_1=R_2=\\tfrac32 b^2\\tau_c\\quad(\\omega_0\\tau_c\\ll1)"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§20.4",
+							"title": "Dipole-Dipole Relaxation"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§9.8",
+							"title": "Transverse relaxation"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§9.6",
+							"title": "Longitudinal dipolar relaxation of two spins",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 10 (Chapter 9): Relaxation (II)",
+							"url": "https://www.youtube.com/watch?v=_XmuV3Z9U2Q"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Spin Dynamics: Common relaxation mechanisms",
+							"url": "https://www.youtube.com/watch?v=jjafkk15vJI"
+						}
+					],
+					"demoIdeas": [
+						"BPP curves: log–log plot of R₁ and R₂ versus τ_c for chosen B₀ and internuclear distance, with markers for small molecule, peptide, protein and membrane; the T₁ minimum moves as the field slider changes."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l042-redfield-detailed-balance",
+					"title": "Redfield Theory and Why Relaxation Reaches Boltzmann Equilibrium",
+					"minutes": 40,
+					"prereqs": [
+						"c2-l040-fluctuating-fields-spectral-density"
+					],
+					"objectives": [
+						"Outline Redfield theory: second-order perturbation theory in H₁(t) with the Born–Markov and secular approximations gives dσ/dt = −i[H₀, σ] − Γ̂(σ − σ_eq), with rates built from spectral densities at the transition frequencies.",
+						"Explain why a classical symmetric J(ω) would drive the spins to infinite temperature, and how detailed balance, W↑/W↓ = e^{−ħω₀/kT} (the quantum fluctuation–dissipation relation), makes the steady state the thermal state of the lattice.",
+						"Quantify the size of the correction at NMR frequencies (~10⁻⁵) versus EPR (~10⁻³) and say why the 'classical' BPP formulas are still accurate yet T₁ returns M_z to M₀ and not to zero."
+					],
+					"keyEquations": [
+						"\\frac{d\\hat\\sigma}{dt}=-i[\\hat H_0,\\hat\\sigma]-\\hat{\\hat\\Gamma}\\,(\\hat\\sigma-\\hat\\sigma_{eq})",
+						"\\frac{W_\\uparrow}{W_\\downarrow}=e^{-\\hbar\\omega_0/k_BT},\\qquad J(-\\omega)=e^{-\\hbar\\omega/k_BT}J(\\omega)",
+						"P_{eq}=\\frac{W_\\downarrow-W_\\uparrow}{W_\\downarrow+W_\\uparrow}=\\tanh\\frac{\\hbar\\omega_0}{2k_BT}"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "Ch. 20",
+							"title": "Relaxation"
+						},
+						{
+							"bookId": "sakurai",
+							"ref": "5.7",
+							"title": "Time-Dependent Perturbation Theory",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "ANZMAG",
+							"title": "NMR Relaxation Lecture 2: Redfield Equations Part I",
+							"url": "https://www.youtube.com/watch?v=CpwdFjmyJtM"
+						},
+						{
+							"source": "ANZMAG",
+							"title": "NMR Relaxation Lecture 3: Redfield Equations Part II",
+							"url": "https://www.youtube.com/watch?v=TFu3bQhDSUI"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Spin Dynamics: Perturbative relaxation theories",
+							"url": "https://www.youtube.com/watch?v=qhGcEdkU2WY"
+						}
+					],
+					"demoIdeas": [
+						"Two-level spin in a thermal bath: simulate population dynamics with W↑, W↓ obeying detailed balance; a temperature slider (down to very low T) shows the approach to the Boltzmann polarization, compared with a symmetric (classical) bath that gives P → 0."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l043-solomon-noe",
+					"title": "The Solomon Equations and the Nuclear Overhauser Effect",
+					"minutes": 45,
+					"prereqs": [
+						"c2-l041-bpp-correlation-time"
+					],
+					"objectives": [
+						"Write the Solomon equations for two dipole-coupled spins with transition probabilities W₀, W₁, W₂, identify auto-relaxation ρ and cross-relaxation σ = W₂ − W₀, and derive the steady-state enhancement η = (σ/ρ)(γ_S/γ_I).",
+						"Show that W₂ ∝ J(2ω₀) and W₀ ∝ J(0) make the homonuclear NOE +0.5 at most for fast tumbling and −1 for slow tumbling, with a sign change at ω₀τ_c = √5/2 ≈ 1.12; for ¹³C{¹H} the extreme-narrowing enhancement is γ_H/2γ_C ≈ 2.",
+						"Explain physically why molecules of intermediate size can show no NOE and how to choose between NOESY and ROESY."
+					],
+					"keyEquations": [
+						"\\frac{dI_z}{dt}=-\\rho_I(I_z-I_0)-\\sigma(S_z-S_0),\\qquad \\sigma=W_2-W_0",
+						"\\eta=\\frac{\\sigma}{\\rho}\\frac{\\gamma_S}{\\gamma_I}",
+						"\\sigma\\propto 6J(2\\omega_0)-J(0)"
+					],
+					"readings": [
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§9.6",
+							"title": "Longitudinal dipolar relaxation of two spins"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§9.7",
+							"title": "The NOE"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§20.5",
+							"title": "Steady-State Nuclear Overhauser Effect"
+						}
+					],
+					"lectures": [
+						{
+							"source": "James Keeler, Understanding NMR Spectroscopy (ANZMAG)",
+							"title": "Lecture 11 (Chapter 9): Relaxation (III)",
+							"url": "https://www.youtube.com/watch?v=RUZOajgZGkw"
+						},
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 21: Nuclear Overhauser Effect",
+							"url": "https://www.youtube.com/watch?v=p710p5bs1zc"
+						},
+						{
+							"source": "ANZMAG",
+							"title": "NMR Relaxation Lecture 1: Introduction to Spin Relaxation and The Solomon Equations",
+							"url": "https://www.youtube.com/watch?v=e1Xz9aR9tD0"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Magnetic Resonance, Season 1, Episode 19: Nuclear Overhauser effect",
+							"url": "https://www.youtube.com/watch?v=CzwZXnTEXIk"
+						}
+					],
+					"demoIdeas": [
+						"Four-level diagram with W₀, W₁, W₂ arrows: a τ_c slider shows which pathway dominates, plots η versus τ_c with its sign change, and integrates the Solomon equations for a transient NOE after selective inversion."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l044-noesy-roesy-distances",
+					"title": "NOESY, ROESY and Distance Measurement",
+					"minutes": 40,
+					"prereqs": [
+						"c2-l043-solomon-noe"
+					],
+					"objectives": [
+						"Describe the NOESY build-up a_ij(τ_m) ≈ σ_ijτ_m at short mixing time, σ ∝ r⁻⁶, and calibrate an unknown distance from a reference pair, r = r_ref(a_ref/a)^{1/6}.",
+						"Explain spin diffusion at long mixing times and the null at ω₀τ_c ≈ 1.1, and how ROESY (cross-relaxation in the rotating frame) is always positive.",
+						"State the limits of the method: the r⁻⁶ dependence gives a horizon near 5 Å, errors in the reference propagate as the sixth root, and internal mobility changes σ."
+					],
+					"keyEquations": [
+						"a_{ij}(\\tau_m)\\approx\\sigma_{ij}\\tau_m,\\qquad \\sigma_{ij}\\propto r_{ij}^{-6}",
+						"r_{ij}=r_{ref}\\left(\\frac{a_{ref}}{a_{ij}}\\right)^{1/6}",
+						"\\sigma_{ROE}>0\\ \\text{for all}\\ \\omega_0\\tau_c"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§20.6",
+							"title": "NOESY"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§20.7",
+							"title": "ROESY"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§9.7",
+							"title": "The NOE",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 23: Distance and NOE",
+							"url": "https://www.youtube.com/watch?v=4wPUr-HsyDY"
+						}
+					],
+					"demoIdeas": [
+						"NOESY mixing-time simulator: drag atoms in a small cluster, compute the cross-relaxation matrix and plot peak volumes versus τ_m; show the r⁻⁶ fall-off, the spin-diffusion path, and a ROESY toggle."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l045-mechanisms-exchange",
+					"title": "Other Relaxation Mechanisms and Chemical Exchange",
+					"minutes": 40,
+					"prereqs": [
+						"c2-l041-bpp-correlation-time"
+					],
+					"objectives": [
+						"Compare relaxation mechanisms: dipolar, CSA (rate ∝ (γB₀Δσ)²τ_c, so it grows with field), quadrupolar, paramagnetic (electron γ_e/γ_p ≈ 660) and scalar, stating their dependence on field and τ_c.",
+						"Treat two-site exchange: slow exchange gives separate lines broadened by k/π, coalescence occurs at k_c = πΔν/√2, fast exchange gives a single averaged line.",
+						"Convert a coalescence temperature to a rate and a free energy of activation by the Eyring equation (a variable-temperature NMR experiment, e.g. amide rotation)."
+					],
+					"keyEquations": [
+						"R_{CSA}\\propto(\\gamma B_0\\Delta\\sigma)^2\\tau_c",
+						"k_c=\\frac{\\pi\\Delta\\nu}{\\sqrt2}",
+						"\\Delta G^\\ddagger=RT_c\\ln\\frac{k_BT_c}{h\\,k_c}"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§19.5",
+							"title": "Motional Lineshapes and Two-Site Exchange"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§20.2",
+							"title": "Relaxation Mechanisms"
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§9.10",
+							"title": "Relaxation due to chemical shift anisotropy",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "NPTEL, IIT Bombay (NMR course)",
+							"title": "Lecture 12: Dynamic effects in the NMR Spectra",
+							"url": "https://www.youtube.com/watch?v=yBoI0I5SRDU"
+						},
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Spin Dynamics: Common relaxation mechanisms",
+							"url": "https://www.youtube.com/watch?v=jjafkk15vJI"
+						}
+					],
+					"demoIdeas": [
+						"Two-site exchange lineshape: sliders for Δν and k (or temperature via ΔH‡ and ΔS‡) take the pair of lines through coalescence to a single peak, with a fitted rate and an Eyring plot."
+					],
+					"practice": []
+				}
+			]
+		},
+		{
+			"id": "c2-u08-mri-epr-synthesis",
+			"title": "MRI, EPR and Synthesis",
+			"summary": "Where the same spin physics goes next: gradients turn frequency into position (MRI, k-space), the electron analogue of NMR (EPR and hyperfine structure), and a closing synthesis that reads a molecule's IR, UV–vis and NMR spectra back to the physics behind them.",
+			"lessons": [
+				{
+					"id": "c2-l046-mri-gradients-kspace",
+					"title": "MRI: Gradients as Position Encoding and k-Space",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Show that a linear gradient makes the Larmor frequency position dependent, ω(x) = γ(B₀ + Gx), so the signal S(t) = ∫ρ(x)e^{iγGxt}dx is the Fourier transform of spin density with k = γGt/2π.",
+						"Explain slice selection (band-limited RF pulse with a gradient: thickness = bandwidth/(γG/2π)), frequency and phase encoding, and how field of view = 1/Δk and resolution = 1/(2k_max) follow from sampling theory.",
+						"Compute gradient-induced frequency spreads and slice thicknesses, and relate T₁/T₂ contrast to the Bloch equations through repetition and echo times."
+					],
+					"keyEquations": [
+						"\\omega(x)=\\gamma(B_0+Gx)",
+						"S(k)=\\int\\rho(x)\\,e^{-i2\\pi kx}dx,\\qquad k=\\frac{\\gamma Gt}{2\\pi}",
+						"\\Delta z=\\frac{BW}{\\gamma G/2\\pi},\\qquad \\mathrm{FOV}=\\frac1{\\Delta k}"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§12.5",
+							"title": "Slice Selection"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§12.6",
+							"title": "NMR Imaging"
+						},
+						{
+							"bookId": "levitt-spin",
+							"ref": "§12.4",
+							"title": "Gradient Echoes",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Ilya Kuprov (Southampton)",
+							"title": "Magnetic Resonance, Season 1, Episode 8: Pulsed field gradients and k-space",
+							"url": "https://www.youtube.com/watch?v=MgKE9U0MJ5Q"
+						},
+						{
+							"source": "UCLA M219 (Daniel Ennis)",
+							"title": "Lecture 9: The MRI Signal Equation",
+							"url": "https://www.youtube.com/watch?v=-onj_SMZ4Rk"
+						},
+						{
+							"source": "Pines Magnetic Resonance Center, UC Berkeley",
+							"title": "Alex Pines and the Pines Magnetic Resonance Center at UC Berkeley (overview)",
+							"url": "https://www.youtube.com/watch?v=caZ5A-RmiPk"
+						}
+					],
+					"demoIdeas": [
+						"k-space MRI: draw a phantom, set gradient strength and duration, build k-space line by line, and see partial-fill, FOV aliasing and resolution truncation in the image; TR/TE sliders give T₁/T₂ contrast."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l047-epr",
+					"title": "EPR: Electron Spin Resonance and Hyperfine Structure",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"Write the electron Zeeman and hyperfine Hamiltonian H = gμ_BB₀S_z + a Ŝ·Î, the resonance condition hν = gμ_BB₀ (X-band: ≈ 340 mT at 9.5 GHz) and the ratio γ_e/γ_p ≈ 660 that makes electron polarization and frequencies about 660 times larger.",
+						"Predict the hyperfine pattern from n equivalent nuclei of spin I (2nI + 1 lines; methyl radical 1:3:3:1, nitroxide 1:1:1) and relate a_iso to unpaired spin density at the nucleus; note g-anisotropy in powders.",
+						"Explain why the NMR formalism carries over (same spin Hamiltonians, density operator, product operators) while the physics differs: electron relaxation times of ns–µs, and use of electron polarization for DNP."
+					],
+					"keyEquations": [
+						"\\hat H=g\\mu_BB_0\\hat S_z+a\\,\\hat{\\mathbf S}\\cdot\\hat{\\mathbf I}",
+						"h\\nu=g\\mu_BB_{res}",
+						"\\text{lines}=2nI+1,\\quad \\gamma_e/\\gamma_p\\approx658"
+					],
+					"readings": [
+						{
+							"bookId": "levitt-spin",
+							"ref": "§2.9",
+							"title": "Electronic Magnetism",
+							"optional": true
+						},
+						{
+							"bookId": "atkins-mqm",
+							"ref": "Ch. 12",
+							"title": "The magnetic properties of molecules",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Prof. Daniella Goldfarb (ANZMAG)",
+							"title": "Lecture 1: Introduction to EPR spectroscopy",
+							"url": "https://www.youtube.com/watch?v=zfrJxG9m6aI"
+						},
+						{
+							"source": "Prof. Daniella Goldfarb (ANZMAG)",
+							"title": "Lecture 2: The EPR interactions and EPR in the solid state",
+							"url": "https://www.youtube.com/watch?v=frTHh0c2C2g"
+						}
+					],
+					"demoIdeas": [
+						"EPR spectrum simulator: choose a radical (methyl, nitroxide, benzene anion) and a microwave frequency; sliders for g and a show the field-swept derivative spectrum with the Zeeman/hyperfine level diagram, and a powder g-anisotropy toggle."
+					],
+					"practice": []
+				},
+				{
+					"id": "c2-l048-spectra-from-physics",
+					"title": "Synthesis: Reading One Molecule's Spectra as Physics",
+					"minutes": 40,
+					"prereqs": [],
+					"objectives": [
+						"For one small carbonyl compound, assign each feature of its IR, UV–vis and ¹H NMR spectra to its physical origin: a force constant and dμ/dQ (C=O stretch), a Franck–Condon envelope and a symmetry-weak n→π* band, and shielding, J-coupling and relaxation (lineshape).",
+						"Match a physical quantity to the measurement and the equation that connects them: bond length (microwave B), force constant (IR ω), geometry change (Franck–Condon S), dihedral (Karplus ³J), distance (NOE r⁻⁶), motion (T₁, T₂, exchange).",
+						"Make order-of-magnitude comparisons across methods: ΔE/kT, linewidth sources, and timescales from picoseconds (vibrational relaxation) to seconds (NMR T₁)."
+					],
+					"keyEquations": [
+						"P=\\tanh\\frac{h\\nu}{2k_BT},\\qquad \\Delta\\nu_{1/2}=\\frac1{\\pi T_2}=\\frac1{2\\pi\\tau}",
+						"w=\\frac{2\\pi}{\\hbar}|\\mu_{fi}E|^2\\rho,\\qquad \\omega=-\\gamma B_0(1-\\sigma)",
+						"\\tilde\\omega=\\frac{1}{2\\pi c}\\sqrt{k/\\mu}"
+					],
+					"readings": [
+						{
+							"bookId": "bernath-spectra",
+							"ref": "Ch. 1",
+							"title": "Introduction",
+							"optional": true
+						},
+						{
+							"bookId": "keeler-nmr",
+							"ref": "§2.1",
+							"title": "NMR frequencies and chemical shifts",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Cross-spectroscopy dashboard: choose a preset molecule and see simulated IR, UV–vis and ¹H NMR side by side; click any feature to see its origin and parameter; B₀, temperature and solvent sliders change the spectra consistently."
+					],
+					"practice": []
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "c2-midterm",
+			"kind": "midterm",
+			"title": "C2 Midterm: Light–Matter Interaction, Rotation–Vibration, Electronic Spectra and Spin Physics",
+			"covers": [
+				"c2-u01-light-matter",
+				"c2-u02-rotation-vibration",
+				"c2-u03-electronic",
+				"c2-u04-spin-physics"
+			],
+			"minutes": 120,
+			"passMark": 0.7
+		},
+		{
+			"id": "c2-final",
+			"kind": "final",
+			"title": "C2 Final: Molecular Spectroscopy and NMR",
+			"covers": [
+				"c2-u01-light-matter",
+				"c2-u02-rotation-vibration",
+				"c2-u03-electronic",
+				"c2-u04-spin-physics",
+				"c2-u05-spin-hamiltonian",
+				"c2-u06-density-product-2d",
+				"c2-u07-relaxation",
+				"c2-u08-mri-epr-synthesis"
+			],
+			"minutes": 180,
+			"passMark": 0.7
+		}
+	]
+}

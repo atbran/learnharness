@@ -108,6 +108,27 @@ test("schedule: dependent course waits; hours flow when one lane is idle", () =>
 	]);
 });
 
+test("coreqs: run alongside without blocking; unknown ones are flagged", () => {
+	const paired: Program = {
+		...program,
+		courses: ["a", "c"],
+		courseList: [course("a", [], ["a-1", "a-2"]), { ...course("c", [], ["c-1"]), coreqs: ["a"] }],
+	};
+	const pi = indexProgram(paired);
+	assert.deepEqual(lessonPrereqs(pi, "c-1"), []);
+	assert.deepEqual(simulateSchedule(pi, { a: 10, c: 10 }, 10), [
+		{ courseId: "a", startWeek: 0, endWeek: 2 },
+		{ courseId: "c", startWeek: 0, endWeek: 2 },
+	]);
+	// One course at a time: c waits for a's lane even with no prereq.
+	assert.deepEqual(simulateSchedule(pi, { a: 10, c: 10 }, 10, 1), [
+		{ courseId: "a", startWeek: 0, endWeek: 1 },
+		{ courseId: "c", startWeek: 1, endWeek: 2 },
+	]);
+	const bad: Program = { ...paired, courseList: [paired.courseList[0]!, { ...paired.courseList[1]!, coreqs: ["zzz"] }] };
+	assert.match(validateProgram(bad, { books: [] }).map((i) => i.message).join("\n"), /zzz/);
+});
+
 test("streak tolerates one missed day per week; XP and levels accrue", () => {
 	const days = ["2026-11-03", "2026-11-04", "2026-11-06", "2026-11-07", "2026-11-08", "2026-11-09", "2026-11-10"];
 	const events: ProgressEvent[] = days.map((d) => ({ type: "study_time", at: at(d), minutes: 30, source: "heartbeat" }));

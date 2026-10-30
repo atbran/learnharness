@@ -140,10 +140,11 @@ function readSettings(): CurriculumSettings {
 		const raw = readJson(SETTINGS) as Partial<CurriculumSettings>;
 		return {
 			hoursPerWeek: typeof raw.hoursPerWeek === "number" && raw.hoursPerWeek > 0 ? raw.hoursPerWeek : null,
+			parallelCourses: typeof raw.parallelCourses === "number" && raw.parallelCourses >= 1 ? Math.min(6, Math.round(raw.parallelCourses)) : null,
 			startDate: typeof raw.startDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(raw.startDate) ? raw.startDate : null,
 		};
 	} catch {
-		return { hoursPerWeek: null, startDate: null };
+		return { hoursPerWeek: null, startDate: null, parallelCourses: null };
 	}
 }
 

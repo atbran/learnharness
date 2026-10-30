@@ -231,6 +231,8 @@ export interface AuthStore {
 export interface CurriculumSettings {
 	/** Weekly study target; null = the program's default. */
 	hoursPerWeek: number | null;
+	/** Courses studied in parallel; null = 3. */
+	parallelCourses: number | null;
 	/** Program start (yyyy-mm-dd); null = the first ledger event. */
 	startDate: string | null;
 }

@@ -46,7 +46,10 @@ export function startIngest(bookId: string, pdfFile: string, sourceName: string)
 	ingests.set(bookId, status);
 	emit("curriculum-changed", {});
 	let lastEmit = 0;
-	void (async () => {
+	// One ingest at a time: a whole-book pdfjs pass holds the PDF in memory,
+	// and an inbox scan can queue twenty of them.
+	queue.tail = queue.tail.then(() => runIngest());
+	const runIngest = async () => {
 		try {
 			const extract = await pdfBookExtract(target, (done, total) => {
 				status.done = done;
@@ -72,21 +75,30 @@ export function startIngest(bookId: string, pdfFile: string, sourceName: string)
 		} finally {
 			emit("curriculum-changed", {});
 		}
-	})();
+	};
 }
+
+const gq = globalThis as unknown as { __lhIngestQueue?: { tail: Promise<void> } };
+const queue = (gq.__lhIngestQueue ??= { tail: Promise.resolve() });
 
 /** Guess which catalog book a PDF is, from its metadata title and the
  *  text of its first pages. */
 export async function matchCatalogBook(pdfFile: string): Promise<{ bookId: string; score: number } | null> {
-	const extract = await pdfBookExtract(pdfFile);
-	const head = `${extract.meta.title ?? ""} ${extract.meta.author ?? ""} ${extract.pages.slice(0, 6).map((p) => p.text).join(" ")}`.toLowerCase();
+	// The title pages are enough to recognise a book; never extract it all.
+	const extract = await pdfBookExtract(pdfFile, undefined, { maxPages: 8 });
+	// The file name rides along: scanned PDFs have no text layer at all.
+	const fileName = path.basename(pdfFile).replace(/[_-]+/g, " ");
+	const head = `${fileName} ${extract.meta.title ?? ""} ${extract.meta.author ?? ""} ${extract.pages.slice(0, 6).map((p) => p.text).join(" ")}`.toLowerCase();
+	// The title page outweighs the rest: lecture notes cite other books
+	// (Tong's Classical Dynamics names Goldstein) in their opening pages.
+	const titlePage = `${fileName} ${extract.meta.title ?? ""} ${extract.pages[0]?.text ?? ""}`.toLowerCase();
 	let best: { bookId: string; score: number } | null = null;
 	for (const b of stores.curriculumStore.loadCatalog().books) {
 		const hints = b.matchHints.length ? b.matchHints : [b.title.toLowerCase()];
-		const hintScore = hints.filter((h) => head.includes(h.toLowerCase())).length / hints.length;
+		const hit = (text: string) => hints.filter((h) => text.includes(h.toLowerCase())).length / hints.length;
 		const titleScore = extract.meta.title ? titleSimilarity(extract.meta.title, b.title) : 0;
 		const authorScore = b.authors.some((a) => head.includes(a.split(" ").at(-1)!.toLowerCase())) ? 0.3 : 0;
-		const score = Math.max(hintScore, titleScore) + authorScore;
+		const score = Math.max(hit(head), titleScore) + authorScore + 0.5 * hit(titlePage);
 		if (!best || score > best.score) best = { bookId: b.id, score };
 	}
 	return best && best.score >= 0.8 ? best : null;

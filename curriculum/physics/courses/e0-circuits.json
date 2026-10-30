@@ -1,0 +1,1395 @@
+{
+	"id": "e0-circuits",
+	"code": "E0",
+	"title": "Circuits & Electronics for Scientists",
+	"track": "elective",
+	"depth": "core",
+	"hours": 25,
+	"prereqs": [],
+	"coreqs": [
+		"m0-precalc"
+	],
+	"subject": "Circuits & Electronics",
+	"summary": "A hands-on, intuition-first introduction to circuits and electronics for a chemist who works with NMR, ICP-MS, potentiostats and other detectors, designed to run alongside the algebra and precalculus refresher (M0): it uses only algebra, exponentials and logarithms, and trigonometry, with complex-number phasors, and flags where calculus will later deepen each idea. Seven units cover charge, current, voltage and power; DC analysis (dividers, Kirchhoff, nodal and mesh analysis as linear systems); Thevenin equivalents, meters, grounding, safety and the Wheatstone bridge; capacitors, inductors and the RC time constant; AC, impedance, filters and resonance; diodes, transistors and op-amps including the transimpedance amplifier; and instrumentation (ADC and DAC, noise, the potentiostat, NMR and mass-spectrometer signal chains). Schematic reading, back-of-envelope estimates and 'why does the physics work this way' come before calculation.",
+	"books": [
+		{
+			"bookId": "openstax-up2",
+			"role": "primary"
+		},
+		{
+			"bookId": "openstax-up3",
+			"role": "reference"
+		},
+		{
+			"bookId": "smith-dsp",
+			"role": "reference"
+		}
+	],
+	"units": [
+		{
+			"id": "e0-u01-charge-current-power",
+			"title": "Charge, Current, Voltage and Power",
+			"summary": "The vocabulary of every circuit: current as charge flow (and moles of electrons, via Faraday's constant), voltage as energy per charge (the same quantity as electrochemical cell potential), resistance and Ohm's law, and how to read a resistor and a schematic. Water analogies are used and then deliberately broken.",
+			"lessons": [
+				{
+					"id": "e0-l001-charge-current-water-analogy",
+					"title": "Charge, Current and the Water Analogy",
+					"minutes": 35,
+					"objectives": [
+						"Define current as charge per time, I = ΔQ/Δt, and convert among amperes, coulombs per second, electrons per second and moles of electrons per second (n = It/F), including the sign convention that I points the way positive charge would move.",
+						"Use I = nqAv_d to see that electron drift speed in a wire is only tenths of a millimetre per second, and explain why a lamp nevertheless lights at once.",
+						"Map the water-pipe analogy (flow rate, pressure, pipe) onto current, voltage and wire, and name two places the analogy misleads (charge cannot spill out of a cut wire; the signal travels in the field, not by carriers pushing along the wire)."
+					],
+					"keyEquations": [
+						"I=\\frac{\\Delta Q}{\\Delta t}",
+						"n_e=\\frac{It}{F},\\quad F=96485\\ \\mathrm{C\\,mol^{-1}}",
+						"I=nqAv_d"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§9.1",
+							"title": "Electrical Current"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§9.2",
+							"title": "Model of Conduction in Metals",
+							"optional": true
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§5.1",
+							"title": "Electric Charge",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Khan Academy",
+							"title": "Current | Introduction to electrical engineering",
+							"url": "https://www.youtube.com/watch?v=ZRLXDiiUv8Q"
+						},
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 1: Introduction and Lumped Abstraction (for the 'lumped' view of what a circuit is)",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-1/"
+						}
+					],
+					"demoIdeas": [
+						"Zoomed-in wire: sliders for current and cross-section show the carrier density, the tiny drift speed and the instant field-propagation front; a toggle switches to an electrolyte with ions moving in both directions."
+					]
+				},
+				{
+					"id": "e0-l002-voltage-energy-power",
+					"title": "Voltage, Energy and Power",
+					"minutes": 35,
+					"objectives": [
+						"Explain voltage as energy per unit charge (1 V = 1 J/C), why it is always a difference between two points, and how it is the same quantity as a cell potential in ΔG = −nFE.",
+						"Compute power P = IV and energy E = Pt, converting between joules, watt-hours and battery ratings in mAh.",
+						"Use the passive sign convention to decide whether a component is absorbing or supplying power."
+					],
+					"keyEquations": [
+						"V=\\frac{W}{q}",
+						"P=IV",
+						"E=Pt",
+						"\\Delta G=-nFE"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§7.2",
+							"title": "Electric Potential and Potential Difference"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§9.5",
+							"title": "Electrical Energy and Power"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.1",
+							"title": "Electromotive Force",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Khan Academy",
+							"title": "Voltage | Introduction to electrical engineering",
+							"url": "https://www.youtube.com/watch?v=k9SwNST1eW0"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #1009 - DC Fundamentals Part 1: Voltage vs Power vs Energy",
+							"url": "https://www.youtube.com/watch?v=YdbhnmA4M9g"
+						},
+						{
+							"source": "Khan Academy",
+							"title": "Electric power | Circuits | Physics",
+							"url": "https://www.youtube.com/watch?v=3zt7DWUiaDE"
+						}
+					],
+					"demoIdeas": [
+						"Battery, lamp and charger on one canvas: set V and I, read the power with its sign, the running energy in J and Wh, and the mAh drawn; reverse the current to see the battery switch from supplying to absorbing."
+					]
+				},
+				{
+					"id": "e0-l003-resistance-ohms-law-resistivity",
+					"title": "Resistance, Resistivity and Ohm's Law",
+					"minutes": 35,
+					"objectives": [
+						"State Ohm's law as an empirical property of ohmic conductors rather than a definition, and sketch the I–V curves of an ohmic resistor, a lamp filament and a diode.",
+						"Compute R = ρL/A for a wire or a conductivity cell, and predict how R changes when length, area or material changes; relate resistivity to conductivity as used in solution conductivity meters.",
+						"Explain why the resistance of a metal rises with temperature while that of a semiconductor or an electrolyte falls."
+					],
+					"keyEquations": [
+						"V=IR",
+						"R=\\rho\\frac{L}{A}",
+						"\\sigma=\\frac{1}{\\rho},\\quad G=\\frac{1}{R}",
+						"R(T)\\approx R_0\\left[1+\\alpha(T-T_0)\\right]"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§9.3",
+							"title": "Resistivity and Resistance"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§9.4",
+							"title": "Ohm's Law"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§9.2",
+							"title": "Model of Conduction in Metals",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Khan Academy",
+							"title": "Ideal circuit elements | Circuit analysis",
+							"url": "https://www.youtube.com/watch?v=l-h72j2-X0o"
+						},
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 1: Introduction and Lumped Abstraction",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-1/"
+						}
+					],
+					"demoIdeas": [
+						"Wire builder: sliders for length, diameter and material give R live; plot I versus V for an ohmic resistor, a heating lamp filament, a diode and an NTC thermistor, with a temperature slider."
+					]
+				},
+				{
+					"id": "e0-l004-resistor-codes-schematics",
+					"title": "Reading Resistor Codes and Schematics",
+					"minutes": 30,
+					"objectives": [
+						"Decode 4- and 5-band colour codes and three-digit SMD codes into value and tolerance, and pick the nearest standard (E-series) value.",
+						"Read a schematic as a graph of nodes: identify the standard symbols for resistor, capacitor, inductor, battery, ground, switch, diode, LED, transistor and op-amp, and distinguish crossing wires from a junction dot.",
+						"Choose a resistor power rating from P = I²R = V²/R with a safety margin, and say when tolerance matters for a measurement."
+					],
+					"keyEquations": [
+						"R=(10a+b)\\times10^{c}\\ \\Omega",
+						"P=I^2R=\\frac{V^2}{R}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§9.5",
+							"title": "Electrical Energy and Power",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Ben Eater",
+							"title": "Limiting current through an LED | Digital electronics (2 of 10)",
+							"url": "https://www.youtube.com/watch?v=CdqvY_vY1XA"
+						},
+						{
+							"source": "Khan Academy",
+							"title": "Circuit terminology | Circuit analysis",
+							"url": "https://www.youtube.com/watch?v=cMUWA7ZSPCU"
+						}
+					],
+					"demoIdeas": [
+						"Click-through resistor: set the colour bands and read value, tolerance band and worst-case range; below it, a small schematic where hovering a wire highlights every point at the same voltage."
+					]
+				}
+			]
+		},
+		{
+			"id": "e0-u02-dc-analysis",
+			"title": "Series, Parallel and Kirchhoff: DC Circuit Analysis",
+			"summary": "From combining resistors to solving any resistor network: series and parallel reduction, voltage and current dividers, Kirchhoff's two conservation laws, and nodal and mesh analysis written as systems of linear equations (the elimination skills from M0's systems-of-equations lessons).",
+			"lessons": [
+				{
+					"id": "e0-l005-series-parallel-resistors",
+					"title": "Series and Parallel Resistors",
+					"minutes": 30,
+					"objectives": [
+						"Compute equivalent resistance for series and parallel combinations, and justify each rule from 'same current' (series) and 'same voltage' (parallel), with conductances adding in parallel.",
+						"Reduce a mixed network step by step to one equivalent resistor, and check the answer by power conservation."
+					],
+					"keyEquations": [
+						"R_s=\\sum_i R_i",
+						"\\frac{1}{R_p}=\\sum_i\\frac{1}{R_i}",
+						"R_p=\\frac{R_1R_2}{R_1+R_2}",
+						"G_p=\\sum_i G_i"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.2",
+							"title": "Resistors in Series and Parallel"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Khan Academy",
+							"title": "Series resistors | Circuit analysis",
+							"url": "https://www.youtube.com/watch?v=P_SELh0dPW0"
+						},
+						{
+							"source": "Khan Academy",
+							"title": "Parallel resistors (part 1) | Circuit analysis",
+							"url": "https://www.youtube.com/watch?v=MHADYILlW1E"
+						},
+						{
+							"source": "Khan Academy",
+							"title": "Simplifying resistor networks | Circuit analysis",
+							"url": "https://www.youtube.com/watch?v=tnYQ_tQmYrM"
+						}
+					],
+					"demoIdeas": [
+						"Drag-and-drop resistor network: add resistors in series or parallel, see the equivalent resistance update, and watch each branch's current and voltage change."
+					]
+				},
+				{
+					"id": "e0-l006-voltage-current-dividers",
+					"title": "Voltage and Current Dividers",
+					"minutes": 35,
+					"objectives": [
+						"Derive and use V_out = V_in R_2/(R_1+R_2) and the current divider I_1 = I R_2/(R_1+R_2), explaining why the other branch's resistor sits in the numerator.",
+						"Predict how a load connected across the output of a divider changes V_out, and state the rule of thumb for when the load can be ignored (load ≫ R_2).",
+						"Recognise dividers in real hardware: potentiometers, sensor read-outs such as a thermistor or photoresistor, and attenuator probes."
+					],
+					"keyEquations": [
+						"V_{out}=V_{in}\\frac{R_2}{R_1+R_2}",
+						"I_1=I\\frac{R_2}{R_1+R_2}",
+						"V_{out}=V_{in}\\frac{R_2\\parallel R_L}{R_1+R_2\\parallel R_L}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.2",
+							"title": "Resistors in Series and Parallel",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "EEVblog",
+							"title": "EEVblog 1399 - DC Fundamentals Part 3: Voltage Dividers",
+							"url": "https://www.youtube.com/watch?v=xSRe_4TQbuo"
+						}
+					],
+					"demoIdeas": [
+						"Divider with a wiper: drag the potentiometer wiper and a load-resistor slider to see V_out with and without the load, and the error plotted against R_L/R_2."
+					]
+				},
+				{
+					"id": "e0-l007-kirchhoff-laws",
+					"title": "Kirchhoff's Laws",
+					"minutes": 40,
+					"prereqs": [
+						"e0-l005-series-parallel-resistors"
+					],
+					"objectives": [
+						"State Kirchhoff's current law as conservation of charge at a node and the voltage law as conservation of energy around a loop (a charge returning to its start has no net energy change).",
+						"Apply both laws to a circuit with consistent sign conventions to find all branch currents in a one-source, two-loop network.",
+						"Verify a solution by checking that power supplied equals power absorbed."
+					],
+					"keyEquations": [
+						"\\sum I_{in}=\\sum I_{out}",
+						"\\sum_{loop}V=0",
+						"\\sum P_{supplied}=\\sum P_{absorbed}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.3",
+							"title": "Kirchhoff's Rules"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Khan Academy",
+							"title": "Kirchhoff's current law | Circuit analysis",
+							"url": "https://www.youtube.com/watch?v=OYerdzZPSI0"
+						},
+						{
+							"source": "Khan Academy",
+							"title": "Kirchhoff's voltage law | Circuit analysis",
+							"url": "https://www.youtube.com/watch?v=Bt6V7D5av9A"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #819 - DC Fundamentals Part 4: Kirchhoff's Laws Tutorial",
+							"url": "https://www.youtube.com/watch?v=WBfAEeEzDlg"
+						}
+					],
+					"demoIdeas": [
+						"Two-loop circuit sandbox: change sources and resistors, with live KCL and KVL residuals (they stay at zero) and a power-balance bar."
+					]
+				},
+				{
+					"id": "e0-l008-nodal-analysis-linear-systems",
+					"title": "Nodal Analysis: Circuits as Linear Systems",
+					"minutes": 40,
+					"objectives": [
+						"Write Kirchhoff's current law at each non-reference node as a matrix equation G V = I and solve a two- or three-node network by elimination or substitution (the linear-systems toolkit from M0).",
+						"Explain why a reference node is needed, why N nodes give N−1 independent equations, and why the conductance matrix is symmetric for resistor networks.",
+						"Interpret the diagonal entry of G as the total conductance at a node and the off-diagonal entries as minus the conductance connecting two nodes."
+					],
+					"keyEquations": [
+						"\\sum_j G_{ij}(V_i-V_j)=I_i",
+						"\\mathbf{G}\\mathbf{V}=\\mathbf{I}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.3",
+							"title": "Kirchhoff's Rules"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 2: Basic Circuit Analysis Method",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-2/"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #820 - DC Fundamentals Part 5: Mesh & Nodal Circuit Analysis Tutorial",
+							"url": "https://www.youtube.com/watch?v=8f-2yXiYmRI"
+						}
+					],
+					"demoIdeas": [
+						"Edit a three-node resistor network and watch the 2×2 or 3×3 system assemble, then step through row operations until the node voltages appear on the schematic."
+					]
+				},
+				{
+					"id": "e0-l009-mesh-analysis-superposition",
+					"title": "Mesh Analysis and Superposition",
+					"minutes": 35,
+					"objectives": [
+						"Explain how mesh analysis writes Kirchhoff's voltage law around each independent loop in terms of loop currents, and choose between mesh and nodal analysis by counting unknowns.",
+						"Apply superposition to a circuit with two sources by replacing the others (voltage sources by shorts, current sources by opens), and explain why it works for currents and voltages but not for power."
+					],
+					"keyEquations": [
+						"\\mathbf{R}\\mathbf{I}_{mesh}=\\mathbf{V}_{src}",
+						"V=\\sum_k V^{(k)},\\quad P\\ne\\sum_k P^{(k)}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.3",
+							"title": "Kirchhoff's Rules"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 3: Superposition, Thévenin and Norton (first half: superposition)",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-3/"
+						}
+					],
+					"demoIdeas": [
+						"Two-source circuit: toggle each source on and off and watch the individual contributions add to the full response while the power bars visibly do not."
+					]
+				}
+			]
+		},
+		{
+			"id": "e0-u03-equivalents-measurement",
+			"title": "Equivalent Circuits and Measurement",
+			"summary": "Thevenin and Norton equivalents and maximum power transfer, then the practical lab questions they answer: what a meter does to the circuit it measures, why mains hum gets into signals and how ground and shielding fight it, electrical safety, and the Wheatstone bridge behind conductivity, strain and thermal-conductivity sensors.",
+			"lessons": [
+				{
+					"id": "e0-l010-thevenin-norton",
+					"title": "Thevenin and Norton Equivalents",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l008-nodal-analysis-linear-systems"
+					],
+					"objectives": [
+						"Reduce any two-terminal linear network to a Thevenin equivalent (V_th = open-circuit voltage, R_th = V_oc/I_sc, or R_th with sources turned off) and convert to the Norton form with I_N = V_th/R_th.",
+						"Model a real source (battery, function generator, electrode) as an ideal source plus an internal resistance, and predict its terminal voltage under load.",
+						"Explain what the equivalent preserves (behaviour at the terminals) and what it does not (heat dissipated inside)."
+					],
+					"keyEquations": [
+						"V_{th}=V_{oc}",
+						"R_{th}=\\frac{V_{oc}}{I_{sc}}",
+						"I_N=\\frac{V_{th}}{R_{th}}",
+						"V_L=V_{th}\\frac{R_L}{R_{th}+R_L}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.1",
+							"title": "Electromotive Force"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.3",
+							"title": "Kirchhoff's Rules",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 3: Superposition, Thévenin and Norton (second half: Thévenin and Norton)",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-3/"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog 1397 - DC Fundamentals Part 2: DC Voltage & Current Sources (Thevenin & Norton Theorems)",
+							"url": "https://www.youtube.com/watch?v=AQK7RyecVW0"
+						}
+					],
+					"demoIdeas": [
+						"Black-box network: connect a variable load, record V and I, and fit a straight line whose intercepts are V_th and I_N; reveal the hidden circuit to check."
+					]
+				},
+				{
+					"id": "e0-l011-maximum-power-transfer",
+					"title": "Maximum Power Transfer and Matching",
+					"minutes": 30,
+					"objectives": [
+						"Show with algebra (no calculus) that power in the load, P_L = V_th²R_L/(R_th+R_L)², is largest at R_L = R_th, using (R_th − R_L)² ≥ 0, and that P_max = V_th²/(4R_th) at 50% efficiency.",
+						"Decide when matching is wanted (RF and signal chains, 50 Ω systems) and when it is the opposite of what you want (power distribution, voltmeters, low-loss supplies)."
+					],
+					"keyEquations": [
+						"P_L=\\frac{V_{th}^2R_L}{(R_{th}+R_L)^2}",
+						"P_{max}=\\frac{V_{th}^2}{4R_{th}}",
+						"\\eta=\\frac{R_L}{R_{th}+R_L}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.1",
+							"title": "Electromotive Force",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Plot load power and efficiency against R_L/R_th on a log axis: the power peak sits at 1, efficiency passes through 50% there."
+					]
+				},
+				{
+					"id": "e0-l012-meters-loading-internal-resistance",
+					"title": "Meters, Loading and Internal Resistance",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l010-thevenin-norton"
+					],
+					"objectives": [
+						"Explain why a voltmeter (high input resistance, in parallel) and an ammeter (low resistance, in series) disturb the circuit they measure, and compute the loading error using a Thevenin model of the circuit.",
+						"Explain why a high-impedance source such as a pH glass electrode (~100 MΩ) needs an electrometer or buffer rather than a 10 MΩ multimeter.",
+						"Explain why a four-wire (Kelvin) measurement of a small resistance removes lead and contact resistance."
+					],
+					"keyEquations": [
+						"V_{read}=V_{th}\\frac{R_{in}}{R_{th}+R_{in}}",
+						"\\varepsilon\\approx\\frac{R_{th}}{R_{in}}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.4",
+							"title": "Electrical Measuring Instruments"
+						}
+					],
+					"lectures": [
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #26 - Multimeter Tutorial - Counts, Accuracy, Resolution & Calibration",
+							"url": "https://www.youtube.com/watch?v=U4JFeU-o2kc"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #853 - How A Multimeter Works",
+							"url": "https://www.youtube.com/watch?v=yuCXsT3_WRE"
+						},
+						{
+							"source": "w2aew",
+							"title": "#338: Probe Tips: Beware of capacitive loading of oscilloscope probes on your circuit operation",
+							"url": "https://www.youtube.com/watch?v=sPSJnj7gVJA"
+						}
+					],
+					"demoIdeas": [
+						"Divider with a meter attached: choose the meter's input resistance (1 MΩ, 10 MΩ, 10 GΩ) and the source resistance, and see the reading error; add lead resistance to a low-resistance measurement and switch to 4-wire."
+					]
+				},
+				{
+					"id": "e0-l013-ground-shielding-safety",
+					"title": "Ground, Shielding and Electrical Safety",
+					"minutes": 35,
+					"objectives": [
+						"Distinguish circuit ground (a reference node), chassis/earth ground and a ground loop, and explain how mains hum couples in capacitively and inductively and how shielding, twisted pairs, coax and single-point grounding reduce it.",
+						"Explain that current through the body, not voltage alone, determines harm (about 1 mA perceptible, 10–20 mA can't let go, ~100 mA risks fibrillation), and estimate it from V/R_body.",
+						"State basic lab safety practice: never defeat a ground pin, treat charged capacitors and high-voltage supplies (as in MS and ICP-MS) as live, use one hand when probing, and know what a GFCI trips on."
+					],
+					"keyEquations": [
+						"I_{body}=\\frac{V}{R_{body}}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.6",
+							"title": "Household Wiring and Electrical Safety"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Physics Videos by Eugene Khutoryansky",
+							"title": "Grounding and Shielding of electric circuits",
+							"url": "https://www.youtube.com/watch?v=rIhF410L2SU"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #279 - How NOT To Blow Up Your Oscilloscope!",
+							"url": "https://www.youtube.com/watch?v=xaELqAo4kkQ"
+						}
+					],
+					"demoIdeas": [
+						"Noise-pickup bench: a 1 mV sensor signal and 50/60 Hz hum on a scope trace; toggle shield, twisted pair and a second ground connection to see the hum amplitude rise and fall."
+					]
+				},
+				{
+					"id": "e0-l014-wheatstone-bridge",
+					"title": "The Wheatstone Bridge",
+					"minutes": 30,
+					"prereqs": [
+						"e0-l006-voltage-current-dividers"
+					],
+					"objectives": [
+						"Derive the balance condition R_1/R_2 = R_3/R_x and explain why a null measurement is insensitive to the source voltage and to the detector's calibration.",
+						"Compute the small output voltage of a bridge with one varying arm, V_out ≈ V_s ΔR/(4R), and explain why a bridge beats a plain divider for small changes.",
+						"Name sensor uses: strain gauges, thermistors, thermal-conductivity and Pirani detectors, and AC conductivity-cell bridges."
+					],
+					"keyEquations": [
+						"\\frac{R_1}{R_2}=\\frac{R_3}{R_x}",
+						"V_{out}=V_s\\left(\\frac{R_x}{R_x+R_3}-\\frac{R_2}{R_1+R_2}\\right)",
+						"V_{out}\\approx V_s\\frac{\\Delta R}{4R}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.4",
+							"title": "Electrical Measuring Instruments"
+						}
+					],
+					"lectures": [
+						{
+							"source": "element14 presents",
+							"title": "How a Wheatstone Bridge Works - DC to Daylight",
+							"url": "https://www.youtube.com/watch?v=jq1elJGLBmo"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog 1476 - Keithley 515A Wheatstone Bridge TEARDOWN & TUTORIAL",
+							"url": "https://www.youtube.com/watch?v=JDXKrXJloSw"
+						}
+					],
+					"demoIdeas": [
+						"Bridge with a sensor arm: turn the sensor's ΔR slider and read the output; compare the bridge with a single divider at the same ΔR, and try the balance knob to null it."
+					]
+				}
+			]
+		},
+		{
+			"id": "e0-u04-capacitors-inductors-time",
+			"title": "Capacitors, Inductors and Time Constants",
+			"summary": "What a capacitor and an inductor physically are, why one resists changes in voltage and the other changes in current, and how that gives the exponential charging curve with its time constant (algebra and exponentials only; the calculus behind it is flagged for later). Chemistry hooks: the electrode double layer and T1 relaxation follow the same curve.",
+			"lessons": [
+				{
+					"id": "e0-l015-capacitors",
+					"title": "Capacitors: Storing Charge and Energy",
+					"minutes": 35,
+					"objectives": [
+						"Explain C = Q/V physically, use the parallel-plate result C = ε₀ε_r A/d to predict what a dielectric or a change of spacing does, and compute stored energy U = ½CV².",
+						"Combine capacitors in series and in parallel (the reverse of resistors) and say why.",
+						"Explain why the current through an ideal capacitor is I = C ΔV/Δt (zero for steady DC, large for a fast change) and relate it to the electrochemical double layer (~10–20 µF/cm²)."
+					],
+					"keyEquations": [
+						"C=\\frac{Q}{V}",
+						"C=\\frac{\\varepsilon_0\\varepsilon_rA}{d}",
+						"U=\\tfrac12CV^2",
+						"I=C\\frac{\\Delta V}{\\Delta t}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§8.1",
+							"title": "Capacitors and Capacitance"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§8.2",
+							"title": "Capacitors in Series and in Parallel"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§8.3",
+							"title": "Energy Stored in a Capacitor"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§8.4",
+							"title": "Capacitor with a Dielectric",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #486 - Does Current Flow Through A Capacitor?",
+							"url": "https://www.youtube.com/watch?v=ppWBwZS4e7A"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #33 1of2 - Capacitor Tutorial (Electrolytic, Tantalum, & Plastic Film) (practical capacitor types)",
+							"url": "https://www.youtube.com/watch?v=xlvqUts9H9c"
+						}
+					],
+					"demoIdeas": [
+						"Parallel-plate capacitor: sliders for plate area, gap and dielectric constant show C, charge, field lines and stored energy, with a battery-connected / isolated toggle."
+					]
+				},
+				{
+					"id": "e0-l016-inductors",
+					"title": "Inductors: Magnetic Energy and Inductive Kick",
+					"minutes": 30,
+					"objectives": [
+						"Explain an inductor as a coil whose magnetic field stores energy U = ½LI² and which opposes changes in current, V = L ΔI/Δt, and give the solenoid result L = μ₀N²A/ℓ and how L scales with turns and size.",
+						"Contrast capacitor and inductor (a capacitor resists changes in voltage, an inductor changes in current) and predict the large voltage spike when a coil's current is interrupted; say why flyback diodes and spark suppression exist."
+					],
+					"keyEquations": [
+						"V=L\\frac{\\Delta I}{\\Delta t}",
+						"U=\\tfrac12LI^2",
+						"L=\\frac{\\mu_0N^2A}{\\ell}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§14.2",
+							"title": "Self-Inductance and Inductors"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§14.3",
+							"title": "Energy in a Magnetic Field"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§12.6",
+							"title": "Solenoids and Toroids",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "EEVblog",
+							"title": "EEVblog 1409 - The DANGERS of Inductor Back EMF",
+							"url": "https://www.youtube.com/watch?v=hReCPMIcLHg"
+						},
+						{
+							"source": "The Engineering Mindset",
+							"title": "Inductors Explained - The basics how inductors work working principle",
+							"url": "https://www.youtube.com/watch?v=KSylo01n5FY"
+						}
+					],
+					"demoIdeas": [
+						"Coil and switch: open the switch and see the voltage across the coil spike in proportion to I/Δt; add a flyback diode and watch the spike vanish."
+					]
+				},
+				{
+					"id": "e0-l017-rc-rl-time-constant",
+					"title": "RC and RL Transients: the Time Constant",
+					"minutes": 40,
+					"prereqs": [
+						"e0-l007-kirchhoff-laws"
+					],
+					"objectives": [
+						"Describe RC charging V_C = V_s(1 − e^{−t/τ}) and discharge V_C = V_0 e^{−t/τ} with τ = RC, using the exponential function from M0, and quote the 63%, 86%, 95% and 99% marks at 1τ, 2τ, 3τ and 5τ.",
+						"Explain why the curve is exponential: the current through R is proportional to the voltage still to be gained, so the rate of change is proportional to what is left (the same law as first-order kinetics); say where calculus will later turn this into dV/dt = (V_s − V)/RC.",
+						"Apply the same shape to an RL circuit (τ = L/R) and to analogues in the lab: electrode double-layer charging, ADC input settling, and T1 relaxation in NMR."
+					],
+					"keyEquations": [
+						"\\tau=RC",
+						"V_C(t)=V_s\\left(1-e^{-t/\\tau}\\right)",
+						"V_C(t)=V_0e^{-t/\\tau}",
+						"\\tau_{RL}=\\frac{L}{R}",
+						"t_{1/2}=\\tau\\ln2"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§10.5",
+							"title": "RC Circuits"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§14.4",
+							"title": "RL Circuits"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 12: Capacitors and First-Order Systems",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-12/"
+						},
+						{
+							"source": "Khan Academy",
+							"title": "RC natural response intuition (1 of 3) (part 1 only)",
+							"url": "https://www.youtube.com/watch?v=PZM6acXvsoQ"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog 1406 - DC Fundamentals Part 7: DC Circuit Transients Fundamentals",
+							"url": "https://www.youtube.com/watch?v=8nyNamrWcyE"
+						}
+					],
+					"demoIdeas": [
+						"RC step explorer: R and C sliders, a step input, the voltage curve with τ markers, a step-by-step 'what is left' staircase converging to the same curve, and an RL toggle; a semi-log view straightens the decay."
+					]
+				}
+			]
+		},
+		{
+			"id": "e0-u05-ac-impedance-resonance",
+			"title": "AC Circuits, Impedance and Resonance",
+			"summary": "Sinusoids, RMS and phase, then phasors as complex-number algebra (M0's complex-number lessons), impedance as Ohm's law for AC, filters as frequency-dependent voltage dividers, and RLC resonance, with the NMR probe's tuned circuit as the running chemistry example. Calculus will later show why a derivative becomes multiplication by jω.",
+			"lessons": [
+				{
+					"id": "e0-l018-sinusoids-rms-phase",
+					"title": "Sinusoids, RMS and Phase",
+					"minutes": 35,
+					"objectives": [
+						"Describe v(t) = V_p sin(2πft + φ) by amplitude, peak-to-peak, frequency, period and phase, and read the phase from a time delay on a two-channel scope, φ = 360°·Δt/T.",
+						"Explain why V_rms = V_p/√2 for a sine (the DC value giving the same heating) and why an AC waveform with zero average still delivers power.",
+						"Convert between mains figures (e.g. 120 V rms ≈ 170 V peak ≈ 340 V peak-to-peak)."
+					],
+					"keyEquations": [
+						"v(t)=V_p\\sin(2\\pi ft+\\phi)",
+						"V_{rms}=\\frac{V_p}{\\sqrt2}",
+						"P=\\frac{V_{rms}^2}{R}",
+						"\\phi=360^\\circ\\frac{\\Delta t}{T}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§15.1",
+							"title": "AC Sources"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§15.4",
+							"title": "Power in an AC Circuit",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 16: Sinusoidal Steady State",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-16/"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog 1417 - AC Basics Tutorial Part 1: Alternating Current",
+							"url": "https://www.youtube.com/watch?v=rrPtvYYJ2-g"
+						}
+					],
+					"demoIdeas": [
+						"Two-channel scope: set amplitude, frequency and a phase or delay on channel B, read the phase from the traces, and see the RMS value and the instantaneous power v²/R."
+					]
+				},
+				{
+					"id": "e0-l019-phasors-complex-numbers",
+					"title": "Phasors: Sinusoids as Complex Numbers",
+					"minutes": 35,
+					"objectives": [
+						"Represent a sinusoid of known frequency as a rotating complex number and keep only its amplitude and phase (the phasor), converting between polar and rectangular form (M0 complex-number lessons).",
+						"Add two same-frequency sinusoids by adding their phasors, and explain why the amplitudes alone do not add.",
+						"Explain that multiplying by j rotates a phasor by +90°, which is the origin of the 90° phase shifts in capacitors and inductors."
+					],
+					"keyEquations": [
+						"\\tilde V=V_pe^{j\\phi}",
+						"e^{j\\theta}=\\cos\\theta+j\\sin\\theta",
+						"j^2=-1",
+						"|a+jb|=\\sqrt{a^2+b^2}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§15.3",
+							"title": "RLC Series Circuits with AC"
+						}
+					],
+					"lectures": [
+						{
+							"source": "EEVblog",
+							"title": "EEVblog 1469 - AC Basics Tutorial Part 2 - Phasors",
+							"url": "https://www.youtube.com/watch?v=yEG6pKUdIlg"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog 1470 - AC Basics Tutorial Part 3 - Complex Numbers are EASY!",
+							"url": "https://www.youtube.com/watch?v=GfihUkWPCQQ"
+						}
+					],
+					"demoIdeas": [
+						"Phasor diagram: two rotating arrows with amplitude and phase sliders; the sum arrow's projection traces the summed sinusoid on a scope beside it."
+					]
+				},
+				{
+					"id": "e0-l020-impedance-reactance",
+					"title": "Impedance and Reactance",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l017-rc-rl-time-constant"
+					],
+					"objectives": [
+						"State Z_R = R, Z_C = 1/(jωC) and Z_L = jωL, and interpret magnitude (ratio of amplitudes) and angle (phase of voltage relative to current): in a capacitor the current leads by 90°, in an inductor it lags.",
+						"Use V = IZ with the series, parallel and divider rules for complex Z, and compute |Z| and the phase for an RC or RL series circuit at a given frequency.",
+						"Explain why an ideal capacitor or inductor dissipates no average power although current flows."
+					],
+					"keyEquations": [
+						"Z_C=\\frac{1}{j\\omega C}",
+						"Z_L=j\\omega L",
+						"\\tilde V=\\tilde I\\,Z",
+						"|Z|=\\sqrt{R^2+X^2},\\ \\ \\phi=\\arctan\\frac{X}{R}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§15.2",
+							"title": "Simple AC Circuits"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§15.3",
+							"title": "RLC Series Circuits with AC"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 17: The Impedance Model",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-17/"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog 1729 - AC Basics Tutorial Part 7: AC Ohms Law",
+							"url": "https://www.youtube.com/watch?v=lf_HBWfFdNY"
+						},
+						{
+							"source": "Khan Academy",
+							"title": "Impedance",
+							"url": "https://www.youtube.com/watch?v=WmTlioVfS78"
+						}
+					],
+					"demoIdeas": [
+						"Impedance plane: choose R, C, L and frequency; see the series impedance as a vector, the current phasor lagging or leading, and the power factor."
+					]
+				},
+				{
+					"id": "e0-l021-filters-frequency-dividers",
+					"title": "Filters: Voltage Dividers that Depend on Frequency",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l006-voltage-current-dividers"
+					],
+					"objectives": [
+						"Treat an RC circuit as a voltage divider with Z_C in place of a resistor and derive the low-pass gain |H| = 1/√(1+(f/f_c)²) with f_c = 1/(2πRC), the −3 dB point and the −20 dB per decade roll-off; swap R and C for a high-pass.",
+						"Use decibels (20 log₁₀ for amplitude), read a Bode plot, and pick R and C to remove mains hum or high-frequency noise from a detector signal.",
+						"Relate cut-off frequency to the time constant (f_c = 1/(2πτ)) and explain the trade-off: a narrower filter cuts noise but slows the response (rise time ≈ 0.35/f_c)."
+					],
+					"keyEquations": [
+						"H_{LP}(f)=\\frac{1}{1+j\\,f/f_c}",
+						"f_c=\\frac{1}{2\\pi RC}",
+						"|H|_{dB}=20\\log_{10}|H|",
+						"t_r\\approx\\frac{0.35}{f_c}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§15.2",
+							"title": "Simple AC Circuits"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 18: Filters",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-18/"
+						}
+					],
+					"demoIdeas": [
+						"Bode plot with R and C sliders, plus a noisy detector trace: lower the cut-off and watch the noise shrink while a sharp peak broadens."
+					]
+				},
+				{
+					"id": "e0-l022-rlc-resonance",
+					"title": "RLC Resonance and Quality Factor",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l020-impedance-reactance"
+					],
+					"objectives": [
+						"Locate series resonance f₀ = 1/(2π√(LC)), where X_L = X_C, the impedance falls to R and the current peaks in phase with the voltage; describe parallel resonance (impedance maximum) qualitatively.",
+						"Compute Q = ω₀L/R = f₀/Δf and use it to relate peak sharpness, bandwidth and ring-down time; explain the energy sloshing between electric and magnetic fields as an LC analogue of a mass on a spring.",
+						"Connect to chemistry instruments: the tuned and matched LC circuit of an NMR probe at the Larmor frequency, and the RF circuit that drives an ICP torch."
+					],
+					"keyEquations": [
+						"f_0=\\frac{1}{2\\pi\\sqrt{LC}}",
+						"Q=\\frac{\\omega_0L}{R}=\\frac1R\\sqrt{\\frac LC}",
+						"\\Delta f=\\frac{f_0}{Q}",
+						"|Z|=\\sqrt{R^2+(X_L-X_C)^2}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up2",
+							"ref": "§15.5",
+							"title": "Resonance in an AC Circuit"
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§14.5",
+							"title": "Oscillations in an LC Circuit",
+							"optional": true
+						},
+						{
+							"bookId": "openstax-up2",
+							"ref": "§14.6",
+							"title": "RLC Series Circuits",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 15: Second-Order Systems (part 1) (uses differential equations; follow the circuit picture)",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-15-part-1/"
+						},
+						{
+							"source": "Khan Academy India",
+							"title": "LCR resonance & resonant frequency | A.C. | Physics",
+							"url": "https://www.youtube.com/watch?v=t7dmb3RmKfg"
+						},
+						{
+							"source": "Khan Academy India",
+							"title": "LCR frequency response & quality | A.C. | Physics",
+							"url": "https://www.youtube.com/watch?v=PfBQEhLKDRc"
+						}
+					],
+					"demoIdeas": [
+						"Series RLC frequency sweep: R, L, C sliders move the resonance peak; Q and bandwidth update, and a ring-down view shows the decaying oscillation after a step."
+					]
+				}
+			]
+		},
+		{
+			"id": "e0-u06-semiconductors-opamps",
+			"title": "Semiconductors and Op-Amps",
+			"summary": "Diodes, LEDs and rectifiers (the exponential I–V is a Boltzmann factor), transistors as switches and amplifiers, and then the op-amp as the universal building block of analogue instruments, ending with the transimpedance amplifier that turns a photodiode, PMT or electrochemical current into a voltage.",
+			"lessons": [
+				{
+					"id": "e0-l023-diodes-leds-rectifiers",
+					"title": "Diodes, LEDs and Rectifiers",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l017-rc-rl-time-constant"
+					],
+					"objectives": [
+						"Describe the p–n junction qualitatively (depletion region, forward voltage ≈ 0.6–0.7 V for Si, band-gap-set for LEDs) and use the Shockley equation I = I_s(e^{V/V_T} − 1), V_T = kT/q ≈ 25.7 mV, to see why current rises about tenfold per ~60 mV; note the link to the Boltzmann factor.",
+						"Size an LED series resistor, R = (V_s − V_f)/I.",
+						"Explain a half-wave and bridge rectifier with a smoothing capacitor and estimate the ripple, ΔV ≈ I/(fC)."
+					],
+					"keyEquations": [
+						"I=I_s\\left(e^{V/V_T}-1\\right)",
+						"V_T=\\frac{k_BT}{q}",
+						"R=\\frac{V_s-V_f}{I}",
+						"\\Delta V_{ripple}\\approx\\frac{I}{fC}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "Ch. 9",
+							"title": "Condensed Matter Physics",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Ben Eater",
+							"title": "How semiconductors work",
+							"url": "https://www.youtube.com/watch?v=33vbFFFn04k"
+						},
+						{
+							"source": "The Engineering Mindset",
+							"title": "Diodes Explained - The basics how diodes work working principle pn junction",
+							"url": "https://www.youtube.com/watch?v=Fwj_d3uO5g8"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #908 - Zener Diodes (optional: Zener)",
+							"url": "https://www.youtube.com/watch?v=O0ifJ4oVdG4"
+						}
+					],
+					"demoIdeas": [
+						"Diode I–V curve with a temperature slider and a resistor load line; second panel: rectifier with a smoothing-capacitor slider showing ripple on a scope."
+					]
+				},
+				{
+					"id": "e0-l024-transistors-switch-amplifier",
+					"title": "Transistors as Switches and Amplifiers",
+					"minutes": 35,
+					"objectives": [
+						"Explain a bipolar or MOS transistor as a controlled valve in which a small base current (I_C = βI_B) or gate voltage controls a large current, and why this needs an external power supply.",
+						"Design a transistor switch: choose the base resistor to saturate the device and drive an LED or relay, with a flyback diode on inductive loads.",
+						"Estimate the gain of a common-emitter amplifier, A_v ≈ −R_C/r_e with r_e ≈ 25 mV/I_E, and explain the inversion and the need for a bias point."
+					],
+					"keyEquations": [
+						"I_C=\\beta I_B",
+						"r_e\\approx\\frac{25\\ \\mathrm{mV}}{I_E}",
+						"A_v\\approx-\\frac{R_C}{r_e}"
+					],
+					"readings": [
+						{
+							"bookId": "openstax-up3",
+							"ref": "Ch. 9",
+							"title": "Condensed Matter Physics",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Ben Eater",
+							"title": "How a transistor works",
+							"url": "https://www.youtube.com/watch?v=DXvAlwMAxiA"
+						},
+						{
+							"source": "Ben Eater",
+							"title": "Making logic gates from transistors",
+							"url": "https://www.youtube.com/watch?v=sTu3LwpF6XI"
+						},
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 8: Dependent Sources and Amplifiers (for amplifier ideas)",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-8/"
+						}
+					],
+					"demoIdeas": [
+						"Transistor stage: slide the base current to move between cut-off, linear and saturation; switch view between switch (LED on/off) and small-signal amplifier (input sine, inverted output sine, clipping at the rails)."
+					]
+				},
+				{
+					"id": "e0-l025-opamp-golden-rules-inverting",
+					"title": "Op-Amp Golden Rules and the Inverting Amplifier",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l006-voltage-current-dividers"
+					],
+					"objectives": [
+						"Explain from V_out = A(V_+ − V_−) with A ≈ 10⁵ why negative feedback forces V_− ≈ V_+ and why almost no current enters the inputs (the two golden rules).",
+						"Derive the inverting gain −R_f/R_in using the virtual ground, and extend it to a summing amplifier.",
+						"Read an op-amp schematic: identify the feedback path, the summing node and the supply rails."
+					],
+					"keyEquations": [
+						"V_{out}=A(V_+-V_-)",
+						"V_-\\approx V_+,\\quad I_{in}\\approx0",
+						"G=-\\frac{R_f}{R_{in}}"
+					],
+					"readings": [],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 19: The Operational Amplifier Abstraction",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-19/"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #600 - OpAmps Tutorial - What is an Operational Amplifier?",
+							"url": "https://www.youtube.com/watch?v=7FYHt5XviKc"
+						},
+						{
+							"source": "Andrew MacRae",
+							"title": "Introduction to opamps: The Golden Rules",
+							"url": "https://www.youtube.com/watch?v=jHLQjusZP1Y"
+						}
+					],
+					"demoIdeas": [
+						"Inverting amplifier: R_in, R_f and input sliders show the virtual-ground node staying near 0 V and the output swinging; a switch to open-loop shows the huge gain slamming into the rails."
+					]
+				},
+				{
+					"id": "e0-l026-opamp-noninverting-buffer",
+					"title": "Non-Inverting Amplifier, Buffer and Real Limits",
+					"minutes": 30,
+					"objectives": [
+						"Derive the non-inverting gain 1 + R_f/R_g as a voltage divider in the feedback loop and explain the unity-gain buffer, whose very high input resistance lets a high-impedance source such as a pH electrode drive a low-impedance load without loading error.",
+						"State three real limits of an op-amp: output saturation at the supply rails, finite gain–bandwidth product (f_−3dB ≈ GBW/G), and input bias and offset."
+					],
+					"keyEquations": [
+						"G=1+\\frac{R_f}{R_g}",
+						"f_{-3\\mathrm{dB}}\\approx\\frac{GBW}{G}"
+					],
+					"readings": [],
+					"lectures": [
+						{
+							"source": "MIT OCW 6.002 Circuits and Electronics (Spring 2007, Agarwal)",
+							"title": "Lecture 20: Operational Amplifier Circuits",
+							"url": "https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/resources/lecture-20/"
+						},
+						{
+							"source": "w2aew",
+							"title": "#75: Basics of Opamp circuits - a tutorial on how to understand most opamp circuits",
+							"url": "https://www.youtube.com/watch?v=K03Rom3Cs28"
+						}
+					],
+					"demoIdeas": [
+						"Follower versus direct connection: a 100 MΩ source feeding a 10 MΩ load with and without a buffer; second panel plots gain against frequency for different closed-loop gains to show the shrinking bandwidth."
+					]
+				},
+				{
+					"id": "e0-l027-transimpedance-amplifier",
+					"title": "The Transimpedance Amplifier: Current In, Voltage Out",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l025-opamp-golden-rules-inverting"
+					],
+					"objectives": [
+						"Explain how a photodiode (or electrode, or PMT anode) produces a current proportional to the input, and how an op-amp with feedback resistor R_f converts it to V_out = −I R_f with the input held at virtual ground.",
+						"Choose R_f for a given current range (1 V for 5 nA needs 200 MΩ) and C_f for bandwidth, f_c = 1/(2πR_fC_f), and state the trade-offs: gain against bandwidth, and Johnson noise.",
+						"Explain why a plain series resistor is a worse current meter than a TIA (burden voltage, nonlinearity)."
+					],
+					"keyEquations": [
+						"V_{out}=-I_{in}R_f",
+						"f_c=\\frac{1}{2\\pi R_fC_f}",
+						"i_n=\\sqrt{\\frac{4k_BT\\,\\Delta f}{R_f}}"
+					],
+					"readings": [],
+					"lectures": [
+						{
+							"source": "Texas Instruments",
+							"title": "How to Design Transimpedance Amplifier Circuits",
+							"url": "https://www.youtube.com/watch?v=Q-AZpagmtCw"
+						},
+						{
+							"source": "Texas Instruments",
+							"title": "TI Precision Labs - Transimpedance amps: Introduction",
+							"url": "https://www.youtube.com/watch?v=33C8MmsCBuc"
+						},
+						{
+							"source": "All About Circuits",
+							"title": "Transimpedance Amplifier: Op-Amp-based Current-to-Voltage Signal Converter",
+							"url": "https://www.youtube.com/watch?v=Gp6LjiJ-Yso"
+						}
+					],
+					"demoIdeas": [
+						"TIA bench: a photodiode current slider (pA to µA) and R_f, C_f sliders; see V_out, the step-response bandwidth, and saturation at the rail."
+					]
+				}
+			]
+		},
+		{
+			"id": "e0-u07-instrumentation",
+			"title": "Instrumentation: From Signal to Number",
+			"summary": "How the pieces combine into the instruments in the lab: ADC and DAC resolution, noise and averaging, the potentiostat block diagram, and the signal chains of an NMR receiver and a mass-spectrometer detector. Each lesson re-uses dividers, RC filters, resonance and op-amps from earlier units.",
+			"lessons": [
+				{
+					"id": "e0-l028-adc-dac-resolution",
+					"title": "ADC and DAC: Resolution, Aliasing and Ladders",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l021-filters-frequency-dividers"
+					],
+					"objectives": [
+						"Compute the ADC step LSB = V_FS/2^N, the quantisation noise LSB/√12 and the ideal dynamic range (6.02N + 1.76 dB), and explain why a signal is amplified to fill the ADC range but not beyond it.",
+						"Explain aliasing (f_s > 2f_max) and why an analogue RC anti-alias filter must come before the converter.",
+						"Show how an R-2R ladder DAC builds V_ref × code/2^N from resistor dividers."
+					],
+					"keyEquations": [
+						"\\mathrm{LSB}=\\frac{V_{FS}}{2^N}",
+						"\\sigma_q=\\frac{\\mathrm{LSB}}{\\sqrt{12}}",
+						"\\mathrm{SNR}\\approx6.02N+1.76\\ \\mathrm{dB}",
+						"f_s>2f_{max}"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 3",
+							"title": "ADC and DAC",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "element14 presents",
+							"title": "How Do ADCs Work? - The Learning Circuit",
+							"url": "https://www.youtube.com/watch?v=g4BvbAKNQ90"
+						},
+						{
+							"source": "GreatScott!",
+							"title": "Electronic Basics #27: ADC (Analog to Digital Converter)",
+							"url": "https://www.youtube.com/watch?v=EnfjYwe2A0w"
+						}
+					],
+					"demoIdeas": [
+						"ADC explorer: bit depth and full-scale sliders show the staircase of levels on a slow ramp and a small signal; a sampling-rate slider reveals a 9 kHz tone aliasing to a false low peak."
+					]
+				},
+				{
+					"id": "e0-l029-noise-averaging-lockin",
+					"title": "Noise: Thermal, Shot, Averaging and Lock-in",
+					"minutes": 35,
+					"objectives": [
+						"Compute Johnson–Nyquist noise v_n = √(4k_BTRΔf) and shot noise i_n = √(2qIΔf), and say which one limits a high-R sensor and which one limits a photocurrent.",
+						"Explain why averaging N scans improves SNR as √N (signal adds coherently, random noise adds in quadrature), as in NMR scan accumulation, and why narrowing bandwidth reduces noise as √Δf.",
+						"Describe the lock-in idea: modulate the signal to a quiet frequency, away from 1/f noise and mains, and detect only a narrow band around it."
+					],
+					"keyEquations": [
+						"v_n=\\sqrt{4k_BTR\\,\\Delta f}",
+						"i_n=\\sqrt{2qI\\,\\Delta f}",
+						"\\mathrm{SNR}_N=\\sqrt N\\,\\mathrm{SNR}_1"
+					],
+					"readings": [],
+					"lectures": [
+						{
+							"source": "Zurich Instruments",
+							"title": "Principles of Lock-in Detection",
+							"url": "https://www.youtube.com/watch?v=ZIjBRA2S0NQ"
+						},
+						{
+							"source": "EEVblog",
+							"title": "EEVblog #528 - Opamp Input Noise Voltage Tutorial (optional)",
+							"url": "https://www.youtube.com/watch?v=Y0jkPLuFdnM"
+						}
+					],
+					"demoIdeas": [
+						"Noisy trace: sliders for resistance, bandwidth and number of averaged scans show the noise floor falling as √N; a lock-in toggle moves the signal off the 1/f region."
+					]
+				},
+				{
+					"id": "e0-l030-potentiostat-block-diagram",
+					"title": "The Potentiostat Block Diagram",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l027-transimpedance-amplifier"
+					],
+					"objectives": [
+						"Draw and explain the three-electrode potentiostat: a control amplifier compares the reference-electrode potential with the programmed waveform and drives the counter electrode, the reference draws essentially no current, and the working electrode sits at virtual ground in a current-to-voltage (transimpedance) stage.",
+						"Trace a cyclic-voltammetry scan through the blocks (DAC makes the triangle, TIA output goes to the ADC) and estimate the uncompensated iR drop and the double-layer charging time τ = R_uC_dl.",
+						"Explain compliance voltage and what limits the current or scan rate a potentiostat can deliver."
+					],
+					"keyEquations": [
+						"V_{out}=-I_{WE}R_f",
+						"E_{true}=E_{applied}-iR_u",
+						"\\tau=R_uC_{dl}"
+					],
+					"readings": [],
+					"lectures": [
+						{
+							"source": "BioLogic",
+							"title": "What is a potentiostat? - Focus on electrochemistry",
+							"url": "https://www.youtube.com/watch?v=kvl7MTH1Adw"
+						},
+						{
+							"source": "Pine Research Instrumentation",
+							"title": "What is a potentiostat and how does it work?",
+							"url": "https://www.youtube.com/watch?v=pzB122dTij8"
+						},
+						{
+							"source": "StudyWithMe@DrAnn",
+							"title": "The Three-Electrode Cell Explained in 90 Seconds",
+							"url": "https://www.youtube.com/watch?v=GA4fomyntDc"
+						}
+					],
+					"demoIdeas": [
+						"Interactive block diagram: pick the waveform, solution resistance and double-layer capacitance, and watch the current, the TIA voltage and the distorted voltammogram change; toggle iR compensation."
+					]
+				},
+				{
+					"id": "e0-l031-detector-signal-chains",
+					"title": "Detector Chains: NMR Receiver and Mass-Spec Detector",
+					"minutes": 35,
+					"prereqs": [
+						"e0-l029-noise-averaging-lockin",
+						"e0-l022-rlc-resonance"
+					],
+					"objectives": [
+						"Trace the NMR receiver chain: tuned coil (µV FID), low-noise preamplifier, mixing against a local oscillator to a kHz-range signal, filtering and ADC, naming for each stage the circuit idea from earlier lessons (resonance, noise, mixer/filter, sampling).",
+						"Explain why the first stage dominates the noise of a cascade, F = F₁ + (F₂−1)/G₁ + …, and why a good preamplifier is placed at the coil.",
+						"Compare pulse-counting and analogue modes in an electron-multiplier ion detector (ICP-MS, MS) and say when each is used and why dead time forces a switch at high count rates."
+					],
+					"keyEquations": [
+						"f_{IF}=|f_{sig}-f_{LO}|",
+						"F=F_1+\\frac{F_2-1}{G_1}+\\frac{F_3-1}{G_1G_2}+\\cdots"
+					],
+					"readings": [
+						{
+							"bookId": "smith-dsp",
+							"ref": "Ch. 3",
+							"title": "ADC and DAC",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Cascade builder: drag a preamp, mixer, filter and ADC into a chain with gains and noise figures and see the total noise figure and which stage contributes most; a detector panel plots counts versus true rate for pulse and analogue modes."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "e0-midterm",
+			"kind": "midterm",
+			"title": "E0 Midterm: Circuit Fundamentals, DC Analysis and Measurement",
+			"covers": [
+				"e0-u01-charge-current-power",
+				"e0-u02-dc-analysis",
+				"e0-u03-equivalents-measurement"
+			],
+			"minutes": 90,
+			"passMark": 0.7
+		},
+		{
+			"id": "e0-final",
+			"kind": "final",
+			"title": "E0 Final: Circuits & Electronics for Scientists",
+			"covers": [
+				"e0-u01-charge-current-power",
+				"e0-u02-dc-analysis",
+				"e0-u03-equivalents-measurement",
+				"e0-u04-capacitors-inductors-time",
+				"e0-u05-ac-impedance-resonance",
+				"e0-u06-semiconductors-opamps",
+				"e0-u07-instrumentation"
+			],
+			"minutes": 120,
+			"passMark": 0.7
+		}
+	]
+}
