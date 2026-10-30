@@ -1133,6 +1133,14 @@
 				]
 			},
 			{
+				"kind": "short",
+				"prompt": "Explain how to convert a point between polar and rectangular coordinates, why the angle needs care about the quadrant, and how eliminating the parameter from $x=2\\cos t,\\ y=3\\sin t$ identifies the curve.",
+				"rubric": "Full credit requires: (1) $x=r\\cos\\theta$, $y=r\\sin\\theta$ and $r=\\sqrt{x^2+y^2}$; (2) $\\tan\\theta=y/x$ has two solutions per period, so the quadrant (sign of $x$ and $y$, i.e. atan2) must be used; (3) $\\cos^2t+\\sin^2t=1$ gives $x^2/4+y^2/9=1$, an ellipse.",
+				"modelAnswer": "Going to rectangular is $x=r\\cos\\theta$, $y=r\\sin\\theta$; going back is $r=\\sqrt{x^2+y^2}$ and $\\theta$ from $\\tan\\theta=y/x$, but $\\tan$ repeats every $\\pi$, so you must look at the signs of $x$ and $y$ (atan2) to place the quadrant. For $x=2\\cos t$, $y=3\\sin t$, using $\\cos^2t+\\sin^2t=1$ gives $x^2/4+y^2/9=1$, an ellipse."
+			}
+		],
+		"m0-l030b-conic-sections": [
+			{
 				"kind": "mc",
 				"prompt": "Which of these equations describes a hyperbola?",
 				"options": [
@@ -1145,10 +1153,32 @@
 				"explanation": "A difference of squared terms set to $1$ gives a hyperbola (the path of an unbound scattering orbit). A sum gives an ellipse (a bound orbit); a circle is the equal-axes ellipse; $y=x^2/9$ is a parabola, the borderline case."
 			},
 			{
+				"kind": "numeric",
+				"prompt": "An ellipse has equation $\\dfrac{x^2}{25}+\\dfrac{y^2}{9}=1$. How far is each focus from the centre? (Give the distance $c$ as a number.)",
+				"answer": 4,
+				"tolerance": 0.02,
+				"explanation": "Here $a=5$ and $b=3$, so $c=\\sqrt{a^2-b^2}=\\sqrt{25-9}=4$; the foci sit at $(\\pm4,0)$ and the eccentricity is $e=c/a=0.8$.",
+				"equations": [
+					"c^2=a^2-b^2"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Rewrite $4x^2+9y^2=36$ in standard form. What curve is it?",
+				"options": [
+					"A circle of radius $6$",
+					"An ellipse, semi-axes $9$ and $4$",
+					"A hyperbola, vertices at $x=\\pm3$",
+					"An ellipse, semi-axes $3$ and $2$"
+				],
+				"answer": 3,
+				"explanation": "Dividing by $36$ gives $\\dfrac{x^2}{9}+\\dfrac{y^2}{4}=1$: a sum of squares, so an ellipse, with semi-axes $\\sqrt9=3$ along $x$ and $\\sqrt4=2$ along $y$. The denominators are the squares of the semi-axes, not the semi-axes themselves."
+			},
+			{
 				"kind": "short",
-				"prompt": "Explain how to convert a point between polar and rectangular coordinates, why the angle needs care about the quadrant, and how eliminating the parameter from $x=2\\cos t,\\ y=3\\sin t$ identifies the curve.",
-				"rubric": "Full credit requires: (1) $x=r\\cos\\theta$, $y=r\\sin\\theta$ and $r=\\sqrt{x^2+y^2}$; (2) $\\tan\\theta=y/x$ has two solutions per period, so the quadrant (sign of $x$ and $y$, i.e. atan2) must be used; (3) $\\cos^2t+\\sin^2t=1$ gives $x^2/4+y^2/9=1$, an ellipse.",
-				"modelAnswer": "Going to rectangular is $x=r\\cos\\theta$, $y=r\\sin\\theta$; going back is $r=\\sqrt{x^2+y^2}$ and $\\theta$ from $\\tan\\theta=y/x$, but $\\tan$ repeats every $\\pi$, so you must look at the signs of $x$ and $y$ (atan2) to place the quadrant. For $x=2\\cos t$, $y=3\\sin t$, using $\\cos^2t+\\sin^2t=1$ gives $x^2/4+y^2/9=1$, an ellipse."
+				"prompt": "Explain how you can tell from the equation whether a conic is an ellipse, a hyperbola or a parabola, and what that distinction means for a planet or a scattered particle in an inverse-square force.",
+				"rubric": "Full credit requires: (1) a sum of squared terms equal to a constant (with positive coefficients) is an ellipse, a difference is a hyperbola, and one squared variable with a linear term is a parabola; (2) an ellipse is a closed, bound orbit; (3) a hyperbola is an open, unbound (scattering) path, with the parabola as the borderline case.",
+				"modelAnswer": "A sum of squares, $x^2/a^2+y^2/b^2=1$, is an ellipse; a difference, $x^2/a^2-y^2/b^2=1$, is a hyperbola; and an equation with only one squared variable, like $y^2=4px$, is a parabola. Physically, an ellipse is a closed bound orbit that repeats, a hyperbola is an open path of an unbound particle that scatters off and leaves, and the parabola is the borderline case with exactly zero total energy."
 			}
 		],
 		"m0-l031-dimensions-scaling-arguments": [
@@ -1233,6 +1263,36 @@
 			},
 			{
 				"kind": "mc",
+				"prompt": "Evaluate the sum $\\displaystyle\\sum_{k=1}^{4}(2k+1)$.",
+				"options": [
+					"$20$",
+					"$16$",
+					"$24$",
+					"$35$"
+				],
+				"answer": 2,
+				"explanation": "Write out the terms from $k=1$ to $k=4$: $3+5+7+9=24$. Dropping the $+1$ gives $20$, starting at $k=0$ gives $1+3+5+7=16$, and running to $k=5$ gives $35$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Evaluate $\\displaystyle\\sum_{k=0}^{5}1000\\,(0.5)^k$ (a dose that halves each hour, summed over six hours).",
+				"answer": 1968.75,
+				"tolerance": 0.01,
+				"explanation": "This is a finite geometric series with $a=1000$, $r=0.5$ and $6$ terms: $1000\\,\\dfrac{1-0.5^6}{1-0.5}=1000\\cdot\\dfrac{0.984375}{0.5}=1968.75$.",
+				"equations": [
+					"\\sum_{k=0}^{n-1}ar^k=a\frac{1-r^n}{1-r}"
+				]
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the geometric series $\\sum r^k$ converges to $1/(1-r)$ only when $|r|<1$.",
+				"rubric": "Full credit requires: (1) the partial sum of $n$ terms is $(1-r^n)/(1-r)$; (2) as $n\to\\infty$, $r^n\to0$ only if $|r|<1$, leaving $1/(1-r)$; (3) if $|r|\\ge1$ the terms do not shrink and the sum grows or oscillates without settling.",
+				"modelAnswer": "The partial sum of $n$ terms is $(1-r^n)/(1-r)$. If $|r|<1$ then $r^n\to0$, so the sum settles to $1/(1-r)$. If $|r|\\ge1$ the terms do not shrink, so $r^n$ grows or oscillates and the partial sums never settle."
+			}
+		],
+		"m0-l033b-binomial-theorem-counting": [
+			{
+				"kind": "mc",
 				"prompt": "A molecule has $10$ distinguishable sites, and exactly $3$ of them are excited. How many different arrangements (microstates) are there?",
 				"options": [
 					"$120$",
@@ -1262,10 +1322,20 @@
 				]
 			},
 			{
+				"kind": "numeric",
+				"prompt": "Set $a=b=1$ in the binomial theorem for $(a+b)^6$. What is $\\displaystyle\\sum_{k=0}^{6}\binom 6k$?",
+				"answer": 64,
+				"tolerance": 0.01,
+				"explanation": "With $a=b=1$ the theorem gives $(1+1)^6=2^6=64$. It is also the total number of on/off patterns of $6$ sites, summed over every possible number of excited sites.",
+				"equations": [
+					"(a+b)^n=\\sum_{k=0}^n\binom nk a^{n-k}b^k"
+				]
+			},
+			{
 				"kind": "short",
-				"prompt": "Explain why the geometric series $\\sum r^k$ converges to $1/(1-r)$ only when $|r|<1$, and why the number of ways to choose $k$ items from $n$ is $n!/(k!(n-k)!)$ rather than $n!/k!$.",
-				"rubric": "Full credit requires: (1) partial sums are $(1-r^n)/(1-r)$ and $r^n\\to0$ only if $|r|<1$; (2) arrangements of $n$ items number $n!$ but ordering within the chosen group and within the rest does not matter; (3) so divide by $k!$ and $(n-k)!$.",
-				"modelAnswer": "The partial sum of $n$ terms is $(1-r^n)/(1-r)$, which settles to $1/(1-r)$ only if $r^n\\to0$, i.e. $|r|<1$. For combinations, the $n!$ orderings of all items overcount: reordering the $k$ chosen and the $n-k$ unchosen items gives the same selection, so divide by $k!\\,(n-k)!$."
+				"prompt": "Explain why the number of ways to choose $k$ items from $n$ is $n!/(k!(n-k)!)$ rather than $n!/k!$, and why the same numbers appear as the coefficients in $(a+b)^n$.",
+				"rubric": "Full credit requires: (1) there are $n!$ orderings of all items, but the order within the chosen group and within the unchosen group does not matter, so divide by $k!$ and $(n-k)!$; (2) in expanding $(a+b)^n$, the coefficient of $a^{n-k}b^k$ counts the ways to pick which $k$ of the $n$ factors contribute $b$.",
+				"modelAnswer": "There are $n!$ orderings of all $n$ items, but reordering the $k$ chosen items among themselves, or the $n-k$ unchosen ones, gives the same selection, so we divide by $k!\\,(n-k)!$ and not just $k!$. In $(a+b)^n$ each term picks either $a$ or $b$ from every one of the $n$ factors, so the coefficient of $a^{n-k}b^k$ is the number of ways to choose which $k$ factors give $b$, which is $\binom nk$."
 			}
 		],
 		"m0-l034-binomial-approximation-errors": [
