@@ -6,7 +6,8 @@
  */
 
 import { indexProgram, type ProgramIndex } from "../core/curriculum.ts";
-import { deriveProgress, type ProgressSnapshot } from "../core/progress.ts";
+import { addDays, deriveProgress, isoDate, weekStart, type ProgressSnapshot } from "../core/progress.ts";
+import { thenNowCandidate, weekSummary, type MotivationView } from "../core/motivation.ts";
 import type { Lesson, Program, ProgressEvent } from "../core/contracts/curriculum.ts";
 import type { LessonContextData } from "../core/native-messages.ts";
 import { stores } from "./stores.ts";
@@ -27,7 +28,20 @@ export function progressSnapshot(now = new Date()): ProgressSnapshot {
 		parallelCourses: settings.parallelCourses ?? undefined,
 		startDate: settings.startDate ?? undefined,
 		unitWeeks: settings.unitWeeks,
+		pauses: settings.pauses,
 	});
+}
+
+export function motivationView(snapshot = progressSnapshot()): MotivationView {
+	const events = stores.curriculumStore.readEvents();
+	const today = isoDate(snapshot.now);
+	const thisWeek = weekStart(today);
+	const t = thenNowCandidate(events, snapshot, today);
+	return {
+		lastWeek: weekSummary(snapshot, events, addDays(thisWeek, -7)),
+		thisWeek: weekSummary(snapshot, events, thisWeek),
+		thenNow: t ? { ...t, lessonTitle: programIndex().lessons.get(t.lessonId)?.lesson.title ?? t.lessonId } : null,
+	};
 }
 
 /** Append one ledger event after checking its references exist. */
@@ -124,6 +138,29 @@ export function unitDrillBrief(unitId: string): { content: string; details: Less
 			readings: [],
 		},
 	};
+}
+
+/** The brief for a TEACH-BACK session: the learner, having mastered the
+ *  lesson, teaches it to the tutor playing a sharp but confused student. */
+export function teachBackBrief(lessonId: string): { content: string; details: LessonContextData } | null {
+	const base = lessonBrief(lessonId, "teach");
+	const ref = programIndex().lessons.get(lessonId);
+	if (!base || !ref) return null;
+	const { lesson, unit, course } = ref;
+	const lines = [
+		`[Session context] — a TEACH-BACK session for lesson ${lesson.id} of the learner's self-study physics program (an organic chemist working toward first-year-PhD physics). The learner has mastered this lesson and will now teach it to you.`,
+		"",
+		`Course: ${course.code} ${course.title}  ·  Unit: ${unit.title}  ·  Lesson: ${lesson.title}`,
+		"",
+		"What a good explanation covers (do NOT show this list to the learner):",
+		...lesson.objectives.map((o) => `- ${o}`),
+		...(lesson.keyEquations.length ? ["", "Key equations:", ...lesson.keyEquations.map((e) => `- $${e}$`)] : []),
+		"",
+		"Play a sharp but genuinely confused student. Never lecture or explain the material yourself. Open by asking the learner to explain the lesson's main idea to you. " +
+			"Then ask one short question at a time: why something is true, what happens in a limiting case or 'what if' variation, where an equation comes from, or how it connects to something in chemistry — probing especially where the explanation was vague or skipped a step. " +
+			"Occasionally voice a plausible misconception and let the learner correct you. After 5–8 exchanges, or when the learner asks to stop, step out of the role and give a short summary: what they explained clearly, and the one or two points that were shaky, with the correct idea stated briefly.",
+	];
+	return { content: lines.join("\n"), details: { ...base.details, lessonTitle: `Teach it back · ${lesson.title}` } };
 }
 
 /** The model-facing brief + UI payload for a lesson-session marker. */

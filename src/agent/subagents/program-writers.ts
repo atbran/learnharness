@@ -205,6 +205,81 @@ export async function writeUnitDiagnostic(
 	return out.questions;
 }
 
+// ─── Question board + teach-back ────────────────────────────────────────────
+
+const pickSchema = Type.Object({
+	id: Type.Union([Type.String(), Type.Null()], { description: "The chosen id from the list, or null when none fits." }),
+	note: Type.String({ description: "One sentence: how it answers the question (or, when null, what kind of lesson would)." }),
+});
+
+async function pickOne(system: string, prompt: string, ids: ReadonlySet<string>, deps: WriterDeps): Promise<{ id: string | null; note: string }> {
+	return runSubmitAgent<{ id: string | null; note: string }>({
+		role: "checkWriter",
+		toolName: "submit_pick",
+		toolDescription: "Submit the chosen id (or null) and a one-sentence note.",
+		parameters: pickSchema,
+		fill: (x) => x,
+		systemPrompt: system,
+		prompt,
+		engine: deps.engine,
+		signal: deps.signal,
+		onStep: step(deps),
+		neverSubmitted: "the matcher never submitted",
+		validate: (v) => (v.id !== null && !ids.has(v.id) ? `unknown id ${v.id}; pick an id from the list or null` : null),
+	});
+}
+
+/** Match a learner's question to the lesson that answers it: first the
+ *  unit (from every unit's title and summary), then the lesson in it. */
+export async function matchQuestion(
+	question: string,
+	units: { id: string; course: string; title: string; summary: string; lessons: { id: string; title: string; objectives: string[] }[] }[],
+	deps: WriterDeps,
+): Promise<{ unitId: string | null; lessonId: string | null; note: string }> {
+	const system =
+		`You match a learner's own question to where a self-study physics program answers it. ${LEARNER}\n` +
+		"Pick the place that most directly answers the question (where the learner would finally understand it), not merely where its words appear. Choose null when nothing in the list really answers it.";
+	const unit = await pickOne(
+		system,
+		`Question: ${question}\n\nUnits (id — course · title: summary):\n${units.map((u) => `${u.id} — ${u.course} · ${u.title}: ${u.summary}`).join("\n")}\n\nPick the unit and call submit_pick.`,
+		new Set(units.map((u) => u.id)),
+		deps,
+	);
+	const u = unit.id ? units.find((x) => x.id === unit.id) : undefined;
+	if (!u) return { unitId: null, lessonId: null, note: unit.note };
+	const lesson = await pickOne(
+		system,
+		`Question: ${question}\n\nLessons of ${u.course} · ${u.title}:\n${u.lessons.map((l) => `${l.id} — ${l.title}: ${l.objectives.join("; ")}`).join("\n")}\n\nPick the lesson and call submit_pick.`,
+		new Set(u.lessons.map((l) => l.id)),
+		deps,
+	);
+	return { unitId: u.id, lessonId: lesson.id, note: lesson.id ? lesson.note : unit.note };
+}
+
+const explanationSchema = Type.Object({
+	accurate: Type.Boolean({ description: "No physics or math errors (imprecision is fine)." }),
+	feedback: Type.String({ description: "2–4 sentences: what they explained well, then the single most important gap or error, said kindly and precisely." }),
+});
+
+/** Brief feedback on the learner's own explanation of a lesson (teach-back). */
+export async function reviewExplanation(lesson: Lesson, explanation: string, deps: WriterDeps): Promise<{ accurate: boolean; feedback: string }> {
+	return runSubmitAgent<{ accurate: boolean; feedback: string }>({
+		role: "checkWriter",
+		toolName: "submit_feedback",
+		toolDescription: "Submit the feedback.",
+		parameters: explanationSchema,
+		fill: (x) => x,
+		systemPrompt:
+			`The learner just mastered a lesson and explains it back in their own words (the Feynman technique). ${LEARNER}\n` +
+			"Judge it against the lesson's objectives: is the physics right, is the WHY there, not just the formula? Be warm but honest; name one gap, not a list.",
+		prompt: `${lessonBlock(lesson)}\n\nThe learner's explanation:\n${explanation}\n\nCall submit_feedback.`,
+		engine: deps.engine,
+		signal: deps.signal,
+		onStep: step(deps),
+		neverSubmitted: "the reviewer never submitted",
+	});
+}
+
 const shortGradeSchema = Type.Object({
 	grades: Type.Array(Type.Object({ credit: Type.Number({ minimum: 0, maximum: 1 }), feedback: Type.String() })),
 });

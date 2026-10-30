@@ -239,6 +239,10 @@ export interface CurriculumSettings {
 	reviewMode: string[];
 	/** Target weeks per unit (unitId → weeks); drives pace + the schedule. */
 	unitWeeks: Record<string, number>;
+	/** Declared breaks (yyyy-mm-dd, inclusive): streaks and pace skip them. */
+	pauses: { start: string; end: string; reason?: string }[];
+	/** One goal per week, keyed by the week's Monday (yyyy-mm-dd). */
+	weekGoals: Record<string, string>;
 }
 
 /**
@@ -268,7 +272,7 @@ export interface CurriculumStore {
 	artifactPath(kind: "audio" | "uploads", file: string): string;
 }
 
-export type CacheKind = "quizzes" | "assessments" | "audio" | "demos" | "lectures" | "notes" | "diagnostics";
+export type CacheKind = "quizzes" | "assessments" | "audio" | "demos" | "lectures" | "notes" | "diagnostics" | "learner";
 
 // ─── BookshelfStore — ingested textbooks (data/books/<bookId>/) ─────────────
 

@@ -30,6 +30,7 @@ import {
 	type ProgressEvent,
 } from "../core/contracts/curriculum.ts";
 import { emit } from "../core/events.ts";
+import { sanitizePauses } from "../core/motivation.ts";
 import type { CacheKind, CurriculumSettings, CurriculumStore } from "../core/ports.ts";
 
 const PROGRAM_DIR = path.join(PATHS.curriculumSource, "physics");
@@ -135,6 +136,8 @@ function appendEvent(event: ProgressEvent): void {
 	emit("curriculum-changed", {});
 }
 
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+
 function readSettings(): CurriculumSettings {
 	try {
 		const raw = readJson(SETTINGS) as Partial<CurriculumSettings>;
@@ -148,9 +151,15 @@ function readSettings(): CurriculumSettings {
 					(e): e is [string, number] => typeof e[1] === "number" && e[1] >= 0.25 && e[1] <= 12,
 				),
 			),
+			pauses: sanitizePauses(raw.pauses),
+			weekGoals: Object.fromEntries(
+				Object.entries(raw.weekGoals && typeof raw.weekGoals === "object" ? raw.weekGoals : {}).filter(
+					(e): e is [string, string] => DATE.test(e[0]) && typeof e[1] === "string" && e[1].trim().length > 0,
+				),
+			),
 		};
 	} catch {
-		return { hoursPerWeek: null, startDate: null, parallelCourses: null, reviewMode: [], unitWeeks: {} };
+		return { hoursPerWeek: null, startDate: null, parallelCourses: null, reviewMode: [], unitWeeks: {}, pauses: [], weekGoals: {} };
 	}
 }
 

@@ -1,3 +1,4 @@
+import { sanitizePauses } from "@/src/core";
 import { stores } from "@/src/server";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +15,8 @@ export async function PUT(req: Request) {
 		parallelCourses?: unknown;
 		reviewMode?: unknown;
 		unitWeeks?: unknown;
+		pauses?: unknown;
+		weekGoals?: unknown;
 	};
 	const prev = stores.curriculumStore.readSettings();
 	const next = { ...prev };
@@ -28,6 +31,17 @@ export async function PUT(req: Request) {
 		next.unitWeeks = Object.fromEntries(
 			Object.entries(body.unitWeeks as Record<string, unknown>).filter((e): e is [string, number] => typeof e[1] === "number" && e[1] >= 0.25 && e[1] <= 12),
 		);
+	if ("pauses" in body) next.pauses = sanitizePauses(body.pauses);
+	// Week goals merge per week; an empty goal removes that week's.
+	if (body.weekGoals && typeof body.weekGoals === "object") {
+		const goals = { ...prev.weekGoals };
+		for (const [week, goal] of Object.entries(body.weekGoals as Record<string, unknown>)) {
+			if (!/^\d{4}-\d{2}-\d{2}$/.test(week) || typeof goal !== "string") continue;
+			if (goal.trim()) goals[week] = goal.trim().slice(0, 200);
+			else delete goals[week];
+		}
+		next.weekGoals = goals;
+	}
 	stores.curriculumStore.writeSettings(next);
 	return Response.json({ ok: true });
 }

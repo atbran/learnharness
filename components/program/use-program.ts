@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useServerEvent, useServerResync } from "@/components/server-events";
-import type { ProgressSnapshot } from "@/src/core";
+import type { MotivationView, ProgressSnapshot } from "@/src/core";
 
 /** The lean program shape (src/server/curriculum.ts ProgramView). Mirrored
  *  here because components may import only the core barrel. */
@@ -39,8 +39,16 @@ export interface UnitView {
 export interface ProgramData {
 	program: ProgramView;
 	snapshot: ProgressSnapshot;
-	/** Learner settings that shape the UI: review mode and unit pace targets. */
-	settings: { reviewMode: string[]; unitWeeks: Record<string, number> };
+	/** Learner settings that shape the UI: review mode, unit pace targets,
+	 *  pauses and weekly goals. */
+	settings: {
+		reviewMode: string[];
+		unitWeeks: Record<string, number>;
+		pauses: { start: string; end: string; reason?: string }[];
+		weekGoals: Record<string, string>;
+	};
+	/** The weekly review's numbers and a "then and now" question. */
+	motivation: MotivationView;
 }
 
 /** Program + snapshot, refreshed whenever the server says the ledger or

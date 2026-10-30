@@ -158,6 +158,8 @@ export const progressEventSchema = z.discriminatedUnion("type", [
 	z.object({ type: z.literal("assessment_graded"), at, assessmentId: z.string(), kind: z.enum(["pset", "midterm", "final", "placement", "worksheet"]), courseId: id(), unitIds: z.array(id()), score: z.number().min(0).max(1) }),
 	/** Lessons tested out by placement (counted as mastered). */
 	z.object({ type: z.literal("placement"), at, lessonIds: z.array(id()) }),
+	/** "Then and now": a long-ago missed quiz question, tried again. */
+	z.object({ type: z.literal("then_now"), at, lessonId: id(), question: z.number().int().min(0), correct: z.boolean() }),
 	/** A retake of a lesson's missed quiz questions: the ones still missed. */
 	z.object({ type: z.literal("missed_retake"), at, lessonId: id(), missed: z.array(z.number().int().min(0)) }),
 	/** A unit diagnostic's outcome for a lesson it didn't test out: `missed`

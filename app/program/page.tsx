@@ -1,12 +1,13 @@
 import { ProgramHome } from "@/components/program/program-home";
-import { programView, progressSnapshot, stores } from "@/src/server";
+import { motivationView, programView, progressSnapshot, stores } from "@/src/server";
 
 export const dynamic = "force-dynamic";
 
 export default function ProgramPage() {
 	let initial = null;
 	try {
-		initial = { program: programView(), snapshot: progressSnapshot(), settings: stores.curriculumStore.readSettings() };
+		const snapshot = progressSnapshot();
+		initial = { program: programView(), snapshot, settings: stores.curriculumStore.readSettings(), motivation: motivationView(snapshot) };
 	} catch {
 		// The client retries via /api/program and shows the error there.
 	}

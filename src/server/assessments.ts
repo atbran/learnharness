@@ -136,7 +136,7 @@ export function ensureQuickCheck(lessonId: string): void {
 export async function submitQuickCheck(
 	lessonId: string,
 	responses: string[],
-	opts: { review?: boolean; only?: number[]; missedRetake?: boolean } = {},
+	opts: { review?: boolean; only?: number[]; missedRetake?: boolean; thenNow?: boolean } = {},
 ): Promise<CheckResult> {
 	const check = readQuickCheck(lessonId);
 	if (!check) throw new Error("no quick check for this lesson yet");
@@ -165,7 +165,8 @@ export async function submitQuickCheck(
 	const score = perQuestion.reduce((s, q) => s + q.credit, 0) / Math.max(1, perQuestion.length);
 	const at = new Date().toISOString();
 	const missed = indexes.filter((_, k) => !perQuestion[k]!.correct);
-	if (opts.missedRetake) recordProgress({ type: "missed_retake", at, lessonId, missed });
+	if (opts.thenNow && indexes.length === 1) recordProgress({ type: "then_now", at, lessonId, question: indexes[0]!, correct: missed.length === 0 });
+	else if (opts.missedRetake) recordProgress({ type: "missed_retake", at, lessonId, missed });
 	else if (opts.review) recordProgress({ type: "review_done", at, lessonId, quality: Math.round(score * 5) });
 	else recordProgress({ type: "quick_check", at, lessonId, score, missed });
 	return { lessonId, at, score, perQuestion };

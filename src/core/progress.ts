@@ -11,7 +11,9 @@ import { lessonPrereqs, type ProgramIndex } from "./curriculum.ts";
 
 export const MASTERY_CHECK = 0.8;
 export const UNIT_PASS = 0.7;
-export const STREAK_MINUTES = 20;
+export const STREAK_MINUTES = 15;
+/** Lessons finished (quiz-mastered or tested out) for a week to count. */
+export const WEEKLY_LESSONS = 3;
 const DAY = 86_400_000;
 
 export interface ReviewState {
@@ -118,7 +120,12 @@ export interface ProgressSnapshot {
 	missedDue: string[];
 	xp: number;
 	level: { level: number; xpIntoLevel: number; xpForLevel: number };
+	/** The daily chain: days with ≥ STREAK_MINUTES (paused days skipped). */
 	streak: { current: number; best: number };
+	/** The main streak: Monday-weeks in a row with ≥ WEEKLY_LESSONS finished. */
+	weekly: { current: number; best: number; thisWeek: { weekStart: string; finished: number; target: number } };
+	/** The pause in effect today, if any. */
+	paused: Pause | null;
 	badges: Badge[];
 }
 
@@ -131,18 +138,26 @@ export interface ProgressOptions {
 	startDate?: string;
 	/** Target weeks per unit (unitId → weeks). */
 	unitWeeks?: Record<string, number>;
+	/** Breaks the learner declared: streaks and pace windows skip them. */
+	pauses?: readonly Pause[];
+}
+
+export interface Pause {
+	start: string;
+	end: string;
+	reason?: string;
 }
 
 export function isoDate(d: Date | string): string {
 	return (typeof d === "string" ? new Date(d) : d).toISOString().slice(0, 10);
 }
 
-function addDays(date: string, days: number): string {
+export function addDays(date: string, days: number): string {
 	return isoDate(new Date(Date.parse(date) + days * DAY));
 }
 
 /** Monday-start ISO week key for a yyyy-mm-dd date. */
-function weekStart(date: string): string {
+export function weekStart(date: string): string {
 	const d = new Date(`${date}T00:00:00Z`);
 	const dow = (d.getUTCDay() + 6) % 7;
 	return addDays(date, -dow);
@@ -249,6 +264,15 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 	const sorted = [...events].sort((a, b) => a.at.localeCompare(b.at));
 	const startDate = opts.startDate ?? (sorted[0] ? isoDate(sorted[0].at) : today);
 
+	const pauses = opts.pauses ?? [];
+	const isPaused = (d: string) => pauses.some((p) => p.start <= d && d <= p.end);
+	/** Paused days in [from, to). */
+	const pausedDays = (from: string, to: string) => {
+		let n = 0;
+		for (let d = from; d < to && n < 3660; d = addDays(d, 1)) if (isPaused(d)) n++;
+		return n;
+	};
+
 	const lessons: Record<string, LessonProgress> = {};
 	for (const id of index.lessonOrder)
 		lessons[id] = {
@@ -327,6 +351,17 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 				if (!l || l.masteredAt || ev.missed.length === 0) break;
 				l.started = true;
 				l.diagnostic = { at: ev.at, missed: ev.missed };
+				break;
+			}
+			case "then_now": {
+				const l = L(ev.lessonId);
+				if (!l) break;
+				xp += XP.review;
+				// Still wrong: it goes back into the missed-question review.
+				if (!ev.correct && !l.missed.includes(ev.question)) {
+					l.missed = [...l.missed, ev.question];
+					l.missedAt = ev.at;
+				}
 				break;
 			}
 			case "missed_retake": {
@@ -455,7 +490,8 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 	const thisWeekMinutes = Object.entries(byDate).filter(([d]) => d >= thisWeek).reduce((s, [, m]) => s + m, 0);
 	const fourWeeksAgo = addDays(today, -28);
 	const recentMinutes = Object.entries(byDate).filter(([d]) => d > fourWeeksAgo).reduce((s, [, m]) => s + m, 0);
-	const weeksActive = Math.min(4, Math.max(1, (Date.parse(today) - Date.parse(startDate)) / (7 * DAY)));
+	const activeDays = Math.min(28, (Date.parse(today) - Date.parse(startDate)) / DAY) - pausedDays(fourWeeksAgo, today);
+	const weeksActive = Math.min(4, Math.max(1, activeDays / 7));
 	const recentHoursPerWeek = recentMinutes / 60 / weeksActive;
 	const plannedHours = index.program.courseList.reduce((s, c) => s + c.hours, 0);
 	const fullHours = Object.fromEntries(index.program.courseList.map((c) => [c.id, c.hours]));
@@ -497,7 +533,9 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 		for (const u of course.units) {
 			const x = units[u.id]!;
 			const weeks = unitWeeks[u.id] ?? Math.max(0.25, u.lessons.reduce((s, l) => s + l.minutes, 0) / 60 / share);
-			const targetEnd = addDays(cursor, Math.max(1, Math.round(weeks * 7)));
+			const span0 = Math.max(1, Math.round(weeks * 7));
+			// A pause inside the window pushes its end out by the paused days.
+			const targetEnd = addDays(cursor, span0 + pausedDays(cursor, addDays(cursor, span0)));
 			const lessonsLeft = x.total - x.mastered;
 			const span = Date.parse(targetEnd) - Date.parse(cursor);
 			const elapsed = Math.min(1, Math.max(0, (Date.parse(today) - Date.parse(cursor)) / span));
@@ -531,7 +569,9 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 		let d = end;
 		for (let i = 0; i < 5000; i++) {
 			if (qualifies(d)) n++;
-			else {
+			else if (isPaused(d)) {
+				/* a paused day neither counts nor breaks the chain */
+			} else {
 				const wk = weekStart(d);
 				if (n === 0 || frozen.has(wk) || !qualifies(addDays(d, -1))) break;
 				frozen.add(wk);
@@ -543,6 +583,31 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 	const current = qualifies(today) ? streakAt(today) : streakAt(addDays(today, -1));
 	let best = current;
 	for (const d of Object.keys(byDate)) if (qualifies(d) && !qualifies(addDays(d, 1))) best = Math.max(best, streakAt(d));
+
+	// Weekly streak: Monday-weeks with ≥ WEEKLY_LESSONS lessons finished
+	// (mastered by quiz or tested out). A week at least half paused neither
+	// counts nor breaks it; this week joins once it reaches the target.
+	const finishedByWeek = new Map<string, number>();
+	for (const id of index.lessonOrder) {
+		const m = L(id).masteredAt;
+		if (m) finishedByWeek.set(weekStart(isoDate(m)), (finishedByWeek.get(weekStart(isoDate(m))) ?? 0) + 1);
+	}
+	const weekPaused = (wk: string) => pausedDays(wk, addDays(wk, 7)) >= 4;
+	const weekMet = (wk: string) => (finishedByWeek.get(wk) ?? 0) >= WEEKLY_LESSONS;
+	const firstWeek = weekStart(startDate);
+	const runEndingAt = (wk: string) => {
+		let n = 0;
+		for (let w = wk; w >= firstWeek; w = addDays(w, -7)) {
+			if (weekMet(w)) n++;
+			else if (!weekPaused(w)) break;
+		}
+		return n;
+	};
+	const lastWeek = addDays(thisWeek, -7);
+	const weeklyCurrent = (weekMet(thisWeek) ? 1 : 0) + runEndingAt(lastWeek);
+	let weeklyBest = weeklyCurrent;
+	for (let w = firstWeek; w < thisWeek; w = addDays(w, 7)) if (weekMet(w)) weeklyBest = Math.max(weeklyBest, runEndingAt(w));
+	const weekly = { current: weeklyCurrent, best: weeklyBest, thisWeek: { weekStart: thisWeek, finished: finishedByWeek.get(thisWeek) ?? 0, target: WEEKLY_LESSONS } };
 
 	// Next up / reviews.
 	const reviewsDue = index.lessonOrder.filter((id) => L(id).status === "review-due");
@@ -584,8 +649,9 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 		{ id: "ten-lessons", title: "Momentum", description: "Master 10 lessons", earnedAt: nthMastered(10) },
 		{ id: "fifty-lessons", title: "Inertia", description: "Master 50 lessons", earnedAt: nthMastered(50) },
 		{ id: "hundred-lessons", title: "Escape Velocity", description: "Master 100 lessons", earnedAt: nthMastered(100) },
-		{ id: "week-streak", title: "Steady State", description: "7-day study streak", earnedAt: best >= 7 ? today : null },
-		{ id: "month-streak", title: "Limit Cycle", description: "30-day study streak", earnedAt: best >= 30 ? today : null },
+		{ id: "week-streak", title: "Steady State", description: `4 weeks in a row with ${WEEKLY_LESSONS}+ lessons`, earnedAt: weeklyBest >= 4 ? today : null },
+		{ id: "month-streak", title: "Limit Cycle", description: `12 weeks in a row with ${WEEKLY_LESSONS}+ lessons`, earnedAt: weeklyBest >= 12 ? today : null },
+		{ id: "daily-chain", title: "Daily Habit", description: "7-day study chain", earnedAt: best >= 7 ? today : null },
 		{ id: "ten-hours", title: "Ten Hours", description: "Study 10 hours", earnedAt: hoursReachedAt(10) },
 		{ id: "hundred-hours", title: "Centurion", description: "Study 100 hours", earnedAt: hoursReachedAt(100) },
 		{ id: "five-hundred-hours", title: "Adiabatic", description: "Study 500 hours", earnedAt: hoursReachedAt(500) },
@@ -628,6 +694,8 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 		xp: Math.round(xp),
 		level: levelFor(xp),
 		streak: { current, best },
+		weekly,
+		paused: pauses.find((p) => p.start <= today && today <= p.end) ?? null,
 		badges,
 	};
 }

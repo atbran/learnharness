@@ -1,6 +1,6 @@
 import { chainsForSelection, formatChainLine } from "@/src/core";
 import { newGraphContextMessage, newLessonContextMessage, type GraphContextPick } from "@/src/core";
-import { compactionInFlight, createChat, lessonBrief, recordProgress, unitDrillBrief, isTurnRunning, listChats, readSettingsRecord, stores, titleFromPrompt } from "@/src/server";
+import { compactionInFlight, createChat, lessonBrief, recordProgress, teachBackBrief, unitDrillBrief, isTurnRunning, listChats, readSettingsRecord, stores, titleFromPrompt } from "@/src/server";
 import type { ChatListItem } from "@/src/core";
 
 /** The session picker's list: record-derived summaries (phase, pending
@@ -69,7 +69,11 @@ export async function POST(req: Request) {
 	}
 	// Physics program lessons: message[0] is the lesson brief (objectives,
 	// readings with pages, learner history); the ledger links the session.
-	if (typeof body.lessonId === "string") {
+	if (typeof body.lessonId === "string" && body.kind === "teachback") {
+		// Teach-back: the learner teaches the tutor (playing a confused student).
+		const brief = teachBackBrief(body.lessonId);
+		if (brief) stores.chatStore.saveMessages(chat.id, [newLessonContextMessage(brief.content, brief.details)]);
+	} else if (typeof body.lessonId === "string") {
 		const mode = kind === "practice" ? "practice" : "teach";
 		const brief = lessonBrief(body.lessonId, mode);
 		if (brief) {
