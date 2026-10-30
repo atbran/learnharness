@@ -180,7 +180,7 @@ export function ProgramMap({ program, snapshot }: { program: ProgramView; snapsh
 	const lp = selected ? snapshot.lessons[selected] : undefined;
 
 	return (
-		<div className="relative h-[calc(100vh-260px)] min-h-[520px] overflow-hidden rounded-xl border border-border bg-background">
+		<div className="relative h-[calc(100vh-260px)] min-h-[520px] overflow-hidden rounded-xl border border-border bg-background short:h-[calc(100dvh-5rem)] short:min-h-60">
 			<ReactFlow
 				key={courseId ?? "overview"}
 				nodes={graph.nodes}
@@ -209,7 +209,9 @@ export function ProgramMap({ program, snapshot }: { program: ProgramView; snapsh
 				    stylesheet is unlayered, hence the important). Pinch-zoom and
 				    one-finger pan are xyflow defaults (zoomOnPinch, panOnDrag). */}
 				<Controls showInteractive={false} className="pointer-coarse:[&_button]:size-11!" />
+				{/* Phone: no room for the minimap; the legend takes its corner. */}
 				<MiniMap
+					className="max-sm:hidden! short:hidden!"
 					pannable
 					zoomable
 					maskColor="rgba(20,20,20,0.7)"
@@ -252,9 +254,9 @@ export function ProgramMap({ program, snapshot }: { program: ProgramView; snapsh
 				)}
 			</div>
 
-			<div className="pointer-events-none absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-3 rounded-lg border border-border bg-card/90 px-3 py-1.5 text-[11px] text-muted-foreground">
+			<div className="pointer-events-none absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-3 rounded-lg border border-border bg-card/90 px-3 py-1.5 text-[11px] text-muted-foreground max-sm:left-auto max-sm:right-3 max-sm:max-w-[calc(100%-5rem)] max-sm:translate-x-0 max-sm:flex-wrap max-sm:justify-end max-sm:gap-x-2.5 max-sm:gap-y-0.5">
 				{(Object.keys(STATUS_LABEL) as LessonStatus[]).map((s) => (
-					<span key={s} className="flex items-center gap-1">
+					<span key={s} className="flex items-center gap-1 whitespace-nowrap">
 						<span className="size-2 rounded-full" style={{ background: STATUS_COLOR[s] }} />
 						{STATUS_LABEL[s]}
 					</span>

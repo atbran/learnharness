@@ -59,7 +59,7 @@ export function Bookshelf() {
 				</div>
 			</TopBar>
 			<div className="min-h-0 flex-1 overflow-y-auto">
-				<div className="mx-auto max-w-[1200px] space-y-5 px-6 py-5">
+				<div className="mx-auto max-w-[1200px] space-y-5 px-6 py-5 max-sm:px-4">
 					<header className="flex flex-wrap items-end gap-4">
 						<div className="flex-1">
 							<h1 className="font-title text-4xl tracking-tight">Bookshelf</h1>

@@ -221,7 +221,10 @@ function DemoFrame({
 				// the wheel (session scrolling stalls over the demo). With
 				// scrolling disabled the wheel chains straight to the session.
 				scrolling="no"
-				className="mt-2 w-full rounded-lg border bg-white"
+				// w-px + min-w-full = the card's width everywhere, but stops iOS
+				// Safari from growing an iframe to its content's width (which
+				// pushed wide demos past a phone screen).
+				className="mt-2 w-px min-w-full rounded-lg border bg-white"
 				// content-box: the bridge reports the CONTENT height — with the
 				// preflight's border-box the 2px border would eat into it and clip
 				// the bottom of the demo (smoke finding, 2026-10-07).

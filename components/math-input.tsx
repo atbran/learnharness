@@ -13,7 +13,8 @@
  * node_modules/mathlive/fonts) and its sounds are off: no CDN fetches.
  *
  * The panel is a sheet fixed to the top or bottom of the viewport — the side
- * AWAY from the input it inserts into — and the virtual keyboard renders
+ * AWAY from the input it inserts into (a phone always gets the bottom; the
+ * page scrolls the input above it) — and the virtual keyboard renders
  * inside the sheet (not MathLive's default body-level keyboard), so neither
  * covers that input (iPad portrait included).
  */
@@ -115,6 +116,12 @@ function isTouch(): boolean {
 	return window.matchMedia("(pointer: coarse)").matches;
 }
 
+/** iPhone portrait or landscape: the sheet always docks at the bottom,
+ *  where the thumbs are, and the page scrolls the input above it. */
+function isPhone(): boolean {
+	return window.matchMedia("(max-width: 639px), (max-height: 500px)").matches;
+}
+
 export interface MathButtonProps {
 	/** Receives the formula as LaTeX (no `$` delimiters). */
 	onInsert: (latex: string, display: boolean) => void;
@@ -152,7 +159,7 @@ export function MathButton({ onInsert, target, allowDisplay, validate, compact, 
 					const el = targetEl();
 					if (el) {
 						const r = el.getBoundingClientRect();
-						setAtTop(r.top + r.height / 2 > window.innerHeight / 2);
+						setAtTop(!isPhone() && r.top + r.height / 2 > window.innerHeight / 2);
 					}
 					setOpen((v) => !v);
 				}}
@@ -334,7 +341,8 @@ function MathSheet({
 			role="dialog"
 			aria-label="Math input"
 			data-testid="math-sheet"
-			className={cn("fixed inset-x-0 z-[70] flex justify-center sm:px-4", atTop ? "top-0 sm:pt-2" : "bottom-0 sm:pb-2")}
+			// Landscape phone: the side insets keep keys out from under the notch.
+			className={cn("fixed inset-x-0 z-[70] flex justify-center sm:pr-[max(1rem,env(safe-area-inset-right))] sm:pl-[max(1rem,env(safe-area-inset-left))]", atTop ? "top-0 sm:pt-2" : "bottom-0 sm:pb-2")}
 			style={atTop ? { paddingTop: "env(safe-area-inset-top)" } : { paddingBottom: "env(safe-area-inset-bottom)" }}
 			onMouseDown={(e) => {
 				// A press anywhere else on the sheet (padding, buttons) must not
@@ -445,6 +453,23 @@ const SHEET_CSS = `
 	--variant-keycap-text: var(--foreground);
 	/* 56px keys on a portrait iPad, ~44px in landscape / short windows. */
 	--keycap-height: clamp(40px, 5.4vh, 56px);
+}
+/* Phone: MathLive sizes a key at 10% of the keyboard, but the numeric
+   layer is ~11 keys wide (separators included), so its right column fell
+   off a 390px screen. 9% fits every layer. Landscape keeps the sheet
+   short enough to leave the answer box visible above it. */
+@media (max-width: 639px), (max-height: 500px) {
+	.lh-math-keyboard { --keycap-width: min(62px, 9cqw); }
+}
+/* Its toolbar (6 layer tabs + undo/redo/paste at 46px each) is 414px:
+   narrower tabs keep the paste button on a 390px screen. */
+@media (max-width: 639px) {
+	.lh-math-keyboard .MLK__toolbar > div > div { min-width: 36px; margin-left: 1px; margin-right: 1px; }
+}
+@media (max-height: 500px) {
+	.lh-math-keyboard { --keycap-height: 34px; --keycap-gap: 4px; }
+	.lh-math-keyboard .MLK__toolbar > div > div,
+	.lh-math-keyboard .MLK__toolbar > div > div.selected { min-height: 30px; padding-top: 0; padding-bottom: 0; margin-bottom: 0; }
 }
 `;
 

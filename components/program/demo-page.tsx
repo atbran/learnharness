@@ -90,15 +90,15 @@ export function DemoPage({ initial }: { initial: DemoPageData }) {
 					<Link href="/program" className="hover:text-foreground pointer-coarse:py-3">
 						Program
 					</Link>
-					<ChevronRightIcon className="size-3.5" />
+					<ChevronRightIcon className="size-3.5 shrink-0" />
 					<Link href={`/program/course/${view.course.id}`} className="hover:text-foreground" style={{ color: TRACK_COLOR[view.course.track] }}>
 						{view.course.code}
 					</Link>
-					<ChevronRightIcon className="size-3.5" />
+					<ChevronRightIcon className="size-3.5 shrink-0" />
 					<Link href={`/program/lesson/${lessonId}`} className="truncate hover:text-foreground">
 						{view.lesson.title}
 					</Link>
-					<ChevronRightIcon className="size-3.5" />
+					<ChevronRightIcon className="size-3.5 shrink-0" />
 					<span className="shrink-0">Demo {index + 1}</span>
 				</div>
 				<div className="ml-auto flex items-center gap-1">
@@ -116,7 +116,7 @@ export function DemoPage({ initial }: { initial: DemoPageData }) {
 			</TopBar>
 
 			<div className="min-h-0 flex-1 overflow-y-auto">
-				<div className="mx-auto max-w-[1400px] space-y-5 px-6 py-5">
+				<div className="mx-auto max-w-[1400px] space-y-5 px-6 py-5 max-sm:px-4">
 					<header className="flex flex-wrap items-end justify-between gap-4">
 						<div className="min-w-0 max-w-3xl">
 							<div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">

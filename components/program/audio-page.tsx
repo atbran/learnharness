@@ -119,7 +119,7 @@ export function AudioPage({ focus }: { focus: string | null }) {
 				</div>
 			</TopBar>
 			<div className="min-h-0 flex-1 overflow-y-auto">
-				<div className="mx-auto max-w-4xl space-y-5 px-6 py-6">
+				<div className="mx-auto max-w-4xl space-y-5 px-6 py-6 max-sm:px-4">
 					{list && !list.ttsReady && (
 						<div className="flex gap-3 rounded-xl border border-[var(--st-progress)] bg-card p-4 text-sm">
 							<TriangleAlertIcon className="mt-0.5 size-4 shrink-0 text-[var(--st-progress)]" />
@@ -193,7 +193,7 @@ export function AudioPage({ focus }: { focus: string | null }) {
 						{(data?.program.courses ?? []).map((c) => (
 							<details key={c.id} open={c.id === focusCourse} className="group rounded-xl border border-border bg-card">
 								<summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3 text-sm pointer-coarse:min-h-12">
-									<ChevronRightIcon className="size-3.5 text-muted-foreground transition-transform group-open:rotate-90" />
+									<ChevronRightIcon className="size-3.5 shrink-0 text-muted-foreground transition-transform group-open:rotate-90" />
 									<span style={{ color: TRACK_COLOR[c.track] }}>{c.code}</span>
 									<span className="truncate">{c.title}</span>
 									<span className="ml-auto text-xs text-muted-foreground">
@@ -272,7 +272,7 @@ function FocusGuide({ id, fallbackTitle, onStart, ttsReady }: { id: string; fall
 	const title = guide?.title ?? fallbackTitle ?? "…";
 
 	return (
-		<section className="rounded-xl border border-[var(--st-available)]/40 bg-card p-5">
+		<section className="rounded-xl border border-[var(--st-available)]/40 bg-card p-5 max-sm:p-4">
 			<div className="text-xs uppercase tracking-wider text-muted-foreground">{guide?.subtitle ?? (isSession(id) ? "Teaching session" : "Lesson")}</div>
 			<div className="mt-1 flex flex-wrap items-baseline gap-3">
 				<h1 className="font-title text-3xl leading-tight tracking-tight">{title}</h1>
@@ -299,7 +299,7 @@ function FocusGuide({ id, fallbackTitle, onStart, ttsReady }: { id: string; fall
 					</div>
 				) : guide ? (
 					<div className="flex flex-wrap items-center gap-3 rounded-lg border border-dashed border-border p-4">
-						<p className="flex-1 text-sm text-muted-foreground">
+						<p className="min-w-48 flex-1 text-sm text-muted-foreground">
 							{isSession(id) ? "Turn this session's explanations into audio." : "No audio guide yet. One is written for this lesson, then spoken locally with Kokoro."}
 						</p>
 						<button

@@ -37,7 +37,10 @@ export function Timeline({ program, snapshot }: { program: ProgramView; snapshot
 
 	return (
 		<div>
-			<svg viewBox={`0 0 ${w} ${h}`} className="h-auto w-full" role="img" aria-label="Program timeline">
+			{/* Phone: at 900→~330px the labels shrink to ~4px, so the chart keeps
+			    a readable width and scrolls sideways inside its card. */}
+			<div className="max-sm:-mx-4 max-sm:overflow-x-auto max-sm:px-4">
+			<svg viewBox={`0 0 ${w} ${h}`} className="h-auto w-full max-sm:min-w-[720px]" role="img" aria-label="Program timeline">
 				{yearTicks.map((wk) => (
 					<g key={wk}>
 						<line x1={x(wk)} x2={x(wk)} y1={0} y2={h - 18} stroke="var(--border)" strokeOpacity={0.35} />
@@ -102,6 +105,7 @@ export function Timeline({ program, snapshot }: { program: ProgramView; snapshot
 					today
 				</text>
 			</svg>
+			</div>
 			<div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-muted-foreground">
 				<span>
 					<span className="mr-1 inline-block h-2.5 w-5 rounded-sm border border-dashed border-muted-foreground align-middle" /> original plan

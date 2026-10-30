@@ -50,14 +50,15 @@ export function BookReader({
 					<Link href="/program/books" className="hover:text-foreground pointer-coarse:py-3">
 						Bookshelf
 					</Link>
-					<ChevronRightIcon className="size-3.5" />
-					<span className="truncate">{title}</span>
+					{/* Phone: the page controls need the bar; the title goes. */}
+					<ChevronRightIcon className="size-3.5 shrink-0 max-sm:hidden" />
+					<span className="truncate max-sm:hidden">{title}</span>
 				</div>
 				<div className="ml-auto flex items-center gap-1 text-sm">
-					<button type="button" onClick={() => setDpi((d) => Math.max(72, d - 20))} className="flex items-center justify-center rounded p-1.5 hover:bg-accent pointer-coarse:size-11" aria-label="Zoom out">
+					<button type="button" onClick={() => setDpi((d) => Math.max(72, d - 20))} className="flex items-center justify-center rounded p-1.5 hover:bg-accent pointer-coarse:size-11 max-sm:hidden" aria-label="Zoom out">
 						<MinusIcon className="size-4" />
 					</button>
-					<button type="button" onClick={() => setDpi((d) => Math.min(200, d + 20))} className="flex items-center justify-center rounded p-1.5 hover:bg-accent pointer-coarse:size-11" aria-label="Zoom in">
+					<button type="button" onClick={() => setDpi((d) => Math.min(200, d + 20))} className="flex items-center justify-center rounded p-1.5 hover:bg-accent pointer-coarse:size-11 max-sm:hidden" aria-label="Zoom in">
 						<PlusIcon className="size-4" />
 					</button>
 					<button type="button" onClick={() => go(page - 1)} className="flex items-center justify-center rounded p-1.5 hover:bg-accent pointer-coarse:size-11" aria-label="Previous page">
@@ -77,8 +78,9 @@ export function BookReader({
 							className="lh-input w-14 rounded border border-border bg-background px-1.5 py-0.5 text-center text-xs pointer-coarse:min-h-11"
 						/>
 					</form>
-					<span className="text-xs text-muted-foreground">
-						/ {pageCount} · printed {label(page)}
+					<span className="whitespace-nowrap text-xs text-muted-foreground">
+						/ {pageCount}
+						<span className="max-sm:hidden"> · printed {label(page)}</span>
 					</span>
 					<button type="button" onClick={() => go(page + 1)} className="flex items-center justify-center rounded p-1.5 hover:bg-accent pointer-coarse:size-11" aria-label="Next page">
 						<ChevronRightIcon className="size-4" />
@@ -100,13 +102,14 @@ export function BookReader({
 					))}
 				</div>
 			)}
-			<div className="min-h-0 flex-1 overflow-auto bg-[#0e0e0e] p-4">
+			{/* Phone: the page fits the width (zoom buttons hidden; pinch to zoom). */}
+			<div className="min-h-0 flex-1 overflow-auto bg-[#0e0e0e] p-4 max-sm:p-2">
 				{/* eslint-disable-next-line @next/next/no-img-element -- server-rendered PNG of a local PDF page */}
 				<img
 					key={`${page}@${dpi}`}
 					src={`/api/books/${bookId}/pages/${page}?dpi=${dpi}`}
 					alt={`${title}, page ${label(page)}`}
-					className={cn("mx-auto rounded bg-white shadow-2xl", inRange(page) && "ring-2 ring-[var(--st-available)]")}
+					className={cn("mx-auto rounded bg-white shadow-2xl max-sm:h-auto max-sm:w-full", inRange(page) && "ring-2 ring-[var(--st-available)]")}
 				/>
 				{/* Prefetch the next page so turning feels instant. */}
 				{page < pageCount && (
