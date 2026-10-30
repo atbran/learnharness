@@ -81,8 +81,16 @@ export type PublicCheckQuestion =
 	| { kind: "numeric"; prompt: string; unit?: string }
 	| { kind: "short"; prompt: string };
 
+/** The lesson's quick check: authored (shipped with the curriculum) first,
+ *  else a generated one from the cache. */
+function readQuickCheck(lessonId: string): QuickCheck | null {
+	const authored = stores.curriculumStore.authoredCheck(lessonId);
+	if (authored) return { lessonId, createdAt: "authored", questions: authored };
+	return stores.curriculumStore.readCache<QuickCheck>("quizzes", lessonId);
+}
+
 export function quickCheckView(lessonId: string): { status: "ready"; questions: PublicCheckQuestion[] } | { status: "generating" | "missing" | "error"; error?: string } {
-	const cached = stores.curriculumStore.readCache<QuickCheck>("quizzes", lessonId);
+	const cached = readQuickCheck(lessonId);
 	if (cached)
 		return {
 			status: "ready",
@@ -99,9 +107,9 @@ export function quickCheckView(lessonId: string): { status: "ready"; questions: 
 export function ensureQuickCheck(lessonId: string): void {
 	const ref = programIndex().lessons.get(lessonId);
 	if (!ref) throw new Error(`unknown lesson ${lessonId}`);
-	if (stores.curriculumStore.readCache<QuickCheck>("quizzes", lessonId)) return;
+	if (readQuickCheck(lessonId)) return;
 	runTask(`check:${lessonId}`, `Writing quick check · ${ref.lesson.title}`, async () => {
-		const questions = await writeQuickCheck(ref.lesson, lessonContext(ref.lesson), writerDeps("checkWriter", false));
+		const questions = await writeQuickCheck(ref.lesson, lessonContext(ref.lesson), ref.course.track, writerDeps("checkWriter", false));
 		stores.curriculumStore.writeCache("quizzes", lessonId, { lessonId, createdAt: new Date().toISOString(), questions } satisfies QuickCheck);
 	});
 }
@@ -109,7 +117,7 @@ export function ensureQuickCheck(lessonId: string): void {
 /** Grade a submitted quick check; records the score in the ledger. With
  *  `review`, it is a spaced-review attempt (review_done) instead. */
 export async function submitQuickCheck(lessonId: string, responses: string[], opts: { review?: boolean; only?: number[] } = {}): Promise<CheckResult> {
-	const check = stores.curriculumStore.readCache<QuickCheck>("quizzes", lessonId);
+	const check = readQuickCheck(lessonId);
 	if (!check) throw new Error("no quick check for this lesson yet");
 	const indexes = opts.only ?? check.questions.map((_, i) => i);
 	const perQuestion: CheckResult["perQuestion"] = [];
@@ -224,6 +232,7 @@ function generate(id: string): void {
 				{
 					kind: a.kind,
 					courseTitle: `${course.code} ${course.title}`,
+					track: course.track,
 					minutes: a.minutes,
 					units: units.map((u) => ({ id: u.id, title: u.title, summary: u.summary, lessons: u.lessons })),
 					problemCount: a.kind === "placement" ? Math.min(14, units.length * 2) : PROBLEMS[a.kind],

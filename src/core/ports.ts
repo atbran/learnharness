@@ -27,7 +27,7 @@ import type {
 	NotesSource,
 } from "./contracts.ts";
 import type { UserSettings } from "./settings.ts";
-import type { BooksCatalog, Program, ProgressEvent } from "./contracts/curriculum.ts";
+import type { BooksCatalog, CheckQuestion, Program, ProgressEvent } from "./contracts/curriculum.ts";
 import type { PageText, SectionSpan } from "./bookshelf.ts";
 
 // ─── ChatStore — the session record's home (data/chats) ─────────────────────
@@ -248,6 +248,8 @@ export interface CurriculumStore {
 	 *  bugs must fail loudly, not degrade). */
 	loadProgram(): Program;
 	loadCatalog(): BooksCatalog;
+	/** The authored quick check for a lesson (curriculum/physics/checks/), or null. */
+	authoredCheck(lessonId: string): CheckQuestion[] | null;
 	readEvents(): ProgressEvent[];
 	appendEvent(event: ProgressEvent): void;
 	readSettings(): CurriculumSettings;

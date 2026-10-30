@@ -19,10 +19,12 @@ import * as path from "node:path";
 import { PATHS } from "../../config.ts";
 import {
 	booksCatalogSchema,
+	courseChecksSchema,
 	courseSchema,
 	programSchema,
 	progressEventSchema,
 	type BooksCatalog,
+	type CheckQuestion,
 	type Course,
 	type Program,
 	type ProgressEvent,
@@ -85,6 +87,25 @@ function loadProgram(): Program {
 
 function loadCatalog(): BooksCatalog {
 	return booksCatalogSchema.parse(readJson(path.join(PATHS.curriculumSource, "books.json")));
+}
+
+// Authored checks, keyed by the same spine stamp as the program cache.
+let checksCache: { stamp: number; byLesson: Map<string, CheckQuestion[]> } | null = null;
+
+function authoredCheck(lessonId: string): CheckQuestion[] | null {
+	const stamp = spineStamp();
+	if (!checksCache || checksCache.stamp !== stamp) {
+		const byLesson = new Map<string, CheckQuestion[]>();
+		const dir = path.join(PROGRAM_DIR, "checks");
+		for (const f of fs.existsSync(dir) ? fs.readdirSync(dir).filter((n) => n.endsWith(".json")) : []) {
+			const parsed = courseChecksSchema.safeParse(readJson(path.join(dir, f)));
+			// An invalid file is skipped (validate-checks reports it); the
+			// lessons fall back to generated checks rather than breaking.
+			if (parsed.success) for (const [lessonId, qs] of Object.entries(parsed.data.checks)) byLesson.set(lessonId, qs as CheckQuestion[]);
+		}
+		checksCache = { stamp, byLesson };
+	}
+	return checksCache.byLesson.get(lessonId) ?? null;
 }
 
 function readEvents(): ProgressEvent[] {
@@ -168,6 +189,7 @@ function artifactPath(kind: "audio" | "uploads", file: string): string {
 export const curriculumStore: CurriculumStore = {
 	loadProgram,
 	loadCatalog,
+	authoredCheck,
 	readEvents,
 	appendEvent,
 	readSettings,

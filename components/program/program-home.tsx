@@ -106,7 +106,13 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 							<RepeatIcon className="size-8" style={{ color: s.reviewsDue.length ? "var(--st-review)" : "var(--st-locked)" }} />
 							<div>
 								<div className="text-2xl font-semibold leading-none">{s.reviewsDue.length}</div>
-								<div className="mt-1 text-xs text-muted-foreground">due today</div>
+								{s.reviewsDue.length > 0 ? (
+									<Link href="/program/review" className="mt-1 block text-xs text-[var(--st-review)] hover:underline">
+										start review →
+									</Link>
+								) : (
+									<div className="mt-1 text-xs text-muted-foreground">due today</div>
+								)}
 							</div>
 						</Stat>
 					</div>

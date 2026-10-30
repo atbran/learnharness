@@ -25,7 +25,23 @@ export interface WriterDeps {
 
 const LEARNER =
 	"The learner is an organic chemist (chemistry degree, p-chem long ago) working through a self-study physics program toward first-year-PhD level. " +
+	"Their goal is genuine understanding — to be a well-rounded scientist who grasps WHY things are true and can use the ideas to understand how the world works — with fluent (not drilled) use of equations and calculation. " +
 	"Be rigorous and precise; use standard physics notation; math in $…$ (inline) and $$…$$ (display).";
+
+/** The program's assessment philosophy (learner directive): understanding
+ *  first, calculation as a fluent tool, never a problem-drill grind.
+ *  Physics: calculation/practice is 20–50% of the work. Math courses are
+ *  the exception — there, fluent technique IS the understanding. */
+const UNDERSTANDING_FIRST =
+	"Assess understanding first: physical meaning of equations, why a result holds, limiting cases and sanity checks, order-of-magnitude estimates, " +
+	"predicting what happens in a real situation, and connecting to everyday phenomena or chemistry (e.g. what entropy and enthalpy each mean for a reaction's free energy, not twenty ΔG plug-ins). " +
+	"Calculations are still required — use equations and get numbers — but as tools in service of insight, not as mechanical drills or algebra marathons.";
+
+export function calculationShare(track: string): string {
+	return track === "math"
+		? "This is a MATH course: technique matters, so about 60% of the work is computation (still with a 'what does this mean / when does it apply' angle), 40% conceptual."
+		: "This is a physics course: about 30% (never more than half) of the work is calculation; the rest is conceptual — explain, predict, estimate, interpret.";
+}
 
 function step(deps: WriterDeps) {
 	return (usage: Usage, model: string) => deps.onUsage?.(usage, model);
@@ -71,7 +87,7 @@ const checkSchema = Type.Object({
 	),
 });
 
-export async function writeQuickCheck(lesson: Lesson, context: string, deps: WriterDeps): Promise<CheckQuestion[]> {
+export async function writeQuickCheck(lesson: Lesson, context: string, track: string, deps: WriterDeps): Promise<CheckQuestion[]> {
 	const out = await runSubmitAgent<{ questions: CheckQuestion[] }>({
 		role: "checkWriter",
 		toolName: "submit_check",
@@ -80,8 +96,9 @@ export async function writeQuickCheck(lesson: Lesson, context: string, deps: Wri
 		fill: (x) => x,
 		systemPrompt:
 			`You write short mastery checks for a physics/math self-study program. ${LEARNER}\n\n` +
-			"Write exactly 5 questions that together test every objective of the lesson: at least 2 multiple-choice (plausible distractors built from real misconceptions), " +
-			"1–2 numeric (a quick calculation, single-number answer, units stated in the prompt), and 1 short-answer (explain why / derive a one-line result). " +
+			`${UNDERSTANDING_FIRST} ${calculationShare(track)}\n\n` +
+			"Write exactly 5 questions that together test every objective of the lesson: at least 2 conceptual multiple-choice (plausible distractors built from real misconceptions), " +
+			"1–2 numeric (a quick, physically meaningful calculation or estimate, single-number answer, units stated in the prompt), and 1 short-answer (explain why something happens, in the learner's own words). " +
 			"Questions test understanding, not trivia or recall of notation. Each explanation teaches the key idea in 1–3 sentences. " +
 			"Double-check every answer and numeric value before submitting.",
 		prompt: `${context}\n\n${lessonBlock(lesson)}\n\nWrite the quick check and call submit_check.`,
@@ -148,6 +165,7 @@ const problemsSchema = Type.Object({
 export interface AssessmentSpec {
 	kind: AssessmentKind;
 	courseTitle: string;
+	track: string;
 	minutes: number | null;
 	units: { id: string; title: string; summary: string; lessons: Lesson[] }[];
 	problemCount: number;
@@ -170,7 +188,9 @@ export async function writeAssessment(spec: AssessmentSpec, deps: WriterDeps): P
 		fill: (x) => x,
 		systemPrompt:
 			`You are a physics professor writing ${purpose[spec.kind]} ${LEARNER}\n\n` +
+			`${UNDERSTANDING_FIRST} ${calculationShare(spec.track)}\n\n` +
 			"Rules:\n" +
+			"- Mix: about a third conceptual problems (explain, predict, estimate, interpret a graph or a limit); the rest use equations and calculation to answer a physically meaningful question, and every calculational problem ends with a part asking what the result means.\n" +
 			"- Every problem tags its unitId and the lessonIds it assesses (ids from the brief only).\n" +
 			"- Prefer real textbook exercises: use book_search / book_lookup / book_read (when available) to find end-of-chapter problems for these sections, then adapt them (change numbers or ask a twist) and cite the source. Read only what you need.\n" +
 			"- Problems must be solvable with the lesson content; state all given data; no ambiguity.\n" +
@@ -236,6 +256,7 @@ export async function gradeAssessment(input: GradingInput, deps: WriterDeps): Pr
 		systemPrompt:
 			`You grade a physics student's work against rubrics. ${LEARNER}\n\n` +
 			"Read the typed answer AND the attached photos of handwritten work for each problem (images are numbered in attachment order). " +
+			"Weight understanding: credit correct physical reasoning and interpretation even when arithmetic slips, and call out conceptual misunderstandings explicitly (they matter more than algebra errors). " +
 			"Award rubric points for correct reasoning even when the final answer is off; give no credit for an unsupported final answer where the rubric asks for method. " +
 			"If handwriting is illegible, say which part and grade what you can read. Be fair, specific, and encouraging; never invent work that isn't there.",
 		prompt,

@@ -239,3 +239,33 @@ export interface Assessment {
 		gradedAt: string;
 	};
 }
+
+// ─── Authored quick checks (curriculum/physics/checks/<courseId>.json) ──────
+
+export const checkQuestionSchema = z.discriminatedUnion("kind", [
+	z.object({
+		kind: z.literal("mc"),
+		prompt: z.string().min(1),
+		options: z.array(z.string().min(1)).min(3).max(5),
+		answer: z.number().int().min(0),
+		explanation: z.string().min(1),
+	}),
+	z.object({
+		kind: z.literal("numeric"),
+		prompt: z.string().min(1),
+		answer: z.number(),
+		tolerance: z.number().min(0.001).max(0.2),
+		unit: z.string().optional(),
+		explanation: z.string().min(1),
+	}),
+	z.object({ kind: z.literal("short"), prompt: z.string().min(1), rubric: z.string().min(1), modelAnswer: z.string().min(1) }),
+]);
+
+/** One course's authored quick checks: lessonId → its questions. Shipped
+ *  with the spine; the app falls back to generating (and caching) a check
+ *  only for lessons that have none here. */
+export const courseChecksSchema = z.object({
+	courseId: id(),
+	checks: z.record(z.string(), z.array(checkQuestionSchema).min(4).max(6)),
+});
+export type CourseChecks = z.infer<typeof courseChecksSchema>;
