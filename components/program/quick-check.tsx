@@ -23,7 +23,22 @@ interface Result {
 
 /** One lesson's quick check (or a spaced-review subset of it). Graded on
  *  the server; ≥ 80% masters the lesson. */
-export function QuickCheckPage({ lessonId, lessonTitle, courseCode, review, only }: { lessonId: string; lessonTitle: string; courseCode: string; review?: boolean; only?: number[] }) {
+export function QuickCheckPage({
+	lessonId,
+	lessonTitle,
+	courseCode,
+	review,
+	only,
+	thenNow,
+}: {
+	lessonId: string;
+	lessonTitle: string;
+	courseCode: string;
+	review?: boolean;
+	only?: number[];
+	/** "Then and now": `only` is one long-ago missed question, tried again. */
+	thenNow?: boolean;
+}) {
 	useStudyHeartbeat(lessonId);
 	return (
 		<div className="flex h-full min-h-0 flex-col">
@@ -37,12 +52,12 @@ export function QuickCheckPage({ lessonId, lessonTitle, courseCode, review, only
 						{courseCode} · {lessonTitle}
 					</Link>
 					<ChevronRightIcon className="size-3.5 shrink-0" />
-					<span className="whitespace-nowrap">{review ? "Review" : "Quick check"}</span>
+					<span className="whitespace-nowrap">{thenNow ? "Then and now" : review ? "Review" : "Quick check"}</span>
 				</div>
 			</TopBar>
 			<div className="min-h-0 flex-1 overflow-y-auto">
 				<div className="mx-auto max-w-3xl px-6 py-6 max-sm:px-4">
-					<QuickCheck lessonId={lessonId} review={review} only={only} />
+					<QuickCheck lessonId={lessonId} review={review} only={only} thenNow={thenNow} />
 				</div>
 			</div>
 		</div>
@@ -54,6 +69,7 @@ export function QuickCheck({
 	review,
 	only,
 	missedRetake,
+	thenNow,
 	onDone,
 }: {
 	lessonId: string;
@@ -62,6 +78,8 @@ export function QuickCheck({
 	only?: number[];
 	/** Retaking just the questions missed last time (sent with the grade). */
 	missedRetake?: boolean;
+	/** "Then and now": one question missed weeks ago (recorded as then_now, not a quiz score). */
+	thenNow?: boolean;
 	onDone?: (score: number) => void;
 }) {
 	const [state, setState] = useState<CheckState | null>(null);
@@ -121,14 +139,21 @@ export function QuickCheck({
 						{pct(result.score)}
 					</ProgressRing>
 					<div className="min-w-48 flex-1 text-sm">
-						{review
+						{thenNow
+							? result.score >= 0.8
+								? "Then: missed · Now: ✓ — you've got this."
+								: "Not yet — it's back in your missed questions."
+							: review
 							? "Review logged — the next one is scheduled further out when you do well."
 							: result.score >= 0.8
 								? "Mastered! It joins your spaced-review schedule."
 								: "Not mastered yet — read the feedback, revisit the lesson, and try again."}
 					</div>
-					<Link href={`/program/lesson/${lessonId}`} className="flex items-center rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent pointer-coarse:min-h-11">
-						Back to lesson
+					<Link
+						href={thenNow ? "/program" : `/program/lesson/${lessonId}`}
+						className="flex items-center rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent pointer-coarse:min-h-11"
+					>
+						{thenNow ? "Back to program" : "Back to lesson"}
 					</Link>
 				</div>
 			)}
@@ -146,7 +171,7 @@ export function QuickCheck({
 						const r = await fetch(`/api/program/checks/${lessonId}`, {
 							method: "POST",
 							headers: { "Content-Type": "application/json" },
-							body: JSON.stringify({ responses: qs.map((_, i) => answers[i] ?? ""), review, only: indexes, ...(missedRetake ? { missedRetake: true } : {}) }),
+							body: JSON.stringify({ responses: qs.map((_, i) => answers[i] ?? ""), review, only: indexes, ...(missedRetake ? { missedRetake: true } : {}), ...(thenNow ? { thenNow: true } : {}) }),
 						});
 						const body = (await r.json()) as Result & { error?: string };
 						setSubmitting(false);

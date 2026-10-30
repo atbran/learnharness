@@ -1,5 +1,6 @@
 "use client";
 
+import { isoDate } from "@/src/core";
 import { useMemo, useState } from "react";
 import type { ProgressSnapshot } from "@/src/core";
 import { pct } from "./status";
@@ -154,7 +155,7 @@ export function MasteryRadar({ subjects }: { subjects: ProgressSnapshot["subject
 export function StudyHeatmap({ byDate, now, weeks = 26 }: { byDate: Record<string, number>; now: string; weeks?: number }) {
 	const { shown: hover, bind } = useHoverOrPick<{ d: string; m: number }>((a, b) => a.d === b.d);
 	const cells = useMemo(() => {
-		const end = new Date(`${now.slice(0, 10)}T00:00:00Z`);
+		const end = new Date(`${isoDate(now)}T00:00:00Z`);
 		const dow = (end.getUTCDay() + 6) % 7;
 		const start = new Date(end.getTime() - (weeks * 7 - 1 - (6 - dow)) * 86_400_000);
 		const out: { d: string; m: number; x: number; y: number; future: boolean }[] = [];

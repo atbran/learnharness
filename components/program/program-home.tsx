@@ -1,18 +1,36 @@
 "use client";
 
+import { isoDate } from "@/src/core";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AwardIcon, CalendarClockIcon, FlameIcon, LibraryIcon, MapIcon, PrinterIcon, RadarIcon, RepeatIcon, Settings2Icon, ShuffleIcon, TrophyIcon } from "lucide-react";
+import {
+	AwardIcon,
+	CalendarClockIcon,
+	FlameIcon,
+	LibraryIcon,
+	MapIcon,
+	MessageCircleQuestionMarkIcon,
+	NotebookPenIcon,
+	PrinterIcon,
+	RadarIcon,
+	RepeatIcon,
+	Settings2Icon,
+	ShuffleIcon,
+	TrophyIcon,
+} from "lucide-react";
+import type { Pause } from "@/src/core";
 import { TopBar } from "@/components/top-bar";
 import { cn } from "@/lib/utils";
 import { MasteryRadar, ProgressRing, ScoreTrends, StudyHeatmap } from "./charts";
 import { DemoPrebuildCard } from "./demo-prebuild-card";
+import { PauseBanner, PauseControl } from "./pause-control";
 import { ProgramMap } from "./program-map";
 import { Timeline } from "./timeline";
 import { TodayCard, startUnitDrill } from "./today-card";
 import { STATUS_COLOR, STATUS_LABEL, TRACK_COLOR, fmtDate, fmtDay, pct } from "./status";
 import { useProgram, useStudyHeartbeat, type CourseView, type ProgramData } from "./use-program";
+import { PACE_COLOR, PACE_LABEL, WeekDots, WeeklyReview, type PaceRow } from "./weekly-review";
 
 type Tab = "map" | "timeline" | "mastery" | "badges";
 
@@ -24,8 +42,9 @@ const TABS: { id: Tab; label: string; icon: typeof MapIcon }[] = [
 ];
 
 export function ProgramHome({ initial }: { initial: ProgramData | null }) {
-	const { data, error } = useProgram(initial);
+	const { data, error, refresh } = useProgram(initial);
 	const [tab, setTab] = useState<Tab>("map");
+	const [reviewOpen, setReviewOpen] = useState(false);
 	useStudyHeartbeat();
 	if (!data) return <div className="p-8 text-sm text-muted-foreground">{error ?? "Loading program…"}</div>;
 	const { program, snapshot: s } = data;
@@ -35,21 +54,40 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 	const masteredCount = Object.values(s.lessons).filter((l) => l.masteredAt).length;
 	const totalLessons = Object.keys(s.lessons).length;
 	const weekShare = s.study.thisWeekMinutes / Math.max(1, s.study.weekTargetMinutes);
+	const today = isoDate(s.now);
+	const wk = s.weekly;
+	const flameLit = wk.current > 0 || wk.thisWeek.finished >= wk.thisWeek.target;
 
 	return (
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
 				<h1 className="font-title min-w-0 truncate text-3xl tracking-tight max-sm:text-2xl">Physics Program</h1>
 				<div className="ml-auto flex items-center gap-2">
-					<Link href="/program/books" className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:min-h-11">
-						<LibraryIcon className="size-3.5" /> <span className="max-sm:sr-only">Bookshelf</span>
-					</Link>
-					<ProgramSettings hoursPerWeek={s.pace.hoursPerWeekTarget} startDate={s.startDate} parallel={s.parallel} />
+					{TOP_LINKS.map(({ href, label, icon: Icon }) => (
+						<Link
+							key={href}
+							href={href}
+							className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:min-h-11"
+						>
+							<Icon className="size-3.5" /> <span className="max-sm:sr-only">{label}</span>
+						</Link>
+					))}
+					<ProgramSettings
+						hoursPerWeek={s.pace.hoursPerWeekTarget}
+						startDate={s.startDate}
+						parallel={s.parallel}
+						pauses={data.settings.pauses}
+						paused={s.paused}
+						today={today}
+						onChanged={refresh}
+					/>
 				</div>
 			</TopBar>
 
 			<div className="min-h-0 flex-1 overflow-y-auto">
 				<div className="mx-auto max-w-[1400px] space-y-5 px-6 py-5 max-sm:px-4">
+					{s.paused && <PauseBanner pauses={data.settings.pauses} paused={s.paused} today={today} onChanged={refresh} />}
+
 					{/* Stat strip */}
 					<div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
 						<Stat label="Program">
@@ -72,11 +110,33 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 								recent {s.pace.recentHoursPerWeek.toFixed(1)} h/wk
 							</div>
 						</Stat>
-						<Stat label="Streak">
-							<FlameIcon className="size-9" style={{ color: s.streak.current > 0 ? "var(--streak)" : "var(--st-locked)" }} />
-							<div>
-								<div className="text-2xl font-semibold leading-none">{s.streak.current}</div>
-								<div className="mt-1 text-xs text-muted-foreground">days · best {s.streak.best}</div>
+						<Stat
+							label="Streak"
+							action={
+								<button
+									type="button"
+									onClick={() => setReviewOpen((v) => !v)}
+									aria-expanded={reviewOpen}
+									className="-my-1 rounded px-1 normal-case tracking-normal text-[var(--streak)] hover:underline pointer-coarse:min-h-11"
+								>
+									This week
+								</button>
+							}
+						>
+							<FlameIcon className="size-9 shrink-0" style={{ color: flameLit ? "var(--streak)" : "var(--st-locked)" }} />
+							<div className="min-w-0">
+								<div className="text-2xl font-semibold leading-none">
+									{wk.current} <span className="text-sm font-normal">week{wk.current === 1 ? "" : "s"}</span>
+								</div>
+								<div className="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs text-muted-foreground">
+									<span>
+										this week {wk.thisWeek.finished}/{wk.thisWeek.target} lessons
+									</span>
+									<WeekDots finished={wk.thisWeek.finished} target={wk.thisWeek.target} />
+								</div>
+								<div className="mt-0.5 text-[11px] text-muted-foreground" title={`Days in a row with 15+ min of study · best ${s.streak.best} days`}>
+									{s.streak.current}-day chain · best {wk.best} wk
+								</div>
 							</div>
 						</Stat>
 						<Stat label={`Level ${s.level.level}`}>
@@ -119,6 +179,8 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 							</div>
 						</Stat>
 					</div>
+
+					<WeeklyReview data={data} paceRows={paceRows(data)} opened={reviewOpen} onClose={() => setReviewOpen(false)} onChanged={refresh} />
 
 					<TodayCard data={data} />
 
@@ -249,10 +311,19 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 	);
 }
 
-function Stat({ label, children }: { label: string; children: React.ReactNode }) {
+const TOP_LINKS = [
+	{ href: "/program/questions", label: "Questions", icon: MessageCircleQuestionMarkIcon },
+	{ href: "/program/notebook", label: "Notebook", icon: NotebookPenIcon },
+	{ href: "/program/books", label: "Bookshelf", icon: LibraryIcon },
+] as const;
+
+function Stat({ label, action, children }: { label: string; action?: React.ReactNode; children: React.ReactNode }) {
 	return (
 		<div className="rounded-xl border border-border bg-card p-3">
-			<div className="mb-2 text-[11px] uppercase tracking-wider text-muted-foreground">{label}</div>
+			<div className="mb-2 flex items-center justify-between gap-2 text-[11px] uppercase tracking-wider text-muted-foreground">
+				{label}
+				{action}
+			</div>
 			<div className="flex items-center gap-3">{children}</div>
 		</div>
 	);
@@ -267,7 +338,23 @@ function Panel({ title, children, className }: { title: string; children: React.
 	);
 }
 
-function ProgramSettings({ hoursPerWeek, startDate, parallel }: { hoursPerWeek: number; startDate: string; parallel: number }) {
+function ProgramSettings({
+	hoursPerWeek,
+	startDate,
+	parallel,
+	pauses,
+	paused,
+	today,
+	onChanged,
+}: {
+	hoursPerWeek: number;
+	startDate: string;
+	parallel: number;
+	pauses: Pause[];
+	paused: Pause | null;
+	today: string;
+	onChanged: () => void;
+}) {
 	const [open, setOpen] = useState(false);
 	const [courses, setCourses] = useState(String(parallel));
 	const [hours, setHours] = useState(String(hoursPerWeek));
@@ -278,7 +365,7 @@ function ProgramSettings({ hoursPerWeek, startDate, parallel }: { hoursPerWeek: 
 				<Settings2Icon className="size-4" />
 			</button>
 			{open && (
-				<div className="absolute right-0 top-full z-50 mt-1 w-64 space-y-3 rounded-xl border border-border bg-popover p-4 text-sm shadow-xl">
+				<div className="absolute right-0 top-full z-50 mt-1 max-h-[calc(100dvh-5rem)] w-72 space-y-3 overflow-y-auto rounded-xl border border-border bg-popover p-4 text-sm shadow-xl">
 					<label className="block">
 						<span className="text-xs text-muted-foreground">Study hours per week</span>
 						<input type="number" min={1} max={80} value={hours} onChange={(e) => setHours(e.target.value)} className="lh-input mt-1 w-full rounded-md border border-border bg-background px-2 py-1 pointer-coarse:min-h-11" />
@@ -305,6 +392,9 @@ function ProgramSettings({ hoursPerWeek, startDate, parallel }: { hoursPerWeek: 
 					>
 						Save
 					</button>
+					<div className="border-t border-border pt-3">
+						<PauseControl pauses={pauses} paused={paused} today={today} onChanged={onChanged} />
+					</div>
 				</div>
 			)}
 		</div>
@@ -351,21 +441,17 @@ function PracticeActions({ data }: { data: ProgramData }) {
 	);
 }
 
-const PACE_LABEL = { upcoming: "starts soon", ahead: "ahead", "on-track": "on track", behind: "behind", done: "done" } as const;
-const PACE_COLOR = {
-	upcoming: "var(--st-locked)",
-	ahead: "var(--st-mastered)",
-	"on-track": "var(--st-available)",
-	behind: "var(--st-progress)",
-	done: "var(--st-mastered)",
-} as const;
-
-/** One line per started course with unit targets: the current unit's pace. */
-function CoursePace({ data }: { data: ProgramData }) {
-	const rows = currentUnits(data).flatMap(({ course, unit }) => {
+/** The current unit of each started course that has a pace target. */
+function paceRows(data: ProgramData): PaceRow[] {
+	return currentUnits(data).flatMap(({ course, unit }) => {
 		const pace = data.snapshot.units[unit.id]?.pace;
 		return pace ? [{ course, unit, pace }] : [];
 	});
+}
+
+/** One line per started course with unit targets: the current unit's pace. */
+function CoursePace({ data }: { data: ProgramData }) {
+	const rows = paceRows(data);
 	if (rows.length === 0) return null;
 	return (
 		<div className="mb-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-muted-foreground">

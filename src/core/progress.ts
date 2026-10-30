@@ -148,12 +148,19 @@ export interface Pause {
 	reason?: string;
 }
 
+/** The learner's local calendar day (yyyy-mm-dd) of a timestamp — the
+ *  server runs on their own PC, so an evening session stays on its day
+ *  (UTC would roll Memphis evenings over into tomorrow). A yyyy-mm-dd
+ *  string is already a day and passes through. */
 export function isoDate(d: Date | string): string {
-	return (typeof d === "string" ? new Date(d) : d).toISOString().slice(0, 10);
+	if (typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
+	const t = typeof d === "string" ? new Date(d) : d;
+	return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
 }
 
+/** Calendar arithmetic on yyyy-mm-dd days (no time zone involved). */
 export function addDays(date: string, days: number): string {
-	return isoDate(new Date(Date.parse(date) + days * DAY));
+	return new Date(Date.parse(`${date}T00:00:00Z`) + days * DAY).toISOString().slice(0, 10);
 }
 
 /** Monday-start ISO week key for a yyyy-mm-dd date. */

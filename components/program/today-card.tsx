@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ClipboardCheckIcon, CoffeeIcon, GraduationCapIcon, RepeatIcon, ShuffleIcon, SigmaIcon, ZapIcon } from "lucide-react";
-import { planBreak, type BreakItem, type PlanLesson } from "@/src/core";
+import { ClipboardCheckIcon, CoffeeIcon, GraduationCapIcon, HistoryIcon, RepeatIcon, ShuffleIcon, SigmaIcon, TargetIcon, ZapIcon } from "lucide-react";
+import { type BreakItem, isoDate, planBreak, type PlanLesson } from "@/src/core";
 import { cn } from "@/lib/utils";
 import { TRACK_COLOR } from "./status";
 import type { CourseView, ProgramData } from "./use-program";
@@ -24,10 +24,17 @@ export async function startUnitDrill(push: (href: string) => void, course: Pick<
 	push(`/chat/${body.id}?prompt=${encodeURIComponent("Give me a mixed drill for this unit.")}`);
 }
 
+/** "3 weeks ago" from an ISO time to `today` (yyyy-mm-dd). */
+function weeksAgo(at: string, today: string): string {
+	const weeks = Math.max(1, Math.floor((Date.parse(today) - Date.parse(isoDate(at))) / (7 * 86_400_000)));
+	return weeks === 1 ? "a week ago" : `${weeks} weeks ago`;
+}
+
 /** "Today": a plan that fits the break you have (15/30/45 min, remembered
  *  on this device) — missed questions, due reviews, the next lesson
  *  (fast-track when it qualifies), then a quiz or drill in what's left —
- *  plus the equation sheets of the units you're on. */
+ *  plus this week's goal, a "then and now" question when one is due, and
+ *  the equation sheets of the units you're on. */
 export function TodayCard({ data }: { data: ProgramData }) {
 	const router = useRouter();
 	const [minutes, setMinutes] = useState<number>(30);
@@ -49,7 +56,9 @@ export function TodayCard({ data }: { data: ProgramData }) {
 		}
 	};
 
-	const { program, snapshot: s, settings } = data;
+	const { program, snapshot: s, settings, motivation } = data;
+	const weekGoal = settings.weekGoals[s.weekly.thisWeek.weekStart];
+	const thenNow = motivation.thenNow;
 	const meta = useMemo(() => {
 		const lessons: PlanLesson[] = [];
 		const byLesson = new Map<string, { course: CourseView; title: string }>();
@@ -180,6 +189,14 @@ export function TodayCard({ data }: { data: ProgramData }) {
 					))}
 				</div>
 			</div>
+			{weekGoal && (
+				<p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+					<TargetIcon className="size-3.5 shrink-0" />
+					<span className="min-w-0">
+						This week&apos;s goal: <span className="text-foreground">{weekGoal}</span>
+					</span>
+				</p>
+			)}
 			{plan.length === 0 ? (
 				<p className="mt-3 text-sm text-muted-foreground">Nothing to plan yet. Pick a lesson on the map to get started.</p>
 			) : (
@@ -191,6 +208,15 @@ export function TodayCard({ data }: { data: ProgramData }) {
 						</span>
 					</div>
 				</div>
+			)}
+			{thenNow && (
+				<Link href={`/program/check/${thenNow.lessonId}?q=${thenNow.question}&thenNow=1`} className={cn(row, "-mx-1 mt-1")} data-testid="then-now">
+					<HistoryIcon className="size-4 shrink-0 text-[var(--xp)]" />
+					<span className="min-w-0">
+						<span className="font-medium">Then and now</span> · {thenNow.lessonTitle}
+						<span className="text-muted-foreground"> — a question you missed {weeksAgo(thenNow.missedAt, isoDate(s.now))}. Try it now.</span>
+					</span>
+				</Link>
 			)}
 			{sheetUnits.length > 0 && (
 				<div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border pt-2 text-xs text-muted-foreground">

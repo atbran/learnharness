@@ -25,6 +25,8 @@ import type { Lesson } from "@/src/core";
 import { Expander, FastTrackSwitch, MissedCard, NotesSummary, useFastTrackOverride, useLessonNotesView, useNotesSummary } from "./fast-track";
 import { LecturePlayer } from "./lecture-player";
 import { LessonNotes } from "./lesson-notes";
+import { LessonQuestions } from "./question-board";
+import { TeachBack } from "./teach-back";
 import { STATUS_COLOR, STATUS_LABEL, TRACK_COLOR, pct } from "./status";
 import { postProgressEvent, useProgram, useStudyHeartbeat } from "./use-program";
 
@@ -187,6 +189,8 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 							<h1 className="font-title mt-2 text-4xl leading-tight tracking-tight max-sm:text-3xl">{lesson.title}</h1>
 						</header>
 
+						<LessonQuestions lessonId={lesson.id} mastered={!!lp?.masteredAt} />
+
 						{fast === null ? (
 							<div className="aspect-video animate-pulse rounded-xl bg-card" />
 						) : fast ? (
@@ -200,6 +204,8 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 								{cards}
 							</>
 						)}
+
+						{lp?.masteredAt ? <TeachBack lessonId={lesson.id} lessonTitle={lesson.title} courseCode={course.code} /> : null}
 
 						{detail.readings.length > 0 && (
 							<section className="rounded-xl border border-border bg-card p-4">
