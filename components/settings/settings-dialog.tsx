@@ -50,6 +50,7 @@ import { KeysSection } from "./keys-section.tsx";
 import { Hint } from "@/components/ui/hint";
 import { AppearanceSection, GraphSection } from "./appearance-section.tsx";
 import { KeyboardSection } from "./keyboard-section.tsx";
+import { IpadSettings } from "./ipad-settings.tsx";
 import { ChatGPTUIProvider } from "./chatgpt-connection.tsx";
 import { NativeSubscriptionUIProvider } from "./subscription-connections.tsx";
 
@@ -62,6 +63,7 @@ const SECTIONS = [
 	{ id: "appearance", label: "Appearance" },
 	{ id: "graph", label: "Graph" },
 	{ id: "keyboard", label: "Keyboard", hint: "Stored on this device" },
+	{ id: "ipad", label: "iPad" },
 	{ id: "general", label: "General" },
 ] as const;
 type SectionId = (typeof SECTIONS)[number]["id"];
@@ -313,7 +315,7 @@ export function SettingsDialogBody({
 							type="button"
 							data-testid={`settings-nav-${s.id}`}
 							aria-current={active === s.id}
-							className={`rounded-sm px-3 py-1.5 text-left font-ui text-sm transition-colors ${
+							className={`rounded-sm px-3 py-1.5 text-left font-ui text-sm transition-colors pointer-coarse:min-h-11 ${
 								active === s.id
 									? "bg-accent text-foreground"
 									: "text-muted-foreground hover:bg-accent hover:text-foreground"
@@ -366,6 +368,15 @@ export function SettingsDialogBody({
 											void write("general", { ...record.general, autoUpdate: on })
 										}
 									/>
+								</SettingsSection>
+							)}
+							{active === "ipad" && (
+								<SettingsSection
+									title="iPad"
+									hint="Study on your iPad: this PC serves LearnHarness to it over Tailscale."
+									testid="section-ipad"
+								>
+									<IpadSettings />
 								</SettingsSection>
 							)}
 							{active === "keys" && (

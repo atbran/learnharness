@@ -58,3 +58,6 @@ export * from "./bookshelf.ts";
 export * from "./assessments.ts";
 export * from "./demos.ts";
 export * from "./audio.ts";
+
+// iPad access (Tailscale serve for the launcher's port).
+export { ipadStatus, setIpadAccess, type IpadStatus, type IpadChange } from "./ipad-access.ts";

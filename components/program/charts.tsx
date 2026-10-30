@@ -4,6 +4,36 @@ import { useMemo, useState } from "react";
 import type { ProgressSnapshot } from "@/src/core";
 import { pct } from "./status";
 
+/** "Hover …" on a mouse, "Tap …" on touch (iPad companion): the readouts
+ *  below the charts work by hover OR tap, so the hint names the gesture the
+ *  device actually has. */
+export function GestureHint({ rest }: { rest: string }) {
+	return (
+		<>
+			<span className="pointer-coarse:hidden">Hover {rest}</span>
+			<span className="hidden pointer-coarse:inline">Tap {rest}</span>
+		</>
+	);
+}
+
+/** Mouse hover previews a readout; a tap/click PINS it (tap again to
+ *  unpin). Touch pointers skip the hover path so a tap doesn't flicker
+ *  through enter/leave. Returns the item to show. */
+export function useHoverOrPick<T>(same: (a: T, b: T) => boolean) {
+	const [hover, setHover] = useState<T | null>(null);
+	const [picked, setPicked] = useState<T | null>(null);
+	const bind = (item: T) => ({
+		onPointerEnter: (e: React.PointerEvent) => {
+			if (e.pointerType === "mouse") setHover(item);
+		},
+		onPointerLeave: (e: React.PointerEvent) => {
+			if (e.pointerType === "mouse") setHover(null);
+		},
+		onClick: () => setPicked((p) => (p !== null && same(p, item) ? null : item)),
+	});
+	return { shown: hover ?? picked, bind };
+}
+
 /** A progress ring: `value` 0..1, colored arc over a faint track. */
 export function ProgressRing({
 	value,
@@ -44,7 +74,7 @@ export function ProgressRing({
 
 /** Subject mastery radar (one axis per subject). */
 export function MasteryRadar({ subjects }: { subjects: ProgressSnapshot["subjects"] }) {
-	const [hover, setHover] = useState<number | null>(null);
+	const { shown: hover, bind } = useHoverOrPick<number>((a, b) => a === b);
 	const size = 360;
 	const cx = size / 2;
 	const cy = size / 2;
@@ -91,7 +121,9 @@ export function MasteryRadar({ subjects }: { subjects: ProgressSnapshot["subject
 				const [lx, ly] = pt(i, 1.12);
 				const label = lines(s.subject);
 				return (
-					<g key={s.subject} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} className="cursor-default">
+					<g key={s.subject} {...bind(i)} className="cursor-pointer">
+						{/* Invisible finger-sized hit area around the data point. */}
+						<circle cx={x} cy={y} r={14} fill="transparent" />
 						<circle cx={x} cy={y} r={hover === i ? 5 : 3.5} fill="var(--st-mastered)" />
 						<text
 							x={lx}
@@ -112,7 +144,7 @@ export function MasteryRadar({ subjects }: { subjects: ProgressSnapshot["subject
 			})}
 		</svg>
 		<div className="h-5 text-center text-xs text-muted-foreground">
-			{active ? `${active.subject}: ${pct(active.mastery)} mastered · ${Math.round(active.hours)} h of lessons` : "Hover a subject for detail"}
+			{active ? `${active.subject}: ${pct(active.mastery)} mastered · ${Math.round(active.hours)} h of lessons` : <GestureHint rest="a subject for detail" />}
 		</div>
 		</div>
 	);
@@ -120,7 +152,7 @@ export function MasteryRadar({ subjects }: { subjects: ProgressSnapshot["subject
 
 /** GitHub-style calendar of study minutes over the last ~26 weeks. */
 export function StudyHeatmap({ byDate, now, weeks = 26 }: { byDate: Record<string, number>; now: string; weeks?: number }) {
-	const [hover, setHover] = useState<{ d: string; m: number } | null>(null);
+	const { shown: hover, bind } = useHoverOrPick<{ d: string; m: number }>((a, b) => a.d === b.d);
 	const cells = useMemo(() => {
 		const end = new Date(`${now.slice(0, 10)}T00:00:00Z`);
 		const dow = (end.getUTCDay() + 6) % 7;
@@ -148,13 +180,14 @@ export function StudyHeatmap({ byDate, now, weeks = 26 }: { byDate: Record<strin
 						rx={2.5}
 						fill={c.m > 0 ? "var(--st-mastered)" : "var(--accent)"}
 						fillOpacity={c.future ? 0.15 : c.m > 0 ? level(c.m) : 0.7}
-						onMouseEnter={() => setHover({ d: c.d, m: c.m })}
-						onMouseLeave={() => setHover(null)}
+						stroke={hover?.d === c.d ? "var(--foreground)" : undefined}
+						strokeWidth={hover?.d === c.d ? 1 : undefined}
+						{...bind({ d: c.d, m: c.m })}
 					/>
 				))}
 			</svg>
 			<div className="mt-1 h-4 text-xs text-muted-foreground">
-				{hover ? `${hover.d}: ${Math.round(hover.m)} min` : "Hover a day · darker = longer study"}
+				{hover ? `${hover.d}: ${Math.round(hover.m)} min` : <GestureHint rest="a day · darker = longer study" />}
 			</div>
 		</div>
 	);
@@ -162,6 +195,7 @@ export function StudyHeatmap({ byDate, now, weeks = 26 }: { byDate: Record<strin
 
 /** Score trend for problem sets and exams (chronological). */
 export function ScoreTrends({ assessments }: { assessments: ProgressSnapshot["assessments"] }) {
+	const { shown, bind } = useHoverOrPick<number>((a, b) => a === b);
 	const items = [...assessments].sort((a, b) => a.at.localeCompare(b.at));
 	if (items.length === 0)
 		return <div className="text-sm text-muted-foreground">Scores appear here after your first problem set or exam.</div>;
@@ -171,7 +205,10 @@ export function ScoreTrends({ assessments }: { assessments: ProgressSnapshot["as
 	const x = (i: number) => pad + (items.length === 1 ? (w - 2 * pad) / 2 : (i * (w - 2 * pad)) / (items.length - 1));
 	const y = (s: number) => h - pad - s * (h - 2 * pad);
 	const color = (k: string) => (k === "pset" ? "var(--st-available)" : k === "placement" ? "var(--st-review)" : "var(--xp)");
+	const describe = (a: (typeof items)[number]) => `${a.kind} · ${a.courseId} · ${pct(a.score)} · ${a.at.slice(0, 10)}`;
+	const active = shown !== null ? items[shown] : undefined;
 	return (
+		<div>
 		<svg viewBox={`0 0 ${w} ${h}`} className="h-auto w-full" role="img" aria-label="Score trend">
 			{[0, 0.5, 0.7, 1].map((g) => (
 				<g key={g}>
@@ -183,10 +220,15 @@ export function ScoreTrends({ assessments }: { assessments: ProgressSnapshot["as
 			))}
 			<polyline points={items.map((a, i) => `${x(i)},${y(a.score)}`).join(" ")} fill="none" stroke="var(--muted-foreground)" strokeOpacity={0.5} />
 			{items.map((a, i) => (
-				<circle key={a.assessmentId + a.at} cx={x(i)} cy={y(a.score)} r={4.5} fill={color(a.kind)}>
-					<title>{`${a.kind} · ${a.courseId} · ${pct(a.score)} · ${a.at.slice(0, 10)}`}</title>
-				</circle>
+				<g key={a.assessmentId + a.at} {...bind(i)} className="cursor-pointer">
+					<circle cx={x(i)} cy={y(a.score)} r={12} fill="transparent" />
+					<circle cx={x(i)} cy={y(a.score)} r={shown === i ? 6 : 4.5} fill={color(a.kind)}>
+						<title>{describe(a)}</title>
+					</circle>
+				</g>
 			))}
 		</svg>
+		<div className="mt-1 h-4 text-xs text-muted-foreground">{active ? describe(active) : <GestureHint rest="a point for detail" />}</div>
+		</div>
 	);
 }

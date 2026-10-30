@@ -25,7 +25,7 @@ export function CoursePage({ courseId, initial }: { courseId: string; initial: P
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
 				<div className="flex items-center gap-2 text-sm text-muted-foreground">
-					<Link href="/program" className="hover:text-foreground">
+					<Link href="/program" className="hover:text-foreground pointer-coarse:py-3">
 						Program
 					</Link>
 					<ChevronRightIcon className="size-3.5" />
@@ -65,7 +65,7 @@ export function CoursePage({ courseId, initial }: { courseId: string; initial: P
 								</div>
 							)}
 						</div>
-						<div className="grid grid-cols-3 gap-3 text-center text-xs text-muted-foreground">
+						<div className="grid grid-cols-3 gap-3 text-center text-xs text-muted-foreground max-lg:w-full">
 							<Metric label="lessons" value={`${cp?.lessonsMastered ?? 0}/${cp?.lessonsTotal ?? 0}`} />
 							<Metric label="psets" value={cp?.psetAverage != null ? pct(cp.psetAverage) : "—"} />
 							<Metric label="final" value={cp?.final != null ? pct(cp.final) : "—"} />
@@ -109,7 +109,7 @@ export function CoursePage({ courseId, initial }: { courseId: string; initial: P
 											<Link
 												href={`/program/assessment/new?unit=${u.id}`}
 												className={cn(
-													"flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs hover:bg-accent",
+													"flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs hover:bg-accent pointer-coarse:min-h-11",
 													up?.passed ? "border-[var(--st-mastered)] text-[var(--st-mastered)]" : "border-border",
 												)}
 											>

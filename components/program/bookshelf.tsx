@@ -51,7 +51,7 @@ export function Bookshelf() {
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
 				<div className="flex items-center gap-2 text-sm text-muted-foreground">
-					<Link href="/program" className="hover:text-foreground">
+					<Link href="/program" className="hover:text-foreground pointer-coarse:py-3">
 						Program
 					</Link>
 					<ChevronRightIcon className="size-3.5" />
@@ -68,6 +68,7 @@ export function Bookshelf() {
 								your tutor can look things up in a few hundred tokens instead of reading whole chapters.
 							</p>
 						</div>
+						<div className="flex flex-col items-end gap-1">
 						<button
 							type="button"
 							disabled={scanning}
@@ -77,11 +78,14 @@ export function Bookshelf() {
 								setScanning(false);
 								refresh();
 							}}
-							className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent"
+							className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent pointer-coarse:min-h-11"
 							title="Ingest PDFs placed in data/books/inbox/"
 						>
 							{scanning ? <Loader2Icon className="size-4 animate-spin" /> : <InboxIcon className="size-4" />} Scan inbox folder
 						</button>
+						{/* Touch has no title tooltip: say what the scan reads. */}
+						<span className="hidden text-[11px] text-muted-foreground pointer-coarse:block">Ingests PDFs in data/books/inbox/ on the PC</span>
+						</div>
 					</header>
 
 					<form
@@ -176,7 +180,7 @@ function BookCard({ book, onChanged }: { book: ShelfBook; onChanged: () => void 
 					<span className="text-muted-foreground">
 						{book.ingested.pageCount} pages · {book.ingested.outlineEntries} outline entries ·{" "}
 					</span>
-					<button type="button" className={cn("hover:underline", book.unresolvedCount ? "text-[var(--st-progress)]" : "text-[var(--st-mastered)]")} onClick={() => setShowRefs((v) => !v)}>
+					<button type="button" className={cn("hover:underline pointer-coarse:py-2", book.unresolvedCount ? "text-[var(--st-progress)]" : "text-[var(--st-mastered)]")} onClick={() => setShowRefs((v) => !v)}>
 						{resolved}/{book.refCount} readings located
 					</button>
 					{showRefs && book.unresolved.length > 0 && (
@@ -195,7 +199,7 @@ function BookCard({ book, onChanged }: { book: ShelfBook; onChanged: () => void 
 
 			<div className="mt-3 flex flex-wrap gap-2">
 				{book.ingested && (
-					<Link href={`/program/books/${book.id}`} className="rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground">
+					<Link href={`/program/books/${book.id}`} className="flex items-center rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground pointer-coarse:min-h-11">
 						Open reader
 					</Link>
 				)}
@@ -203,13 +207,13 @@ function BookCard({ book, onChanged }: { book: ShelfBook; onChanged: () => void 
 					type="button"
 					disabled={uploading || running}
 					onClick={() => input.current?.click()}
-					className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-accent disabled:opacity-50"
+					className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-accent disabled:opacity-50 pointer-coarse:min-h-11"
 				>
 					{uploading ? <Loader2Icon className="size-3.5 animate-spin" /> : <UploadIcon className="size-3.5" />}
 					{book.ingested ? "Replace PDF" : "Add PDF"}
 				</button>
 				{book.freeUrl && (
-					<a href={book.freeUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-accent">
+					<a href={book.freeUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-accent pointer-coarse:min-h-11">
 						<DownloadIcon className="size-3.5" /> Free legal copy
 					</a>
 				)}

@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 // Installed Next 16.3.2 retains the old test-helper export despite proxy.md's new name.
 import { unstable_doesMiddlewareMatch as unstable_doesProxyMatch } from "next/experimental/testing/server";
 import { desktopAPIAuthorized } from "../src/server/desktop-access.ts";
-import { proxy, config } from "../proxy.ts";
+import { proxy } from "../proxy.ts";
 import { browserServiceSpawnEnv } from "../src/agent/subagents/headless.ts";
 const require = createRequire(import.meta.url);
 const { desktopAPIHeaders, HEADER } = require("../electron/desktop-api.cjs");
@@ -45,24 +45,26 @@ test("desktop capability injects only trusted app mainframe exact-origin API req
 	assert.equal(desktopAPIHeaders(details, origin, null, [win])[HEADER], undefined, "externally launched desktop dev receives no packaged capability");
 });
 
-test("all methods fail closed for desktop missing/wrong secret; API-only matcher covers SSE/settings/spending", () => {
+test("all methods fail closed for desktop missing/wrong secret; the proxy covers every path (SSE/settings/spending and pages)", async () => {
 	assert(desktopAPIAuthorized(new Headers(), {}), "browser-only API-key mode unchanged");
 	assert(!desktopAPIAuthorized(new Headers({ [HEADER]: secret }), { LH_DESKTOP_SERVER: "1" }), "missing server secret must not disable authorization");
 	for (const value of [undefined, "", "wrong", secret + ", " + secret]) {
 		assert(!desktopAPIAuthorized(new Headers(value === undefined ? {} : { [HEADER]: value }), { LH_DESKTOP_SERVER: "1", LH_DESKTOP_API_SECRET: secret }));
 	}
 	assert(desktopAPIAuthorized(new Headers({ [HEADER]: secret }), { LH_DESKTOP_SERVER: "1", LH_DESKTOP_API_SECRET: secret }));
-	for (const pathname of ["/api/events", "/api/chat", "/api/settings/models", "/api/chats/scratch/markdown"]) assert(unstable_doesProxyMatch({ config, nextConfig: {}, url: origin + pathname }));
-	assert(!unstable_doesProxyMatch({ config, nextConfig: {}, url: origin + "/chat/new" }));
+	// No matcher: the proxy sees every path (the iPad gate covers pages too).
+	for (const pathname of ["/api/events", "/api/chat", "/api/settings/models", "/api/chats/scratch/markdown", "/chat/new"]) assert(unstable_doesProxyMatch({ config: {}, nextConfig: {}, url: origin + pathname }));
 	const originalMarker = process.env.LH_DESKTOP_SERVER;
 	const originalSecret = process.env.LH_DESKTOP_API_SECRET;
 	try {
 		process.env.LH_DESKTOP_SERVER = "1";
 		process.env.LH_DESKTOP_API_SECRET = secret;
 		for (const method of ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]) {
-			assert.equal(proxy(new NextRequest(origin + "/api/settings", { method })).status, 403);
-			assert.equal(proxy(new NextRequest(origin + "/api/settings", { method, headers: { [HEADER]: secret } })).headers.get("x-middleware-next"), "1");
+			assert.equal((await proxy(new NextRequest(origin + "/api/settings", { method }))).status, 403);
+			assert.equal((await proxy(new NextRequest(origin + "/api/settings", { method, headers: { [HEADER]: secret } }))).headers.get("x-middleware-next"), "1");
 		}
+		// Local pages are unchanged: only the API needs the capability.
+		assert.equal((await proxy(new NextRequest(origin + "/chat/new"))).headers.get("x-middleware-next"), "1");
 	} finally {
 		if (originalMarker === undefined) delete process.env.LH_DESKTOP_SERVER; else process.env.LH_DESKTOP_SERVER = originalMarker;
 		if (originalSecret === undefined) delete process.env.LH_DESKTOP_API_SECRET; else process.env.LH_DESKTOP_API_SECRET = originalSecret;

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#141414">
+	<meta name="color-scheme" content="dark">
+	<title>LearnHarness — offline</title>
+	<!-- Served by public/sw.js in place of a page when the PC can't be reached.
+	     Self-contained on purpose: no fonts, images or scripts from the server. -->
+	<style>
+		html, body { height: 100%; margin: 0; }
+		body {
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: max(24px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+			background: #141414;
+			color: #e6e6e6;
+			font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+			text-align: center;
+		}
+		main { max-width: 28rem; }
+		h1 { margin: 0 0 8px; font-size: 20px; font-weight: 700; }
+		p { margin: 0 0 24px; color: #8d8d8d; }
+		button {
+			appearance: none;
+			border: 1px solid #434343;
+			border-radius: 8px;
+			background: #1c1c1c;
+			color: #e6e6e6;
+			font: inherit;
+			padding: 8px 24px;
+			cursor: pointer;
+		}
+		button:active { background: #2a2a2a; }
+	</style>
+</head>
+<body>
+	<main>
+		<h1>Can't reach your PC.</h1>
+		<p>Is Tailscale on, and is LearnHarness running on the PC?</p>
+		<button type="button" id="retry">Retry</button>
+	</main>
+	<script>
+		// The page's URL is still the one that failed, so a reload retries it.
+		document.getElementById("retry").addEventListener("click", function () { location.reload(); });
+		window.addEventListener("online", function () { location.reload(); });
+	</script>
+</body>
+</html>

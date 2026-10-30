@@ -3,13 +3,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CameraIcon, ChevronRightIcon, ClockIcon, GraduationCapIcon, Loader2Icon, LockIcon, RefreshCwIcon, TrashIcon } from "lucide-react";
+import { CameraIcon, ChevronRightIcon, ClockIcon, GraduationCapIcon, Loader2Icon, LockIcon, PencilLineIcon, RefreshCwIcon, TrashIcon } from "lucide-react";
 import { TopBar } from "@/components/top-bar";
 import { MessageResponse } from "@/components/ai-elements/message";
 import { useServerEvent } from "@/components/server-events";
 import { cn } from "@/lib/utils";
 import type { Assessment } from "@/src/core";
 import { ProgressRing } from "./charts";
+import { InkPad } from "./ink-pad";
 import { pct } from "./status";
 import { useStudyHeartbeat } from "./use-program";
 
@@ -163,6 +164,7 @@ function ProblemCard({ a, index, onChanged }: { a: View; index: number; onChange
 	const [text, setText] = useState(answer.text);
 	const [uploading, setUploading] = useState(false);
 	const [showSolution, setShowSolution] = useState(false);
+	const [inking, setInking] = useState(false);
 	const file = useRef<HTMLInputElement>(null);
 	const timer = useRef<number | undefined>(undefined);
 	const router = useRouter();
@@ -242,7 +244,7 @@ function ProblemCard({ a, index, onChanged }: { a: View; index: number; onChange
 									await fetch(`/api/program/assessments/${a.id}/uploads?problem=${p.id}&file=${encodeURIComponent(f)}`, { method: "DELETE" });
 									onChanged();
 								}}
-								className="absolute right-1 top-1 hidden rounded bg-black/70 p-1 group-hover:block"
+								className="absolute right-1 top-1 hidden rounded bg-black/70 p-1 text-white group-hover:block [@media(hover:none)]:block"
 							>
 								<TrashIcon className="size-3.5" />
 							</button>
@@ -259,6 +261,16 @@ function ProblemCard({ a, index, onChanged }: { a: View; index: number; onChange
 						>
 							{uploading ? <Loader2Icon className="size-4 animate-spin" /> : <CameraIcon className="size-4" />} Add photo
 						</button>
+						<button
+							type="button"
+							onClick={() => setInking(true)}
+							className="flex h-24 items-center gap-1.5 rounded-lg border border-dashed border-border px-4 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+						>
+							<PencilLineIcon className="size-4" /> Write with Pencil
+						</button>
+						{inking && (
+							<InkPad assessmentId={a.id} problemId={p.id} label={`Problem ${index + 1}`} images={answer.images} onClose={() => setInking(false)} onUploaded={onChanged} />
+						)}
 						<input
 							ref={file}
 							type="file"

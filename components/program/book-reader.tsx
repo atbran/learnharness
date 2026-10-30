@@ -47,20 +47,20 @@ export function BookReader({
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
 				<div className="flex min-w-0 items-center gap-2 text-sm text-muted-foreground">
-					<Link href="/program/books" className="hover:text-foreground">
+					<Link href="/program/books" className="hover:text-foreground pointer-coarse:py-3">
 						Bookshelf
 					</Link>
 					<ChevronRightIcon className="size-3.5" />
 					<span className="truncate">{title}</span>
 				</div>
 				<div className="ml-auto flex items-center gap-1 text-sm">
-					<button type="button" onClick={() => setDpi((d) => Math.max(72, d - 20))} className="rounded p-1.5 hover:bg-accent" aria-label="Zoom out">
+					<button type="button" onClick={() => setDpi((d) => Math.max(72, d - 20))} className="flex items-center justify-center rounded p-1.5 hover:bg-accent pointer-coarse:size-11" aria-label="Zoom out">
 						<MinusIcon className="size-4" />
 					</button>
-					<button type="button" onClick={() => setDpi((d) => Math.min(200, d + 20))} className="rounded p-1.5 hover:bg-accent" aria-label="Zoom in">
+					<button type="button" onClick={() => setDpi((d) => Math.min(200, d + 20))} className="flex items-center justify-center rounded p-1.5 hover:bg-accent pointer-coarse:size-11" aria-label="Zoom in">
 						<PlusIcon className="size-4" />
 					</button>
-					<button type="button" onClick={() => go(page - 1)} className="rounded p-1.5 hover:bg-accent" aria-label="Previous page">
+					<button type="button" onClick={() => go(page - 1)} className="flex items-center justify-center rounded p-1.5 hover:bg-accent pointer-coarse:size-11" aria-label="Previous page">
 						<ChevronLeftIcon className="size-4" />
 					</button>
 					<form
@@ -74,13 +74,13 @@ export function BookReader({
 							name="p"
 							key={page}
 							defaultValue={page}
-							className="lh-input w-14 rounded border border-border bg-background px-1.5 py-0.5 text-center text-xs"
+							className="lh-input w-14 rounded border border-border bg-background px-1.5 py-0.5 text-center text-xs pointer-coarse:min-h-11"
 						/>
 					</form>
 					<span className="text-xs text-muted-foreground">
 						/ {pageCount} · printed {label(page)}
 					</span>
-					<button type="button" onClick={() => go(page + 1)} className="rounded p-1.5 hover:bg-accent" aria-label="Next page">
+					<button type="button" onClick={() => go(page + 1)} className="flex items-center justify-center rounded p-1.5 hover:bg-accent pointer-coarse:size-11" aria-label="Next page">
 						<ChevronRightIcon className="size-4" />
 					</button>
 				</div>
@@ -93,7 +93,7 @@ export function BookReader({
 							key={p}
 							type="button"
 							onClick={() => go(p)}
-							className={cn("shrink-0 rounded px-2 py-0.5", p === page ? "bg-foreground text-background" : "bg-accent hover:bg-accent/70")}
+							className={cn("shrink-0 rounded px-2 py-0.5 pointer-coarse:min-h-10 pointer-coarse:min-w-10", p === page ? "bg-foreground text-background" : "bg-accent hover:bg-accent/70")}
 						>
 							{label(p)}
 						</button>

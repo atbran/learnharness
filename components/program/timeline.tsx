@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import type { ProgressSnapshot } from "@/src/core";
 import type { ProgramView } from "./use-program";
 import { TRACK_COLOR, fmtDate, pct } from "./status";
+import { GestureHint, useHoverOrPick } from "./charts";
 
 /**
  * The plan-vs-reality Gantt: one row per course. The faint outlined bar is
@@ -13,7 +13,9 @@ import { TRACK_COLOR, fmtDate, pct } from "./status";
  * mastered. A vertical line marks today.
  */
 export function Timeline({ program, snapshot }: { program: ProgramView; snapshot: ProgressSnapshot }) {
-	const [hover, setHover] = useState<string | null>(null);
+	// Hover previews a row on a mouse; a tap/click pins it (touch has no
+	// hover), revealing the course link in the legend row.
+	const { shown: hover, bind } = useHoverOrPick<string>((a, b) => a === b);
 	const DAY = 86_400_000;
 	const weeksSoFar = Math.max(0, Math.floor((Date.parse(snapshot.now) - Date.parse(snapshot.startDate)) / (7 * DAY)));
 	const horizon = Math.max(
@@ -53,7 +55,7 @@ export function Timeline({ program, snapshot }: { program: ProgramView; snapshot
 					const done = cp?.status === "passed" || (cp?.fraction ?? 0) >= 0.999;
 					const isHover = hover === c.id;
 					return (
-						<g key={c.id} onMouseEnter={() => setHover(c.id)} onMouseLeave={() => setHover(null)}>
+						<g key={c.id} {...bind(c.id)} className="cursor-pointer">
 							<rect x={0} y={y - 2} width={w} height={rowH} fill={isHover ? "var(--accent)" : "transparent"} fillOpacity={0.5} />
 							<text x={8} y={y + rowH / 2 - 1} fontSize={11} dominantBaseline="middle" fill={isHover ? "var(--foreground)" : "var(--muted-foreground)"}>
 								<tspan fontWeight={600} fill={color}>
@@ -107,10 +109,14 @@ export function Timeline({ program, snapshot }: { program: ProgramView; snapshot
 				<span>
 					<span className="mr-1 inline-block h-2.5 w-5 rounded-sm bg-muted-foreground/40 align-middle" /> projection at your recent pace (filled = mastered)
 				</span>
-				{hover && (
-					<Link href={`/program/course/${hover}`} className="ml-auto text-foreground">
+				{hover ? (
+					<Link href={`/program/course/${hover}`} className="ml-auto inline-flex items-center text-foreground pointer-coarse:min-h-11">
 						{program.courses.find((c) => c.id === hover)?.title} · {pct(snapshot.courses[hover]?.fraction ?? 0)} mastered →
 					</Link>
+				) : (
+					<span className="ml-auto">
+						<GestureHint rest="a row for its course" />
+					</span>
 				)}
 			</div>
 			<div className="mt-1 text-xs text-muted-foreground">

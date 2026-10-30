@@ -87,7 +87,7 @@ export function DemoPage({ initial }: { initial: DemoPageData }) {
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
 				<div className="flex min-w-0 items-center gap-2 text-sm text-muted-foreground">
-					<Link href="/program" className="hover:text-foreground">
+					<Link href="/program" className="hover:text-foreground pointer-coarse:py-3">
 						Program
 					</Link>
 					<ChevronRightIcon className="size-3.5" />
@@ -103,12 +103,12 @@ export function DemoPage({ initial }: { initial: DemoPageData }) {
 				</div>
 				<div className="ml-auto flex items-center gap-1">
 					{prev !== null && (
-						<Link href={`/program/demo/${lessonId}/${prev}`} className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground" aria-label="Previous demo">
+						<Link href={`/program/demo/${lessonId}/${prev}`} className="flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:size-11" aria-label="Previous demo">
 							<ChevronLeftIcon className="size-4" />
 						</Link>
 					)}
 					{next !== null && (
-						<Link href={`/program/demo/${lessonId}/${next}`} className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground" aria-label="Next demo">
+						<Link href={`/program/demo/${lessonId}/${next}`} className="flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:size-11" aria-label="Next demo">
 							<ChevronRightIcon className="size-4" />
 						</Link>
 					)}
@@ -126,15 +126,19 @@ export function DemoPage({ initial }: { initial: DemoPageData }) {
 							<p className="mt-2 text-[15px] text-muted-foreground">{view.idea}</p>
 						</div>
 						{demo && (
-							<button
-								type="button"
-								disabled={building || posting !== null}
-								onClick={() => void start("demo", true)}
-								title="Build a new version; this one stays until the new one passes its test"
-								className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent disabled:opacity-50"
-							>
-								<RefreshCwIcon className={cn("size-3.5", building && "animate-spin")} /> {building ? "Rebuilding…" : "Rebuild"}
-							</button>
+							<div className="flex flex-col items-end gap-1">
+								<button
+									type="button"
+									disabled={building || posting !== null}
+									onClick={() => void start("demo", true)}
+									title="Build a new version; this one stays until the new one passes its test"
+									className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent disabled:opacity-50 pointer-coarse:min-h-11"
+								>
+									<RefreshCwIcon className={cn("size-3.5", building && "animate-spin")} /> {building ? "Rebuilding…" : "Rebuild"}
+								</button>
+								{/* Touch has no title tooltip: the caption carries it. */}
+								<span className="hidden max-w-60 text-right text-[11px] text-muted-foreground pointer-coarse:block">Builds a new version; this one stays until it passes its test</span>
+							</div>
 						)}
 					</header>
 
@@ -162,7 +166,7 @@ export function DemoPage({ initial }: { initial: DemoPageData }) {
 									type="button"
 									disabled={posting !== null}
 									onClick={() => void start("demo", false)}
-									className="mt-4 inline-flex items-center justify-center rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
+									className="mt-4 inline-flex items-center justify-center rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50 pointer-coarse:min-h-11"
 								>
 									{build.status === "error" ? "Try again" : "Build demo"}
 								</button>
@@ -178,14 +182,18 @@ export function DemoPage({ initial }: { initial: DemoPageData }) {
 									<li key={k}>
 										<Link
 											href={`/program/demo/${lessonId}/${k}`}
-											className={cn("flex items-start gap-2 rounded-md px-2 py-1 hover:bg-accent", k === index && "bg-accent")}
+											className={cn("flex items-start gap-2 rounded-md px-2 py-1 hover:bg-accent pointer-coarse:py-2.5", k === index && "bg-accent")}
 										>
 											<span
 												className="mt-1.5 size-2 shrink-0 rounded-full"
 												style={{ background: d.built ? "var(--st-mastered)" : "var(--st-locked)" }}
 												title={d.built ? "built" : "not built yet"}
 											/>
-											<span className={cn(k !== index && "text-muted-foreground")}>{d.text}</span>
+											<span className={cn(k !== index && "text-muted-foreground")}>
+												{d.text}
+												{/* The dot's title is hover-only; touch gets the words. */}
+												<span className="hidden text-xs text-muted-foreground/70 pointer-coarse:inline"> · {d.built ? "built" : "not built yet"}</span>
+											</span>
 										</Link>
 									</li>
 								))}
@@ -193,7 +201,7 @@ export function DemoPage({ initial }: { initial: DemoPageData }) {
 						</section>
 					)}
 
-					<Link href={`/program/lesson/${lessonId}`} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+					<Link href={`/program/lesson/${lessonId}`} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground pointer-coarse:min-h-11">
 						<ChevronLeftIcon className="size-4" /> Back to the lesson
 					</Link>
 				</div>
@@ -224,13 +232,14 @@ function Explainer({ view, posting, error, onStart }: { view: DemoPageData; post
 			<div className="flex flex-wrap items-center justify-between gap-2">
 				{kicker}
 				{available && (video || !building) && (
+					<div className="flex flex-col items-end gap-1">
 					<button
 						type="button"
 						disabled={building || posting}
 						onClick={() => onStart(!!video)}
 						title={video ? "Render a new version; this one stays until the new one renders" : undefined}
 						className={cn(
-							"inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm disabled:opacity-50",
+							"inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm disabled:opacity-50 pointer-coarse:min-h-11",
 							video ? "border border-border hover:bg-accent" : "bg-primary font-medium text-primary-foreground hover:opacity-90",
 						)}
 					>
@@ -244,12 +253,15 @@ function Explainer({ view, posting, error, onStart }: { view: DemoPageData; post
 							"Animate this idea"
 						)}
 					</button>
+					{/* Touch has no title tooltip: the caption carries it. */}
+					{video && <span className="hidden max-w-60 text-right text-[11px] text-muted-foreground pointer-coarse:block">Renders a new version; this one stays until it renders</span>}
+					</div>
 				)}
 			</div>
 			{(building || build.status === "error" || error) && <BuildStatus what="animation" build={build} error={error} hasResult={!!video} />}
 			{video ? (
 				<>
-					<video key={video.url} src={video.url} controls preload="metadata" className="max-h-[70vh] w-full rounded-lg border border-border bg-black" />
+					<video key={video.url} src={video.url} controls playsInline preload="metadata" className="max-h-[70vh] w-full rounded-lg border border-border bg-black" />
 					<p className="flex flex-wrap items-baseline gap-x-3 text-xs text-muted-foreground">
 						<span suppressHydrationWarning>
 							Manim · {Math.round(video.seconds)} s · rendered {new Date(video.createdAt).toLocaleDateString()}

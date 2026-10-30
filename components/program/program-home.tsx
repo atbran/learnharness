@@ -38,7 +38,7 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 			<TopBar>
 				<h1 className="font-title text-3xl tracking-tight">Physics Program</h1>
 				<div className="ml-auto flex items-center gap-2">
-					<Link href="/program/books" className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground">
+					<Link href="/program/books" className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:min-h-11">
 						<LibraryIcon className="size-3.5" /> Bookshelf
 					</Link>
 					<ProgramSettings hoursPerWeek={s.pace.hoursPerWeekTarget} startDate={s.startDate} parallel={s.parallel} />
@@ -107,7 +107,7 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 							<div>
 								<div className="text-2xl font-semibold leading-none">{s.reviewsDue.length}</div>
 								{s.reviewsDue.length > 0 ? (
-									<Link href="/program/review" className="mt-1 block text-xs text-[var(--st-review)] hover:underline">
+									<Link href="/program/review" className="mt-1 block text-xs text-[var(--st-review)] hover:underline pointer-coarse:py-2">
 										start review →
 									</Link>
 								) : (
@@ -160,7 +160,7 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 									type="button"
 									onClick={() => setTab(t.id)}
 									className={cn(
-										"-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2 text-sm transition-colors",
+										"-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2 text-sm transition-colors pointer-coarse:min-h-11",
 										tab === t.id ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground",
 									)}
 								>
@@ -263,26 +263,26 @@ function ProgramSettings({ hoursPerWeek, startDate, parallel }: { hoursPerWeek: 
 	const [start, setStart] = useState(startDate);
 	return (
 		<div className="relative">
-			<button type="button" onClick={() => setOpen((v) => !v)} className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground" aria-label="Program settings">
+			<button type="button" onClick={() => setOpen((v) => !v)} className="flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:size-11" aria-label="Program settings">
 				<Settings2Icon className="size-4" />
 			</button>
 			{open && (
-				<div className="absolute right-0 top-10 z-50 w-64 space-y-3 rounded-xl border border-border bg-popover p-4 text-sm shadow-xl">
+				<div className="absolute right-0 top-full z-50 mt-1 w-64 space-y-3 rounded-xl border border-border bg-popover p-4 text-sm shadow-xl">
 					<label className="block">
 						<span className="text-xs text-muted-foreground">Study hours per week</span>
-						<input type="number" min={1} max={80} value={hours} onChange={(e) => setHours(e.target.value)} className="lh-input mt-1 w-full rounded-md border border-border bg-background px-2 py-1" />
+						<input type="number" min={1} max={80} value={hours} onChange={(e) => setHours(e.target.value)} className="lh-input mt-1 w-full rounded-md border border-border bg-background px-2 py-1 pointer-coarse:min-h-11" />
 					</label>
 					<label className="block">
 						<span className="text-xs text-muted-foreground">Courses at once (e.g. math + physics + one more)</span>
-						<input type="number" min={1} max={6} value={courses} onChange={(e) => setCourses(e.target.value)} className="lh-input mt-1 w-full rounded-md border border-border bg-background px-2 py-1" />
+						<input type="number" min={1} max={6} value={courses} onChange={(e) => setCourses(e.target.value)} className="lh-input mt-1 w-full rounded-md border border-border bg-background px-2 py-1 pointer-coarse:min-h-11" />
 					</label>
 					<label className="block">
 						<span className="text-xs text-muted-foreground">Program start date</span>
-						<input type="date" value={start} onChange={(e) => setStart(e.target.value)} className="lh-input mt-1 w-full rounded-md border border-border bg-background px-2 py-1" />
+						<input type="date" value={start} onChange={(e) => setStart(e.target.value)} className="lh-input mt-1 w-full rounded-md border border-border bg-background px-2 py-1 pointer-coarse:min-h-11" />
 					</label>
 					<button
 						type="button"
-						className="w-full rounded-lg bg-primary px-3 py-1.5 font-medium text-primary-foreground"
+						className="w-full rounded-lg bg-primary px-3 py-1.5 font-medium text-primary-foreground pointer-coarse:min-h-11"
 						onClick={async () => {
 							await fetch("/api/program/settings", {
 								method: "PUT",

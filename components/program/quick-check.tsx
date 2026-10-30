@@ -26,7 +26,7 @@ export function QuickCheckPage({ lessonId, lessonTitle, courseCode, review, only
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
 				<div className="flex min-w-0 items-center gap-2 text-sm text-muted-foreground">
-					<Link href="/program" className="hover:text-foreground">
+					<Link href="/program" className="hover:text-foreground pointer-coarse:py-3">
 						Program
 					</Link>
 					<ChevronRightIcon className="size-3.5" />
@@ -82,7 +82,7 @@ export function QuickCheck({ lessonId, review, only, onDone }: { lessonId: strin
 								const r = await fetch(`/api/program/checks/${lessonId}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ generate: true }) });
 								setState((await r.json()) as CheckState);
 							}}
-							className="mt-4 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
+							className="mt-4 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground pointer-coarse:min-h-11"
 						>
 							Create quick check
 						</button>
@@ -108,7 +108,7 @@ export function QuickCheck({ lessonId, review, only, onDone }: { lessonId: strin
 								? "Mastered! It joins your spaced-review schedule."
 								: "Not mastered yet — read the feedback, revisit the lesson, and try again."}
 					</div>
-					<Link href={`/program/lesson/${lessonId}`} className="rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent">
+					<Link href={`/program/lesson/${lessonId}`} className="flex items-center rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent pointer-coarse:min-h-11">
 						Back to lesson
 					</Link>
 				</div>
@@ -128,7 +128,7 @@ export function QuickCheck({ lessonId, review, only, onDone }: { lessonId: strin
 							<div className="mt-3 space-y-2">
 								{q.options.map((o, oi) => (
 									<label key={oi} className={cn("flex cursor-pointer items-start gap-3 rounded-lg border p-2.5 hover:bg-accent", answers[i] === String(oi) ? "border-foreground" : "border-border")}>
-										<input type="radio" name={`q${i}`} disabled={!!result} checked={answers[i] === String(oi)} onChange={() => setAnswers((a) => Object.assign([...a], { [i]: String(oi) }))} className="mt-1" />
+										<input type="radio" name={`q${i}`} disabled={!!result} checked={answers[i] === String(oi)} onChange={() => setAnswers((a) => Object.assign([...a], { [i]: String(oi) }))} className="mt-1 pointer-coarse:size-5" />
 										<div className="lh-prose min-w-0 flex-1 text-[15px]">
 											<MessageResponse>{o}</MessageResponse>
 										</div>
@@ -143,7 +143,7 @@ export function QuickCheck({ lessonId, review, only, onDone }: { lessonId: strin
 									disabled={!!result}
 									onChange={(e) => setAnswers((a) => Object.assign([...a], { [i]: e.target.value }))}
 									placeholder="e.g. 3.2e-5"
-									className="lh-input w-48 rounded-lg border border-border bg-background px-3 py-1.5 text-sm"
+									className="lh-input w-48 rounded-lg border border-border bg-background px-3 py-1.5 text-sm pointer-coarse:min-h-11"
 								/>
 								{q.unit && <span className="text-sm text-muted-foreground">{q.unit}</span>}
 							</div>
@@ -185,7 +185,7 @@ export function QuickCheck({ lessonId, review, only, onDone }: { lessonId: strin
 						setResult(body);
 						onDone?.(body.score);
 					}}
-					className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground disabled:opacity-60"
+					className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground disabled:opacity-60 pointer-coarse:min-h-12"
 				>
 					{submitting && <Loader2Icon className="size-4 animate-spin" />} Submit answers
 				</button>

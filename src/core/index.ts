@@ -89,3 +89,6 @@ export * from "./curriculum.ts";
 export * from "./progress.ts";
 export * from "./assessments.ts";
 export * from "./bookshelf.ts";
+
+// iPad access (pure: serve-status parsing, tailnet request checks).
+export * from "./ipad-access.ts";

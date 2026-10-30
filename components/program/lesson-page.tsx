@@ -101,7 +101,7 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
 				<div className="flex min-w-0 items-center gap-2 text-sm text-muted-foreground">
-					<Link href="/program" className="hover:text-foreground">
+					<Link href="/program" className="hover:text-foreground pointer-coarse:py-3">
 						Program
 					</Link>
 					<ChevronRightIcon className="size-3.5" />
@@ -113,12 +113,12 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 				</div>
 				<div className="ml-auto flex items-center gap-1">
 					{detail.prevId && (
-						<Link href={`/program/lesson/${detail.prevId}`} className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground" aria-label="Previous lesson">
+						<Link href={`/program/lesson/${detail.prevId}`} className="flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:size-11" aria-label="Previous lesson">
 							<ChevronLeftIcon className="size-4" />
 						</Link>
 					)}
 					{detail.nextId && (
-						<Link href={`/program/lesson/${detail.nextId}`} className="rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground" aria-label="Next lesson">
+						<Link href={`/program/lesson/${detail.nextId}`} className="flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:size-11" aria-label="Next lesson">
 							<ChevronRightIcon className="size-4" />
 						</Link>
 					)}
@@ -191,7 +191,7 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 												{r.optional ? " (optional)" : ""}
 											</span>
 											{r.ingested && r.pdfPages ? (
-												<Link href={`/program/books/${r.bookId}?page=${r.pdfPages[0]}&end=${r.pdfPages[1]}`} className="text-xs text-[var(--st-available)] hover:underline">
+												<Link href={`/program/books/${r.bookId}?page=${r.pdfPages[0]}&end=${r.pdfPages[1]}`} className="text-xs text-[var(--st-available)] hover:underline pointer-coarse:py-2">
 													Read pp. {r.pages} →
 												</Link>
 											) : (
@@ -230,7 +230,7 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 								<button
 									type="button"
 									onClick={() => void postProgressEvent({ type: "lesson_completed", lessonId: lesson.id })}
-									className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-accent"
+									className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-accent pointer-coarse:min-h-11"
 								>
 									<CheckCircle2Icon className="size-3.5" /> {lp?.completed ? "Session done ✓" : "Mark session done"}
 								</button>
@@ -281,7 +281,7 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 										<li key={s.id}>
 											<Link
 												href={`/program/lesson/${s.id}`}
-												className={cn("flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent", s.id === lesson.id && "bg-accent")}
+												className={cn("flex items-center gap-2 rounded-md px-2 py-1 hover:bg-accent pointer-coarse:py-2.5", s.id === lesson.id && "bg-accent")}
 											>
 												<span className="size-2 shrink-0 rounded-full" style={{ background: STATUS_COLOR[st] }} />
 												<span className="truncate">{s.title}</span>
@@ -326,7 +326,7 @@ function LecturePlayer({ lessonId, count }: { lessonId: string; count: number })
 	return (
 		<section className="space-y-2">
 			{lec.videoUrl ? (
-				<video key={lec.videoUrl} src={lec.videoUrl} controls preload="metadata" className="aspect-video w-full rounded-xl border border-border bg-black" />
+				<video key={lec.videoUrl} src={lec.videoUrl} controls playsInline preload="metadata" className="aspect-video w-full rounded-xl border border-border bg-black" />
 			) : src ? (
 				<div className="aspect-video overflow-hidden rounded-xl border border-border bg-black">
 					<iframe
@@ -334,8 +334,11 @@ function LecturePlayer({ lessonId, count }: { lessonId: string; count: number })
 						src={src}
 						title={lec.title}
 						className="size-full"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+						// Fullscreen + picture-in-picture are delegated to the embed
+						// (iPad: the player's own fullscreen / PiP buttons).
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; web-share"
 						allowFullScreen
+						referrerPolicy="strict-origin-when-cross-origin"
 					/>
 				</div>
 			) : (
@@ -350,7 +353,7 @@ function LecturePlayer({ lessonId, count }: { lessonId: string; count: number })
 						type="button"
 						onClick={() => setActive(i)}
 						className={cn(
-							"flex max-w-full items-center gap-1.5 rounded-lg border px-2.5 py-1 text-left text-xs",
+							"flex max-w-full items-center gap-1.5 rounded-lg border px-2.5 py-1 text-left text-xs pointer-coarse:min-h-11",
 							i === active ? "border-foreground bg-accent" : "border-border text-muted-foreground hover:text-foreground",
 						)}
 					>
@@ -360,7 +363,7 @@ function LecturePlayer({ lessonId, count }: { lessonId: string; count: number })
 						</span>
 					</button>
 				))}
-				<a href={lec.url} target="_blank" rel="noreferrer" className="ml-auto flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+				<a href={lec.url} target="_blank" rel="noreferrer" className="ml-auto flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground pointer-coarse:min-h-11">
 					source page <ExternalLinkIcon className="size-3" />
 				</a>
 			</div>
@@ -386,7 +389,7 @@ function ActionCard({
 	primary?: boolean;
 }) {
 	const btn = cn(
-		"mt-3 inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-medium",
+		"mt-3 inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-medium pointer-coarse:min-h-11",
 		primary ? "bg-primary text-primary-foreground hover:opacity-90" : "border border-border hover:bg-accent",
 	);
 	return (
@@ -421,13 +424,13 @@ function LogTime({ lessonId }: { lessonId: string }) {
 				setOpen(false);
 			}}
 		>
-			<input value={min} onChange={(e) => setMin(e.target.value)} type="number" min={1} max={240} className="lh-input w-14 rounded-md border border-border bg-background px-1.5 py-1 text-xs" />
-			<button type="submit" className="rounded-md border border-border px-2 py-1 text-xs hover:bg-accent">
+			<input value={min} onChange={(e) => setMin(e.target.value)} type="number" min={1} max={240} className="lh-input w-14 rounded-md border border-border bg-background px-1.5 py-1 text-xs pointer-coarse:min-h-11" />
+			<button type="submit" className="rounded-md border border-border px-2 py-1 text-xs hover:bg-accent pointer-coarse:min-h-11">
 				log min
 			</button>
 		</form>
 	) : (
-		<button type="button" onClick={() => setOpen(true)} className="flex-1 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-accent">
+		<button type="button" onClick={() => setOpen(true)} className="flex-1 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-accent pointer-coarse:min-h-11">
 			Log reading time
 		</button>
 	);
@@ -467,7 +470,7 @@ function LessonDemos({ lessonId, ideas }: { lessonId: string; ideas: string[] })
 			{ideas.map((idea, i) => (
 				<li key={i} className="flex items-start justify-between gap-3">
 					<span className="text-muted-foreground">{idea}</span>
-					<Link href={`/program/demo/${lessonId}/${i}`} className="shrink-0 text-xs text-[var(--st-available)] hover:underline">
+					<Link href={`/program/demo/${lessonId}/${i}`} className="shrink-0 text-xs text-[var(--st-available)] hover:underline pointer-coarse:py-2">
 						Open demo →
 					</Link>
 				</li>

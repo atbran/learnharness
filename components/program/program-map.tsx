@@ -205,7 +205,10 @@ export function ProgramMap({ program, snapshot }: { program: ProgramView; snapsh
 				onPaneClick={() => setSelected(null)}
 			>
 				<Background gap={28} size={1} color="#2a2a2a" />
-				<Controls showInteractive={false} />
+				{/* Touch: the zoom/fit buttons grow to 44px targets (the xyflow
+				    stylesheet is unlayered, hence the important). Pinch-zoom and
+				    one-finger pan are xyflow defaults (zoomOnPinch, panOnDrag). */}
+				<Controls showInteractive={false} className="pointer-coarse:[&_button]:size-11!" />
 				<MiniMap
 					pannable
 					zoomable
@@ -229,17 +232,21 @@ export function ProgramMap({ program, snapshot }: { program: ProgramView; snapsh
 							setCourseId(null);
 							setSelected(null);
 						}}
-						className="pointer-events-auto flex w-fit items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs hover:bg-accent"
+						className="pointer-events-auto flex w-fit items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs hover:bg-accent pointer-coarse:min-h-11"
 					>
 						<ArrowLeftIcon className="size-3.5" /> All courses
 					</button>
 				) : (
 					<div className="rounded-lg border border-border bg-card/90 px-3 py-1.5 text-xs text-muted-foreground">
-						Click a course to unfold it · double-click to open
+						<span className="pointer-coarse:hidden">Click a course to unfold it · double-click to open</span>
+						{/* Touch has no double-click: a tapped course unfolds and
+						    the "Open …" link below it opens the course page. */}
+						<span className="hidden pointer-coarse:inline">Tap a course to unfold it · pinch to zoom</span>
 					</div>
 				)}
 				{course && (
-					<Link href={`/program/course/${course.id}`} className="pointer-events-auto rounded-lg border border-border bg-card/90 px-3 py-1.5 text-xs">
+					<Link href={`/program/course/${course.id}`} className="pointer-events-auto flex w-fit items-center gap-1 rounded-lg border border-border bg-card/90 px-3 py-1.5 text-xs pointer-coarse:min-h-11">
+						<span className="hidden pointer-coarse:inline">Open</span>
 						<span style={{ color: TRACK_COLOR[course.track] }}>{course.code}</span> {course.title} →
 					</Link>
 				)}
@@ -256,7 +263,7 @@ export function ProgramMap({ program, snapshot }: { program: ProgramView; snapsh
 
 			{lesson && lp && (
 				<div className="absolute right-3 top-3 w-[300px] rounded-xl border border-border bg-card p-4 shadow-xl">
-					<button type="button" onClick={() => setSelected(null)} className="absolute right-2 top-2 rounded p-1 text-muted-foreground hover:bg-accent" aria-label="Close">
+					<button type="button" onClick={() => setSelected(null)} className="absolute right-2 top-2 rounded p-1 text-muted-foreground hover:bg-accent pointer-coarse:p-3" aria-label="Close">
 						<XIcon className="size-3.5" />
 					</button>
 					<div className="text-[11px] uppercase tracking-wider" style={{ color: STATUS_COLOR[lp.status] }}>
@@ -281,7 +288,7 @@ export function ProgramMap({ program, snapshot }: { program: ProgramView; snapsh
 					</div>
 					<Link
 						href={`/program/lesson/${lesson.id}`}
-						className="mt-3 block rounded-lg bg-primary px-3 py-2 text-center text-sm font-medium text-primary-foreground hover:opacity-90"
+						className="mt-3 flex items-center justify-center rounded-lg bg-primary px-3 py-2 text-center text-sm font-medium text-primary-foreground hover:opacity-90 pointer-coarse:min-h-11"
 					>
 						Open lesson
 					</Link>

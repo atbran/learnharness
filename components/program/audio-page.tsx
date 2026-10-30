@@ -111,7 +111,7 @@ export function AudioPage({ focus }: { focus: string | null }) {
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
 				<div className="flex items-center gap-2 text-sm text-muted-foreground">
-					<Link href="/program" className="hover:text-foreground">
+					<Link href="/program" className="hover:text-foreground pointer-coarse:py-3">
 						Program
 					</Link>
 					<ChevronRightIcon className="size-3.5" />
@@ -152,7 +152,7 @@ export function AudioPage({ focus }: { focus: string | null }) {
 										) : g.error && !g.audio ? (
 											<span className="text-xs text-destructive">failed</span>
 										) : (
-											<a href={`${fileUrl(g)}&download=1&name=${encodeURIComponent(g.title)}`} className="rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground" aria-label="Download">
+											<a href={`${fileUrl(g)}&download=1&name=${encodeURIComponent(g.title)}`} className="flex items-center justify-center rounded-lg p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:size-11" aria-label="Download">
 												<DownloadIcon className="size-4" />
 											</a>
 										)}
@@ -192,7 +192,7 @@ export function AudioPage({ focus }: { focus: string | null }) {
 						<h2 className="text-xs uppercase tracking-wider text-muted-foreground">All lessons</h2>
 						{(data?.program.courses ?? []).map((c) => (
 							<details key={c.id} open={c.id === focusCourse} className="group rounded-xl border border-border bg-card">
-								<summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3 text-sm">
+								<summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3 text-sm pointer-coarse:min-h-12">
 									<ChevronRightIcon className="size-3.5 text-muted-foreground transition-transform group-open:rotate-90" />
 									<span style={{ color: TRACK_COLOR[c.track] }}>{c.code}</span>
 									<span className="truncate">{c.title}</span>
@@ -207,7 +207,7 @@ export function AudioPage({ focus }: { focus: string | null }) {
 											<ul>
 												{u.lessons.map((l) => (
 													<li key={l.id} className={cn("flex items-center gap-3 rounded-md px-2 py-1", l.id === focus && "bg-accent")}>
-														<Link href={focusHref(l.id)} className="min-w-0 flex-1 truncate text-sm hover:text-foreground">
+														<Link href={focusHref(l.id)} className="min-w-0 flex-1 truncate text-sm hover:text-foreground pointer-coarse:py-3">
 															{l.title}
 														</Link>
 														<GuideAction id={l.id} guide={byId.get(l.id)} onStart={start} disabled={!list?.ttsReady} label="Generate" />
@@ -235,15 +235,19 @@ function GuideAction({ id, guide, onStart, disabled, label }: { id: string; guid
 			</Link>
 		);
 	return (
-		<button
-			type="button"
-			disabled={disabled}
-			onClick={() => onStart(id)}
-			className={cn("rounded-lg border border-border px-2.5 py-1 text-xs hover:bg-accent disabled:opacity-40", guide?.error && "border-destructive/50 text-destructive")}
-			title={guide?.error}
-		>
-			{guide?.error ? "Retry" : label}
-		</button>
+		<span className="flex shrink-0 flex-col items-end gap-0.5">
+			<button
+				type="button"
+				disabled={disabled}
+				onClick={() => onStart(id)}
+				className={cn("rounded-lg border border-border px-2.5 py-1 text-xs hover:bg-accent disabled:opacity-40 pointer-coarse:min-h-11 pointer-coarse:px-3.5", guide?.error && "border-destructive/50 text-destructive")}
+				title={guide?.error}
+			>
+				{guide?.error ? "Retry" : label}
+			</button>
+			{/* Touch has no title tooltip: the failure reason shows as a caption. */}
+			{guide?.error && <span className="hidden max-w-56 text-right text-[11px] leading-snug text-destructive/80 line-clamp-2 pointer-coarse:block">{guide.error}</span>}
+		</span>
 	);
 }
 
@@ -302,7 +306,7 @@ function FocusGuide({ id, fallbackTitle, onStart, ttsReady }: { id: string; fall
 							type="button"
 							disabled={!ttsReady}
 							onClick={() => onStart(id)}
-							className="rounded-lg bg-[var(--st-available)] px-3 py-1.5 text-sm font-medium text-black hover:opacity-90 disabled:opacity-40"
+							className="rounded-lg bg-[var(--st-available)] px-3 py-1.5 text-sm font-medium text-black hover:opacity-90 disabled:opacity-40 pointer-coarse:min-h-11"
 						>
 							Generate audio guide
 						</button>
@@ -315,15 +319,15 @@ function FocusGuide({ id, fallbackTitle, onStart, ttsReady }: { id: string; fall
 				<div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
 					<a
 						href={`${fileUrl(guide)}&download=1&name=${encodeURIComponent(guide.title)}`}
-						className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1 hover:bg-accent"
+						className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1 hover:bg-accent pointer-coarse:min-h-11"
 					>
 						<DownloadIcon className="size-3.5" /> Download for phone ({(guide.audio.bytes / 1e6).toFixed(1)} MB)
 					</a>
-					<button type="button" disabled={!ttsReady} onClick={() => onStart(id, { resynth: true })} className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1 hover:bg-accent disabled:opacity-40">
+					<button type="button" disabled={!ttsReady} onClick={() => onStart(id, { resynth: true })} className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1 hover:bg-accent disabled:opacity-40 pointer-coarse:min-h-11">
 						<RefreshCwIcon className="size-3.5" /> Re-synthesize
 					</button>
 					{!isSession(id) && (
-						<button type="button" disabled={!ttsReady} onClick={() => onStart(id, { rewrite: true })} className="rounded-lg px-2.5 py-1 text-muted-foreground hover:bg-accent hover:text-foreground disabled:opacity-40">
+						<button type="button" disabled={!ttsReady} onClick={() => onStart(id, { rewrite: true })} className="rounded-lg px-2.5 py-1 text-muted-foreground hover:bg-accent hover:text-foreground disabled:opacity-40 pointer-coarse:min-h-11">
 							Rewrite script
 						</button>
 					)}
@@ -332,7 +336,7 @@ function FocusGuide({ id, fallbackTitle, onStart, ttsReady }: { id: string; fall
 
 			{guide?.script && (
 				<details className="group mt-4 rounded-lg border border-border">
-					<summary className="flex cursor-pointer list-none items-center gap-2 px-3 py-2 text-xs uppercase tracking-wider text-muted-foreground">
+					<summary className="flex cursor-pointer list-none items-center gap-2 px-3 py-2 text-xs uppercase tracking-wider text-muted-foreground pointer-coarse:min-h-11">
 						<ChevronRightIcon className="size-3.5 transition-transform group-open:rotate-90" /> Script
 						{fmtMinutes(guide.words) ? <span className="normal-case tracking-normal">· {guide.words} words, {fmtMinutes(guide.words)}</span> : null}
 					</summary>

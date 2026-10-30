@@ -16,7 +16,7 @@ export function ReviewSession({ due }: { due: { lessonId: string; title: string;
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
 				<div className="flex items-center gap-2 text-sm text-muted-foreground">
-					<Link href="/program" className="hover:text-foreground">
+					<Link href="/program" className="hover:text-foreground pointer-coarse:py-3">
 						Program
 					</Link>
 					<ChevronRightIcon className="size-3.5" />
@@ -31,7 +31,7 @@ export function ReviewSession({ due }: { due: { lessonId: string; title: string;
 						<div className="rounded-xl border border-border bg-card p-8 text-center">
 							<PartyPopperIcon className="mx-auto size-8 text-[var(--st-review)]" />
 							<p className="mt-3 text-sm text-muted-foreground">No reviews due. Mastered lessons come back here on a spaced schedule.</p>
-							<Link href="/program" className="mt-4 inline-block rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent">
+							<Link href="/program" className="mt-4 inline-flex items-center rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent pointer-coarse:min-h-11">
 								Back to the program
 							</Link>
 						</div>
@@ -48,7 +48,7 @@ export function ReviewSession({ due }: { due: { lessonId: string; title: string;
 										setDone(false);
 										setI((x) => x + 1);
 									}}
-									className="w-full rounded-lg border border-border px-4 py-2 text-sm hover:bg-accent"
+									className="w-full rounded-lg border border-border px-4 py-2 text-sm hover:bg-accent pointer-coarse:min-h-11"
 								>
 									{i + 1 < due.length ? "Next review →" : "Finish"}
 								</button>
