@@ -189,6 +189,11 @@ export function reconcileUploads(pages: InkPage[], images: string[]): InkPage[] 
 	return pages.map((p) => (p.upload && !images.includes(p.upload) ? { ...p, upload: null, dirty: p.strokes.length > 0 } : p));
 }
 
+/** Pages a submit must save first: inked, and never saved or changed since. */
+export function pagesToFlush(pages: readonly InkPage[]): InkPage[] {
+	return pages.filter((p) => p.strokes.length > 0 && (!p.upload || p.dirty));
+}
+
 export function newId(): string {
 	return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
@@ -334,6 +339,81 @@ async function saveDraft(aid: string, pid: string, pages: InkPage[], written: (I
 	});
 }
 
+/** Every stored page of an assessment, across its problems. */
+async function loadAssessmentDrafts(aid: string): Promise<InkPage[]> {
+	const db = await openDb();
+	return new Promise((resolve, reject) => {
+		const req = db.transaction(STORE, "readonly").objectStore(STORE).getAll(IDBKeyRange.bound([aid, "", 0], [aid, "\uffff", 1e9]));
+		req.onsuccess = () =>
+			resolve(
+				(req.result as { pid?: unknown }[])
+					.map((r) => normalizePage(r, aid, typeof r.pid === "string" ? r.pid : ""))
+					.filter((p): p is InkPage => p !== null),
+			);
+		req.onerror = () => reject(req.error ?? new Error("draft read failed"));
+	});
+}
+
+async function putDraftPage(page: InkPage): Promise<void> {
+	const db = await openDb();
+	await new Promise<void>((resolve, reject) => {
+		const tx = db.transaction(STORE, "readwrite");
+		tx.objectStore(STORE).put(page);
+		tx.oncomplete = () => resolve();
+		tx.onerror = () => reject(tx.error ?? new Error("draft write failed"));
+	});
+}
+
+// ─── Uploading pages ─────────────────────────────────────────────────────────
+
+/** Export a page to PNG and add it to the answer, replacing its previous
+ *  upload (`onReplaced` runs once the old one is gone). Returns the file. */
+async function uploadInkPage(aid: string, pid: string, page: InkPage, onReplaced?: () => void): Promise<string> {
+	const base = `/api/program/assessments/${encodeURIComponent(aid)}/uploads?problem=${encodeURIComponent(pid)}`;
+	const errorOf = async (r: Response) => ((await r.json().catch(() => ({}))) as { error?: string }).error ?? `HTTP ${r.status}`;
+	const png = await exportPng(page);
+	if (page.upload) {
+		const r = await fetch(`${base}&file=${encodeURIComponent(page.upload)}`, { method: "DELETE" });
+		if (!r.ok) throw new Error(`couldn't replace the saved page: ${await errorOf(r)}`);
+		onReplaced?.();
+	}
+	const r = await fetch(base, { method: "POST", headers: { "Content-Type": "image/png" }, body: png });
+	const body = (await r.json().catch(() => ({}))) as { file?: string; error?: string };
+	if (!r.ok || !body.file) throw new Error(body.error ?? `HTTP ${r.status}`);
+	return body.file;
+}
+
+/** Open pads, so a submit sees their newest ink (not yet in IndexedDB) and
+ *  can tell them what it saved. */
+interface OpenPad {
+	pages: () => InkPage[];
+	saved: (page: number, file: string) => void;
+}
+const openPads = new Map<string, Map<string, OpenPad>>();
+
+/** Before an assessment is submitted: save every inked page that was never
+ *  saved (or changed since) to its problem's answer — open pads' pages as
+ *  they are on screen, the rest from the device's drafts. */
+export async function flushUnsavedInk(aid: string): Promise<{ saved: number; failed: number }> {
+	const open = openPads.get(aid) ?? new Map<string, OpenPad>();
+	const stored = await loadAssessmentDrafts(aid).catch(() => [] as InkPage[]);
+	const pages = [...stored.filter((p) => !open.has(p.pid)), ...[...open.values()].flatMap((o) => o.pages())];
+	let saved = 0;
+	let failed = 0;
+	for (const page of pagesToFlush(pages)) {
+		try {
+			const file = await uploadInkPage(aid, page.pid, page);
+			saved++;
+			const next = { ...page, upload: file, dirty: false };
+			open.get(page.pid)?.saved(page.page, file);
+			await putDraftPage(next).catch(() => {});
+		} catch {
+			failed++;
+		}
+	}
+	return { saved, failed };
+}
+
 // ─── Preferences ─────────────────────────────────────────────────────────────
 
 function pref(key: string): string | null {
@@ -472,6 +552,22 @@ export function InkPad({
 			flush();
 		};
 	}, [flush]);
+
+	// ── register with flushUnsavedInk (a submit saves this pad's unsaved pages) ──
+	const pagesRef = useRef(pages);
+	pagesRef.current = pages;
+	useEffect(() => {
+		const pads = openPads.get(assessmentId) ?? new Map<string, OpenPad>();
+		openPads.set(assessmentId, pads);
+		pads.set(problemId, {
+			pages: () => pagesRef.current.map((p, i) => ({ ...p, page: i })),
+			saved: (at, file) => setPages((ps) => ps.map((p, i) => (i === at ? { ...p, upload: file, dirty: false } : p))),
+		});
+		return () => {
+			pads.delete(problemId);
+			if (pads.size === 0) openPads.delete(assessmentId);
+		};
+	}, [assessmentId, problemId]);
 
 	// ── fit the page to the width ──
 	useEffect(() => {
@@ -842,19 +938,10 @@ export function InkPad({
 		if (!snap || !snap.strokes.length || saving) return;
 		setSaving(true);
 		setError(null);
-		const base = `/api/program/assessments/${encodeURIComponent(assessmentId)}/uploads?problem=${encodeURIComponent(problemId)}`;
-		const errorOf = async (r: Response) => ((await r.json().catch(() => ({}))) as { error?: string }).error ?? `HTTP ${r.status}`;
 		try {
-			const png = await exportPng(snap);
-			if (snap.upload) {
-				const r = await fetch(`${base}&file=${encodeURIComponent(snap.upload)}`, { method: "DELETE" });
-				if (!r.ok) throw new Error(`couldn't replace the saved page: ${await errorOf(r)}`);
-				setPages((ps) => ps.map((p, i) => (i === at ? { ...p, upload: null, dirty: true } : p)));
-			}
-			const r = await fetch(base, { method: "POST", headers: { "Content-Type": "image/png" }, body: png });
-			const body = (await r.json().catch(() => ({}))) as { file?: string; error?: string };
-			if (!r.ok || !body.file) throw new Error(body.error ?? `HTTP ${r.status}`);
-			const file = body.file;
+			const file = await uploadInkPage(assessmentId, problemId, snap, () =>
+				setPages((ps) => ps.map((p, i) => (i === at ? { ...p, upload: null, dirty: true } : p))),
+			);
 			setPages((ps) => ps.map((p, i) => (i === at ? { ...p, upload: file, dirty: p.strokes !== snap.strokes || p.paper !== snap.paper } : p)));
 			onUploaded();
 		} catch (err) {

@@ -12,7 +12,7 @@ import { insertMathIntoField, MathButton } from "@/components/math-input";
 import type { Assessment } from "@/src/core";
 import { ProgressRing } from "./charts";
 import { EquationSheet, QuestionEquations, type EquationGroup } from "./equations";
-import { InkPad } from "./ink-pad";
+import { InkPad, flushUnsavedInk } from "./ink-pad";
 import { pct } from "./status";
 import { useStudyHeartbeat } from "./use-program";
 
@@ -34,6 +34,24 @@ export function AssessmentPage({ initial, course }: { initial: View; course: { i
 		const r = await fetch(`/api/program/assessments/${a.id}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action, ...extra }) });
 		if (r.ok) setA((await r.json()) as View);
 	};
+	// Submitting saves handwritten pages that were never saved (or changed
+	// since) first, so the grader sees them — also when the timer runs out.
+	const [flushing, setFlushing] = useState<string | null>(null);
+	const submit = async (expired: boolean) => {
+		if (flushing !== null) return;
+		setFlushing("Saving your handwritten pages…");
+		try {
+			const { saved, failed } = await flushUnsavedInk(a.id);
+			if (saved) refresh();
+			if (failed && !expired) {
+				setFlushing(null);
+				if (!window.confirm(`${failed === 1 ? "A handwritten page" : `${failed} handwritten pages`} couldn't be saved, so the grader won't see ${failed === 1 ? "it" : "them"}. Submit anyway?`)) return;
+			} else if (failed) setFlushing(`Time's up — ${failed} handwritten page${failed === 1 ? "" : "s"} couldn't be saved. Submitting the rest…`);
+			await act("submit");
+		} finally {
+			setFlushing(null);
+		}
+	};
 
 	return (
 		<div className="flex h-full min-h-0 flex-col">
@@ -52,7 +70,7 @@ export function AssessmentPage({ initial, course }: { initial: View; course: { i
 					<span className="truncate max-sm:hidden">{a.title}</span>
 				</div>
 				{a.status === "in-progress" && a.minutes && a.startedAt && (
-					<Countdown startedAt={a.startedAt} minutes={a.minutes} onExpire={() => void act("submit")} />
+					<Countdown startedAt={a.startedAt} minutes={a.minutes} onExpire={() => void submit(true)} />
 				)}
 			</TopBar>
 			<div className="min-h-0 flex-1 overflow-y-auto">
@@ -147,12 +165,14 @@ export function AssessmentPage({ initial, course }: { initial: View; course: { i
 					{a.status === "in-progress" && (
 						<button
 							type="button"
+							disabled={flushing !== null}
 							onClick={() => {
-								if (window.confirm("Submit for grading? You can't change answers afterwards.")) void act("submit");
+								if (window.confirm("Submit for grading? You can't change answers afterwards. Handwritten pages you haven't saved are saved first."))
+									void submit(false);
 							}}
-							className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground"
+							className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground disabled:opacity-60"
 						>
-							Submit for grading
+							{flushing ?? "Submit for grading"}
 						</button>
 					)}
 				</div>

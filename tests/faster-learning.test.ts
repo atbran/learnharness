@@ -133,3 +133,32 @@ test("a blank multiple-choice answer is wrong, not option 0", async () => {
 	assert.equal(gradeDeterministic(q, "")?.correct, false);
 	assert.equal(gradeDeterministic(q, "0")?.correct, true);
 });
+
+test("break planner: missed and reviews capped, then the next lesson, then a quiz", async () => {
+	const { planBreak } = await import("../src/core/practice.ts");
+	const L = (id: string, minutes: number, unitId = "a-u1") => ({ id, title: id, minutes, courseId: id[0]!, unitId });
+	const lessons = [L("a-1", 30), L("a-2", 40), L("a-3", 35, "a-u2")];
+	const lp = (over: Record<string, unknown> = {}) =>
+		({ status: "available", masteredAt: null, started: false, missed: [], diagnostic: null, ...over }) as never;
+	const snap = {
+		lessons: { "a-1": lp({ started: true, missed: [0, 1, 2, 3, 4] }), "a-2": lp(), "a-3": lp(), "r-1": lp(), "r-2": lp(), "r-3": lp() },
+		next: ["a-2", "a-3"],
+		reviewsDue: ["r-1", "r-2", "r-3"],
+		missedDue: ["a-1"],
+	};
+	// 30 min: 5 missed (capped), 2 reviews (quarter of 30 = 7.5 → 2), then a-2 only started.
+	assert.deepEqual(
+		planBreak(30, lessons, snap, []).map((i) => [i.kind, i.minutes]),
+		[["missed", 5], ["review", 6], ["lesson", 19]],
+	);
+	assert.equal(planBreak(30, lessons, snap, []).find((i) => i.kind === "lesson")?.partial, true);
+	// 45 min in review mode: fast track (40% of 40 = 16), then the started a-1's quiz.
+	const fast = planBreak(45, lessons, snap, ["a"]);
+	assert.deepEqual(fast.map((i) => [i.kind, i.minutes]), [["missed", 5], ["review", 9], ["lesson", 16], ["quiz", 8]]);
+	// 15 min with nothing due: a 10-minute start; too little left for more.
+	const quiet = { ...snap, reviewsDue: [], missedDue: [] };
+	assert.deepEqual(planBreak(15, lessons, quiet, []).map((i) => [i.kind, i.minutes]), [["lesson", 15]]);
+	// No started lesson to quiz: the leftover becomes a drill of the next lesson's unit.
+	const fresh = { ...quiet, lessons: { ...quiet.lessons, "a-1": lp() } };
+	assert.deepEqual(planBreak(45, lessons, fresh, ["a"]).map((i) => i.kind), ["lesson", "drill"]);
+});

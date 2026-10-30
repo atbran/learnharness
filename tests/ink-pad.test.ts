@@ -76,3 +76,16 @@ test("a saved page whose thumbnail was removed becomes a draft again", () => {
 	assert.equal(a?.dirty, true);
 	assert.equal(b, kept);
 });
+
+test("submit saves only inked pages that were never saved or changed since", async () => {
+	const { pagesToFlush, blankPage } = await import("../components/program/ink-pad.tsx");
+	const ink = { id: "s", tool: "pen" as const, color: "#111111", size: 3, pressure: true, pts: [1, 1, 0.5] };
+	const page = (n: number, over: object) => ({ ...blankPage("a", "p1", n, "blank"), ...over });
+	const pages = [
+		page(0, { strokes: [ink], upload: null }),
+		page(1, { strokes: [ink], upload: "x.png", dirty: false }),
+		page(2, { strokes: [ink], upload: "y.png", dirty: true }),
+		page(3, { strokes: [], upload: null }),
+	];
+	assert.deepEqual(pagesToFlush(pages).map((p) => p.page), [0, 2]);
+});

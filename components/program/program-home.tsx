@@ -10,6 +10,7 @@ import { MasteryRadar, ProgressRing, ScoreTrends, StudyHeatmap } from "./charts"
 import { DemoPrebuildCard } from "./demo-prebuild-card";
 import { ProgramMap } from "./program-map";
 import { Timeline } from "./timeline";
+import { TodayCard, startUnitDrill } from "./today-card";
 import { STATUS_COLOR, STATUS_LABEL, TRACK_COLOR, fmtDate, fmtDay, pct } from "./status";
 import { useProgram, useStudyHeartbeat, type CourseView, type ProgramData } from "./use-program";
 
@@ -118,6 +119,8 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 							</div>
 						</Stat>
 					</div>
+
+					<TodayCard data={data} />
 
 					{/* Up next */}
 					<section>
@@ -330,18 +333,7 @@ function PracticeActions({ data }: { data: ProgramData }) {
 	);
 	async function drill(course: CourseView, unitId: string, unitTitle: string) {
 		setStarting(unitId);
-		try {
-			const res = await fetch("/api/chats", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ title: `${course.code} · Mixed drill · ${unitTitle}`, unitId, kind: "practice" }),
-			});
-			const body = (await res.json()) as { id?: string };
-			if (!res.ok || !body.id) throw new Error("could not create the session");
-			router.push(`/chat/${body.id}?prompt=${encodeURIComponent("Give me a mixed drill for this unit.")}`);
-		} catch {
-			setStarting(null);
-		}
+		await startUnitDrill(router.push, course, { id: unitId, title: unitTitle }).catch(() => setStarting(null));
 	}
 	const btn = "flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1 text-xs text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:min-h-11";
 	return (

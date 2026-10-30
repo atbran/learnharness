@@ -3,18 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-	ChevronRightIcon,
-	ClipboardListIcon,
-	DumbbellIcon,
-	FileCheck2Icon,
-	FileTextIcon,
-	GaugeIcon,
-	Loader2Icon,
-	MonitorPlayIcon,
-	MoreHorizontalIcon,
-	SparklesIcon,
-} from "lucide-react";
+import { ChevronRightIcon, ClipboardListIcon, DumbbellIcon, FileCheck2Icon, FileTextIcon, GaugeIcon, Loader2Icon, MonitorPlayIcon, MoreHorizontalIcon, SigmaIcon, SparklesIcon } from "lucide-react";
 import { TopBar } from "@/components/top-bar";
 import { MenuShell } from "@/components/menu-shell";
 import { Toggle } from "@/components/settings/controls";
@@ -341,6 +330,11 @@ function UnitActions({ course, unit, up, lessons }: { course: CourseView; unit: 
 			<FileTextIcon className="size-3.5" /> Practice sheet
 		</Link>
 	);
+	const equations = (cls: string) => (
+		<Link href={`/program/unit/${unit.id}/equations`} className={cls} data-testid={`equations-${unit.id}`}>
+			<SigmaIcon className="size-3.5" /> Equation sheet
+		</Link>
+	);
 	return (
 		<>
 			{!fullyMastered && (
@@ -355,6 +349,7 @@ function UnitActions({ course, unit, up, lessons }: { course: CourseView; unit: 
 			<span className="contents max-sm:hidden">
 				{canDrill && drill(btn)}
 				{sheet(btn)}
+				{equations(btn)}
 			</span>
 			<button
 				ref={trigger}
@@ -370,6 +365,7 @@ function UnitActions({ course, unit, up, lessons }: { course: CourseView; unit: 
 				<MenuShell anchorRef={trigger} testid={menuId} preferredSide="down" menuClass="flex w-52 flex-col rounded-xl border border-border bg-card p-1.5 text-sm shadow-xl">
 					{canDrill && drill(item)}
 					{sheet(item)}
+					{equations(item)}
 				</MenuShell>
 			)}
 		</>
