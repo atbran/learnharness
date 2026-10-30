@@ -2,15 +2,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { AwardIcon, CalendarClockIcon, FlameIcon, LibraryIcon, MapIcon, RadarIcon, RepeatIcon, Settings2Icon, TrophyIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { AwardIcon, CalendarClockIcon, FlameIcon, LibraryIcon, MapIcon, PrinterIcon, RadarIcon, RepeatIcon, Settings2Icon, ShuffleIcon, TrophyIcon } from "lucide-react";
 import { TopBar } from "@/components/top-bar";
 import { cn } from "@/lib/utils";
 import { MasteryRadar, ProgressRing, ScoreTrends, StudyHeatmap } from "./charts";
 import { DemoPrebuildCard } from "./demo-prebuild-card";
 import { ProgramMap } from "./program-map";
 import { Timeline } from "./timeline";
-import { STATUS_COLOR, STATUS_LABEL, TRACK_COLOR, fmtDate, pct } from "./status";
-import { useProgram, useStudyHeartbeat, type ProgramData } from "./use-program";
+import { STATUS_COLOR, STATUS_LABEL, TRACK_COLOR, fmtDate, fmtDay, pct } from "./status";
+import { useProgram, useStudyHeartbeat, type CourseView, type ProgramData } from "./use-program";
 
 type Tab = "map" | "timeline" | "mastery" | "badges";
 
@@ -37,17 +38,17 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 	return (
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
-				<h1 className="font-title text-3xl tracking-tight">Physics Program</h1>
+				<h1 className="font-title min-w-0 truncate text-3xl tracking-tight max-sm:text-2xl">Physics Program</h1>
 				<div className="ml-auto flex items-center gap-2">
 					<Link href="/program/books" className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:min-h-11">
-						<LibraryIcon className="size-3.5" /> Bookshelf
+						<LibraryIcon className="size-3.5" /> <span className="max-sm:sr-only">Bookshelf</span>
 					</Link>
 					<ProgramSettings hoursPerWeek={s.pace.hoursPerWeekTarget} startDate={s.startDate} parallel={s.parallel} />
 				</div>
 			</TopBar>
 
 			<div className="min-h-0 flex-1 overflow-y-auto">
-				<div className="mx-auto max-w-[1400px] space-y-5 px-6 py-5">
+				<div className="mx-auto max-w-[1400px] space-y-5 px-6 py-5 max-sm:px-4">
 					{/* Stat strip */}
 					<div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
 						<Stat label="Program">
@@ -104,10 +105,10 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 							</div>
 						</Stat>
 						<Stat label="Reviews">
-							<RepeatIcon className="size-8" style={{ color: s.reviewsDue.length ? "var(--st-review)" : "var(--st-locked)" }} />
+							<RepeatIcon className="size-8" style={{ color: s.reviewsDue.length + s.missedDue.length ? "var(--st-review)" : "var(--st-locked)" }} />
 							<div>
-								<div className="text-2xl font-semibold leading-none">{s.reviewsDue.length}</div>
-								{s.reviewsDue.length > 0 ? (
+								<div className="text-2xl font-semibold leading-none">{s.reviewsDue.length + s.missedDue.length}</div>
+								{s.reviewsDue.length + s.missedDue.length > 0 ? (
 									<Link href="/program/review" className="mt-1 block text-xs text-[var(--st-review)] hover:underline pointer-coarse:py-2">
 										start review →
 									</Link>
@@ -120,7 +121,11 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 
 					{/* Up next */}
 					<section>
-						<h2 className="mb-2 text-xs uppercase tracking-wider text-muted-foreground">Up next</h2>
+						<div className="mb-2 flex flex-wrap items-center gap-x-4 gap-y-2">
+							<h2 className="text-xs uppercase tracking-wider text-muted-foreground">Up next</h2>
+							<PracticeActions data={data} />
+						</div>
+						<CoursePace data={data} />
 						<div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
 							{[...s.reviewsDue.slice(0, 2), ...s.next].slice(0, 6).map((id) => {
 								const meta = lessonMeta.get(id);
@@ -163,7 +168,7 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 									type="button"
 									onClick={() => setTab(t.id)}
 									className={cn(
-										"-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2 text-sm transition-colors pointer-coarse:min-h-11",
+										"-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2 text-sm transition-colors pointer-coarse:min-h-11 max-sm:px-2",
 										tab === t.id ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground",
 									)}
 								>
@@ -299,6 +304,85 @@ function ProgramSettings({ hoursPerWeek, startDate, parallel }: { hoursPerWeek: 
 					</button>
 				</div>
 			)}
+		</div>
+	);
+}
+
+/** The unit each started course is on: its first unit not fully mastered. */
+function currentUnits(data: ProgramData): { course: CourseView; unit: CourseView["units"][number] }[] {
+	const s = data.snapshot;
+	return data.program.courses
+		.filter((c) => s.courses[c.id]?.status === "active")
+		.flatMap((course) => {
+			const unit = course.units.find((u) => (s.units[u.id]?.mastered ?? 0) < (s.units[u.id]?.total ?? 0));
+			return unit ? [{ course, unit }] : [];
+		});
+}
+
+/** Off-screen practice: a printable sheet from current + weak lessons, and a
+ *  mixed drill for each current unit with at least two lessons touched. */
+function PracticeActions({ data }: { data: ProgramData }) {
+	const router = useRouter();
+	const [starting, setStarting] = useState<string | null>(null);
+	const s = data.snapshot;
+	const drills = currentUnits(data).filter(
+		({ unit }) => unit.lessons.filter((l) => s.lessons[l.id]?.masteredAt || s.lessons[l.id]?.status === "in-progress").length >= 2,
+	);
+	async function drill(course: CourseView, unitId: string, unitTitle: string) {
+		setStarting(unitId);
+		try {
+			const res = await fetch("/api/chats", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ title: `${course.code} · Mixed drill · ${unitTitle}`, unitId, kind: "practice" }),
+			});
+			const body = (await res.json()) as { id?: string };
+			if (!res.ok || !body.id) throw new Error("could not create the session");
+			router.push(`/chat/${body.id}?prompt=${encodeURIComponent("Give me a mixed drill for this unit.")}`);
+		} catch {
+			setStarting(null);
+		}
+	}
+	const btn = "flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1 text-xs text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:min-h-11";
+	return (
+		<div className="flex flex-wrap items-center gap-2">
+			<Link href="/program/assessment/new?sheet=1" className={btn} title="Five short problems from what you're on and your weak spots, with a folded-away answer page">
+				<PrinterIcon className="size-3.5" /> Print a practice sheet
+			</Link>
+			{drills.map(({ course, unit }) => (
+				<button key={unit.id} type="button" disabled={starting !== null} onClick={() => void drill(course, unit.id, unit.title)} className={cn(btn, "disabled:opacity-50")}>
+					<ShuffleIcon className="size-3.5" />
+					{starting === unit.id ? "Starting…" : `Mixed drill · ${course.code} ${unit.title}`}
+				</button>
+			))}
+		</div>
+	);
+}
+
+const PACE_LABEL = { upcoming: "starts soon", ahead: "ahead", "on-track": "on track", behind: "behind", done: "done" } as const;
+const PACE_COLOR = {
+	upcoming: "var(--st-locked)",
+	ahead: "var(--st-mastered)",
+	"on-track": "var(--st-available)",
+	behind: "var(--st-progress)",
+	done: "var(--st-mastered)",
+} as const;
+
+/** One line per started course with unit targets: the current unit's pace. */
+function CoursePace({ data }: { data: ProgramData }) {
+	const rows = currentUnits(data).flatMap(({ course, unit }) => {
+		const pace = data.snapshot.units[unit.id]?.pace;
+		return pace ? [{ course, unit, pace }] : [];
+	});
+	if (rows.length === 0) return null;
+	return (
+		<div className="mb-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-muted-foreground">
+			{rows.map(({ course, unit, pace }) => (
+				<Link key={unit.id} href={`/program/course/${course.id}`} className="hover:text-foreground pointer-coarse:py-2">
+					<span style={{ color: TRACK_COLOR[course.track] }}>{course.code}</span> · {unit.title} · {pace.perDayNeeded.toFixed(1)} lessons/day to finish by{" "}
+					{fmtDay(pace.targetEnd)} · <span style={{ color: PACE_COLOR[pace.status] }}>{PACE_LABEL[pace.status]}</span>
+				</Link>
+			))}
 		</div>
 	);
 }

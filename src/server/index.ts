@@ -53,7 +53,7 @@ export { customProviderGet, customProviderMutation } from "./custom-provider-htt
 
 // The physics program (curriculum spine, progress ledger, lesson briefs).
 export * from "./curriculum.ts";
-export { resolveLecture, type ResolvedLecture } from "./lectures.ts";
+export { lectureTranscript, resolveLecture, type ResolvedLecture } from "./lectures.ts";
 export * from "./bookshelf.ts";
 export * from "./assessments.ts";
 export * from "./demos.ts";
@@ -62,4 +62,5 @@ export * from "./audio.ts";
 // iPad access (Tailscale serve for the launcher's port).
 export { ipadStatus, setIpadAccess, type IpadStatus, type IpadChange } from "./ipad-access.ts";
 export { demoPrebuildStatus, setDemoPrebuild, type DemoPrebuildStatus } from "./demo-prebuild.ts";
+export { diagnosticView, ensureDiagnostic, submitDiagnostic, type DiagnosticLessonResult, type DiagnosticResult, type DiagnosticView, type PublicDiagnosticQuestion } from "./diagnostics.ts";
 export { ensureLessonNotes, notesView, notesPrebuildStatus, setNotesPrebuild, type LessonNotes, type NotesView, type NotesPrebuildStatus } from "./notes.ts";

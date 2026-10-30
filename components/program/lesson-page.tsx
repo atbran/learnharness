@@ -11,16 +11,19 @@ import {
 	ChevronRightIcon,
 	ClipboardCheckIcon,
 	DumbbellIcon,
-	ExternalLinkIcon,
+	FileTextIcon,
 	GraduationCapIcon,
 	HeadphonesIcon,
 	MonitorPlayIcon,
 	SparklesIcon,
 	TimerIcon,
 } from "lucide-react";
+import { MessageResponse } from "@/components/ai-elements/message";
 import { TopBar } from "@/components/top-bar";
 import { cn } from "@/lib/utils";
 import type { Lesson } from "@/src/core";
+import { Expander, FastTrackSwitch, MissedCard, NotesSummary, useFastTrackOverride, useLessonNotesView, useNotesSummary } from "./fast-track";
+import { LecturePlayer } from "./lecture-player";
 import { LessonNotes } from "./lesson-notes";
 import { STATUS_COLOR, STATUS_LABEL, TRACK_COLOR, pct } from "./status";
 import { postProgressEvent, useProgram, useStudyHeartbeat } from "./use-program";
@@ -36,20 +39,6 @@ export interface LessonPageData {
 	nextId: string | null;
 }
 
-interface ResolvedLecture {
-	source: string;
-	title: string;
-	url: string;
-	start?: number;
-	end?: number;
-	minutes?: number;
-	optional?: boolean;
-	youtubeId: string | null;
-	playlistId: string | null;
-	embedUrl: string | null;
-	videoUrl?: string;
-}
-
 /**
  * One lesson, lecture-first: the lecture player leads, then the path —
  * read, learn with the tutor, try a demo, check, practice. The sidebar
@@ -58,7 +47,7 @@ interface ResolvedLecture {
 export function LessonPage({ detail }: { detail: LessonPageData }) {
 	const { lesson, unit, course } = detail;
 	const router = useRouter();
-	const { data } = useProgram(null);
+	const { data, error } = useProgram(null);
 	useStudyHeartbeat(lesson.id);
 	const lp = data?.snapshot.lessons[lesson.id];
 	const status = lp?.status ?? "locked";
@@ -92,6 +81,51 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 		}
 	}
 
+	// Fast track: a review-mode course/unit or diagnostic misses, until
+	// mastered — unless the learner picked a view for this lesson. null while
+	// that can't be decided yet (program data or the stored choice loading).
+	const [override, setOverride] = useFastTrackOverride(lesson.id);
+	const missed = lp?.diagnostic?.missed ?? [];
+	const reviewMode = data?.settings.reviewMode ?? [];
+	const autoFast = !lp?.masteredAt && (reviewMode.includes(course.id) || reviewMode.includes(unit.id) || missed.length > 0);
+	const fast: boolean | null = override === undefined ? null : override !== null ? override : data ? autoFast : error ? false : null;
+
+	const cards = (
+		<section className="grid gap-3 md:grid-cols-2">
+			<ActionCard
+				icon={GraduationCapIcon}
+				title="Learn with your tutor"
+				body="A guided session built from this lesson's objectives and your readings. It checks what you already know, then teaches one step at a time."
+				action={starting === "teach" ? "Starting…" : "Start lesson session"}
+				onClick={() => void startSession("teach")}
+				primary={!fast}
+			/>
+			{!fast && (
+				<ActionCard
+					icon={ClipboardCheckIcon}
+					title="Quick check"
+					body="Five questions on the objectives. Score 80% or higher to master the lesson and schedule its spaced review."
+					action="Take quick check"
+					href={`/program/check/${lesson.id}`}
+				/>
+			)}
+			<ActionCard
+				icon={DumbbellIcon}
+				title="Practice problems"
+				body="Bite-sized problems with hints that adapt to your reasoning, drawn from the textbook's exercises where possible."
+				action={starting === "practice" ? "Starting…" : "Start practice"}
+				onClick={() => void startSession("practice")}
+			/>
+			<ActionCard
+				icon={HeadphonesIcon}
+				title="Audio guide"
+				body="A spoken walkthrough of this lesson for a walk or a commute, generated locally with Kokoro."
+				action="Open audio"
+				href={`/program/audio?lesson=${lesson.id}`}
+			/>
+		</section>
+	);
+
 	const steps = [
 		{ icon: MonitorPlayIcon, label: "Watch the lecture", done: lesson.lectures.length === 0 },
 		{ icon: BookOpenIcon, label: "Read the assigned sections" },
@@ -107,12 +141,13 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 					<Link href="/program" className="hover:text-foreground pointer-coarse:py-3">
 						Program
 					</Link>
-					<ChevronRightIcon className="size-3.5" />
-					<Link href={`/program/course/${course.id}`} className="truncate hover:text-foreground" style={{ color: TRACK_COLOR[course.track] }}>
+					<ChevronRightIcon className="size-3.5 shrink-0" />
+					<Link href={`/program/course/${course.id}`} className="shrink-0 hover:text-foreground pointer-coarse:py-3" style={{ color: TRACK_COLOR[course.track] }}>
 						{course.code}
 					</Link>
-					<ChevronRightIcon className="size-3.5" />
-					<span className="truncate">{unit.title}</span>
+					{/* Phone: the unit name only crowds the prev/next arrows. */}
+					<ChevronRightIcon className="size-3.5 shrink-0 max-sm:hidden" />
+					<span className="truncate max-sm:hidden">{unit.title}</span>
 				</div>
 				<div className="ml-auto flex items-center gap-1">
 					{detail.prevId && (
@@ -129,7 +164,7 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 			</TopBar>
 
 			<div className="min-h-0 flex-1 overflow-y-auto">
-				<div className="mx-auto grid max-w-[1400px] gap-6 px-6 py-5 xl:grid-cols-[minmax(0,1fr)_360px]">
+				<div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-6 px-6 py-5 max-sm:px-4 xl:grid-cols-[minmax(0,1fr)_360px]">
 					<main className="min-w-0 space-y-5">
 						<header>
 							<div className="flex flex-wrap items-center gap-3 text-xs">
@@ -143,45 +178,28 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 								{unit.grad && <span className="text-[var(--st-review)]">graduate extension</span>}
 								{lp?.bestCheck !== null && lp?.bestCheck !== undefined && <span className="text-muted-foreground">best check {pct(lp.bestCheck)}</span>}
 								{lp && lp.minutesStudied > 0 && <span className="text-muted-foreground">{Math.round(lp.minutesStudied)} min studied</span>}
+								{fast !== null && (
+									<div className="ml-auto">
+										<FastTrackSwitch fast={fast} onChange={setOverride} />
+									</div>
+								)}
 							</div>
-							<h1 className="font-title mt-2 text-4xl leading-tight tracking-tight">{lesson.title}</h1>
+							<h1 className="font-title mt-2 text-4xl leading-tight tracking-tight max-sm:text-3xl">{lesson.title}</h1>
 						</header>
 
-						<LecturePlayer lessonId={lesson.id} count={lesson.lectures.length} />
+						{fast === null ? (
+							<div className="aspect-video animate-pulse rounded-xl bg-card" />
+						) : fast ? (
+							<FastTrackBody lesson={lesson} missed={missed} cards={cards} />
+						) : (
+							<>
+								<LecturePlayer lessonId={lesson.id} count={lesson.lectures.length} />
 
-						<LessonNotes lessonId={lesson.id} />
+								<LessonNotes lessonId={lesson.id} />
 
-						<section className="grid gap-3 md:grid-cols-2">
-							<ActionCard
-								icon={GraduationCapIcon}
-								title="Learn with your tutor"
-								body="A guided session built from this lesson's objectives and your readings. It checks what you already know, then teaches one step at a time."
-								action={starting === "teach" ? "Starting…" : "Start lesson session"}
-								onClick={() => void startSession("teach")}
-								primary
-							/>
-							<ActionCard
-								icon={ClipboardCheckIcon}
-								title="Quick check"
-								body="Five questions on the objectives. Score 80% or higher to master the lesson and schedule its spaced review."
-								action="Take quick check"
-								href={`/program/check/${lesson.id}`}
-							/>
-							<ActionCard
-								icon={DumbbellIcon}
-								title="Practice problems"
-								body="Bite-sized problems with hints that adapt to your reasoning, drawn from the textbook's exercises where possible."
-								action={starting === "practice" ? "Starting…" : "Start practice"}
-								onClick={() => void startSession("practice")}
-							/>
-							<ActionCard
-								icon={HeadphonesIcon}
-								title="Audio guide"
-								body="A spoken walkthrough of this lesson for a walk or a commute, generated locally with Kokoro."
-								action="Open audio"
-								href={`/program/audio?lesson=${lesson.id}`}
-							/>
-						</section>
+								{cards}
+							</>
+						)}
 
 						{detail.readings.length > 0 && (
 							<section className="rounded-xl border border-border bg-card p-4">
@@ -254,16 +272,7 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 							</ul>
 						</div>
 
-						{lesson.keyEquations.length > 0 && (
-							<div className="rounded-xl border border-border bg-card p-4">
-								<h2 className="mb-2 text-xs uppercase tracking-wider text-muted-foreground">Key equations</h2>
-								<div className="space-y-3 overflow-x-auto">
-									{lesson.keyEquations.map((eq, i) => (
-										<Equation key={i} tex={eq} />
-									))}
-								</div>
-							</div>
-						)}
+						{lesson.keyEquations.length > 0 && <KeyEquations equations={lesson.keyEquations} />}
 
 						{lesson.practice.length > 0 && (
 							<div className="rounded-xl border border-border bg-card p-4">
@@ -303,117 +312,66 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 	);
 }
 
-function LecturePlayer({ lessonId, count }: { lessonId: string; count: number }) {
-	const [lectures, setLectures] = useState<ResolvedLecture[] | null>(null);
-	const [active, setActive] = useState(0);
-	useEffect(() => {
-		if (count === 0) return;
-		let live = true;
-		fetch(`/api/program/lectures?lessonId=${encodeURIComponent(lessonId)}`)
-			.then((r) => r.json())
-			.then((b: { lectures?: ResolvedLecture[] }) => live && setLectures(b.lectures ?? []))
-			.catch(() => live && setLectures([]));
-		return () => {
-			live = false;
-		};
-	}, [lessonId, count]);
-
-	if (count === 0)
-		return (
-			<div className="rounded-xl border border-dashed border-border p-6 text-sm text-muted-foreground">
-				No curated lecture for this lesson yet. Your tutor session and the readings carry it.
-			</div>
-		);
-	if (!lectures) return <div className="aspect-video animate-pulse rounded-xl bg-card" />;
-	const lec = lectures[active];
-	if (!lec) return null;
-	const src = lec.embedUrl;
+/**
+ * The fast-track lesson: what the diagnostic caught, the key equations, the
+ * notes' summary, then straight to the quick check — the lecture and full
+ * notes stay one tap away, the tutor/practice cards below.
+ */
+function FastTrackBody({ lesson, missed, cards }: { lesson: Lesson; missed: { prompt: string; explanation: string }[]; cards: React.ReactNode }) {
+	const notes = useLessonNotesView(lesson.id);
+	const summary = useNotesSummary(notes);
 	return (
-		<section className="space-y-2">
-			{lec.videoUrl ? (
-				<video key={lec.videoUrl} src={lec.start || lec.end ? `${lec.videoUrl}#t=${lec.start ?? 0}${lec.end ? `,${lec.end}` : ""}` : lec.videoUrl} controls playsInline preload="metadata" className="aspect-video w-full rounded-xl border border-border bg-black" />
-			) : src ? (
-				<div className="aspect-video overflow-hidden rounded-xl border border-border bg-black">
-					<iframe
-						key={src}
-						src={src}
-						title={lec.title}
-						className="size-full"
-						// Fullscreen + picture-in-picture are delegated to the embed
-						// (iPad: the player's own fullscreen / PiP buttons).
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; web-share"
-						allowFullScreen
-						referrerPolicy="strict-origin-when-cross-origin"
-					/>
+		<>
+			{missed.length > 0 && <MissedCard missed={missed} />}
+
+			{lesson.keyEquations.length > 0 && <KeyEquations equations={lesson.keyEquations} />}
+
+			{summary ? <NotesSummary markdown={summary} /> : notes && <LessonNotes lessonId={lesson.id} />}
+
+			<section className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4 sm:flex-row sm:items-center" data-testid="fast-track-check">
+				<div className="min-w-0 flex-1">
+					<div className="flex items-center gap-2 font-semibold">
+						<ClipboardCheckIcon className="size-4" /> Quick check
+					</div>
+					<p className="mt-1 text-sm text-muted-foreground">Five questions on the objectives. Score 80% or higher to master the lesson and schedule its spaced review.</p>
 				</div>
-			) : (
-				<a href={lec.url} target="_blank" rel="noreferrer" className="flex aspect-[21/6] items-center justify-center gap-2 rounded-xl border border-border bg-card text-sm hover:bg-accent">
-					<MonitorPlayIcon className="size-5" /> Open “{lec.title}” ({lec.source}) <ExternalLinkIcon className="size-3.5" />
-				</a>
+				<Link
+					href={`/program/check/${lesson.id}`}
+					className="inline-flex shrink-0 items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 pointer-coarse:min-h-11"
+				>
+					Take quick check
+				</Link>
+			</section>
+
+			{lesson.lectures.length > 0 && (
+				<Expander icon={MonitorPlayIcon} title="Lecture" hint={lesson.lectures.length > 1 ? `${lesson.lectures.length} lectures` : undefined} testId="fast-track-lecture">
+					<LecturePlayer lessonId={lesson.id} count={lesson.lectures.length} />
+				</Expander>
 			)}
-			<div className="flex flex-wrap gap-2">
-				{lectures.map((l, i) =>
-					l.optional ? null : (
-						<button
-							key={i}
-							type="button"
-							onClick={() => setActive(i)}
-							className={cn(
-								"flex max-w-full items-center gap-1.5 rounded-lg border px-2.5 py-1 text-left text-xs pointer-coarse:min-h-11",
-								i === active ? "border-foreground bg-accent" : "border-border text-muted-foreground hover:text-foreground",
-							)}
-						>
-							<MonitorPlayIcon className="size-3 shrink-0" />
-							<span className="truncate">
-								{l.source} — {l.title}
-							</span>
-							<LectureLength lecture={l} />
-						</button>
-					),
-				)}
-				<a href={lec.url} target="_blank" rel="noreferrer" className="ml-auto flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground pointer-coarse:min-h-11">
-					source page <ExternalLinkIcon className="size-3" />
-				</a>
-			</div>
-			{lectures.some((l) => l.optional) && (
-				<div className="flex flex-wrap items-center gap-2 pt-1">
-					<span className="text-[11px] uppercase tracking-wider text-muted-foreground">More lectures (optional)</span>
-					{lectures.map((l, i) =>
-						l.optional ? (
-							<button
-								key={i}
-								type="button"
-								onClick={() => setActive(i)}
-								className={cn(
-									"flex max-w-full items-center gap-1.5 rounded-lg border border-dashed px-2.5 py-1 text-left text-xs pointer-coarse:min-h-11",
-									i === active ? "border-foreground bg-accent" : "border-border text-muted-foreground hover:text-foreground",
-								)}
-							>
-								<span className="truncate">
-									{l.source} — {l.title}
-								</span>
-								<LectureLength lecture={l} />
-							</button>
-						) : null,
-					)}
-				</div>
+
+			{summary && notes?.status === "ready" && (
+				<Expander icon={FileTextIcon} title="Full notes" testId="fast-track-full-notes">
+					<div className="lh-prose rounded-xl border border-border bg-card px-4 py-3">
+						<MessageResponse>{notes.notes.markdown}</MessageResponse>
+					</div>
+				</Expander>
 			)}
-		</section>
+
+			{cards}
+		</>
 	);
 }
 
-const clock = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
-
-/** "12 min · 14:30–26:10" for a clipped lecture, "9 min" for a whole one. */
-function LectureLength({ lecture }: { lecture: ResolvedLecture }) {
-	const clip = lecture.start !== undefined || lecture.end !== undefined;
-	const minutes = lecture.minutes ?? (lecture.end !== undefined ? Math.round((lecture.end - (lecture.start ?? 0)) / 60) : undefined);
-	if (minutes === undefined && !clip) return null;
+function KeyEquations({ equations }: { equations: string[] }) {
 	return (
-		<span className="shrink-0 text-muted-foreground/80">
-			{minutes !== undefined ? `${Math.round(minutes)} min` : ""}
-			{clip ? `${minutes !== undefined ? " · " : ""}${clock(lecture.start ?? 0)}–${lecture.end !== undefined ? clock(lecture.end) : "end"}` : ""}
-		</span>
+		<div className="rounded-xl border border-border bg-card p-4">
+			<h2 className="mb-2 text-xs uppercase tracking-wider text-muted-foreground">Key equations</h2>
+			<div className="space-y-3 overflow-x-auto">
+				{equations.map((eq, i) => (
+					<Equation key={i} tex={eq} />
+				))}
+			</div>
+		</div>
 	);
 }
 

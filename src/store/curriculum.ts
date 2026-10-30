@@ -142,9 +142,15 @@ function readSettings(): CurriculumSettings {
 			hoursPerWeek: typeof raw.hoursPerWeek === "number" && raw.hoursPerWeek > 0 ? raw.hoursPerWeek : null,
 			parallelCourses: typeof raw.parallelCourses === "number" && raw.parallelCourses >= 1 ? Math.min(6, Math.round(raw.parallelCourses)) : null,
 			startDate: typeof raw.startDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(raw.startDate) ? raw.startDate : null,
+			reviewMode: Array.isArray(raw.reviewMode) ? raw.reviewMode.filter((x): x is string => typeof x === "string") : [],
+			unitWeeks: Object.fromEntries(
+				Object.entries(raw.unitWeeks && typeof raw.unitWeeks === "object" ? raw.unitWeeks : {}).filter(
+					(e): e is [string, number] => typeof e[1] === "number" && e[1] >= 0.25 && e[1] <= 12,
+				),
+			),
 		};
 	} catch {
-		return { hoursPerWeek: null, startDate: null, parallelCourses: null };
+		return { hoursPerWeek: null, startDate: null, parallelCourses: null, reviewMode: [], unitWeeks: {} };
 	}
 }
 

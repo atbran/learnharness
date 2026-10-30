@@ -153,10 +153,16 @@ export const progressEventSchema = z.discriminatedUnion("type", [
 	z.object({ type: z.literal("session_linked"), at, lessonId: id(), chatId: z.string(), mode: z.enum(["teach", "practice"]) }),
 	/** The learner finished the teaching session for a lesson. */
 	z.object({ type: z.literal("lesson_completed"), at, lessonId: id() }),
-	z.object({ type: z.literal("quick_check"), at, lessonId: id(), score: z.number().min(0).max(1) }),
-	z.object({ type: z.literal("assessment_graded"), at, assessmentId: z.string(), kind: z.enum(["pset", "midterm", "final", "placement"]), courseId: id(), unitIds: z.array(id()), score: z.number().min(0).max(1) }),
+	/** `missed`: indexes of the questions answered wrong (they come back in review). */
+	z.object({ type: z.literal("quick_check"), at, lessonId: id(), score: z.number().min(0).max(1), missed: z.array(z.number().int().min(0)).optional() }),
+	z.object({ type: z.literal("assessment_graded"), at, assessmentId: z.string(), kind: z.enum(["pset", "midterm", "final", "placement", "worksheet"]), courseId: id(), unitIds: z.array(id()), score: z.number().min(0).max(1) }),
 	/** Lessons tested out by placement (counted as mastered). */
 	z.object({ type: z.literal("placement"), at, lessonIds: z.array(id()) }),
+	/** A retake of a lesson's missed quiz questions: the ones still missed. */
+	z.object({ type: z.literal("missed_retake"), at, lessonId: id(), missed: z.array(z.number().int().min(0)) }),
+	/** A unit diagnostic's outcome for a lesson it didn't test out: `missed`
+	 *  non-empty (1 of 2 right) sends the lesson fast-track; empty is a full miss. */
+	z.object({ type: z.literal("diagnostic"), at, unitId: id(), lessonId: id(), missed: z.array(z.object({ prompt: z.string(), explanation: z.string() })) }),
 	z.object({ type: z.literal("study_time"), at, minutes: z.number().positive().max(240), lessonId: id().optional(), source: z.enum(["heartbeat", "manual"]) }),
 	z.object({ type: z.literal("review_done"), at, lessonId: id(), quality: z.number().int().min(0).max(5) }),
 ]);
@@ -189,7 +195,7 @@ export interface CheckResult {
 	perQuestion: { correct: boolean; credit: number; feedback: string }[];
 }
 
-export type AssessmentKind = "pset" | "midterm" | "final" | "placement";
+export type AssessmentKind = "pset" | "midterm" | "final" | "placement" | "worksheet";
 
 export interface AssessmentProblem {
 	id: string;
@@ -230,6 +236,8 @@ export interface Assessment {
 	unitIds: string[];
 	/** The exam definition id (spine), absent for unit problem sets. */
 	examId?: string;
+	/** Practice sheet: the lessons it draws from (a subset of its units). */
+	lessonIds?: string[];
 	title: string;
 	/** Time limit in minutes (exams/placement); null = untimed. */
 	minutes: number | null;

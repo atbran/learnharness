@@ -235,6 +235,10 @@ export interface CurriculumSettings {
 	parallelCourses: number | null;
 	/** Program start (yyyy-mm-dd); null = the first ledger event. */
 	startDate: string | null;
+	/** Course or unit ids studied in review mode (lessons open fast-track). */
+	reviewMode: string[];
+	/** Target weeks per unit (unitId → weeks); drives pace + the schedule. */
+	unitWeeks: Record<string, number>;
 }
 
 /**
@@ -264,7 +268,7 @@ export interface CurriculumStore {
 	artifactPath(kind: "audio" | "uploads", file: string): string;
 }
 
-export type CacheKind = "quizzes" | "assessments" | "audio" | "demos" | "lectures" | "notes";
+export type CacheKind = "quizzes" | "assessments" | "audio" | "demos" | "lectures" | "notes" | "diagnostics";
 
 // ─── BookshelfStore — ingested textbooks (data/books/<bookId>/) ─────────────
 

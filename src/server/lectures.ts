@@ -6,6 +6,10 @@
  */
 
 import { createHash } from "node:crypto";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { PATHS } from "../../config.ts";
+import { clipTranscript, parseTranscript, type TranscriptLine } from "../core/transcripts.ts";
 import type { Lecture } from "../core/contracts/curriculum.ts";
 import { stores } from "./stores.ts";
 
@@ -24,7 +28,8 @@ function embedFor(lecture: Lecture, youtubeId: string | null, playlistId: string
 	const params = new URLSearchParams({ rel: "0", modestbranding: "1" });
 	if (lecture.start) params.set("start", String(lecture.start));
 	if (lecture.end) params.set("end", String(lecture.end));
-	if (youtubeId) return `https://www.youtube-nocookie.com/embed/${youtubeId}?${params}`;
+	// enablejsapi: the lesson page drives speed and seeking by postMessage.
+	if (youtubeId) return `https://www.youtube-nocookie.com/embed/${youtubeId}?${params}&enablejsapi=1`;
 	if (playlistId) return `https://www.youtube-nocookie.com/embed/videoseries?list=${playlistId}`;
 	// Panopto: Viewer.aspx?id=… has an Embed.aspx twin built for iframes.
 	const panopto = /^(https:\/\/[^/]+\.panopto\.com\/Panopto\/Pages\/)Viewer\.aspx\?(?:[^#]*&)?id=([0-9a-f-]{36})/i.exec(lecture.url);
@@ -86,4 +91,18 @@ export async function resolveLecture(lecture: Lecture): Promise<ResolvedLecture>
 	}
 	const youtubeId = await pending;
 	return { ...lecture, youtubeId, playlistId, embedUrl: embedFor(lecture, youtubeId, playlistId) };
+}
+
+/** A lecture's transcript, trimmed to its clip, when one was fetched
+ *  (data/curriculum/lectures/transcripts/<youtubeId>.txt). */
+export async function lectureTranscript(lecture: Lecture): Promise<TranscriptLine[] | null> {
+	const { youtubeId } = await resolveLecture(lecture);
+	if (!youtubeId) return null;
+	try {
+		const raw = fs.readFileSync(path.join(/*turbopackIgnore: true*/ PATHS.curriculum, "lectures", "transcripts", `${youtubeId}.txt`), "utf-8");
+		const lines = clipTranscript(parseTranscript(raw), lecture.start, lecture.end);
+		return lines.length ? lines : null;
+	} catch {
+		return null;
+	}
 }

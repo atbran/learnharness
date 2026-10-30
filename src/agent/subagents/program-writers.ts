@@ -126,6 +126,85 @@ export async function writeQuickCheck(lesson: Lesson, context: string, track: st
 	return out.questions;
 }
 
+// ─── Unit diagnostics (test out) ────────────────────────────────────────────
+
+const diagnosticSchema = Type.Object({
+	questions: Type.Array(
+		Type.Union([
+			Type.Object({
+				lessonId: Type.String(),
+				kind: Type.Literal("mc"),
+				prompt: Type.String(),
+				options: Type.Array(Type.String(), { minItems: 3, maxItems: 5 }),
+				answer: Type.Integer({ minimum: 0, description: "0-based index of the correct option" }),
+				explanation: Type.String(),
+				equations: equationsField,
+			}),
+			Type.Object({
+				lessonId: Type.String(),
+				kind: Type.Literal("numeric"),
+				prompt: Type.String({ description: "Must state units/precision expected; answer is a single number." }),
+				answer: Type.Number(),
+				tolerance: Type.Number({ minimum: 0.001, maximum: 0.2, description: "Relative tolerance, e.g. 0.02" }),
+				unit: Type.Optional(Type.String()),
+				explanation: Type.String(),
+				equations: equationsField,
+			}),
+		]),
+	),
+});
+
+export type DiagnosticQuestion = Extract<CheckQuestion, { kind: "mc" | "numeric" }> & { lessonId: string };
+
+/** A unit's test-out diagnostic: exactly two auto-graded questions per
+ *  lesson, distinct from the lesson's own quick check (its prompts are
+ *  passed in to avoid). */
+export async function writeUnitDiagnostic(
+	unit: { id: string; title: string; summary: string },
+	lessons: { lesson: Lesson; avoid: string[] }[],
+	context: string,
+	track: string,
+	deps: WriterDeps,
+): Promise<DiagnosticQuestion[]> {
+	const ids = new Set(lessons.map((l) => l.lesson.id));
+	const out = await runSubmitAgent<{ questions: DiagnosticQuestion[] }>({
+		role: "checkWriter",
+		toolName: "submit_diagnostic",
+		toolDescription: "Submit the diagnostic: exactly 2 questions per lesson.",
+		parameters: diagnosticSchema,
+		fill: (x) => x,
+		systemPrompt:
+			`You write a TEST-OUT DIAGNOSTIC for one unit of a physics/math self-study program. ${LEARNER} The learner has seen this material before (rusty) and wants to skip what they still command.
+
+` +
+			`${calculationShare(track)}
+
+` +
+			"Write exactly 2 questions per lesson, tagged with its lessonId, together covering the lesson's objectives: one quick conceptual multiple-choice (distractors built from real misconceptions) and one that applies the core technique (numeric with a single-number answer and units stated in the prompt, or a multiple-choice on the result). " +
+			"Someone who truly commands the lesson gets both right in under 2 minutes; someone who doesn't, misses at least one. No trick questions, no trivia. " +
+			"Do NOT reuse or lightly rephrase the lesson's quick-check questions listed under 'avoid'. Each explanation teaches the key idea in 1–2 sentences. " +
+			"For each question, list in `equations` the equation(s) it needs, omitting any that give the answer away. Double-check every answer before submitting.",
+		prompt:
+			`${context}\nUnit ${unit.id}: ${unit.title} — ${unit.summary}\n\n` +
+			lessons.map(({ lesson, avoid }) => `${lessonBlock(lesson)}\n  avoid: ${avoid.join(" | ") || "(none)"}`).join("\n\n") +
+			"\n\nWrite the diagnostic and call submit_diagnostic.",
+		engine: deps.engine,
+		signal: deps.signal,
+		onStep: step(deps),
+		neverSubmitted: "the diagnostic writer never submitted",
+		validate: (v) => {
+			const bad = v.questions.find((q) => !ids.has(q.lessonId));
+			if (bad) return `unknown lessonId ${bad.lessonId}; use ids from the brief`;
+			const short = [...ids].find((id) => v.questions.filter((q) => q.lessonId === id).length !== 2);
+			if (short) return `lesson ${short} needs exactly 2 questions`;
+			return v.questions.some((q) => q.kind === "mc" && (q.answer < 0 || q.answer >= q.options.length))
+				? "an mc answer index is out of range of its options"
+				: null;
+		},
+	});
+	return out.questions;
+}
+
 const shortGradeSchema = Type.Object({
 	grades: Type.Array(Type.Object({ credit: Type.Number({ minimum: 0, maximum: 1 }), feedback: Type.String() })),
 });
@@ -192,6 +271,7 @@ export async function writeAssessment(spec: AssessmentSpec, deps: WriterDeps): P
 		midterm: `a timed MIDTERM EXAM (${spec.minutes} min): problems a well-prepared student finishes in the time, covering the units evenly, mixing short conceptual items with 2–3 longer problems.`,
 		final: `a timed FINAL EXAM (${spec.minutes} min): comprehensive, emphasising synthesis across units; qualifier-flavoured where the course is graduate-level.`,
 		placement: `a PLACEMENT TEST (${spec.minutes} min): 1–2 diagnostic problems PER UNIT so the per-unit score shows whether the learner already commands that unit (and can skip it). Keep each problem short.`,
+		worksheet: `a printable PRACTICE SHEET (about ${spec.minutes ?? 15} min, done on paper at work with only a calculator): short, self-contained problems spread across the listed lessons, each finishable in 2–4 minutes; no textbook look-ups needed; worked solutions brief but complete (they print on an answer page).`,
 	};
 	const out = await runSubmitAgent<{ problems: Omit<AssessmentProblem, "id">[] }>({
 		role: "examWriter",

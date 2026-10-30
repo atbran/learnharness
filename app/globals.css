@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
+/* Phone in landscape (844×390): wide enough for sm/md layouts but too short
+   for anything sized to a tall viewport. */
+@custom-variant short (@media (max-height: 500px));
 
 /*
  * THE SKIN — wave 5. Design tokens, the single place to restyle the app.
@@ -265,6 +268,14 @@ body {
 @media (pointer: coarse) {
 	.lh-input {
 		font-size: max(16px, var(--lh-prose-size));
+	}
+	/* Every other field too (iPhone pass): the settings dialog, search
+	   boxes, selects and the composer's contenteditable use text-xs/sm.
+	   :where() keeps this at zero specificity so .lh-input's prose-size
+	   rule above still wins; unlayered, it beats the utility text sizes.
+	   .font-title (the chat rename field) is already large and keeps it. */
+	:where(:is(input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="color"], [type="button"], [type="submit"], [type="reset"], [type="image"]), textarea, select, [contenteditable]:not([contenteditable="false"])):not(.font-title)) {
+		font-size: max(16px, 1em);
 	}
 }
 
@@ -648,3 +659,34 @@ body {
 @media (prefers-reduced-motion: reduce) { .lh-glow { animation: none; } }
 
 .react-flow__attribution { display: none; }
+
+/* Printable practice sheets (components/program/worksheet-print.tsx): the
+   sheet is portalled to <body> as paper — dark text on white whatever the
+   theme — and printing drops everything else. */
+.lh-print-root {
+	color-scheme: light;
+	--background: #ffffff;
+	--foreground: #111111;
+	--card: #ffffff;
+	--muted-foreground: #555555;
+	--border: #cccccc;
+	/* Emphasis inks resolve at :root, so they are re-set for paper too. */
+	--lh-ink-strong: #111111;
+	--lh-ink-italic: #111111;
+	color: #111111;
+}
+@media print {
+	@page {
+		size: letter;
+		margin: 0.6in;
+	}
+	body > :not(.lh-print-root) {
+		display: none !important;
+	}
+	body:has(.lh-print-root) {
+		background: #ffffff;
+	}
+	.lh-print-root .lh-answers {
+		break-before: page;
+	}
+}

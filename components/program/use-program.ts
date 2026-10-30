@@ -39,6 +39,8 @@ export interface UnitView {
 export interface ProgramData {
 	program: ProgramView;
 	snapshot: ProgressSnapshot;
+	/** Learner settings that shape the UI: review mode and unit pace targets. */
+	settings: { reviewMode: string[]; unitWeeks: Record<string, number> };
 }
 
 /** Program + snapshot, refreshed whenever the server says the ledger or

@@ -1,6 +1,6 @@
 import { chainsForSelection, formatChainLine } from "@/src/core";
 import { newGraphContextMessage, newLessonContextMessage, type GraphContextPick } from "@/src/core";
-import { compactionInFlight, createChat, lessonBrief, recordProgress, isTurnRunning, listChats, readSettingsRecord, stores, titleFromPrompt } from "@/src/server";
+import { compactionInFlight, createChat, lessonBrief, recordProgress, unitDrillBrief, isTurnRunning, listChats, readSettingsRecord, stores, titleFromPrompt } from "@/src/server";
 import type { ChatListItem } from "@/src/core";
 
 /** The session picker's list: record-derived summaries (phase, pending
@@ -20,7 +20,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-	const body = (await req.json().catch(() => ({}))) as { title?: unknown; kind?: unknown; graphContext?: unknown; lessonId?: unknown };
+	const body = (await req.json().catch(() => ({}))) as { title?: unknown; kind?: unknown; graphContext?: unknown; lessonId?: unknown; unitId?: unknown };
 	const title = typeof body.title === "string" ? body.title : "";
 	// Practice sessions (owner, 2026-10-04): kind "practice" marks the
 	// record — the practice agent + its tools from turn 1, no extraction.
@@ -76,6 +76,10 @@ export async function POST(req: Request) {
 			stores.chatStore.saveMessages(chat.id, [newLessonContextMessage(brief.content, brief.details)]);
 			recordProgress({ type: "session_linked", at: new Date().toISOString(), lessonId: body.lessonId, chatId: chat.id, mode });
 		}
+	} else if (typeof body.unitId === "string" && kind === "practice") {
+		// A unit's mixed drill: message[0] is the drill brief.
+		const brief = unitDrillBrief(body.unitId);
+		if (brief) stores.chatStore.saveMessages(chat.id, [newLessonContextMessage(brief.content, brief.details)]);
 	}
 	return Response.json({ id: chat.id, title: chat.title });
 }

@@ -31,11 +31,27 @@ export interface LessonProgress {
 	sessions: { chatId: string; mode: "teach" | "practice"; at: string }[];
 	review: ReviewState | null;
 	minutesStudied: number;
+	/** A unit diagnostic got one of this lesson's two questions: what was missed. */
+	diagnostic: { at: string; missed: { prompt: string; explanation: string }[] } | null;
+	/** Quiz questions (indexes) answered wrong last time; they come back in review. */
+	missed: number[];
+	missedAt: string | null;
+}
+
+/** A unit's target window from its target weeks (unitWeeks). */
+export interface UnitPace {
+	targetStart: string;
+	targetEnd: string;
+	weeks: number;
+	lessonsLeft: number;
+	/** Lessons per day needed to finish by targetEnd (0 when done). */
+	perDayNeeded: number;
+	status: "upcoming" | "ahead" | "on-track" | "behind" | "done";
 }
 
 export interface AssessmentResult {
 	assessmentId: string;
-	kind: "pset" | "midterm" | "final" | "placement";
+	kind: "pset" | "midterm" | "final" | "placement" | "worksheet";
 	courseId: string;
 	unitIds: string[];
 	score: number;
@@ -72,7 +88,7 @@ export interface ProgressSnapshot {
 	now: string;
 	startDate: string;
 	lessons: Record<string, LessonProgress>;
-	units: Record<string, { psetBest: number | null; passed: boolean; mastered: number; total: number }>;
+	units: Record<string, { psetBest: number | null; passed: boolean; mastered: number; total: number; diagnosedAt: string | null; pace: UnitPace | null }>;
 	courses: Record<string, CourseProgress>;
 	assessments: AssessmentResult[];
 	subjects: { subject: string; mastery: number; hours: number }[];
@@ -98,6 +114,8 @@ export interface ProgressSnapshot {
 	parallel: number;
 	next: string[];
 	reviewsDue: string[];
+	/** Lessons with missed quiz questions from before today. */
+	missedDue: string[];
 	xp: number;
 	level: { level: number; xpIntoLevel: number; xpForLevel: number };
 	streak: { current: number; best: number };
@@ -111,6 +129,8 @@ export interface ProgressOptions {
 	parallelCourses?: number;
 	/** Explicit program start; defaults to the first ledger event or now. */
 	startDate?: string;
+	/** Target weeks per unit (unitId → weeks). */
+	unitWeeks?: Record<string, number>;
 }
 
 export function isoDate(d: Date | string): string {
@@ -154,6 +174,7 @@ export const XP = {
 	midterm: 300,
 	final: 500,
 	placement: 100,
+	worksheet: 100,
 	review: 15,
 	perStudyMinute: 0.5,
 } as const;
@@ -169,31 +190,42 @@ export function levelFor(xp: number): ProgressSnapshot["level"] {
 
 // ─── Schedule simulation ────────────────────────────────────────────────────
 
-/** Week-by-week simulation: each week, the (at most) two earliest courses
- *  in program order whose prerequisite courses are finished share the
- *  week's hours. Returns each course's window in weeks from week 0. */
+/** Week-by-week simulation: each week, the (at most `parallel`) earliest
+ *  courses in program order whose prerequisite courses are finished share
+ *  the week's hours. A course in `fixedWeeks` (its units all have target
+ *  weeks) instead runs for exactly that many weeks in its lane, drawing
+ *  nothing from the shared hours. Returns each course's window in weeks
+ *  from week 0. */
 export function simulateSchedule(
 	index: ProgramIndex,
 	remainingHours: Record<string, number>,
 	hoursPerWeek: number,
 	parallel = 3,
 	maxWeeks = 1500,
+	fixedWeeks: Record<string, number> = {},
 ): CourseWindow[] {
 	const order = index.program.courseList.map((c) => c.id);
 	const left = { ...remainingHours };
+	const fixedLeft = { ...fixedWeeks };
+	const isFixed = (id: string) => fixedWeeks[id] !== undefined;
 	const start: Record<string, number> = {};
 	const end: Record<string, number> = {};
-	for (const id of order) if ((left[id] ?? 0) <= 1e-9) end[id] = 0;
+	for (const id of order) if (isFixed(id) ? (fixedLeft[id] ?? 0) <= 1e-9 : (left[id] ?? 0) <= 1e-9) end[id] = 0;
 	for (let week = 0; week < maxWeeks && Object.keys(end).length < order.length; week++) {
 		const ready = order.filter(
 			(id) => end[id] === undefined && index.courses.get(id)!.prereqs.every((p) => !index.courses.has(p) || (end[p] !== undefined && end[p]! <= week)),
 		);
 		const active = ready.slice(0, parallel);
 		if (active.length === 0) break;
+		for (const id of active.filter(isFixed)) {
+			start[id] ??= week;
+			fixedLeft[id] = (fixedLeft[id] ?? 0) - 1;
+			if ((fixedLeft[id] ?? 0) <= 1e-9) end[id] = week + 1;
+		}
 		let budget = hoursPerWeek;
 		// Split evenly; hours a finishing course doesn't need flow to the other.
 		for (let pass = 0; pass < 2 && budget > 1e-9; pass++) {
-			const open = active.filter((id) => (left[id] ?? 0) > 1e-9);
+			const open = active.filter((id) => !isFixed(id) && (left[id] ?? 0) > 1e-9);
 			if (open.length === 0) break;
 			const share = budget / open.length;
 			for (const id of open) {
@@ -203,7 +235,7 @@ export function simulateSchedule(
 				budget -= used;
 			}
 		}
-		for (const id of active) if ((left[id] ?? 0) <= 1e-9 && end[id] === undefined) end[id] = week + 1;
+		for (const id of active) if (!isFixed(id) && (left[id] ?? 0) <= 1e-9 && end[id] === undefined) end[id] = week + 1;
 	}
 	return order.map((id) => ({ courseId: id, startWeek: start[id] ?? 0, endWeek: end[id] ?? maxWeeks }));
 }
@@ -219,7 +251,20 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 
 	const lessons: Record<string, LessonProgress> = {};
 	for (const id of index.lessonOrder)
-		lessons[id] = { status: "locked", bestCheck: null, started: false, completed: false, testedOut: false, masteredAt: null, sessions: [], review: null, minutesStudied: 0 };
+		lessons[id] = {
+			status: "locked",
+			bestCheck: null,
+			started: false,
+			completed: false,
+			testedOut: false,
+			masteredAt: null,
+			sessions: [],
+			review: null,
+			minutesStudied: 0,
+			diagnostic: null,
+			missed: [],
+			missedAt: null,
+		};
 
 	const L = (id: string): LessonProgress => lessons[id]!;
 	const assessments: AssessmentResult[] = [];
@@ -227,6 +272,7 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 	let xp = 0;
 	let reviewsDone = 0;
 	let perfectChecks = 0;
+	const diagnosedAt: Record<string, string> = {};
 
 	const markMastered = (id: string, at: string) => {
 		const l = L(id);
@@ -256,6 +302,10 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 				xp += XP.quickCheckPerPoint * ev.score * 5;
 				if (ev.score >= 0.999) perfectChecks++;
 				l.bestCheck = Math.max(l.bestCheck ?? 0, ev.score);
+				if (ev.missed) {
+					l.missed = ev.missed;
+					l.missedAt = ev.at;
+				}
 				if (ev.score >= MASTERY_CHECK && !l.masteredAt) {
 					markMastered(ev.lessonId, ev.at);
 					xp += XP.lessonMastered;
@@ -270,9 +320,26 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 					xp += XP.testedOutLesson;
 				}
 				break;
+			case "diagnostic": {
+				diagnosedAt[ev.unitId] = ev.at;
+				const l = L(ev.lessonId);
+				// An empty `missed` is a full miss: the unit is diagnosed, the lesson stays whole.
+				if (!l || l.masteredAt || ev.missed.length === 0) break;
+				l.started = true;
+				l.diagnostic = { at: ev.at, missed: ev.missed };
+				break;
+			}
+			case "missed_retake": {
+				const l = L(ev.lessonId);
+				if (!l) break;
+				l.missed = ev.missed;
+				l.missedAt = ev.at;
+				break;
+			}
 			case "assessment_graded":
 				assessments.push({ assessmentId: ev.assessmentId, kind: ev.kind, courseId: ev.courseId, unitIds: ev.unitIds, score: ev.score, at: ev.at });
-				xp += XP[ev.kind === "pset" ? "pset" : ev.kind] * ev.score;
+				if (ev.kind === "placement") for (const u of ev.unitIds) diagnosedAt[u] ??= ev.at;
+				xp += XP[ev.kind] * ev.score;
 				break;
 			case "study_time": {
 				const d = isoDate(ev.at);
@@ -306,7 +373,14 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 		const psets = assessments.filter((a) => a.kind === "pset" && a.unitIds.includes(unitId));
 		const psetBest = psets.length ? Math.max(...psets.map((a) => a.score)) : null;
 		const mastered = unit.lessons.filter((l) => L(l.id).masteredAt).length;
-		units[unitId] = { psetBest, passed: psetBest !== null && psetBest >= UNIT_PASS, mastered, total: unit.lessons.length };
+		units[unitId] = {
+			psetBest,
+			passed: psetBest !== null && psetBest >= UNIT_PASS,
+			mastered,
+			total: unit.lessons.length,
+			diagnosedAt: diagnosedAt[unitId] ?? null,
+			pace: null,
+		};
 	}
 
 	// Courses.
@@ -386,15 +460,63 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 	const plannedHours = index.program.courseList.reduce((s, c) => s + c.hours, 0);
 	const fullHours = Object.fromEntries(index.program.courseList.map((c) => [c.id, c.hours]));
 	const parallel = Math.max(1, Math.min(6, opts.parallelCourses ?? 3));
-	const plan = simulateSchedule(index, fullHours, index.program.hoursPerWeek, parallel);
+	// Unit targets: a course whose units all have target weeks runs a
+	// fixed-length lane (the unmastered share of each unit's weeks remains).
+	const unitWeeks = opts.unitWeeks ?? {};
+	const fixedFull: Record<string, number> = {};
+	const fixedLeft: Record<string, number> = {};
+	for (const course of index.program.courseList) {
+		if (!course.units.length || !course.units.every((u) => unitWeeks[u.id] !== undefined)) continue;
+		fixedFull[course.id] = course.units.reduce((s, u) => s + unitWeeks[u.id]!, 0);
+		fixedLeft[course.id] =
+			courses[course.id]!.status === "passed"
+				? 0
+				: course.units.reduce((s, u) => s + unitWeeks[u.id]! * (1 - units[u.id]!.mastered / (units[u.id]!.total || 1)), 0);
+	}
+	const plan = simulateSchedule(index, fullHours, index.program.hoursPerWeek, parallel, 1500, fixedFull);
 	// A pace needs history: in the first two weeks a few logged minutes
 	// would project decades, so the plan's pace stands in.
 	const settled = Date.parse(today) - Date.parse(startDate) >= 14 * DAY;
 	const projectionPace = settled && recentMinutes > 0 ? Math.max(1, recentHoursPerWeek) : hoursPerWeek;
 	const weeksSoFar = Math.max(0, Math.floor((Date.parse(today) - Date.parse(startDate)) / (7 * DAY)));
-	const projection = simulateSchedule(index, remainingHours, projectionPace, parallel).map((w) =>
-		remainingHours[w.courseId]! <= 1e-9 ? { ...w, startWeek: 0, endWeek: 0 } : { ...w, startWeek: w.startWeek + weeksSoFar, endWeek: w.endWeek + weeksSoFar },
+	const projection = simulateSchedule(index, remainingHours, projectionPace, parallel, 1500, fixedLeft).map((w) =>
+		(fixedLeft[w.courseId] ?? remainingHours[w.courseId]!) <= 1e-9
+			? { ...w, startWeek: 0, endWeek: 0 }
+			: { ...w, startWeek: w.startWeek + weeksSoFar, endWeek: w.endWeek + weeksSoFar },
 	);
+
+	// Unit pace: a course with any unit targets lays its units end to end
+	// from its first activity (or projected start); untargeted units get the
+	// weeks their minutes take at the course's share of the weekly hours.
+	for (const course of index.program.courseList) {
+		if (!course.units.some((u) => unitWeeks[u.id] !== undefined)) continue;
+		const first = courses[course.id]!.firstActivity;
+		const win = projection.find((w) => w.courseId === course.id);
+		let cursor = first ? isoDate(first) : addDays(startDate, (win?.startWeek ?? weeksSoFar) * 7);
+		const share = hoursPerWeek / parallel;
+		for (const u of course.units) {
+			const x = units[u.id]!;
+			const weeks = unitWeeks[u.id] ?? Math.max(0.25, u.lessons.reduce((s, l) => s + l.minutes, 0) / 60 / share);
+			const targetEnd = addDays(cursor, Math.max(1, Math.round(weeks * 7)));
+			const lessonsLeft = x.total - x.mastered;
+			const span = Date.parse(targetEnd) - Date.parse(cursor);
+			const elapsed = Math.min(1, Math.max(0, (Date.parse(today) - Date.parse(cursor)) / span));
+			const daysLeft = Math.max(1, (Date.parse(targetEnd) - Date.parse(today > cursor ? today : cursor)) / DAY);
+			const done = x.mastered / (x.total || 1);
+			const status: UnitPace["status"] =
+				lessonsLeft === 0
+					? "done"
+					: today < cursor && x.mastered === 0
+						? "upcoming"
+						: done >= elapsed + 0.1
+							? "ahead"
+							: done < elapsed - 0.1
+								? "behind"
+								: "on-track";
+			x.pace = { targetStart: cursor, targetEnd, weeks, lessonsLeft, perDayNeeded: lessonsLeft ? lessonsLeft / daysLeft : 0, status };
+			cursor = targetEnd;
+		}
+	}
 	const targetWeeks = Math.max(...plan.map((w) => w.endWeek), index.program.targetWeeks);
 	const projectedWeeks = Math.max(weeksSoFar, ...projection.map((w) => w.endWeek));
 	const targetFinish = addDays(startDate, targetWeeks * 7);
@@ -427,8 +549,23 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 	const inProgress = index.lessonOrder.filter((id) => L(id).status === "in-progress");
 	const activeCourses = new Set(projection.filter((w) => w.startWeek <= weeksSoFar && w.endWeek > weeksSoFar).map((w) => w.courseId));
 	const available = index.lessonOrder.filter((id) => L(id).status === "available");
-	const preferred = available.filter((id) => activeCourses.has(index.lessons.get(id)!.course.id));
-	const next = [...new Set([...inProgress, ...preferred, ...available])].slice(0, 6);
+	// Interleaved: one lesson per active course (its in-progress lessons
+	// first), then the next round — not the first course filling the list.
+	const courseOf = (id: string) => index.lessons.get(id)!.course.id;
+	const queues = index.program.courseList
+		.map((c) => c.id)
+		.filter((cid) => activeCourses.has(cid) || inProgress.some((id) => courseOf(id) === cid))
+		.map((cid) => [...inProgress, ...available].filter((id) => courseOf(id) === cid));
+	const rounds: string[] = [];
+	for (let i = 0; rounds.length < 6 && queues.some((q) => q.length > i); i++) for (const q of queues) {
+		const id = q[i];
+		if (id) rounds.push(id);
+	}
+	const next = [...new Set([...rounds, ...inProgress, ...available])].slice(0, 6);
+	const missedDue = index.lessonOrder.filter((id) => {
+		const l = L(id);
+		return l.missed.length > 0 && l.missedAt !== null && isoDate(l.missedAt) < today;
+	});
 
 	// Badges.
 	const masteredDates = index.lessonOrder.map((id) => L(id).masteredAt).filter((x): x is string => !!x).sort();
@@ -487,6 +624,7 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 		parallel,
 		next,
 		reviewsDue,
+		missedDue,
 		xp: Math.round(xp),
 		level: levelFor(xp),
 		streak: { current, best },

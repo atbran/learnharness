@@ -17,7 +17,8 @@ import { processImage } from "../agent/image-processing/index.ts";
 import { bookTools } from "../agent/tools/books.ts";
 import { gradeAssessment, gradeShortAnswers, writeAssessment, writeQuickCheck, type WriterDeps } from "../agent/subagents/program-writers.ts";
 import { bookToolContext } from "./bookshelf.ts";
-import { programIndex, recordProgress, resolveReadings } from "./curriculum.ts";
+import { pickWorksheetLessons } from "../core/practice.ts";
+import { programIndex, progressSnapshot, recordProgress, resolveReadings } from "./curriculum.ts";
 import { stores } from "./stores.ts";
 
 // ─── Background task registry (process-global) ──────────────────────────────
@@ -132,7 +133,11 @@ export function ensureQuickCheck(lessonId: string): void {
 
 /** Grade a submitted quick check; records the score in the ledger. With
  *  `review`, it is a spaced-review attempt (review_done) instead. */
-export async function submitQuickCheck(lessonId: string, responses: string[], opts: { review?: boolean; only?: number[] } = {}): Promise<CheckResult> {
+export async function submitQuickCheck(
+	lessonId: string,
+	responses: string[],
+	opts: { review?: boolean; only?: number[]; missedRetake?: boolean } = {},
+): Promise<CheckResult> {
 	const check = readQuickCheck(lessonId);
 	if (!check) throw new Error("no quick check for this lesson yet");
 	const indexes = opts.only ?? check.questions.map((_, i) => i);
@@ -159,14 +164,32 @@ export async function submitQuickCheck(lessonId: string, responses: string[], op
 	}
 	const score = perQuestion.reduce((s, q) => s + q.credit, 0) / Math.max(1, perQuestion.length);
 	const at = new Date().toISOString();
-	if (opts.review) recordProgress({ type: "review_done", at, lessonId, quality: Math.round(score * 5) });
-	else recordProgress({ type: "quick_check", at, lessonId, score });
+	const missed = indexes.filter((_, k) => !perQuestion[k]!.correct);
+	if (opts.missedRetake) recordProgress({ type: "missed_retake", at, lessonId, missed });
+	else if (opts.review) recordProgress({ type: "review_done", at, lessonId, quality: Math.round(score * 5) });
+	else recordProgress({ type: "quick_check", at, lessonId, score, missed });
 	return { lessonId, at, score, perQuestion };
 }
 
 // ─── Problem sets / exams / placement ───────────────────────────────────────
 
-const PROBLEMS: Record<AssessmentKind, number> = { pset: 6, midterm: 7, final: 9, placement: 0 };
+/** A practice sheet's lessons: recent and weak lessons across the active
+ *  courses (or one unit's), weighted by graded sheets' weak problems too. */
+function worksheetLessons(unitId?: string): string[] {
+	const weakFromSheets = new Set(
+		listAssessments()
+			.filter((x) => x.kind === "worksheet" && x.grade)
+			.slice(0, 5)
+			.flatMap((x) => x.problems.filter((p) => {
+				const g = x.grade!.perProblem.find((pp) => pp.problemId === p.id);
+				return g !== undefined && g.points < 0.7 * g.max;
+			}))
+			.flatMap((p) => p.lessonIds),
+	);
+	return pickWorksheetLessons(programIndex(), progressSnapshot(), { unitId, weak: weakFromSheets });
+}
+
+const PROBLEMS: Record<AssessmentKind, number> = { pset: 6, midterm: 7, final: 9, placement: 0, worksheet: 5 };
 
 export function listAssessments(): Assessment[] {
 	return stores.curriculumStore
@@ -186,7 +209,7 @@ function save(a: Assessment): void {
 
 /** Open (or reuse an unfinished) assessment for a unit problem set or a
  *  course exam. `fresh` forces a new variant. */
-export function openAssessment(target: { unitId?: string; examId?: string }, fresh = false): Assessment {
+export function openAssessment(target: { unitId?: string; examId?: string; worksheet?: { unitId?: string } }, fresh = false): Assessment {
 	const index = programIndex();
 	let a: Assessment;
 	if (target.unitId) {
@@ -224,9 +247,29 @@ export function openAssessment(target: { unitId?: string; examId?: string }, fre
 			problems: [],
 			answers: {},
 		};
-	} else throw new Error("unitId or examId required");
+	} else if (target.worksheet) {
+		const lessonIds = worksheetLessons(target.worksheet.unitId);
+		if (lessonIds.length === 0) throw new Error("nothing studied yet to practise — start a lesson first");
+		const refs = lessonIds.map((l) => index.lessons.get(l)!);
+		a = {
+			id: `worksheet-${randomUUID().slice(0, 8)}`,
+			kind: "worksheet",
+			courseId: refs[0]!.course.id,
+			unitIds: [...new Set(refs.map((r) => r.unit.id))],
+			lessonIds,
+			title: target.worksheet.unitId ? `Practice sheet · ${refs[0]!.unit.title}` : "Practice sheet",
+			// Untimed: the writer sizes it for about 15 minutes on paper.
+			minutes: null,
+			closedBook: false,
+			passMark: 0.7,
+			status: "generating",
+			createdAt: new Date().toISOString(),
+			problems: [],
+			answers: {},
+		};
+	} else throw new Error("unitId, examId or worksheet required");
 
-	if (!fresh) {
+	if (!fresh && a.kind !== "worksheet") {
 		const open = listAssessments().find(
 			(x) => x.status !== "graded" && x.status !== "error" && x.kind === a.kind && x.examId === a.examId && x.unitIds.join() === a.unitIds.join(),
 		);
@@ -242,7 +285,11 @@ function generate(id: string): void {
 		const a = getAssessment(id)!;
 		const index = programIndex();
 		const course = index.courses.get(a.courseId)!;
-		const units = a.unitIds.map((u) => index.units.get(u)!.unit);
+		// A practice sheet covers only its chosen lessons of each unit.
+		const units = a.unitIds.map((u) => {
+			const unit = index.units.get(u)!.unit;
+			return a.lessonIds ? { ...unit, lessons: unit.lessons.filter((l) => a.lessonIds!.includes(l.id)) } : unit;
+		});
 		try {
 			const problems = await writeAssessment(
 				{
@@ -253,7 +300,7 @@ function generate(id: string): void {
 					units: units.map((u) => ({ id: u.id, title: u.title, summary: u.summary, lessons: u.lessons })),
 					problemCount: a.kind === "placement" ? Math.min(14, units.length * 2) : PROBLEMS[a.kind],
 				},
-				writerDeps("examWriter", true),
+				writerDeps("examWriter", a.kind !== "worksheet"),
 			);
 			save({ ...getAssessment(id)!, status: "ready", problems: problems.map((p, i) => ({ ...p, id: `p${i + 1}` })) });
 		} catch (err) {

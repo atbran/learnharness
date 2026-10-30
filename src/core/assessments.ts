@@ -27,7 +27,8 @@ export function numericMatches(given: number, answer: number, tolerance: number)
 /** Grade one deterministic question; null for short answers (model-graded). */
 export function gradeDeterministic(q: CheckQuestion, response: string): { correct: boolean; feedback: string } | null {
 	if (q.kind === "mc") {
-		const chosen = Number(response);
+		// A blank answer is no answer (Number("") is 0, the first option).
+		const chosen = response.trim() === "" ? Number.NaN : Number(response);
 		const correct = chosen === q.answer;
 		return { correct, feedback: correct ? q.explanation : `Answer: ${q.options[q.answer] ?? "?"}. ${q.explanation}` };
 	}

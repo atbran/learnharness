@@ -26,6 +26,7 @@ export function progressSnapshot(now = new Date()): ProgressSnapshot {
 		hoursPerWeek: settings.hoursPerWeek ?? undefined,
 		parallelCourses: settings.parallelCourses ?? undefined,
 		startDate: settings.startDate ?? undefined,
+		unitWeeks: settings.unitWeeks,
 	});
 }
 
@@ -74,6 +75,55 @@ export function resolveReadings(lesson: Lesson): ResolvedReading[] {
 			optional: !!r.optional,
 		};
 	});
+}
+
+/** The brief for a unit's MIXED DRILL practice session: problems drawn
+ *  across every lesson of the unit, shuffled and unlabelled, so the learner
+ *  practises recognising which technique applies. */
+export function unitDrillBrief(unitId: string): { content: string; details: LessonContextData } | null {
+	const index = programIndex();
+	const ref = index.units.get(unitId);
+	if (!ref) return null;
+	const { unit, course } = ref;
+	const snapshot = progressSnapshot();
+	const weak = unit.lessons
+		.filter((l) => {
+			const s = snapshot.lessons[l.id];
+			return !!s && ((s.bestCheck !== null && s.bestCheck < 0.8) || s.missed.length > 0);
+		})
+		.map((l) => l.title);
+	const lines = [
+		`[Session context] — a MIXED DRILL across unit ${unit.id} of the learner's self-study physics program (an organic chemist working toward first-year-PhD physics).`,
+		"",
+		`Course: ${course.code} ${course.title}  ·  Unit: ${unit.title} — ${unit.summary}`,
+		"",
+		"The unit's lessons (objectives and key equations):",
+		...unit.lessons.flatMap((l) => [
+			`- ${l.title}`,
+			...l.objectives.map((o) => `    - ${o}`),
+			...(l.keyEquations.length ? [`    key equations: ${l.keyEquations.map((e) => `$${e}$`).join(" ; ")}`] : []),
+		]),
+	];
+	if (weak.length) lines.push("", `Weak spots (low quiz scores or missed questions) — weight problems toward these: ${weak.join("; ")}.`);
+	lines.push(
+		"",
+		"This is a MIXED DRILL practice session: give one problem at a time, drawn from across the whole unit in shuffled order. Never name the technique, the lesson, or the equation it needs — recognising which tool applies is the skill being practised. " +
+			"After each answer, say which technique it was and why that was the right choice (what in the problem signalled it), then give the next problem. Keep each problem short (2–5 minutes).",
+	);
+	const first = unit.lessons[0];
+	return {
+		content: lines.join("\n"),
+		details: {
+			lessonId: first?.id ?? unit.id,
+			courseCode: course.code,
+			courseTitle: course.title,
+			unitTitle: unit.title,
+			lessonTitle: `Mixed drill · ${unit.title}`,
+			mode: "practice",
+			objectives: unit.lessons.map((l) => l.title),
+			readings: [],
+		},
+	};
 }
 
 /** The model-facing brief + UI payload for a lesson-session marker. */

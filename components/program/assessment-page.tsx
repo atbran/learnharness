@@ -18,7 +18,7 @@ import { useStudyHeartbeat } from "./use-program";
 
 type View = Assessment & { task?: { status: string; error?: string } | null; sheet?: EquationGroup[] };
 
-const KIND_LABEL: Record<Assessment["kind"], string> = { pset: "Problem set", midterm: "Midterm", final: "Final exam", placement: "Placement test" };
+const KIND_LABEL: Record<Assessment["kind"], string> = { pset: "Problem set", midterm: "Midterm", final: "Final exam", placement: "Placement test", worksheet: "Practice sheet" };
 
 export function AssessmentPage({ initial, course }: { initial: View; course: { id: string; code: string; title: string } }) {
 	const [a, setA] = useState<View>(initial);
@@ -39,27 +39,29 @@ export function AssessmentPage({ initial, course }: { initial: View; course: { i
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
 				<div className="flex min-w-0 items-center gap-2 text-sm text-muted-foreground">
-					<Link href="/program" className="hover:text-foreground">
+					<Link href="/program" className="hover:text-foreground pointer-coarse:py-3">
 						Program
 					</Link>
-					<ChevronRightIcon className="size-3.5" />
-					<Link href={`/program/course/${course.id}`} className="hover:text-foreground">
+					<ChevronRightIcon className="size-3.5 shrink-0" />
+					<Link href={`/program/course/${course.id}`} className="shrink-0 hover:text-foreground pointer-coarse:py-3">
 						{course.code}
 					</Link>
-					<ChevronRightIcon className="size-3.5" />
-					<span className="truncate">{a.title}</span>
+					{/* Phone: the title is the page heading right below; the bar
+					    keeps room for the countdown. */}
+					<ChevronRightIcon className="size-3.5 shrink-0 max-sm:hidden" />
+					<span className="truncate max-sm:hidden">{a.title}</span>
 				</div>
 				{a.status === "in-progress" && a.minutes && a.startedAt && (
 					<Countdown startedAt={a.startedAt} minutes={a.minutes} onExpire={() => void act("submit")} />
 				)}
 			</TopBar>
 			<div className="min-h-0 flex-1 overflow-y-auto">
-				<div className="mx-auto max-w-4xl space-y-5 px-6 py-6">
+				<div className="mx-auto max-w-4xl space-y-5 px-6 py-6 max-sm:px-4">
 					<header>
 						<div className="text-xs uppercase tracking-wider text-muted-foreground">
 							{KIND_LABEL[a.kind]} · {course.title}
 						</div>
-						<h1 className="font-title mt-1 text-4xl tracking-tight">{a.title}</h1>
+						<h1 className="font-title mt-1 text-4xl tracking-tight max-sm:text-3xl">{a.title}</h1>
 						<div className="mt-2 flex flex-wrap gap-3 text-xs text-muted-foreground">
 							{a.minutes ? (
 								<span className="flex items-center gap-1">
@@ -202,10 +204,10 @@ function ProblemCard({ a, index, onChanged }: { a: View; index: number; onChange
 	}
 
 	return (
-		<section className={cn("rounded-xl border bg-card p-5", grade ? (grade.points >= grade.max * 0.7 ? "border-[var(--st-mastered)]/70" : "border-[var(--st-progress)]/70") : "border-border")}>
-			<div className="mb-2 flex items-center gap-3 text-xs uppercase tracking-wider text-muted-foreground">
-				<span>Problem {index + 1}</span>
-				<span>{p.points} pts</span>
+		<section className={cn("rounded-xl border bg-card p-5 max-sm:p-4", grade ? (grade.points >= grade.max * 0.7 ? "border-[var(--st-mastered)]/70" : "border-[var(--st-progress)]/70") : "border-border")}>
+			<div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs uppercase tracking-wider text-muted-foreground">
+				<span className="whitespace-nowrap">Problem {index + 1}</span>
+				<span className="whitespace-nowrap">{p.points} pts</span>
 				{p.source && <span className="normal-case tracking-normal">· {p.source}</span>}
 				{grade && (
 					<span className="ml-auto text-sm normal-case tracking-normal" style={{ color: grade.points >= grade.max * 0.7 ? "var(--st-mastered)" : "var(--st-progress)" }}>
@@ -272,7 +274,9 @@ function ProblemCard({ a, index, onChanged }: { a: View; index: number; onChange
 							onClick={() => setInking(true)}
 							className="flex h-24 items-center gap-1.5 rounded-lg border border-dashed border-border px-4 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
 						>
-							<PencilLineIcon className="size-4" /> Write with Pencil
+							<PencilLineIcon className="size-4" /> <span className="max-sm:hidden">Write with Pencil</span>
+							{/* No Pencil on a phone: the pad takes a finger. */}
+							<span className="sm:hidden">Write by hand</span>
 						</button>
 						{/* Typed math: the formula lands in the answer at the caret as
 						    $…$ (or a $$…$$ line) — still plain text the grader reads. */}
@@ -359,7 +363,7 @@ function Countdown({ startedAt, minutes, onExpire }: { startedAt: string; minute
 	const m = Math.floor(left / 60_000);
 	const s = Math.floor((left % 60_000) / 1000);
 	return (
-		<div className={cn("ml-auto flex items-center gap-1.5 rounded-lg px-3 py-1 font-mono text-sm", left < 5 * 60_000 ? "bg-[var(--st-progress)]/20 text-[var(--st-progress)]" : "bg-accent")}>
+		<div className={cn("ml-auto flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1 font-mono text-sm", left < 5 * 60_000 ? "bg-[var(--st-progress)]/20 text-[var(--st-progress)]" : "bg-accent")}>
 			<ClockIcon className="size-4" /> {String(m).padStart(2, "0")}:{String(s).padStart(2, "0")}
 		</div>
 	);

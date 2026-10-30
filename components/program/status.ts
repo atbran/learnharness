@@ -37,6 +37,11 @@ export function pct(x: number): string {
 	return `${Math.round(x * 100)}%`;
 }
 
+/** "Nov 14" — a day within the next months (unit targets). */
+export function fmtDay(iso: string): string {
+	return new Date(`${iso.slice(0, 10)}T12:00:00Z`).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+
 export function fmtDate(iso: string): string {
 	return new Date(`${iso.slice(0, 10)}T12:00:00Z`).toLocaleDateString(undefined, { month: "short", year: "numeric" });
 }
