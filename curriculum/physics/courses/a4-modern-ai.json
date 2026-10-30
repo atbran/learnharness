@@ -1,0 +1,2087 @@
+{
+	"id": "a4-modern-ai",
+	"code": "A4",
+	"title": "Modern AI: Transformers & LLMs",
+	"track": "ai",
+	"depth": "core",
+	"hours": 65,
+	"prereqs": [
+		"a3-deep-learning"
+	],
+	"coreqs": [],
+	"subject": "Modern AI",
+	"summary": "How large language models work, from the math up: tokens and embeddings, the transformer in detail, pretraining and scaling laws, fine-tuning and LoRA, reinforcement learning and RLHF/DPO, prompting, retrieval and agents, multimodal models, mechanistic interpretability, evaluation, and alignment and safety, current as of 2026. Lessons stay on mechanisms and math; code lives in the optional tiny-GPT project. Chemist's hooks throughout: softmax and attention as Boltzmann weightings with a temperature, cross-entropy and perplexity in bits as Gibbs entropy, the KL-regularized RLHF optimum as a partition-function reweighting, and LLMs for SMILES, spectra and lab agents.",
+	"books": [
+		{
+			"bookId": "prince-udl",
+			"role": "primary"
+		},
+		{
+			"bookId": "jurafsky-slp",
+			"role": "primary"
+		},
+		{
+			"bookId": "sutton-barto-rl",
+			"role": "secondary"
+		},
+		{
+			"bookId": "bishop-dl",
+			"role": "reference"
+		}
+	],
+	"units": [
+		{
+			"id": "a4-u01-tokens-information",
+			"title": "Text as Tokens, Probabilities and Bits",
+			"summary": "From raw text to token ids and vectors, and the information theory (entropy, cross-entropy, perplexity in bits) that scores every language model; the entropy -Σ p ln p here is the same Gibbs entropy the chemist met in statistical thermodynamics, and softmax is a Boltzmann distribution.",
+			"lessons": [
+				{
+					"id": "a4-l001-language-modeling-problem",
+					"title": "What a Language Model Is: Next-Token Probabilities",
+					"minutes": 35,
+					"objectives": [
+						"Write the chain-rule factorization of a sequence probability into next-token conditionals and explain why every GPT-style LLM is trained on exactly this factorization.",
+						"Compute the probability and log-probability of a short sentence from a table of conditional probabilities, and explain why log-probabilities are summed instead of multiplying raw probabilities (numerical underflow)."
+					],
+					"keyEquations": [
+						"P(w_{1:n})=\\prod_{t=1}^{n}P(w_t\\mid w_{<t})",
+						"\\log P(w_{1:n})=\\sum_{t=1}^{n}\\log P(w_t\\mid w_{<t})"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 3",
+							"title": "N-gram Language Models"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "Neural Networks: Zero to Hero (course page with all lectures)",
+							"url": "https://karpathy.ai/zero-to-hero.html",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Type a prompt and see a bar chart of next-token probabilities; click a token to append it and watch the running log-probability of the whole sequence."
+					]
+				},
+				{
+					"id": "a4-l002-ngrams-markov",
+					"title": "N-gram Models and the Markov Assumption",
+					"minutes": 35,
+					"objectives": [
+						"Estimate bigram probabilities from a small corpus by counting and normalizing, and apply add-one (Laplace) smoothing to give unseen pairs nonzero probability.",
+						"Explain how the Markov assumption truncates context and why sparse counts make long n-grams fail, which motivates neural language models."
+					],
+					"keyEquations": [
+						"P(w_t\\mid w_{t-1})=\\frac{C(w_{t-1}w_t)}{C(w_{t-1})}",
+						"P_{\\text{Laplace}}(w_t\\mid w_{t-1})=\\frac{C(w_{t-1}w_t)+1}{C(w_{t-1})+V}"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 3",
+							"title": "N-gram Language Models"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "The spelled-out intro to language modeling: building makemore (bigram model, negative log-likelihood)",
+							"url": "https://youtu.be/PaCmpygFfXo",
+							"minutes": 117,
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Paste a short corpus, see its bigram count matrix as a heatmap, then sample text from unigram, bigram and trigram models side by side."
+					]
+				},
+				{
+					"id": "a4-l003-entropy-cross-entropy",
+					"title": "Entropy, Cross-Entropy and Perplexity in Bits",
+					"minutes": 40,
+					"objectives": [
+						"Compute the entropy in bits of a discrete distribution and relate H = -Σ p log p to the Gibbs entropy S = -k_B Σ p_i ln p_i of statistical thermodynamics (same functional form, different units).",
+						"Compute the cross-entropy and KL divergence between a true distribution p and a model q, and show that minimizing the average cross-entropy loss on data is maximum-likelihood estimation.",
+						"Convert an average per-token cross-entropy into perplexity and interpret perplexity as an effective branching factor (number of equally likely choices)."
+					],
+					"keyEquations": [
+						"H(p)=-\\sum_x p(x)\\log_2 p(x)",
+						"H(p,q)=-\\sum_x p(x)\\log_2 q(x)=H(p)+D_{\\mathrm{KL}}(p\\,\\|\\,q)",
+						"\\mathrm{PPL}=2^{H(p,q)}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "5.7",
+							"title": "Cross-entropy loss"
+						},
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 3",
+							"title": "N-gram Language Models"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "2.5",
+							"title": "Information Theory",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Drag the bars of a model distribution q against a fixed true distribution p and watch H(p), H(p,q), the KL divergence and the perplexity update live."
+					]
+				},
+				{
+					"id": "a4-l004-tokenization-bpe",
+					"title": "Tokenization and Byte-Pair Encoding",
+					"minutes": 40,
+					"objectives": [
+						"Run byte-pair encoding by hand on a small corpus: count adjacent symbol pairs, merge the most frequent pair, and repeat for k merges, recording the merge table.",
+						"Explain the trade-offs of character, word and subword vocabularies (sequence length, out-of-vocabulary words, vocabulary size) and why byte-level BPE never meets an unknown character.",
+						"Predict tokenization artifacts (digits split irregularly, SMILES strings fragmenting across ring-closure digits and brackets, non-English text costing more tokens) and explain how they hurt arithmetic and chemistry tasks."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 2",
+							"title": "Words and Tokens"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "12.5",
+							"title": "Transformers for natural language processing"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.2.2",
+							"title": "Tokenization",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "Let's build the GPT Tokenizer",
+							"url": "https://youtu.be/zduSFxRajkE",
+							"minutes": 133,
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Step through BPE merges one at a time on a learner-supplied corpus, watching the vocabulary grow and the token count of a test sentence fall.",
+						"Paste a SMILES string (e.g. aspirin, CC(=O)Oc1ccccc1C(=O)O) and compare its tokens under character-level, BPE and atom-level tokenizers."
+					]
+				},
+				{
+					"id": "a4-l005-embeddings",
+					"title": "Token Embeddings and Vector Semantics",
+					"minutes": 35,
+					"objectives": [
+						"Explain an embedding matrix as a learned lookup table: multiplying a one-hot token vector by E selects one row.",
+						"Compute cosine similarity between word vectors and explain the distributional hypothesis (words in similar contexts get similar vectors) behind word2vec-style embeddings.",
+						"Interpret vector-offset analogies such as king - man + woman ≈ queen and state their limits (frequency effects, bias, polysemy)."
+					],
+					"keyEquations": [
+						"x_i=E^{\\top}e_i",
+						"\\cos\\theta=\\frac{u\\cdot v}{\\|u\\|\\,\\|v\\|}"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 5",
+							"title": "Embeddings"
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown",
+							"title": "Transformers, the tech behind LLMs (Deep Learning Chapter 5)",
+							"url": "https://www.3blue1brown.com/lessons/gpt",
+							"minutes": 27
+						}
+					],
+					"demoIdeas": [
+						"2D projection of word embeddings where the learner picks words, draws analogy arrows and runs a cosine-similarity nearest-neighbour search."
+					]
+				},
+				{
+					"id": "a4-l006-softmax-temperature",
+					"title": "Logits, Softmax and Temperature as a Boltzmann Distribution",
+					"minutes": 35,
+					"objectives": [
+						"Convert a vector of logits into probabilities with softmax and show that softmax is unchanged when the same constant is added to every logit.",
+						"Identify softmax with the Boltzmann distribution p_i ∝ exp(-E_i/k_BT), with logits playing the role of negative energies and T the temperature, and predict the distribution as T → 0 (ground state only) and T → ∞ (uniform).",
+						"Compute the entropy of a softmax output at several temperatures and relate the result to the population of energy levels."
+					],
+					"keyEquations": [
+						"p_i=\\frac{e^{z_i/T}}{\\sum_j e^{z_j/T}}",
+						"p_i=\\frac{e^{-E_i/k_BT}}{Z},\\quad Z=\\sum_j e^{-E_j/k_BT}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "5.5",
+							"title": "Example 3: multiclass classification"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Temperature slider over a fixed set of logits showing the probability bars and an entropy readout, beside an energy-level diagram whose populations follow the same Boltzmann weights."
+					]
+				},
+				{
+					"id": "a4-l007-neural-language-models",
+					"title": "Neural Language Models: From Counts to Learned Features",
+					"minutes": 35,
+					"objectives": [
+						"Describe a fixed-window feed-forward language model (embed the previous k tokens, concatenate, hidden layer, softmax over the vocabulary) and count its parameters.",
+						"Explain why shared embeddings let a neural model generalize to unseen n-grams that a count-based model assigns zero or smoothed probability."
+					],
+					"keyEquations": [
+						"p(w_t\\mid w_{t-k:t-1})=\\mathrm{softmax}\\big(U\\,\\sigma(W[x_{t-k};\\dots;x_{t-1}]+b)\\big)"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 6",
+							"title": "Neural Networks"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "Building makemore Part 2: MLP (a Bengio-style neural language model)",
+							"url": "https://youtu.be/TCH_1BHY58I",
+							"minutes": 75,
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Compare a bigram count model and a small embedding model on a sentence containing an unseen word pair, showing the probabilities each assigns."
+					]
+				}
+			]
+		},
+		{
+			"id": "a4-u02-transformer",
+			"title": "The Transformer in Detail",
+			"summary": "Self-attention as a soft, Boltzmann-weighted lookup, its scaled matrix form, multiple heads, positional encodings, the residual stream with LayerNorm and MLPs, causal masking, encoder and decoder variants, and the KV cache that makes generation fast.",
+			"lessons": [
+				{
+					"id": "a4-l008-attention-soft-lookup",
+					"title": "Attention as a Soft Dictionary Lookup",
+					"minutes": 40,
+					"objectives": [
+						"Compute an attention output by hand for a 3-token example: dot-product scores q·k, softmax weights, and the weighted sum of value vectors.",
+						"Explain queries, keys and values as learned linear maps of the same token vectors, and why attention lets every token gather information from any other in one step, unlike a recurrent network.",
+						"Interpret the attention weights over keys as a Boltzmann weighting with the dot product as a negative energy, so sharper scores mean a colder, more selective lookup."
+					],
+					"keyEquations": [
+						"a_{ij}=\\frac{\\exp(q_i\\cdot k_j)}{\\sum_{j'}\\exp(q_i\\cdot k_{j'})}",
+						"o_i=\\sum_j a_{ij}\\,v_j"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.2",
+							"title": "Dot-product self-attention"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.1",
+							"title": "Attention",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown",
+							"title": "Attention in transformers, step-by-step (Deep Learning Chapter 6)",
+							"url": "https://www.3blue1brown.com/lessons/attention",
+							"minutes": 26
+						}
+					],
+					"demoIdeas": [
+						"Attention-matrix explorer: type a sentence, pick a query token, and drag its query vector to see the softmax weights over keys and the resulting mixed value vector."
+					]
+				},
+				{
+					"id": "a4-l009-scaled-dot-product",
+					"title": "Scaled Dot-Product Attention in Matrix Form",
+					"minutes": 40,
+					"objectives": [
+						"Write self-attention in matrix form and track the shape of every matrix for sequence length n, model width d and key width d_k.",
+						"Show that the dot product of two random d_k-dimensional vectors with unit-variance entries has variance d_k, and explain why dividing by √d_k keeps the softmax out of its saturated, near-zero-temperature regime.",
+						"Count the FLOPs and memory of the attention score matrix and explain the O(n²) cost in sequence length."
+					],
+					"keyEquations": [
+						"\\mathrm{Attention}(Q,K,V)=\\mathrm{softmax}\\!\\left(\\frac{QK^{\\top}}{\\sqrt{d_k}}\\right)V",
+						"Q=XW_Q,\\quad K=XW_K,\\quad V=XW_V"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.3",
+							"title": "Extensions to dot-product self-attention"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.1.5",
+							"title": "Scaled self-attention",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS224N (Winter 2026)",
+							"title": "Lecture 5 slides: Transformers",
+							"url": "https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture05-transformers.pdf",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Slider for d_k showing the spread of raw dot products and how the softmax collapses to a one-hot without the 1/√d_k scale."
+					]
+				},
+				{
+					"id": "a4-l010-multi-head",
+					"title": "Multi-Head Attention",
+					"minutes": 35,
+					"objectives": [
+						"Explain how h heads of width d/h attend with their own projections and how their outputs are concatenated and mixed by W_O.",
+						"Compute the parameter count of a multi-head attention layer (about 4d² without biases) and show it matches a single head of full width.",
+						"Describe observed head specializations (previous-token heads, heads tracking syntax or coreference) and why several heads help."
+					],
+					"keyEquations": [
+						"\\mathrm{MultiHead}(X)=\\mathrm{Concat}(\\mathrm{head}_1,\\dots,\\mathrm{head}_h)\\,W_O",
+						"\\mathrm{head}_k=\\mathrm{Attention}(XW_Q^{(k)},XW_K^{(k)},XW_V^{(k)})"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.3",
+							"title": "Extensions to dot-product self-attention"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.1.6",
+							"title": "Multi-head attention",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Side-by-side attention heatmaps for several heads on the same sentence, with a toggle to highlight what each head attends to."
+					]
+				},
+				{
+					"id": "a4-l011-positional-encodings",
+					"title": "Positional Encodings: Sinusoidal, Learned and RoPE",
+					"minutes": 40,
+					"objectives": [
+						"Show that self-attention without positional information is permutation-equivariant, so word order is invisible to it.",
+						"Compute sinusoidal positional encodings for small positions and dimensions and contrast them with learned absolute position embeddings.",
+						"Explain rotary position embeddings (RoPE): rotating each 2D pair of query and key components by a position-dependent angle so that q·k depends only on the relative offset."
+					],
+					"keyEquations": [
+						"PE_{(p,2i)}=\\sin\\!\\left(p/10000^{2i/d}\\right),\\quad PE_{(p,2i+1)}=\\cos\\!\\left(p/10000^{2i/d}\\right)",
+						"(R_m q)^{\\top}(R_n k)=q^{\\top}R_{n-m}\\,k"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.3",
+							"title": "Extensions to dot-product self-attention"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.1.9",
+							"title": "Positional encoding",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Heatmap of sinusoidal encodings over position × dimension, plus a 2D view of RoPE rotating a query vector as its position changes while q·k for a fixed offset stays constant."
+					]
+				},
+				{
+					"id": "a4-l012-transformer-block",
+					"title": "The Transformer Block: Residual Stream, LayerNorm and MLP",
+					"minutes": 40,
+					"objectives": [
+						"Draw a pre-LayerNorm transformer block and write its two residual updates (attention, then MLP).",
+						"Explain the residual stream as a shared channel that every attention and MLP layer reads from and adds to, and why residual connections keep deep stacks trainable.",
+						"Compute LayerNorm of a small vector and state the role and size of the position-wise MLP (hidden width 4d, about two-thirds of a block's parameters)."
+					],
+					"keyEquations": [
+						"x\\leftarrow x+\\mathrm{Attn}(\\mathrm{LN}(x))",
+						"x\\leftarrow x+\\mathrm{MLP}(\\mathrm{LN}(x))",
+						"\\mathrm{LN}(x)=\\gamma\\odot\\frac{x-\\mu}{\\sqrt{\\sigma^2+\\epsilon}}+\\beta"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.4",
+							"title": "Transformer layers"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.1.7",
+							"title": "Transformer layers",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown",
+							"title": "How might LLMs store facts (Deep Learning Chapter 7)",
+							"url": "https://www.3blue1brown.com/lessons/mlp",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Animated block diagram: follow one token's vector through LayerNorm, attention and the MLP, seeing its norm and each residual addition."
+					]
+				},
+				{
+					"id": "a4-l013-causal-decoder",
+					"title": "Causal Masking and the Decoder-Only Transformer",
+					"minutes": 40,
+					"objectives": [
+						"Apply a causal mask to an attention score matrix and explain how it lets one forward pass train on all n next-token predictions in parallel.",
+						"Trace a full GPT-style forward pass from token ids through embeddings, L blocks and the unembedding matrix to next-token logits.",
+						"Estimate the parameter count of a GPT from its hyperparameters (about 12Ld² in the blocks plus Vd for the embedding)."
+					],
+					"keyEquations": [
+						"S_{ij}=-\\infty\\ \\text{for}\\ j>i",
+						"N_{\\text{params}}\\approx 12\\,L\\,d^2+V\\,d"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.7",
+							"title": "Decoder model example: GPT3"
+						},
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 7",
+							"title": "Transformers and Pretraining"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "Let's build GPT: from scratch, in code, spelled out.",
+							"url": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+							"minutes": 116,
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Toggle the causal mask on an attention heatmap and watch future positions grey out; a parameter-count calculator with sliders for layers, width and vocabulary size."
+					]
+				},
+				{
+					"id": "a4-l014-encoder-decoder",
+					"title": "Encoders, Decoders and Encoder–Decoders",
+					"minutes": 35,
+					"objectives": [
+						"Contrast BERT-style bidirectional encoders, GPT-style decoders and encoder–decoder models by their attention masks and training objectives.",
+						"Explain cross-attention: queries come from the decoder while keys and values come from the encoder output.",
+						"Choose and justify an architecture for a given task (classifying molecules as toxic, open-ended text generation, translating IUPAC names to SMILES)."
+					],
+					"keyEquations": [
+						"\\mathrm{CrossAttn}=\\mathrm{softmax}\\!\\left(\\frac{Q_{\\text{dec}}K_{\\text{enc}}^{\\top}}{\\sqrt{d_k}}\\right)V_{\\text{enc}}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.6",
+							"title": "Encoder model example: BERT"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "12.8",
+							"title": "Encoder-decoder model example: machine translation"
+						},
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 9",
+							"title": "Masked Language Models",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Three attention-mask patterns (bidirectional, causal, cross) shown as interactive matrices; click a cell to see which token can see which."
+					]
+				},
+				{
+					"id": "a4-l015-kv-cache",
+					"title": "Autoregressive Generation, the KV Cache and Efficient Attention",
+					"minutes": 35,
+					"objectives": [
+						"Explain how generation repeats the forward pass one token at a time and why caching past keys and values cuts each new step's attention cost from recomputing the whole prefix to O(n).",
+						"Compute the KV-cache memory of a model from its layers, KV heads, head dimension, context length and bytes per value.",
+						"Describe how grouped-query attention and FlashAttention-style tiling reduce memory and memory traffic without changing what attention computes."
+					],
+					"keyEquations": [
+						"\\text{KV bytes}=2\\,L\\,n_{\\text{kv}}\\,d_{\\text{head}}\\,n_{\\text{ctx}}\\,b"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.9",
+							"title": "Transformers for long sequences"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Step-by-step generation animation in which the key/value cache fills row by row, with a running memory counter and a GQA toggle."
+					]
+				}
+			]
+		},
+		{
+			"id": "a4-u03-pretraining-scaling",
+			"title": "Pretraining, Scaling Laws and Decoding",
+			"summary": "How base models are made: self-supervised objectives, web-scale data, training at scale, power-law scaling and compute-optimal budgets, mixture-of-experts, and the sampling rules (temperature, top-k, top-p) that turn a distribution into text.",
+			"lessons": [
+				{
+					"id": "a4-l016-pretraining-objectives",
+					"title": "Pretraining Objectives: Next-Token and Masked Prediction",
+					"minutes": 40,
+					"objectives": [
+						"Write the next-token cross-entropy loss over a corpus and explain teacher forcing (the model always conditions on the true prefix during training).",
+						"Contrast the causal-LM objective with BERT's masked-language-model objective (mask about 15% of tokens) and say which supports open-ended generation.",
+						"Explain self-supervision: why raw text supplies its own labels, so no human annotation is needed for pretraining."
+					],
+					"keyEquations": [
+						"\\mathcal{L}(\\theta)=-\\frac{1}{N}\\sum_{t=1}^{N}\\log p_\\theta(w_t\\mid w_{<t})"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 7",
+							"title": "Transformers and Pretraining"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "12.6",
+							"title": "Encoder model example: BERT",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS224N (Winter 2026)",
+							"title": "Lecture 7 slides: Pretraining (Scaling, Systems, Data)",
+							"url": "https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture07-pretraining.pdf",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"A sentence with toggles between causal and masked objectives, showing which positions contribute loss terms in each."
+					]
+				},
+				{
+					"id": "a4-l017-pretraining-data",
+					"title": "Pretraining Data: Web Corpora, Filtering and Deduplication",
+					"minutes": 35,
+					"objectives": [
+						"Describe the pipeline from a web crawl to a training mix: text extraction, language identification, quality filtering, deduplication, and mixture weights for web, code, books and science.",
+						"Explain why duplicated and benchmark-contaminated data inflate evaluation scores and encourage memorization.",
+						"Estimate the token count of a corpus from its word count (about 0.75 English words per token) and the number of epochs a training run makes over each source."
+					],
+					"keyEquations": [
+						"\\text{tokens}\\approx\\frac{\\text{words}}{0.75}"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 7",
+							"title": "Transformers and Pretraining"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Data-mixture builder: set the proportions of web text, code, papers and chemistry patents and see the token budget and number of epochs per source."
+					]
+				},
+				{
+					"id": "a4-l018-training-at-scale",
+					"title": "Training at Scale: AdamW, Schedules, Compute and Parallelism",
+					"minutes": 40,
+					"objectives": [
+						"State the AdamW update and explain why linear warmup followed by cosine decay is the standard transformer learning-rate schedule.",
+						"Estimate training compute with C ≈ 6ND FLOPs and convert it into GPU-days for a stated hardware throughput.",
+						"Explain data, tensor and pipeline parallelism and bf16 mixed precision in terms of what each one splits or shrinks."
+					],
+					"keyEquations": [
+						"C\\approx 6ND",
+						"m_t=\\beta_1 m_{t-1}+(1-\\beta_1)g_t,\\quad v_t=\\beta_2 v_{t-1}+(1-\\beta_2)g_t^2",
+						"\\theta_t=\\theta_{t-1}-\\eta\\left(\\frac{\\hat m_t}{\\sqrt{\\hat v_t}+\\epsilon}+\\lambda\\theta_{t-1}\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "Ch. 6",
+							"title": "Fitting models"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 7",
+							"title": "Gradient Descent",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Learning-rate schedule plotter (warmup length, peak, cosine decay) beside a toy loss curve that diverges when warmup is too short."
+					]
+				},
+				{
+					"id": "a4-l019-scaling-laws",
+					"title": "Scaling Laws: Loss as a Power Law",
+					"minutes": 40,
+					"objectives": [
+						"Read a log–log plot of loss against parameters, data or compute and extract the power-law exponent as the slope.",
+						"Explain the scaling-law form of Kaplan et al. (2020) and the Chinchilla fit with an irreducible-loss term E, and what each term means.",
+						"Predict the loss of a larger model from a fitted law and state where such extrapolation can fail (data exhaustion, changed data mix, architecture changes)."
+					],
+					"keyEquations": [
+						"L(N)=\\left(\\frac{N_c}{N}\\right)^{\\alpha_N}",
+						"L(N,D)=E+\\frac{A}{N^{\\alpha}}+\\frac{B}{D^{\\beta}}"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 7",
+							"title": "Transformers and Pretraining"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.3.5",
+							"title": "Large language models",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Fit a power law to synthetic loss-versus-compute points on log–log axes and extrapolate, choosing which points to include in the fit."
+					]
+				},
+				{
+					"id": "a4-l020-compute-optimal",
+					"title": "Compute-Optimal Training (Chinchilla) and Overtraining",
+					"minutes": 40,
+					"objectives": [
+						"Derive the compute-optimal split of a fixed budget C = 6ND between N and D by minimizing L(N,D) under that constraint with a Lagrange multiplier.",
+						"State the Chinchilla rule of thumb (about 20 training tokens per parameter) and explain why recent open models are deliberately trained far past it to make inference cheaper."
+					],
+					"keyEquations": [
+						"N_{\\text{opt}}\\propto C^{a},\\quad D_{\\text{opt}}\\propto C^{b},\\quad a\\approx b\\approx 0.5",
+						"D_{\\text{opt}}\\approx 20\\,N_{\\text{opt}}"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 7",
+							"title": "Transformers and Pretraining"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Iso-compute curves: slide the budget C, see loss versus N along the curve with the optimum marked, and toggle an inference-cost term that shifts the preferred point to smaller models."
+					]
+				},
+				{
+					"id": "a4-l021-emergence",
+					"title": "Emergent Abilities and What the Loss Does Not Tell You",
+					"minutes": 35,
+					"objectives": [
+						"Explain the claim of emergent abilities and the counter-argument that sharp jumps can be artifacts of discontinuous metrics such as exact-match accuracy.",
+						"Relate a smooth decrease in per-token loss to downstream task accuracy in a worked example (a k-token answer that must be entirely correct)."
+					],
+					"keyEquations": [
+						"P(\\text{answer correct})=p_{\\text{token}}^{\\,k}"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 7",
+							"title": "Transformers and Pretraining"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Toggle between exact-match and per-token log-likelihood metrics on the same simulated family of models and watch a 'sudden' jump become a smooth curve."
+					]
+				},
+				{
+					"id": "a4-l022-decoding",
+					"title": "Decoding: Greedy, Beam, Temperature, Top-k and Top-p",
+					"minutes": 40,
+					"objectives": [
+						"Apply greedy, temperature, top-k and nucleus (top-p) sampling to a given next-token distribution and list the candidate set each one keeps.",
+						"Explain why greedy and beam search produce repetitive text while pure sampling wanders, and how temperature trades diversity for fidelity (the Boltzmann temperature again).",
+						"Explain why temperature 0 is only approximately deterministic on real hardware (floating-point non-associativity, batching)."
+					],
+					"keyEquations": [
+						"V_p=\\min\\Big\\{V'\\subseteq V:\\ \\sum_{w\\in V'}P(w)\\ge p\\Big\\}",
+						"p_i\\propto e^{z_i/T}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.3.2",
+							"title": "Sampling strategies"
+						},
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 7",
+							"title": "Transformers and Pretraining"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Temperature and top-p sliders over a live next-token distribution, highlighting which tokens survive the cut, with sampled continuations that change as the sliders move."
+					]
+				},
+				{
+					"id": "a4-l023-mixture-of-experts",
+					"title": "Mixture-of-Experts and Sparse Models",
+					"minutes": 35,
+					"objectives": [
+						"Explain a mixture-of-experts layer: a router computes softmax gates and sends each token to its top-k expert MLPs.",
+						"Distinguish total from active parameters and compute both for a given MoE configuration (number of experts, k, expert size).",
+						"Explain why an auxiliary load-balancing loss is needed to keep the router from collapsing onto a few experts."
+					],
+					"keyEquations": [
+						"y=\\sum_{i\\in\\text{top-}k}g_i(x)\\,E_i(x),\\quad g=\\mathrm{softmax}(W_r x)"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 7",
+							"title": "Transformers and Pretraining"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Token-routing animation in which the learner changes k and the number of experts and watches the load per expert and the active-parameter count."
+					]
+				}
+			]
+		},
+		{
+			"id": "a4-u04-adaptation",
+			"title": "Fine-Tuning, Instruction Tuning and LoRA",
+			"summary": "Turning a base model into a useful one cheaply: full fine-tuning and its forgetting, supervised instruction tuning with chat templates, low-rank adaptation (the SVD from linear algebra at work), quantization, and distillation with synthetic data.",
+			"lessons": [
+				{
+					"id": "a4-l024-fine-tuning",
+					"title": "Fine-Tuning and Transfer Learning",
+					"minutes": 40,
+					"objectives": [
+						"Explain transfer learning: pretrained weights as the starting point for a downstream task, comparing full fine-tuning with a frozen backbone plus a new linear head.",
+						"Explain catastrophic forgetting and how a small learning rate, few epochs and mixing in general data limit it.",
+						"Decide whether fine-tuning or prompting suits a chemistry task (e.g. predicting reaction yields from a lab's own data) and justify the choice by data size and cost."
+					],
+					"keyEquations": [
+						"\\theta_0=\\theta_{\\text{pretrained}},\\quad \\theta\\leftarrow\\theta-\\eta\\nabla_\\theta\\mathcal{L}_{\\text{task}}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.6",
+							"title": "Encoder model example: BERT"
+						},
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 8",
+							"title": "Post-training"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS224N (Winter 2026)",
+							"title": "CS224N course page and lecture schedule",
+							"url": "https://web.stanford.edu/class/cs224n/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Two loss curves during fine-tuning (target task falling, original task rising) with a learning-rate slider showing the forgetting trade-off."
+					]
+				},
+				{
+					"id": "a4-l025-instruction-tuning",
+					"title": "Instruction Tuning and Chat Templates",
+					"minutes": 40,
+					"objectives": [
+						"Describe supervised fine-tuning on (instruction, response) pairs and explain why the loss is masked so that only response tokens count.",
+						"Explain chat templates and the special tokens that delimit system, user and assistant turns.",
+						"Explain why instruction tuning changes format and helpfulness much more than it adds knowledge."
+					],
+					"keyEquations": [
+						"\\mathcal{L}_{\\text{SFT}}=-\\sum_{t\\in\\text{response}}\\log p_\\theta(y_t\\mid x,y_{<t})"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 8",
+							"title": "Post-training"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS224N (Winter 2026)",
+							"title": "Lecture 8 slides: Post-training (RLHF, SFT, DPO)",
+							"url": "https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture08-posttraining.pdf",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"A chat transcript rendered as its raw token stream with special tokens visible; clicking toggles which tokens count toward the loss."
+					]
+				},
+				{
+					"id": "a4-l026-lora",
+					"title": "LoRA: Low-Rank Adaptation",
+					"minutes": 40,
+					"objectives": [
+						"Write the LoRA update W = W₀ + (α/r)BA and compute the fraction of trainable parameters for a d × k matrix at rank r.",
+						"Connect LoRA to the low-rank (truncated SVD) approximation of a matrix and explain why initializing B = 0 makes training start exactly at the pretrained model.",
+						"Explain how a LoRA adapter is merged into the weights for inference or kept separate so many adapters can share one base model."
+					],
+					"keyEquations": [
+						"W=W_0+\\frac{\\alpha}{r}BA,\\quad B\\in\\mathbb{R}^{d\\times r},\\ A\\in\\mathbb{R}^{r\\times k}",
+						"\\frac{\\text{trainable}}{\\text{full}}=\\frac{r(d+k)}{dk}"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 8",
+							"title": "Post-training",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Rank slider that rebuilds a weight-update matrix (shown as an image) from its top-r singular components, with the parameter count and reconstruction error."
+					]
+				},
+				{
+					"id": "a4-l027-quantization",
+					"title": "Quantization and QLoRA",
+					"minutes": 40,
+					"objectives": [
+						"Quantize a vector of weights to int8 and int4 with a per-block scale factor and compute the rounding error.",
+						"Compute the memory needed to hold a 7-billion-parameter model in fp16, int8 and int4, and explain QLoRA (LoRA adapters trained on top of a frozen 4-bit base)."
+					],
+					"keyEquations": [
+						"q=\\mathrm{round}(w/s),\\quad s=\\frac{\\max|w|}{2^{b-1}-1}",
+						"\\text{bytes}=N\\cdot\\frac{b}{8}"
+					],
+					"readings": [],
+					"lectures": [],
+					"demoIdeas": [
+						"Quantization explorer: pick a bit width and block size and see a weight histogram snapped to levels, with the resulting error."
+					]
+				},
+				{
+					"id": "a4-l028-distillation-synthetic-data",
+					"title": "Distillation and Synthetic Data",
+					"minutes": 35,
+					"objectives": [
+						"Explain knowledge distillation as training a student on a teacher's temperature-softened output distribution, and write the distillation loss.",
+						"Describe how strong models generate synthetic instruction and reasoning data for smaller ones, and the risks of training on model outputs (error propagation, loss of diversity, model collapse)."
+					],
+					"keyEquations": [
+						"\\mathcal{L}_{\\text{KD}}=T^2\\,D_{\\mathrm{KL}}\\!\\left(\\mathrm{softmax}(z^{\\text{teacher}}/T)\\,\\|\\,\\mathrm{softmax}(z^{\\text{student}}/T)\\right)"
+					],
+					"readings": [],
+					"lectures": [],
+					"demoIdeas": [
+						"Teacher and student output distributions with a distillation-temperature slider, showing how higher T exposes the teacher's 'dark knowledge' about wrong-but-close classes."
+					]
+				}
+			]
+		},
+		{
+			"id": "a4-u05-rl-basics",
+			"title": "Reinforcement Learning Foundations",
+			"summary": "The RL toolkit that post-training needs: bandits and exploration, Markov decision processes, value functions and Bellman equations, dynamic programming, temporal-difference and Q-learning, and policy gradients through REINFORCE, actor–critic and PPO; the gradient-bandit softmax policy is again a Boltzmann distribution.",
+			"lessons": [
+				{
+					"id": "a4-l029-bandits",
+					"title": "Bandits and the Exploration–Exploitation Trade-off",
+					"minutes": 40,
+					"objectives": [
+						"Estimate action values by sample averages using the incremental update rule.",
+						"Compare ε-greedy and upper-confidence-bound exploration on a k-armed bandit and explain regret.",
+						"Apply the gradient-bandit algorithm and recognize its softmax over action preferences as a Boltzmann policy."
+					],
+					"keyEquations": [
+						"Q_{n+1}=Q_n+\\frac{1}{n}(R_n-Q_n)",
+						"A_t=\\arg\\max_a\\left[Q_t(a)+c\\sqrt{\\frac{\\ln t}{N_t(a)}}\\right]",
+						"\\pi_t(a)=\\frac{e^{H_t(a)}}{\\sum_b e^{H_t(b)}}"
+					],
+					"readings": [
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "2.2",
+							"title": "Action-value Methods"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "2.4",
+							"title": "Incremental Implementation"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "2.7",
+							"title": "Upper-Confidence-Bound Action Selection"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "2.8",
+							"title": "Gradient Bandit Algorithms"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"10-armed bandit testbed: pull arms by hand, then race ε-greedy, UCB and softmax agents on cumulative reward."
+					]
+				},
+				{
+					"id": "a4-l030-mdps",
+					"title": "Markov Decision Processes, Returns and Policies",
+					"minutes": 40,
+					"objectives": [
+						"Formalize a task as an MDP (states, actions, transition probabilities, rewards, discount) and identify these for a gridworld and for text generation (state = prefix, action = next token).",
+						"Compute discounted returns for given reward sequences and explain how γ sets the effective horizon."
+					],
+					"keyEquations": [
+						"G_t=\\sum_{k=0}^{\\infty}\\gamma^k R_{t+k+1}",
+						"p(s',r\\mid s,a)"
+					],
+					"readings": [
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "3.1",
+							"title": "The Agent–Environment Interface"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "3.3",
+							"title": "Returns and Episodes"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "19.1",
+							"title": "Markov decision processes"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Toy gridworld where the learner edits rewards and γ and sees the discounted return of a chosen path."
+					]
+				},
+				{
+					"id": "a4-l031-value-bellman",
+					"title": "Value Functions and the Bellman Equations",
+					"minutes": 40,
+					"objectives": [
+						"Define the state-value function v_π and action-value function q_π and write the Bellman expectation equation.",
+						"Solve the Bellman equation for a 2–3 state MDP by hand as a linear system.",
+						"Write the Bellman optimality equation and explain why acting greedily with respect to q* is optimal."
+					],
+					"keyEquations": [
+						"v_\\pi(s)=\\sum_a\\pi(a\\mid s)\\sum_{s',r}p(s',r\\mid s,a)\\left[r+\\gamma v_\\pi(s')\\right]",
+						"v_*(s)=\\max_a\\sum_{s',r}p(s',r\\mid s,a)\\left[r+\\gamma v_*(s')\\right]"
+					],
+					"readings": [
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "3.5",
+							"title": "Policies and Value Functions"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "3.6",
+							"title": "Optimal Policies and Optimal Value Functions"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "19.2",
+							"title": "Expected return"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Gridworld value heatmap with arrows for the greedy policy, updating as the learner edits rewards and γ."
+					]
+				},
+				{
+					"id": "a4-l032-dynamic-programming",
+					"title": "Dynamic Programming: Policy and Value Iteration",
+					"minutes": 40,
+					"objectives": [
+						"Run iterative policy evaluation and a policy-improvement step by hand on a small gridworld.",
+						"Explain value iteration as repeated Bellman optimality backups and why it converges (the backup is a γ-contraction)."
+					],
+					"keyEquations": [
+						"v_{k+1}(s)=\\max_a\\sum_{s',r}p(s',r\\mid s,a)\\left[r+\\gamma v_k(s')\\right]"
+					],
+					"readings": [
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "4.1",
+							"title": "Policy Evaluation (Prediction)"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "4.3",
+							"title": "Policy Iteration"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "4.4",
+							"title": "Value Iteration"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "19.3",
+							"title": "Tabular reinforcement learning",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Step value iteration one sweep at a time on a gridworld and watch value spread outward from the goal."
+					]
+				},
+				{
+					"id": "a4-l033-td-q-learning",
+					"title": "Temporal-Difference Learning and Q-learning",
+					"minutes": 40,
+					"objectives": [
+						"Apply the TD(0) update and contrast bootstrapping with Monte Carlo returns.",
+						"Run Q-learning by hand for a few transitions and distinguish off-policy Q-learning from on-policy Sarsa.",
+						"Explain why deep Q-networks need a replay buffer and a target network."
+					],
+					"keyEquations": [
+						"V(S_t)\\leftarrow V(S_t)+\\alpha\\left[R_{t+1}+\\gamma V(S_{t+1})-V(S_t)\\right]",
+						"Q(S,A)\\leftarrow Q(S,A)+\\alpha\\left[R+\\gamma\\max_a Q(S',a)-Q(S,A)\\right]"
+					],
+					"readings": [
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "6.1",
+							"title": "TD Prediction"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "6.5",
+							"title": "Q-learning: Off-policy TD Control"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "19.4",
+							"title": "Fitted Q-learning",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Q-learning agent on a cliff-walking gridworld with sliders for α, γ and ε, showing the Q-table and learned path episode by episode."
+					]
+				},
+				{
+					"id": "a4-l034-policy-gradient",
+					"title": "Policy Gradients and REINFORCE",
+					"minutes": 40,
+					"objectives": [
+						"Derive the score-function (log-derivative) identity ∇E[R] = E[R ∇log π] that underlies policy gradients.",
+						"Apply REINFORCE to a softmax policy and explain why its gradient estimates have high variance.",
+						"Show that subtracting a baseline b(s) leaves the gradient unbiased while reducing its variance."
+					],
+					"keyEquations": [
+						"\\nabla_\\theta J(\\theta)=\\mathbb{E}_\\pi\\left[G_t\\,\\nabla_\\theta\\log\\pi_\\theta(A_t\\mid S_t)\\right]",
+						"\\theta\\leftarrow\\theta+\\alpha\\,(G_t-b(S_t))\\,\\nabla_\\theta\\log\\pi_\\theta(A_t\\mid S_t)"
+					],
+					"readings": [
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "13.2",
+							"title": "The Policy Gradient Theorem"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "13.3",
+							"title": "REINFORCE: Monte Carlo Policy Gradient"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "13.4",
+							"title": "REINFORCE with Baseline"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "19.5",
+							"title": "Policy gradient methods"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Softmax policy on a 3-armed bandit trained by REINFORCE with and without a baseline, plotting the spread of the gradient estimates."
+					]
+				},
+				{
+					"id": "a4-l035-actor-critic-ppo",
+					"title": "Actor–Critic Methods and PPO",
+					"minutes": 40,
+					"objectives": [
+						"Explain actor–critic: a learned value function supplies the baseline, giving the one-step advantage A = r + γV(s') − V(s).",
+						"Write PPO's clipped surrogate objective and explain how clipping the probability ratio keeps each update inside a trust region."
+					],
+					"keyEquations": [
+						"A_t=R_{t+1}+\\gamma V(S_{t+1})-V(S_t)",
+						"L^{\\text{CLIP}}=\\mathbb{E}_t\\left[\\min\\big(\\rho_t A_t,\\ \\mathrm{clip}(\\rho_t,1-\\epsilon,1+\\epsilon)A_t\\big)\\right],\\quad \\rho_t=\\frac{\\pi_\\theta(a_t\\mid s_t)}{\\pi_{\\text{old}}(a_t\\mid s_t)}"
+					],
+					"readings": [
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "13.5",
+							"title": "Actor–Critic Methods"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "19.6",
+							"title": "Actor-critic methods"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Plot of the PPO clipped objective against the probability ratio for positive and negative advantages, with an ε slider."
+					]
+				}
+			]
+		},
+		{
+			"id": "a4-u06-preference-learning",
+			"title": "RLHF, DPO and Reasoning Models",
+			"summary": "Post-training as reinforcement learning: reward models from human comparisons (Bradley–Terry), KL-regularized policy optimization as in InstructGPT, DPO's closed-form shortcut, and RL from verifiable rewards behind reasoning models; the KL-regularized optimum is the reference policy reweighted by a Boltzmann factor exp(r/β), with β a temperature and Z(x) a partition function.",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "a4-l036-rlhf-pipeline",
+					"title": "The RLHF Pipeline (InstructGPT)",
+					"minutes": 35,
+					"prereqs": [
+						"a4-l025-instruction-tuning",
+						"a4-l034-policy-gradient"
+					],
+					"objectives": [
+						"Lay out the three InstructGPT stages: supervised fine-tuning, reward-model training on human comparisons, and RL fine-tuning with PPO.",
+						"Explain why the policy is penalized by its KL divergence from the reference (SFT) model and what goes wrong without the penalty (reward hacking, loss of diversity, gibberish that scores well)."
+					],
+					"keyEquations": [
+						"\\max_\\pi\\ \\mathbb{E}_{x,\\,y\\sim\\pi}\\left[r_\\phi(x,y)\\right]-\\beta\\,D_{\\mathrm{KL}}\\!\\left(\\pi(\\cdot\\mid x)\\,\\|\\,\\pi_{\\text{ref}}(\\cdot\\mid x)\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 8",
+							"title": "Post-training"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "17.4",
+							"title": "Designing Reward Signals",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS224N (Winter 2026)",
+							"title": "Lecture 8 slides: Post-training (RLHF, SFT, DPO)",
+							"url": "https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture08-posttraining.pdf",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Pipeline walk-through: step one prompt through SFT, the reward model and a PPO update, seeing the reward and the KL penalty at each stage."
+					]
+				},
+				{
+					"id": "a4-l037-reward-models",
+					"title": "Reward Models and the Bradley–Terry Model",
+					"minutes": 35,
+					"objectives": [
+						"Derive the Bradley–Terry probability that response y_w is preferred to y_l and the logistic loss used to train a reward model.",
+						"Compute preference probabilities from reward differences and recognize the same logistic (two-state Boltzmann) form as softmax over two options.",
+						"Explain reward-model overoptimization as Goodhart's law: optimizing a proxy reward past a point lowers true quality."
+					],
+					"keyEquations": [
+						"P(y_w\\succ y_l\\mid x)=\\sigma\\big(r(x,y_w)-r(x,y_l)\\big)",
+						"\\mathcal{L}_R=-\\mathbb{E}\\left[\\log\\sigma\\big(r(x,y_w)-r(x,y_l)\\big)\\right]"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 8",
+							"title": "Post-training"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"True quality versus proxy reward as optimization pressure (KL budget) increases, showing the Goodhart peak and decline."
+					]
+				},
+				{
+					"id": "a4-l038-kl-optimum-boltzmann",
+					"title": "The KL-Regularized Optimum as a Boltzmann Distribution",
+					"minutes": 40,
+					"prereqs": [
+						"a4-l003-entropy-cross-entropy",
+						"a4-l006-softmax-temperature"
+					],
+					"objectives": [
+						"Derive that the policy maximizing E[r] − β KL(π‖π_ref) is π*(y|x) ∝ π_ref(y|x) exp(r(x,y)/β), using a Lagrange multiplier for normalization.",
+						"Identify β as a temperature and Z(x) as a partition function, and predict the optimal policy as β → 0 (argmax reward) and β → ∞ (the reference policy).",
+						"Invert the relation to write the reward in terms of the optimal policy, the reference policy and log Z(x)."
+					],
+					"keyEquations": [
+						"\\pi^*(y\\mid x)=\\frac{1}{Z(x)}\\,\\pi_{\\text{ref}}(y\\mid x)\\,e^{r(x,y)/\\beta}",
+						"r(x,y)=\\beta\\log\\frac{\\pi^*(y\\mid x)}{\\pi_{\\text{ref}}(y\\mid x)}+\\beta\\log Z(x)"
+					],
+					"readings": [],
+					"lectures": [],
+					"demoIdeas": [
+						"A reference distribution over six responses multiplied by exp(r/β): slide β and watch the tilted distribution move from the reference toward the highest-reward response."
+					]
+				},
+				{
+					"id": "a4-l039-dpo",
+					"title": "Direct Preference Optimization (DPO)",
+					"minutes": 40,
+					"prereqs": [
+						"a4-l037-reward-models"
+					],
+					"objectives": [
+						"Derive the DPO loss by substituting the implicit reward into the Bradley–Terry likelihood so that the intractable Z(x) cancels.",
+						"Compute the DPO loss and implicit reward margin for one preference pair from given policy and reference log-probabilities.",
+						"Compare DPO with PPO-based RLHF in compute, stability and use of on-policy data."
+					],
+					"keyEquations": [
+						"\\mathcal{L}_{\\text{DPO}}=-\\mathbb{E}\\left[\\log\\sigma\\!\\left(\\beta\\log\\frac{\\pi_\\theta(y_w\\mid x)}{\\pi_{\\text{ref}}(y_w\\mid x)}-\\beta\\log\\frac{\\pi_\\theta(y_l\\mid x)}{\\pi_{\\text{ref}}(y_l\\mid x)}\\right)\\right]"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 8",
+							"title": "Post-training"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS224N (Winter 2026)",
+							"title": "Lecture 8 slides: Post-training (RLHF, SFT, DPO)",
+							"url": "https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture08-posttraining.pdf",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Enter log-probabilities of the chosen and rejected responses under the policy and reference, and see the implicit reward margin, the loss and the direction of the gradient."
+					]
+				},
+				{
+					"id": "a4-l040-rlvr-reasoning",
+					"title": "RL from Verifiable Rewards and Reasoning Models",
+					"minutes": 40,
+					"objectives": [
+						"Explain RL with verifiable rewards (unit tests, checkable final answers) and GRPO's group-relative advantage, which replaces a learned critic.",
+						"Explain test-time compute: longer chains of thought and multiple samples (best-of-n, majority vote), and compute majority-vote accuracy for given per-sample accuracy and n.",
+						"Identify failure modes: verifier hacking, and reasoning traces that are not faithful to how the answer was produced."
+					],
+					"keyEquations": [
+						"\\hat A_i=\\frac{r_i-\\mathrm{mean}(r_1,\\dots,r_G)}{\\mathrm{std}(r_1,\\dots,r_G)}",
+						"P_{\\text{maj}}(n)=\\sum_{k>n/2}\\binom{n}{k}p^k(1-p)^{n-k}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "19.5",
+							"title": "Policy gradient methods",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Best-of-n and majority-vote simulator: set per-sample accuracy, n and verifier noise and watch the accuracy curve."
+					]
+				},
+				{
+					"id": "a4-l041-ai-feedback",
+					"title": "AI Feedback, Constitutional AI and Synthetic Preferences",
+					"minutes": 35,
+					"objectives": [
+						"Explain RLAIF and Constitutional AI: a model critiques and revises outputs against written principles and supplies the preference labels.",
+						"Weigh the advantages (scale, consistency, explicit principles) against the risks (bias amplification, self-preference, value lock-in) of AI-generated feedback."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 8",
+							"title": "Post-training"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": []
+				}
+			]
+		},
+		{
+			"id": "a4-u07-icl-rag",
+			"title": "In-Context Learning, Prompting and Retrieval",
+			"summary": "Using a trained model without changing its weights: in-context learning, prompt design and chain-of-thought, long contexts, dense retrieval and retrieval-augmented generation, and calibration and hallucination (why a model can confidently invent a CAS number).",
+			"lessons": [
+				{
+					"id": "a4-l042-in-context-learning",
+					"title": "In-Context Learning and Few-Shot Prompting",
+					"minutes": 35,
+					"objectives": [
+						"Distinguish zero-shot, few-shot and fine-tuned use of a model and explain in-context learning as learning from examples in the prompt without weight updates.",
+						"Describe evidence on what in-context learning depends on (label space, input format and distribution, not only correct labels) and induction-style copying as one mechanism.",
+						"Design a few-shot prompt for a chemistry classification task and identify its sensitivity to the choice and order of examples."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 7",
+							"title": "Transformers and Pretraining",
+							"optional": true
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "12.7",
+							"title": "Decoder model example: GPT3",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS224N (Spring 2024)",
+							"title": "CS224N lecture video playlist (Christopher Manning)",
+							"url": "https://www.youtube.com/playlist?list=PLoROMvodv4rOaMFbaqxPDoLWjDaRAdP9D",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Few-shot prompt builder for a toy classification task: swap, reorder and flip the labels of examples and watch a simulated model's accuracy change."
+					]
+				},
+				{
+					"id": "a4-l043-prompting-cot",
+					"title": "Prompt Design and Chain-of-Thought",
+					"minutes": 35,
+					"objectives": [
+						"Apply prompt-design principles: a clear task statement, a system or role prompt, a specified output format, delimiters around data, and examples.",
+						"Explain why chain-of-thought helps multi-step problems (each generated token buys more serial computation) and when it does not help.",
+						"Recognize prompt injection as a failure to separate instructions from data."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 8",
+							"title": "Post-training",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Side-by-side answers to a stoichiometry word problem given directly and with worked steps, with a token meter showing the extra computation spent."
+					]
+				},
+				{
+					"id": "a4-l044-long-context",
+					"title": "Long Context and Its Limits",
+					"minutes": 35,
+					"prereqs": [
+						"a4-l015-kv-cache"
+					],
+					"objectives": [
+						"Explain how context windows are extended (RoPE position interpolation, long-sequence training) and the 'lost in the middle' effect.",
+						"Compute the cost of filling a long context (KV-cache memory, quadratic attention) and decide when retrieval beats stuffing the context."
+					],
+					"keyEquations": [
+						"\\text{attention cost}\\propto n_{\\text{ctx}}^2\\,d"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.9",
+							"title": "Transformers for long sequences"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Needle-in-a-haystack plot: move a fact through a long document and see simulated recall versus position and context length."
+					]
+				},
+				{
+					"id": "a4-l045-dense-retrieval",
+					"title": "Dense Retrieval and Vector Search",
+					"minutes": 40,
+					"prereqs": [
+						"a4-l005-embeddings"
+					],
+					"objectives": [
+						"Embed queries and documents with a bi-encoder and rank documents by cosine similarity.",
+						"Compare sparse (tf-idf, BM25) and dense retrieval and explain when each wins (exact identifiers such as CAS numbers versus paraphrased questions).",
+						"Explain approximate nearest-neighbour search and its recall-versus-speed trade-off."
+					],
+					"keyEquations": [
+						"\\mathrm{score}(q,d)=\\frac{E(q)\\cdot E(d)}{\\|E(q)\\|\\,\\|E(d)\\|}",
+						"\\text{tf-idf}_{t,d}=\\mathrm{tf}_{t,d}\\,\\log\\frac{N}{\\mathrm{df}_t}"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 11",
+							"title": "Information Retrieval and RAG"
+						},
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 5",
+							"title": "Embeddings",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"2D embedding map of a small document set: type a query, see its point and the top-k neighbours by cosine, with BM25 ranks alongside."
+					]
+				},
+				{
+					"id": "a4-l046-rag",
+					"title": "Retrieval-Augmented Generation",
+					"minutes": 40,
+					"objectives": [
+						"Trace a RAG pipeline: chunking, embedding, retrieval, reranking, prompt assembly and grounded generation with citations.",
+						"Diagnose a wrong RAG answer as a retrieval miss or a generation error (ignoring good context) and choose a fix for each.",
+						"Explain why RAG reduces but does not eliminate hallucination when answering from, say, a lab's SOPs or safety data sheets."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 11",
+							"title": "Information Retrieval and RAG"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS224N (Winter 2026)",
+							"title": "Lecture 10 slides: Agents, Tool Use, and RAG",
+							"url": "https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture10-rag-agents.pdf",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Chunk-size and top-k sliders on a toy document set showing which chunks are retrieved for a query and whether the answer-bearing chunk reaches the prompt."
+					]
+				},
+				{
+					"id": "a4-l047-hallucination-calibration",
+					"title": "Hallucination, Calibration and Uncertainty",
+					"minutes": 35,
+					"objectives": [
+						"Define calibration, read a reliability diagram, and compute expected calibration error from binned predictions.",
+						"Explain why next-token training and reward for confident answers can produce fluent fabrications (invented citations, wrong CAS numbers) and how abstention, retrieval and self-consistency checks reduce them."
+					],
+					"keyEquations": [
+						"\\mathrm{ECE}=\\sum_b\\frac{|B_b|}{n}\\,\\big|\\mathrm{acc}(B_b)-\\mathrm{conf}(B_b)\\big|"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 7",
+							"title": "Transformers and Pretraining"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Reliability diagram: adjust a model's softmax temperature and watch the calibration curve and ECE change."
+					]
+				}
+			]
+		},
+		{
+			"id": "a4-u08-agents-multimodal",
+			"title": "Agents, Tool Use and Multimodal Models",
+			"summary": "LLMs that act and see: function calling, the agent loop as an MDP, coding and science agents (literature search, retrosynthesis, lab automation), vision transformers, contrastive image–text models, vision–language models, and transformers for molecules, proteins and spectra.",
+			"lessons": [
+				{
+					"id": "a4-l048-tool-use",
+					"title": "Tool Use and Function Calling",
+					"minutes": 40,
+					"objectives": [
+						"Explain function calling: the model emits a structured call (tool name plus JSON arguments), the harness executes it, and the result returns as a new message.",
+						"Design a tool schema for a chemistry tool (molecular-weight calculator, compound-database lookup) and explain why tools fix arithmetic and recall weaknesses.",
+						"Describe what a standard tool protocol such as the Model Context Protocol (MCP) standardizes between models and tools."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 8",
+							"title": "Post-training",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS224N (Winter 2026)",
+							"title": "Lecture 10 slides: Agents, Tool Use, and RAG",
+							"url": "https://web.stanford.edu/class/cs224n/slides_w26/cs224n-2026-lecture10-rag-agents.pdf",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Message-log simulator showing user turn, model tool-call JSON, tool result and final answer; the learner edits the tool's output and sees the answer change."
+					]
+				},
+				{
+					"id": "a4-l049-agent-loop",
+					"title": "Agents: The Observe–Think–Act Loop",
+					"minutes": 40,
+					"prereqs": [
+						"a4-l030-mdps"
+					],
+					"objectives": [
+						"Describe the ReAct-style agent loop (reason, act, observe) and map it onto an MDP (state = transcript so far, action = tool call or reply).",
+						"Explain planning, memory and context management in long-horizon agents.",
+						"Compute task success over n steps from per-step reliability and explain how verification and retries change it."
+					],
+					"keyEquations": [
+						"P(\\text{success})=p^{\\,n}"
+					],
+					"readings": [],
+					"lectures": [],
+					"demoIdeas": [
+						"Per-step reliability and step-count sliders showing compounding success probability, with a verify-and-retry toggle."
+					]
+				},
+				{
+					"id": "a4-l050-science-agents",
+					"title": "Coding Agents and Science Agents",
+					"minutes": 35,
+					"objectives": [
+						"Explain how coding agents use tests and execution feedback as verifiable signals.",
+						"Describe LLM agents for chemistry (literature search, retrosynthesis planning, driving automated lab hardware) and identify the steps where a human must stay in the loop.",
+						"Identify the safety risks of agents with real-world actuators (unsafe reactions, dual-use synthesis)."
+					],
+					"keyEquations": [],
+					"readings": [],
+					"lectures": [],
+					"demoIdeas": [
+						"Agent-trace viewer for a simulated synthesis-planning task in which the learner flags which steps need human sign-off."
+					]
+				},
+				{
+					"id": "a4-l051-vision-transformers",
+					"title": "Vision Transformers: Images as Tokens",
+					"minutes": 35,
+					"objectives": [
+						"Explain how a vision transformer splits an image into patches, embeds each patch linearly and adds positional embeddings and a class token.",
+						"Compute the number of tokens for a given image and patch size and the resulting attention cost."
+					],
+					"keyEquations": [
+						"n=\\frac{HW}{P^2}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.10",
+							"title": "Transformers for images"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.4.1",
+							"title": "Vision transformers",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Pick an image and a patch size and see the patch grid, the token count and the attention cost."
+					]
+				},
+				{
+					"id": "a4-l052-contrastive-clip",
+					"title": "Contrastive Learning: CLIP and Shared Embedding Spaces",
+					"minutes": 40,
+					"objectives": [
+						"Write the symmetric contrastive (InfoNCE) loss for a batch of image–text pairs and explain it as a softmax cross-entropy over the batch with a temperature τ.",
+						"Explain zero-shot classification by comparing an image embedding with the embeddings of text prompts such as 'a photo of a {class}'."
+					],
+					"keyEquations": [
+						"\\mathcal{L}=-\\frac{1}{N}\\sum_{i=1}^{N}\\log\\frac{e^{s_{ii}/\\tau}}{\\sum_{j}e^{s_{ij}/\\tau}}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.4",
+							"title": "Multimodal Transformers"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Batch similarity matrix of image–text pairs with a temperature slider, showing each row's softmax and the loss."
+					]
+				},
+				{
+					"id": "a4-l053-vision-language-models",
+					"title": "Vision–Language Models and Generative Multimodality",
+					"minutes": 40,
+					"objectives": [
+						"Describe how a vision–language model passes image-encoder outputs through a projector into the LLM's token stream.",
+						"Contrast autoregressive image-token generation with diffusion models for images, and describe audio tokenization for speech models at a high level.",
+						"Name multimodal chemistry uses (reading spectra, reaction schemes and structures from figures) and their typical failure modes."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.4",
+							"title": "Multimodal Transformers"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "Ch. 18",
+							"title": "Diffusion models",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Token-budget view: an image enters as patches, is projected to N visual tokens and interleaved with text tokens in the context window."
+					]
+				},
+				{
+					"id": "a4-l054-molecules-proteins",
+					"title": "Transformers for Molecules, Proteins and Spectra",
+					"minutes": 40,
+					"objectives": [
+						"Explain how transformers treat molecules (SMILES and SELFIES strings) and proteins (amino-acid sequences) as languages, and what masked-language-model pretraining learns there.",
+						"Explain why every SELFIES string decodes to a valid molecule while random SMILES edits often do not.",
+						"Evaluate a claimed molecular-property or reaction-prediction result against a baseline, checking for data leakage (random versus scaffold splits)."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "Ch. 13",
+							"title": "Graph neural networks",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"SMILES-versus-SELFIES mutation game: randomly change one symbol in each string and track how often the result is still a valid molecule."
+					]
+				}
+			]
+		},
+		{
+			"id": "a4-u09-interpretability",
+			"title": "Mechanistic Interpretability",
+			"summary": "Opening the network: linear probes, the logit lens on the residual stream, features as directions and superposition, sparse autoencoders (like resolving overlapping spectral peaks into pure components), induction-head circuits, and causal interventions such as activation patching (the knock-out experiment of interpretability).",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "a4-l055-probing",
+					"title": "Probing Classifiers: What Is Linearly Decodable",
+					"minutes": 40,
+					"objectives": [
+						"Train-and-test a linear probe on hidden states in principle, and explain why a control task is needed to show the probe is not learning the property itself.",
+						"Distinguish information that is decodable from information the model uses, and name causal tests (ablation, patching) that close the gap."
+					],
+					"keyEquations": [
+						"\\hat y=\\sigma\\big(w^{\\top}h_\\ell+b\\big)"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 10",
+							"title": "Interpretability"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Layer-by-layer probe accuracy plot for a toy property (is this token a number?) against a control-task baseline."
+					]
+				},
+				{
+					"id": "a4-l056-logit-lens",
+					"title": "The Residual Stream, Logit Lens and Direct Logit Attribution",
+					"minutes": 40,
+					"prereqs": [
+						"a4-l012-transformer-block"
+					],
+					"objectives": [
+						"Apply the unembedding to intermediate residual-stream states (logit lens) and interpret how the prediction sharpens through the layers.",
+						"Decompose the final logits into additive contributions from each attention head and MLP layer, using the residual stream's linearity."
+					],
+					"keyEquations": [
+						"x_L=x_0+\\sum_{\\ell=1}^{L}\\left(\\mathrm{attn}_\\ell+\\mathrm{mlp}_\\ell\\right)",
+						"\\text{logits}=W_U\\,\\mathrm{LN}(x_L)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.4",
+							"title": "Transformer layers",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Logit-lens grid: rows are layers, columns are positions, cells show the top predicted token; hover to see its probability."
+					]
+				},
+				{
+					"id": "a4-l057-superposition",
+					"title": "Features, Directions and Superposition",
+					"minutes": 40,
+					"objectives": [
+						"State the linear representation hypothesis: features correspond to directions in activation space.",
+						"Explain superposition: when features are sparse, a model can store more features than it has dimensions in nearly orthogonal directions, at the cost of interference.",
+						"Use the fact that high-dimensional spaces hold very many nearly orthogonal vectors to explain why superposition is cheap in large models and why single neurons are often polysemantic."
+					],
+					"keyEquations": [
+						"h=\\sum_i f_i\\,w_i,\\quad |w_i\\cdot w_j|\\ll 1\\ (i\\ne j)",
+						"\\hat x=\\mathrm{ReLU}(W^{\\top}Wx+b)"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 10",
+							"title": "Interpretability",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown",
+							"title": "How might LLMs store facts (Deep Learning Chapter 7)",
+							"url": "https://www.3blue1brown.com/lessons/mlp",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Toy model of superposition: five features squeezed into 2D, with a sparsity slider showing when the model packs them into a pentagon and when it drops some."
+					]
+				},
+				{
+					"id": "a4-l058-sparse-autoencoders",
+					"title": "Sparse Autoencoders and Dictionary Learning",
+					"minutes": 40,
+					"objectives": [
+						"Write the sparse-autoencoder objective (reconstruction error plus an L1 penalty) and explain how it recovers interpretable features from superposed activations.",
+						"Interpret an SAE feature from its top-activating examples and its effect on the logits, and explain feature steering by adding a feature direction.",
+						"Discuss limitations: dead features, feature splitting, and unexplained reconstruction error."
+					],
+					"keyEquations": [
+						"f=\\mathrm{ReLU}\\big(W_e(x-b_d)+b_e\\big),\\quad \\hat x=W_d f+b_d",
+						"\\mathcal{L}=\\|x-\\hat x\\|_2^2+\\lambda\\|f\\|_1"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 10",
+							"title": "Interpretability",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Mixtures of overlapping spectral peaks: adjust λ and watch a learned dictionary recover the pure component spectra, an analogue of SAE feature recovery."
+					]
+				},
+				{
+					"id": "a4-l059-induction-heads",
+					"title": "Circuits: Induction Heads",
+					"minutes": 40,
+					"prereqs": [
+						"a4-l010-multi-head",
+						"a4-l042-in-context-learning"
+					],
+					"objectives": [
+						"Explain the QK circuit (where a head looks) and the OV circuit (what it moves) of an attention head.",
+						"Describe the two-head induction circuit (a previous-token head feeding an induction head) that completes [A][B] … [A] → [B], and its link to in-context learning.",
+						"Predict the attention pattern of an induction head on a repeated sequence of random tokens."
+					],
+					"keyEquations": [
+						"W_{QK}=W_Q W_K^{\\top}",
+						"W_{OV}=W_V W_O"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 10",
+							"title": "Interpretability",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Repeated random-token sequence with the attention patterns of a previous-token head and an induction head; the learner predicts the next token before revealing it."
+					]
+				},
+				{
+					"id": "a4-l060-activation-patching",
+					"title": "Causal Interventions: Activation Patching and Steering",
+					"minutes": 40,
+					"objectives": [
+						"Run activation patching: cache activations from a clean run, patch them into a corrupted run, and compute the fraction of the logit difference recovered to localize a behaviour.",
+						"Explain circuit-tracing (attribution-graph) methods and steering vectors at a high level.",
+						"Explain why interpretability claims need causal, not merely correlational, evidence."
+					],
+					"keyEquations": [
+						"\\text{recovery}=\\frac{\\mathrm{LD}_{\\text{patched}}-\\mathrm{LD}_{\\text{corrupt}}}{\\mathrm{LD}_{\\text{clean}}-\\mathrm{LD}_{\\text{corrupt}}}"
+					],
+					"readings": [
+						{
+							"bookId": "jurafsky-slp",
+							"ref": "Ch. 10",
+							"title": "Interpretability",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Layers × positions grid: click a cell to patch it and watch the logit-difference recovery fill in a heatmap."
+					]
+				}
+			]
+		},
+		{
+			"id": "a4-u10-evaluation-alignment",
+			"title": "Evaluation, Alignment and Safety",
+			"summary": "Measuring what models can do and making them safe: benchmarks and their statistics, human and LLM judges, outer and inner alignment, jailbreaks and prompt injection, dangerous-capability evaluations (chemistry is a central dual-use domain), and scalable oversight as of 2026.",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "a4-l061-benchmarks",
+					"title": "Benchmarks and Their Pitfalls",
+					"minutes": 40,
+					"objectives": [
+						"Describe how benchmarks score models (multiple-choice knowledge tests, code with unit tests, science QA, agentic tasks) and compute accuracy with a binomial standard error.",
+						"Explain contamination, saturation and prompt sensitivity, and decide whether a 1–2 point leaderboard gap is meaningful for a given benchmark size."
+					],
+					"keyEquations": [
+						"\\mathrm{SE}=\\sqrt{\\frac{\\hat p(1-\\hat p)}{n}}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "Ch. 8",
+							"title": "Measuring performance",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS224N (Winter 2026)",
+							"title": "CS224N course page and lecture schedule",
+							"url": "https://web.stanford.edu/class/cs224n/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Benchmark-size slider showing confidence intervals around two models' scores and when their difference becomes significant."
+					]
+				},
+				{
+					"id": "a4-l062-judges-elo",
+					"title": "Human and LLM-as-Judge Evaluation",
+					"minutes": 35,
+					"prereqs": [
+						"a4-l037-reward-models"
+					],
+					"objectives": [
+						"Explain pairwise human-preference evaluation and Elo/Bradley–Terry ratings as used by arena-style leaderboards.",
+						"Identify LLM-judge biases (position, verbosity, self-preference) and their mitigations.",
+						"Design an evaluation for a chemistry assistant: task set, rubric and failure categories."
+					],
+					"keyEquations": [
+						"E_A=\\frac{1}{1+10^{(R_B-R_A)/400}}"
+					],
+					"readings": [],
+					"lectures": [],
+					"demoIdeas": [
+						"Elo simulator: feed in pairwise outcomes and watch ratings converge, with a bias slider that favours longer answers."
+					]
+				},
+				{
+					"id": "a4-l063-alignment-problem",
+					"title": "The Alignment Problem: Specification and Generalization",
+					"minutes": 40,
+					"objectives": [
+						"Define outer alignment (specifying the right objective) and inner alignment (the trained model actually pursuing it), with examples of specification gaming.",
+						"Explain goal misgeneralization and why optimizing for human approval can yield sycophancy rather than correctness."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "21.1",
+							"title": "Value alignment"
+						},
+						{
+							"bookId": "sutton-barto-rl",
+							"ref": "17.4",
+							"title": "Designing Reward Signals",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Gridworld with a mis-specified reward (reward for being near a coin rather than collecting it): watch the agent exploit the loophole, then fix the reward."
+					]
+				},
+				{
+					"id": "a4-l064-robustness-jailbreaks",
+					"title": "Robustness: Jailbreaks, Prompt Injection and Adversarial Inputs",
+					"minutes": 35,
+					"objectives": [
+						"Classify jailbreaks and prompt-injection attacks and explain why mixing instructions and data in one context makes injection hard to solve.",
+						"Describe layered defences: refusal training, input/output classifiers, privilege separation for tools, and red-teaming."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "Ch. 21",
+							"title": "Deep learning and ethics",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Tool-privilege matrix: assign read/write/execute rights to an agent's tools and see which injected instructions in a retrieved document could cause harm."
+					]
+				},
+				{
+					"id": "a4-l065-dangerous-capabilities",
+					"title": "Dangerous Capabilities, Dual Use and Responsible Scaling",
+					"minutes": 40,
+					"objectives": [
+						"Explain dangerous-capability evaluations (chemical and biological uplift, cyber offence, autonomy) and why chemistry is a central dual-use domain.",
+						"Describe frontier-safety policies that tie deployment safeguards to capability thresholds.",
+						"Weigh benefits against misuse risk for an LLM chemistry assistant and propose concrete safeguards."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "Ch. 21",
+							"title": "Deep learning and ethics"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": []
+				},
+				{
+					"id": "a4-l066-scalable-oversight",
+					"title": "Scalable Oversight, Control and Open Problems",
+					"minutes": 40,
+					"objectives": [
+						"Explain scalable-oversight proposals (debate, critique models, weak-to-strong generalization) and the AI-control approach of monitoring untrusted models.",
+						"Explain how chain-of-thought monitoring helps oversight and how it could fail (unfaithful or obfuscated reasoning).",
+						"Summarize the open problems as of 2026: reliable evaluation, interpretability at scale, and detecting deceptive behaviour."
+					],
+					"keyEquations": [],
+					"readings": [],
+					"lectures": [],
+					"demoIdeas": [
+						"Weak-to-strong simulator: a noisy weak labeller trains a strong model; slide the label noise and see how much of the performance gap the strong model recovers."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "a4-midterm",
+			"kind": "midterm",
+			"title": "A4 Midterm: Tokens, Transformers, Pretraining, Fine-Tuning and RL",
+			"covers": [
+				"a4-u01-tokens-information",
+				"a4-u02-transformer",
+				"a4-u03-pretraining-scaling",
+				"a4-u04-adaptation",
+				"a4-u05-rl-basics"
+			],
+			"minutes": 110,
+			"passMark": 0.7
+		},
+		{
+			"id": "a4-final",
+			"kind": "final",
+			"title": "A4 Final: Modern AI: Transformers & LLMs",
+			"covers": [
+				"a4-u01-tokens-information",
+				"a4-u02-transformer",
+				"a4-u03-pretraining-scaling",
+				"a4-u04-adaptation",
+				"a4-u05-rl-basics",
+				"a4-u06-preference-learning",
+				"a4-u07-icl-rag",
+				"a4-u08-agents-multimodal",
+				"a4-u09-interpretability",
+				"a4-u10-evaluation-alignment"
+			],
+			"minutes": 170,
+			"passMark": 0.7
+		}
+	],
+	"project": {
+		"title": "Build, Train and Probe a Tiny GPT",
+		"summary": "Write a small decoder-only transformer from scratch in PyTorch, train it on a small text corpus (Tiny Shakespeare, or a corpus of SMILES strings), sample from it with temperature and top-p, run a mini scaling sweep, then open it up: attention maps, an induction head, and linear probes on the residual stream.",
+		"goals": [
+			"Implement every part of a decoder-only transformer (tokenizer, embeddings, causal multi-head attention, MLP, residual stream with LayerNorm, unembedding) without a library model class.",
+			"Train it to a target validation loss and report cross-entropy in bits per token and perplexity against a bigram baseline.",
+			"Measure how temperature and top-p change the samples, and plot loss against model size on log–log axes.",
+			"Probe what the model learned: attention patterns, an induction head, and linear probes on residual-stream activations."
+		],
+		"steps": [
+			"Set up Python and PyTorch; load the corpus, build a character-level tokenizer and a train/validation split.",
+			"Train a bigram baseline and record its validation cross-entropy in bits per character.",
+			"Implement single-head causal self-attention, then multi-head attention, and test the shapes and the causal mask.",
+			"Assemble pre-LayerNorm transformer blocks with embeddings and an unembedding into a GPT and check its parameter count against 12Ld² + Vd.",
+			"Train with AdamW and a warmup-plus-cosine schedule, plotting training and validation loss until validation loss beats the bigram baseline by a clear margin.",
+			"Implement temperature, top-k and top-p sampling and compare samples at several settings.",
+			"Train three or four model sizes for the same number of steps and plot final loss against parameters on log–log axes.",
+			"Plot attention patterns and test for induction heads on repeated random-token sequences.",
+			"Train linear probes on each layer's residual stream for a simple property (e.g. 'inside a ring' for SMILES, or 'after a newline' for text) and plot probe accuracy by layer.",
+			"Write a short report on what the model learned and where in the network it lives."
+		],
+		"stack": "Python, PyTorch, NumPy, Matplotlib (optional: Jupyter, tiktoken, RDKit for SMILES validity; a CPU suffices for a ~1M-parameter model, a GPU helps)",
+		"hours": 25
+	}
+}

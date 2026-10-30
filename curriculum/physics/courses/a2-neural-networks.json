@@ -1,0 +1,1633 @@
+{
+	"id": "a2-neural-networks",
+	"code": "A2",
+	"title": "Neural Networks",
+	"track": "ai",
+	"depth": "core",
+	"hours": 40,
+	"prereqs": [
+		"a1-machine-learning"
+	],
+	"coreqs": [],
+	"subject": "Neural Networks",
+	"summary": "The mathematics of neural networks, built from the single neuron up: perceptrons and their limits, multilayer networks and universal approximation, loss functions from maximum likelihood, backpropagation derived by hand from the chain rule, reverse-mode automatic differentiation, optimizers, initialization and regularization, and energy-based models. Physical chemistry is the running analogy: softmax is the Boltzmann distribution, gradient descent is overdamped motion on a potential energy surface, saddle points are transition states, and Hopfield networks and Boltzmann machines are the Ising model with its partition function (P7). Coding lives in the optional micrograd project.",
+	"books": [
+		{
+			"bookId": "nielsen-nndl",
+			"role": "primary"
+		},
+		{
+			"bookId": "prince-udl",
+			"role": "secondary"
+		},
+		{
+			"bookId": "goodfellow-dl",
+			"role": "secondary"
+		}
+	],
+	"units": [
+		{
+			"id": "a2-u01-neurons",
+			"title": "Artificial Neurons and the Perceptron",
+			"summary": "The single neuron as a weighted vote with a threshold, the perceptron learning rule and its limits (XOR), and the smooth sigmoid neuron, whose logistic curve is the same two-state Boltzmann population (Fermi function) the chemist knows from statistical thermodynamics.",
+			"lessons": [
+				{
+					"id": "a2-l001-perceptron-model",
+					"title": "The Perceptron as a Linear Threshold Unit",
+					"minutes": 35,
+					"objectives": [
+						"Compute a perceptron's output from inputs, weights and bias, and rewrite the threshold rule as the sign of w·x + b.",
+						"Explain geometrically that the decision boundary w·x + b = 0 is a hyperplane with normal w and offset -b/|w|, and sketch it in 2-D.",
+						"Build AND, OR and NAND gates from single perceptrons by choosing weights, and explain why NAND universality makes networks of perceptrons able to compute any Boolean function."
+					],
+					"keyEquations": [
+						"y = \\begin{cases} 1 & w\\cdot x + b > 0 \\\\ 0 & \\text{otherwise} \\end{cases}",
+						"w\\cdot x + b = 0"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 1",
+							"title": "Using neural nets to recognize handwritten digits"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.1",
+							"title": "Example: Learning XOR",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Drag the weight vector and bias of a 2-D perceptron and watch the separating line rotate and shift while points recolor by predicted class."
+					]
+				},
+				{
+					"id": "a2-l002-perceptron-learning-rule",
+					"title": "The Perceptron Learning Rule and Its Convergence",
+					"minutes": 40,
+					"objectives": [
+						"Apply the perceptron update w <- w + eta (y - y_hat) x by hand to a small 2-D data set until it classifies every point correctly.",
+						"State the perceptron convergence theorem (at most (R/gamma)^2 mistakes for data separable with margin gamma) and explain what R and gamma measure.",
+						"Explain why the rule never settles on non-separable data and why it has no notion of a 'best' separating line."
+					],
+					"keyEquations": [
+						"w \\leftarrow w + \\eta\\,(y - \\hat y)\\,x,\\quad b \\leftarrow b + \\eta\\,(y-\\hat y)",
+						"\\#\\text{mistakes} \\le (R/\\gamma)^2"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 1",
+							"title": "Using neural nets to recognize handwritten digits"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "Ch. 3",
+							"title": "Shallow neural networks",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Step through perceptron updates on a 2-D point cloud: each misclassified point flashes and the boundary jumps; a margin slider shows how fewer steps are needed as the classes separate."
+					]
+				},
+				{
+					"id": "a2-l003-linear-separability-xor",
+					"title": "Linear Separability and the XOR Problem",
+					"minutes": 35,
+					"prereqs": [
+						"a2-l001-perceptron-model"
+					],
+					"objectives": [
+						"Prove that no single perceptron computes XOR by showing the four inequalities on w and b are contradictory.",
+						"Explain how a fixed nonlinear feature map (e.g. adding x1·x2) makes XOR linearly separable, and why learning such features is the job of hidden layers."
+					],
+					"keyEquations": [
+						"\\text{XOR}(x_1,x_2) = x_1 + x_2 - 2x_1x_2"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.1",
+							"title": "Example: Learning XOR"
+						},
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 1",
+							"title": "Using neural nets to recognize handwritten digits",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Try to place a single line separating the XOR corners (it can't), then toggle a third feature x1·x2 and rotate the 3-D view to see a separating plane appear."
+					]
+				},
+				{
+					"id": "a2-l004-sigmoid-neuron",
+					"title": "The Sigmoid Neuron: Making Learning Smooth",
+					"minutes": 35,
+					"objectives": [
+						"Explain why a step activation makes small weight changes produce all-or-nothing output changes, and how the sigmoid fixes this via Δoutput ≈ Σ (∂output/∂w_j) Δw_j + (∂output/∂b) Δb.",
+						"Derive σ'(z) = σ(z)(1 - σ(z)) and evaluate where the slope is largest and where the neuron saturates.",
+						"Identify the logistic function as the population of the upper state of a two-level system, 1/(1 + e^{ΔE/kT}) (the Fermi function), with z playing the role of -ΔE/kT."
+					],
+					"keyEquations": [
+						"\\sigma(z) = \\frac{1}{1+e^{-z}}",
+						"\\sigma'(z) = \\sigma(z)\\,\\bigl(1-\\sigma(z)\\bigr)",
+						"\\Delta \\text{output} \\approx \\sum_j \\frac{\\partial\\,\\text{output}}{\\partial w_j}\\Delta w_j + \\frac{\\partial\\,\\text{output}}{\\partial b}\\Delta b"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 1",
+							"title": "Using neural nets to recognize handwritten digits"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Morph a step function into a sigmoid by scaling the weights down, and watch a tiny weight nudge change the output smoothly instead of flipping it."
+					]
+				},
+				{
+					"id": "a2-l005-activation-functions",
+					"title": "Activation Functions: Sigmoid, tanh, ReLU and Friends",
+					"minutes": 35,
+					"objectives": [
+						"Compute and sketch tanh, ReLU, leaky ReLU and softplus with their derivatives, and relate tanh to the sigmoid (tanh z = 2σ(2z) - 1).",
+						"Explain why a network with only linear activations collapses to a single linear map, whatever its depth.",
+						"Compare activations by saturation (vanishing slope) and by dead units (ReLU with z < 0 always), anticipating the gradient problems of Unit 7."
+					],
+					"keyEquations": [
+						"\\tanh z = 2\\sigma(2z)-1",
+						"\\mathrm{ReLU}(z)=\\max(0,z)",
+						"\\mathrm{softplus}(z)=\\ln(1+e^{z})",
+						"W_2(W_1x+b_1)+b_2 = W'x+b'"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.3",
+							"title": "Hidden Units"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "3.1",
+							"title": "Neural network example",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Pick an activation from a menu and see the function and its derivative side by side, with the region where the derivative is below 0.05 shaded as 'saturated'."
+					]
+				}
+			]
+		},
+		{
+			"id": "a2-u02-multilayer",
+			"title": "Multilayer Networks and What They Can Represent",
+			"summary": "Stacking neurons into layers, written compactly in matrix form; hand-built solutions to XOR; ReLU networks as piecewise-linear functions; the universal approximation theorem and why depth buys exponentially many linear regions.",
+			"lessons": [
+				{
+					"id": "a2-l006-feedforward-architecture",
+					"title": "Feedforward Networks in Matrix Form",
+					"minutes": 40,
+					"objectives": [
+						"Write the forward pass of a fully connected network layer by layer as a^l = σ(W^l a^{l-1} + b^l), stating the shape of every W^l, b^l and a^l.",
+						"Count the parameters of a given architecture (e.g. 784-30-10) and explain what one row of W^l and one column of W^l each represent."
+					],
+					"keyEquations": [
+						"z^l = W^l a^{l-1} + b^l",
+						"a^l = \\sigma(z^l)",
+						"\\#\\text{params} = \\sum_l \\bigl(n_l n_{l-1} + n_l\\bigr)"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 1",
+							"title": "Using neural nets to recognize handwritten digits"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "4.4",
+							"title": "Matrix notation"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.4",
+							"title": "Architecture Design",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown (Neural networks series)",
+							"title": "Chapter 1: But what is a neural network?",
+							"url": "https://www.3blue1brown.com/lessons/neural-networks",
+							"minutes": 19
+						}
+					],
+					"demoIdeas": [
+						"Edit a small network diagram (layer sizes by slider) and see the weight matrices drawn as heat maps with their shapes and the total parameter count update live."
+					]
+				},
+				{
+					"id": "a2-l007-xor-by-hand",
+					"title": "Solving XOR with a Hidden Layer",
+					"minutes": 35,
+					"prereqs": [
+						"a2-l003-linear-separability-xor"
+					],
+					"objectives": [
+						"Construct, by choosing weights by hand, a 2-2-1 network (ReLU or step units) that computes XOR, and trace all four inputs through it.",
+						"Explain the hidden layer as a learned change of coordinates in which the classes become linearly separable."
+					],
+					"keyEquations": [
+						"h = \\max(0, Wx + c),\\quad y = w^\\top h + b"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.1",
+							"title": "Example: Learning XOR"
+						},
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 1",
+							"title": "Using neural nets to recognize handwritten digits",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Show the four XOR points in input space and, beside it, in hidden-unit space as the learner drags hidden weights; the classes become separable by a line in the right panel."
+					]
+				},
+				{
+					"id": "a2-l008-relu-piecewise-linear",
+					"title": "Shallow ReLU Networks as Piecewise-Linear Functions",
+					"minutes": 40,
+					"objectives": [
+						"Show that a one-input shallow ReLU network with D hidden units is a piecewise-linear function with at most D joints, and locate each joint at x = -b_d/w_d.",
+						"Decompose the network's output into the sum of its hidden units' contributions and adjust weights to fit a given piecewise-linear target."
+					],
+					"keyEquations": [
+						"y = \\phi_0 + \\sum_{d=1}^{D} \\phi_d\\,\\max(0,\\ \\theta_{d0} + \\theta_{d1}x)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "3.1",
+							"title": "Neural network example"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "3.3",
+							"title": "Multivariate inputs and outputs",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Add ReLU hidden units one at a time with sliders for slope and joint position; the summed output curve updates and a target curve shows how close it gets."
+					]
+				},
+				{
+					"id": "a2-l009-universal-approximation",
+					"title": "Universal Approximation: Bumps, Towers and Their Limits",
+					"minutes": 45,
+					"objectives": [
+						"Reproduce Nielsen's visual argument: two steep sigmoid units make a 'bump', and a sum of bumps approximates any continuous 1-D function to any accuracy.",
+						"State the universal approximation theorem precisely (one hidden layer, continuous target on a compact set, arbitrary ε) and list what it does not promise (how many units, whether gradient descent finds them, generalization).",
+						"Extend the construction to two inputs using 'towers' and explain why the number of units can grow exponentially with input dimension."
+					],
+					"keyEquations": [
+						"\\Bigl|\\,f(x) - \\sum_{j=1}^{N} v_j\\,\\sigma(w_j\\cdot x + b_j)\\Bigr| < \\varepsilon\\ \\ \\forall x \\in K"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 4",
+							"title": "A visual proof that neural nets can compute any function"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "3.2",
+							"title": "Universal approximation theorem"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.4.1",
+							"title": "Universal Approximation Properties and Depth",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Approximate a target curve (e.g. a Morse potential) with N bumps: an N slider and per-bump height sliders show the error shrinking as N grows."
+					]
+				},
+				{
+					"id": "a2-l010-depth-vs-width",
+					"title": "Why Depth? Composition and Linear Regions",
+					"minutes": 40,
+					"objectives": [
+						"Explain how composing two ReLU networks folds input space, so the number of linear regions can grow exponentially with depth but only polynomially with width.",
+						"Compare a shallow and a deep network with the same parameter count by counting their maximum linear regions for a small example.",
+						"Argue why depth is an inductive bias toward hierarchical features, not a requirement of representability."
+					],
+					"keyEquations": [
+						"y = f_2\\bigl(f_1(x)\\bigr)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "4.1",
+							"title": "Composing neural networks"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "4.5",
+							"title": "Shallow vs. deep neural networks"
+						},
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 5",
+							"title": "Why are deep neural networks hard to train?",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown (Neural networks series)",
+							"title": "Chapter 3: Analyzing our neural network",
+							"url": "https://www.3blue1brown.com/lessons/neural-network-analysis",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Fold a 1-D input repeatedly: each added layer doubles the number of linear pieces of a sawtooth output, shown alongside a shallow network with the same parameter budget."
+					]
+				}
+			]
+		},
+		{
+			"id": "a2-u03-learning",
+			"title": "Loss Functions and Gradient Descent",
+			"summary": "Where losses come from (maximum likelihood), softmax and cross-entropy (softmax is the Boltzmann distribution and log-sum-exp is a free energy), and gradient descent as overdamped motion on a potential energy surface, including step-size stability and the noise of minibatches.",
+			"lessons": [
+				{
+					"id": "a2-l011-loss-maximum-likelihood",
+					"title": "Loss Functions from Maximum Likelihood",
+					"minutes": 40,
+					"objectives": [
+						"Derive mean squared error as the negative log-likelihood of a Gaussian noise model and binary cross-entropy as that of a Bernoulli model.",
+						"Apply the recipe 'choose an output distribution, have the network predict its parameters, minimize the negative log-likelihood' to a new case."
+					],
+					"keyEquations": [
+						"L(\\theta) = -\\sum_i \\ln p\\bigl(y_i \\mid f(x_i;\\theta)\\bigr)",
+						"-\\ln \\mathcal N(y\\mid f,\\sigma^2) = \\frac{(y-f)^2}{2\\sigma^2} + \\text{const}",
+						"L_{\\text{BCE}} = -\\bigl[y\\ln a + (1-y)\\ln(1-a)\\bigr]"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "5.1",
+							"title": "Maximum likelihood"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "5.2",
+							"title": "Recipe for constructing loss functions"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "5.4",
+							"title": "Example 2: binary classification",
+							"optional": true
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "5.5",
+							"title": "Maximum Likelihood Estimation",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Fit a single parameter to noisy data and toggle between Gaussian and Laplace noise models: the likelihood curve and the implied loss (squared vs absolute error) change together."
+					]
+				},
+				{
+					"id": "a2-l012-softmax-cross-entropy",
+					"title": "Softmax, Cross-Entropy and the Boltzmann Distribution",
+					"minutes": 40,
+					"objectives": [
+						"Identify the softmax as a Boltzmann distribution over classes with logits z_k = -E_k/kT, and log-sum-exp as -ln Z, i.e. a free energy (up to a factor of kT).",
+						"Derive the gradient of softmax cross-entropy with respect to the logits, ∂L/∂z_k = a_k - y_k.",
+						"Explain how a temperature parameter sharpens or flattens the softmax, and why subtracting max z before exponentiating changes nothing mathematically but prevents overflow."
+					],
+					"keyEquations": [
+						"a_k = \\frac{e^{z_k}}{\\sum_j e^{z_j}} \\;\\leftrightarrow\\; p_k = \\frac{e^{-E_k/kT}}{Z}",
+						"L = -\\sum_k y_k \\ln a_k",
+						"\\frac{\\partial L}{\\partial z_k} = a_k - y_k"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 3",
+							"title": "Improving the way neural networks learn"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "5.5",
+							"title": "Example 3: multiclass classification"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.2.2",
+							"title": "Output Units",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Set three logits ('energy levels') and a temperature slider; bar heights show the softmax populations, morphing from uniform at high T to one-hot at low T."
+					]
+				},
+				{
+					"id": "a2-l013-gradient-descent",
+					"title": "Gradient Descent as Overdamped Motion on a Potential Energy Surface",
+					"minutes": 40,
+					"objectives": [
+						"Derive the gradient descent update as the forward-Euler discretization of overdamped dynamics γ dθ/dt = -∇L(θ), identifying η = Δt/γ.",
+						"Explain why the negative gradient is the direction of steepest descent using the first-order Taylor expansion ΔL ≈ ∇L·Δθ under a fixed step length.",
+						"Relate the picture to a geometry optimization on a molecular potential energy surface: minima are stable conformers, and the descent path depends on the starting geometry."
+					],
+					"keyEquations": [
+						"\\gamma\\,\\dot\\theta = -\\nabla L(\\theta)",
+						"\\theta_{t+1} = \\theta_t - \\eta\\,\\nabla L(\\theta_t)",
+						"\\Delta L \\approx \\nabla L\\cdot\\Delta\\theta = -\\eta\\,\\|\\nabla L\\|^2"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 1",
+							"title": "Using neural nets to recognize handwritten digits"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "6.1",
+							"title": "Gradient descent"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "4.3",
+							"title": "Gradient-Based Optimization",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown (Neural networks series)",
+							"title": "Chapter 2: Gradient descent, how neural networks learn",
+							"url": "https://www.3blue1brown.com/lessons/gradient-descent",
+							"minutes": 21
+						}
+					],
+					"demoIdeas": [
+						"Click anywhere on a 2-D contour map of a double-well 'potential energy surface' to release a ball that rolls downhill under overdamped dynamics; different starting points end in different minima."
+					]
+				},
+				{
+					"id": "a2-l014-learning-rate-stability",
+					"title": "Step Size, Curvature and Stability",
+					"minutes": 40,
+					"prereqs": [
+						"a2-l013-gradient-descent"
+					],
+					"objectives": [
+						"Analyze gradient descent on a quadratic bowl L = ½ θᵀHθ in the Hessian's eigenbasis and show each mode shrinks by a factor (1 - ηλ_i) per step.",
+						"Derive the stability condition η < 2/λ_max and explain the zigzag and slow progress caused by a large condition number λ_max/λ_min.",
+						"Connect this to stiff vibrational modes in a molecule: the stiffest mode limits the stable time step, just as in molecular dynamics."
+					],
+					"keyEquations": [
+						"\\theta_{t+1} = (I - \\eta H)\\,\\theta_t",
+						"|1-\\eta\\lambda_i| < 1 \\iff \\eta < 2/\\lambda_{\\max}",
+						"\\kappa = \\lambda_{\\max}/\\lambda_{\\min}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "6.1",
+							"title": "Gradient descent"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.2",
+							"title": "Challenges in Neural Network Optimization",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"On an elongated quadratic bowl, slide the learning rate and watch the path go from crawling, to zigzagging, to diverging at η = 2/λ_max; the bowl's eccentricity is a second slider."
+					]
+				},
+				{
+					"id": "a2-l015-stochastic-gradient-descent",
+					"title": "Stochastic and Minibatch Gradient Descent",
+					"minutes": 40,
+					"objectives": [
+						"Show that the minibatch gradient is an unbiased estimator of the full gradient and that its variance scales as 1/B for batch size B.",
+						"Explain epochs, shuffling and why SGD is cheaper per unit progress on large redundant data sets.",
+						"Interpret SGD noise as an effective temperature (Langevin dynamics, temperature roughly proportional to η/B) that lets the iterate escape shallow minima."
+					],
+					"keyEquations": [
+						"g_B = \\frac{1}{B}\\sum_{i\\in B}\\nabla \\ell_i(\\theta),\\quad \\mathbb E[g_B] = \\nabla L",
+						"\\operatorname{Var}[g_B] \\approx \\frac{\\sigma^2}{B}",
+						"d\\theta = -\\nabla L\\,dt + \\sqrt{2T}\\,dW,\\quad T \\propto \\eta/B"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 1",
+							"title": "Using neural nets to recognize handwritten digits"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "6.2",
+							"title": "Stochastic gradient descent"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.3.1",
+							"title": "Stochastic Gradient Descent",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Run full-batch and minibatch descent side by side on the same double-well surface, with a batch-size slider: small batches jitter and sometimes hop the barrier into the deeper well."
+					]
+				}
+			]
+		},
+		{
+			"id": "a2-u04-backprop",
+			"title": "Backpropagation Derived by Hand",
+			"summary": "The four backpropagation equations derived from nothing but the multivariable chain rule, first along a single path, then for full layers; the algorithm, its cost, a full numeric example worked on paper, and why cross-entropy cures the sigmoid's learning slowdown.",
+			"lessons": [
+				{
+					"id": "a2-l016-chain-rule-single-path",
+					"title": "The Chain Rule Along a Chain of Single Neurons",
+					"minutes": 40,
+					"prereqs": [
+						"a2-l013-gradient-descent"
+					],
+					"objectives": [
+						"Compute ∂C/∂w for each weight of a 1-1-1-1 chain of sigmoid neurons by multiplying local derivatives along the path.",
+						"Explain what each factor (σ'(z), the incoming activation, the downstream weight) contributes and why a deep chain of small σ' factors already hints at vanishing gradients."
+					],
+					"keyEquations": [
+						"\\frac{\\partial C}{\\partial w^{(L)}} = \\frac{\\partial z^{(L)}}{\\partial w^{(L)}}\\,\\frac{\\partial a^{(L)}}{\\partial z^{(L)}}\\,\\frac{\\partial C}{\\partial a^{(L)}} = a^{(L-1)}\\,\\sigma'(z^{(L)})\\,2(a^{(L)}-y)"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 2",
+							"title": "How the backpropagation algorithm works"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "7.3",
+							"title": "Toy example"
+						}
+					],
+					"lectures": [
+						{
+							"source": "3Blue1Brown (Neural networks series)",
+							"title": "Chapter 4: What is backpropagation really doing?",
+							"url": "https://www.3blue1brown.com/lessons/backpropagation",
+							"minutes": 14
+						},
+						{
+							"source": "3Blue1Brown (Neural networks series)",
+							"title": "Chapter 5: Backpropagation calculus",
+							"url": "https://www.3blue1brown.com/lessons/backpropagation-calculus",
+							"minutes": 10
+						}
+					],
+					"demoIdeas": [
+						"A chain of four neurons with live values: hover over any weight to light up the path from it to the cost, with each local derivative printed on its edge and their product shown."
+					]
+				},
+				{
+					"id": "a2-l017-error-output-layer",
+					"title": "The Error δ and the Output-Layer Equation (BP1)",
+					"minutes": 40,
+					"objectives": [
+						"Define the error of neuron j in layer l as δ_j^l = ∂C/∂z_j^l and explain why z (not a) is the convenient variable.",
+						"Derive BP1, δ^L = ∇_a C ⊙ σ'(z^L), from the chain rule and evaluate it for quadratic cost."
+					],
+					"keyEquations": [
+						"\\delta^l_j \\equiv \\frac{\\partial C}{\\partial z^l_j}",
+						"\\delta^L = \\nabla_a C \\odot \\sigma'(z^L)"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 2",
+							"title": "How the backpropagation algorithm works"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "7.2",
+							"title": "Computing derivatives",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Perturb one output neuron's z by a small Δz (a 'demon' in the network) and watch the cost change by about δ·Δz, comparing the measured slope to BP1."
+					]
+				},
+				{
+					"id": "a2-l018-backpropagating-error",
+					"title": "Propagating the Error Backward (BP2)",
+					"minutes": 45,
+					"objectives": [
+						"Derive BP2, δ^l = ((W^{l+1})ᵀ δ^{l+1}) ⊙ σ'(z^l), by writing z^{l+1} as a function of z^l and summing over all paths with the multivariable chain rule.",
+						"Explain why the transpose of the forward weight matrix appears and interpret backprop as sending error signals through the network in reverse."
+					],
+					"keyEquations": [
+						"\\delta^l = \\bigl((W^{l+1})^\\top \\delta^{l+1}\\bigr)\\odot\\sigma'(z^l)",
+						"\\frac{\\partial C}{\\partial z^l_k} = \\sum_j \\frac{\\partial C}{\\partial z^{l+1}_j}\\frac{\\partial z^{l+1}_j}{\\partial z^l_k}"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 2",
+							"title": "How the backpropagation algorithm works"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "7.4",
+							"title": "Backpropagation algorithm"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Animate a 3-layer network: forward pass fills neurons with activations left to right, then δ values flow right to left along the same edges, with edge thickness proportional to |w·δ|."
+					]
+				},
+				{
+					"id": "a2-l019-gradients-weights-biases",
+					"title": "Gradients for Weights and Biases (BP3, BP4)",
+					"minutes": 40,
+					"objectives": [
+						"Derive BP3 (∂C/∂b_j^l = δ_j^l) and BP4 (∂C/∂w_jk^l = a_k^{l-1} δ_j^l) and write BP4 as the outer product δ^l (a^{l-1})ᵀ.",
+						"Explain from BP4 why weights out of low-activation neurons and into saturated neurons learn slowly."
+					],
+					"keyEquations": [
+						"\\frac{\\partial C}{\\partial b^l_j} = \\delta^l_j",
+						"\\frac{\\partial C}{\\partial w^l_{jk}} = a^{l-1}_k\\,\\delta^l_j",
+						"\\nabla_{W^l} C = \\delta^l\\,(a^{l-1})^\\top"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 2",
+							"title": "How the backpropagation algorithm works"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Show the weight-gradient matrix of one layer as the outer product of a δ column and an activation row, highlighting rows and columns that go to zero when units saturate or are inactive."
+					]
+				},
+				{
+					"id": "a2-l020-backprop-algorithm",
+					"title": "The Backpropagation Algorithm and Its Cost",
+					"minutes": 40,
+					"objectives": [
+						"State the full algorithm (forward pass, output error, backward pass, gradient assembly, minibatch averaging, update) in order.",
+						"Show that one backward pass costs about the same as one forward pass, whereas finite differences need one extra forward pass per parameter, and quantify the gap for a network with a million weights."
+					],
+					"keyEquations": [
+						"\\text{cost}_{\\text{backprop}} = O(\\text{forward}),\\qquad \\text{cost}_{\\text{finite diff}} = O(P\\cdot\\text{forward})"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 2",
+							"title": "How the backpropagation algorithm works"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "7.4",
+							"title": "Backpropagation algorithm"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.5",
+							"title": "Back-Propagation and Other Differentiation Algorithms",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Race backprop against finite differences as the parameter count slider grows: two bars show the number of forward-pass equivalents each method needs."
+					]
+				},
+				{
+					"id": "a2-l021-backprop-worked-example",
+					"title": "A Full Backprop Calculation on Paper",
+					"minutes": 45,
+					"objectives": [
+						"Carry out the forward and backward pass of a 2-2-1 sigmoid network for one training example entirely by hand, producing every δ and every weight gradient.",
+						"Check one of the hand-computed gradients with a central finite difference and explain why the agreement should be to O(h²)."
+					],
+					"keyEquations": [
+						"\\frac{\\partial C}{\\partial w} \\approx \\frac{C(w+h) - C(w-h)}{2h}"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 2",
+							"title": "How the backpropagation algorithm works"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "7.3",
+							"title": "Toy example",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"A fill-in-the-blanks worksheet network: the learner types each z, a, δ and gradient; each cell turns green when it matches the computed value, and a finite-difference check runs at the end."
+					]
+				},
+				{
+					"id": "a2-l022-cross-entropy-learning-slowdown",
+					"title": "Cross-Entropy and the Learning Slowdown",
+					"minutes": 40,
+					"prereqs": [
+						"a2-l012-softmax-cross-entropy"
+					],
+					"objectives": [
+						"Show that with quadratic cost a saturated sigmoid output neuron learns slowly because δ^L contains σ'(z^L).",
+						"Derive that with cross-entropy cost the σ' factor cancels, giving δ^L = a^L - y, and explain why this makes 'very wrong' neurons learn fastest."
+					],
+					"keyEquations": [
+						"\\delta^L_{\\text{quad}} = (a^L - y)\\,\\sigma'(z^L)",
+						"\\delta^L_{\\text{CE}} = a^L - y"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 3",
+							"title": "Improving the way neural networks learn"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Train a single sigmoid neuron from a badly wrong start with quadratic vs cross-entropy cost; two cost-vs-epoch curves show the quadratic one stalling on a plateau."
+					]
+				}
+			]
+		},
+		{
+			"id": "a2-u05-autodiff",
+			"title": "Computational Graphs and Reverse-Mode Automatic Differentiation",
+			"summary": "Backprop generalized: any computation is a graph of primitive operations with local derivatives, and reverse-mode autodiff evaluates all gradients of one scalar output in one backward sweep. This is the math behind the micrograd project.",
+			"lessons": [
+				{
+					"id": "a2-l023-computational-graphs",
+					"title": "Computational Graphs",
+					"minutes": 35,
+					"prereqs": [
+						"a2-l020-backprop-algorithm"
+					],
+					"objectives": [
+						"Draw the computational graph of an expression such as L = (a·b + c)² · tanh(d), labelling every intermediate node.",
+						"Compute the local derivative on each edge and obtain ∂L/∂(each input) by multiplying along paths and summing over paths."
+					],
+					"keyEquations": [
+						"\\frac{\\partial L}{\\partial x} = \\sum_{\\text{paths } x\\to L}\\ \\prod_{\\text{edges}} \\frac{\\partial\\,\\text{child}}{\\partial\\,\\text{parent}}"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.5.1",
+							"title": "Computational Graphs"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.5.2",
+							"title": "Chain Rule of Calculus"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "Course page: all lectures in order",
+							"url": "https://karpathy.ai/zero-to-hero.html",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Type an expression and see its computational graph laid out as nodes; clicking 'forward' fills in values, 'backward' fills in gradients node by node in reverse topological order."
+					]
+				},
+				{
+					"id": "a2-l024-forward-vs-reverse-mode",
+					"title": "Forward Mode vs Reverse Mode",
+					"minutes": 45,
+					"objectives": [
+						"Compute a derivative with forward-mode differentiation (dual numbers, tangents pushed forward) and the same derivative with reverse mode (adjoints pulled backward).",
+						"Explain forward mode as Jacobian-vector products and reverse mode as vector-Jacobian products, and derive that reverse mode wins when there are many inputs and one scalar output (a loss), forward mode when the reverse is true."
+					],
+					"keyEquations": [
+						"\\dot v_i = \\sum_{j\\in\\text{pa}(i)} \\frac{\\partial v_i}{\\partial v_j}\\dot v_j",
+						"\\bar v_j = \\sum_{i\\in\\text{ch}(j)} \\bar v_i\\,\\frac{\\partial v_i}{\\partial v_j},\\quad \\bar v \\equiv \\frac{\\partial L}{\\partial v}",
+						"(a + b\\varepsilon)(c + d\\varepsilon) = ac + (ad+bc)\\varepsilon,\\ \\varepsilon^2=0"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.5",
+							"title": "Back-Propagation and Other Differentiation Algorithms"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "7.2",
+							"title": "Computing derivatives",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Toggle between forward and reverse mode on the same graph: forward mode needs one sweep per input (inputs light up one at a time), reverse mode one sweep for all inputs."
+					]
+				},
+				{
+					"id": "a2-l025-local-gradient-rules",
+					"title": "Local Gradient Rules, Fan-Out and Topological Order",
+					"minutes": 40,
+					"objectives": [
+						"State the backward rule for add, multiply, power, exp and tanh nodes (add routes the gradient unchanged, multiply swaps the inputs).",
+						"Explain why gradients must be accumulated (+=) when a node feeds several children, and show the wrong answer you get for b = a + a if they are overwritten.",
+						"Explain why the backward pass must visit nodes in reverse topological order, and construct that order for a small graph."
+					],
+					"keyEquations": [
+						"z = x + y:\\ \\bar x \\mathrel{+}= \\bar z,\\ \\bar y \\mathrel{+}= \\bar z",
+						"z = xy:\\ \\bar x \\mathrel{+}= y\\,\\bar z,\\ \\bar y \\mathrel{+}= x\\,\\bar z",
+						"z = \\tanh x:\\ \\bar x \\mathrel{+}= (1 - z^2)\\,\\bar z"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "6.5",
+							"title": "Back-Propagation and Other Differentiation Algorithms"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "The spelled-out intro to neural networks and backpropagation: building micrograd",
+							"url": "https://youtu.be/VMj-3S1tku0",
+							"minutes": 145
+						}
+					],
+					"demoIdeas": [
+						"A gate playground: wire add, multiply and tanh gates into a small circuit, run backward, and watch gradients split and merge; a toggle that overwrites instead of accumulating shows the fan-out bug."
+					]
+				},
+				{
+					"id": "a2-l026-matrix-backprop",
+					"title": "Backprop Through Matrix Operations",
+					"minutes": 40,
+					"prereqs": [
+						"a2-l019-gradients-weights-biases"
+					],
+					"objectives": [
+						"Derive the backward pass of a linear layer Y = XW + b: ∂L/∂W = Xᵀ ∂L/∂Y, ∂L/∂X = ∂L/∂Y Wᵀ, ∂L/∂b = column sums of ∂L/∂Y, by checking index by index and by matching shapes.",
+						"Explain why broadcasting a bias in the forward pass becomes a sum over the batch in the backward pass."
+					],
+					"keyEquations": [
+						"Y = XW + \\mathbf 1 b^\\top",
+						"\\frac{\\partial L}{\\partial W} = X^\\top\\frac{\\partial L}{\\partial Y},\\quad \\frac{\\partial L}{\\partial X} = \\frac{\\partial L}{\\partial Y}W^\\top,\\quad \\frac{\\partial L}{\\partial b} = \\Bigl(\\frac{\\partial L}{\\partial Y}\\Bigr)^{\\!\\top}\\mathbf 1"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 2",
+							"title": "How the backpropagation algorithm works"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "7.4",
+							"title": "Backpropagation algorithm",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "Building makemore Part 4: Becoming a Backprop Ninja (manual backprop through matrix ops)",
+							"url": "https://youtu.be/q8SA3rM6ckI",
+							"minutes": 115,
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Shape puzzle: given the shapes of X, W and dL/dY, drag matrices and transposes into a product until the shapes match dL/dW, with the index sum shown for checking."
+					]
+				},
+				{
+					"id": "a2-l027-gradient-checking",
+					"title": "Gradient Checking and Numerical Pitfalls",
+					"minutes": 35,
+					"objectives": [
+						"Compare analytic and numerical gradients with the relative error |g_a - g_n| / max(|g_a|, |g_n|) and interpret typical thresholds.",
+						"Explain the trade-off in choosing h: truncation error O(h²) for central differences versus floating-point round-off that grows like ε_machine/h, and estimate the optimal h."
+					],
+					"keyEquations": [
+						"g_n = \\frac{L(\\theta + h e_i) - L(\\theta - h e_i)}{2h}",
+						"\\text{error}(h) \\approx c_1 h^2 + c_2\\,\\frac{\\varepsilon_{\\text{mach}}}{h}"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 2",
+							"title": "How the backpropagation algorithm works",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Plot the finite-difference error against h on log-log axes for a smooth function in float32 and float64: the V-shaped curve shows truncation error on the right and round-off on the left."
+					]
+				}
+			]
+		},
+		{
+			"id": "a2-u06-optimization",
+			"title": "Optimizers and Loss Landscapes",
+			"summary": "Beyond plain gradient descent: momentum as a damped heavy ball (underdamped vs overdamped motion), adaptive per-parameter step sizes (RMSProp, Adam), learning-rate schedules as annealing, and the geometry of high-dimensional loss surfaces, where saddle points (the transition states of a potential energy surface) outnumber local minima.",
+			"lessons": [
+				{
+					"id": "a2-l028-momentum",
+					"title": "Momentum: The Heavy Ball with Friction",
+					"minutes": 40,
+					"prereqs": [
+						"a2-l014-learning-rate-stability"
+					],
+					"objectives": [
+						"Derive the momentum update as the discretization of m θ'' + γ θ' = -∇L and identify the momentum coefficient β with the fraction of velocity kept per step.",
+						"Explain why momentum speeds progress along shallow valleys and damps zigzag across steep ones, and when too large β causes overshoot (underdamped oscillation).",
+						"Describe Nesterov momentum as evaluating the gradient at the look-ahead point."
+					],
+					"keyEquations": [
+						"m\\ddot\\theta + \\gamma\\dot\\theta = -\\nabla L(\\theta)",
+						"v_{t+1} = \\beta v_t - \\eta\\nabla L(\\theta_t),\\quad \\theta_{t+1} = \\theta_t + v_{t+1}",
+						"\\text{Nesterov: } v_{t+1} = \\beta v_t - \\eta\\nabla L(\\theta_t + \\beta v_t)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "6.3",
+							"title": "Momentum"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.3.2",
+							"title": "Momentum"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.3.3",
+							"title": "Nesterov Momentum",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Race plain GD, momentum and Nesterov down a narrow curved valley (Rosenbrock), with a β slider that moves the ball from overdamped crawling to underdamped oscillation."
+					]
+				},
+				{
+					"id": "a2-l029-adaptive-optimizers",
+					"title": "Adaptive Step Sizes: AdaGrad, RMSProp and Adam",
+					"minutes": 45,
+					"objectives": [
+						"Write the AdaGrad, RMSProp and Adam updates and explain each as dividing the step by a running estimate of the gradient's scale, per parameter.",
+						"Derive Adam's bias correction by computing E[m_t] for a constant gradient starting from m_0 = 0.",
+						"Explain adaptive methods as a diagonal preconditioner that partly undoes ill-conditioning, analogous to using mass-weighted or scaled coordinates."
+					],
+					"keyEquations": [
+						"m_t = \\beta_1 m_{t-1} + (1-\\beta_1)g_t,\\quad v_t = \\beta_2 v_{t-1} + (1-\\beta_2)g_t^2",
+						"\\hat m_t = \\frac{m_t}{1-\\beta_1^t},\\ \\hat v_t = \\frac{v_t}{1-\\beta_2^t}",
+						"\\theta_{t+1} = \\theta_t - \\eta\\,\\frac{\\hat m_t}{\\sqrt{\\hat v_t}+\\epsilon}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "6.4",
+							"title": "Adam"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.5",
+							"title": "Algorithms with Adaptive Learning Rates"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.5.3",
+							"title": "Adam",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"On a badly scaled bowl (one axis 100x steeper), compare SGD, RMSProp and Adam trajectories, with a readout of each method's effective per-axis step size."
+					]
+				},
+				{
+					"id": "a2-l030-learning-rate-schedules",
+					"title": "Learning-Rate Schedules, Warmup and Annealing",
+					"minutes": 35,
+					"prereqs": [
+						"a2-l015-stochastic-gradient-descent"
+					],
+					"objectives": [
+						"Write step decay, exponential decay, cosine annealing and linear warmup as functions of the step t.",
+						"Explain why decaying the learning rate (lowering the SGD 'temperature') lets the iterate settle into a minimum, by analogy with simulated annealing and slow cooling in crystallization."
+					],
+					"keyEquations": [
+						"\\eta_t = \\eta_{\\min} + \\tfrac12(\\eta_{\\max}-\\eta_{\\min})\\bigl(1+\\cos(\\pi t/T)\\bigr)",
+						"\\eta_t = \\eta_0\\,\\gamma^{\\lfloor t/s\\rfloor}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "6.5",
+							"title": "Training algorithm hyperparameters"
+						},
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 3",
+							"title": "Improving the way neural networks learn",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Pick a schedule (constant, step, cosine, warmup + cosine) and watch noisy SGD on a rugged landscape: the schedule plot and the loss trace update together, showing the final settling."
+					]
+				},
+				{
+					"id": "a2-l031-loss-landscapes",
+					"title": "Loss Landscapes: Saddles, Plateaus and Flat Minima",
+					"minutes": 40,
+					"objectives": [
+						"Classify critical points by the signs of the Hessian eigenvalues and argue why, in high dimensions, saddle points vastly outnumber local minima.",
+						"Connect index-1 saddles to transition states on a potential energy surface, and explain why gradient noise helps escape them.",
+						"Explain the flat-versus-sharp minima picture of generalization and the caveat that sharpness depends on parametrization."
+					],
+					"keyEquations": [
+						"H_{ij} = \\frac{\\partial^2 L}{\\partial\\theta_i\\partial\\theta_j}",
+						"\\text{index} = \\#\\{\\lambda_i(H) < 0\\}"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.2.3",
+							"title": "Plateaus, Saddle Points and Other Flat Regions"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "20.3",
+							"title": "Properties of loss functions",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Explore a 2-D surface with a minimum, a saddle and a plateau: release balls with and without gradient noise and see where they stall; the Hessian eigenvalues at the cursor are shown live."
+					]
+				},
+				{
+					"id": "a2-l032-diagnosing-training",
+					"title": "Diagnosing Training: Learning Curves and Hyperparameters",
+					"minutes": 35,
+					"objectives": [
+						"Read training and validation loss curves to diagnose underfitting, overfitting, a learning rate that is too high or too low, and a bug.",
+						"Explain why hyperparameters are chosen on a validation set and compare grid search with random search."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "8.1",
+							"title": "Training a simple model"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "8.5",
+							"title": "Choosing hyperparameters"
+						},
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 3",
+							"title": "Improving the way neural networks learn",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"A gallery of learning-curve pairs (train/validation) to label as overfit, underfit, learning rate too high, or healthy, with instant feedback."
+					]
+				}
+			]
+		},
+		{
+			"id": "a2-u07-deep-training",
+			"title": "Training Deep Networks: Initialization, Gradients and Regularization",
+			"summary": "Why deep networks are hard to train (products of Jacobians make gradients vanish or explode), how variance-preserving initialization and batch normalization fix it, and how weight decay (a harmonic restraint, or a Gaussian prior), dropout, early stopping and data augmentation keep a large network from memorizing its data.",
+			"lessons": [
+				{
+					"id": "a2-l033-vanishing-exploding-gradients",
+					"title": "Vanishing and Exploding Gradients",
+					"minutes": 40,
+					"prereqs": [
+						"a2-l018-backpropagating-error"
+					],
+					"objectives": [
+						"Show from BP2 that the gradient at layer l contains a product of (L - l) factors W^k σ'(z^k), and that with sigmoid (σ' ≤ 1/4) and small weights it shrinks geometrically.",
+						"Explain the exploding case (large weights) and why the two are 'unstable gradients' as a single phenomenon."
+					],
+					"keyEquations": [
+						"\\delta^l = \\sigma'(z^l)\\odot (W^{l+1})^\\top\\sigma'(z^{l+1})\\odot\\cdots(W^L)^\\top\\,\\nabla_a C\\odot\\sigma'(z^L)",
+						"\\max_z \\sigma'(z) = \\tfrac14"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 5",
+							"title": "Why are deep neural networks hard to train?"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.2.4",
+							"title": "Cliffs and Exploding Gradients",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"A deep chain of layers drawn as a bar chart of gradient norm per layer; sliders for depth, weight scale and activation show the bars shrinking to nothing or blowing up."
+					]
+				},
+				{
+					"id": "a2-l034-initialization",
+					"title": "Variance-Preserving Initialization (Xavier and He)",
+					"minutes": 45,
+					"prereqs": [
+						"a2-l005-activation-functions"
+					],
+					"objectives": [
+						"Derive that Var(z) = n_in Var(w) Var(x) for independent zero-mean weights and inputs, and choose Var(w) to keep activation variance constant from layer to layer.",
+						"Derive the He initialization Var(w) = 2/n_in for ReLU by accounting for half the units being zero, and state the Xavier/Glorot compromise between forward and backward passes."
+					],
+					"keyEquations": [
+						"\\operatorname{Var}(z) = n_{\\text{in}}\\operatorname{Var}(w)\\operatorname{Var}(x)",
+						"\\operatorname{Var}(w) = \\frac{2}{n_{\\text{in}}+n_{\\text{out}}}\\ \\text{(Glorot)}",
+						"\\operatorname{Var}(w) = \\frac{2}{n_{\\text{in}}}\\ \\text{(He, ReLU)}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "7.5",
+							"title": "Parameter initialization"
+						},
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 3",
+							"title": "Improving the way neural networks learn"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.4",
+							"title": "Parameter Initialization Strategies",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "Building makemore Part 3: Activations & Gradients, BatchNorm",
+							"url": "https://youtu.be/P6sfmUTpUmc",
+							"minutes": 115,
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Push random data through a 20-layer network and show histograms of activations at each layer; switch between naive, Xavier and He initialization to watch them collapse, saturate or stay healthy."
+					]
+				},
+				{
+					"id": "a2-l035-batch-normalization",
+					"title": "Batch Normalization",
+					"minutes": 40,
+					"objectives": [
+						"Write the batch-norm transform (standardize over the batch, then scale by γ and shift by β) and explain why γ and β are learned.",
+						"Explain batch norm's effect on training stability and the difference between training-mode (batch statistics) and inference-mode (running averages) behavior."
+					],
+					"keyEquations": [
+						"\\hat x = \\frac{x - \\mu_B}{\\sqrt{\\sigma_B^2 + \\epsilon}},\\quad y = \\gamma\\hat x + \\beta"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.7.1",
+							"title": "Batch Normalization"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "11.4",
+							"title": "Batch normalization",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "Building makemore Part 3: Activations & Gradients, BatchNorm",
+							"url": "https://youtu.be/P6sfmUTpUmc",
+							"minutes": 115,
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Toggle batch norm on and off in a deep network and compare per-layer activation histograms and the training curve at a high learning rate."
+					]
+				},
+				{
+					"id": "a2-l036-overfitting-generalization",
+					"title": "Overfitting, Generalization and Double Descent",
+					"minutes": 35,
+					"objectives": [
+						"Diagnose overfitting from the gap between training and test error, and explain why a network with more parameters than examples can memorize random labels.",
+						"Describe the double-descent curve (test error vs model size peaks near the interpolation threshold, then falls) and how it complicates the classical bias-variance picture."
+					],
+					"keyEquations": [
+						"\\text{test error} = \\text{bias}^2 + \\text{variance} + \\text{noise}"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 3",
+							"title": "Improving the way neural networks learn"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "8.2",
+							"title": "Sources of error"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "8.4",
+							"title": "Double descent",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Fit noisy data with networks of growing width: a slider for width shows the fitted curve and a test-error-vs-width plot tracing the double-descent shape."
+					]
+				},
+				{
+					"id": "a2-l037-weight-decay",
+					"title": "Weight Decay: L2 and L1 Regularization",
+					"minutes": 35,
+					"objectives": [
+						"Show that adding (λ/2)‖w‖² to the loss turns the update into w <- (1 - ηλ)w - η∇L, and interpret it as a harmonic restraint pulling weights to zero.",
+						"Derive L2 regularization as MAP estimation with a Gaussian prior on the weights, and L1 as a Laplace prior that drives weights exactly to zero."
+					],
+					"keyEquations": [
+						"\\tilde L = L + \\frac{\\lambda}{2}\\|w\\|^2",
+						"w \\leftarrow (1-\\eta\\lambda)\\,w - \\eta\\nabla L",
+						"p(w) \\propto e^{-\\lambda\\|w\\|^2/2}"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 3",
+							"title": "Improving the way neural networks learn"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "9.1",
+							"title": "Explicit regularization"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "7.1",
+							"title": "Parameter Norm Penalties",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Contour plot of a loss plus an L2 (circle) or L1 (diamond) constraint region: drag the penalty strength and see where the constrained optimum lands, often on an axis for L1."
+					]
+				},
+				{
+					"id": "a2-l038-dropout-ensembles",
+					"title": "Dropout and Ensembles",
+					"minutes": 40,
+					"objectives": [
+						"Describe dropout (randomly zeroing units with probability p during training, rescaling by 1/(1-p)) and why no units are dropped at test time.",
+						"Explain dropout as training an exponentially large ensemble of weight-sharing subnetworks, and why it discourages co-adapted features."
+					],
+					"keyEquations": [
+						"\\tilde h = \\frac{m \\odot h}{1-p},\\quad m_i \\sim \\text{Bernoulli}(1-p)"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 3",
+							"title": "Improving the way neural networks learn"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "9.3",
+							"title": "Heuristics to improve performance"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "7.12",
+							"title": "Dropout",
+							"optional": true
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "7.11",
+							"title": "Bagging and Other Ensemble Methods",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Watch a small network with dropout: each training step blacks out a random subset of units, while a side plot compares train/test error with and without dropout."
+					]
+				},
+				{
+					"id": "a2-l039-early-stopping-augmentation",
+					"title": "Early Stopping, Noise and Data Augmentation",
+					"minutes": 35,
+					"objectives": [
+						"Explain early stopping as choosing the number of steps on validation data, and show that for a quadratic loss it acts like L2 regularization with λ roughly 1/(η t).",
+						"Explain data augmentation and input noise as encoding known invariances (e.g. small rotations, shifts) and relate noise injection to an implicit penalty on the network's slope."
+					],
+					"keyEquations": [
+						"\\lambda_{\\text{eff}} \\approx \\frac{1}{\\eta\\,t}"
+					],
+					"readings": [
+						{
+							"bookId": "nielsen-nndl",
+							"ref": "Ch. 3",
+							"title": "Improving the way neural networks learn"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "7.8",
+							"title": "Early Stopping"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "7.4",
+							"title": "Dataset Augmentation",
+							"optional": true
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "9.2",
+							"title": "Implicit regularization",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Train on a small data set while plotting train and validation loss; a marker shows the early-stopping point, and an 'augment' toggle adds jittered copies and moves the validation minimum."
+					]
+				}
+			]
+		},
+		{
+			"id": "a2-u08-energy-models",
+			"title": "Energy-Based Models: Hopfield Networks and Boltzmann Machines",
+			"summary": "Networks defined by an energy function rather than a feedforward map. A Hopfield network is a zero-temperature Ising model whose couplings store memories; a Boltzmann machine is the same model at finite temperature, sampled by Gibbs (heat-bath Monte Carlo), whose learning rule needs averages over the Boltzmann distribution, which is why the partition function of P7 is the central obstacle.",
+			"lessons": [
+				{
+					"id": "a2-l040-hopfield-energy",
+					"title": "Hopfield Networks as Zero-Temperature Ising Models",
+					"minutes": 40,
+					"objectives": [
+						"Write the Hopfield energy E = -½ Σ w_ij s_i s_j - Σ b_i s_i and map it term by term onto the Ising Hamiltonian (w_ij to J_ij, b_i to h_i, s_i = ±1 to spins).",
+						"Prove that an asynchronous update s_i <- sign(Σ_j w_ij s_j + b_i) never increases E when w is symmetric with zero diagonal, so the dynamics descend to a local minimum."
+					],
+					"keyEquations": [
+						"E(s) = -\\tfrac12\\sum_{i\\ne j} w_{ij}s_is_j - \\sum_i b_is_i \\;\\leftrightarrow\\; H = -\\sum_{\\langle ij\\rangle} J_{ij}\\sigma_i\\sigma_j - \\sum_i h_i\\sigma_i",
+						"\\Delta E = -\\Delta s_i\\Bigl(\\sum_j w_{ij}s_j + b_i\\Bigr) \\le 0"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "16.2.4",
+							"title": "Energy-Based Models",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"A grid of ±1 spins shown as black/white pixels with an energy readout: click 'update' and watch single spins flip one at a time while the energy trace only goes down."
+					]
+				},
+				{
+					"id": "a2-l041-hopfield-memory",
+					"title": "Associative Memory: Hebbian Storage and Capacity",
+					"minutes": 40,
+					"objectives": [
+						"Store patterns with the Hebbian rule w_ij = (1/N) Σ_μ ξ_i^μ ξ_j^μ and show that each stored pattern is a fixed point when patterns are few and nearly orthogonal (signal plus crosstalk argument).",
+						"Explain recall from a corrupted cue, spurious states (mixtures and reversed patterns), and the capacity limit of about 0.14 N random patterns."
+					],
+					"keyEquations": [
+						"w_{ij} = \\frac1N\\sum_{\\mu=1}^{P}\\xi_i^\\mu\\xi_j^\\mu",
+						"h_i = \\xi_i^\\nu + \\frac1N\\sum_{\\mu\\ne\\nu}\\sum_j \\xi_i^\\mu\\xi_j^\\mu\\xi_j^\\nu",
+						"P_{\\max} \\approx 0.138\\,N"
+					],
+					"readings": [],
+					"lectures": [],
+					"demoIdeas": [
+						"Draw letters on a 10x10 grid to store them, then corrupt one with a noise slider and run the network: it snaps back to the stored letter, or into a spurious mixture when too many letters are stored."
+					]
+				},
+				{
+					"id": "a2-l042-boltzmann-stochastic-units",
+					"title": "Stochastic Units and the Boltzmann Distribution",
+					"minutes": 40,
+					"prereqs": [
+						"a2-l012-softmax-cross-entropy"
+					],
+					"objectives": [
+						"Replace the deterministic Hopfield update with the stochastic rule p(s_i = 1) = σ(2h_i/T) for ±1 units and show that it samples the Boltzmann distribution p(s) = e^{-E(s)/T}/Z (Gibbs sampling, the heat-bath algorithm for the Ising model).",
+						"Explain the role of temperature: T to 0 recovers the Hopfield network, large T randomizes; compare to Metropolis Monte Carlo the chemist may have used.",
+						"Explain why Z = Σ_s e^{-E(s)/T} is a sum over 2^N states and therefore intractable, just as for the Ising model."
+					],
+					"keyEquations": [
+						"p(s) = \\frac{e^{-E(s)/T}}{Z},\\quad Z = \\sum_{s} e^{-E(s)/T}",
+						"p(s_i = +1 \\mid s_{\\setminus i}) = \\sigma\\!\\bigl(2h_i/T\\bigr),\\quad h_i = \\sum_j w_{ij}s_j + b_i"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "17.4",
+							"title": "Gibbs Sampling"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "20.1",
+							"title": "Boltzmann Machines"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"A 2-D Ising-like Boltzmann machine with a temperature slider: Gibbs sweeps run live, showing ordered domains at low T and noise at high T, with a histogram of visited energies."
+					]
+				},
+				{
+					"id": "a2-l043-boltzmann-learning",
+					"title": "Learning in Boltzmann Machines: Clamped vs Free Correlations",
+					"minutes": 45,
+					"objectives": [
+						"Derive the log-likelihood gradient ∂ ln p(v)/∂w_ij = ⟨s_i s_j⟩_data - ⟨s_i s_j⟩_model from p = e^{-E}/Z, identifying the second term as coming from ∂ ln Z/∂w_ij.",
+						"Interpret the two phases (clamped 'positive' and free-running 'negative') and explain why estimating the model term needs equilibrium sampling, the costly step.",
+						"Relate ∂ ln Z/∂w_ij = ⟨s_i s_j⟩ to the stat-mech identity that derivatives of ln Z with respect to a coupling give thermal averages."
+					],
+					"keyEquations": [
+						"\\frac{\\partial \\ln p(v)}{\\partial w_{ij}} = \\langle s_is_j\\rangle_{\\text{data}} - \\langle s_is_j\\rangle_{\\text{model}}",
+						"\\frac{\\partial \\ln Z}{\\partial w_{ij}} = \\langle s_is_j\\rangle_{\\text{model}}\\ (T=1)"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "18.1",
+							"title": "The Log-Likelihood Gradient"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "20.1",
+							"title": "Boltzmann Machines",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Train a tiny fully visible Boltzmann machine on a few binary patterns; bars compare the data correlations with the model's sampled correlations, converging as learning proceeds."
+					]
+				},
+				{
+					"id": "a2-l044-rbm-contrastive-divergence",
+					"title": "Restricted Boltzmann Machines and Contrastive Divergence",
+					"minutes": 45,
+					"objectives": [
+						"Write the RBM energy with a bipartite visible-hidden structure and show that the hidden units are conditionally independent given the visibles (and vice versa), so block Gibbs sampling is exact per layer.",
+						"Derive the free energy F(v) obtained by summing out the hidden units, and explain CD-k as approximating the model term with k Gibbs steps started at the data."
+					],
+					"keyEquations": [
+						"E(v,h) = -a^\\top v - b^\\top h - v^\\top W h",
+						"p(h_j = 1\\mid v) = \\sigma\\bigl(b_j + (W^\\top v)_j\\bigr)",
+						"F(v) = -a^\\top v - \\sum_j \\ln\\bigl(1 + e^{\\,b_j + (W^\\top v)_j}\\bigr)"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "20.2",
+							"title": "Restricted Boltzmann Machines"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "18.2",
+							"title": "Stochastic Maximum Likelihood and Contrastive Divergence"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"An RBM trained on small binary images: show reconstructions after 1, 5 and 25 steps of block Gibbs, and the learned weight filters, as training with CD-1 proceeds."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "a2-midterm",
+			"kind": "midterm",
+			"title": "A2 Midterm: Neurons, Multilayer Networks, Gradient Descent and Backpropagation",
+			"covers": [
+				"a2-u01-neurons",
+				"a2-u02-multilayer",
+				"a2-u03-learning",
+				"a2-u04-backprop"
+			],
+			"minutes": 110,
+			"passMark": 0.7
+		},
+		{
+			"id": "a2-final",
+			"kind": "final",
+			"title": "A2 Final: Neural Networks",
+			"covers": [
+				"a2-u01-neurons",
+				"a2-u02-multilayer",
+				"a2-u03-learning",
+				"a2-u04-backprop",
+				"a2-u05-autodiff",
+				"a2-u06-optimization",
+				"a2-u07-deep-training",
+				"a2-u08-energy-models"
+			],
+			"minutes": 170,
+			"passMark": 0.7
+		}
+	],
+	"project": {
+		"title": "micrograd from Scratch: A Tiny Autograd Engine and an MLP Trained with It",
+		"summary": "Build a scalar reverse-mode automatic differentiation engine in plain Python (a Value class that records the computational graph and backpropagates through it), then build a neuron, layer and multilayer perceptron on top of it and train the MLP with your own SGD loop on a small 2-D classification problem, checking every gradient against finite differences.",
+		"goals": [
+			"Turn the hand-derived backpropagation of Units 4–5 into working code whose gradients match finite differences.",
+			"Implement reverse-mode autodiff with correct fan-out accumulation and reverse topological ordering.",
+			"Train an MLP end to end with your own engine and see the decision boundary form.",
+			"Compare plain SGD with momentum, and observe the effect of learning rate and initialization on training."
+		],
+		"steps": [
+			"Write a Value class holding data, grad, its parent nodes and the operation that made it; support +, -, *, /, ** and exp, with operator overloading.",
+			"Give each operation a local _backward closure that accumulates (+=) gradients into its parents; add tanh and ReLU.",
+			"Implement backward(): build a topological order of the graph with a depth-first search, set the output grad to 1 and call _backward in reverse order.",
+			"Verify gradients on random expressions against central finite differences (relative error below 1e-6), including a node used twice.",
+			"Build Neuron, Layer and MLP classes on top of Value, with a parameters() method; use a sensible initialization scale.",
+			"Generate a 2-D data set (two moons or concentric circles), write a hinge or cross-entropy loss with L2 weight decay, and train with a minibatch SGD loop that zeroes gradients each step.",
+			"Plot the loss curve and the decision boundary at several epochs; add momentum and a learning-rate decay and compare.",
+			"Optional: cross-check one training step's gradients against PyTorch autograd on the same network and data."
+		],
+		"stack": "Python (standard library for the engine), NumPy and Matplotlib for data and plots; PyTorch optional, only to cross-check gradients",
+		"hours": 20
+	}
+}

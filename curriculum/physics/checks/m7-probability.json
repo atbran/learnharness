@@ -1,0 +1,1448 @@
+{
+	"courseId": "m7-probability",
+	"checks": {
+		"m7-l001-sample-spaces-naive-probability": [
+			{
+				"kind": "mc",
+				"prompt": "Two vials are tested. Let $A$ be the event that the first vial passes and $B$ that the second passes. Which set is the event 'neither vial passes'?",
+				"options": [
+					"$A^c \\cup B^c$",
+					"$(A \\cap B)^c$",
+					"$A^c \\cap B^c$",
+					"$A \\cap B^c$"
+				],
+				"answer": 2,
+				"explanation": "'Neither passes' means the first fails and the second fails: $A^c \\cap B^c$, which by De Morgan equals $(A\\cup B)^c$. Both $A^c\\cup B^c$ and $(A\\cap B)^c$ mean 'not both pass', a larger event that includes one-pass outcomes."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A rack holds 10 vials: 4 of compound A and 6 of compound B. You pick 2 vials at random without replacement. Using the naive definition, what is the probability that both are compound A? Give a probability between 0 and 1.",
+				"answer": 0.133333,
+				"tolerance": 0.02,
+				"explanation": "Treat each unordered pair as one equally likely outcome: $|S| = \\binom{10}{2} = 45$ and $|A| = \\binom{4}{2} = 6$, so $P = 6/45 \\approx 0.133$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A student argues: 'A reaction either gives the product or it does not, so by the naive definition $P(\\text{product}) = 1/2$.' What is wrong?",
+				"options": [
+					"Nothing; any two-outcome experiment has probability 1/2 each.",
+					"The outcomes need not be equally likely, so $|A|/|S|$ does not apply.",
+					"The sample space is infinite, because yields are continuous.",
+					"The naive definition only applies to coins and dice, never to chemistry."
+				],
+				"answer": 1,
+				"explanation": "The naive definition $|A|/|S|$ needs a finite sample space of equally likely outcomes. Listing two outcomes says nothing about their weights; a reliable reaction succeeds far more often than half the time."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, explain what a sample space and an event are, and state exactly when $P(A) = |A|/|S|$ is valid. Give one lab example where it is valid and one where it is not.",
+				"rubric": "Full credit requires: (1) the sample space is the set of all possible outcomes of the experiment and an event is a subset of it; (2) the naive formula needs a finite sample space with all outcomes equally likely; (3) a valid example (e.g. drawing a vial at random from a rack, where each vial is equally likely) and an invalid one (e.g. outcomes with different probabilities, such as 'reaction works / fails' or the sum of two dice treated as equally likely sums).",
+				"modelAnswer": "The sample space $S$ lists every possible outcome of the experiment; an event is any subset of $S$, built from others with union (or), intersection (and) and complement (not). $P(A) = |A|/|S|$ only works when $S$ is finite and every outcome is equally likely, as when a vial is drawn blindly from a well-mixed rack. It fails when outcomes carry different weights, such as 'the reaction works' versus 'it fails', or the possible sums of two dice."
+			}
+		],
+		"m7-l002-counting-binomial-coefficients-story-proofs": [
+			{
+				"kind": "mc",
+				"prompt": "You stock a shelf with 4 reagent bottles chosen from 7 available types. Repeats are allowed and the order on the shelf does not matter. How many different selections are possible?",
+				"options": [
+					"$7^4 = 2401$",
+					"$\\binom{7}{4} = 35$",
+					"$7\\cdot6\\cdot5\\cdot4 = 840$",
+					"$\\binom{10}{4} = 210$"
+				],
+				"answer": 3,
+				"explanation": "Unordered with replacement is the stars-and-bars entry of the sampling table: $\\binom{n+k-1}{k} = \\binom{10}{4} = 210$. $7^4$ is ordered with replacement, $840$ is ordered without, and $35$ is unordered without replacement."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Two deuterium atoms are placed at random on two of the six C–H positions of benzene, each pair of positions equally likely. What is the probability that the product is the para isomer? Give a probability between 0 and 1.",
+				"answer": 0.2,
+				"tolerance": 0.02,
+				"explanation": "There are $\\binom{6}{2} = 15$ equally likely pairs of positions: 6 ortho pairs, 6 meta pairs and only 3 para pairs, so $P(\\text{para}) = 3/15 = 0.2$. The three isomers are distinct but not equally likely, so counting isomers (1/3 each) would be wrong."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A story proof of $n\\binom{n-1}{k-1} = k\\binom{n}{k}$ counts the ways to form a $k$-person committee from $n$ people with one member named chair. What does each side count?",
+				"options": [
+					"Left: choose the chair first, then the other $k-1$. Right: choose the committee, then its chair.",
+					"Left: choose the committee, then its chair. Right: choose the chair, then the other $k-1$.",
+					"Both sides count committees without a chair, once ordered and once unordered.",
+					"Left counts ordered lists of $k$ people; right counts unordered sets of $k$ people."
+				],
+				"answer": 0,
+				"explanation": "$n\\binom{n-1}{k-1}$: pick the chair ($n$ ways), then fill the other $k-1$ seats from the remaining $n-1$. $k\\binom{n}{k}$: pick the committee, then one of its $k$ members as chair. Both count the same set, so they are equal; no algebra needed."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the number of ways to choose 3 of 12 NMR tubes is $\\binom{12}{3} = 220$ when order does not matter but $12\\cdot11\\cdot10 = 1320$ when it does, and why dividing an ordered count by $k!$ fails when sampling with replacement.",
+				"rubric": "Full credit requires: (1) ordered without replacement gives $12\\cdot11\\cdot10$ by the multiplication rule; (2) each unordered set of 3 appears in $3! = 6$ orders, so $1320/6 = 220$; (3) with replacement, samples with repeats appear in fewer than $k!$ orders (e.g. $\\{a,a,b\\}$ has 3 orderings, not 6), so dividing by $k!$ is wrong and the formula $\\binom{n+k-1}{k}$ is needed.",
+				"modelAnswer": "Picking tubes one at a time gives $12$, then $11$, then $10$ choices, so $1320$ ordered lists. Each set of three tubes shows up in $3! = 6$ of those lists, so there are $1320/6 = 220$ unordered sets. With replacement the trick breaks, because a sample with repeats such as $\\{a, a, b\\}$ appears in only 3 orders rather than 6, so the ordered count does not divide evenly into unordered samples; that is why the with-replacement entry is $\\binom{n+k-1}{k}$ instead."
+			}
+		],
+		"m7-l003-axioms-inclusion-exclusion": [
+			{
+				"kind": "numeric",
+				"prompt": "Twenty samples are each given a random two-digit code from 00 to 99, independently and uniformly. What is the probability that at least two samples share a code? Give a probability between 0 and 1.",
+				"answer": 0.8696,
+				"tolerance": 0.02,
+				"explanation": "Use the complement: $P(\\text{all distinct}) = \\frac{100}{100}\\cdot\\frac{99}{100}\\cdots\\frac{81}{100} \\approx 0.130$, so $P(\\text{clash}) \\approx 0.870$. Like the birthday problem, clashes are likely long before the samples outnumber the codes, because there are $\\binom{20}{2} = 190$ pairs that could collide."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Three impurity screens flag events $A$, $B$, $C$ with $P(A)=P(B)=P(C)=0.2$, each pairwise intersection having probability $0.05$, and $P(A\\cap B\\cap C)=0.01$. What is the probability that at least one screen flags? Give a probability between 0 and 1.",
+				"answer": 0.46,
+				"tolerance": 0.02,
+				"explanation": "Inclusion-exclusion: $P(A\\cup B\\cup C) = 0.6 - 3(0.05) + 0.01 = 0.46$. Subtracting pairs removes the triple overlap three times after adding it three times, so it is added back once."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Labels are put on $n$ vials completely at random (one label per vial). As $n$ grows, what happens to the probability that at least one vial gets its own label?",
+				"options": [
+					"It falls like $1/n$, since each match becomes less likely.",
+					"It tends to $1 - 1/e \\approx 0.632$ and barely depends on $n$.",
+					"It rises towards 1, since more vials give more chances for a match.",
+					"It stays at exactly 1/2 for every $n$ by symmetry."
+				],
+				"answer": 1,
+				"explanation": "Inclusion-exclusion over the events 'vial $j$ matches' gives $1 - \\frac{1}{2!} + \\frac{1}{3!} - \\cdots \\pm \\frac{1}{n!} \\to 1 - 1/e$. Each match gets rarer, but there are more vials; the two effects cancel."
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting only from the two axioms ($P(S)=1$, $P(\\emptyset)=0$, and additivity for disjoint events), derive $P(A^c) = 1 - P(A)$ and $P(A\\cup B) = P(A) + P(B) - P(A\\cap B)$. Explain each step in words.",
+				"rubric": "Full credit requires: (1) $A$ and $A^c$ are disjoint with union $S$, so $P(A)+P(A^c) = 1$; (2) split $A\\cup B$ into the disjoint pieces $A$ and $B\\cap A^c$, and split $B$ into $B\\cap A$ and $B\\cap A^c$; (3) combine to get $P(A\\cup B) = P(A) + P(B) - P(A\\cap B)$, explaining that the overlap would otherwise be counted twice.",
+				"modelAnswer": "$A$ and $A^c$ do not overlap and together make up $S$, so additivity gives $P(A) + P(A^c) = P(S) = 1$. For the union, write $A\\cup B$ as the disjoint pieces $A$ and $B\\cap A^c$, so $P(A\\cup B) = P(A) + P(B\\cap A^c)$. Also $B$ is the disjoint union of $B\\cap A$ and $B\\cap A^c$, so $P(B\\cap A^c) = P(B) - P(A\\cap B)$. Substituting gives the formula: adding $P(A)$ and $P(B)$ counts the overlap twice, so it is subtracted once."
+			}
+		],
+		"m7-l004-conditional-probability": [
+			{
+				"kind": "numeric",
+				"prompt": "Of 200 samples, 120 were prepared by lab A (12 contaminated) and 80 by lab B (16 contaminated). A sample picked at random is contaminated. What is the probability it came from lab B? Give a probability between 0 and 1.",
+				"answer": 0.571429,
+				"tolerance": 0.02,
+				"explanation": "Conditioning on 'contaminated' restricts the sample space to the 28 contaminated samples, of which 16 are from lab B: $P(B\\mid \\text{cont}) = 16/28 \\approx 0.571$. Lab B is the minority overall but the majority among the contaminated."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A rack of 10 samples contains 3 contaminated ones. You draw two samples in a row without replacement. What is the probability that both are contaminated? Give a probability between 0 and 1.",
+				"answer": 0.066667,
+				"tolerance": 0.02,
+				"explanation": "Multiplication rule: $P(C_1\\cap C_2) = P(C_1)P(C_2\\mid C_1) = \\frac{3}{10}\\cdot\\frac{2}{9} \\approx 0.0667$. The second factor is conditional because the first draw changed what is left in the rack."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For two events with $P(A) > 0$ and $P(B) > 0$, which statement about $P(A\\mid B)$ is always true?",
+				"options": [
+					"It equals $P(B\\mid A)$, since both involve $A$ and $B$.",
+					"It is at most $P(A)$, since conditioning removes outcomes.",
+					"It equals $P(A\\cap B)$ divided by $P(B)$.",
+					"It equals $P(A)P(B)$ when the events overlap."
+				],
+				"answer": 2,
+				"explanation": "$P(A\\mid B) = P(A\\cap B)/P(B)$: keep only outcomes in $B$, then rescale so $B$ has total probability 1. It can be larger or smaller than $P(A)$, and it generally differs from $P(B\\mid A)$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why $P(A\\mid B)$ is computed as $P(A\\cap B)/P(B)$. Describe what happens to the sample space when you condition on $B$, and why you divide.",
+				"rubric": "Full credit requires: (1) conditioning on $B$ means we know $B$ happened, so outcomes outside $B$ are discarded and $B$ becomes the new sample space; (2) the part of $A$ still possible is $A\\cap B$; (3) dividing by $P(B)$ renormalises so the new sample space has total probability 1, keeping the relative weights of outcomes inside $B$ unchanged.",
+				"modelAnswer": "Learning that $B$ occurred rules out every outcome outside $B$, so $B$ becomes the whole world. Within that world, $A$ can only happen through $A\\cap B$. The surviving outcomes keep their relative weights but now must add to 1, so every probability inside $B$ is divided by $P(B)$; that gives $P(A\\cap B)/P(B)$."
+			}
+		],
+		"m7-l005-bayes-rule-total-probability-diagnostic-tests": [
+			{
+				"kind": "numeric",
+				"prompt": "A spot test for a banned additive has sensitivity 99% and specificity 95%. 1% of tested samples contain the additive. A sample tests positive. What is the probability it really contains the additive? Give a probability between 0 and 1.",
+				"answer": 0.166667,
+				"tolerance": 0.02,
+				"explanation": "$P(+) = 0.99(0.01) + 0.05(0.99) = 0.0594$ by total probability, and Bayes gives $P(\\text{add}\\mid +) = 0.0099/0.0594 \\approx 0.167$. Among 10,000 samples, about 99 true positives are swamped by about 495 false positives from the clean majority."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Vials come from three suppliers: 50% from X (1% defective), 30% from Y (2% defective), and 20% from Z (5% defective). A randomly chosen vial is defective. What is the probability it came from Z? Give a probability between 0 and 1.",
+				"answer": 0.47619,
+				"tolerance": 0.02,
+				"explanation": "Total probability: $P(D) = 0.5(0.01) + 0.3(0.02) + 0.2(0.05) = 0.021$. Bayes: $P(Z\\mid D) = 0.010/0.021 \\approx 0.476$. Z supplies only 20% of vials but nearly half of the defects."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A test with 99% sensitivity and 99% specificity is used to screen for a condition with prevalence 0.01%. Why are most positives false?",
+				"options": [
+					"The test is badly designed; 99% specificity is too low to be useful.",
+					"Sensitivity and specificity change when the condition is rare.",
+					"Positives are rare, so random noise dominates every result.",
+					"False positives from the huge negative group outnumber the few true cases."
+				],
+				"answer": 3,
+				"explanation": "With prevalence $10^{-4}$, a million samples hold about 100 true cases (99 detected) but 999,900 negatives, of which 1% (about 10,000) test positive. The PPV is about 1%, even though the test itself is excellent; the prior matters."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, explain why the positive predictive value of a test depends on the prevalence, while sensitivity and specificity do not. Use Bayes' rule and the law of total probability.",
+				"rubric": "Full credit requires: (1) sensitivity $P(+\\mid D)$ and specificity $P(-\\mid D^c)$ are properties of the test, conditioned on the true state; (2) PPV is $P(D\\mid +) = P(+\\mid D)P(D)/P(+)$, where $P(+) = P(+\\mid D)P(D) + P(+\\mid D^c)P(D^c)$ by total probability; (3) when $P(D)$ is small, the false-positive term $P(+\\mid D^c)P(D^c)$ dominates $P(+)$, so the PPV falls.",
+				"modelAnswer": "Sensitivity and specificity are conditioned on the true state, so they describe the test alone. The PPV inverts the conditional: $P(D\\mid +) = P(+\\mid D)P(D)/P(+)$, and the denominator $P(+)$ adds positives from both groups, $P(+\\mid D)P(D) + P(+\\mid D^c)P(D^c)$. When the condition is rare, even a small false-positive rate acting on the large healthy group produces more positives than the true cases, so the PPV drops."
+			}
+		],
+		"m7-l006-bayes-odds-spectral-assignment": [
+			{
+				"kind": "numeric",
+				"prompt": "Your prior probability that a product is the ketone (rather than the alternative ester) is 0.2. An IR band has likelihood ratio 6 in favour of the ketone and an MS fragment has likelihood ratio 3, and the two are conditionally independent given the structure. What is the posterior probability of the ketone? Give a probability between 0 and 1.",
+				"answer": 0.818182,
+				"tolerance": 0.02,
+				"explanation": "Prior odds $= 0.2/0.8 = 0.25$. Posterior odds $= 0.25\\times6\\times3 = 4.5$, so $P = 4.5/5.5 \\approx 0.818$. In odds form each independent piece of evidence simply multiplies in."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Four candidate structures A–D have priors 0.4, 0.3, 0.2, 0.1 from the synthetic route. The joint likelihood of the observed IR, NMR and MS features under each is 0.1, 0.5, 0.6, 0.9 respectively. What is the posterior probability of structure B? Give a probability between 0 and 1.",
+				"answer": 0.375,
+				"tolerance": 0.02,
+				"explanation": "Unnormalised posteriors are $0.04, 0.15, 0.12, 0.09$, summing to $0.40$, so $P(B\\mid E) = 0.15/0.40 = 0.375$. B wins because it balances a fair prior with a good fit; D fits best but started least plausible."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You multiply the likelihood ratios of an IR carbonyl band and an NMR multiplet to update the odds on a structure. What assumption makes that multiplication valid?",
+				"options": [
+					"The two features are independent of each other in the overall population.",
+					"The two candidate structures had equal prior probabilities.",
+					"The two features are conditionally independent given each structure.",
+					"Each likelihood ratio is larger than 1 for the favoured structure."
+				],
+				"answer": 2,
+				"explanation": "$P(E_1,E_2\\mid H) = P(E_1\\mid H)P(E_2\\mid H)$ requires conditional independence given each hypothesis. The features are usually dependent unconditionally (both reflect the true structure), and equal priors or LR > 1 are irrelevant to the multiplication."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why it is legitimate to update on evidence one piece at a time (first the IR, then the NMR) instead of all at once, and why conditional probabilities given some evidence $E$ obey all the usual probability rules.",
+				"rubric": "Full credit requires: (1) $P(\\cdot\\mid E)$ is itself a probability function: non-negative, $P(S\\mid E) = 1$, additive over disjoint events, so Bayes' rule and every other rule hold for it; (2) the posterior after the first piece of evidence becomes the prior for the second; (3) updating sequentially gives the same posterior as conditioning on both pieces at once, because $P(H\\mid E_1,E_2) \\propto P(E_2\\mid H,E_1)P(H\\mid E_1)$ (which reduces to $P(E_2\\mid H)$ under conditional independence).",
+				"modelAnswer": "Conditioning on $E$ just restricts the world to $E$ and renormalises, so $P(\\cdot\\mid E)$ satisfies both axioms and inherits every rule, Bayes' rule included. So after the IR, the posterior $P(H\\mid E_1)$ can serve as the new prior: $P(H\\mid E_1,E_2) \\propto P(E_2\\mid H,E_1)\\,P(H\\mid E_1)$. That is exactly what you would get conditioning on both at once, so the order and grouping of evidence do not matter (and if the features are conditionally independent given $H$, $P(E_2\\mid H,E_1)$ is just $P(E_2\\mid H)$)."
+			}
+		],
+		"m7-l007-independence-conditional-independence": [
+			{
+				"kind": "mc",
+				"prompt": "Two fair coins are tossed. $A$ = first is heads, $B$ = second is heads, $C$ = the two coins match. Which describes $A$, $B$, $C$?",
+				"options": [
+					"Fully independent, since each pair factorises.",
+					"Pairwise independent but not fully independent.",
+					"Not even pairwise independent, since $C$ depends on both coins.",
+					"Fully independent, because the coins are physically separate."
+				],
+				"answer": 1,
+				"explanation": "Each event has probability 1/2 and each pair intersection has probability 1/4, so every pair is independent. But $P(A\\cap B\\cap C) = 1/4 \\ne 1/8$: knowing $A$ and $B$ fixes $C$. Full independence needs the triple product too."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A sample is contaminated with probability 0.1. Two instruments test it; each flags a contaminated sample with probability 0.9 and a clean one with probability 0.05, independently given the sample's true state. Given that instrument 1 flags, what is the probability that instrument 2 also flags? Give a probability between 0 and 1.",
+				"answer": 0.616667,
+				"tolerance": 0.02,
+				"explanation": "$P(F_1) = 0.1(0.9) + 0.9(0.05) = 0.135$ and $P(F_1\\cap F_2) = 0.1(0.81) + 0.9(0.0025) = 0.08325$, so $P(F_2\\mid F_1) \\approx 0.617$, far above $P(F_2) = 0.135$. The readings are independent given the state but dependent overall, because a flag raises the chance that the sample is contaminated."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Events $A$ and $B$ are disjoint, with $P(A) = 0.3$ and $P(B) = 0.4$. Are they independent?",
+				"options": [
+					"No: knowing $A$ happened makes $B$ impossible.",
+					"Yes: disjoint events never influence each other.",
+					"Yes, because $P(A) + P(B) < 1$.",
+					"It cannot be decided without more information."
+				],
+				"answer": 0,
+				"explanation": "$P(A\\cap B) = 0$ but $P(A)P(B) = 0.12$, so they are dependent; in fact strongly so, since $A$ rules out $B$. Disjoint and independent are almost opposites for events of positive probability."
+			},
+			{
+				"kind": "short",
+				"prompt": "Two detectors each read the same unknown sample with independent noise. Explain in your own words why their readings are independent given the true concentration but correlated when the concentration is unknown, and why this matters when you combine their evidence.",
+				"rubric": "Full credit requires: (1) given the concentration, each reading is the true value plus its own independent noise, so they are conditionally independent; (2) unconditionally both readings track the same unknown concentration, so a high reading on one predicts a high reading on the other (dependence through the common cause); (3) consequence: likelihoods can be multiplied only under the conditional model; treating the readings as unconditionally independent pieces of evidence about something else, or double-counting the shared cause, overstates the evidence.",
+				"modelAnswer": "Once the concentration is fixed, each detector's reading is just that value plus its own noise, so one reading tells you nothing more about the other. When the concentration is unknown, both readings follow it, so a high value on detector 1 suggests a high concentration and therefore a high value on detector 2: they are correlated through a common cause. When combining evidence you may multiply likelihoods only in the conditional model, $P(r_1, r_2\\mid c) = P(r_1\\mid c)P(r_2\\mid c)$; treating the readings as unconditionally independent would count the shared information twice and make you overconfident."
+			}
+		],
+		"m7-l008-conditioning-pitfalls-paradoxes": [
+			{
+				"kind": "mc",
+				"prompt": "In the Monty Hall game you pick door 1; the host, who knows where the car is and always opens a goat door you did not pick, opens door 3. What is your chance of winning if you switch?",
+				"options": [
+					"1/2, since two doors remain",
+					"1/3, since the host gave no information",
+					"2/3, since the host's choice is informative",
+					"3/4, since one of the goat doors has been eliminated"
+				],
+				"answer": 2,
+				"explanation": "Condition on where the car is: if it is behind door 1 (prob. 1/3), switching loses; if it is behind door 2 or 3 (prob. 2/3), the host is forced to reveal the other goat and switching wins. The host's constrained action carries information, so the two remaining doors are not equally likely."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Each purification run either gives pure product (probability 0.6, stop), loses the sample (probability 0.1, stop), or leaves impure material that is run again (probability 0.3). Runs are independent. What is the probability that you eventually obtain pure product? Give a probability between 0 and 1.",
+				"answer": 0.857143,
+				"tolerance": 0.02,
+				"explanation": "First-step analysis: let $p$ be the answer. Conditioning on the first run, $p = 0.6 + 0.3p$, so $p = 0.6/0.7 \\approx 0.857$. Repeats do not change the odds between the two stopping outcomes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Catalyst A succeeds on 18/20 easy and 30/80 hard substrates; catalyst B on 70/80 easy and 7/20 hard. A wins in both classes yet has lower overall success (48% vs 77%). Why?",
+				"options": [
+					"A's results are less reliable, so the overall rate is the right one.",
+					"A was run mostly on hard substrates, which drags its pooled rate down.",
+					"The pooled numbers contain an arithmetic error, since this cannot happen.",
+					"B must be better, since the overall rate averages out class effects."
+				],
+				"answer": 1,
+				"explanation": "Simpson's paradox: the pooled rate is a weighted average of the class rates, with weights set by how many substrates of each kind each catalyst saw. A is better in each class (90% vs 87.5%, 37.5% vs 35%); the overall comparison is confounded by difficulty."
+			},
+			{
+				"kind": "short",
+				"prompt": "A library search reports that a spectrum this close to the reference would occur by chance for an unrelated compound only 1 time in 1000. A colleague concludes there is a 99.9% chance the sample is that compound. Explain the error in your own words.",
+				"rubric": "Full credit requires: (1) naming it the prosecutor's fallacy: confusing $P(E\\mid H)$ (the chance of such a match if the sample is unrelated) with $P(H\\mid E)$ (the chance the sample is unrelated given the match); (2) explaining that Bayes' rule needs the prior, e.g. how many candidate compounds were searched or how plausible the compound is; (3) noting that with a large library, several unrelated compounds may match by chance, so the posterior can be far below 99.9%.",
+				"modelAnswer": "This is the prosecutor's fallacy. 1/1000 is $P(\\text{match}\\mid\\text{unrelated compound})$, but the colleague is stating $P(\\text{that compound}\\mid\\text{match})$. Getting the latter needs Bayes' rule and a prior: if the library holds 50,000 compounds, about 50 unrelated ones would match this well by chance, so the match alone may leave the identity quite uncertain unless other evidence (route, other spectra) raises the prior."
+			}
+		],
+		"m7-l009-random-variables-pmf-cdf": [
+			{
+				"kind": "mc",
+				"prompt": "In 10 tosses of a fair coin, let $X$ be the number of heads and $Y$ the number of tails. Which statement is correct?",
+				"options": [
+					"$X$ and $Y$ are the same random variable, since they have the same PMF.",
+					"$X$ and $Y$ have different distributions, since heads and tails differ.",
+					"$X$ is a random variable, but $Y$ is not, since it is defined from $X$.",
+					"$X$ and $Y$ have the same distribution but are different functions."
+				],
+				"answer": 3,
+				"explanation": "A random variable is a function on the sample space. Both are Binomial(10, 1/2), but $Y = 10 - X$: on any outcome with 7 heads, $X = 7$ and $Y = 3$. Same distribution does not mean same random variable."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A discrete random variable takes values $1, 2, 3, 4$ with $P(X = k) = ck$. Find $c$ so the PMF is valid, then compute the CDF value $F(2.5) = P(X \\le 2.5)$. Give a probability between 0 and 1.",
+				"answer": 0.3,
+				"tolerance": 0.02,
+				"explanation": "Normalisation: $c(1+2+3+4) = 1$, so $c = 0.1$. Then $F(2.5) = P(X=1) + P(X=2) = 0.1 + 0.2 = 0.3$. A discrete CDF is a step function, flat between the values."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which of these functions could NOT be the CDF of a random variable?",
+				"options": [
+					"A step function that is 0 below 1, 0.4 on [1, 3) and 1 from 3 on.",
+					"$F(x) = 1 - e^{-x}$ for $x \\ge 0$ and 0 for $x < 0$.",
+					"A function that rises to 0.7 at $x = 2$ and then falls back to 0.6.",
+					"A function that is 0 below 0, rises linearly to 1 at $x=1$, then stays 1."
+				],
+				"answer": 2,
+				"explanation": "A CDF must be non-decreasing (since $\\{X\\le a\\} \\subseteq \\{X\\le b\\}$ for $a<b$), right-continuous, and go from 0 to 1. A CDF that falls would make a probability negative."
+			},
+			{
+				"kind": "short",
+				"prompt": "In your own words, explain what a random variable is, how it differs from its distribution, and what conditions a PMF and a CDF must satisfy to be valid.",
+				"rubric": "Full credit requires: (1) a random variable is a function assigning a number to each outcome in the sample space; (2) its distribution gives the probabilities of its values, and different random variables can share one distribution; (3) PMF: non-negative values summing to 1; CDF: non-decreasing, right-continuous, tending to 0 as $x\\to-\\infty$ and to 1 as $x\\to\\infty$.",
+				"modelAnswer": "A random variable is a rule that turns each outcome of the experiment into a number, such as 'count the $^{13}$C atoms in this molecule'. Its distribution only says how likely each value is, so two different random variables (heads and tails in 10 tosses) can share a distribution. A PMF must be non-negative and sum to 1; a CDF $F(x) = P(X\\le x)$ must never decrease, be right-continuous, and run from 0 at $-\\infty$ to 1 at $+\\infty$."
+			}
+		],
+		"m7-l010-bernoulli-binomial-hypergeometric": [
+			{
+				"kind": "numeric",
+				"prompt": "A molecule has 10 carbons, each independently $^{13}$C with probability 0.011. Using the binomial model, what is the intensity ratio of the M+1 peak (exactly one $^{13}$C) to the M peak (none)? Give a dimensionless ratio, e.g. 0.05.",
+				"answer": 0.111223,
+				"tolerance": 0.02,
+				"explanation": "$\\frac{P(X=1)}{P(X=0)} = \\frac{10(0.011)(0.989)^9}{(0.989)^{10}} = \\frac{10(0.011)}{0.989} \\approx 0.111$. This is the familiar rule of about 1.1% of M per carbon."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A lot of 50 vials contains 5 defective ones. You test 4 vials chosen at random without replacement. What is the probability that none of them is defective? Give a probability between 0 and 1.",
+				"answer": 0.64696,
+				"tolerance": 0.02,
+				"explanation": "Hypergeometric: $P = \\binom{5}{0}\\binom{45}{4}/\\binom{50}{4} \\approx 0.647$. The binomial with $p = 0.1$ would give $0.9^4 \\approx 0.656$: close, because 4 of 50 is a small sampling fraction."
+			},
+			{
+				"kind": "mc",
+				"prompt": "When does the binomial distribution approximate the hypergeometric well?",
+				"options": [
+					"When the lot is large compared with the number of items sampled.",
+					"When the defect fraction is close to 1/2.",
+					"When the sample is large compared with the lot.",
+					"Only when exactly one item is drawn."
+				],
+				"answer": 0,
+				"explanation": "Without replacement, each draw slightly changes the composition of what remains. If the sample is a small fraction of the lot, the changes are negligible and the draws are nearly independent with fixed $p$, which is the binomial story."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words the story behind the binomial distribution, and why the M+1 and M+2 isotope peaks of a compound follow it. Also say what changes when you sample items without replacement from a small lot.",
+				"rubric": "Full credit requires: (1) binomial story: $n$ independent trials each with the same success probability $p$, counting the successes; (2) isotope peaks: each of the $n$ atoms is independently the heavy isotope with its natural abundance, so the number of heavy atoms is Binomial($n$, $p$); (3) without replacement from a small lot, trials are dependent and $p$ changes from draw to draw, giving the hypergeometric distribution instead.",
+				"modelAnswer": "The binomial counts successes in $n$ independent trials that each succeed with the same probability $p$. Each carbon in a molecule is independently $^{13}$C with probability about 0.011, so the number of $^{13}$C atoms, and with it the M, M+1, M+2 peak heights, follows Binomial($n$, 0.011). Drawing vials without replacement from a small lot breaks independence, because each draw changes the remaining mix, so the count is hypergeometric."
+			}
+		],
+		"m7-l011-expectation-linearity-indicators": [
+			{
+				"kind": "mc",
+				"prompt": "$n$ labels are attached to $n$ vials completely at random. What is the expected number of vials that receive their own label?",
+				"options": [
+					"$1/n$, shrinking as $n$ grows",
+					"$1$, for every $n$",
+					"$n/2$, by symmetry",
+					"$1 - 1/e$, for large $n$"
+				],
+				"answer": 1,
+				"explanation": "Let $I_j$ indicate that vial $j$ gets its label, so $E[I_j] = P(\\text{match}) = 1/n$. Linearity gives $E[\\sum I_j] = n\\cdot\\frac{1}{n} = 1$, even though the $I_j$ are dependent."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Twenty samples are each placed into one of 10 wells chosen uniformly at random, independently. What is the expected number of empty wells? Give a number.",
+				"answer": 1.215767,
+				"tolerance": 0.02,
+				"unit": "wells",
+				"explanation": "Let $I_j$ indicate that well $j$ is empty: $E[I_j] = P(\\text{empty}) = 0.9^{20}$. By linearity, $E[\\text{empty}] = 10(0.9)^{20} \\approx 1.22$, with no need for the distribution of the count."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A difficult coupling succeeds with probability 0.25 on each independent attempt. What is the expected total number of attempts up to and including the first success? Give a number.",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"unit": "attempts",
+				"explanation": "The number of failures before the first success is Geometric with mean $q/p = 0.75/0.25 = 3$; adding the successful attempt gives $1/p = 4$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why linearity of expectation holds even for dependent random variables, what the fundamental bridge $E[I_A] = P(A)$ says, and how these two facts give the mean $np$ of a Binomial($n$, $p$).",
+				"rubric": "Full credit requires: (1) $E[X+Y] = E[X] + E[Y]$ follows from summing $(X+Y)$ over outcomes weighted by their probabilities, which never needs the joint structure; (2) an indicator equals 1 with probability $P(A)$ and 0 otherwise, so its mean is $P(A)$; (3) a binomial count is a sum of $n$ Bernoulli indicators each with mean $p$, so $E[X] = np$.",
+				"modelAnswer": "Expectation is a probability-weighted sum over outcomes, and the sum of $X + Y$ splits into the sum of $X$ plus the sum of $Y$ outcome by outcome, so how $X$ and $Y$ depend on each other never enters. An indicator is 1 exactly when $A$ happens, so its average value is $P(A)$. Writing a binomial count as $I_1 + \\dots + I_n$, one indicator per trial with mean $p$, gives $E[X] = np$ at once."
+			}
+		],
+		"m7-l012-lotus-variance": [
+			{
+				"kind": "numeric",
+				"prompt": "$X$ takes the values 0, 1, 2 with probabilities 0.2, 0.5, 0.3. Compute $\\operatorname{Var}(X)$. Give a number.",
+				"answer": 0.49,
+				"tolerance": 0.02,
+				"explanation": "$E[X] = 0.5 + 0.6 = 1.1$ and, by LOTUS, $E[X^2] = 0^2(0.2) + 1^2(0.5) + 2^2(0.3) = 1.7$. So $\\operatorname{Var}(X) = 1.7 - 1.21 = 0.49$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A thermocouple reading in °C has standard deviation 0.5 °C. The reading is converted to Fahrenheit by $F = 1.8C + 32$. What is the standard deviation of the Fahrenheit reading? Give the answer in °F.",
+				"answer": 0.9,
+				"tolerance": 0.02,
+				"unit": "°F",
+				"explanation": "$\\operatorname{Var}(aX + b) = a^2\\operatorname{Var}(X)$, so $\\sigma_F = |a|\\sigma_C = 1.8(0.5) = 0.9$ °F. The shift $+32$ moves the mean but not the spread."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You know the PMF of $X$ and want $E[X^2]$. Which approach is correct?",
+				"options": [
+					"Square the mean: $E[X^2] = (E[X])^2$.",
+					"First derive the full PMF of $Y = X^2$, then average $Y$.",
+					"Compute $\\sum_x x^2 P(X = x)$ directly from the PMF of $X$.",
+					"Compute $\\sum_x x\\,P(X = x^2)$ using the PMF of $X$ itself."
+				],
+				"answer": 2,
+				"explanation": "LOTUS: $E[g(X)] = \\sum_x g(x)P(X=x)$, so you never need the distribution of $g(X)$. $(E[X])^2$ is generally smaller than $E[X^2]$; the gap is exactly the variance."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the variance of a Binomial($n$, $p$) count is $np(1-p)$, and why the argument needs independence while the mean $np$ does not.",
+				"rubric": "Full credit requires: (1) write the count as a sum of $n$ Bernoulli($p$) indicators; (2) each has variance $p - p^2 = p(1-p)$ (since $I^2 = I$); (3) variances add only for independent (uncorrelated) variables, giving $np(1-p)$, whereas expectations add for any random variables; with dependence, covariance terms would appear.",
+				"modelAnswer": "A binomial count is the sum of $n$ Bernoulli indicators. For one indicator, $I^2 = I$, so $\\operatorname{Var}(I) = E[I] - E[I]^2 = p(1-p)$. Variances add when the trials are independent, giving $np(1-p)$. Means add regardless, but for dependent trials the variance of the sum would pick up covariance terms, so independence is essential for the variance step."
+			}
+		],
+		"m7-l013-poisson-counting-statistics": [
+			{
+				"kind": "numeric",
+				"prompt": "A scintillation counter records Poisson counts. How many counts must you collect for the relative standard deviation of the count to be 1%? Give a number of counts.",
+				"answer": 10000.0,
+				"tolerance": 0.02,
+				"unit": "counts",
+				"explanation": "For Poisson counts $\\sigma = \\sqrt{N}$, so the relative precision is $1/\\sqrt{N}$. Setting $1/\\sqrt{N} = 0.01$ gives $N = 10^4$: four times the counts to halve the error."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In equal counting times, a sample gives 1600 counts and the background gives 900 counts. What is the standard deviation of the net (background-subtracted) count? Give the answer in counts.",
+				"answer": 50.0,
+				"tolerance": 0.02,
+				"unit": "counts",
+				"explanation": "The two counts are independent Poisson, so their variances add even though we subtract: $\\sigma = \\sqrt{1600 + 900} = 50$ counts on a net of 700, about 7%. Subtraction loses precision."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At high count rates a detector's measured counts show a variance clearly smaller than their mean. What is the most likely cause?",
+				"options": [
+					"Dead time: arrivals during recovery are lost, so counts are more regular.",
+					"The source rate itself is fluctuating between counting windows.",
+					"The Poisson model has variance smaller than the mean at high rates.",
+					"Background counts are being added to the signal counts."
+				],
+				"answer": 0,
+				"explanation": "A Poisson count has variance equal to its mean at every rate. Dead time removes closely spaced events and makes the record more regular than Poisson (sub-Poisson). A fluctuating rate or extra background would add variance, not remove it."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why counts of rare, independent events (ions arriving at an MS detector, decays in a scintillation vial) follow a Poisson distribution with mean and variance both $\\lambda$, and why the relative uncertainty of a count is $1/\\sqrt{N}$.",
+				"rubric": "Full credit requires: (1) many independent opportunities ($n$ large) each with a tiny chance ($p$ small) gives a binomial with $np = \\lambda$, which tends to Poisson($\\lambda$); (2) binomial variance $np(1-p) \\to \\lambda$ as $p\\to0$, so mean = variance = $\\lambda$; (3) the standard deviation is $\\sqrt{\\lambda} \\approx \\sqrt{N}$, so the relative uncertainty $\\sqrt{N}/N = 1/\\sqrt{N}$ shrinks only as the square root of the counts.",
+				"modelAnswer": "A sample holds a huge number of molecules or nuclei, each with a tiny, independent chance of producing a count in the window. That is a binomial with $n$ huge and $p$ tiny, which tends to Poisson($\\lambda = np$). Its variance $np(1-p)$ tends to $np = \\lambda$, so mean and variance agree. The spread is then $\\sqrt{N}$ around a count of $N$, and the relative spread $1/\\sqrt{N}$ falls slowly: 100 counts give 10%, 10,000 give 1%."
+			}
+		],
+		"m7-l014-pdfs-uniform": [
+			{
+				"kind": "mc",
+				"prompt": "A continuous random variable $X$ has PDF $f$ with $f(2) = 3$. What can you conclude?",
+				"options": [
+					"$P(X = 2) = 3$, which is impossible, so $f$ is invalid.",
+					"$P(2 < X < 2.01) \\approx 0.03$, and $P(X = 2) = 0$.",
+					"$P(X \\le 2) = 3$, which shows $f$ must be a CDF.",
+					"$P(X = 2) = 0.03$, since density times a typical width is used."
+				],
+				"answer": 1,
+				"explanation": "A density is probability per unit length, so it can exceed 1. Probability is an area: over a short interval $P \\approx f(x)\\,\\Delta x = 3(0.01)$. Any single point has zero width and so zero probability."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A random variable has CDF $F(x) = x^2$ for $0 \\le x \\le 1$ (0 below, 1 above). Compute $P(0.5 < X \\le 0.8)$. Give a probability between 0 and 1.",
+				"answer": 0.39,
+				"tolerance": 0.02,
+				"explanation": "$P(0.5 < X\\le 0.8) = F(0.8) - F(0.5) = 0.64 - 0.25 = 0.39$. Equivalently integrate the PDF $f(x) = F'(x) = 2x$ from 0.5 to 0.8."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Reading a burette to the nearest 0.1 mL leaves a rounding error uniformly distributed on $[-0.05, 0.05]$ mL. What is the standard deviation of this error? Give the answer in mL.",
+				"answer": 0.028868,
+				"tolerance": 0.02,
+				"unit": "mL",
+				"explanation": "For Uniform($a$, $b$), $\\operatorname{Var} = (b-a)^2/12$, so $\\sigma = 0.1/\\sqrt{12} \\approx 0.029$ mL. This is why a reading error of half a division is often quoted as a standard uncertainty of about 0.29 divisions."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the probability that a continuous random variable takes any exact value is zero, how a PDF is related to the CDF, and how you would compute the mean of Uniform($a$, $b$) by integration.",
+				"rubric": "Full credit requires: (1) probabilities are areas under the PDF, and an interval of zero width has zero area; (2) $F(x) = \\int_{-\\infty}^x f(t)\\,dt$, so $f = F'$; (3) $E[X] = \\int_a^b x\\cdot\\frac{1}{b-a}\\,dx = \\frac{a+b}{2}$, with an explanation that the density is constant $1/(b-a)$ on the interval.",
+				"modelAnswer": "For a continuous variable, probability lives in areas under the density curve, and a single point has no width, so its area is zero; only intervals have positive probability. The CDF accumulates that area, $F(x) = \\int_{-\\infty}^x f$, so the PDF is its derivative. For Uniform($a$, $b$) the density is the constant $1/(b-a)$, and $E[X] = \\int_a^b \\frac{x}{b-a}\\,dx = \\frac{a+b}{2}$, the midpoint, as symmetry suggests."
+			}
+		],
+		"m7-l015-normal-distribution": [
+			{
+				"kind": "numeric",
+				"prompt": "Batch purity is normally distributed with mean 98.0% and standard deviation 0.4%. What fraction of batches fall below the 97.5% specification? Give a probability between 0 and 1.",
+				"answer": 0.10565,
+				"tolerance": 0.02,
+				"explanation": "$z = (97.5 - 98.0)/0.4 = -1.25$, and $\\Phi(-1.25) \\approx 0.106$. About one batch in ten fails."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A sample mass is found by difference: the tare reading has standard deviation 0.3 mg and the gross reading 0.4 mg, with independent normal errors. What is the standard deviation of the net mass? Give the answer in mg.",
+				"answer": 0.5,
+				"tolerance": 0.02,
+				"unit": "mg",
+				"explanation": "A difference of independent normals is normal with variances adding: $\\sigma = \\sqrt{0.3^2 + 0.4^2} = 0.5$ mg. Subtracting the means does not subtract the variances."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A measurement is $N(\\mu, \\sigma^2)$. Below which value do only 1% of results fall?",
+				"options": [
+					"$\\mu - 3\\sigma$",
+					"$\\mu - 1.64\\sigma$",
+					"$\\mu - 1.96\\sigma$",
+					"$\\mu - 2.33\\sigma$"
+				],
+				"answer": 3,
+				"explanation": "The 1% quantile of $N(0,1)$ is $z = -2.33$, so the cutoff is $\\mu - 2.33\\sigma$. $-1.64$ is the 5% quantile, $-1.96$ the 2.5% quantile, and $-3$ cuts off about 0.13%."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why replicate lab measurements are often modelled as normal, and give two situations in analytical chemistry where that model fails.",
+				"rubric": "Full credit requires: (1) the measurement error is the sum of many small independent contributions (pipetting, temperature, electronic noise), and the central limit theorem makes such sums approximately normal; (2) at least two failures, e.g. outliers from gross errors (heavier tails), concentrations spread over orders of magnitude (skewed, often log-normal), values near a detection limit where results cannot go below zero or are censored, or low counts that are Poisson.",
+				"modelAnswer": "Each reading is the true value plus many small, independent nudges (pipette volume, temperature, baseline noise), and a sum of many small independent effects is close to normal by the central limit theorem. The model fails when a gross error produces outliers, when concentrations are spread over orders of magnitude so the data are skewed (often closer to log-normal), or near a detection limit, where results bunch up against zero or are reported as 'below LOD'."
+			}
+		],
+		"m7-l016-exponential-memorylessness-decay": [
+			{
+				"kind": "numeric",
+				"prompt": "A first-order reaction has rate constant $k = 0.010\\ \\text{s}^{-1}$. What is the probability that a given molecule is still unreacted after 200 s? Give a probability between 0 and 1.",
+				"answer": 0.135335,
+				"tolerance": 0.02,
+				"explanation": "The lifetime is Exponential($k$), so $P(T > t) = e^{-kt} = e^{-2} \\approx 0.135$. This is also the fraction of the sample left, $[A]/[A]_0$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "$^{14}$C has a half-life of 5730 years. What is the mean lifetime of a $^{14}$C nucleus? Give the answer in years.",
+				"answer": 8266.642584,
+				"tolerance": 0.02,
+				"unit": "years",
+				"explanation": "$\\lambda = \\ln 2/t_{1/2}$ and the mean of Exponential($\\lambda$) is $1/\\lambda = t_{1/2}/\\ln 2 \\approx 8270$ years. The mean is longer than the half-life because the exponential has a long right tail."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A radioactive nucleus has already survived three half-lives. What is the probability that it decays during the next half-life?",
+				"options": [
+					"1/16, since it has beaten the odds three times",
+					"1/2, the same as for a fresh nucleus",
+					"7/8, since it is now overdue",
+					"1/8, since survival probabilities multiply"
+				],
+				"answer": 1,
+				"explanation": "Memorylessness: $P(T > s + t\\mid T > s) = P(T > t)$, so a surviving nucleus is statistically identical to a fresh one. The 1/16 is the probability of surviving all four half-lives from the start, a different question."
+			},
+			{
+				"kind": "short",
+				"prompt": "Prove the memoryless property $P(T > s + t \\mid T > s) = P(T > t)$ for $T \\sim$ Exponential($\\lambda$), and explain in your own words what it means physically for a single molecule undergoing a first-order reaction.",
+				"rubric": "Full credit requires: (1) using $P(T > x) = e^{-\\lambda x}$ and the definition of conditional probability: $P(T>s+t\\mid T>s) = e^{-\\lambda(s+t)}/e^{-\\lambda s} = e^{-\\lambda t}$; (2) interpretation: a molecule does not age, so its chance of reacting in the next interval does not depend on how long it has already existed; (3) a link to first-order kinetics, e.g. a constant hazard rate $k$ per molecule gives rate $= k[A]$.",
+				"modelAnswer": "Since $\\{T > s+t\\} \\subseteq \\{T > s\\}$, $P(T > s+t\\mid T>s) = \\frac{e^{-\\lambda(s+t)}}{e^{-\\lambda s}} = e^{-\\lambda t} = P(T > t)$. Physically, a molecule has no internal clock: one that has survived an hour is as likely to react in the next second as one just formed. That constant per-molecule hazard $k$ is exactly why the bulk rate is $k[A]$ and the reaction is first order."
+			}
+		],
+		"m7-l017-poisson-process": [
+			{
+				"kind": "numeric",
+				"prompt": "Background decays arrive as a Poisson process at 0.15 per second. What is the probability that a 10 s counting window records no events? Give a probability between 0 and 1.",
+				"answer": 0.22313,
+				"tolerance": 0.02,
+				"explanation": "$N_{10} \\sim$ Poisson$(0.15\\times10 = 1.5)$, so $P(N_{10} = 0) = e^{-1.5} \\approx 0.223$. Equivalently, the first waiting time exceeds 10 s: $P(T_1 > 10) = e^{-1.5}$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Counts arrive as a Poisson process at 0.5 per second. What is the probability of exactly 3 counts in a 10 s window? Give a probability between 0 and 1.",
+				"answer": 0.140374,
+				"tolerance": 0.02,
+				"explanation": "$N_{10}\\sim$ Poisson(5), so $P(N=3) = e^{-5}5^3/3! \\approx 0.140$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A Geiger counter on a weak source has gone 30 s without a click, far longer than the average gap. What does the Poisson-process model say about the next click?",
+				"options": [
+					"It is overdue, so it should come sooner than the average gap.",
+					"The long gap shows the rate has dropped, so the model must be refit.",
+					"Its waiting time is still Exponential($\\lambda$), as if starting fresh.",
+					"It will come exactly one average gap from now."
+				],
+				"answer": 2,
+				"explanation": "Inter-arrival times in a Poisson process are i.i.d. Exponential($\\lambda$), which is memoryless. Long gaps happen by chance ($P(T > t) = e^{-\\lambda t}$) and do not make the next event any more imminent."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why $P(T_1 > t) = P(N_t = 0)$ for a Poisson process, and use it to show that the waiting time to the first event is Exponential($\\lambda$).",
+				"rubric": "Full credit requires: (1) the first arrival comes after time $t$ exactly when there are no arrivals in $[0, t]$, so the two events are the same; (2) $N_t\\sim$ Poisson($\\lambda t$) gives $P(N_t = 0) = e^{-\\lambda t}$; (3) so $P(T_1 > t) = e^{-\\lambda t}$, which is the survival function of Exponential($\\lambda$) (CDF $1 - e^{-\\lambda t}$).",
+				"modelAnswer": "'The first event happens after $t$' and 'no events happen by time $t$' describe the same outcomes, so their probabilities are equal. The count in $[0, t]$ is Poisson($\\lambda t$), whose probability of zero is $e^{-\\lambda t}$. So $P(T_1 > t) = e^{-\\lambda t}$, the survival function of Exponential($\\lambda$): counting events and timing them are two views of the same process."
+			}
+		],
+		"m7-l018-moments-mgfs": [
+			{
+				"kind": "mc",
+				"prompt": "A chromatographic peak has a long tail on the late (right) side. Which summary describes this shape?",
+				"options": [
+					"Negative skewness, because the peak maximum is shifted to early times.",
+					"High variance, because tailing always means a wider peak.",
+					"Positive skewness, because the long tail points to larger times.",
+					"Negative excess kurtosis, because tails make a peak flatter."
+				],
+				"answer": 2,
+				"explanation": "Skewness measures asymmetry: a long right tail gives positive skewness (mean pulled to the right of the mode). Variance measures overall spread and kurtosis measures tail weight on both sides, neither of which captures direction."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The MGF of $X \\sim$ Poisson($\\lambda$) is $M(t) = e^{\\lambda(e^t - 1)}$. For $\\lambda = 3$, compute $E[X^2] = M''(0)$. Give a number.",
+				"answer": 12.0,
+				"tolerance": 0.02,
+				"explanation": "$M'(t) = \\lambda e^t M(t)$ and $M''(t) = \\lambda e^t M(t) + (\\lambda e^t)^2 M(t)$, so $M''(0) = \\lambda + \\lambda^2 = 12$. Then $\\operatorname{Var} = 12 - 9 = 3 = \\lambda$, as expected."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Independent counts $X\\sim$ Poisson($\\lambda_1$) and $Y\\sim$ Poisson($\\lambda_2$) are added. How do MGFs identify the distribution of $X + Y$?",
+				"options": [
+					"$M_{X+Y} = M_X + M_Y$, which is not a Poisson MGF, so the sum is not Poisson.",
+					"$M_{X+Y} = e^{(\\lambda_1+\\lambda_2)(e^t-1)}$, the Poisson($\\lambda_1+\\lambda_2$) MGF.",
+					"$M_{X+Y}(t) = M_X(t)M_Y(2t)$, giving a Poisson with mean $\\lambda_1 + 2\\lambda_2$.",
+					"MGFs cannot be used, since Poisson variables are discrete."
+				],
+				"answer": 1,
+				"explanation": "For independent variables $M_{X+Y} = M_XM_Y = e^{\\lambda_1(e^t-1)}e^{\\lambda_2(e^t-1)} = e^{(\\lambda_1+\\lambda_2)(e^t-1)}$, and an MGF determines the distribution. Signal plus background counts are therefore Poisson with the summed rate."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why differentiating $M_X(t) = E[e^{tX}]$ $n$ times at $t = 0$ gives $E[X^n]$, and why the MGF of a sum of independent random variables is the product of their MGFs. Illustrate with the Bernoulli($p$) MGF $1 - p + pe^t$.",
+				"rubric": "Full credit requires: (1) expanding $e^{tX} = \\sum t^nX^n/n!$ and taking expectations shows the coefficient of $t^n/n!$ is $E[X^n]$, so the $n$th derivative at 0 picks it out; (2) $e^{t(X+Y)} = e^{tX}e^{tY}$, and for independent variables the expectation of a product is the product of expectations; (3) the Bernoulli example: every derivative of $1-p+pe^t$ at 0 is $p$, so $E[X^n] = p$ for all $n$ (consistent with $X^n = X$).",
+				"modelAnswer": "Expanding $e^{tX} = 1 + tX + t^2X^2/2! + \\dots$ and averaging gives $M(t) = 1 + tE[X] + \\frac{t^2}{2!}E[X^2] + \\dots$, so each derivative at $t=0$ isolates one moment. For a sum, $e^{t(X+Y)} = e^{tX}e^{tY}$, and independence lets the expectation of the product split into $M_X(t)M_Y(t)$. For a Bernoulli, $M(t) = 1-p+pe^t$ has every derivative at 0 equal to $p$, so all moments equal $p$, which makes sense because $X^n = X$ for a 0/1 variable."
+			}
+		],
+		"m7-l019-joint-marginal-conditional": [
+			{
+				"kind": "numeric",
+				"prompt": "$X\\in\\{0,1\\}$ and $Y\\in\\{0,1,2\\}$ have joint PMF: $p(0,0)=0.10$, $p(0,1)=0.25$, $p(0,2)=0.05$, $p(1,0)=0.10$, $p(1,1)=0.25$, $p(1,2)=0.25$. Compute $P(Y = 2\\mid X = 1)$. Give a probability between 0 and 1.",
+				"answer": 0.416667,
+				"tolerance": 0.02,
+				"explanation": "The marginal is $P(X=1) = 0.10 + 0.25 + 0.25 = 0.6$, so $P(Y=2\\mid X=1) = 0.25/0.6 \\approx 0.417$. Not independent: $p(0,2) = 0.05$ but $P(X=0)P(Y=2) = 0.4\\times0.3 = 0.12$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the same joint PMF ($p(0,0)=0.10$, $p(0,1)=0.25$, $p(0,2)=0.05$, $p(1,0)=0.10$, $p(1,1)=0.25$, $p(1,2)=0.25$), compute $E[XY]$ with 2D LOTUS. Give a number.",
+				"answer": 0.75,
+				"tolerance": 0.02,
+				"explanation": "$E[XY] = \\sum_{x,y} xy\\,p(x,y)$; only cells with $x = 1$ and $y \\ge 1$ contribute: $1(0.25) + 2(0.25) = 0.75$. No need to find the distribution of $XY$ first."
+			},
+			{
+				"kind": "mc",
+				"prompt": "$(X, Y)$ is uniform on the triangle $0 < y < x < 1$, so the joint density is the constant 2 there. Are $X$ and $Y$ independent?",
+				"options": [
+					"Yes, since a constant density always factorises.",
+					"Yes, since the marginals are both uniform on (0, 1).",
+					"It depends on whether $X$ and $Y$ are correlated.",
+					"No, since knowing $X$ limits the range of $Y$."
+				],
+				"answer": 3,
+				"explanation": "Independence needs $f(x,y) = f_X(x)f_Y(y)$ everywhere, including the support. On a triangle, $X = 0.1$ forces $Y < 0.1$, so the conditional of $Y$ depends on $x$. The marginals here are $2x$ and $2(1-y)$, not uniform."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how you get a marginal distribution and a conditional distribution from a joint PMF or PDF, and how you test independence.",
+				"rubric": "Full credit requires: (1) marginal: sum (or integrate) the joint over the other variable, collapsing the table or density onto one axis; (2) conditional: take the slice at the given value and divide by the marginal there so it sums/integrates to 1; (3) independence: the joint factorises as the product of marginals for all values (equivalently every conditional equals the marginal), with the support being a product set.",
+				"modelAnswer": "To get the marginal of $X$, add up the joint over all values of $Y$ (sum a table's rows, or integrate out $y$). To condition on $X = x$, take that row or slice of the joint and divide it by $p_X(x)$ so it is a proper distribution again. $X$ and $Y$ are independent exactly when the joint equals the product of the marginals everywhere, which means every slice has the same shape as the marginal of $Y$."
+			}
+		],
+		"m7-l020-covariance-correlation": [
+			{
+				"kind": "numeric",
+				"prompt": "Two measured quantities have standard deviations 0.3 and 0.4 and correlation $\\rho = 0.5$. What is the standard deviation of their sum? Give a number.",
+				"answer": 0.608276,
+				"tolerance": 0.02,
+				"explanation": "$\\operatorname{Var}(X+Y) = 0.09 + 0.16 + 2(0.5)(0.3)(0.4) = 0.37$, so $\\sigma \\approx 0.608$. Adding in quadrature would give 0.5; positive correlation widens the sum."
+			},
+			{
+				"kind": "mc",
+				"prompt": "$X$ is symmetric about zero with finite variance, and $Y = X^2$. Which statement is true?",
+				"options": [
+					"$\\operatorname{Cov}(X, Y) > 0$, since $Y$ grows with $|X|$.",
+					"$\\operatorname{Cov}(X, Y) = 0$, so $X$ and $Y$ are independent.",
+					"$\\operatorname{Cov}(X, Y) = 0$, yet $Y$ is completely determined by $X$.",
+					"$\\operatorname{Cov}(X, Y) < 0$, since $Y \\ge 0$ while $X$ can be negative."
+				],
+				"answer": 2,
+				"explanation": "$\\operatorname{Cov}(X, X^2) = E[X^3] - E[X]E[X^2] = 0$ by symmetry. Covariance only detects linear association; here $Y$ is a deterministic, non-linear function of $X$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two sample concentrations are both computed using the same calibration standard, whose own error affects both results in the same direction. How does this affect the uncertainty of their difference?",
+				"options": [
+					"It is smaller than adding the variances in quadrature suggests.",
+					"It is larger than adding the variances in quadrature suggests.",
+					"It is unaffected, since the standard's error cancels on average.",
+					"It is zero, since the shared error is perfectly correlated."
+				],
+				"answer": 0,
+				"explanation": "The shared error gives positive covariance, and $\\operatorname{Var}(X - Y) = \\operatorname{Var}X + \\operatorname{Var}Y - 2\\operatorname{Cov}(X,Y)$, so the shared part partly cancels. The uncertainty of their sum (or of each value) is not reduced, and only the shared component cancels, not the independent ones."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive $\\operatorname{Var}(X+Y) = \\operatorname{Var}X + \\operatorname{Var}Y + 2\\operatorname{Cov}(X,Y)$ using bilinearity of covariance, and explain in your own words why errors from a shared balance must not be added in quadrature as if independent.",
+				"rubric": "Full credit requires: (1) $\\operatorname{Var}(X+Y) = \\operatorname{Cov}(X+Y, X+Y)$, expanded by bilinearity into $\\operatorname{Cov}(X,X) + 2\\operatorname{Cov}(X,Y) + \\operatorname{Cov}(Y,Y)$; (2) adding in quadrature assumes $\\operatorname{Cov} = 0$; (3) a shared balance (or standard) shifts both readings together, giving non-zero covariance, so the quadrature sum under- or over-states the uncertainty depending on whether the readings are combined by sum or difference.",
+				"modelAnswer": "Variance is covariance with itself, and covariance is linear in each slot: $\\operatorname{Cov}(X+Y, X+Y) = \\operatorname{Cov}(X,X) + \\operatorname{Cov}(X,Y) + \\operatorname{Cov}(Y,X) + \\operatorname{Cov}(Y,Y) = \\operatorname{Var}X + \\operatorname{Var}Y + 2\\operatorname{Cov}(X,Y)$. Adding in quadrature silently sets the covariance to zero. If both masses come from one balance with a calibration offset, their errors move together; that covariance increases the uncertainty of a sum and cancels in a difference, so ignoring it gives the wrong error bar either way."
+			}
+		],
+		"m7-l021-error-propagation": [
+			{
+				"kind": "numeric",
+				"prompt": "A concentration is computed as $c = A/(\\varepsilon l)$ with $A = 0.500 \\pm 0.005$, $\\varepsilon$ known to $\\pm1\\%$, and $l$ exact. Assuming independent errors, what is the relative uncertainty of $c$? Give the answer in percent.",
+				"answer": 1.414214,
+				"tolerance": 0.02,
+				"unit": "%",
+				"explanation": "For a quotient, relative errors add in quadrature: $\\sqrt{(0.005/0.500)^2 + (0.01)^2} = \\sqrt{2}\\times1\\% \\approx 1.41\\%$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A mass is found by difference: gross 25.4312 g and tare 25.1280 g, each read with an independent standard deviation of 0.2 mg. What is the standard deviation of the net mass? Give the answer in mg.",
+				"answer": 0.282843,
+				"tolerance": 0.02,
+				"unit": "mg",
+				"explanation": "$\\operatorname{Var}(X - Y) = \\sigma_X^2 + \\sigma_Y^2$ when the errors are independent, so $\\sigma = \\sqrt{2}(0.2) \\approx 0.28$ mg. The minus sign enters as $b^2 = 1$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In which case is the first-order propagation formula most likely to disagree with a Monte Carlo simulation?",
+				"options": [
+					"Computing $c = A/(\\varepsilon l)$ from $A = 0.800 \\pm 0.004$.",
+					"Computing $\\log_{10} x$ for $x = 0.010 \\pm 0.008$.",
+					"Computing a sum of two masses, each with 0.1 mg uncertainty.",
+					"Computing $x^2$ for $x = 10.0 \\pm 0.1$."
+				],
+				"answer": 1,
+				"explanation": "The delta method linearises $f$ around the mean, which works when $f$ is nearly linear over the spread of the inputs. With an 80% relative error near zero, $\\log x$ curves sharply (and $x$ may even go negative), so the linear estimate fails. The other cases have small relative errors or are exactly linear."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the first-order propagation formula $\\sigma_f^2 \\approx \\sum_i (\\partial f/\\partial x_i)^2\\sigma_i^2$ for independent inputs from a Taylor expansion, and explain in your own words when it can be trusted.",
+				"rubric": "Full credit requires: (1) expanding $f(x) \\approx f(\\mu) + \\sum_i \\frac{\\partial f}{\\partial x_i}(x_i - \\mu_i)$, a linear combination of the inputs; (2) applying $\\operatorname{Var}(\\sum a_iX_i) = \\sum a_i^2\\sigma_i^2$ for independent inputs (covariance terms otherwise); (3) validity: $f$ must be close to linear over a range of a few $\\sigma_i$, so it fails for large relative errors, strong curvature, or functions like log or 1/x near zero, which a Monte Carlo check reveals.",
+				"modelAnswer": "Near the mean values, $f(x) \\approx f(\\mu) + \\sum_i \\frac{\\partial f}{\\partial x_i}(x_i - \\mu_i)$, a constant plus a linear combination of the inputs with coefficients equal to the partial derivatives. For a linear combination of independent variables, $\\operatorname{Var} = \\sum a_i^2\\sigma_i^2$, which gives the formula (with covariance terms if the inputs are correlated). It is only as good as the linearisation: if $f$ curves noticeably within a few $\\sigma$ of the mean, as for large relative errors or logs and reciprocals near zero, the true spread and even the mean shift, and a Monte Carlo simulation shows it."
+			}
+		],
+		"m7-l022-inequalities-law-of-large-numbers": [
+			{
+				"kind": "numeric",
+				"prompt": "Using only Chebyshev's inequality, what is the largest possible probability that a measurement lies 3 or more standard deviations from its mean, whatever its distribution? Give a probability between 0 and 1.",
+				"answer": 0.111111,
+				"tolerance": 0.02,
+				"explanation": "$P(|X - \\mu|\\ge 3\\sigma)\\le\\sigma^2/(3\\sigma)^2 = 1/9 \\approx 0.111$. For a normal the true value is 0.0027; Chebyshev is loose because it must hold for every distribution."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An impurity level is non-negative with mean 0.2%. Using Markov's inequality, give an upper bound on the probability that a batch has 1% impurity or more. Give a probability between 0 and 1.",
+				"answer": 0.2,
+				"tolerance": 0.02,
+				"explanation": "Markov: $P(X\\ge a)\\le E[X]/a = 0.2/1 = 0.2$. It needs only the mean and non-negativity, which is why it is usually a weak bound."
+			},
+			{
+				"kind": "mc",
+				"prompt": "An instrument reads 2% high on every sample. What does the law of large numbers promise about the mean of many replicate readings?",
+				"options": [
+					"It converges to the true value, since random errors cancel.",
+					"It converges to the true value plus the 2% bias.",
+					"It converges to nothing, since the bias makes the variance infinite.",
+					"It stops changing after about 30 replicates."
+				],
+				"answer": 1,
+				"explanation": "The LLN says $\\bar X_n \\to E[X]$, the mean of the measurement process. With a constant bias, that mean is the true value plus 2%. Averaging beats random error, not systematic error."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the weak law of large numbers, prove it from Chebyshev's inequality, and explain in your own words what it does and does not promise about the mean of $n$ replicate measurements.",
+				"rubric": "Full credit requires: (1) statement: for i.i.d. $X_i$ with mean $\\mu$ and finite variance, $P(|\\bar X_n - \\mu|\\ge\\varepsilon)\\to0$ for every $\\varepsilon > 0$; (2) proof: $\\operatorname{Var}(\\bar X_n) = \\sigma^2/n$, so Chebyshev gives $P(|\\bar X_n - \\mu|\\ge\\varepsilon)\\le\\sigma^2/(n\\varepsilon^2)\\to0$; (3) it promises convergence to the process mean, not to the true value if there is bias, and it says nothing about any particular finite run beyond the bound (no 'correction' of earlier deviations).",
+				"modelAnswer": "The weak law says that for i.i.d. measurements with mean $\\mu$ and finite variance, the chance that the sample mean misses $\\mu$ by more than any fixed $\\varepsilon$ goes to zero. Proof: $\\operatorname{Var}(\\bar X_n) = \\sigma^2/n$, so Chebyshev gives $P(|\\bar X_n - \\mu|\\ge\\varepsilon)\\le\\sigma^2/(n\\varepsilon^2)$, which tends to 0. It promises closeness to the mean of the measurement process, so a systematic bias survives any amount of averaging, and it does not say early deviations get 'corrected'; they are just diluted by later data."
+			}
+		],
+		"m7-l023-central-limit-theorem": [
+			{
+				"kind": "numeric",
+				"prompt": "A single absorbance-derived concentration has standard deviation 0.8 mg/L. What is the standard error of the mean of 16 independent replicates? Give the answer in mg/L.",
+				"answer": 0.2,
+				"tolerance": 0.02,
+				"unit": "mg/L",
+				"explanation": "$\\operatorname{SE} = \\sigma/\\sqrt n = 0.8/4 = 0.2$ mg/L. Quadrupling the replicates only halves the error."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A detector expects 400 counts per window (Poisson). Using the normal approximation without continuity correction, what is the probability of more than 440 counts? Give a probability between 0 and 1.",
+				"answer": 0.02275,
+				"tolerance": 0.1,
+				"explanation": "Poisson(400) is approximately $N(400, 20^2)$, so 440 is $z = 2$ and $P \\approx 1 - \\Phi(2) \\approx 0.023$. A count of $400\\pm20$ is the $\\sqrt N$ rule in action."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For which count is a normal approximation to its distribution poorest?",
+				"options": [
+					"A Poisson count with mean 2.",
+					"A Poisson count with mean 400.",
+					"A Binomial(1000, 0.3) count.",
+					"A Binomial(200, 0.5) count."
+				],
+				"answer": 0,
+				"explanation": "The approximation needs the distribution to be roughly symmetric and far from its boundary: rules of thumb are $np$ and $n(1-p)$ at least 10, or a Poisson mean of at least about 10–20. Poisson(2) is strongly right-skewed and piles up at 0."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the central limit theorem in your own words and explain why it lets you treat the mean of replicate measurements as normal even when individual measurements are skewed. What role does $n$ play?",
+				"rubric": "Full credit requires: (1) statement: for i.i.d. variables with mean $\\mu$ and finite variance $\\sigma^2$, the standardised mean $(\\bar X_n - \\mu)/(\\sigma/\\sqrt n)$ tends in distribution to $N(0,1)$; (2) it applies whatever the parent shape (finite variance), so means of skewed data become approximately normal; (3) the spread shrinks as $\\sigma/\\sqrt n$, and more skewed parents need larger $n$ before the approximation is good.",
+				"modelAnswer": "The CLT says that if you average $n$ independent measurements with mean $\\mu$ and finite variance $\\sigma^2$, the average is approximately $N(\\mu, \\sigma^2/n)$ for large $n$, whatever the shape of the individual distribution. Skewness in single readings is washed out because many independent pieces are added. $n$ controls both the width (standard error $\\sigma/\\sqrt n$) and how good the approximation is; a strongly skewed parent, such as low counts, needs a larger $n$."
+			}
+		],
+		"m7-l024-chi-square-student-t": [
+			{
+				"kind": "numeric",
+				"prompt": "For a triplicate measurement ($n = 3$), what is the two-sided 95% critical value $t^*$ of the Student-t distribution with $n - 1$ degrees of freedom? Give a number.",
+				"answer": 4.302653,
+				"tolerance": 0.02,
+				"explanation": "$t^*_{0.975,\\,2}\\approx 4.30$, more than twice $z^* = 1.96$. For $n = 5$ it is 2.78 and for $n = 30$ it is 2.05, approaching 1.96."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For $n = 5$ normal measurements, $(n-1)S^2/\\sigma^2 \\sim \\chi^2_4$. What is the probability that the sample variance $S^2$ exceeds twice the true $\\sigma^2$? Give a probability between 0 and 1.",
+				"answer": 0.091578,
+				"tolerance": 0.02,
+				"explanation": "$S^2 > 2\\sigma^2$ means $4S^2/\\sigma^2 > 8$, and $P(\\chi^2_4 > 8) \\approx 0.092$. With few replicates, $S$ is itself very uncertain."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does the Student-t distribution have heavier tails than $N(0, 1)$?",
+				"options": [
+					"Lab data are not normal, so a wider curve is used for safety.",
+					"Its denominator $S$ is random and sometimes underestimates $\\sigma$.",
+					"Dividing by $\\sqrt n$ instead of $n$ inflates the statistic.",
+					"It uses the sample median rather than the mean, which is less efficient."
+				],
+				"answer": 1,
+				"explanation": "$T = (\\bar X - \\mu)/(S/\\sqrt n)$ replaces the fixed $\\sigma$ with the random $S$. When $S$ happens to come out small, $T$ becomes large, which fattens the tails; as $n$ grows $S\\to\\sigma$ and $t\\to N(0,1)$. The t result assumes normal data."
+			},
+			{
+				"kind": "short",
+				"prompt": "Define the chi-square distribution with $n$ degrees of freedom, and explain in your own words why $(n-1)S^2/\\sigma^2$ has $n - 1$ rather than $n$ degrees of freedom.",
+				"rubric": "Full credit requires: (1) $\\chi^2_n$ is the distribution of $Z_1^2 + \\dots + Z_n^2$ for independent standard normals, with mean $n$; (2) $(n-1)S^2/\\sigma^2 = \\sum(X_i - \\bar X)^2/\\sigma^2$ uses deviations from the sample mean; (3) the deviations satisfy one linear constraint ($\\sum(X_i - \\bar X) = 0$) because $\\bar X$ was estimated from the same data, so only $n - 1$ of them are free, losing one degree of freedom.",
+				"modelAnswer": "$\\chi^2_n$ is the distribution of a sum of $n$ squared independent standard normals; its mean is $n$. $(n-1)S^2/\\sigma^2$ sums the squared deviations from the sample mean, scaled by $\\sigma^2$. Those deviations always sum to zero because $\\bar X$ was fitted to the same data, so only $n - 1$ of them vary freely; estimating the mean uses up one degree of freedom, which is also why $S^2$ divides by $n - 1$."
+			}
+		],
+		"m7-l025-estimators-bias-variance-mse": [
+			{
+				"kind": "numeric",
+				"prompt": "An estimator of a rate constant has bias 0.3 and standard deviation 0.4 (same units). What is its mean squared error? Give a number in squared units.",
+				"answer": 0.25,
+				"tolerance": 0.02,
+				"explanation": "$\\operatorname{MSE} = \\operatorname{Bias}^2 + \\operatorname{Var} = 0.09 + 0.16 = 0.25$, so the typical error (root MSE) is 0.5."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For triplicate measurements ($n = 3$), what is the expected value of the variance estimator $\\frac{1}{n}\\sum(X_i - \\bar X)^2$, as a fraction of the true $\\sigma^2$? Give a number.",
+				"answer": 0.666667,
+				"tolerance": 0.02,
+				"explanation": "$E\\left[\\sum(X_i - \\bar X)^2\\right] = (n-1)\\sigma^2$, so dividing by $n$ gives $\\frac{n-1}{n}\\sigma^2 = \\frac{2}{3}\\sigma^2$. With triplicates the $1/n$ version underestimates the variance by a third on average."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does the sample variance divide by $n - 1$ to be unbiased?",
+				"options": [
+					"To make the estimate more conservative for small samples.",
+					"Because one measurement is always an outlier and is dropped.",
+					"Because deviations from $\\bar X$ are on average smaller than from $\\mu$.",
+					"Because the data are assumed to follow a t distribution."
+				],
+				"answer": 2,
+				"explanation": "$\\bar X$ is the value that minimises $\\sum(X_i - c)^2$, so deviations from $\\bar X$ are systematically smaller than from the true $\\mu$. The expected shortfall is exactly one $\\sigma^2$, and dividing by $n-1$ corrects it. No normality is needed."
+			},
+			{
+				"kind": "short",
+				"prompt": "Show that the sample mean is an unbiased estimator of $\\mu$, explain the decomposition $\\operatorname{MSE} = \\operatorname{Bias}^2 + \\operatorname{Var}$ in your own words, and say why a slightly biased estimator can be preferable.",
+				"rubric": "Full credit requires: (1) $E[\\bar X] = \\frac{1}{n}\\sum E[X_i] = \\mu$ by linearity; (2) MSE measures average squared distance from the truth and splits into systematic offset squared plus random scatter; (3) a small bias can be worth it if it lowers the variance by more, giving a smaller MSE (e.g. shrinking toward a prior value, or the $1/n$ variance estimator for normal data).",
+				"modelAnswer": "By linearity $E[\\bar X] = \\frac{1}{n}\\sum E[X_i] = \\frac{1}{n}\\cdot n\\mu = \\mu$, so it is unbiased. The MSE is the average squared distance between the estimate and the truth, and it splits into the square of the systematic offset plus the random scatter around the estimator's own mean. Because only the total matters, an estimator that is a little biased but much less noisy, such as one that shrinks toward a sensible value, can land closer to the truth on average."
+			}
+		],
+		"m7-l026-maximum-likelihood": [
+			{
+				"kind": "numeric",
+				"prompt": "Five equal counting windows record 12, 9, 15, 11 and 13 counts. Modelling them as i.i.d. Poisson($\\lambda$), what is the maximum-likelihood estimate of $\\lambda$? Give the answer in counts per window.",
+				"answer": 12.0,
+				"tolerance": 0.02,
+				"unit": "counts/window",
+				"explanation": "$\\ell(\\lambda) = \\sum x_i\\log\\lambda - n\\lambda + \\text{const}$; setting $\\ell' = \\sum x_i/\\lambda - n = 0$ gives $\\hat\\lambda = \\bar x = 60/5 = 12$. $\\ell'' = -\\sum x_i/\\lambda^2 < 0$, so it is a maximum."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Five fluorescence lifetimes are measured: 2.1, 3.4, 0.8, 5.2 and 1.5 ns. Modelling them as i.i.d. Exponential($\\lambda$), what is the MLE of the decay rate $\\lambda$? Give the answer in ns⁻¹.",
+				"answer": 0.384615,
+				"tolerance": 0.02,
+				"unit": "ns⁻¹",
+				"explanation": "$\\ell(\\lambda) = n\\log\\lambda - \\lambda\\sum t_i$, so $\\ell' = n/\\lambda - \\sum t_i = 0$ gives $\\hat\\lambda = 1/\\bar t = 1/2.6 \\approx 0.385$ ns⁻¹. $\\ell'' = -n/\\lambda^2 < 0$ confirms a maximum."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A reaction succeeds in 7 of 20 trials and the MLE $\\hat p = 0.35$ is found. What does $\\hat p$ maximise?",
+				"options": [
+					"The probability that $p$ equals 0.35, given the data.",
+					"The probability of the observed data, viewed as a function of $p$.",
+					"The probability that the next trial succeeds.",
+					"The posterior probability of $p$ under a flat prior, for all priors."
+				],
+				"answer": 1,
+				"explanation": "The likelihood $L(p) = p^7(1-p)^{13}$ is the probability of the data at each candidate $p$; it is not a probability distribution over $p$. Maximising it gives $\\hat p = 7/20$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the MLE of a Bernoulli success probability $p$ from $k$ successes in $n$ trials: write the likelihood and log-likelihood, set the score to zero, and check it is a maximum. Explain in your own words why we maximise the log rather than the likelihood itself.",
+				"rubric": "Full credit requires: (1) $L(p) = p^k(1-p)^{n-k}$ and $\\ell(p) = k\\log p + (n-k)\\log(1-p)$; (2) score $k/p - (n-k)/(1-p) = 0$ gives $\\hat p = k/n$; (3) $\\ell'' = -k/p^2 - (n-k)/(1-p)^2 < 0$, so a maximum; (4) the log is increasing so it has the same maximiser, and it turns a product over i.i.d. data into a sum, which is easier to differentiate and numerically stable.",
+				"modelAnswer": "For $k$ successes in $n$ independent trials $L(p) = p^k(1-p)^{n-k}$, so $\\ell(p) = k\\log p + (n-k)\\log(1-p)$. The score $k/p - (n-k)/(1-p)$ is zero at $\\hat p = k/n$, and $\\ell'' = -k/p^2 - (n-k)/(1-p)^2$ is negative, so this is a maximum. Because log is increasing, $\\ell$ peaks where $L$ does, and it turns the product over observations into a sum that is far easier to differentiate (and avoids numbers too tiny for a computer)."
+			}
+		],
+		"m7-l027-likelihood-curvature-standard-errors": [
+			{
+				"kind": "numeric",
+				"prompt": "Five counting windows give a Poisson MLE $\\hat\\lambda = 12$ counts per window. Using the Fisher information $I(\\lambda) = 1/\\lambda$ per window, what is the standard error of $\\hat\\lambda$? Give the answer in counts per window.",
+				"answer": 1.549193,
+				"tolerance": 0.02,
+				"unit": "counts/window",
+				"explanation": "$\\operatorname{SE} = 1/\\sqrt{nI(\\hat\\lambda)} = \\sqrt{\\hat\\lambda/n} = \\sqrt{12/5} \\approx 1.55$. Equivalently, the 60 total counts have $\\sigma = \\sqrt{60}$, and dividing by 5 gives the same answer: the $\\sqrt N$ rule again."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A reaction succeeds in 7 of 20 trials. Using the Bernoulli Fisher information $I(p) = 1/[p(1-p)]$ evaluated at $\\hat p$, what is the asymptotic standard error of $\\hat p$? Give a number.",
+				"answer": 0.106654,
+				"tolerance": 0.02,
+				"explanation": "$\\operatorname{SE} = \\sqrt{\\hat p(1-\\hat p)/n} = \\sqrt{0.35\\times0.65/20}\\approx0.107$. With only 20 trials, the success rate is known only to about $\\pm0.1$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two experiments estimate the same rate. Experiment 1 has a sharply peaked log-likelihood, experiment 2 a broad, flat one. What follows?",
+				"options": [
+					"Experiment 2 is more precise, since its estimate is less sensitive to the data.",
+					"Both are equally precise if their maxima are at the same place.",
+					"Experiment 1 must have the larger MLE.",
+					"Experiment 1 is more precise, since its curvature is larger."
+				],
+				"answer": 3,
+				"explanation": "The curvature $-\\ell''$ at the peak is the observed information, and $\\operatorname{SE} \\approx 1/\\sqrt{-\\ell''}$. A sharp peak means the data strongly disfavour nearby values, so the estimate is precise; where the peak sits says nothing about its width."
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from the Poisson log-likelihood for $n$ windows, recover the counting-statistics result $\\sigma_{\\hat\\lambda} = \\sqrt{\\hat\\lambda/n}$ from the curvature, and explain in your own words what asymptotic normality of the MLE means.",
+				"rubric": "Full credit requires: (1) $\\ell(\\lambda) = \\sum x_i\\log\\lambda - n\\lambda$, so $\\ell'' = -\\sum x_i/\\lambda^2$; (2) at $\\hat\\lambda = \\bar x$, $-\\ell'' = n/\\hat\\lambda$ (Fisher information $1/\\lambda$ per window), giving $\\operatorname{SE} = \\sqrt{\\hat\\lambda/n}$; (3) asymptotic normality: for large $n$ the MLE is approximately $N(\\theta, 1/(nI(\\theta)))$, so $\\hat\\theta\\pm1.96\\,\\operatorname{SE}$ is an approximate 95% interval.",
+				"modelAnswer": "With $\\ell(\\lambda) = \\sum x_i\\log\\lambda - n\\lambda$, the second derivative is $-\\sum x_i/\\lambda^2$. At $\\hat\\lambda = \\bar x$ this is $-n/\\hat\\lambda$, so the curvature is $n/\\hat\\lambda$ and $\\operatorname{SE} = 1/\\sqrt{\\text{curvature}} = \\sqrt{\\hat\\lambda/n}$, the $\\sqrt N$ rule in disguise. Asymptotic normality means that for lots of data the MLE scatters around the true value like a normal with variance $1/(nI(\\theta))$, so the log-likelihood near its peak is a parabola and its width gives the error bar."
+			}
+		],
+		"m7-l028-weighted-mean-combining-measurements": [
+			{
+				"kind": "numeric",
+				"prompt": "A melting point is measured as $152.3 \\pm 0.2$ °C by DSC and $153.1 \\pm 0.5$ °C by capillary (standard uncertainties, independent). By how much does the inverse-variance weighted mean lie above the DSC value? Give the answer in °C.",
+				"answer": 0.110345,
+				"tolerance": 0.02,
+				"unit": "°C",
+				"explanation": "Weights are $1/0.2^2 = 25$ and $1/0.5^2 = 4$, so $\\bar x_w = (25\\times152.3 + 4\\times153.1)/29 \\approx 152.41$ °C, only $0.11$ °C above the DSC value. The weighted mean moves $4/29$ of the way toward the capillary result, because the precise DSC value dominates."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the same two measurements ($152.3 \\pm 0.2$ °C and $153.1 \\pm 0.5$ °C), what is the standard uncertainty of the weighted mean? Give the answer in °C.",
+				"answer": 0.185695,
+				"tolerance": 0.02,
+				"unit": "°C",
+				"explanation": "$\\sigma_{\\bar x_w} = (25 + 4)^{-1/2} \\approx 0.186$ °C, smaller than either input. Precisions (inverse variances) add."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Are these two results ($152.3 \\pm 0.2$ °C and $153.1 \\pm 0.5$ °C) consistent with each other?",
+				"options": [
+					"Yes: they differ by about 1.5 combined standard uncertainties.",
+					"No: they differ by 0.8 °C, which is four times the DSC uncertainty.",
+					"No: the capillary value lies outside the DSC error bar.",
+					"It cannot be judged without at least three measurements."
+				],
+				"answer": 0,
+				"explanation": "The uncertainty of the difference is $\\sqrt{0.2^2 + 0.5^2}\\approx0.54$ °C, so the pull is $0.8/0.54\\approx1.5$, unremarkable. Comparing to only one error bar ignores the other measurement's uncertainty."
+			},
+			{
+				"kind": "short",
+				"prompt": "Show that the inverse-variance weighted mean is the maximum-likelihood estimate of a common value $\\mu$ from independent normal measurements $x_i \\pm \\sigma_i$, and explain in your own words why more precise measurements get more weight.",
+				"rubric": "Full credit requires: (1) log-likelihood $\\ell(\\mu) = -\\sum (x_i - \\mu)^2/(2\\sigma_i^2) + \\text{const}$; (2) $\\ell'(\\mu) = \\sum (x_i - \\mu)/\\sigma_i^2 = 0$ gives $\\hat\\mu = \\sum (x_i/\\sigma_i^2)/\\sum(1/\\sigma_i^2)$; (3) intuition: a deviation from a precise measurement is much less likely than the same deviation from an imprecise one, so the likelihood pulls the estimate toward precise values; the uncertainty $(\\sum 1/\\sigma_i^2)^{-1/2}$ follows from the curvature.",
+				"modelAnswer": "For independent normal measurements, $\\ell(\\mu) = -\\sum (x_i - \\mu)^2/(2\\sigma_i^2)$ up to a constant. Setting $\\ell'(\\mu) = \\sum(x_i - \\mu)/\\sigma_i^2 = 0$ gives $\\hat\\mu = \\sum(x_i/\\sigma_i^2)/\\sum(1/\\sigma_i^2)$, and the curvature $\\sum 1/\\sigma_i^2$ gives the uncertainty. Missing a precise measurement by a given amount is far less likely than missing an imprecise one by the same amount, so the best compromise sits closer to the precise values; each measurement's weight is its precision $1/\\sigma_i^2$."
+			}
+		],
+		"m7-l029-bayesian-updating-discrete-priors": [
+			{
+				"kind": "numeric",
+				"prompt": "A new coupling's success rate $p$ is assumed to be 0.2, 0.5 or 0.8, each with prior probability 1/3. Three independent runs give success, success, failure. What is the posterior probability that $p = 0.8$? Give a probability between 0 and 1.",
+				"answer": 0.449123,
+				"tolerance": 0.02,
+				"explanation": "Likelihoods $p^2(1-p)$: 0.032, 0.125, 0.128. With equal priors the posterior is proportional to these: $0.128/0.285 \\approx 0.449$. $p = 0.5$ is almost as plausible (0.439)."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Same setting: $p \\in \\{0.2, 0.5, 0.8\\}$ with equal priors, data success, success, failure. What is the posterior predictive probability that the fourth run succeeds? Give a probability between 0 and 1.",
+				"answer": 0.601053,
+				"tolerance": 0.02,
+				"explanation": "Average $p$ over the posterior: $0.2(0.112) + 0.5(0.439) + 0.8(0.449) \\approx 0.601$. Uncertainty about $p$ is carried into the prediction rather than plugging in a single best value."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a Bayesian update table, the column 'prior × likelihood' sums to 0.285. What is this number?",
+				"options": [
+					"The posterior probability of the most likely hypothesis.",
+					"The prior predictive probability of the observed data.",
+					"An arbitrary constant with no interpretation.",
+					"The likelihood of the most likely hypothesis."
+				],
+				"answer": 1,
+				"explanation": "$\\sum_\\theta P(x\\mid\\theta)p(\\theta) = P(x)$ by total probability: the probability of the data before seeing it. Dividing by it is what makes the posterior column sum to 1."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how a Bayesian update table works (columns: hypothesis, prior, likelihood, prior × likelihood, posterior), and why updating on runs one at a time gives the same posterior as updating on all of them at once.",
+				"rubric": "Full credit requires: (1) each row is a candidate parameter value; prior times the likelihood of the data under that value gives an unnormalised posterior; dividing by the column sum normalises it; (2) for sequential updating, today's posterior becomes the prior for the next datum; (3) with independent data given $\\theta$, the likelihoods multiply, so the product of step-by-step likelihoods equals the joint likelihood and the normalisation comes out the same.",
+				"modelAnswer": "Each row is one hypothesis. Multiply its prior by how likely the observed data are under it, then divide every product by their sum so the posteriors add to 1. To update sequentially, use the posterior as the prior for the next observation. Because the observations are independent given $\\theta$, the likelihoods just multiply, and normalising at the end or at every step gives the same posterior."
+			}
+		],
+		"m7-l030-beta-binomial-conjugacy": [
+			{
+				"kind": "numeric",
+				"prompt": "Your prior for a reaction's success rate is Beta(2, 2). You then see 9 successes in 10 trials. What is the posterior mean of the success rate? Give a probability between 0 and 1.",
+				"answer": 0.785714,
+				"tolerance": 0.02,
+				"explanation": "Posterior Beta$(2+9,\\ 2+1)$ = Beta(11, 3), with mean $11/14 \\approx 0.786$, between the prior mean 0.5 and the observed 0.9 and closer to the data."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A new spot test detects the analyte in 0 of 5 spiked samples. With a flat Beta(1, 1) prior on its sensitivity, what is the posterior mean sensitivity? Give a probability between 0 and 1.",
+				"answer": 0.142857,
+				"tolerance": 0.02,
+				"explanation": "Posterior Beta$(1 + 0,\\ 1 + 5)$ = Beta(1, 6), mean $1/7 \\approx 0.143$. Unlike the MLE of 0, the posterior does not claim the test can never work after just five trials."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Starting from a flat Beta(1, 1) prior on a reaction's success rate, you observe 8 successes and 2 failures. Which distribution should serve as the prior for the next batch?",
+				"options": [
+					"Beta(8, 2)",
+					"Beta(0.8, 0.2)",
+					"Beta(3, 9)",
+					"Beta(9, 3)"
+				],
+				"answer": 3,
+				"explanation": "Conjugate updating adds successes to $a$ and failures to $b$: Beta(1 + 8, 1 + 2) = Beta(9, 3), with mean 0.75. Today's posterior is tomorrow's prior, so $a$ and $b$ carry the earlier trials as pseudo-counts."
+			},
+			{
+				"kind": "short",
+				"prompt": "Show that a Beta($a$, $b$) prior combined with $k$ successes in $n$ binomial trials gives a Beta($a+k$, $b+n-k$) posterior, and explain in your own words how $a$ and $b$ act as prior pseudo-counts.",
+				"rubric": "Full credit requires: (1) posterior $\\propto$ likelihood × prior $= p^k(1-p)^{n-k}\\cdot p^{a-1}(1-p)^{b-1} = p^{a+k-1}(1-p)^{b+n-k-1}$, the Beta($a+k$, $b+n-k$) kernel; (2) conjugacy: prior and posterior share a family, so updating is just adding counts; (3) $a$ and $b$ behave like previously observed successes and failures, and $a+b$ sets how strongly the prior resists new data (posterior mean $(a+k)/(a+b+n)$).",
+				"modelAnswer": "Multiplying the likelihood $p^k(1-p)^{n-k}$ by the prior $p^{a-1}(1-p)^{b-1}$ gives $p^{a+k-1}(1-p)^{b+n-k-1}$, which is a Beta($a+k$, $b+n-k$) up to normalisation. So updating just adds successes to $a$ and failures to $b$, as if the prior were a record of earlier trials. The posterior mean $(a+k)/(a+b+n)$ blends prior and data, and a large $a + b$ means a confident prior that needs many trials to move."
+			}
+		],
+		"m7-l031-gamma-poisson-normal-normal": [
+			{
+				"kind": "numeric",
+				"prompt": "A detector's background rate $\\lambda$ has a Gamma($r = 2$, $b = 10$ s) prior (mean $r/b = 0.2\\ \\text{s}^{-1}$). A 60 s run records 3 counts. What is the posterior mean of $\\lambda$? Give the answer in s⁻¹.",
+				"answer": 0.071429,
+				"tolerance": 0.02,
+				"unit": "s⁻¹",
+				"explanation": "Posterior Gamma$(r + y,\\ b + t)$ = Gamma(5, 70 s), mean $5/70 \\approx 0.071\\ \\text{s}^{-1}$. The prior acts like 2 counts in 10 s, added to the data's 3 counts in 60 s."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A prior for a concentration is $N(50.0, 2.0^2)$. Four measurements with known $\\sigma = 2.0$ have mean 53.0. What is the posterior mean? Give the answer in the same units.",
+				"answer": 52.4,
+				"tolerance": 0.02,
+				"explanation": "Precisions: prior $1/4 = 0.25$, data $n/\\sigma^2 = 1$. Posterior variance $= 1/1.25 = 0.8$, mean $= 0.8(50/4 + 4\\times53/4) = 52.4$: a precision-weighted average, pulled 80% of the way to the data."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the Normal-Normal model, how does the posterior standard deviation compare with the prior SD $\\sigma_0$ and the data's $\\sigma/\\sqrt n$?",
+				"options": [
+					"It is smaller than both, since precisions add.",
+					"It lies between them, as an average of the two.",
+					"It equals the larger of the two, the limiting factor.",
+					"It equals $\\sigma/\\sqrt n$, since the prior only shifts the mean."
+				],
+				"answer": 0,
+				"explanation": "$1/\\sigma_{\\text{post}}^2 = 1/\\sigma_0^2 + n/\\sigma^2$, so the posterior precision exceeds each source's precision and the posterior SD is smaller than either. It is the same arithmetic as the error of a weighted mean."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the Normal-Normal posterior mean is a precision-weighted average of the prior mean and the data mean, and why it is called the Bayesian twin of the inverse-variance weighted mean.",
+				"rubric": "Full credit requires: (1) the posterior is proportional to the product of two Gaussians in $\\mu$, which is a Gaussian whose precision is the sum of the precisions ($1/\\sigma_0^2 + n/\\sigma^2$); (2) its mean is $\\sigma_{\\text{post}}^2(\\mu_0/\\sigma_0^2 + n\\bar x/\\sigma^2)$, each source weighted by its precision; (3) this is exactly the weighted-mean formula with the prior treated as one extra measurement $\\mu_0\\pm\\sigma_0$.",
+				"modelAnswer": "Multiplying a Gaussian prior by a Gaussian likelihood gives another Gaussian; completing the square shows its precision is the sum $1/\\sigma_0^2 + n/\\sigma^2$ and its mean weights $\\mu_0$ and $\\bar x$ by their precisions. That is precisely the inverse-variance weighted mean of two 'measurements', the prior $\\mu_0\\pm\\sigma_0$ and the data mean $\\bar x\\pm\\sigma/\\sqrt n$. The prior is treated as one more measurement, and more data or a vaguer prior shifts the weight to the data."
+			}
+		],
+		"m7-l032-credible-intervals-priors-bayes-vs-frequentist": [
+			{
+				"kind": "numeric",
+				"prompt": "The posterior for a reaction's success rate is Beta(11, 3). What is the lower end of the equal-tailed 95% credible interval (the 2.5% quantile)? Give a probability between 0 and 1.",
+				"answer": 0.545529,
+				"tolerance": 0.02,
+				"explanation": "The 2.5% and 97.5% quantiles of Beta(11, 3) are about 0.546 and 0.950. Given the data and prior, there is a 95% probability that the success rate lies in that range."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Two chemists analyse the same 200 trials (150 successes), one with a flat Beta(1, 1) prior and one with Beta(10, 10). What happens to their posterior means?",
+				"options": [
+					"They stay far apart, since the priors are different.",
+					"They are close (0.75 vs 0.73), since the data dominate.",
+					"They are identical, since priors never affect the posterior.",
+					"The informative prior always gives the more accurate answer."
+				],
+				"answer": 1,
+				"explanation": "Means are $151/202 \\approx 0.748$ and $160/220 \\approx 0.727$. The prior adds 2 or 20 pseudo-trials to 200 real ones, so its influence fades as data accumulate, though it never disappears exactly."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A 95% credible interval for an impurity level is [0.12%, 0.31%]. Which interpretation is correct?",
+				"options": [
+					"95% of batches have impurity levels between 0.12% and 0.31%.",
+					"If repeated many times, 95% of such intervals would contain the true level.",
+					"Given the data and prior, the level is in the range with prob. 0.95.",
+					"The true level is 0.215% with an error of at most 0.095%."
+				],
+				"answer": 2,
+				"explanation": "A credible interval is a probability statement about the parameter, conditional on the data and the prior. The long-run coverage reading belongs to confidence intervals, and neither kind describes the spread of individual batches."
+			},
+			{
+				"kind": "short",
+				"prompt": "Contrast a 95% Bayesian credible interval with a 95% frequentist confidence interval: what question does each answer, what is treated as random, and when do they nearly coincide? Also say how you would choose a prior for a new batch of a familiar reaction.",
+				"rubric": "Full credit requires: (1) credible interval: the parameter is uncertain (random in the Bayesian sense) and the interval contains it with 95% posterior probability given these data and the prior; (2) confidence interval: the parameter is fixed and the interval is random; 95% of intervals produced by the procedure would cover it; (3) they nearly coincide with lots of data or flat/weak priors; (4) a sensible prior choice, e.g. a weakly informative prior centred on results from previous batches, justified and checked for sensitivity.",
+				"modelAnswer": "A credible interval answers 'given what I have seen, where is the parameter likely to be?': the parameter is uncertain and the interval holds it with 95% posterior probability. A confidence interval answers 'how reliable is my procedure?': the parameter is fixed and the interval is random, and 95% of intervals built this way would cover it. With plenty of data or a flat prior they come out nearly the same. For a new batch of a familiar reaction, I would centre a weakly informative prior on previous batches' results but keep it broad enough that new data can move it, and check that the conclusion is not sensitive to that choice."
+			}
+		],
+		"m7-l033-confidence-intervals": [
+			{
+				"kind": "numeric",
+				"prompt": "A triplicate analysis gives 10.12, 10.25 and 10.18 mg/L. What is the half-width of the 95% t confidence interval for the mean? Give the answer in mg/L.",
+				"answer": 0.161628,
+				"tolerance": 0.02,
+				"unit": "mg/L",
+				"explanation": "$\\bar x = 10.183$, $s = 0.0651$, and $t^*_{2} = 4.303$, so the half-width is $4.303\\times0.0651/\\sqrt3 \\approx 0.16$ mg/L. Using $z = 1.96$ would understate it by more than half."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In 120 batches, 36 fail a specification. What is the half-width of the 95% CLT confidence interval for the failure proportion? Give a proportion between 0 and 1.",
+				"answer": 0.081993,
+				"tolerance": 0.02,
+				"explanation": "$\\hat p = 0.3$, $\\operatorname{SE} = \\sqrt{0.3\\times0.7/120}\\approx0.0418$, so the half-width is $1.96\\times0.0418\\approx0.082$. The interval is about 0.22 to 0.38."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A 95% confidence interval for a mean is [10.02, 10.35] mg/L. Which statement is correct?",
+				"options": [
+					"There is a 95% probability that the true mean lies in [10.02, 10.35].",
+					"95% of future measurements will fall in [10.02, 10.35].",
+					"The procedure gives intervals that cover the true mean 95% of the time.",
+					"If repeated, 95% of future sample means will fall in [10.02, 10.35]."
+				],
+				"answer": 2,
+				"explanation": "In the frequentist view the true mean is fixed, so a computed interval either contains it or not; the 95% describes the long-run coverage of the procedure. Statements about future individual values need a prediction interval."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words when you should use a $t$ rather than a $z$ confidence interval for a mean, and why reporting a triplicate result as $\\bar x\\pm 2s$ or $\\bar x\\pm 1.96\\,s/\\sqrt n$ understates its uncertainty.",
+				"rubric": "Full credit requires: (1) use $z$ when $\\sigma$ is known (or $n$ is large so $s\\approx\\sigma$), and $t_{n-1}$ when $\\sigma$ is estimated by $s$ from a small sample of roughly normal data; (2) with $n = 3$, $s$ is very uncertain and $t^*_{2} = 4.30$ instead of 1.96; (3) the correct report is $\\bar x\\pm t^*s/\\sqrt n$; $\\pm1.96s/\\sqrt n$ ignores the uncertainty in $s$ and gives intervals that cover far less than 95% of the time.",
+				"modelAnswer": "Use $z$ only when $\\sigma$ is genuinely known or the sample is large enough that $s$ is a reliable stand-in. With a few replicates, $s$ itself is uncertain, and the t distribution with $n-1$ degrees of freedom accounts for that: for triplicates $t^* = 4.30$ rather than 1.96. Reporting $\\bar x\\pm1.96s/\\sqrt n$ for $n = 3$ gives an interval less than half the correct width that covers the truth well under 95% of the time; the right report is $\\bar x\\pm4.30\\,s/\\sqrt3$."
+			}
+		],
+		"m7-l034-hypothesis-testing-p-values": [
+			{
+				"kind": "numeric",
+				"prompt": "A certified reference material is 50.0 mg/L. Six measurements give mean 50.9 mg/L and $s = 0.8$ mg/L. Test $H_0: \\mu = 50.0$ with a two-sided one-sample t-test. What is the p-value? Give a probability between 0 and 1.",
+				"answer": 0.04004,
+				"tolerance": 0.05,
+				"explanation": "$t = 0.9/(0.8/\\sqrt6)\\approx2.76$ with 5 degrees of freedom, so the two-sided $p\\approx0.040$. At $\\alpha = 0.05$ this suggests a bias, though not overwhelmingly."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A test gives $p = 0.03$. Which statement is correct?",
+				"options": [
+					"There is a 3% probability that the null hypothesis is true.",
+					"If $H_0$ were true, a result this extreme would occur 3% of the time.",
+					"There is a 97% probability that the alternative hypothesis is in fact true.",
+					"The effect is large, since the p-value is small."
+				],
+				"answer": 1,
+				"explanation": "$p = P(\\text{data at least this extreme}\\mid H_0)$, not $P(H_0\\mid\\text{data})$; getting the latter needs a prior (the prosecutor's fallacy again). A tiny effect can give a tiny p-value with enough data."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A test has significance level $\\alpha = 0.05$ and power 0.6 against a 2% yield difference. What do these numbers mean?",
+				"options": [
+					"5% chance of missing a real difference; 60% chance of a false alarm.",
+					"5% chance the result is wrong; 60% chance it is right.",
+					"5% false-alarm rate if $H_0$ holds; 60% chance of detecting a real 2% gain.",
+					"5% of yields differ by 2%; 60% of yields are unchanged."
+				],
+				"answer": 2,
+				"explanation": "$\\alpha = P(\\text{reject}\\mid H_0)$ is the type I (false-alarm) rate. Power $= P(\\text{reject}\\mid H_1) = 1 - \\beta$, so here there is a 40% type II risk of missing a real 2% improvement."
+			},
+			{
+				"kind": "short",
+				"prompt": "A new synthesis is compared with the old one using three runs each, and the yield difference is not significant ($p = 0.4$). A colleague concludes the two routes give the same yield. Explain in your own words why this is wrong, using type II error and power.",
+				"rubric": "Full credit requires: (1) failing to reject $H_0$ is not evidence for $H_0$; absence of evidence is not evidence of absence; (2) with three runs each the test has low power, so a real and important difference would often give a non-significant result (high type II error $\\beta$); (3) a better approach: report the confidence interval for the difference (likely wide, including important differences), run a power analysis, or use an equivalence test with a pre-set margin.",
+				"modelAnswer": "A non-significant result only says the data are compatible with no difference; they may also be compatible with a sizeable one. With three runs per route the power is low, so even a real 5–10% yield difference would often fail to reach significance: the type II error rate is high. The honest report is the confidence interval for the yield difference, which here would probably be wide enough to include both zero and an important gain; to claim 'the same', you need an equivalence test or far more runs."
+			}
+		],
+		"m7-l035-t-tests-comparing-methods": [
+			{
+				"kind": "numeric",
+				"prompt": "Five samples are each assayed by HPLC and by UV-Vis. The differences (HPLC minus UV, in % w/w) are 0.12, 0.08, 0.15, 0.10 and 0.05. Compute the paired t statistic. Give a number.",
+				"answer": 5.872202,
+				"tolerance": 0.02,
+				"explanation": "$\\bar d = 0.100$, $s_d = 0.0381$, so $t = 0.100/(0.0381/\\sqrt5)\\approx5.87$ with 4 degrees of freedom ($p\\approx0.004$). The methods differ consistently by about 0.1% w/w."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Batch 1 ($n = 4$) has mean yield 92.1% with $s = 1.2$%; batch 2 ($n = 5$) has mean 89.8% with $s = 1.5$%. Compute the Welch two-sample t statistic. Give a number.",
+				"answer": 2.555556,
+				"tolerance": 0.02,
+				"explanation": "$\\operatorname{SE} = \\sqrt{1.44/4 + 2.25/5} = \\sqrt{0.81} = 0.9$, so $t = 2.3/0.9\\approx2.56$. Welch does not assume equal variances, and its degrees of freedom come from the Welch-Satterthwaite formula."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The same five samples are measured by two methods. Why is a paired t-test usually far more sensitive than a two-sample test here?",
+				"options": [
+					"Pairing doubles the effective sample size from 5 to 10.",
+					"Pairing removes sample-to-sample variation, leaving only method noise.",
+					"The paired test assumes equal variances, giving a larger t.",
+					"The paired test uses a one-sided alternative by default."
+				],
+				"answer": 1,
+				"explanation": "Each difference compares the two methods on the same sample, so the large variation between samples cancels. The two-sample test would leave that variation in the denominator and could hide a consistent method offset. Pairing actually halves the number of independent values used."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why, after a two-sample comparison of two analysts or batches, you should report the difference with its confidence interval and not only the p-value.",
+				"rubric": "Full credit requires: (1) the p-value says only how surprising the data are under no difference; it mixes effect size and sample size; (2) the CI $\\bar x_1 - \\bar x_2\\pm t^*\\,\\operatorname{SE}$ gives the size of the effect and its uncertainty in real units; (3) this lets a reader judge practical importance: a significant but tiny difference, or a non-significant but potentially large one, are both visible from the CI and not from p.",
+				"modelAnswer": "A p-value only tells you how surprising the data would be if there were no difference, and it depends as much on sample size as on the size of the effect. The confidence interval, difference $\\pm t^*\\,\\operatorname{SE}$, says how big the difference plausibly is, in percent yield or mg/L. That is what decides whether it matters: a 0.1% difference can be highly significant and irrelevant, while a non-significant result with a CI spanning −1% to +6% leaves a big effect possible."
+			}
+		],
+		"m7-l036-chi-square-goodness-of-fit": [
+			{
+				"kind": "numeric",
+				"prompt": "For a monobrominated compound the predicted M : M+2 ratio is 50.7 : 49.3. Of 1000 detected molecular ions, 540 are M and 460 are M+2. Compute the chi-square goodness-of-fit statistic. Give a number.",
+				"answer": 4.356854,
+				"tolerance": 0.02,
+				"explanation": "Expected counts are 507 and 493, so $\\chi^2 = 33^2/507 + 33^2/493\\approx4.36$ with $\\nu = 1$, $p\\approx0.037$: borderline evidence of a distorted pattern (e.g. an interfering ion at M)."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Detector counts from 200 windows are binned into 6 count categories and compared with a Poisson whose mean was estimated from the same data. How many degrees of freedom does the chi-square test have?",
+				"options": [
+					"6",
+					"5",
+					"4",
+					"199"
+				],
+				"answer": 2,
+				"explanation": "$\\nu = k - 1 - (\\text{fitted parameters}) = 6 - 1 - 1 = 4$. One degree is lost because the expected counts must sum to the total, and one more because $\\lambda$ was fitted to the data."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A chi-square test of counts against a Poisson model gives $p = 0.9995$. What should you suspect?",
+				"options": [
+					"The Poisson model is confirmed with very high confidence.",
+					"The data fit better than chance allows, so check how they were produced.",
+					"The test has too many degrees of freedom to reject anything.",
+					"The counts are clearly over-dispersed relative to the Poisson model."
+				],
+				"answer": 1,
+				"explanation": "A tiny $\\chi^2$ means the observed counts sit closer to expectation than Poisson scatter allows. That suggests sub-Poisson data (e.g. dead time), smoothed or edited data, or overestimated expected variances. A good fit should give an unremarkable p."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the chi-square statistic divides each squared deviation by $E_i$, and why the sum is approximately $\\chi^2$-distributed when the model is right.",
+				"rubric": "Full credit requires: (1) bin counts are approximately Poisson, so the variance of $O_i$ is about $E_i$; (2) $(O_i - E_i)/\\sqrt{E_i}$ is therefore a standardised deviation, approximately $N(0,1)$ when $E_i$ is not too small; (3) the sum of squares of approximately standard normal variables is approximately $\\chi^2$, with degrees of freedom reduced by the constraint on the total and by fitted parameters; the approximation needs expected counts of roughly 5 or more per bin.",
+				"modelAnswer": "The count in each bin behaves roughly like a Poisson variable, so its variance is about its expected value $E_i$. Dividing $(O_i - E_i)^2$ by $E_i$ is the square of a standardised deviation, so a bin with 1000 expected counts is not allowed to dominate just because its absolute scatter is larger. If the model is right, each standardised deviation is roughly standard normal (given enough expected counts per bin), and a sum of squared standard normals is chi-square, minus a degree of freedom for the fixed total and one for each fitted parameter."
+			}
+		],
+		"m7-l037-least-squares-line": [
+			{
+				"kind": "numeric",
+				"prompt": "Calibration standards at 0, 1, 2, 3, 4 mM give absorbances 0.02, 0.21, 0.39, 0.62, 0.80. What is the least-squares slope? Give the answer in AU per mM.",
+				"answer": 0.197,
+				"tolerance": 0.02,
+				"unit": "AU/mM",
+				"explanation": "$\\bar x = 2$, $\\bar y = 0.408$, $S_{xy} = 1.97$ and $S_{xx} = 10$, so $\\hat\\beta_1 = 0.197$ AU/mM."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the same standards (0, 1, 2, 3, 4 mM giving 0.02, 0.21, 0.39, 0.62, 0.80 AU), what is the least-squares intercept? Give the answer in AU.",
+				"answer": 0.014,
+				"tolerance": 0.02,
+				"unit": "AU",
+				"explanation": "$\\hat\\beta_0 = \\bar y - \\hat\\beta_1\\bar x = 0.408 - 0.197\\times2 = 0.014$ AU. The fitted line always passes through $(\\bar x, \\bar y)$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A calibration line has $r = 0.9993$, but the residuals are negative at the middle standards and positive at both ends. What should you conclude?",
+				"options": [
+					"The response is curved; a high $r$ does not prove linearity.",
+					"The line is excellent, since $r > 0.999$ shows linearity.",
+					"The errors are heteroscedastic, so weighted least squares is needed.",
+					"The middle standards are outliers and should be removed."
+				],
+				"answer": 0,
+				"explanation": "A systematic U-shaped (or arch-shaped) residual pattern is the signature of curvature. $r$ near 1 only says the points rise together strongly; a gently curved response over a wide range can still give $r > 0.999$. A fan shape, not a U, would suggest heteroscedasticity."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how the least-squares slope and intercept are found by minimising the sum of squared residuals, and why the fitted line always passes through $(\\bar x, \\bar y)$.",
+				"rubric": "Full credit requires: (1) define residuals $e_i = y_i - \\beta_0 - \\beta_1x_i$ and minimise $\\sum e_i^2$ over $\\beta_0, \\beta_1$ by setting both partial derivatives to zero; (2) the $\\beta_0$ equation gives $\\sum e_i = 0$, i.e. $\\bar y = \\beta_0 + \\beta_1\\bar x$, so the line passes through the centroid; (3) the $\\beta_1$ equation then gives $\\hat\\beta_1 = S_{xy}/S_{xx}$.",
+				"modelAnswer": "Each residual is the vertical miss $y_i - (\\beta_0 + \\beta_1x_i)$, and least squares chooses the line that minimises $\\sum e_i^2$. Setting the derivative with respect to $\\beta_0$ to zero says the residuals sum to zero, which is the same as $\\bar y = \\beta_0 + \\beta_1\\bar x$: the line goes through the centroid. Setting the derivative with respect to $\\beta_1$ to zero, after centring the data, gives $\\hat\\beta_1 = \\sum(x_i - \\bar x)(y_i - \\bar y)/\\sum(x_i - \\bar x)^2$."
+			}
+		],
+		"m7-l038-inference-for-regression": [
+			{
+				"kind": "numeric",
+				"prompt": "A five-point calibration (x = 0, 1, 2, 3, 4 mM) has residuals 0.006, −0.001, −0.018, 0.015 and −0.002 AU about the least-squares line. Compute the standard error of the slope. Give the answer in AU per mM.",
+				"answer": 0.004435,
+				"tolerance": 0.02,
+				"unit": "AU/mM",
+				"explanation": "$s_e = \\sqrt{\\sum e_i^2/(n-2)} = \\sqrt{0.00059/3}\\approx0.0140$ AU and $S_{xx} = 10$, so $\\operatorname{SE}(\\hat\\beta_1) = 0.0140/\\sqrt{10}\\approx0.0044$ AU/mM."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A five-standard calibration gives intercept $0.012 \\pm 0.009$ AU (standard error). The 95% $t^*$ with 3 degrees of freedom is 3.18. Is there evidence of a non-zero blank offset?",
+				"options": [
+					"Yes: the intercept is positive, so the blank reads high.",
+					"Yes: $t = 1.33$ exceeds 1, so the offset is significant.",
+					"No: an intercept can never be tested, since $x = 0$ was a standard.",
+					"No: $t = 1.33 < 3.18$, so zero is inside the 95% CI."
+				],
+				"answer": 3,
+				"explanation": "$t = 0.012/0.009\\approx1.33$, well below 3.18; the 95% CI $0.012\\pm0.029$ includes zero. The data cannot distinguish a small blank offset from none."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the 95% prediction band for a new single measurement wider than the 95% confidence band for the mean response at the same $x$?",
+				"options": [
+					"It uses a larger $t^*$, because it has fewer degrees of freedom.",
+					"It adds the new point's own scatter $\\sigma^2$ to the line's uncertainty.",
+					"It includes the uncertainty in $x$, while the confidence band does not.",
+					"It is computed from the raw data points, while the confidence band uses the fit."
+				],
+				"answer": 1,
+				"explanation": "The confidence band reflects uncertainty in where the true line is, which shrinks as standards are added. A new observation also scatters about the line by $\\sigma$, so the prediction variance is $s_e^2(1 + 1/n + (x-\\bar x)^2/S_{xx})$ and never shrinks below $s_e$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words where the standard error of the slope $s_e/\\sqrt{\\sum(x_i - \\bar x)^2}$ comes from, and what the formula says about how to design a calibration to pin down the slope.",
+				"rubric": "Full credit requires: (1) $\\hat\\beta_1 = \\sum(x_i - \\bar x)y_i/S_{xx}$ is a linear combination of the $y_i$, so its variance is $\\sigma^2/S_{xx}$; (2) $\\sigma$ is estimated by $s_e$ from residuals with $n - 2$ degrees of freedom (two parameters fitted); (3) design: a larger spread of standards (bigger $S_{xx}$), more standards and less noise all reduce the SE; the slope is pinned down best by points far apart.",
+				"modelAnswer": "The slope estimate is a weighted sum of the $y_i$ with weights $(x_i - \\bar x)/S_{xx}$, so if each $y_i$ has noise $\\sigma$, its variance is $\\sigma^2/S_{xx}$. We do not know $\\sigma$, so we estimate it from the residuals, dividing by $n - 2$ because two parameters were fitted. The formula says that spreading standards widely over the working range (large $S_{xx}$), using more of them, and reducing noise all sharpen the slope; points bunched together barely constrain it."
+			}
+		],
+		"m7-l039-calibration-curves-inverse-prediction": [
+			{
+				"kind": "numeric",
+				"prompt": "A calibration line has slope 0.0452 AU/µM and intercept 0.0031 AU. An unknown gives a mean absorbance of 0.512 AU. What is its concentration? Give the answer in µM.",
+				"answer": 11.25885,
+				"tolerance": 0.02,
+				"unit": "µM",
+				"explanation": "$\\hat x_0 = (\\bar y_0 - \\hat\\beta_0)/\\hat\\beta_1 = (0.512 - 0.0031)/0.0452\\approx11.26$ µM."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Ten blank measurements have standard deviation 0.0015 AU, and the calibration slope is 0.0452 AU/µM. Using LOD = $3s_{\\text{blank}}/\\text{slope}$, what is the limit of detection? Give the answer in µM.",
+				"answer": 0.099558,
+				"tolerance": 0.02,
+				"unit": "µM",
+				"explanation": "LOD $= 3(0.0015)/0.0452\\approx0.10$ µM; the LOQ, $10s/\\text{slope}$, is about 0.33 µM. The slope converts signal noise into concentration noise."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which change most reduces the uncertainty of an inverse-predicted concentration that lies near the upper end of the calibration range?",
+				"options": [
+					"Move standards so their centroid is nearer the unknown's signal.",
+					"Report more decimal places for the slope and intercept.",
+					"Remove the highest standard to reduce leverage.",
+					"Replace the replicate signals of the unknown by a single reading."
+				],
+				"answer": 0,
+				"explanation": "In $s_{x_0}$ the term $(\\bar y_0 - \\bar y)^2/(\\hat\\beta_1^2S_{xx})$ grows as the unknown moves away from the centroid of the standards, so centring the standards near expected unknowns (and widening their spread) helps. More replicates of the unknown shrink the $1/m$ term; removing standards or replicates makes things worse."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words which sources of uncertainty enter the concentration $\\hat x_0 = (\\bar y_0 - \\hat\\beta_0)/\\hat\\beta_1$ read from a calibration line, and how each term of $s_{x_0}\\approx\\frac{s_e}{\\hat\\beta_1}\\sqrt{\\frac1m + \\frac1n + \\frac{(\\bar y_0 - \\bar y)^2}{\\hat\\beta_1^2S_{xx}}}$ can be reduced.",
+				"rubric": "Full credit requires: (1) three sources: noise in the unknown's own $m$ replicate signals ($1/m$), uncertainty in the line's height at its centroid ($1/n$), and slope uncertainty, which matters more the further the unknown is from the centroid (last term); (2) dividing by the slope converts signal uncertainty into concentration uncertainty, so a steeper (more sensitive) method helps; (3) remedies: more replicates of the unknown, more standards, standards spread widely and centred near the unknowns.",
+				"modelAnswer": "The concentration inherits noise from the unknown's own replicate signals, which shrinks as $1/m$; from where the calibration line sits, which shrinks with the number of standards $n$; and from the slope, whose error swings the line like a lever about the centroid and so matters more the further the unknown lies from it. Dividing by the slope converts all of this from absorbance to concentration, so a more sensitive method helps directly. To shrink $s_{x_0}$: replicate the unknown, run more standards, spread them widely, and centre them on the concentrations you expect to measure."
+			}
+		],
+		"m7-l040-weighted-least-squares-reduced-chi-square": [
+			{
+				"kind": "mc",
+				"prompt": "A calibration uses photon counts ranging from about 100 to 10,000, with Poisson errors $\\sigma_i = \\sqrt{y_i}$. Why is ordinary least squares a poor choice?",
+				"options": [
+					"OLS cannot fit data with counts above about 1000.",
+					"OLS gives every point equal weight, so the noisiest high counts dominate.",
+					"OLS gives the low-count points too much weight, since they are smaller.",
+					"OLS requires the counts to be converted to logarithms first."
+				],
+				"answer": 1,
+				"explanation": "At 10,000 counts $\\sigma = 100$, while at 100 counts $\\sigma = 10$. OLS treats all residuals alike, so the large absolute scatter of the high points drives the fit. WLS with weights $1/\\sigma_i^2 = 1/y_i$ gives each point influence in proportion to its precision."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A straight line (2 parameters) is fitted by weighted least squares to 4 points. The residuals are 0.5, −1.2, 0.8, −0.3 and the error bars are 0.5, 0.6, 0.4, 0.3. What is the reduced chi-square $\\chi^2_\\nu$? Give a number.",
+				"answer": 5.0,
+				"tolerance": 0.02,
+				"explanation": "$\\chi^2 = 1^2 + 2^2 + 2^2 + 1^2 = 10$ and $\\nu = 4 - 2 = 2$, so $\\chi^2_\\nu = 5$. The scatter is much larger than the error bars allow."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A weighted straight-line fit to 20 points gives $\\chi^2_\\nu = 0.15$. What is the most likely explanation?",
+				"options": [
+					"The model and error bars are both perfect.",
+					"The error bars are underestimated.",
+					"The straight line is the wrong model.",
+					"The error bars are overestimated."
+				],
+				"answer": 3,
+				"explanation": "$\\chi^2_\\nu\\approx1$ means the scatter matches the stated errors. $\\chi^2_\\nu\\ll1$ means the points sit far closer to the line than their error bars imply, usually because the uncertainties were inflated (or correlated); $\\chi^2_\\nu\\gg1$ points to underestimated errors or a wrong model."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why weighted least squares uses weights $1/\\sigma_i^2$, and what the reduced chi-square tells you about a fit, including what values much above and much below 1 mean.",
+				"rubric": "Full credit requires: (1) WLS minimises $\\chi^2 = \\sum(y_i - f(x_i))^2/\\sigma_i^2$, the MLE for independent normal errors, so precise points pull harder and each residual is measured in units of its own error; (2) if the model and errors are right, each term is about 1 on average and $\\chi^2\\approx\\nu = n - p$, so $\\chi^2_\\nu\\approx1$; (3) $\\chi^2_\\nu\\gg1$: errors underestimated or wrong model; $\\chi^2_\\nu\\ll1$: errors overestimated (or correlated/overfitted).",
+				"modelAnswer": "With independent normal errors, the likelihood is largest when $\\sum(y_i - f(x_i))^2/\\sigma_i^2$ is smallest, so weighting by $1/\\sigma_i^2$ is maximum likelihood: each residual is judged in units of its own error bar, and precise points count for more. If the model and the error bars are both right, each term averages about 1 and $\\chi^2$ is about the degrees of freedom $n - p$, so $\\chi^2_\\nu\\approx1$. Much above 1 means the scatter exceeds the error bars (errors too small or the model wrong); much below 1 means the points fit better than their errors allow, so the error bars are probably too large."
+			}
+		]
+	}
+}

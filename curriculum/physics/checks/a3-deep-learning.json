@@ -1,0 +1,2198 @@
+{
+	"courseId": "a3-deep-learning",
+	"checks": {
+		"a3-l001-conv-invariance-equivariance": [
+			{
+				"kind": "mc",
+				"prompt": "One network must label every pixel of a micrograph as crystal or background; another must only say whether a crystal is present anywhere. Under a shift $T$ of the image, which property does each need?",
+				"options": [
+					"Pixel labelling needs invariance; the yes/no detector needs equivariance.",
+					"Both need invariance, since a shifted crystal is still the same crystal.",
+					"Both need equivariance, since every output must move with the object.",
+					"Pixel labelling needs equivariance; the yes/no detector needs invariance."
+				],
+				"answer": 3,
+				"explanation": "A segmentation map must shift with the image, $f(Tx)=Tf(x)$; a presence label must not change at all, $f(Tx)=f(x)$. Detection sits in between: the class is invariant but the box coordinates are equivariant."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is a convolutional layer a good inductive bias for a 1-D IR spectrum?",
+				"options": [
+					"It has more parameters than a dense layer, so it can fit sharper peaks.",
+					"It makes the output independent of where every band sits in the spectrum.",
+					"Local band shapes are detected by the same weights at any wavenumber.",
+					"It assumes periodic boundaries, which matches the periodicity of spectra."
+				],
+				"answer": 2,
+				"explanation": "A band or shoulder is a local pattern, and its shape means the same thing wherever it occurs; convolution looks locally and shares weights across positions. It stays equivariant, so the position of a band (which is chemically important) is preserved in the feature map."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A fully connected layer maps a single-channel $64\\times64$ image to a single-channel $64\\times64$ feature map. How many parameters does it have, counting weights and biases? (A $3\\times3$ convolution doing the same map has 10.)",
+				"answer": 16781312,
+				"tolerance": 0.02,
+				"unit": "parameters",
+				"explanation": "$4096\\times4096$ weights plus 4096 biases $=16{,}781{,}312$, about 1.7 million times the 10 of a $3\\times3$ convolution. Locality and weight sharing remove almost all of them.",
+				"equations": [
+					"\\#\\text{params}_{FC} = D_{in}D_{out} + D_{out}"
+				]
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how imposing locality and then weight sharing turns a fully connected layer into a convolutional layer, and why these constraints suit images and spectra.",
+				"rubric": "Full credit requires: (1) locality: each output connects only to a small neighbourhood of inputs, so the weight matrix becomes banded; (2) weight sharing: the same few weights are used at every position, so the banded matrix has identical rows shifted along (a Toeplitz matrix), which is a convolution; (3) the result is far fewer parameters and translation equivariance; (4) this suits data whose local statistics are the same everywhere (edges in images, band shapes in spectra).",
+				"modelAnswer": "Start from a dense matrix connecting every input to every output. Locality zeroes all weights except those linking an output to nearby inputs, giving a banded matrix. Weight sharing forces every row of the band to use the same few numbers, shifted along: that matrix is exactly a convolution. Parameters drop from millions to a handful, and the layer becomes translation-equivariant. This is right for images and spectra because a local feature, such as an edge or a carbonyl band shape, looks the same wherever it appears."
+			}
+		],
+		"a3-l002-1d-convolution": [
+			{
+				"kind": "numeric",
+				"prompt": "A 1-D convolution layer reads a 200-point UV-vis spectrum with kernel size $K=5$, stride $s=2$, zero padding $p=2$ and dilation $d=2$. How many output samples does it produce? (Give an integer.)",
+				"answer": 98,
+				"tolerance": 0.02,
+				"unit": "samples",
+				"explanation": "$L_{out}=\\lfloor(200+4-2\\cdot4-1)/2\\rfloor+1=\\lfloor195/2\\rfloor+1=98$. Dilation spreads the 5 taps over 9 points, which eats into the length.",
+				"equations": [
+					"L_{out} = \\left\\lfloor \\frac{L + 2p - d(K-1) - 1}{s}\\right\\rfloor + 1"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Deep-learning libraries implement 'convolution' layers as cross-correlation, with no kernel flip. Why does this lose nothing?",
+				"options": [
+					"Cross-correlation and convolution agree for every possible kernel.",
+					"Flipping only matters in 2-D; 1-D layers are unaffected by the choice.",
+					"The kernel is learned, so training simply finds the flipped weights.",
+					"The backward pass flips the kernel again, so the two flips cancel."
+				],
+				"answer": 2,
+				"explanation": "Convolution and cross-correlation differ by reversing the kernel. They agree only for symmetric kernels, but since the weights are free parameters, a network that needs a convolution kernel just learns its mirror image."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Slid across a spectrum as a cross-correlation, $z_i=\\sum_k\\omega_k x_{i+k-1}$, which fixed 3-tap kernel gives a central-difference estimate of the first derivative (per unit step)?",
+				"options": [
+					"$[\\tfrac13,\\ \\tfrac13,\\ \\tfrac13]$",
+					"$[-\\tfrac12,\\ 0,\\ \\tfrac12]$",
+					"$[1,\\ -2,\\ 1]$",
+					"$[0,\\ 1,\\ 0]$"
+				],
+				"answer": 1,
+				"explanation": "$[-\\tfrac12,0,\\tfrac12]$ gives $(x_{i+1}-x_{i-1})/2$, the central difference. $[\\tfrac13,\\tfrac13,\\tfrac13]$ is a moving average (smoothing), $[1,-2,1]$ is the second derivative, and $[0,1,0]$ is the identity. Savitzky-Golay filters are fancier fixed kernels of the same kind."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why Savitzky-Golay smoothing of a noisy IR spectrum is a 1-D convolution, and what the first layer of a 1-D CNN adds beyond it.",
+				"rubric": "Full credit requires: (1) Savitzky-Golay fits a low-order polynomial over a sliding window, and the fitted value is a fixed weighted sum of the window's points; (2) the same weights are used at every position, so it is linear and shift-invariant, i.e. a convolution with a fixed kernel; (3) a CNN layer has the same form but learns its kernels from data, uses many kernels (channels) at once and follows them with a nonlinearity, so it can learn smoothing, derivative or band-shape detectors as the task requires.",
+				"modelAnswer": "Least-squares fitting a polynomial in a window gives a smoothed value that is a fixed linear combination of the points in the window, and the same coefficients apply wherever the window sits. A linear, position-independent weighted sum is a convolution. A CNN's first layer has exactly this form, but its kernels are learned for the task, there are many of them in parallel, and a nonlinearity follows, so it can rediscover smoothing and derivative filters or find better ones."
+			}
+		],
+		"a3-l003-2d-convolution-channels": [
+			{
+				"kind": "numeric",
+				"prompt": "The first layer of a classic image network applies 64 filters of size $7\\times7$ (stride 2, padding 3) to an RGB image of $3\\times224\\times224$. How many trainable parameters does the layer have, including one bias per output channel?",
+				"answer": 9472,
+				"tolerance": 0.02,
+				"unit": "parameters",
+				"explanation": "$C_{out}(C_{in}K^2+1)=64\\,(3\\cdot49+1)=9472$. Note the count does not depend on the image size; the output is $64\\times112\\times112$.",
+				"equations": [
+					"\\#\\text{params} = C_{out}\\,(C_{in}K^2 + 1)"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does a $1\\times1$ convolution from 256 channels to 64 channels do?",
+				"options": [
+					"Nothing useful: a $1\\times1$ kernel sees one pixel, so it only rescales it.",
+					"Averages each pixel with its spatial neighbours to blur the feature map.",
+					"Applies one shared linear map across channels at every pixel separately.",
+					"Downsamples the feature map by a factor of four in each spatial direction."
+				],
+				"answer": 2,
+				"explanation": "A $1\\times1$ convolution is a $64\\times256$ matrix applied to the channel vector at every pixel: it mixes and compresses channels without looking at neighbours. It is how bottleneck blocks cut channel counts cheaply."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The $3\\times3$ kernel with rows $[-1,0,1]$, $[-1,0,1]$, $[-1,0,1]$ (applied as cross-correlation) is run over an image that is dark on its left half and bright on its right half. Where is the output feature map large?",
+				"options": [
+					"Everywhere in the bright half, in proportion to the brightness.",
+					"Along horizontal lines, since the kernel's three rows are identical.",
+					"Along the vertical boundary; near zero inside both flat regions.",
+					"Nowhere, because the kernel's nine weights add up to exactly zero."
+				],
+				"answer": 2,
+				"explanation": "The kernel computes right-minus-left intensity, a horizontal gradient, so it fires on vertical edges. Its weights sum to zero, which is why flat regions give zero, but an edge gives a large response. Its transpose detects horizontal edges, and an all-$\\tfrac19$ kernel blurs."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how one output channel of a 2-D convolution with $C_{in}$ input channels is computed, and why the layer with $C_{in}=64$, $C_{out}=128$ and $3\\times3$ kernels has $128\\times(64\\cdot9+1)$ parameters.",
+				"rubric": "Full credit requires: (1) each output channel has its own kernel of shape $C_{in}\\times K\\times K$; (2) it correlates each input channel with the matching 2-D slice and sums the results over all input channels, plus one bias; (3) so each output channel needs $C_{in}K^2+1$ numbers and there are $C_{out}$ such kernels; (4) the count is independent of image size because the weights are shared across positions.",
+				"modelAnswer": "An output channel is not one 2-D filter but a stack of $C_{in}$ of them: each input channel is cross-correlated with its own $3\\times3$ slice and the $C_{in}$ results are added, plus a bias. That is $64\\cdot9+1=577$ numbers per output channel, and 128 output channels each have their own stack, giving $128\\times577$. Image size does not enter because the same weights slide over every position."
+			}
+		],
+		"a3-l004-receptive-fields-pooling": [
+			{
+				"kind": "numeric",
+				"prompt": "A 1-D network applies, in order: a size-3 convolution (stride 1), another size-3 convolution (stride 1), max pooling of size 2 with stride 2, and a size-3 convolution (stride 1). How many input samples does one final output unit see (its receptive field)?",
+				"answer": 10,
+				"tolerance": 0.02,
+				"unit": "samples",
+				"explanation": "$r$: $1\\to3\\to5$, then pooling adds $(2-1)\\cdot1$ to give 6, then the last convolution adds $(3-1)\\cdot2=4$ because it works on a grid already strided by 2: $r=10$. Downsampling makes later layers grow the receptive field faster.",
+				"equations": [
+					"r_\\ell = r_{\\ell-1} + (K_\\ell - 1)\\prod_{i<\\ell} s_i"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do VGG-style networks stack two $3\\times3$ convolutions instead of using one $5\\times5$ convolution?",
+				"options": [
+					"Same $5\\times5$ receptive field, fewer weights and an extra nonlinearity.",
+					"Two $3\\times3$ layers see a larger region than a single $5\\times5$ layer.",
+					"Two $3\\times3$ layers have more weights, so they can fit the data better.",
+					"Small kernels make the output invariant to shifts; large ones do not."
+				],
+				"answer": 0,
+				"explanation": "Two stacked $3\\times3$ layers see $5\\times5$, like one $5\\times5$ layer, but with $C$ channels in and out they cost $18C^2$ weights instead of $25C^2$ and insert a second ReLU, making the function more expressive."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A feature channel detects a C=O band in a binned spectrum and is followed by 1-D max pooling (width 2, stride 2). The band moves by one bin but stays inside the same pooling window. What happens to the pooled output?",
+				"options": [
+					"It is unchanged: max pooling gives invariance to small shifts.",
+					"It moves by one bin, because pooling is exactly equivariant.",
+					"It halves, because the peak is now split across two windows.",
+					"It changes, since only average pooling ignores small shifts."
+				],
+				"answer": 0,
+				"explanation": "The window's maximum is the same wherever the peak sits inside it, so the output does not change. Average pooling is only approximately invariant (it blurs), and a strided convolution learns its own downsampling with no built-in invariance."
+			},
+			{
+				"kind": "short",
+				"prompt": "Compare max pooling, average pooling and a stride-2 convolution as ways of halving a feature map. Explain in your own words what each keeps, what each throws away, and what local invariance each provides.",
+				"rubric": "Full credit requires: (1) max pooling keeps the strongest response in each window and is invariant to where in the window it occurs; (2) average pooling keeps the mean, smooths (a low-pass filter) and is only approximately shift-invariant; (3) strided convolution is learned, so it can keep whatever the task needs but has no built-in invariance; (4) all three discard spatial resolution.",
+				"modelAnswer": "Max pooling keeps the strongest response in each window and ignores exactly where it was, so it gives small-shift invariance and suits 'is this feature present nearby?'. Average pooling keeps the local mean; it smooths like a moving average and is only roughly invariant. A stride-2 convolution learns its own weighted downsampling, so it can keep whatever information matters but has no invariance built in. All three trade resolution for a larger receptive field and less compute."
+			}
+		],
+		"a3-l005-backprop-convolution": [
+			{
+				"kind": "numeric",
+				"prompt": "A 1-D layer computes the valid cross-correlation $z_i=\\sum_{k=0}^{2}\\omega_k x_{i+k}$ ($i=0,1,2$) of the input $x=(1,2,0,-1,3)$. The upstream gradient is $\\partial L/\\partial z=(1,0,-1)$. What is $\\partial L/\\partial\\omega_1$, the gradient for the middle kernel weight?",
+				"answer": 3,
+				"tolerance": 0.02,
+				"explanation": "$\\partial L/\\partial\\omega_1=\\sum_i g_i x_{i+1}=1\\cdot2+0\\cdot0+(-1)(-1)=3$. The full kernel gradient $(1,3,-3)$ is the cross-correlation of the input with the upstream gradient.",
+				"equations": [
+					"\\frac{\\partial L}{\\partial \\omega_k} = \\sum_i \\frac{\\partial L}{\\partial z_i}\\,x_{i+k}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "How is $\\partial L/\\partial x$, the gradient with respect to the input of a 1-D convolution layer, computed from the upstream gradient $\\partial L/\\partial z$?",
+				"options": [
+					"Slide the upstream gradient over the layer input, as for the weights.",
+					"Multiply the upstream gradient by the kernel's central weight only.",
+					"Slide the flipped kernel over the zero-padded upstream gradient.",
+					"Slide the unflipped kernel over the upstream gradient, without padding."
+				],
+				"answer": 2,
+				"explanation": "Each $x_j$ feeds several outputs $z_{j-k}$ through weight $\\omega_k$, so $\\partial L/\\partial x_j=\\sum_k g_{j-k}\\omega_k$: a full (zero-padded) correlation with the flipped kernel. The backward pass of a convolution is itself a convolution, which is why it is cheap."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the gradient of each kernel weight a sum over all output positions?",
+				"options": [
+					"Gradients are averaged over positions to reduce their variance.",
+					"Each position has its own copy of the weight, updated separately.",
+					"The same weight is used at every position, so all its uses add up.",
+					"The sum appears only for losses that are themselves sums over positions."
+				],
+				"answer": 2,
+				"explanation": "Weight sharing means $\\omega_k$ affects every output. The multivariable chain rule adds the contributions of every path from a parameter to the loss, so the gradient is a sum over positions, whatever form the loss takes."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why $\\partial L/\\partial\\omega_k=\\sum_i (\\partial L/\\partial z_i)\\,x_{i+k}$ for a 1-D convolution, and what operation this sum is.",
+				"rubric": "Full credit requires: (1) $z_i=\\sum_k\\omega_k x_{i+k}$ so $\\partial z_i/\\partial\\omega_k=x_{i+k}$; (2) the chain rule sums over every output $z_i$ that uses $\\omega_k$, giving $\\sum_i g_i x_{i+k}$; (3) this sum over positions comes from weight sharing; (4) as a function of $k$ it is the cross-correlation of the layer input with the upstream gradient.",
+				"modelAnswer": "Each output is $z_i=\\sum_k\\omega_k x_{i+k}$, so nudging $\\omega_k$ changes $z_i$ by $x_{i+k}$. Because the same weight is used at every position, the chain rule adds those effects weighted by how much the loss cares about each output: $\\sum_i g_i x_{i+k}$. Read as a function of $k$, this is the input cross-correlated with the upstream gradient."
+			}
+		],
+		"a3-l006-upsampling-unet": [
+			{
+				"kind": "numeric",
+				"prompt": "A 1-D transposed convolution with kernel size $K=4$, stride $s=2$ and padding $p=1$ is applied to a length-16 feature map. What is the output length? (Use $L_{out}=(L_{in}-1)s-2p+K$.)",
+				"answer": 32,
+				"tolerance": 0.02,
+				"unit": "samples",
+				"explanation": "$(16-1)\\cdot2-2+4=32$: this setting exactly doubles the length, the standard upsampling step in a decoder.",
+				"equations": [
+					"L_{out} = (L_{in}-1)\\,s - 2p + K"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "A stride-2 1-D convolution can be written as an $8\\times16$ banded matrix $\\Omega$ acting on a length-16 signal. What does the matching transposed convolution do?",
+				"options": [
+					"Multiplies by $\\Omega^{-1}$, exactly undoing the downsampling of the signal.",
+					"Multiplies by $\\Omega^\\top$, mapping length 8 back to 16.",
+					"Repeats each sample twice, with no weights involved in the upsampling.",
+					"Multiplies by $\\Omega$ a second time, halving the length again to 4."
+				],
+				"answer": 1,
+				"explanation": "Transposed convolution is multiplication by $\\Omega^\\top$: it has the right shape to go from 8 back to 16, but it is not an inverse ($\\Omega$ is not even square). Its weights are learned, so it is a learnable upsampling."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the U-Net the standard denoising network in diffusion models?",
+				"options": [
+					"Its output matches the input's size and mixes global and local context.",
+					"It is the only architecture that can be trained with a squared-error loss.",
+					"Its bottleneck strips the noise by compressing the image to a short code.",
+					"Its transposed convolutions invert the encoder, so no detail is lost."
+				],
+				"answer": 0,
+				"explanation": "A diffusion denoiser must predict a noise value for every pixel, so it needs an output of the same shape as the input. The U-Net's encoder captures global context and its skip connections carry fine detail to the decoder; it does not denoise by compression."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how a U-Net is built and why its skip connections matter for dense per-pixel prediction such as segmentation.",
+				"rubric": "Full credit requires: (1) an encoder that downsamples (convolution plus pooling or striding) to build large receptive fields and context; (2) a decoder that upsamples (e.g. transposed convolution) back to full resolution; (3) skip connections that concatenate encoder features at each resolution into the decoder; (4) these restore the fine spatial detail lost in downsampling, so each pixel's prediction has both context and precise location.",
+				"modelAnswer": "The encoder repeatedly convolves and downsamples, so deep units see large regions and know 'what' is in the image but have lost 'where' at fine resolution. The decoder upsamples back to full size. Skip connections copy encoder feature maps at each resolution across to the decoder, so the output combines coarse context with sharp local detail. Per-pixel tasks need both, which is why the U-Net works for segmentation and as the denoiser in diffusion models."
+			}
+		],
+		"a3-l007-cnn-architectures": [
+			{
+				"kind": "numeric",
+				"prompt": "A VGG-style block has two $3\\times3$ convolutions, each with 256 input and 256 output channels, and one bias per output channel. How many parameters does the block have?",
+				"answer": 1180160,
+				"tolerance": 0.02,
+				"unit": "parameters",
+				"explanation": "Each layer has $256\\,(256\\cdot9+1)=590{,}080$, so the block has $1{,}180{,}160$. VGG's bulk is in such blocks and, above all, in its dense layers at the top.",
+				"equations": [
+					"\\#\\text{params} = C_{out}\\,(C_{in}K^2 + 1)"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Across LeNet, AlexNet and VGG, which design trend held?",
+				"options": [
+					"Shallower but wider networks, with ever larger kernels at every layer.",
+					"Deeper networks, ReLU, and in VGG only small $3\\times3$ kernels.",
+					"Dropout and data augmentation were dropped once data sets grew larger.",
+					"Sigmoid activations replaced ReLU to keep very deep networks stable."
+				],
+				"answer": 1,
+				"explanation": "AlexNet scaled LeNet up with ReLU, dropout, augmentation and GPUs; VGG went deeper still using only stacked $3\\times3$ convolutions. Depth with small kernels, not large kernels, became the template."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A CNN classifies IR spectra as 'contains a carbonyl', and its gradient saliency map peaks near 1700 cm$^{-1}$. What does this show?",
+				"options": [
+					"The network has learned the physics of the carbonyl stretching mode.",
+					"Deleting the 1700 cm$^{-1}$ band is guaranteed to flip the prediction.",
+					"The 1700 cm$^{-1}$ band causes the carbonyl label in the training data.",
+					"The output is locally most sensitive to intensity near 1700 cm$^{-1}$."
+				],
+				"answer": 3,
+				"explanation": "A saliency map is the gradient of the output with respect to the input: a local, first-order sensitivity. It does not prove understanding or causation, and a large change such as deleting a band can behave differently from what the gradient suggests."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how the features of a trained CNN are visualised at the first layer and at deeper layers, and what kinds of features each typically shows.",
+				"rubric": "Full credit requires: (1) first-layer filters can be plotted directly as small images because they act on pixels; they look like oriented edges and colour blobs; (2) deeper units cannot be plotted directly, so they are shown via inputs that maximise their activation or via the image patches that activate them most; (3) these show a hierarchy: textures and patterns, then object parts, then whole objects.",
+				"modelAnswer": "First-layer kernels live in pixel space, so you can simply draw them: they look like oriented edge detectors and colour blobs. Deeper units combine many earlier channels, so instead you find the input patches that excite them most, or optimise an input to maximise their activation. These show a hierarchy of increasing abstraction: textures, then object parts, then whole objects."
+			}
+		],
+		"a3-l008-shattered-gradients": [
+			{
+				"kind": "mc",
+				"prompt": "A 56-layer plain (no skip connections) network has higher training error than a 20-layer one on the same data. What does this indicate?",
+				"options": [
+					"Optimisation failure: SGD cannot find even the shallow net's solution.",
+					"Overfitting: the deeper network memorises noise in its training examples.",
+					"Too little data: deeper networks always need more examples to train.",
+					"Too few parameters: the deeper network cannot represent the function."
+				],
+				"answer": 0,
+				"explanation": "Overfitting would raise test error, not training error. The deeper net could in principle copy the shallow one and set its extra layers to the identity, so higher training error means the optimiser cannot find that solution: the degradation problem."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What are 'shattered gradients' in a deep plain network?",
+				"options": [
+					"Gradients become exactly zero for every layer beyond a certain depth.",
+					"Gradients point in the same direction for every input example.",
+					"Gradients overflow to infinity because the weights are initialised too large.",
+					"Gradients at nearby inputs become nearly uncorrelated, like white noise."
+				],
+				"answer": 3,
+				"explanation": "As depth grows, the gradient of a plain network with respect to its input changes erratically between nearby inputs; its autocorrelation decays toward that of noise. Such gradients carry little useful information about which way to move."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In a ReLU network of width $D$, the activation variance obeys $\\sigma^2_{k+1}=\\tfrac12 D\\,\\sigma^2_\\Omega\\,\\sigma^2_k$. If the weights are initialised with $\\sigma^2_\\Omega=1/D$ instead of the He value $2/D$, by what factor has the activation variance been multiplied after 20 layers?",
+				"answer": 9.5367431640625e-07,
+				"tolerance": 0.02,
+				"explanation": "Each layer multiplies the variance by $\\tfrac12$, so after 20 layers the factor is $2^{-20}\\approx9.5\\times10^{-7}$. He initialisation's factor of 2 exactly cancels the half of the signal that ReLU zeroes.",
+				"equations": [
+					"\\sigma^2_{\\mathbf{h}_{k+1}} = \\tfrac12 D_h\\,\\sigma^2_{\\Omega}\\,\\sigma^2_{\\mathbf{h}_k}"
+				]
+			},
+			{
+				"kind": "short",
+				"prompt": "He initialisation keeps activation and gradient variances constant with depth. Explain in your own words why this alone does not make a very deep plain network easy to train.",
+				"rubric": "Full credit requires: (1) variance analysis only controls the size of signals and gradients, not their structure; (2) in deep plain networks gradients become shattered: nearby inputs have nearly uncorrelated gradients, so the gradient is noise-like; (3) noise-like gradients give poor update directions and a rugged loss landscape, so optimisation degrades (training error rises) even with well-scaled gradients.",
+				"modelAnswer": "Variance-preserving initialisation stops signals and gradients from exploding or vanishing in magnitude, but says nothing about whether the gradient points somewhere useful. In a deep plain network the gradient as a function of the input becomes shattered: it decorrelates between nearby inputs and looks like noise. Updates built from such gradients barely improve the loss, so the deep network trains worse than a shallow one even though nothing has vanished."
+			}
+		],
+		"a3-l009-residual-connections": [
+			{
+				"kind": "mc",
+				"prompt": "Expanding three residual blocks, $h_3=(I+f_3)\\circ(I+f_2)\\circ(I+f_1)\\,h_0$ (to first order, as a product of Jacobians), gives $2^3=8$ paths. How many of those paths pass through exactly one residual branch?",
+				"options": [
+					"1",
+					"2",
+					"8",
+					"3"
+				],
+				"answer": 3,
+				"explanation": "Choosing one of the three branches gives $\\binom31=3$ paths of length one; there is also 1 path of length 0 (pure identity), 3 of length two and 1 of length three. A residual network behaves like an ensemble of paths, most of them short."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do gradients reach the early layers of a deep residual network even when every branch Jacobian $J_j=\\partial f_j/\\partial h_j$ is small?",
+				"options": [
+					"The branches use ReLU, whose derivative is always exactly one.",
+					"Each factor is $I+J_j$, so the product keeps an identity term.",
+					"Skip connections double the effective learning rate of early layers.",
+					"Many small Jacobians multiply together to give a large product."
+				],
+				"answer": 1,
+				"explanation": "$\\partial h_K/\\partial h_k=\\prod_j(I+\\partial f_j/\\partial h_j)$ expands to $I$ plus correction terms. The identity term carries the gradient straight back, whatever the branches do."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words the analogy between a residual network $h_{k+1}=h_k+f_k(h_k)$ and a molecular-dynamics integrator, and what the continuous limit of this picture is.",
+				"rubric": "Full credit requires: (1) forward Euler for $dh/dt=f(h,t)$ is $h_{n+1}=h_n+\\Delta t\\,f(h_n,t_n)$, which has the residual form with $\\Delta t$ absorbed into $f$; (2) each block is one small time step and depth plays the role of time; (3) an MD integrator likewise updates positions and velocities by small increments from the current forces; (4) in the limit of many tiny steps the network becomes a neural ODE.",
+				"modelAnswer": "Forward Euler integrates $dh/dt=f(h,t)$ by $h_{n+1}=h_n+\\Delta t\\,f(h_n,t_n)$: keep the current state and add a small update computed from it. A residual block does exactly that, with the step size folded into $f$, so depth is time. An MD integrator does the same to atomic positions using the forces. Shrinking the steps and adding more blocks gives a continuous-time model, the neural ODE."
+			}
+		],
+		"a3-l010-variance-residual": [
+			{
+				"kind": "numeric",
+				"prompt": "Under He initialisation, each residual block roughly doubles the activation variance. By what factor has the activation standard deviation grown after 10 blocks?",
+				"answer": 32,
+				"tolerance": 0.02,
+				"explanation": "Variance grows by $2^{10}=1024$, so the standard deviation grows by $\\sqrt{1024}=32$. Unchecked, deep residual networks blow up in the forward pass.",
+				"equations": [
+					"\\mathrm{Var}[\\mathbf{h}_{k+1}] = \\mathrm{Var}[\\mathbf{h}_k] + \\mathrm{Var}[\\mathbf{f}_k(\\mathbf{h}_k)]"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does stacking residual blocks make the activation variance grow with depth?",
+				"options": [
+					"The identity path multiplies $h$ by a factor greater than one in each block.",
+					"He initialisation is wrong for residual networks and doubles every weight.",
+					"The normalization inside each block amplifies the signal it receives.",
+					"Each block adds a roughly independent branch output to $h$, so variances add."
+				],
+				"answer": 3,
+				"explanation": "$h_{k+1}=h_k+f_k(h_k)$, and the branch output is roughly uncorrelated with $h_k$ at initialisation, so their variances add. With He-initialised branches $\\mathrm{Var}[f_k]\\approx\\mathrm{Var}[h_k]$, so the variance doubles."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which change keeps the forward variance of a very deep residual network under control?",
+				"options": [
+					"Remove the identity path in every second block of the network.",
+					"Raise the learning rate so the branch weights shrink during training.",
+					"Scale each branch down, or initialise its last layer near zero.",
+					"Initialise the branch weights with a larger variance than He suggests."
+				],
+				"answer": 2,
+				"explanation": "Multiplying each branch by a small factor (or zero-initialising its last layer) makes every block start close to the identity, so variance grows slowly. Removing skips would bring back the degradation problem."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how putting a normalization layer inside each residual branch controls variance growth while keeping the identity path intact.",
+				"rubric": "Full credit requires: (1) the normalization rescales the branch's input to unit scale, so each branch's output has a fixed, bounded variance however large $h_k$ has grown; (2) the variance then grows only additively (roughly linearly in depth), not by doubling, and each new branch is a shrinking fraction of the total; (3) the main path $h_k\\to h_{k+1}$ is not normalized or rescaled, so the identity route for the gradient is preserved.",
+				"modelAnswer": "If the branch normalizes its own input, the branch output has roughly the same variance no matter how large $h_k$ has become. Each block then adds a fixed amount of variance instead of doubling it, so growth is linear and later branches make proportionally smaller changes. Because the normalization sits only on the branch, the skip path still carries $h_k$ straight through, keeping the clean gradient route."
+			}
+		],
+		"a3-l011-normalization-layers": [
+			{
+				"kind": "mc",
+				"prompt": "For a tensor of shape $N\\times C\\times H\\times W$, which normalization computes a separate mean and variance for each channel, pooled over the batch and both spatial axes $(N,H,W)$?",
+				"options": [
+					"Batch norm",
+					"Layer norm",
+					"Instance norm",
+					"Group norm"
+				],
+				"answer": 0,
+				"explanation": "Batch norm pools over $(N,H,W)$ per channel. Layer norm pools over $(C,H,W)$ per example, instance norm over $(H,W)$ per example and channel, and group norm over $(H,W)$ and a group of channels per example."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A model is trained with batch size 2 on chromatograms of different lengths. Why is layer norm a better choice than batch norm?",
+				"options": [
+					"It has no learnable scale or shift, so it cannot overfit to the small batch.",
+					"Batch norm cannot be backpropagated through when the batch is this small.",
+					"Its statistics come from each example alone, not a noisy pair.",
+					"It normalizes across the batch, which averages out the noise of each example."
+				],
+				"answer": 2,
+				"explanation": "Batch norm's mean and variance from two examples are very noisy, differ between training and inference, and are awkward with padded variable-length sequences. Layer norm normalizes each example on its own, which is also why transformers use it."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does pre-norm, $x+F(\\mathrm{LN}(x))$, make deep transformers easier to train than post-norm, $\\mathrm{LN}(x+F(x))$?",
+				"options": [
+					"Pre-norm normalizes twice per block, so activations stay much smaller.",
+					"The skip path from input to output is never rescaled by a norm layer.",
+					"Post-norm has no residual connection at all, only a normalization.",
+					"Pre-norm forces the block's output to have exactly unit variance."
+				],
+				"answer": 1,
+				"explanation": "In pre-norm the residual stream passes from block to block untouched, so the gradient has a clean identity path. Post-norm puts a layer norm on the main path after every block, and these rescalings compound with depth."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words the difference between batch, layer, instance and group norm in terms of which values are pooled to compute the mean and variance, and say which one makes one example's output depend on the other examples in the batch.",
+				"rubric": "Full credit requires: (1) batch norm: per channel, over the batch and spatial positions; (2) layer norm: per example, over all channels and positions; (3) instance norm: per example and per channel, over positions only; (4) group norm: per example, over positions and a group of channels; (5) only batch norm couples examples in a batch, which is why it fails at small batch sizes and needs running averages at inference.",
+				"modelAnswer": "All four subtract a mean and divide by a standard deviation; they differ in what they average over. Batch norm uses, for each channel, all examples and positions in the batch. Layer norm uses all channels and positions of one example. Instance norm uses only the positions of one channel of one example. Group norm sits between layer and instance norm, pooling a group of channels within one example. Only batch norm mixes information across examples."
+			}
+		],
+		"a3-l012-residual-architectures": [
+			{
+				"kind": "numeric",
+				"prompt": "A ResNet bottleneck block on 256 channels uses a $1\\times1$ convolution (256 to 64), a $3\\times3$ convolution (64 to 64) and a $1\\times1$ convolution (64 to 256). Ignoring biases, how many weights does it have?",
+				"answer": 69632,
+				"tolerance": 0.02,
+				"unit": "weights",
+				"explanation": "$256\\cdot64+64\\cdot64\\cdot9+64\\cdot256=16{,}384+36{,}864+16{,}384=69{,}632$, about 17 times fewer than two $3\\times3$ layers on 256 channels ($1{,}179{,}648$).",
+				"equations": [
+					"\\#\\text{weights} = C_{out}\\,C_{in}K^2"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "How do DenseNet's skip connections differ from ResNet's?",
+				"options": [
+					"DenseNet adds earlier feature maps; ResNet concatenates them.",
+					"DenseNet concatenates earlier feature maps; ResNet adds them.",
+					"DenseNet links each encoder level to the decoder at equal size.",
+					"DenseNet multiplies features by learned gates; ResNet adds them."
+				],
+				"answer": 1,
+				"explanation": "ResNet sums $h+f(h)$; DenseNet concatenates all earlier feature maps so later layers can reuse them directly. U-Net-style skips connect encoder and decoder at matching resolution, and gated skips belong to highway networks."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does visualising the loss landscape along random directions show about residual connections?",
+				"options": [
+					"With skips it is smooth; without them it is chaotic and rugged.",
+					"Skips add many sharp local minima that act as a form of regularisation.",
+					"Skips leave the landscape unchanged and only make each step cheaper.",
+					"Skips make the loss exactly convex, so every minimum is a global one."
+				],
+				"answer": 0,
+				"explanation": "Loss-surface plots of deep plain networks look chaotic, with many sharp features; adding skips gives smooth, nearly convex-looking basins. This is evidence, not proof, that skips make optimisation easier; the loss is still far from convex."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why a bottleneck block ($1\\times1$, $3\\times3$, $1\\times1$) is much cheaper than two $3\\times3$ layers on 256 channels, yet keeps the same input and output width.",
+				"rubric": "Full credit requires: (1) the cost of a $3\\times3$ convolution scales as $9\\,C_{in}C_{out}$, so it is expensive at 256 channels; (2) the first $1\\times1$ convolution compresses 256 channels to 64, so the costly $3\\times3$ runs on a quarter of the channels (16 times cheaper); (3) the last $1\\times1$ restores 256 channels so the block can be added to its 256-channel skip path; (4) the $1\\times1$ layers are cheap per-pixel channel mixers.",
+				"modelAnswer": "The expensive part of a convolution is the $3\\times3$ spatial kernel, which costs $9C_{in}C_{out}$ weights. The bottleneck first uses a cheap $1\\times1$ to squeeze 256 channels to 64, runs the $3\\times3$ there (16 times fewer weights than at 256), then uses another $1\\times1$ to expand back to 256 so the output matches the skip connection. You keep the width of the residual stream while doing the spatial work in a narrow space."
+			}
+		],
+		"a3-l013-simple-rnn": [
+			{
+				"kind": "mc",
+				"prompt": "An RNN with 128 hidden units reads a 50-point kinetic trace; the same model then reads a 500-point trace. How do the numbers of trainable parameters compare?",
+				"options": [
+					"The second has ten times as many, one set of weights per time step.",
+					"The second has more, because its unfolded graph is ten times longer.",
+					"They are identical only because the long trace is truncated to 50.",
+					"Identical: the same $W$, $U$ and $b$ are reused at every step."
+				],
+				"answer": 3,
+				"explanation": "Parameters are shared across time, so the count is independent of sequence length. What grows with length is the unfolded computational graph, and so the memory needed for backpropagation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does an RNN's weight sharing across time give that a 1-D convolution's sharing across positions does not?",
+				"options": [
+					"Equivariance to shifts of the input along the sequence direction.",
+					"A state that can, in principle, remember the entire past.",
+					"Fewer parameters than any convolution with the same hidden width.",
+					"The ability to process all time steps in parallel during training."
+				],
+				"answer": 1,
+				"explanation": "A convolution's output depends only on a finite window (its receptive field); an RNN's hidden state is updated recursively, so its memory is unbounded in principle. Parallelism over time is the convolution's advantage, not the RNN's."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Predicting a first-order rate constant from a full absorbance-versus-time trace is which kind of sequence task?",
+				"options": [
+					"Many-to-one",
+					"Many-to-many, aligned",
+					"Sequence-to-sequence",
+					"One-to-many"
+				],
+				"answer": 0,
+				"explanation": "A whole sequence goes in and a single number comes out. Labelling each point of a chromatogram as peak or baseline is many-to-many; translating a SMILES string into an IUPAC name is sequence-to-sequence."
+			},
+			{
+				"kind": "short",
+				"prompt": "Write the simple RNN update $h_t=\\tanh(Wh_{t-1}+Ux_t+b)$ in words, explain what each term does, and describe the unfolded computational graph for $T$ steps.",
+				"rubric": "Full credit requires: (1) $h_{t-1}$ is the previous hidden state (the memory) mixed by $W$; (2) $x_t$ is the current input mixed by $U$; (3) $b$ is a bias and $\\tanh$ a bounded nonlinearity; (4) unfolding draws $T$ copies of the same cell in a chain, $h_0\\to h_1\\to\\dots\\to h_T$, each also receiving $x_t$ and optionally emitting $y_t$, with the same $W$, $U$, $b$ in every copy.",
+				"modelAnswer": "The new state combines the old state, transformed by $W$, with the current input, transformed by $U$, plus a bias, squashed by $\\tanh$ so it stays bounded. Unfolding writes the loop as a chain of $T$ identical cells: $h_0$ feeds the first cell, each cell takes $x_t$ and the previous state and passes $h_t$ on (and can emit an output). Every cell uses the same weights, so it is a very deep network with tied parameters."
+			}
+		],
+		"a3-l014-bptt": [
+			{
+				"kind": "mc",
+				"prompt": "Why is $\\partial L/\\partial W$ for an RNN a sum over time steps?",
+				"options": [
+					"The loss is averaged over time, which turns the products into sums.",
+					"$W$ is reused at every step, so each use contributes its own term.",
+					"Each time step has its own copy of $W$ that is trained separately.",
+					"BPTT approximates the true gradient by adding up local gradients."
+				],
+				"answer": 1,
+				"explanation": "The same $W$ appears in every step of the unfolded graph, so the chain rule adds a contribution from each use. Each contribution contains a product of Jacobians carrying the error back from later losses, and that product is the source of vanishing and exploding gradients."
+			},
+			{
+				"kind": "mc",
+				"prompt": "An RNN is trained on a 2000-step sequence with BPTT truncated to chunks of 20 steps. What is the main cost?",
+				"options": [
+					"The forward pass also forgets all information older than 20 steps.",
+					"The gradient becomes biased toward exploding values at chunk edges.",
+					"Memory use grows, since all 100 chunks must be stored together.",
+					"No gradient links an output to inputs over 20 steps back."
+				],
+				"answer": 3,
+				"explanation": "Truncation stops backpropagation after 20 steps, saving memory and compute, but the model cannot learn dependencies longer than that through the gradient. The hidden state is still carried forward between chunks, so the forward pass keeps its memory."
+			},
+			{
+				"kind": "mc",
+				"prompt": "With teacher forcing, what is fed to a sequence generator as its next input during training, and what is the trade-off?",
+				"options": [
+					"Its own previous prediction; stable training, but it is much slower to converge.",
+					"The true previous token; fast, stable training, but errors can compound at test time.",
+					"The true previous token; this removes any mismatch between training and testing.",
+					"A random previous token; this regularises the model in the same way as dropout."
+				],
+				"answer": 1,
+				"explanation": "Teacher forcing feeds the ground-truth previous output, which decouples the steps and makes training fast and stable. At test time the model must consume its own predictions, which it never saw in training (exposure bias), so early mistakes can compound."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words where the product of Jacobians in the BPTT gradient comes from, and why it causes trouble for long sequences.",
+				"rubric": "Full credit requires: (1) the loss at time $t$ depends on $h_k$ for an earlier $k$ only through the chain $h_k\\to h_{k+1}\\to\\dots\\to h_t$; (2) the chain rule therefore multiplies the step Jacobians $\\partial h_j/\\partial h_{j-1}$ for $j=k+1..t$; (3) a product of many matrices shrinks or grows roughly exponentially with $t-k$ (depending on their norms or eigenvalues); (4) so long-range contributions vanish or explode.",
+				"modelAnswer": "To see how $W$ at an early step $k$ affects the loss at a later step $t$, you follow the chain of hidden states from $h_k$ to $h_t$; the chain rule multiplies one Jacobian per link. A product of $t-k$ matrices behaves like a number raised to the power $t-k$: if the factors are a bit smaller than one it shrinks exponentially, if a bit larger it blows up. So long-range gradient contributions either vanish or explode."
+			}
+		],
+		"a3-l015-long-term-dependencies": [
+			{
+				"kind": "numeric",
+				"prompt": "In a linear RNN, a gradient component along an eigenvector of $W$ with eigenvalue $\\lambda=0.9$ is multiplied by $\\lambda$ at each step. What fraction of it survives after 50 steps?",
+				"answer": 0.00515377520732012,
+				"tolerance": 0.02,
+				"explanation": "$0.9^{50}\\approx0.0052$: half a percent. With $\\lambda=1.1$ it would instead grow to about 117. Eigenvalues only slightly off 1 give exponential vanishing or explosion.",
+				"equations": [
+					"\\mathbf{h}_t = \\mathbf{W}^t\\mathbf{h}_0 = \\mathbf{Q}\\boldsymbol{\\Lambda}^t\\mathbf{Q}^{\\top}\\mathbf{h}_0"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "A linear RNN $h_t=Wh_{t-1}$ has a symmetric $W$ with eigenvalues 1.2 and 0.5. Over many steps, the gradient component along each eigenvector…",
+				"options": [
+					"explodes along the 1.2 direction and vanishes along the 0.5 one.",
+					"vanishes along both, because one eigenvalue is smaller than 1.",
+					"explodes along both, because the largest eigenvalue exceeds 1.",
+					"stays bounded, because the eigenvalues average to about 0.85."
+				],
+				"answer": 0,
+				"explanation": "Diagonalising, $W^k=Q\\Lambda^kQ^\\top$, so each eigen-direction scales independently as $\\lambda^k$: $1.2^k$ explodes and $0.5^k$ vanishes. The eigenvalues act separately; they do not average."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does gradient-norm clipping cure exploding gradients but not vanishing ones?",
+				"options": [
+					"It only shrinks large norms; small gradients pass through unchanged.",
+					"It rescales every gradient to unit norm, which amplifies the noise.",
+					"It clips each component separately, which ruins the direction.",
+					"It cures both, since small gradients are rescaled up to the threshold."
+				],
+				"answer": 0,
+				"explanation": "Clipping rescales $g$ to norm $v$ only when $\\|g\\|>v$, preserving direction and stopping huge steps. A vanishing gradient is already below threshold, and the long-range information it lost cannot be restored by rescaling."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why a simple tanh RNN struggles to learn that an output depends on an input 50 steps earlier.",
+				"rubric": "Full credit requires: (1) the gradient linking them passes through 50 Jacobians $\\mathrm{diag}(\\tanh')W$; (2) $\\tanh'\\le1$ and, for stable dynamics, the effective eigenvalues are below 1, so the product decays exponentially (e.g. $0.9^{50}\\approx0.005$); (3) the long-range contribution is swamped by short-range contributions, so learning ignores it; (4) making eigenvalues larger risks explosion instead, so the balance is very hard to strike.",
+				"modelAnswer": "The gradient from the output back to the input 50 steps earlier is a product of 50 Jacobians, each $W$ times tanh derivatives that are at most 1. If the effective eigenvalues are below one, the product decays exponentially and the long-range signal is buried under the much larger gradients from recent steps. Push the eigenvalues above one and the gradient explodes instead. A plain RNN has no way to hold a gradient steady over 50 steps."
+			}
+		],
+		"a3-l016-lstm-gru": [
+			{
+				"kind": "numeric",
+				"prompt": "Along the LSTM cell-state path, $\\partial c_t/\\partial c_{t-1}=f_t$. If the forget gate stays at $f_t=0.99$, what fraction of the gradient survives 100 steps along this path?",
+				"answer": 0.3660323412732292,
+				"tolerance": 0.02,
+				"explanation": "$0.99^{100}\\approx0.37$: a third of the signal after 100 steps, compared with a few thousandths after 50 steps for a plain RNN with eigenvalue 0.9. The gate can learn to hold memory.",
+				"equations": [
+					"\\mathbf{c}_t = \\mathbf{f}_t\\odot\\mathbf{c}_{t-1} + \\mathbf{i}_t\\odot\\tanh(\\mathbf{W}_c[\\mathbf{h}_{t-1}, \\mathbf{x}_t] + \\mathbf{b}_c)"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does the LSTM cell update $c_t=f_t\\odot c_{t-1}+i_t\\odot g_t$ keep gradients alive over long spans?",
+				"options": [
+					"The tanh on the cell state keeps every derivative along the path exactly 1.",
+					"The output gate blocks gradients from flowing back into old steps.",
+					"Sigmoid gates have derivatives that are always very close to 1.",
+					"$\\partial c_t/\\partial c_{t-1}$ is just $f_t$, which can stay near 1 for many steps."
+				],
+				"answer": 3,
+				"explanation": "The cell state is updated additively, not through a squashing matrix multiply, so its step Jacobian is the elementwise forget gate. When the network learns $f_t\\approx1$, the gradient passes through almost unchanged."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does a GRU differ from an LSTM?",
+				"options": [
+					"It adds a fourth gate and a second cell state to hold very long memories.",
+					"It drops all gating and relies on gradient clipping to stay stable instead.",
+					"It keeps the cell state but removes the hidden state $h_t$ from the cell.",
+					"It merges forget and input into one update gate and has no separate cell state."
+				],
+				"answer": 3,
+				"explanation": "A GRU uses an update gate $z_t$ to interpolate $h_t=(1-z_t)h_{t-1}+z_t\\tilde h_t$ and a reset gate inside $\\tilde h_t$; the hidden state doubles as the memory. It has fewer parameters and often performs similarly."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how the LSTM cell-state path is related to the residual connection of a ResNet.",
+				"rubric": "Full credit requires: (1) with $f_t\\approx1$ the cell update is $c_t\\approx c_{t-1}+i_t\\odot g_t$, the same 'keep the state and add an update' form as $h_{k+1}=h_k+f(h_k)$; (2) in both, the Jacobian along the path is close to the identity, giving gradients a direct route back through many steps or layers; (3) the forget gate is a learned, data-dependent scaling of that skip path (as in highway networks), where a ResNet's skip is fixed at 1.",
+				"modelAnswer": "Both keep the old state and add a learned update: $c_t=f_t\\odot c_{t-1}+i_t\\odot g_t$ versus $h_{k+1}=h_k+f_k(h_k)$. With the forget gate near one, the cell-state Jacobian is close to the identity, exactly like the skip path of a residual block, so gradients travel back through time the way they travel back through depth in a ResNet. The LSTM's skip is gated and learned rather than fixed at one."
+			}
+		],
+		"a3-l017-seq2seq-dilated": [
+			{
+				"kind": "numeric",
+				"prompt": "A WaveNet-style stack has 10 causal convolution layers with kernel size $K=2$ and dilations $1,2,4,\\dots,512$. How many input time steps does one output see (its receptive field)?",
+				"answer": 1024,
+				"tolerance": 0.02,
+				"unit": "steps",
+				"explanation": "$r=1+(K-1)\\sum_{\\ell=0}^{9}2^\\ell=1+1023=1024$. Doubling the dilation each layer makes the receptive field exponential in depth; ordinary convolutions would need about a thousand layers.",
+				"equations": [
+					"r = 1 + (K-1)\\sum_{\\ell=0}^{L-1}2^{\\ell}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "In an RNN encoder-decoder without attention, what limits performance on long input sequences?",
+				"options": [
+					"The decoder cannot see the encoder's final hidden state at all.",
+					"Bidirectional encoders cannot read sequences of varying length.",
+					"The whole input is squeezed into one fixed-length context vector.",
+					"The encoder has too few parameters to read a long sequence."
+				],
+				"answer": 2,
+				"explanation": "Everything the decoder knows about the input must pass through a single vector of fixed size, whatever the input length. Attention removes this bottleneck by letting the decoder look back at all encoder states."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For which task is a bidirectional RNN not appropriate?",
+				"options": [
+					"Labelling each residue of a protein sequence with its secondary structure.",
+					"Forecasting the next value of a live reactor temperature trace.",
+					"Assigning each point of a recorded chromatogram to a peak or the baseline.",
+					"Classifying a complete, recorded IR spectrum by functional group."
+				],
+				"answer": 1,
+				"explanation": "A bidirectional RNN uses future context, which is fine when the whole sequence is available. Real-time forecasting must be causal: the future is exactly what is unknown."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why stacked dilated causal convolutions can train faster than an RNN on long sequences, and how they reach a long memory with only a few layers.",
+				"rubric": "Full credit requires: (1) an RNN must compute $h_t$ after $h_{t-1}$, so training is sequential in time; (2) a convolution computes all output positions at once, so training parallelises over the sequence (causal masking still prevents seeing the future); (3) dilation skips inputs so each layer's kernel spans a wider range; doubling dilations make the receptive field grow exponentially with depth; (4) the memory is finite (the receptive field), unlike an RNN's in principle unbounded memory.",
+				"modelAnswer": "An RNN is inherently sequential: you cannot compute step 500 until step 499 is done. A causal convolution sees only past inputs but computes every output position in parallel, which suits GPUs. Dilation spaces the kernel taps apart, and doubling it each layer makes the receptive field double per layer, so ten layers cover about a thousand steps. The price is that memory stops at the receptive field."
+			}
+		],
+		"a3-l018-attention-soft-lookup": [
+			{
+				"kind": "numeric",
+				"prompt": "A query scores three keys with $s=(2,1,0)$ at temperature $T=1$. What attention weight does the first key (score 2) get?",
+				"answer": 0.66524096,
+				"tolerance": 0.02,
+				"explanation": "$e^2/(e^2+e^1+e^0)=7.389/11.107\\approx0.665$. Exactly a Boltzmann population with energies $-s$ at $kT=1$: the lowest-energy (highest-score) state dominates but does not take everything.",
+				"equations": [
+					"a_{ij} = \\frac{\\exp\\big(s(\\mathbf{q}_i, \\mathbf{k}_j)/T\\big)}{\\sum_{j'}\\exp\\big(s(\\mathbf{q}_i, \\mathbf{k}_{j'})/T\\big)}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Attention weights are $a_j\\propto\\exp(s_j/T)$. What happens as the temperature $T\\to0$?",
+				"options": [
+					"The weights become uniform over all keys, ignoring the scores.",
+					"The weights become proportional to the scores themselves.",
+					"The weights all vanish, so the output becomes the zero vector.",
+					"All the weight goes to the highest-scoring key: a hard lookup."
+				],
+				"answer": 3,
+				"explanation": "As in a Boltzmann distribution at $T\\to0$, only the ground state (the top-scoring key) is populated, so attention becomes an ordinary dictionary lookup. Uniform weights are the $T\\to\\infty$ limit."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In an RNN encoder-decoder, what does additive (Bahdanau) attention replace?",
+				"options": [
+					"The decoder RNN, by a fixed lookup table of all the encoder hidden states.",
+					"The fixed context vector, by a fresh weighted mix of encoder states each step.",
+					"The encoder RNN, by an unordered bag of the input token embeddings.",
+					"The output softmax, by independent sigmoids over the whole vocabulary."
+				],
+				"answer": 1,
+				"explanation": "At every decoder step a small network scores how well each encoder state aligns with the current decoder state; the softmax of these scores weights a new context vector. The single fixed summary of the input is gone."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words the analogy between attention weights and a Boltzmann distribution: what plays the role of the energy, the temperature, the partition function and a thermal average?",
+				"rubric": "Full credit requires: (1) the score $s(q,k_j)$ plays the role of a negative energy, $E_j=-s_j$; (2) $T$ (or $\\sqrt{d_k}$ in scaled dot-product attention) is the temperature, controlling how sharply the weights concentrate; (3) the softmax denominator is the partition function $Z$; (4) the output $\\sum_j a_jv_j$ is the thermal average of the values $\\langle v\\rangle$.",
+				"modelAnswer": "Each key is a 'state' whose energy is minus its score with the query. The softmax weights $e^{s_j/T}/Z$ are Boltzmann populations, the denominator is the partition function, and $T$ sets how strongly the best match dominates. The output is the population-weighted average of the values, a thermal average $\\langle v\\rangle$. High temperature spreads attention out; low temperature makes it a hard lookup."
+			}
+		],
+		"a3-l019-scaled-dot-product-attention": [
+			{
+				"kind": "numeric",
+				"prompt": "Three tokens $x_1=(1,0)$, $x_2=(0,1)$, $x_3=(1,1)$ go through self-attention with $W_q=W_k=W_v=I$ and $d_k=2$, so $Q=K=V=X$. Compute the scores $QK^\\top/\\sqrt2$, the row-wise softmax and the output. What is the first component of the output for token 1?",
+				"answer": 0.80222419,
+				"tolerance": 0.02,
+				"explanation": "Token 1's scores are $(1,0,1)/\\sqrt2=(0.707,0,0.707)$; softmax gives $(0.401,0.198,0.401)$. The output is $0.401(1,0)+0.198(0,1)+0.401(1,1)=(0.802,0.599)$.",
+				"equations": [
+					"\\mathrm{Attention}(\\mathbf{Q},\\mathbf{K},\\mathbf{V}) = \\mathrm{softmax}\\!\\left(\\frac{\\mathbf{Q}\\mathbf{K}^{\\top}}{\\sqrt{d_k}}\\right)\\mathbf{V}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why are attention scores divided by $\\sqrt{d_k}$?",
+				"options": [
+					"It turns each score into a cosine similarity between $q$ and $k$.",
+					"Raw dot products have variance $d_k$ and would saturate the softmax.",
+					"It is what makes each row of attention weights sum to exactly one.",
+					"It corrects for the number of tokens $N$ that are being attended over."
+				],
+				"answer": 1,
+				"explanation": "With unit-variance entries, $q\\cdot k$ is a sum of $d_k$ terms, so its variance is $d_k$. Large scores push the softmax to one-hot, where its gradients vanish; dividing by $\\sqrt{d_k}$ restores unit variance. In Boltzmann terms it sets a sensible temperature."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Self-attention without positional encodings is applied to $N$ tokens of width $d$. If the tokens are permuted, the outputs are ___, and the cost scales as ___.",
+				"options": [
+					"unchanged; $O(Nd^2)$",
+					"permuted the same way; $O(Nd)$",
+					"unchanged; $O(N^2d)$",
+					"permuted the same way; $O(N^2d)$"
+				],
+				"answer": 3,
+				"explanation": "Each output depends on its own query and the set of all keys and values, so permuting inputs permutes outputs (equivariance), not invariance. The $N\\times N$ score matrix, each entry a length-$d$ dot product, costs $O(N^2d)$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why self-attention without positional information treats its input as a set, and why that is a problem for a sentence or a SMILES string but can be an advantage for a list of NMR peaks.",
+				"rubric": "Full credit requires: (1) attention weights depend only on the content of queries and keys, not on where tokens sit, so permuting the input just permutes the output (permutation equivariance); (2) word or atom order in a sentence or SMILES carries meaning, so order must be supplied via positional encodings; (3) a peak list has no natural order (each peak carries its own shift and intensity), so an order-blind model is the right symmetry.",
+				"modelAnswer": "Self-attention compares every token with every other by content alone; nothing in the computation says which token came first, so shuffling the inputs simply shuffles the outputs. For text or SMILES, order is meaning ('dog bites man'), so positional encodings must be added. A list of NMR peaks is genuinely a set: each peak's position is encoded in its own shift value, and the order of the list is arbitrary, so the built-in symmetry is exactly right."
+			}
+		],
+		"a3-l020-masking-positions-heads": [
+			{
+				"kind": "numeric",
+				"prompt": "Sinusoidal positional encodings use $PE_{(p,2i+1)}=\\cos\\!\\big(p/10000^{2i/d}\\big)$. What is $PE_{(2,1)}$, the $i=0$ cosine component for position $p=2$ (angle in radians)?",
+				"answer": -0.4161468365471424,
+				"tolerance": 0.02,
+				"explanation": "For $i=0$ the frequency is 1, so $PE_{(2,1)}=\\cos2\\approx-0.416$. Higher $i$ uses slower frequencies, giving each position a unique pattern across wavelengths, like a set of clock hands.",
+				"equations": [
+					"PE_{(p,2i)} = \\sin\\!\\left(p/10000^{2i/d}\\right),\\quad PE_{(p,2i+1)} = \\cos\\!\\left(p/10000^{2i/d}\\right)"
+				]
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A multi-head attention layer has model width $d=512$ and $h=8$ heads, each of width $512/8=64$. Counting the query, key, value and output projection matrices (no biases), how many weights does it have?",
+				"answer": 1048576,
+				"tolerance": 0.02,
+				"unit": "weights",
+				"explanation": "$W_Q,W_K,W_V$ are each $512\\times512$ in total across heads, and $W_O$ is $512\\times512$: $4\\cdot512^2=1{,}048{,}576$. The count does not depend on $h$; heads split the width, they do not add parameters.",
+				"equations": [
+					"\\mathrm{MHA}(\\mathbf{X}) = [\\mathbf{H}_1,\\dots,\\mathbf{H}_h]\\,\\mathbf{W}_O"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "In autoregressive generation, what does adding $-\\infty$ above the diagonal of the attention score matrix do?",
+				"options": [
+					"Each token can attend only to later tokens, so it can predict them.",
+					"Each token can attend only to itself and to earlier tokens.",
+					"It removes each token's attention to itself, which prevents copying.",
+					"It zeroes the gradient from future tokens but keeps their attention."
+				],
+				"answer": 1,
+				"explanation": "After the softmax, $e^{-\\infty}=0$, so token $i$ gets no weight on tokens $j>i$. Training then matches generation, where future tokens do not exist yet, and all positions can still be trained in parallel."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why self-attention needs positional information at all, and describe multi-head attention as several lower-dimensional attentions run in parallel.",
+				"rubric": "Full credit requires: (1) self-attention is permutation-equivariant, so without positional information it cannot tell different orderings apart; positional encodings (added or learned) inject order; (2) multi-head attention splits the width $d$ into $h$ heads of width $d/h$, each with its own Q, K, V projections and its own attention pattern; (3) the head outputs are concatenated and mixed by $W_O$; (4) different heads can attend to different relations (e.g. nearby tokens versus a matching bracket) at the same total cost.",
+				"modelAnswer": "Attention looks only at content, so 'A then B' and 'B then A' would give the same result up to reordering; adding a position-dependent vector to each token lets the model use order. Multi-head attention runs $h$ separate attentions, each on a $d/h$-dimensional projection of the tokens, so each head can learn its own notion of relevance (one might track neighbours, another long-range links). Their outputs are concatenated and mixed by an output matrix, at about the same cost as one full-width head."
+			}
+		],
+		"a3-l021-transformer-block-beyond-text": [
+			{
+				"kind": "numeric",
+				"prompt": "A vision transformer cuts a $224\\times224$ image into non-overlapping $16\\times16$ patches and treats each patch as a token. How many patch tokens are there (not counting any class token)?",
+				"answer": 196,
+				"tolerance": 0.02,
+				"unit": "tokens",
+				"explanation": "$224/16=14$ patches per side, so $14^2=196$ tokens. Attention cost scales with the square of this number, which is why patches are used rather than pixels."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A pre-norm transformer block maps a sequence $X$ of shape $N\\times d$ through $X+\\mathrm{MHA}(\\mathrm{LN}(X))$ and then $X+\\mathrm{MLP}(\\mathrm{LN}(X))$. What is the shape of its output?",
+				"options": [
+					"$N\\times N$, the attention matrix, which is then passed to the MLP.",
+					"$1\\times d$, because attention pools all the tokens into one vector.",
+					"$N\\times d$, the same as its input, so blocks can be stacked.",
+					"$N\\times4d$, the width of the hidden layer inside the block's MLP."
+				],
+				"answer": 2,
+				"explanation": "Residual connections require every sublayer to return the input's shape. The $N\\times N$ attention matrix and the $4d$ MLP hidden layer are internal; the block maps $N\\times d$ to $N\\times d$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Compared with a CNN, a vision transformer trained from scratch on a small image data set usually…",
+				"options": [
+					"does better, because global attention sees the whole image at once.",
+					"does the same, because cutting into patches makes it equivalent to a CNN.",
+					"does worse, because attention cannot model relations between patches.",
+					"does worse, as it lacks built-in locality and translation equivariance."
+				],
+				"answer": 3,
+				"explanation": "A CNN builds in locality and weight sharing; a ViT must learn such regularities from data. With little data the CNN's inductive bias wins; with very large data sets ViTs catch up or win."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why self-attention can be viewed as message passing on a fully connected graph.",
+				"rubric": "Full credit requires: (1) each token is a node; (2) every node sends a message (its value vector) to every other node, so the graph is complete; (3) the attention weights are data-dependent edge weights, and each node aggregates incoming messages by a weighted sum; (4) a graph neural network does the same but only along the edges of a given graph (e.g. chemical bonds), so attention is the special case where all nodes are connected.",
+				"modelAnswer": "Treat each token as a node of a graph in which every node is linked to every other. In self-attention, each node sends its value vector along every edge, the attention weight decides how much each message counts, and each node updates itself with the weighted sum. That is exactly message passing; a graph neural network for molecules does the same thing but only along the bonds of the molecular graph."
+			}
+		],
+		"a3-l022-distributed-representations": [
+			{
+				"kind": "mc",
+				"prompt": "With $n$ units, how many distinct inputs can a one-hot (local) code distinguish, compared with a distributed code of $n$ binary features?",
+				"options": [
+					"One-hot: $n$; distributed: $2^n$",
+					"One-hot: $2^n$; distributed: $n$",
+					"One-hot: $n$; distributed: $n^2$",
+					"One-hot: $n$; distributed: $2n$"
+				],
+				"answer": 0,
+				"explanation": "A one-hot code devotes a unit to each category. With $n$ binary features, each combination is a different code, giving $2^n$ regions, and features such as 'aromatic' or 'has a carbonyl' are shared across inputs, which helps generalisation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why should the conformations of a 20-atom molecule, described by 60 Cartesian coordinates, lie near a low-dimensional manifold?",
+				"options": [
+					"Most of the 60 coordinates are zero once the molecule is put in standard orientation.",
+					"Thermal motion spreads the conformations uniformly over all 60 dimensions.",
+					"Stiff bonds and angles are nearly fixed, leaving only a few soft torsions free.",
+					"Only the heavy atoms matter, and there are far fewer of them than 60."
+				],
+				"answer": 2,
+				"explanation": "Bond lengths and angles barely move at room temperature, and 6 coordinates are just overall translation and rotation. The thermally accessible conformations vary mainly along a handful of torsions: a low-dimensional manifold in 60-D space."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does an ECFP fingerprint differ from a learned molecular embedding?",
+				"options": [
+					"ECFP is fitted to data; an embedding is fixed by hand-written rules.",
+					"ECFP encodes 3-D geometry; an embedding encodes only the formula.",
+					"They are equivalent: every learned embedding is a hashed fingerprint.",
+					"ECFP hashes substructures by fixed rules; an embedding is learned."
+				],
+				"answer": 3,
+				"explanation": "ECFP enumerates circular atom neighbourhoods and hashes them into bits by a fixed algorithm, the same for every task. A learned embedding is optimised by training, so it can capture whatever matters for the data it saw (and only that)."
+			},
+			{
+				"kind": "short",
+				"prompt": "A binned IR spectrum lives in a space of thousands of dimensions. Explain in your own words why real spectra occupy only a low-dimensional region of that space, and why this matters for learning from them.",
+				"rubric": "Full credit requires: (1) spectra are generated by molecules with a limited number of structural degrees of freedom, and band positions and shapes follow physical rules, so neighbouring bins are highly correlated and spectra vary along few directions; (2) random vectors in the space almost never look like real spectra; (3) learning is feasible because a model need only represent this low-dimensional manifold, which is why compressed representations (PCA, autoencoders) work and why far fewer samples are needed than the ambient dimension suggests.",
+				"modelAnswer": "A spectrum is produced by a molecule, and molecules vary in relatively few meaningful ways: which functional groups are present, their environments and concentrations. Bands have fixed shapes and widths, so neighbouring bins move together. Almost all points in the thousands-dimensional space are noise that no molecule could produce. Real spectra sit on a thin, low-dimensional manifold, which is why compression works and why a model can learn from far fewer examples than the raw dimension would suggest."
+			}
+		],
+		"a3-l023-autoencoders-pca": [
+			{
+				"kind": "mc",
+				"prompt": "A linear autoencoder with a $k$-unit bottleneck is trained to convergence with squared reconstruction error. Its decoder's columns…",
+				"options": [
+					"equal the top $k$ principal components exactly, in order.",
+					"span the $k$ directions of smallest variance in the data.",
+					"are random, since linear networks cannot learn structure.",
+					"span the same subspace as the top $k$ principal components."
+				],
+				"answer": 3,
+				"explanation": "The optimal rank-$k$ linear reconstruction is the projection onto the top-$k$ principal subspace (the Eckart-Young result from the SVD). The autoencoder finds that subspace, but any invertible mixing of the code gives the same reconstruction, so its weights need not be orthonormal or ordered."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does an overcomplete autoencoder (code wider than its input) need regularisation?",
+				"options": [
+					"It cannot reconstruct its input, because the code has too many dimensions.",
+					"It can learn the identity map: perfect reconstruction, nothing learned.",
+					"Its gradients vanish, because the code has more units than the input.",
+					"It reduces to PCA, and PCA badly overfits small data sets."
+				],
+				"answer": 1,
+				"explanation": "Without a bottleneck, copying the input is a perfect solution with zero loss and no useful features. Sparsity penalties, noise (denoising) or penalties on the code's sensitivity force it to capture structure instead."
+			},
+			{
+				"kind": "short",
+				"prompt": "Write the autoencoder objective and explain in your own words the role of the bottleneck in an undercomplete autoencoder, and what a nonlinear encoder and decoder add beyond PCA.",
+				"rubric": "Full credit requires: (1) objective $\\min_{f,g}\\sum_i\\|x_i-g(f(x_i))\\|^2$ with encoder $f$ and decoder $g$; (2) the bottleneck has fewer dimensions than the input, so the network cannot copy and must keep the most important variation; (3) linear $f,g$ recover the PCA subspace, a flat approximation; (4) nonlinear $f,g$ can follow a curved low-dimensional manifold (e.g. torsion angles of a molecule), giving lower error at the same code size.",
+				"modelAnswer": "The autoencoder minimises $\\sum_i\\|x_i-g(f(x_i))\\|^2$: encode, decode, compare. Because the code is narrower than the input, the network cannot just copy; it must keep the directions that explain most of the data. With linear maps the best it can do is the PCA subspace, a flat sheet. Nonlinear encoders and decoders can bend the sheet to follow a curved manifold, such as conformations parametrised by torsions, so they compress better at the same code size."
+			}
+		],
+		"a3-l024-denoising-autoencoders-score": [
+			{
+				"kind": "numeric",
+				"prompt": "Clean data are 1-D with $x\\sim\\mathcal N(0,1)$, and noise of variance $\\sigma^2=0.25$ is added, so $p_\\sigma=\\mathcal N(0,1.25)$. Using Tweedie's formula $E[x\\mid\\tilde x]=\\tilde x+\\sigma^2\\,\\nabla\\log p_\\sigma(\\tilde x)$, what is the optimal denoiser output at $\\tilde x=1$?",
+				"answer": 0.8,
+				"tolerance": 0.02,
+				"explanation": "The score of $\\mathcal N(0,1.25)$ at 1 is $-1/1.25=-0.8$, so $E[x\\mid\\tilde x]=1+0.25(-0.8)=0.8$. The denoiser pulls the noisy point toward higher density, here back toward the origin.",
+				"equations": [
+					"\\mathbb{E}[\\mathbf{x}\\mid\\tilde{\\mathbf{x}}] = \\tilde{\\mathbf{x}} + \\sigma^2\\,\\nabla_{\\tilde{\\mathbf{x}}}\\log p_\\sigma(\\tilde{\\mathbf{x}})"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which way does the optimal denoiser's correction $r(\\tilde x)-\\tilde x$ point?",
+				"options": [
+					"Up the gradient of the noised data density, toward likelier data.",
+					"Down the gradient of the noised density, away from the data.",
+					"Straight back to the exact training example that was corrupted.",
+					"In a random direction, with a length proportional to $\\sigma$."
+				],
+				"answer": 0,
+				"explanation": "By Tweedie, $r(\\tilde x)-\\tilde x=\\sigma^2\\nabla\\log p_\\sigma(\\tilde x)$: the score of the noised density times $\\sigma^2$. The denoiser cannot know which example was corrupted, so it returns the posterior mean, which lies uphill in density."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the denoising-autoencoder result the seed of score-based diffusion models?",
+				"options": [
+					"It shows that adding noise makes any data density exactly Gaussian.",
+					"Training a denoiser yields the score without ever computing $p$ or $Z$.",
+					"It proves that denoisers produce sharper samples than GANs do.",
+					"It gives a way to compute the partition function from denoising."
+				],
+				"answer": 1,
+				"explanation": "A denoiser is trained with a simple regression loss on (noisy, clean) pairs, yet it encodes $\\nabla\\log p_\\sigma$. Diffusion models train denoisers at many noise levels and use the resulting scores to drive Langevin-like sampling; $Z$ is never needed."
+			},
+			{
+				"kind": "short",
+				"prompt": "Write the denoising-autoencoder objective and explain in your own words what Tweedie's formula says the optimal denoiser has learned.",
+				"rubric": "Full credit requires: (1) corrupt $\\tilde x=x+\\sigma\\epsilon$ with $\\epsilon\\sim\\mathcal N(0,I)$ and minimise $E\\|r(\\tilde x)-x\\|^2$; (2) the squared-error optimum is the posterior mean $E[x\\mid\\tilde x]$; (3) Tweedie's formula gives $E[x\\mid\\tilde x]=\\tilde x+\\sigma^2\\nabla\\log p_\\sigma(\\tilde x)$; (4) so the denoiser's correction is $\\sigma^2$ times the score of the noised density: it has learned which way is uphill in probability.",
+				"modelAnswer": "Add Gaussian noise, $\\tilde x=x+\\sigma\\epsilon$, and train $r$ to minimise $E\\|r(\\tilde x)-x\\|^2$. The best possible answer under squared error is the average clean $x$ consistent with $\\tilde x$, the posterior mean. Tweedie's formula says this mean is $\\tilde x+\\sigma^2\\nabla\\log p_\\sigma(\\tilde x)$. So a perfect denoiser secretly knows the score: its correction vector is $\\sigma^2$ times the direction of steepest increase of the noised data density."
+			}
+		],
+		"a3-l025-transfer-learning": [
+			{
+				"kind": "mc",
+				"prompt": "In linear probing of a pretrained molecular encoder, what is trained?",
+				"options": [
+					"All layers, starting from the pretrained weights.",
+					"All layers, starting from a fresh random initialisation.",
+					"Only the first layer, to adapt it to the new inputs.",
+					"Only a new linear head on top of the frozen encoder."
+				],
+				"answer": 3,
+				"explanation": "Linear probing freezes the encoder and fits a linear model on its features: cheap and hard to overfit, and a test of how good the features are. Fine-tuning updates all weights from the pretrained start; training from scratch ignores pretraining."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You have 500 measured aqueous solubilities and an encoder pretrained on 10 million unlabelled molecules. Which plan is most sensible?",
+				"options": [
+					"Train a large graph network from scratch, since pretraining used a different task.",
+					"Fine-tune every layer with a high learning rate to escape the pretrained minimum.",
+					"Skip the labels and read solubilities directly off the pretrained encoder's outputs.",
+					"Linear-probe first, then fine-tune gently with a low learning rate and early stopping."
+				],
+				"answer": 3,
+				"explanation": "With 500 labels a model trained from scratch will overfit; pretrained features carry general chemistry. A linear probe gives a safe baseline, and gentle fine-tuning with validation-based early stopping adapts the features without destroying them."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why features learned on a large pretraining task transfer to a small new task, and when transfer can fail.",
+				"rubric": "Full credit requires: (1) pretraining on a large data set learns general features (edges and textures for images; functional groups, ring systems, local environments for molecules) that many tasks need; (2) the new task then needs to learn only a small head or small adjustments, so far fewer labels are required (lower variance); (3) transfer fails or hurts when the new domain differs a lot from the pretraining data or the needed features were never learned (negative transfer).",
+				"modelAnswer": "A model trained on millions of examples learns features that are useful far beyond its original task: for molecules, things like functional groups, aromaticity and local environments. A small new task can reuse these and only learn how to combine them, which needs far fewer labels. Transfer breaks down when the new data are unlike the pretraining data, for example organometallics after pretraining only on drug-like organics, because the features it needs were never learned."
+			}
+		],
+		"a3-l026-contrastive-embeddings": [
+			{
+				"kind": "numeric",
+				"prompt": "An anchor has cosine similarity 0.9 with its positive and 0.1 with each of three negatives. With temperature $\\tau=0.5$ and the positive included in the denominator, what is the InfoNCE loss (natural log)?",
+				"answer": 0.47355329,
+				"tolerance": 0.02,
+				"explanation": "Logits are $0.9/0.5=1.8$ and $0.2$ (three times): $L=-\\log\\frac{e^{1.8}}{e^{1.8}+3e^{0.2}}=\\log(1+3e^{-1.6})\\approx0.474$. It is the cross-entropy of picking the positive out of four candidates.",
+				"equations": [
+					"\\mathcal{L}_i = -\\log\\frac{\\exp(\\mathbf{z}_i\\cdot\\mathbf{z}_i^{+}/\\tau)}{\\sum_j \\exp(\\mathbf{z}_i\\cdot\\mathbf{z}_j/\\tau)}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "A contrastive model treats two different SMILES strings of the same molecule as a positive pair. What does the embedding learn to ignore?",
+				"options": [
+					"The arbitrary atom ordering of the SMILES string.",
+					"Which functional groups the molecule contains.",
+					"The molecule's size and number of heavy atoms.",
+					"Nothing; positives only teach which molecules differ."
+				],
+				"answer": 0,
+				"explanation": "Whatever differs between the two members of a positive pair is what the embedding becomes invariant to. Two SMILES of one molecule differ only in atom ordering, so the embedding learns to ignore it. Pairing a structure with its spectrum (CLIP-style) instead teaches what the two views share."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how InfoNCE relates to noise-contrastive estimation, and what the temperature $\\tau$ controls.",
+				"rubric": "Full credit requires: (1) NCE learns an unnormalised model by training a classifier to tell real data from noise samples, which avoids computing a partition function; (2) InfoNCE is the multi-class version: identify the one positive among many negatives with softmax cross-entropy, so the score learns a density ratio between matching and random pairs; (3) $\\tau$ is a softmax temperature: small $\\tau$ sharpens the distribution and focuses the loss on the hardest negatives, large $\\tau$ treats negatives more uniformly.",
+				"modelAnswer": "Noise-contrastive estimation fits a model by asking it to tell real data apart from noise; the normaliser never has to be computed, because classification only needs relative scores. InfoNCE turns this into a multiple-choice test: out of one positive and many negatives, which is the real partner? The softmax cross-entropy loss makes the score track how much more likely a true pair is than a random one. The temperature sets how sharp the softmax is: low $\\tau$ concentrates the penalty on the most confusable negatives."
+			}
+		],
+		"a3-l027-generative-landscape": [
+			{
+				"kind": "mc",
+				"prompt": "Which pairing of model family with the likelihood it gives is correct?",
+				"options": [
+					"Flow: exact; VAE: lower bound; GAN: none",
+					"Flow: lower bound; VAE: exact; GAN: exact",
+					"Flow: exact; VAE: exact; GAN: lower bound",
+					"Flow: none; VAE: lower bound; GAN: exact"
+				],
+				"answer": 0,
+				"explanation": "Flows compute $\\log p(x)$ exactly by change of variables; VAEs (and diffusion models) optimise the ELBO, a lower bound; GANs define a sampler but no density at all."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which family is usually slowest to sample from, and why?",
+				"options": [
+					"Diffusion, since sampling chains many network evaluations.",
+					"GANs, since the generator must be inverted to draw each sample.",
+					"Flows, since every sample needs a full $D\\times D$ determinant.",
+					"VAEs, since every sample needs MCMC over the latent space."
+				],
+				"answer": 0,
+				"explanation": "A GAN, a VAE decoder and a flow each need one network pass per sample. A diffusion model integrates a reverse process over tens to hundreds of steps, each a full network evaluation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A model achieves excellent test log-likelihood, yet its samples look blurry. How is this possible?",
+				"options": [
+					"Log-likelihood is measured on the samples, so blurry ones score highly.",
+					"Likelihood rewards covering every data point, not making each sample sharp.",
+					"A high likelihood guarantees good samples, so the evaluation is buggy.",
+					"FID and likelihood measure the same thing, so its FID will be good too."
+				],
+				"answer": 1,
+				"explanation": "Likelihood is computed on real test data and punishes any data point given low probability, so it favours spreading mass widely. A model can do that while also putting mass on blurry images. Sample quality metrics such as FID look at the samples instead, so the two can disagree."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words what the Fréchet Inception distance compares, and one way FID and test log-likelihood can rank two models differently.",
+				"rubric": "Full credit requires: (1) FID passes real and generated images through a pretrained network (Inception), fits a Gaussian (mean and covariance) to each set of features, and computes the Fréchet distance between the two Gaussians; lower is better; (2) it measures sample quality and diversity in feature space; (3) likelihood measures how well the model covers held-out real data; (4) e.g. a mode-covering model can have good likelihood but blurry samples (bad FID), and a GAN can have good FID but no likelihood or poor coverage.",
+				"modelAnswer": "FID embeds real and generated images with a pretrained Inception network, summarises each set by the mean and covariance of its features, and measures the distance between those two Gaussians. It rewards samples that look real and are as varied as the data. Likelihood instead asks how much probability the model gives real test data. A model that spreads mass everywhere can score well on likelihood yet produce blurry samples with a poor FID, while a GAN can achieve an excellent FID with no likelihood at all."
+			}
+		],
+		"a3-l028-latent-variable-models": [
+			{
+				"kind": "mc",
+				"prompt": "A Gaussian mixture is the special case of $p(x)=\\int p(x\\mid z)p(z)\\,dz$ in which…",
+				"options": [
+					"$z$ is a continuous Gaussian vector and $p(x\\mid z)$ is a neural network.",
+					"$x$ is a discrete label and $z$ is a mixture of continuous Gaussians.",
+					"$z$ is a discrete component label and $p(x\\mid z)$ its Gaussian.",
+					"$z$ is the observed data and $x$ is the hidden mixing weight."
+				],
+				"answer": 2,
+				"explanation": "With $z\\in\\{1,\\dots,K\\}$, $p(z=k)=\\pi_k$ and $p(x\\mid z=k)=\\mathcal N(\\mu_k,\\Sigma_k)$, the integral becomes the sum $\\sum_k\\pi_k\\mathcal N(x;\\mu_k,\\Sigma_k)$. A VAE replaces the discrete label by a continuous $z$ and the Gaussians by a neural decoder."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is $p(x)=\\int p(x\\mid z)p(z)\\,dz$ intractable when $p(x\\mid z)$ is a neural-network decoder?",
+				"options": [
+					"The decoder is not differentiable, so the integral cannot be evaluated.",
+					"It is a high-dimensional integral with no closed form, like $Z$.",
+					"The prior $p(z)$ is unknown and must be learned before integrating.",
+					"The integrand is negative for some $z$, so the integral diverges."
+				],
+				"answer": 1,
+				"explanation": "A nonlinear decoder makes the integrand non-Gaussian, so there is no closed form, and grid quadrature is hopeless in many dimensions. Summing over hidden configurations is the same problem as computing $Z=\\int e^{-E/kT}$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words the analogy between the marginal likelihood $p(x)=\\int p(x\\mid z)p(z)\\,dz$ and a partition function, and why naive Monte Carlo (sampling $z$ from the prior) works poorly.",
+				"rubric": "Full credit requires: (1) both are integrals over all hidden configurations of an unnormalised weight ($p(x,z)$ versus $e^{-E/kT}$); (2) both are intractable in high dimension; (3) sampling $z$ from the prior is like sampling configurations at random: almost no samples land where $p(x\\mid z)$ is large, so the estimate has enormous variance; (4) this motivates variational bounds (the ELBO, like Gibbs-Bogoliubov) or importance sampling with a good proposal $q(z\\mid x)$.",
+				"modelAnswer": "Both are sums over every hidden configuration of a weight: $p(x,z)$ over latents, or $e^{-E/kT}$ over microstates. Neither has a closed form in many dimensions. Drawing $z$ from the prior is like picking molecular configurations at random: almost none explain the data well (or have low energy), so a few rare samples dominate and the estimate is extremely noisy. This is why we use a variational bound with a learned proposal $q(z\\mid x)$, just as statistical mechanics uses variational free energies."
+			}
+		],
+		"a3-l029-elbo-free-energy": [
+			{
+				"kind": "mc",
+				"prompt": "The gap $\\log p(x)-\\mathrm{ELBO}$ equals $\\mathrm{KL}\\big(q(z\\mid x)\\,\\|\\,p(z\\mid x)\\big)$. What follows?",
+				"options": [
+					"The bound is tight exactly when $q$ equals the prior $p(z)$.",
+					"The bound is tight exactly when $q$ equals the true posterior.",
+					"The bound exceeds $\\log p(x)$ whenever $q$ is a poor fit.",
+					"The gap is fixed, so raising the ELBO cannot change $q$."
+				],
+				"answer": 1,
+				"explanation": "KL is non-negative and zero only when the two distributions are equal, so the ELBO never exceeds $\\log p(x)$ and equals it when $q(z\\mid x)=p(z\\mid x)$. Maximising the ELBO over $q$ therefore pushes $q$ toward the posterior."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Writing $-\\mathrm{ELBO}=E_q[-\\log p(x,z)]-H[q]$, which statistical-mechanics quantity does it correspond to (with $kT=1$)?",
+				"options": [
+					"A variational free energy $\\langle E\\rangle-TS$, a lower bound on $-kT\\log Z$.",
+					"The internal energy alone, since the entropy term vanishes at the optimum.",
+					"A variational free energy $\\langle E\\rangle-TS$, an upper bound on $-kT\\log Z$.",
+					"The entropy alone, since $\\log p(x,z)$ is constant over the latent $z$."
+				],
+				"answer": 2,
+				"explanation": "With energy $E(z)=-\\log p(x,z)$, $Z=\\int e^{-E}dz=p(x)$. Then $-\\mathrm{ELBO}=\\langle E\\rangle_q-S[q]\\ge-\\log Z$, exactly the Gibbs-Bogoliubov inequality: any trial distribution gives a free energy above the true one."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In $\\mathrm{ELBO}=E_q[\\log p(x\\mid z)]-\\mathrm{KL}\\big(q(z\\mid x)\\,\\|\\,p(z)\\big)$, what does the KL term reward?",
+				"options": [
+					"Posteriors close to the prior, so the latent space stays regular.",
+					"Reconstructions that match the input as closely as the decoder allows.",
+					"Encoder posteriors that are as narrow and confident as possible.",
+					"A prior that moves toward the average of the encoder's posteriors."
+				],
+				"answer": 0,
+				"explanation": "The first term rewards accurate reconstruction; the KL term penalises posteriors that stray from $p(z)$, which keeps codes overlapping and the latent space smooth enough to sample from. The prior is fixed, and narrow posteriors are penalised, not rewarded."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the ELBO using Jensen's inequality and explain in your own words why it is a lower bound on $\\log p(x)$.",
+				"rubric": "Full credit requires: (1) write $\\log p(x)=\\log\\int q(z\\mid x)\\frac{p(x,z)}{q(z\\mid x)}dz=\\log E_q\\big[p(x,z)/q(z\\mid x)\\big]$; (2) since $\\log$ is concave, Jensen gives $\\log E[\\cdot]\\ge E[\\log\\cdot]$, so $\\log p(x)\\ge E_q[\\log p(x,z)-\\log q(z\\mid x)]=\\mathrm{ELBO}$; (3) the gap is $\\mathrm{KL}(q(z\\mid x)\\|p(z\\mid x))\\ge0$, zero only when $q$ is the exact posterior.",
+				"modelAnswer": "Multiply and divide inside the integral by any $q(z\\mid x)$: $\\log p(x)=\\log E_q[p(x,z)/q(z\\mid x)]$. The log is concave, so the log of an average is at least the average of the log (Jensen), giving $\\log p(x)\\ge E_q[\\log p(x,z)-\\log q(z\\mid x)]$, the ELBO. Working out the difference shows it equals the KL divergence from $q$ to the true posterior, which is never negative; it vanishes only if $q$ is the true posterior."
+			}
+		],
+		"a3-l030-vae-reparameterization": [
+			{
+				"kind": "numeric",
+				"prompt": "A VAE encoder outputs $\\mu=1$ and $\\sigma=0.5$ for one latent dimension. What is $\\mathrm{KL}\\big(\\mathcal N(\\mu,\\sigma^2)\\,\\|\\,\\mathcal N(0,1)\\big)$ in nats?",
+				"answer": 0.8181471805599453,
+				"tolerance": 0.02,
+				"unit": "nats",
+				"explanation": "$\\tfrac12(\\mu^2+\\sigma^2-1-\\log\\sigma^2)=\\tfrac12(1+0.25-1+1.386)=0.818$. Both the shifted mean and the narrowed width cost nats relative to the prior.",
+				"equations": [
+					"D_{KL}\\big(\\mathcal{N}(\\mu,\\sigma^2)\\,\\|\\,\\mathcal{N}(0,1)\\big) = \\tfrac12\\left(\\mu^2 + \\sigma^2 - 1 - \\log\\sigma^2\\right)"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can't gradients flow through $z$ drawn directly from $\\mathcal N(\\mu,\\sigma^2)$, and how does $z=\\mu+\\sigma\\epsilon$ fix it?",
+				"options": [
+					"The draw is differentiable, but the reparameterisation saves memory during training.",
+					"Gradients flow but are biased; $\\epsilon$ supplies the missing correction term.",
+					"A random draw has no derivative in $\\mu,\\sigma$; with $\\epsilon$ fixed, $z$ does.",
+					"The trick replaces the sample by its mean, so the noise is removed altogether."
+				],
+				"answer": 2,
+				"explanation": "Sampling is a black-box random operation; you cannot ask how a particular draw changes with $\\mu$. Writing $z=\\mu+\\sigma\\epsilon$ moves the randomness into an input $\\epsilon$ that does not depend on the parameters, so $\\partial z/\\partial\\mu=1$ and $\\partial z/\\partial\\sigma=\\epsilon$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A VAE with a powerful autoregressive decoder learns $q(z\\mid x)\\approx p(z)$ for every input. What has happened?",
+				"options": [
+					"Mode collapse: the model generates only one kind of sample.",
+					"Posterior collapse: the decoder models $x$ alone and ignores $z$.",
+					"Overfitting: the encoder memorises each training example in $z$.",
+					"Success: matching the prior exactly is the aim of the KL term."
+				],
+				"answer": 1,
+				"explanation": "If the decoder can model the data without the latent code, the cheapest way to raise the ELBO is to set the KL term to zero by making $q(z\\mid x)=p(z)$; $z$ then carries no information. Mode collapse is the GAN failure where many latents map to few outputs."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why VAE samples with a Gaussian decoder tend to be blurry.",
+				"rubric": "Full credit requires: (1) a Gaussian decoder with fixed variance makes the reconstruction term a squared error; (2) when a latent $z$ is consistent with several sharp images (uncertain details such as exact edge positions), the squared-error optimum is their average, which is blurry; (3) the KL term limits how much information $z$ carries, so this uncertainty is substantial; (4) independent per-pixel noise cannot represent sharp correlated detail.",
+				"modelAnswer": "With a Gaussian decoder, maximising the reconstruction term means minimising squared error. A latent code that cannot pin down every fine detail is compatible with many sharp images, and the squared-error-optimal answer is their average, which is blurred. The KL term deliberately limits how much information the code holds, so that uncertainty is real, and per-pixel independent noise cannot add the sharp details back."
+			}
+		],
+		"a3-l031-gan-minimax": [
+			{
+				"kind": "numeric",
+				"prompt": "At some point $x$, the data density is $p_{data}(x)=0.3$ and the generator's density is $p_g(x)=0.1$. What is the optimal discriminator output $D^*(x)$?",
+				"answer": 0.75,
+				"tolerance": 0.02,
+				"explanation": "$D^*=p_{data}/(p_{data}+p_g)=0.3/0.4=0.75$: the probability that a sample at $x$ is real, given equal numbers of real and fake samples.",
+				"equations": [
+					"D^*(\\mathbf{x}) = \\frac{p_{data}(\\mathbf{x})}{p_{data}(\\mathbf{x}) + p_g(\\mathbf{x})}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "At the global optimum of the GAN game, $p_g=p_{data}$. What does the optimal discriminator output, and what is the value of the game?",
+				"options": [
+					"$\\tfrac12$ everywhere; the value is $-\\log4$.",
+					"1 on real data and 0 on fakes; the value is 0.",
+					"$\\tfrac12$ everywhere; the value is 0.",
+					"0 everywhere; the value is $-\\log2$."
+				],
+				"answer": 0,
+				"explanation": "With equal densities $D^*=\\tfrac12$ everywhere, and the objective is $\\log\\tfrac12+\\log\\tfrac12=-\\log4$. In general the generator's objective against $D^*$ is $2\\,\\mathrm{JS}(p_{data}\\|p_g)-\\log4$, minimised when JS is zero."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Early in training, $D$ easily rejects fakes, so $D(G(z))\\approx0$. Why use $-\\log D(G(z))$ as the generator loss instead of minimising $\\log(1-D(G(z)))$?",
+				"options": [
+					"$-\\log D(G(z))$ is the exact minimax objective, whereas $\\log(1-D)$ is not.",
+					"$\\log(1-D)$ is undefined at $D=0$, so training would crash at once.",
+					"$-\\log D(G(z))$ makes the discriminator learn faster than the generator.",
+					"$\\log(1-D)$ is flat near $D=0$, so the generator gets almost no gradient."
+				],
+				"answer": 3,
+				"explanation": "Near $D=0$, $\\log(1-D)\\approx-D$ has a tiny slope, so a losing generator learns nothing. $-\\log D$ has the same fixed point but a steep gradient exactly when the generator is losing. It is a heuristic, not the minimax objective."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the optimal discriminator $D^*(x)$ for a fixed generator, and explain in your own words how substituting it shows that the generator minimises $2\\,\\mathrm{JS}(p_{data}\\|p_g)-\\log4$.",
+				"rubric": "Full credit requires: (1) the value is $\\int[p_{data}\\log D+p_g\\log(1-D)]dx$, maximised pointwise; (2) $a\\log D+b\\log(1-D)$ is maximised at $D=a/(a+b)$, giving $D^*=p_{data}/(p_{data}+p_g)$; (3) substituting gives $E_{p_{data}}\\log\\frac{p_{data}}{p_{data}+p_g}+E_{p_g}\\log\\frac{p_g}{p_{data}+p_g}$; (4) rewriting with $m=\\tfrac12(p_{data}+p_g)$ gives $\\mathrm{KL}(p_{data}\\|m)+\\mathrm{KL}(p_g\\|m)-\\log4=2\\,\\mathrm{JS}-\\log4$, minimised at $p_g=p_{data}$.",
+				"modelAnswer": "For fixed $G$, the discriminator's objective is an integral over $x$ of $p_{data}\\log D+p_g\\log(1-D)$, which can be maximised separately at each $x$; setting the derivative to zero gives $D^*=p_{data}/(p_{data}+p_g)$. Plugging this back in, each log ratio can be written relative to the average density $m=\\tfrac12(p_{data}+p_g)$, with a leftover $\\log\\tfrac12$ from each term. That gives $\\mathrm{KL}(p_{data}\\|m)+\\mathrm{KL}(p_g\\|m)-\\log4=2\\,\\mathrm{JS}-\\log4$, so the generator is minimising a Jensen-Shannon divergence, zero only when $p_g=p_{data}$."
+			}
+		],
+		"a3-l032-gan-stability-wasserstein": [
+			{
+				"kind": "mc",
+				"prompt": "Two distributions are point masses at 0 and at $\\theta\\neq0$. As $\\theta$ shrinks from 5 to 0.1, how do the Jensen-Shannon divergence and the Wasserstein distance behave?",
+				"options": [
+					"Both fall smoothly, each in proportion to $|\\theta|$.",
+					"JS falls smoothly to zero; Wasserstein stays at 1.",
+					"JS stays at $\\log2$; Wasserstein falls as $|\\theta|$.",
+					"Both stay constant until the two supports overlap."
+				],
+				"answer": 2,
+				"explanation": "With disjoint supports JS saturates at $\\log2$ no matter how close they are, so it gives no gradient toward the target. The earth mover's distance is the cost of moving the mass, $|\\theta|$, which shrinks smoothly and gives a useful gradient."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why must a WGAN critic be 1-Lipschitz?",
+				"options": [
+					"So that the critic's output is a probability between 0 and 1.",
+					"Duality defines $W$ as a supremum over 1-Lipschitz functions.",
+					"So that the generator's gradients stay at exactly zero.",
+					"So that the critic can separate disjoint supports perfectly."
+				],
+				"answer": 1,
+				"explanation": "Kantorovich-Rubinstein duality: $W(p,q)=\\sup_{\\|f\\|_L\\le1}E_p[f]-E_q[f]$. Without the Lipschitz bound the supremum is infinite whenever supports are disjoint; with it, the critic estimates the earth mover's distance. Weight clipping or a gradient penalty enforces the bound."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A GAN trained on IR spectra of many compound classes generates only realistic ketone spectra. What is this called?",
+				"options": [
+					"Overfitting",
+					"Posterior collapse",
+					"Mode collapse",
+					"Exploding gradients"
+				],
+				"answer": 2,
+				"explanation": "The generator has found a region the discriminator accepts and maps most latents there, ignoring the other modes of the data. Posterior collapse is the VAE failure where the latent is ignored."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why a standard GAN discriminator gives the generator vanishing gradients when the real and generated distributions barely overlap, and how the Wasserstein distance avoids this.",
+				"rubric": "Full credit requires: (1) data and generated samples typically lie on low-dimensional manifolds that barely intersect; (2) then a discriminator can separate them perfectly, so $D$ saturates (near 1 on data, 0 on fakes) and its gradient with respect to the generator's samples vanishes; equivalently JS sits at $\\log2$ regardless of distance; (3) the Wasserstein distance measures how far mass must move, so it decreases continuously as the generated distribution approaches the data even without overlap; (4) a 1-Lipschitz critic estimates it and gives non-vanishing gradients.",
+				"modelAnswer": "Real and generated samples usually sit on thin, nearly disjoint manifolds, so a good discriminator can tell them apart perfectly. It then outputs flat 0s and 1s, the JS divergence is stuck at $\\log2$, and the generator gets no signal about which direction would help. The Wasserstein distance asks how far the probability mass must be moved; it shrinks smoothly as the generated samples approach the data even without overlap, so a Lipschitz critic estimating it always provides a useful gradient."
+			}
+		],
+		"a3-l033-change-of-variables": [
+			{
+				"kind": "numeric",
+				"prompt": "Let $z\\sim\\mathcal N(0,1)$ and $x=e^z$. Using the change-of-variables formula, what is the density $p_x(x)$ at $x=2$?",
+				"answer": 0.15687402,
+				"tolerance": 0.02,
+				"explanation": "$z=\\ln x$ and $|dz/dx|=1/x$, so $p_x(2)=\\phi(\\ln2)/2=0.3138/2\\approx0.157$. The map stretches large $x$, which dilutes the density there.",
+				"equations": [
+					"p(x) = p(z)\\left|\\frac{dz}{dx}\\right|"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do flow architectures avoid general dense invertible layers in high dimension $D$?",
+				"options": [
+					"A general $D\\times D$ Jacobian determinant costs $O(D^3)$.",
+					"Dense layers are never invertible, so the density would be undefined.",
+					"Dense layers always have zero Jacobian determinant in high dimension.",
+					"The change-of-variables formula holds only for elementwise maps."
+				],
+				"answer": 0,
+				"explanation": "Training needs $\\log|\\det J|$ for every example. For an image with $D\\sim10^5$, an $O(D^3)$ determinant is impossible, so flows use layers with triangular or otherwise structured Jacobians whose determinants are cheap."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A flow maps data to latents through $K$ invertible layers $g_k$, so $z=g_K\\circ\\dots\\circ g_1(x)$ with $z\\sim\\mathcal N(0,I)$. What is the training loss for one example?",
+				"options": [
+					"$-\\log p_Z(z)-\\sum_k\\log|\\det J_{g_k}|$",
+					"$-\\log p_Z(z)+\\sum_k\\log|\\det J_{g_k}|$",
+					"$-\\log p_Z(z)$ alone; the Jacobians cancel",
+					"$\\|x-g^{-1}(z)\\|^2$, a reconstruction error"
+				],
+				"answer": 0,
+				"explanation": "$\\log p(x)=\\log p_Z(z)+\\sum_k\\log|\\det J_{g_k}|$, so the negative log-likelihood subtracts the log-determinants. Expanding volume in the data-to-latent direction concentrates density in data space, which the loss rewards."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words where the 1-D change-of-variables formula $p_x(x)=p_z(z)\\,|dz/dx|$ comes from, and what it means physically when a map stretches a region.",
+				"rubric": "Full credit requires: (1) probability is conserved under the map: the mass in a small interval $dz$ equals the mass in its image $dx$, so $p_x|dx|=p_z|dz|$; (2) hence $p_x=p_z|dz/dx|$, with an absolute value because orientation does not matter for densities; (3) where the map stretches ($|dx/dz|>1$) the same probability is spread over a longer interval, so the density drops; where it compresses, the density rises.",
+				"modelAnswer": "A monotone map carries each small interval $dz$ onto an interval $dx$, and the probability inside cannot change: $p_x|dx|=p_z|dz|$. Solving gives $p_x=p_z|dz/dx|$. If the map stretches a region, the same amount of probability is smeared over a wider range, so the density there falls; if it squeezes a region, the density piles up. In $D$ dimensions $|dz/dx|$ becomes a Jacobian determinant, the local volume change."
+			}
+		],
+		"a3-l034-coupling-flows": [
+			{
+				"kind": "numeric",
+				"prompt": "An affine coupling layer leaves $x_{1:d}$ unchanged and maps the other half by $y_j=x_je^{s_j}+t_j$, where $s=(0.5,-0.2,0.1)$ for this input. What is $\\log|\\det J|$ of the layer?",
+				"answer": 0.4,
+				"tolerance": 0.02,
+				"explanation": "The Jacobian is triangular with diagonal 1 for the copied half and $e^{s_j}$ for the transformed half, so $\\log|\\det J|=\\sum_js_j=0.4$. The shift $t$ does not contribute.",
+				"equations": [
+					"\\log|\\det\\mathbf{J}| = \\sum_j s_j(\\mathbf{x}_{1:d})"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is an affine coupling layer's Jacobian triangular?",
+				"options": [
+					"The scale and shift networks are themselves triangular weight matrices.",
+					"Every output depends on every input with the same weight.",
+					"The exponential in the scale makes the off-diagonal entries vanish.",
+					"The first half passes through unchanged and only steers the second half."
+				],
+				"answer": 3,
+				"explanation": "$y_{1:d}=x_{1:d}$, and $y_{d+1:D}$ depends on $x_{1:d}$ and elementwise on $x_{d+1:D}$. So $\\partial y_{1:d}/\\partial x_{d+1:D}=0$ and the second block's diagonal is $e^{s}$. The networks $s$ and $t$ can be arbitrarily complex without affecting this."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why must a stack of coupling layers alternate (or permute) which half is transformed?",
+				"options": [
+					"Otherwise the first half would never be transformed at all.",
+					"Otherwise the Jacobian would no longer be triangular.",
+					"Otherwise the stack would no longer be invertible.",
+					"Otherwise the log-determinant would always be zero."
+				],
+				"answer": 0,
+				"explanation": "Each coupling layer copies one half. Swapping or permuting halves between layers lets every variable be transformed, conditioned on the others, so the stack can model arbitrary dependencies. Each layer stays triangular and invertible either way."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words what a Boltzmann generator is: how it is trained against an energy function $U(x)$, and why its samples can be reweighted to give exact Boltzmann averages.",
+				"rubric": "Full credit requires: (1) a normalizing flow maps Gaussian latents to molecular configurations $x$; (2) it can be trained without simulation data by minimising the reverse KL $E_q[U(x)/kT+\\log q(x)]$, i.e. a variational free energy, possibly combined with likelihood on MD samples; (3) because the flow gives the exact density $q(x)$ of each sample, importance weights $w\\propto e^{-U(x)/kT}/q(x)$ correct the mismatch between $q$ and the Boltzmann distribution; (4) samples are independent one-shot draws, so barriers that trap MD are not a problem.",
+				"modelAnswer": "A Boltzmann generator is a flow from a simple Gaussian to molecular configurations. Since $U(x)$ is known, it can be trained by pushing samples toward low $U/kT$ while keeping entropy (minimising $E_q[U/kT+\\log q]$, a free energy), without needing a long MD run. The flow is never perfect, but it reports the exact probability $q(x)$ of everything it generates, so each sample can be weighted by $e^{-U/kT}/q(x)$ to recover exact Boltzmann averages. Because each sample is drawn independently, it does not get stuck behind barriers the way MD does."
+			}
+		],
+		"a3-l035-continuous-flows": [
+			{
+				"kind": "numeric",
+				"prompt": "A continuous flow in 3-D has the contracting velocity field $v(x)=-0.5\\,x$. Along any trajectory, at what rate does $\\log p$ change, $d\\log p/dt$ (per unit time)?",
+				"answer": 1.5,
+				"tolerance": 0.02,
+				"unit": "per unit time",
+				"explanation": "$\\nabla\\cdot v=-0.5\\times3=-1.5$, so $d\\log p/dt=-\\nabla\\cdot v=+1.5$. A contracting flow squeezes probability into a smaller volume, so the density rises along each path.",
+				"equations": [
+					"\\frac{d}{dt}\\log p_t(\\mathbf{x}(t)) = -\\nabla\\cdot\\mathbf{v}_t(\\mathbf{x}(t))"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does the continuity equation $\\partial p/\\partial t+\\nabla\\cdot(p\\,v)=0$ express?",
+				"options": [
+					"Probability is conserved; density changes only by flowing.",
+					"Energy is conserved along every trajectory of the flow.",
+					"The density at every fixed point in space is constant in time.",
+					"The velocity field must be divergence-free everywhere."
+				],
+				"answer": 0,
+				"explanation": "It is a local conservation law, the same as for mass or charge: $p\\,v$ is the probability flux. Hamiltonian flows are also divergence-free, which gives Liouville's theorem, but a general learned flow need not be."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In what sense is a continuous normalizing flow the infinite-depth limit of a residual network?",
+				"options": [
+					"Each residual block becomes one exactly invertible coupling layer.",
+					"Infinitely many layers make the output distribution exactly Gaussian.",
+					"Many tiny residual steps $h+\\Delta t\\,f(h)$ become $dx/dt=v(x,t)$.",
+					"Removing all skip connections from a deep network gives an ODE."
+				],
+				"answer": 2,
+				"explanation": "A residual block is a forward Euler step. Letting the step size go to zero with ever more blocks gives an ODE, and integrating it transports samples; the log-density changes by the integrated divergence, which replaces the per-layer log-determinant."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how the continuity equation of a continuous flow is related to Liouville's theorem in classical and statistical mechanics.",
+				"rubric": "Full credit requires: (1) both say that probability (or phase-space density) is conserved as it is transported by a velocity field: $\\partial p/\\partial t+\\nabla\\cdot(pv)=0$; (2) along a trajectory, $d\\log p/dt=-\\nabla\\cdot v$; (3) Hamiltonian flow in phase space is divergence-free, so the density is constant along trajectories (Liouville's theorem); (4) a learned flow generally has nonzero divergence, so it can compress or expand probability; that is exactly what lets it reshape a Gaussian into data.",
+				"modelAnswer": "The continuity equation says probability is moved around by the velocity field but never created or destroyed. Following a single trajectory, the log-density changes at the rate $-\\nabla\\cdot v$: converging flow piles density up, diverging flow thins it out. Hamilton's equations have zero divergence in phase space, so there the density is constant along trajectories, which is Liouville's theorem. A normalizing flow is the general compressible case, and that compressibility is what lets it turn a Gaussian into a complicated data distribution."
+			}
+		],
+		"a3-l036-score-langevin": [
+			{
+				"kind": "mc",
+				"prompt": "For a Boltzmann density $p(x)=e^{-U(x)/kT}/Z$, why can the score $\\nabla_x\\log p$ be computed without knowing $Z$?",
+				"options": [
+					"$Z$ equals one for any properly normalised Boltzmann density.",
+					"$Z$ cancels only at the minimum of $U$, where the force vanishes.",
+					"$\\log Z$ does not depend on $x$, so its gradient is zero.",
+					"The score is the gradient of $p$ itself, not of $\\log p$."
+				],
+				"answer": 2,
+				"explanation": "$\\log p=-U/kT-\\log Z$, and $\\log Z$ is a constant, so $\\nabla\\log p=-\\nabla U/kT=F/kT$: the force divided by $kT$. This is why score-based sampling avoids the partition function."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "One overdamped Langevin step for a standard normal target ($\\nabla\\log p=-x$) is $x_{k+1}=x_k+\\eta\\nabla\\log p(x_k)+\\sqrt{2\\eta}\\,\\epsilon_k$. With $x_k=1$, $\\eta=0.01$ and noise draw $\\epsilon_k=0.5$, what is $x_{k+1}$?",
+				"answer": 1.0607106781,
+				"tolerance": 0.02,
+				"explanation": "$x_{k+1}=1-0.01+\\sqrt{0.02}(0.5)=0.99+0.0707=1.0607$. The drift pulls toward high probability (like a force), the noise kicks randomly (like solvent collisions).",
+				"equations": [
+					"\\mathbf{x}_{k+1} = \\mathbf{x}_k + \\eta\\,\\nabla_{\\mathbf{x}}\\log p(\\mathbf{x}_k) + \\sqrt{2\\eta}\\,\\boldsymbol{\\epsilon}_k"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Langevin sampling with a learned score works poorly when started far from the data. Why, and what fixes it?",
+				"options": [
+					"The score is exact there, but the noise is too small; larger steps fix it.",
+					"Langevin dynamics has no stationary distribution; a Metropolis test fixes it.",
+					"The score points away from the data there; flipping its sign fixes it.",
+					"The score is poorly learned where data are rare; annealing noise fixes it."
+				],
+				"answer": 3,
+				"explanation": "A score trained on data is accurate only where data exist. Adding large noise fills space so the score is learned everywhere; sampling starts at high noise and anneals down through decreasing noise levels, which is the idea behind diffusion models."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why overdamped Langevin dynamics with drift $\\nabla\\log p$ has $p(x)$ as its stationary distribution, and how this connects to the Brownian motion of a molecule in solution.",
+				"rubric": "Full credit requires: (1) the drift pushes samples toward high probability (for a Boltzmann density it is the force over $kT$); the noise spreads them out; (2) in the Fokker-Planck equation the probability flux is $p\\nabla\\log p-\\nabla p$, which vanishes when $p$ is the target, so it is stationary (drift and diffusion balance, detailed balance); (3) this is Brownian (overdamped) dynamics of a particle in solvent: friction-limited drift under the force plus thermal kicks, whose equilibrium is the Boltzmann distribution (with the Einstein relation fixing the noise size).",
+				"modelAnswer": "Each step drifts uphill in $\\log p$ and adds random noise. Drift alone would collapse everything onto the peak; noise alone would spread it out forever. The balance point is reached when the drift flux $p\\nabla\\log p$ exactly cancels the diffusive flux $\\nabla p$, which happens precisely when the distribution is $p$. A molecule in solution does the same thing: friction makes its motion overdamped, the force $-\\nabla U$ pulls it downhill, and solvent collisions kick it randomly, and the result is the Boltzmann distribution $e^{-U/kT}$."
+			}
+		],
+		"a3-l037-forward-process": [
+			{
+				"kind": "numeric",
+				"prompt": "A forward process uses a constant $\\beta_t=0.01$. After $t=100$ steps, $x_t=\\sqrt{\\bar\\alpha_t}\\,x_0+\\sqrt{1-\\bar\\alpha_t}\\,\\epsilon$. What is the signal coefficient $\\sqrt{\\bar\\alpha_{100}}$?",
+				"answer": 0.6050060671375364,
+				"tolerance": 0.02,
+				"explanation": "$\\bar\\alpha_{100}=0.99^{100}=0.366$, so $\\sqrt{\\bar\\alpha_{100}}\\approx0.605$: about 60% of the original signal amplitude remains, with noise standard deviation $\\sqrt{0.634}\\approx0.80$.",
+				"equations": [
+					"q(\\mathbf{x}_t\\mid\\mathbf{x}_0) = \\mathcal{N}\\big(\\sqrt{\\bar\\alpha_t}\\,\\mathbf{x}_0,\\,(1-\\bar\\alpha_t)\\mathbf{I}\\big),\\quad \\bar\\alpha_t = \\prod_{s=1}^{t}(1-\\beta_s)"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does each forward step scale $x_{t-1}$ by $\\sqrt{1-\\beta_t}$ rather than just adding noise?",
+				"options": [
+					"So that the noise added at each individual step has exactly unit variance.",
+					"So the data mean is kept fixed while the noise grows without any bound.",
+					"So that each forward step can be inverted without a learned network.",
+					"So unit-variance data keep unit variance, ending at $\\mathcal N(0,I)$."
+				],
+				"answer": 3,
+				"explanation": "$\\mathrm{Var}[x_t]=(1-\\beta_t)\\mathrm{Var}[x_{t-1}]+\\beta_t$, which stays 1 if it starts at 1. Meanwhile the signal shrinks as $\\sqrt{\\bar\\alpha_t}\\to0$, so any data distribution ends at $\\mathcal N(0,I)$, a known starting point for sampling."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why was the cosine noise schedule introduced in place of the linear $\\beta$ schedule?",
+				"options": [
+					"The linear one never reaches pure noise, so sampling cannot start from $\\mathcal N(0,I)$.",
+					"The cosine one makes each forward step exactly invertible without a network.",
+					"The linear one destroys information too early, wasting late steps on near-pure noise.",
+					"The cosine one adds more noise early on, so that training converges faster."
+				],
+				"answer": 2,
+				"explanation": "With a linear schedule $\\bar\\alpha_t$ falls quickly, so for a large fraction of steps the sample is essentially noise. The cosine schedule makes $\\bar\\alpha_t$ fall gently and roughly linearly in the middle, spreading the useful noise levels more evenly."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how the closed-form marginal $q(x_t\\mid x_0)=\\mathcal N(\\sqrt{\\bar\\alpha_t}\\,x_0,(1-\\bar\\alpha_t)I)$ follows from the single-step process, and why it matters for training.",
+				"rubric": "Full credit requires: (1) each step is $x_t=\\sqrt{1-\\beta_t}\\,x_{t-1}+\\sqrt{\\beta_t}\\,\\epsilon_t$, a linear map plus independent Gaussian noise; (2) composing steps keeps everything Gaussian: the signal coefficients multiply to $\\sqrt{\\bar\\alpha_t}$ and the independent noise variances add (scaled) to $1-\\bar\\alpha_t$; (3) so $x_t$ can be sampled in one shot from $x_0$ for any $t$; (4) this makes training cheap: pick a random $t$, noise $x_0$ directly, and train on that, with no need to simulate the chain.",
+				"modelAnswer": "Each step multiplies the previous state by $\\sqrt{1-\\beta_t}$ and adds independent Gaussian noise. Linear maps of Gaussians plus Gaussian noise stay Gaussian; the signal factors multiply to $\\sqrt{\\bar\\alpha_t}$, and the accumulated noise variances, each shrunk by later factors, add up to exactly $1-\\bar\\alpha_t$. So you can jump from $x_0$ straight to any $x_t$ in one draw, and training just picks a random time and noise level per example instead of running the chain."
+			}
+		],
+		"a3-l038-sde-fokker-planck": [
+			{
+				"kind": "mc",
+				"prompt": "The forward SDE $dx=-\\tfrac12\\beta(t)\\,x\\,dt+\\sqrt{\\beta(t)}\\,dW$ is Brownian motion in a harmonic well. What does the drift term do?",
+				"options": [
+					"Adds the random kicks that spread the distribution outward.",
+					"Pushes $x$ away from the origin, so the variance grows forever.",
+					"Keeps the mean fixed while the noise term shrinks the spread.",
+					"Pulls $x$ back toward the origin like a spring."
+				],
+				"answer": 3,
+				"explanation": "$-\\tfrac12\\beta x$ is a restoring force from a potential $\\tfrac14\\beta x^2$; the $dW$ term supplies the thermal kicks. Their balance is a Gaussian of unit variance, the equilibrium of an Ornstein-Uhlenbeck process."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "For the SDE $dx=-\\tfrac12\\beta x\\,dt+\\sqrt\\beta\\,dW$ with constant $\\beta=0.5$, a sample starts at $x_0=2$. What is the mean of $x$ at $t=4$?",
+				"answer": 0.7357588823428847,
+				"tolerance": 0.02,
+				"explanation": "The mean obeys $d\\langle x\\rangle/dt=-\\tfrac12\\beta\\langle x\\rangle$, so $\\langle x\\rangle=2e^{-\\frac12\\cdot0.5\\cdot4}=2e^{-1}\\approx0.736$. The variance meanwhile grows to $1-e^{-2}\\approx0.865$, heading to the stationary $\\mathcal N(0,1)$.",
+				"equations": [
+					"d\\mathbf{x} = -\\tfrac12\\beta(t)\\,\\mathbf{x}\\,dt + \\sqrt{\\beta(t)}\\,d\\mathbf{W}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "To run the reverse-time SDE $dx=[f(x,t)-g(t)^2\\nabla_x\\log p_t(x)]\\,dt+g(t)\\,d\\bar W$, what must be learned?",
+				"options": [
+					"Only the drift $f(x,t)$, since $g$ is set by the schedule.",
+					"Only the score $\\nabla_x\\log p_t(x)$, at every time $t$.",
+					"The data density $p_0(x)$ itself, including its normalisation.",
+					"The exact Brownian path $W$ used in the forward process."
+				],
+				"answer": 1,
+				"explanation": "$f$ and $g$ are chosen by us when designing the forward process. The only unknown in Anderson's reverse-time SDE is the score of the noised marginals, which a network learns by denoising score matching."
+			},
+			{
+				"kind": "short",
+				"prompt": "Write the Fokker-Planck equation for $dx=-\\tfrac12\\beta x\\,dt+\\sqrt\\beta\\,dW$ and show, explaining in your own words, that $\\mathcal N(0,I)$ is its stationary solution.",
+				"rubric": "Full credit requires: (1) $\\partial p/\\partial t=\\nabla\\cdot(\\tfrac12\\beta\\,x\\,p)+\\tfrac12\\beta\\nabla^2p=\\nabla\\cdot\\big[\\tfrac12\\beta(xp+\\nabla p)\\big]$; (2) for $p\\propto e^{-|x|^2/2}$, $\\nabla p=-xp$, so the bracket $xp+\\nabla p$ vanishes; (3) zero probability flux means $\\partial p/\\partial t=0$, so it is stationary; (4) physically, the inward drift flux exactly balances the outward diffusive flux, as for a Boltzmann distribution in the potential $\\tfrac12|x|^2$ at unit temperature.",
+				"modelAnswer": "The Fokker-Planck equation is $\\partial p/\\partial t=\\nabla\\cdot[\\tfrac12\\beta(xp+\\nabla p)]$: a drift flux pulling probability inward and a diffusive flux pushing it outward. For the standard Gaussian, $\\nabla p=-xp$, so $xp+\\nabla p=0$ everywhere: the flux vanishes and the density stops changing. It is the Boltzmann distribution for the harmonic potential $\\tfrac12|x|^2$ at $kT=1$, where the spring and the thermal noise are in balance."
+			}
+		],
+		"a3-l039-score-matching": [
+			{
+				"kind": "mc",
+				"prompt": "Hyvärinen's integration by parts rewrites explicit score matching as $E_{p}\\big[\\mathrm{tr}(\\nabla_xs_\\theta)+\\tfrac12\\|s_\\theta\\|^2\\big]$ plus a constant. What does this solve, and at what cost?",
+				"options": [
+					"It removes the need for samples, at the cost of knowing $Z$.",
+					"It makes the loss convex, at the cost of adding noise to the data.",
+					"It removes the Jacobian trace, at the cost of needing the true score.",
+					"It removes the unknown data score, at the cost of a Jacobian trace."
+				],
+				"answer": 3,
+				"explanation": "Explicit score matching, $E\\|s_\\theta-\\nabla\\log p\\|^2$, needs the unknown true score. Integration by parts eliminates it, leaving only expectations over data samples, but the trace of the $D\\times D$ Jacobian of $s_\\theta$ is expensive in high dimension; denoising score matching avoids it."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A diffusion model predicts noise $\\epsilon_\\theta(x_t,t)=0.6$ (one coordinate) at a time where $\\bar\\alpha_t=0.75$. Using $s_\\theta=-\\epsilon_\\theta/\\sqrt{1-\\bar\\alpha_t}$, what is the estimated score at that coordinate?",
+				"answer": -1.2,
+				"tolerance": 0.02,
+				"explanation": "$s=-0.6/\\sqrt{0.25}=-1.2$. Predicting the noise that was added and predicting the score are the same thing up to a time-dependent scale, with opposite sign: the score points back toward the data.",
+				"equations": [
+					"\\mathbf{s}_\\theta(\\mathbf{x}_t, t) = -\\frac{\\boldsymbol{\\epsilon}_\\theta(\\mathbf{x}_t, t)}{\\sqrt{1-\\bar\\alpha_t}}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "In denoising score matching, the target $-(\\tilde x-x)/\\sigma^2$ is noisy and depends on the clean $x$. Why does the network still learn $\\nabla\\log p_\\sigma(\\tilde x)$?",
+				"options": [
+					"For small $\\sigma$ the target equals the true data score for every single sample.",
+					"The network recovers the clean $x$ exactly, so the added noise cancels out.",
+					"It does not; the network instead learns the score of the clean data density.",
+					"Its average over $x$ given $\\tilde x$ is that score, and squared error fits the mean."
+				],
+				"answer": 3,
+				"explanation": "A squared-error regression learns the conditional mean of its target. Averaging the Gaussian kernel's score $-(\\tilde x-x)/\\sigma^2$ over the clean $x$ consistent with $\\tilde x$ gives exactly $\\nabla\\log p_\\sigma(\\tilde x)$, the score of the noised density."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how denoising score matching connects to the denoising autoencoder and to noise prediction in diffusion models.",
+				"rubric": "Full credit requires: (1) a denoising autoencoder's optimal correction is $r(\\tilde x)-\\tilde x=\\sigma^2\\nabla\\log p_\\sigma(\\tilde x)$ (Tweedie), so training a denoiser is score matching for the noised density; (2) denoising score matching regresses $s_\\theta(\\tilde x)$ onto $-(\\tilde x-x)/\\sigma^2=-\\epsilon/\\sigma$; (3) in diffusion, $x_t=\\sqrt{\\bar\\alpha_t}x_0+\\sqrt{1-\\bar\\alpha_t}\\,\\epsilon$, so predicting $\\epsilon$ is equivalent to predicting the score via $s_\\theta=-\\epsilon_\\theta/\\sqrt{1-\\bar\\alpha_t}$; (4) all three are the same regression with different scalings.",
+				"modelAnswer": "All three are one idea. A denoiser that removes Gaussian noise ends up pointing along $\\sigma^2$ times the score of the noised data (Tweedie). Denoising score matching makes this explicit by regressing the score network onto the Gaussian kernel's score, $-(\\tilde x-x)/\\sigma^2$, which is just minus the noise divided by $\\sigma$. A diffusion model that predicts the added noise $\\epsilon$ is therefore predicting the score, rescaled: $s_\\theta=-\\epsilon_\\theta/\\sqrt{1-\\bar\\alpha_t}$."
+			}
+		],
+		"a3-l040-reverse-process-loss": [
+			{
+				"kind": "numeric",
+				"prompt": "The posterior variance of the reverse step is $\\tilde\\beta_t=\\frac{1-\\bar\\alpha_{t-1}}{1-\\bar\\alpha_t}\\beta_t$. With $\\bar\\alpha_{t-1}=0.5$ and $\\beta_t=0.02$ (so $\\bar\\alpha_t=0.49$), what is $\\tilde\\beta_t$?",
+				"answer": 0.0196078431372549,
+				"tolerance": 0.02,
+				"explanation": "$\\tilde\\beta_t=(0.5/0.51)(0.02)\\approx0.0196$, slightly smaller than $\\beta_t$: knowing $x_0$ removes a little of the uncertainty about $x_{t-1}$.",
+				"equations": [
+					"\\tilde\\beta_t = \\frac{1-\\bar\\alpha_{t-1}}{1-\\bar\\alpha_t}\\,\\beta_t"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is the learned reverse step $p_\\theta(x_{t-1}\\mid x_t)$ modelled as a Gaussian?",
+				"options": [
+					"The data distribution is Gaussian, so every step must be one too.",
+					"For small $\\beta_t$ the true reverse step is very nearly Gaussian.",
+					"Only Gaussian distributions have a KL divergence we can compute.",
+					"$q(x_{t-1}\\mid x_t)$ is exactly Gaussian for any size of step."
+				],
+				"answer": 1,
+				"explanation": "The true reverse conditional $q(x_{t-1}\\mid x_t)$ involves the data distribution and is not Gaussian in general, but for small noise increments it is close to Gaussian. Conditioning on $x_0$ as well makes it exactly Gaussian, which is what makes the loss tractable."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The diffusion ELBO becomes a sum of KL divergences between Gaussians with fixed, equal variances. What does each KL reduce to?",
+				"options": [
+					"The log-ratio of the two variances, which does not depend on the means.",
+					"A weighted squared distance between means: $\\|\\epsilon-\\epsilon_\\theta\\|^2$.",
+					"The entropy of the posterior, which requires no network to compute.",
+					"A cross-entropy between class labels predicted at each time step."
+				],
+				"answer": 1,
+				"explanation": "For equal fixed variances, the KL between two Gaussians is $\\|\\mu_1-\\mu_2\\|^2/2\\sigma^2$. Parametrising the mean through predicted noise turns it into a weighted $\\|\\epsilon-\\epsilon_\\theta\\|^2$; dropping the weights gives the simple DDPM loss."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the posterior $q(x_{t-1}\\mid x_t,x_0)$ is Gaussian and tractable, and why the training loss is built from it rather than from $q(x_{t-1}\\mid x_t)$.",
+				"rubric": "Full credit requires: (1) by Bayes, $q(x_{t-1}\\mid x_t,x_0)\\propto q(x_t\\mid x_{t-1})\\,q(x_{t-1}\\mid x_0)$, a product of two Gaussians in $x_{t-1}$, hence Gaussian; (2) its mean is a weighted combination of $x_t$ and $x_0$ and its variance $\\tilde\\beta_t$ is known in closed form; (3) $q(x_{t-1}\\mid x_t)$ alone requires integrating over the unknown data distribution, so it is intractable; (4) the ELBO can be written with the $x_0$-conditioned posteriors, so each term is a KL between known Gaussians.",
+				"modelAnswer": "Given $x_0$, both factors in Bayes' rule are Gaussian in $x_{t-1}$: the forward step $q(x_t\\mid x_{t-1})$ and the closed-form marginal $q(x_{t-1}\\mid x_0)$. A product of Gaussians is Gaussian, so the posterior has a known mean (a blend of $x_t$ and $x_0$) and a known variance. Without $x_0$ you would need to average over the whole unknown data distribution. Rewriting the ELBO with the $x_0$-conditioned posteriors turns every term into a KL between Gaussians that can be computed exactly."
+			}
+		],
+		"a3-l041-sampling-sde-ode": [
+			{
+				"kind": "numeric",
+				"prompt": "Take one DDPM ancestral step $x_{t-1}=\\frac{1}{\\sqrt{1-\\beta_t}}\\Big(x_t-\\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\,\\epsilon_\\theta\\Big)+\\sigma_tz$ with $x_t=1.0$, $\\beta_t=0.02$, $\\bar\\alpha_t=0.36$, $\\epsilon_\\theta=0.5$, $\\sigma_t=\\sqrt{\\beta_t}$ and noise draw $z=-0.5$. What is $x_{t-1}$?",
+				"answer": 0.92681496,
+				"tolerance": 0.02,
+				"explanation": "$\\sqrt{1-\\bar\\alpha_t}=0.8$, so the bracket is $1-0.0125=0.9875$; divided by $\\sqrt{0.98}=0.98995$ it gives $0.9975$. Adding $\\sigma_tz=0.1414(-0.5)=-0.0707$ gives $0.927$.",
+				"equations": [
+					"\\mathbf{x}_{t-1} = \\frac{1}{\\sqrt{1-\\beta_t}}\\left(\\mathbf{x}_t - \\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\,\\boldsymbol{\\epsilon}_\\theta(\\mathbf{x}_t,t)\\right) + \\sigma_t\\mathbf{z}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "The probability-flow ODE $dx/dt=f-\\tfrac12g^2\\nabla\\log p_t$ has the same marginals as the reverse SDE. What is gained by sampling with it?",
+				"options": [
+					"More diverse samples, because it injects more noise at each step.",
+					"It no longer needs a learned score, only the forward drift $f$.",
+					"Deterministic paths, fewer steps, and exact likelihoods as a flow.",
+					"Its samples are exact for any number of integration steps."
+				],
+				"answer": 2,
+				"explanation": "With no noise, each starting point maps to one sample, so larger steps and higher-order ODE solvers can be used, and the map is invertible, which gives exact likelihoods. It still needs the score, and it still has discretisation error."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Cutting a deterministic DDIM-style sampler from 1000 steps to 20 typically…",
+				"options": [
+					"speeds sampling 50-fold with a modest loss in sample quality.",
+					"leaves quality untouched, since the ODE is then solved exactly.",
+					"fails completely, because the model was trained with 1000 steps.",
+					"improves quality, since fewer steps add less discretisation error."
+				],
+				"answer": 0,
+				"explanation": "The network can be queried at any subset of times, so the ODE can be integrated with large steps. Discretisation error grows as steps get coarser, so quality degrades gracefully: this is the speed-quality trade-off."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the probability-flow ODE is a continuous normalizing flow, and why removing the noise requires halving the score term.",
+				"rubric": "Full credit requires: (1) the Fokker-Planck equation of the SDE contains a diffusion term $\\tfrac12g^2\\nabla^2p_t$, which can be rewritten as $\\nabla\\cdot(\\tfrac12g^2p_t\\nabla\\log p_t)$; (2) so the same density evolution is produced by a deterministic continuity equation with velocity $v=f-\\tfrac12g^2\\nabla\\log p_t$; (3) an ODE $dx/dt=v$ whose density obeys the continuity equation is exactly a continuous normalizing flow (Unit 7), with its velocity built from the learned score; (4) half the score term replaces the diffusion, while the reverse SDE needs a full $g^2$ term because it must also cancel the noise it adds.",
+				"modelAnswer": "The forward SDE's density obeys a Fokker-Planck equation with a diffusion term. Because $\\nabla p=p\\nabla\\log p$, that diffusion term can be rewritten as the divergence of a flux, i.e. as an extra deterministic drift of $-\\tfrac12g^2\\nabla\\log p_t$. The same marginals are then produced by an ODE with velocity $f-\\tfrac12g^2\\nabla\\log p_t$, and an ODE whose density obeys the continuity equation is a continuous normalizing flow. The reverse SDE needs the full $g^2$ score term because it also injects noise that must be undone; the ODE injects none, so half suffices."
+			}
+		],
+		"a3-l042-flow-matching": [
+			{
+				"kind": "mc",
+				"prompt": "For the straight-line path $x_t=(1-t)x_0+tx_1$ from noise $x_0$ to data $x_1$, what is the conditional velocity $dx_t/dt$?",
+				"options": [
+					"$x_1-x_0$, constant along the path",
+					"$x_1-x_t$, shrinking as $t$ grows",
+					"$(x_1-x_0)/t$, largest near the start",
+					"$x_0-x_1$, pointing from data to noise"
+				],
+				"answer": 0,
+				"explanation": "Differentiating the linear interpolation gives $x_1-x_0$, independent of $t$: each conditional path is a straight line travelled at constant speed. This is the regression target in conditional flow matching."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Each training pair gives a different target $x_1-x_0$. Why does regressing a network $v_\\theta(x_t,t)$ on these conditional targets learn the marginal velocity field?",
+				"options": [
+					"All pairs share one velocity, so averaging over pairs changes nothing at all.",
+					"The network memorises each training pair and then interpolates between them.",
+					"Squared error is minimised by the mean target: the marginal field.",
+					"It does not; the network can only ever learn the separate conditional fields."
+				],
+				"answer": 2,
+				"explanation": "At a given point and time, many pairs' paths cross with different velocities. A squared-error regression learns their conditional average, and that average is exactly the marginal velocity whose continuity equation carries the noise distribution to the data distribution."
+			},
+			{
+				"kind": "short",
+				"prompt": "Compare flow matching with diffusion models in your own words: what both learn, and why flow matching usually needs fewer sampling steps.",
+				"rubric": "Full credit requires: (1) both learn a velocity field of a continuity equation that transports noise to data (diffusion via the score in the probability-flow ODE, flow matching by regressing the velocity directly); (2) flow matching trains by simple regression on interpolation paths, with no SDE, score or noise schedule needed; (3) straight-line conditional paths give straighter, less curved marginal trajectories than diffusion's paths; (4) straighter trajectories can be integrated accurately with fewer ODE steps.",
+				"modelAnswer": "Both methods end up with a velocity field whose flow carries a Gaussian onto the data, and the density evolves by a continuity equation either way. Diffusion gets that velocity indirectly from the learned score of a noising SDE; flow matching regresses it directly onto the velocity of chosen interpolation paths. With straight-line paths the learned trajectories are much less curved, and a nearly straight trajectory can be integrated accurately with only a few large steps."
+			}
+		],
+		"a3-l043-guidance-conditional": [
+			{
+				"kind": "numeric",
+				"prompt": "Classifier-free guidance uses $\\tilde\\epsilon=(1+w)\\,\\epsilon_\\theta(x_t,y)-w\\,\\epsilon_\\theta(x_t)$. For one coordinate the conditional estimate is 0.8 and the unconditional one is 0.5. With $w=2$, what is $\\tilde\\epsilon$?",
+				"answer": 1.4,
+				"tolerance": 0.02,
+				"explanation": "$\\tilde\\epsilon=3(0.8)-2(0.5)=1.4$. Guidance extrapolates past the conditional estimate, away from the unconditional one, exaggerating whatever the condition adds.",
+				"equations": [
+					"\\tilde{\\boldsymbol{\\epsilon}} = (1+w)\\,\\boldsymbol{\\epsilon}_\\theta(\\mathbf{x}_t, y) - w\\,\\boldsymbol{\\epsilon}_\\theta(\\mathbf{x}_t)"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does classifier guidance add $\\nabla_x\\log p(y\\mid x)$ to the unconditional score?",
+				"options": [
+					"Adding the classifier gradient makes the samples more diverse within each class.",
+					"The classifier gradient replaces the score, which cannot be learned for noisy data.",
+					"Bayes: $\\nabla\\log p(x\\mid y)=\\nabla\\log p(x)+\\nabla\\log p(y\\mid x)$.",
+					"Bayes' rule multiplies scores, and adding them is only a first-order approximation."
+				],
+				"answer": 2,
+				"explanation": "$\\log p(x\\mid y)=\\log p(x)+\\log p(y\\mid x)-\\log p(y)$, and $\\log p(y)$ has no $x$-dependence, so it vanishes under $\\nabla_x$. The classifier (trained on noisy $x_t$) steers the sampler toward inputs it confidently labels $y$; this is exact, not an approximation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Raising the classifier-free guidance scale $w$ from 1 to 7 typically…",
+				"options": [
+					"makes samples more diverse while matching the condition less well.",
+					"has no effect, since the conditional model already matches $y$.",
+					"matches the condition better but reduces sample diversity.",
+					"removes the need for the unconditional model at sampling time."
+				],
+				"answer": 2,
+				"explanation": "Larger $w$ is like sampling from $p(x)\\,p(y\\mid x)^{1+w}$ (roughly), a sharpened conditional: outputs fit the prompt or condition more strongly but cluster around its most typical examples. Too much guidance oversaturates and loses variety."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe in your own words how a conditional diffusion model can generate 3-D conformers of a molecule, or poses of a ligand in a protein pocket, and what the conditioning information is in each case.",
+				"rubric": "Full credit requires: (1) the model denoises 3-D atomic coordinates (or torsions, rotations and translations) starting from noise; (2) for conformers, the condition $y$ is the molecular graph (atoms and bonds), and the network's score is conditioned on it so samples are valid 3-D geometries of that molecule; (3) for docking, the condition is the protein pocket (and ligand graph), and the model denoises the ligand's position, orientation and torsions in the pocket; (4) sampling many times gives a distribution of conformers or poses, and guidance or confidence models can rank them.",
+				"modelAnswer": "Start from random coordinates and run a learned reverse diffusion whose network also sees the conditioning input. For conformer generation the condition is the molecular graph: the network learns the score of 3-D geometries consistent with those atoms and bonds, so repeated sampling gives a spread of low-energy conformers. For docking the condition is the protein pocket together with the ligand graph, and the model denoises the ligand's position, orientation and torsions inside the pocket, producing candidate binding poses that a confidence model can rank."
+			}
+		],
+		"a3-l044-minibatch-gradient-noise": [
+			{
+				"kind": "numeric",
+				"prompt": "Raising the minibatch size from 32 to 512 changes the minibatch gradient's variance as $1/B$. By what factor does its standard deviation (the gradient noise) fall?",
+				"answer": 4,
+				"tolerance": 0.02,
+				"explanation": "Variance falls by $512/32=16$, so the standard deviation falls by $\\sqrt{16}=4$. Sixteen times the compute per step buys only four times less noise.",
+				"equations": [
+					"\\mathrm{Var}[\\hat{\\mathbf{g}}_B] = \\frac{1}{B}\\,\\mathrm{Var}[\\nabla\\ell_i]"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does the linear learning-rate scaling rule ($\\eta\\propto B$) eventually break down at very large batch sizes?",
+				"options": [
+					"Large batches make the gradient estimate biased, so $\\eta$ must shrink instead.",
+					"The gradient variance grows with $B$, so $\\eta$ must grow faster than $B$.",
+					"Memory limits stop $B$ from growing further, whatever value $\\eta$ takes.",
+					"Beyond a critical batch size, noise no longer limits progress and big steps diverge."
+				],
+				"answer": 3,
+				"explanation": "Scaling $\\eta$ with $B$ keeps the update's signal and noise in balance while noise is the bottleneck. Once the gradient is already accurate, larger steps are limited by curvature, and pushing $\\eta$ further makes training unstable. The minibatch gradient stays unbiased at every $B$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A GPU sits at 30% utilisation while training on spectra with on-the-fly augmentation. What is the most likely cause?",
+				"options": [
+					"The batch size is too small for the chosen learning rate.",
+					"The model has too many parameters for the GPU's memory.",
+					"The data pipeline: batches are not prepared fast enough.",
+					"Reshuffling the data set each epoch takes too much compute."
+				],
+				"answer": 2,
+				"explanation": "If the GPU is idle, it is waiting for data. Parallel data-loading workers, prefetching the next batch while the current one trains, and cheaper augmentations fix this. Too large a model would cause an out-of-memory error, not idling, and shuffling indices is cheap."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why the minibatch gradient is an unbiased estimate of the full gradient, and why its variance falls as $1/B$.",
+				"rubric": "Full credit requires: (1) the full-data loss is an average over examples, so its gradient is the average of per-example gradients; (2) a uniformly random minibatch average has the same expectation as the full average, so it is unbiased; (3) the minibatch average is a mean of $B$ (roughly) independent per-example gradients, and the variance of a mean of $B$ independent samples is the single-sample variance divided by $B$.",
+				"modelAnswer": "The training loss is an average over examples, so its gradient is the average of the per-example gradients. Picking a random minibatch and averaging its gradients is sampling from that population, so on average you get exactly the full gradient. Like any sample mean of $B$ independent draws, its variance is the per-example variance divided by $B$, so the noise standard deviation shrinks only as $1/\\sqrt B$."
+			}
+		],
+		"a3-l045-mixed-precision": [
+			{
+				"kind": "numeric",
+				"prompt": "bf16 stores 7 explicit mantissa bits. What is its machine epsilon, the gap between 1.0 and the next representable number? (An update smaller than about half this, added to a weight of 1.0, is lost.)",
+				"answer": 0.0078125,
+				"tolerance": 0.02,
+				"explanation": "$2^{-7}=0.0078$ (fp16: $2^{-10}\\approx0.00098$; fp32: $2^{-23}\\approx1.2\\times10^{-7}$). Typical updates such as $10^{-4}$ times a weight would round away in bf16, which is why the master copy of the weights is kept in fp32.",
+				"equations": [
+					"x = (-1)^{s}\\,(1.m)_2\\,2^{\\,e-\\text{bias}}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is bf16 often preferred to fp16 for training?",
+				"options": [
+					"It has fp32's 8 exponent bits, so its range avoids overflow and underflow.",
+					"It has more mantissa bits than fp16, so its arithmetic is more precise.",
+					"It uses fewer bits than fp16, so it halves the memory once again.",
+					"It is the only 16-bit format that GPUs can multiply in hardware."
+				],
+				"answer": 0,
+				"explanation": "bf16 trades mantissa for exponent: 8 exponent bits (fp32's range, up to about $3\\times10^{38}$) but only 7 mantissa bits. fp16 has 5 exponent bits (max 65504, and small gradients underflow) but 10 mantissa bits. Range matters more than precision for training."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does fp16 mixed-precision training multiply the loss by a large factor before backpropagation?",
+				"options": [
+					"To lift tiny gradients above fp16's underflow threshold.",
+					"To raise the effective learning rate and speed up training.",
+					"To force overflows so that bad batches can be detected.",
+					"To round the master weights to fp16 without losing precision."
+				],
+				"answer": 0,
+				"explanation": "Many gradient values are smaller than fp16 can represent and would flush to zero. Scaling the loss by, say, $2^{16}$ scales all gradients up into range; they are unscaled in fp32 before the update, so the learning rate is unchanged. Overflows are checked and the scale reduced if they occur."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words the log-sum-exp trick for computing softmax and cross-entropy, and why it is needed in finite precision.",
+				"rubric": "Full credit requires: (1) $\\exp$ of large logits overflows (e.g. $e^{100}$ in fp32 or $e^{12}$ in fp16) and of very negative logits underflows to zero, giving inf, NaN or $\\log0$; (2) subtract $m=\\max_ix_i$: $\\log\\sum_ie^{x_i}=m+\\log\\sum_ie^{x_i-m}$, exact algebraically; (3) now every exponent is $\\le0$ and at least one term equals 1, so the sum lies between 1 and $N$, with no overflow and no log of zero; (4) cross-entropy is computed directly from logits as $\\mathrm{logsumexp}(x)-x_y$.",
+				"modelAnswer": "Softmax and cross-entropy involve $\\log\\sum_ie^{x_i}$. In finite precision, a large logit makes $e^{x_i}$ overflow to infinity and very negative logits make every term underflow to zero, so you get NaN or $\\log0$. Factoring out the largest logit, $\\log\\sum e^{x_i}=m+\\log\\sum e^{x_i-m}$, changes nothing mathematically, but every exponent is now at most zero and the biggest term is exactly 1, so the sum is safely between 1 and $N$. Cross-entropy is then logsumexp minus the correct class's logit, computed straight from logits."
+			}
+		],
+		"a3-l046-parallelism-memory": [
+			{
+				"kind": "numeric",
+				"prompt": "Estimate the memory for weights, gradients and Adam's two moment estimates when training a 7-billion-parameter model in fp32 (4 bytes each for weights and gradients, 8 bytes for the Adam moments), ignoring activations. Give the answer in GB ($10^9$ bytes).",
+				"answer": 112,
+				"tolerance": 0.02,
+				"unit": "GB",
+				"explanation": "$(4+4+8)\\times7\\times10^9=1.12\\times10^{11}$ bytes $=112$ GB, before any activations. More than any single GPU holds, which is why optimiser state is sharded across devices.",
+				"equations": [
+					"M \\approx (4 + 4 + 8)\\,P\\ \\text{bytes} + M_{act}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "In data-parallel training across 8 GPUs, what is communicated at each step?",
+				"options": [
+					"Gradients are all-reduced so every replica applies the same update.",
+					"Activations are passed from GPU to GPU, one layer at a time.",
+					"Each GPU holds an eighth of the weights and swaps them each step.",
+					"Nothing; each GPU trains its own model and they are averaged at the end."
+				],
+				"answer": 0,
+				"explanation": "Each GPU holds a full copy of the model and processes a different slice of the batch; an all-reduce averages the gradients so every copy stays identical. Passing activations between devices is pipeline (model) parallelism."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does activation checkpointing trade?",
+				"options": [
+					"Extra memory, storing more activations, for less recomputation.",
+					"Lower numerical precision for lower memory, like mixed precision.",
+					"Extra compute, recomputing activations, for less activation memory.",
+					"Smaller batches for more optimiser steps, like gradient accumulation."
+				],
+				"answer": 2,
+				"explanation": "Only some activations are stored in the forward pass; the rest are recomputed from the nearest checkpoint during backpropagation. That costs roughly one extra forward pass but can cut activation memory from linear in depth to roughly its square root."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words what gradient accumulation does, and when you would use model or pipeline parallelism instead of data parallelism.",
+				"rubric": "Full credit requires: (1) gradient accumulation runs several small micro-batches, sums (averages) their gradients, and only then takes one optimiser step, emulating a larger batch with the memory of a small one, at the cost of more sequential time; (2) data parallelism needs the whole model (weights, gradients, optimiser state, activations) to fit on each device; (3) when it does not fit, model (tensor) parallelism splits individual layers across devices and pipeline parallelism splits the layer stack into stages, at the cost of communicating activations.",
+				"modelAnswer": "Gradient accumulation processes several micro-batches one after another, adds up their gradients, and only then updates the weights, so you get the effect of a large batch while only ever holding a small one in memory; it costs time, not memory. Data parallelism copies the whole model onto every GPU, which only works if the model, its gradients and its optimiser state fit on one device. When they do not, you split the model itself: across layers into pipeline stages, or within layers across devices (tensor or model parallelism), and pay for sending activations between devices."
+			}
+		],
+		"a3-l047-practical-methodology": [
+			{
+				"kind": "numeric",
+				"prompt": "A freshly initialised classifier over 100 balanced classes should start with a cross-entropy loss of about $\\log C$. What value is that (natural log)?",
+				"answer": 4.605170185988092,
+				"tolerance": 0.02,
+				"unit": "nats",
+				"explanation": "$\\ln100\\approx4.61$: a network with small random logits predicts roughly uniformly, giving each class probability $1/C$. A starting loss far above this means overconfident initial outputs or a bug.",
+				"equations": [
+					"L_0 \\approx \\log C"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "Your network cannot drive the training loss near zero on a single batch of 8 examples. What does this suggest?",
+				"options": [
+					"Too little data; the model needs the full data set before it can learn.",
+					"A bug in the model, the loss or the data handling, not a lack of data.",
+					"Overfitting; you should add dropout and weight decay right away.",
+					"Nothing; one small batch is simply too difficult to fit exactly."
+				],
+				"answer": 1,
+				"explanation": "Any reasonably sized network should memorise 8 examples. Failing to do so points to a broken pipeline: mismatched labels, a wrong loss, frozen parameters, a sign error or too low a learning rate. Overfitting a single batch is the first sanity check."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does random search usually beat grid search for tuning hyperparameters?",
+				"options": [
+					"Few hyperparameters matter, and random search tries more values of each.",
+					"Random search covers the full grid faster by skipping any duplicates.",
+					"Grid search cannot handle continuous hyperparameters at all.",
+					"Random search follows gradients of the validation loss downhill."
+				],
+				"answer": 0,
+				"explanation": "With a $3\\times3$ grid over two hyperparameters you test only 3 values of the important one; 9 random points test 9 distinct values of each. Since performance usually depends strongly on only a few hyperparameters, random search explores those more thoroughly for the same budget."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words how to run a learning-rate range test, and how to read training and validation loss curves to tell underfitting from overfitting.",
+				"rubric": "Full credit requires: (1) range test: train briefly while increasing the learning rate exponentially, plot loss against learning rate, and choose a value somewhat below where the loss falls fastest, well before it blows up; (2) underfitting: training loss stays high and validation tracks it (a capacity or optimisation problem: bigger model, longer training, better learning rate); (3) overfitting: training loss keeps falling while validation loss bottoms out and rises (a generalisation problem: more data, regularisation, augmentation, early stopping).",
+				"modelAnswer": "For a range test, train for a short while as the learning rate grows exponentially from tiny to huge, and plot loss against learning rate: the loss first barely moves, then drops fastest, then explodes. Pick a rate somewhat below the steepest drop. For the curves: if training and validation losses are both high and close together, the model is underfitting (more capacity, training time or a better rate). If training loss keeps falling while validation loss turns upward, it is overfitting (regularise, augment, get more data or stop earlier)."
+			}
+		],
+		"a3-l048-molecules-as-graphs": [
+			{
+				"kind": "numeric",
+				"prompt": "Ethanol, CH$_3$CH$_2$OH, is encoded as a graph with all 9 atoms (hydrogens included) as nodes and each bond as an undirected edge. How many nonzero entries does its $9\\times9$ adjacency matrix have?",
+				"answer": 16,
+				"tolerance": 0.02,
+				"unit": "entries",
+				"explanation": "Ethanol has 8 bonds (C-C, C-O, O-H and five C-H). Each undirected bond fills both $A_{ij}$ and $A_{ji}$, giving 16 nonzero entries. With hydrogens implicit, the heavy-atom graph C-C-O has just 4."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Relabelling the atoms of a molecule with a permutation matrix $P$ changes the adjacency matrix $A$ and node-feature matrix $X$ to…",
+				"options": [
+					"$PA$ and $PX$",
+					"$A$ unchanged and $PX$",
+					"$AP$ and $XP$",
+					"$PAP^\\top$ and $PX$"
+				],
+				"answer": 3,
+				"explanation": "Both the rows and the columns of $A$ are indexed by atoms, so both must be permuted: $PAP^\\top$. Each row of $X$ belongs to an atom, so $X\\to PX$. A graph model must give the same molecule-level answer for every such relabelling."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Predicting partial atomic charges is which kind of graph task, and what symmetry must the model's output have?",
+				"options": [
+					"Graph-level; a permutation-invariant output",
+					"Edge-level; a permutation-invariant output",
+					"Node-level; permutation-invariant outputs",
+					"Node-level; permutation-equivariant outputs"
+				],
+				"answer": 3,
+				"explanation": "One charge per atom is a node-level output, and relabelling the atoms must relabel the charges the same way (equivariance). Solubility is graph-level and must be invariant; bond reactivity is edge-level."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why a model predicting a molecule's solubility must be permutation-invariant, and give an example of a node-level and an edge-level chemical prediction task.",
+				"rubric": "Full credit requires: (1) the order in which atoms are listed (in a file or SMILES) is arbitrary and carries no chemistry, so every ordering represents the same molecule; (2) a molecule-level property such as solubility must therefore give the same output for any relabelling $A\\to PAP^\\top$, $X\\to PX$: invariance; (3) a valid node-level example (partial charges, NMR shift of each atom, site of metabolism) and edge-level example (bond reactivity, bond dissociation energy, bond order).",
+				"modelAnswer": "Atom numbering is a bookkeeping choice: the same molecule can be written with its atoms in any order, and the order changes nothing physical. If shuffling the atom list changed the predicted solubility, the model would be predicting from bookkeeping, not chemistry, so a molecule-level output must be invariant to relabelling. Node-level tasks assign something to each atom, such as partial charges or $^{13}$C shifts; edge-level tasks assign something to each bond, such as its dissociation energy or how likely it is to react."
+			}
+		],
+		"a3-l049-message-passing": [
+			{
+				"kind": "numeric",
+				"prompt": "For butadiene's 4-carbon chain (atoms 1-2-3-4), a graph-convolution layer uses $\\hat A=\\tilde D^{-1/2}(A+I)\\tilde D^{-1/2}$. The input feature is 1 on atom 1 and 0 elsewhere, with weight 1 and no nonlinearity. What output feature does atom 2 receive?",
+				"answer": 0.40824829,
+				"tolerance": 0.02,
+				"explanation": "With self-loops, degrees are 2, 3, 3, 2. $\\hat A_{21}=1/\\sqrt{3\\cdot2}=0.408$, so atom 2 gets 0.408 (atom 1 keeps $1/2$). Symmetric normalisation stops highly connected atoms from dominating.",
+				"equations": [
+					"\\mathbf{H}^{(k+1)} = \\sigma\\!\\left(\\tilde{\\mathbf{D}}^{-1/2}\\tilde{\\mathbf{A}}\\tilde{\\mathbf{D}}^{-1/2}\\mathbf{H}^{(k)}\\mathbf{W}^{(k)}\\right),\\quad \\tilde{\\mathbf{A}} = \\mathbf{A} + \\mathbf{I}"
+				]
+			},
+			{
+				"kind": "mc",
+				"prompt": "In what sense is the adjacency matrix of a conjugated π system its Hückel Hamiltonian?",
+				"options": [
+					"Hückel includes overlaps between all atom pairs, which $A$ approximates by rounding.",
+					"Both are diagonal in the atom basis, with orbital energies along the diagonal.",
+					"Hückel uses only $\\alpha$ on atoms and $\\beta$ on bonds: $H=\\alpha I+\\beta A$.",
+					"$A$ encodes the bond lengths, which Hückel converts into resonance energies."
+				],
+				"answer": 2,
+				"explanation": "Hückel theory keeps only on-site energies $\\alpha$ and nearest-neighbour couplings $\\beta$, so $H=\\alpha I+\\beta A$; the MOs are $A$'s eigenvectors and the energies are $\\alpha+\\lambda\\beta$ (for butadiene $\\lambda=\\pm1.618,\\pm0.618$). A graph convolution multiplies features by a normalised version of the same matrix."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why do message-passing layers aggregate neighbour messages with a sum, mean or max rather than concatenating them?",
+				"options": [
+					"Concatenation would make the layer nonlinear and too hard to train.",
+					"They ignore neighbour order, so the layer stays equivariant.",
+					"Sum, mean and max are the only differentiable aggregation functions.",
+					"Concatenation would lose information that a sum is able to keep."
+				],
+				"answer": 1,
+				"explanation": "An atom's neighbours have no natural order, so the update must not depend on how they are listed. Sum, mean and max are symmetric functions; concatenation depends on order and also breaks for atoms with different numbers of neighbours."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why $K$ message-passing layers give each atom information from its $K$-bond neighbourhood, and what over-smoothing is and why it happens.",
+				"rubric": "Full credit requires: (1) each layer mixes an atom's features with those of its directly bonded neighbours, so after one layer it knows about atoms 1 bond away, after two layers 2 bonds away, and so on (like powers of $A$); (2) over-smoothing: with many layers, repeated neighbourhood averaging makes all node features converge toward the same vector, so atoms become indistinguishable; (3) mathematically, repeated multiplication by the normalised adjacency projects onto its dominant eigenvector (the analogue of the lowest Hückel MO), washing out local detail.",
+				"modelAnswer": "In each layer an atom combines its own features with messages from the atoms bonded to it. After one layer it has heard from neighbours one bond away; those neighbours had themselves heard from their neighbours, so after $K$ layers information has travelled $K$ bonds, just as $(A^K)_{ij}$ counts walks of length $K$. Over-smoothing is the downside: each layer is a kind of averaging, and averaging many times makes every atom's features converge to the same thing. It is like repeatedly applying the normalised Hückel matrix, which projects everything onto its dominant eigenvector and erases local differences."
+			}
+		],
+		"a3-l050-property-prediction": [
+			{
+				"kind": "mc",
+				"prompt": "Which readout suits predicting a molecule's atomisation energy, and why?",
+				"options": [
+					"Mean, because the energy is an average property of the atoms.",
+					"Sum, because energy is extensive, growing with size.",
+					"Max, because the strongest bond dominates the total energy.",
+					"Mean, because a sum readout is not permutation-invariant."
+				],
+				"answer": 1,
+				"explanation": "Atomisation energy roughly adds up over atoms and bonds, so summing per-atom contributions builds the right size dependence. Intensive properties such as HOMO-LUMO gap or density suit a mean readout. All three readouts are permutation-invariant."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does a random train/test split overestimate how well a model will do on a new medicinal-chemistry series?",
+				"options": [
+					"Random splits always put too few molecules into the test set to be reliable.",
+					"Random splits leak labels, because each molecule appears in both sets.",
+					"Scaffold splits are easier, so random splits make the model look worse.",
+					"Test molecules share scaffolds with training ones, testing interpolation."
+				],
+				"answer": 3,
+				"explanation": "Molecular data sets contain series of close analogues; a random split puts siblings on both sides, so test performance measures interpolation within known series. A scaffold split holds out whole core structures and better reflects predicting genuinely new chemistry."
+			},
+			{
+				"kind": "mc",
+				"prompt": "With 300 labelled molecules, a fingerprint-plus-MLP baseline often matches or beats a graph neural network. Why?",
+				"options": [
+					"GNNs cannot represent ring systems, which fingerprints encode directly.",
+					"Fingerprints are learned end to end, so they adapt better to small data.",
+					"Fingerprints are a fixed prior; GNNs need more data to learn features.",
+					"GNNs are permutation-invariant, which harms accuracy on small data sets."
+				],
+				"answer": 2,
+				"explanation": "A GNN must learn its features from the labels, which takes data; a fingerprint supplies decades of chemical feature engineering for free. As data sets grow into the thousands and beyond, learned GNN features usually overtake fixed fingerprints."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe in your own words the pipeline of a graph-level property model (message passing, readout, MLP head), and explain why the readout must be permutation-invariant.",
+				"rubric": "Full credit requires: (1) message passing layers update each atom's feature vector from its neighbours, producing per-atom embeddings that describe local chemical environments; (2) a readout pools all atom embeddings into one molecule vector with a symmetric function (sum, mean, attention-weighted sum); (3) an MLP head maps that vector to the property; (4) the readout must be invariant because the atom order is arbitrary; the node embeddings are only equivariant, and pooling them symmetrically is what makes the final prediction independent of labelling.",
+				"modelAnswer": "First, several message-passing layers turn each atom's raw features into an embedding of its chemical environment several bonds deep. Then a readout pools those per-atom embeddings into a single vector for the molecule, using a symmetric operation such as a sum or mean. Finally an MLP maps that vector to the property. The atom embeddings shuffle along with any relabelling of the atoms (equivariance); pooling them with an order-independent function is what makes the final prediction identical for every atom ordering, as it must be for a molecule-level property."
+			}
+		],
+		"a3-l051-equivariant-3d": [
+			{
+				"kind": "mc",
+				"prompt": "If a potential-energy model $E(x)$ is rotation-invariant, its forces $F=-\\nabla_xE$ are automatically…",
+				"options": [
+					"rotation-invariant: the force vectors do not change at all.",
+					"rotation-equivariant: rotating the molecule rotates the forces.",
+					"neither, so equivariance must be imposed on them separately.",
+					"zero, since an invariant energy cannot depend on any direction."
+				],
+				"answer": 1,
+				"explanation": "Differentiating $E(Rx)=E(x)$ with respect to $x$ gives $F(Rx)=RF(x)$: the gradient of an invariant scalar is an equivariant vector. Learning an invariant energy and taking its gradient gives correct force symmetry, and energy conservation, for free."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does a distance-based model such as SchNet guarantee invariance to rotations and translations?",
+				"options": [
+					"It augments its training data with many randomly rotated copies.",
+					"Its inputs are interatomic distances, unchanged by these motions.",
+					"It first aligns every molecule to the molecule's principal axes.",
+					"It uses Cartesian coordinates measured relative to the first atom."
+				],
+				"answer": 1,
+				"explanation": "Distances, expanded in radial basis functions, are unchanged by rotation, translation and reflection, so invariance is exact by construction. Augmentation only teaches approximate invariance; coordinates relative to atom 1 still rotate."
+			},
+			{
+				"kind": "mc",
+				"prompt": "An energy model invariant under rotations, translations and reflections is given the two enantiomers of a chiral molecule. What does it predict?",
+				"options": [
+					"The same energy, which is physically correct in an achiral environment.",
+					"Different energies, because a reflection changes the interatomic distances.",
+					"Different energies, but only when the stereocentre is explicitly labelled.",
+					"The same energy, which is an error that affects every molecule's energy."
+				],
+				"answer": 0,
+				"explanation": "Enantiomers are mirror images with identical interatomic distances, and in isolation (or an achiral solvent) they have identical energies, so reflection invariance is right for energies. Properties that differ between enantiomers, such as interaction with a chiral environment or optical rotation, need models that are not reflection-invariant."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words why building rotation and translation symmetry into a machine-learned force field improves its data efficiency, and why equivariant networks carry vector features rather than only distances.",
+				"rubric": "Full credit requires: (1) an unconstrained model must learn from data that every rotated or shifted copy of a configuration has the same energy, wasting data and never being exactly right; a symmetric model gets this for free, so every training example teaches about all its orientations; (2) it also cannot make unphysical predictions (e.g. energy changing with orientation); (3) distance-only (invariant) features discard angular and directional information unless many-body terms are added; equivariant networks carry vectors (or higher tensors) that rotate with the molecule, capturing angles and directions efficiently and allowing direct prediction of vector outputs such as forces or dipoles.",
+				"modelAnswer": "Physics says rotating or moving a molecule cannot change its energy. A model without that built in has to learn it from examples, spending data on something we already know and still getting it only approximately right. A symmetric model gets it exactly, so each training structure effectively teaches it about every orientation at once. Distances alone are invariant but throw away directional information such as bond angles. Equivariant networks keep vector features that rotate along with the molecule, so they can represent angles and directions compactly and output vectors such as forces or dipoles that transform correctly."
+			}
+		],
+		"a3-l052-alphafold": [
+			{
+				"kind": "mc",
+				"prompt": "Why does a multiple sequence alignment of homologous proteins carry information about which residues are in contact?",
+				"options": [
+					"Residues in contact mutate in correlated ways to keep the fold stable.",
+					"Conserved residues are always in direct contact with each other.",
+					"Residues close in sequence are always close together in space.",
+					"The alignment contains the solved structures of the homologues."
+				],
+				"answer": 0,
+				"explanation": "If residue $i$ mutates in a way that disrupts its contact with residue $j$, compensating mutations at $j$ are favoured. Correlated substitutions across the alignment (co-evolution) therefore flag pairs that touch in 3-D, even when they are far apart in sequence."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What do AlphaFold 2's triangle updates on the pair representation encourage?",
+				"options": [
+					"Symmetry: the pair representation must be exactly equal to its own transpose.",
+					"Locality: each residue should interact only with its neighbours in sequence.",
+					"Consistency: distances $i$-$j$, $j$-$k$, $i$-$k$ must fit together in 3-D.",
+					"Sparsity: most residue pairs should receive zero attention weight in the end."
+				],
+				"answer": 2,
+				"explanation": "Pairwise distances in a real 3-D structure are not independent; for example they obey the triangle inequality. Updating edge $ij$ using edges $ik$ and $jk$ lets the network make its pair estimates mutually consistent, as real geometry requires."
+			},
+			{
+				"kind": "mc",
+				"prompt": "What does AlphaFold 3's diffusion module do in place of AlphaFold 2's structure module?",
+				"options": [
+					"Predicts each residue's torsion angles in a single deterministic pass.",
+					"Diffuses the alignment to generate new homologous sequences.",
+					"Denoises all-atom coordinates of the complex, conditioned on the trunk.",
+					"Runs molecular dynamics to relax the structure from AlphaFold 2."
+				],
+				"answer": 2,
+				"explanation": "AF3 generates the coordinates of every atom (protein, nucleic acid, ligand, ion) by reverse diffusion from noise, with the score network conditioned on the trunk's pair and single representations. This handles arbitrary chemistry without residue-specific frames."
+			},
+			{
+				"kind": "short",
+				"prompt": "Describe in your own words the AlphaFold 2 pipeline from input sequence to 3-D structure, including what the pLDDT score means.",
+				"rubric": "Full credit requires: (1) inputs: the target sequence, an MSA of homologues (and optional templates), giving an MSA representation and a pair representation over residue pairs; (2) the Evoformer repeatedly updates both: row and column attention over the MSA, with information exchanged between the MSA and pair representations, and triangle updates enforcing geometric consistency on the pairs; (3) the structure module turns the result into 3-D coordinates (residue frames and side-chain torsions), refined iteratively (recycling); (4) pLDDT is a per-residue predicted confidence (predicted lDDT, 0-100) that estimates how accurate each residue's local structure is.",
+				"modelAnswer": "AlphaFold 2 starts from the sequence plus a multiple sequence alignment of its relatives. These are turned into an MSA representation (sequences by residues) and a pair representation (residue by residue). The Evoformer refines both over many blocks: attention along rows and columns of the MSA extracts co-evolution, it is passed into the pair representation, and triangle updates make the pairwise estimates geometrically consistent. The structure module then places each residue in 3-D as a rigid frame with side-chain angles, and the whole thing is recycled a few times. pLDDT is the model's own per-residue estimate, from 0 to 100, of how locally accurate its prediction is."
+			}
+		],
+		"a3-l053-spectra": [
+			{
+				"kind": "mc",
+				"prompt": "A mass spectrum is given as a variable-length list of (m/z, intensity) peaks. Which architecture fits this representation best?",
+				"options": [
+					"A 2-D CNN that treats the list of peaks as a small image.",
+					"An RNN, since the peaks must be read from low to high m/z.",
+					"A 1-D CNN over the raw list, padded out to a fixed length.",
+					"A set model or transformer, blind to the peaks' order."
+				],
+				"answer": 3,
+				"explanation": "A peak list is a set: each peak carries its own m/z, so list order is arbitrary and lengths vary. Set models and transformers (without positional encodings) handle exactly that. A binned IR spectrum suits a 1-D CNN, and a 2-D NMR spectrum is naturally an image for a 2-D CNN."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Predicting $^{13}$C NMR shifts from a molecular graph with a GNN is the forward problem. Why is it better posed than the inverse problem?",
+				"options": [
+					"Each structure has one spectrum: a well-defined node-level regression.",
+					"NMR shifts do not depend on structure, so almost any model can succeed.",
+					"It needs no labelled data at all, because shifts follow from simple rules.",
+					"Graphs are much smaller than spectra, so the network is cheaper to train."
+				],
+				"answer": 0,
+				"explanation": "Structure determines spectrum (one shift per carbon, a node-level target), so the forward map is a function. The inverse is not: different structures can give nearly identical spectra, and many details are invisible, so spectrum-to-structure is usually framed as retrieval from a library or as conditional generation of candidate structures."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why is spectrum-to-structure usually framed as library retrieval or conditional generation rather than direct regression?",
+				"options": [
+					"The forward problem is ill-posed, so the inverse problem must be as well.",
+					"Many structures fit one spectrum, so one regressed answer is ill-posed.",
+					"Spectra have too many dimensions for any neural network to read them.",
+					"Structures can only be used as network inputs, never as network outputs."
+				],
+				"answer": 1,
+				"explanation": "A regression network trained on an ambiguous inverse tends to output a meaningless average of the candidates. Ranking candidates against a library, or generating several structures conditioned on the spectrum, represents the ambiguity honestly."
+			},
+			{
+				"kind": "short",
+				"prompt": "Design three physically sensible data augmentations for training a classifier on IR spectra, justify each from how spectra are measured, and name one augmentation that would be harmful.",
+				"rubric": "Full credit requires three of: (1) small peak shifts of a few cm$^{-1}$, reflecting calibration differences, solvent and matrix effects; (2) baseline drift (adding a slowly varying offset or slope), reflecting scattering, ATR contact and instrument drift; (3) intensity scaling, reflecting concentration, path length or sample amount; (4) additive noise, reflecting detector noise; plus (5) a harmful example with a reason, e.g. large shifts (hundreds of cm$^{-1}$) that move a band into another functional group's region and change its chemical meaning, or reversing the spectrum.",
+				"modelAnswer": "Shift bands by a few wavenumbers, because calibration, solvent and sample environment move real peaks slightly. Add a slowly varying baseline, because scattering, ATR contact and instrument drift tilt and offset real spectra. Scale overall intensity, because concentration and path length change band heights but not their identity. (Adding detector-like noise is also justified.) A harmful augmentation would shift everything by 200 cm$^{-1}$: that moves a C=O stretch out of the carbonyl region and changes what the spectrum means chemically, teaching the model the wrong invariance."
+			}
+		]
+	}
+}

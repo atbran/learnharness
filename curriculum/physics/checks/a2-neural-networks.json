@@ -1,0 +1,1623 @@
+{
+	"courseId": "a2-neural-networks",
+	"checks": {
+		"a2-l001-perceptron-model": [
+			{
+				"kind": "numeric",
+				"prompt": "A perceptron has weights $w=(3,4)$ and bias $b=-10$. How far is its decision boundary $w\\cdot x+b=0$ from the origin? Give the distance (input units).",
+				"answer": 2.0,
+				"tolerance": 0.02,
+				"explanation": "The boundary is a line with normal $w$, sitting at distance $|b|/\\|w\\| = 10/5 = 2$ from the origin. Changing $b$ slides it along $w$; rotating $w$ turns it."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A perceptron with $w=(1,-2)$, $b=0.5$ gets input $x=(2,1)$, so $w\\cdot x+b=0.5$ and it outputs 1. Now every weight and the bias are multiplied by 10. What changes?",
+				"options": [
+					"The boundary moves ten times closer to the origin, so some outputs flip.",
+					"The output becomes 10 instead of 1, since the score is ten times larger.",
+					"Nothing: every output depends only on the sign of $w\\cdot x+b$.",
+					"The boundary rotates, because the bias now carries more weight than $w$."
+				],
+				"answer": 2,
+				"explanation": "The output is the sign of $w\\cdot x+b$, and scaling by a positive number never changes a sign. The boundary $w\\cdot x+b=0$ and its distance $|b|/\\|w\\|$ are both unchanged; only the direction of $w$ and the ratio $b/\\|w\\|$ matter."
+			},
+			{
+				"kind": "mc",
+				"prompt": "With 0/1 inputs, $w=(1,1)$ and $b=-1.5$ make a perceptron compute AND. Which single perceptron computes NAND?",
+				"options": [
+					"$w=(-1,-1)$, $b=1.5$: the same line, but the 'fire' side flipped.",
+					"$w=(1,1)$, $b=-0.5$: lowering the threshold inverts the gate.",
+					"$w=(1,1)$, $b=1.5$: negating only the bias flips which side fires.",
+					"None: NAND, like XOR, needs at least one hidden layer to compute."
+				],
+				"answer": 0,
+				"explanation": "Negating $w$ and $b$ keeps the line $x_1+x_2=1.5$ but points the normal the other way, so exactly the inputs that made AND fire now give 0. $b=-0.5$ gives OR; $b=+1.5$ always fires."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why being able to build a NAND gate from one perceptron means that networks of perceptrons can compute any Boolean function, and what this does and does not tell you about learning.",
+				"rubric": "Full credit requires: (1) NAND is functionally complete: every Boolean function can be written as a circuit of NAND gates; (2) each NAND is one perceptron, so wiring perceptrons in layers reproduces any such circuit; (3) noting that this is about representation, not learning: it says nothing about finding the weights from data (the step function gives no useful gradient).",
+				"modelAnswer": "Any Boolean function can be built from NAND gates alone, and one perceptron is a NAND gate, so a multilayer network of perceptrons can reproduce any logic circuit. That is a statement about what can be represented. It says nothing about how to find the weights from examples, which is the real problem and the reason for smooth neurons and gradient descent."
+			}
+		],
+		"a2-l002-perceptron-learning-rule": [
+			{
+				"kind": "numeric",
+				"prompt": "A perceptron starts at $w=(0,0)$, $b=0$, with $\\eta=1$, and outputs 1 only if $w\\cdot x+b>0$. It sees $x=(2,1)$ with label $y=1$, then $x=(1,3)$ with label $y=0$, applying $w\\leftarrow w+\\eta(y-\\hat y)x$ and $b\\leftarrow b+\\eta(y-\\hat y)$ after each. What is the second component $w_2$ after both examples?",
+				"answer": -2.0,
+				"tolerance": 0.02,
+				"explanation": "First point: score 0, so $\\hat y=0$, error $+1$: $w=(2,1)$, $b=1$. Second point: score $2+3+1=6>0$, so $\\hat y=1$, error $-1$: $w=(2,1)-(1,3)=(1,-2)$, $b=0$. Each mistake pulls $w$ toward (or away from) the misclassified point."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The convergence theorem bounds the number of mistakes by $(R/\\gamma)^2$. If every data point is multiplied by 10 (say, a change of units), the bound",
+				"options": [
+					"grows 100-fold, because $R^2$ is now 100 times larger.",
+					"shrinks 100-fold, because the margin $\\gamma$ is now wider.",
+					"grows 10-fold, since only $R$ appears in the numerator.",
+					"stays the same, because $R$ and $\\gamma$ both scale by 10."
+				],
+				"answer": 3,
+				"explanation": "$R$ is the radius of the data and $\\gamma$ the margin of the best separating line. Rescaling the data stretches both by the same factor, so the ratio, and with it the bound, is unchanged. What matters is how thin the gap is relative to the spread of the data."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You run the perceptron rule on a data set whose two classes overlap, so no line separates them. What happens?",
+				"options": [
+					"The weights settle on the line with the fewest misclassified points.",
+					"Updates never stop: some point is always wrong, so $w$ cycles.",
+					"The weights converge to the least-squares line through the data.",
+					"The weights shrink toward zero as the corrections cancel out."
+				],
+				"answer": 1,
+				"explanation": "The rule only changes $w$ on a mistake, and on non-separable data there is always a mistake somewhere, so it wanders forever. It is not minimizing any error count or squared loss, so it has no 'best compromise' to converge to."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the perceptron learning rule has no notion of a 'best' separating line, even on separable data, and what $R$ and $\\gamma$ measure in its convergence bound.",
+				"rubric": "Full credit requires: (1) the rule stops at the first line that makes zero mistakes, and which one depends on initialization and the order of examples; (2) it optimizes no margin or loss, so it does not prefer a line far from the data; (3) R is the largest norm of a data point (the spread of the data) and gamma is the margin of the best separating hyperplane (the width of the gap), so a thin gap relative to the data means many mistakes.",
+				"modelAnswer": "The rule only reacts to mistakes, so it halts at whatever separating line it reaches first, which depends on the starting weights and the order of the data. Nothing rewards a line far from both classes, unlike a maximum-margin or logistic-loss method. In the bound, $R$ is the radius of the data and $\\gamma$ the widest margin any separating line achieves; the smaller $\\gamma/R$, the more mistakes it can make."
+			}
+		],
+		"a2-l003-linear-separability-xor": [
+			{
+				"kind": "mc",
+				"prompt": "For a perceptron to compute XOR you need $b\\le0$, $w_1+b>0$, $w_2+b>0$ and $w_1+w_2+b\\le0$. Which step shows these are contradictory?",
+				"options": [
+					"Adding the middle two gives $w_1+w_2+b>-b\\ge0$, against the last one.",
+					"The first says $b\\le0$, so the last forces both weights to be negative.",
+					"Subtracting the first from the last gives $w_1+w_2\\le0$, so one is zero.",
+					"The middle two force $w_1=w_2$, and then the last one cannot hold."
+				],
+				"answer": 0,
+				"explanation": "Adding $w_1+b>0$ and $w_2+b>0$ gives $w_1+w_2+2b>0$, i.e. $w_1+w_2+b>-b$. Since $b\\le0$, $-b\\ge0$, so $w_1+w_2+b>0$, contradicting the fourth inequality. No line separates XOR's classes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Add a third input $x_3=x_1x_2$ and use bias $b=-0.5$. Which weights $(w_1,w_2,w_3)$ make a single perceptron compute XOR on 0/1 inputs?",
+				"options": [
+					"$(1,1,0)$, since XOR only needs the original two inputs.",
+					"$(1,1,2)$, so the product term reinforces the case where both are on.",
+					"$(1,1,-1)$, so the product term cancels one input when both are on.",
+					"$(1,1,-2)$, so the product term cancels both inputs at $(1,1)$."
+				],
+				"answer": 3,
+				"explanation": "$\\mathrm{XOR}=x_1+x_2-2x_1x_2$, so $(1,1,-2)$ gives scores $-0.5,\\,0.5,\\,0.5,\\,-0.5$: exactly XOR. With $-1$, input $(1,1)$ still scores $+0.5$; $(1,1,0)$ is just OR. In the new 3-D feature space the classes are linearly separable."
+			},
+			{
+				"kind": "short",
+				"prompt": "Adding the feature $x_1x_2$ by hand solves XOR. Explain why this works, and why the job of a hidden layer is to learn such features rather than having us choose them.",
+				"rubric": "Full credit requires: (1) the nonlinear feature map lifts the points into a space where a hyperplane separates the classes; (2) for real data we do not know which features to add, and hand-designing them does not scale; (3) a hidden layer computes features h = sigma(Wx + b) whose weights are learned from data, so the network finds a representation in which the output layer's linear rule works.",
+				"modelAnswer": "The product $x_1x_2$ is 1 only for the input $(1,1)$, so in the 3-D feature space that corner can be pushed to the other side of a plane, and the classes become linearly separable. For real problems nobody knows the right features in advance. A hidden layer computes features $\\sigma(Wx+b)$ whose weights are learned, so training discovers a representation in which the final linear threshold works."
+			}
+		],
+		"a2-l004-sigmoid-neuron": [
+			{
+				"kind": "numeric",
+				"prompt": "A sigmoid neuron has $\\sigma'(0)=0.25$, its largest slope. What is $\\sigma'(4)=\\sigma(4)\\,(1-\\sigma(4))$?",
+				"answer": 0.01766,
+				"tolerance": 0.02,
+				"explanation": "$\\sigma(4)=0.982$, so $\\sigma'(4)=0.982\\times0.018=0.0177$, about 14 times smaller than at $z=0$. Four units of weighted input away from the threshold, the neuron is nearly saturated and its weights barely move."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can't a network of step-function perceptrons be trained by small, gradual weight changes?",
+				"options": [
+					"A small weight change either does nothing or flips an output entirely.",
+					"Step functions are too slow to evaluate for networks with many neurons.",
+					"A step has slope 1 everywhere, so all weights change by the same amount.",
+					"Step outputs are only 0 or 1, so the cost function cannot be defined."
+				],
+				"answer": 0,
+				"explanation": "The step's slope is zero everywhere except at the jump, so $\\Delta\\text{output}\\approx\\sum_j(\\partial\\text{output}/\\partial w_j)\\Delta w_j$ is zero until an output suddenly flips. The sigmoid has a nonzero slope everywhere, so small weight changes cause small, predictable output changes."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The sigmoid $\\sigma(z)$ equals the upper-state population of a two-level system, $1/(1+e^{\\Delta E/kT})$, with $z=-\\Delta E/kT$. If the temperature is raised at fixed $\\Delta E>0$, the population",
+				"options": [
+					"drops toward 0, because the upper state is harder to reach.",
+					"rises toward 1/2, because $z=-\\Delta E/kT$ shrinks toward zero.",
+					"rises toward 1, because thermal energy now exceeds $\\Delta E$.",
+					"is unchanged, because the population depends only on $\\Delta E$."
+				],
+				"answer": 1,
+				"explanation": "Higher $T$ shrinks $|z|=\\Delta E/kT$, and $\\sigma(0)=1/2$: at high temperature both levels are equally populated, never inverted. In network terms, a small $|z|$ is the soft, high-slope regime; a large $|z|$ (low $T$) is the saturated, nearly step-like one."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive $\\sigma'(z)=\\sigma(z)\\bigl(1-\\sigma(z)\\bigr)$ for $\\sigma(z)=1/(1+e^{-z})$, and explain what the result says about where the neuron learns fastest and where it saturates.",
+				"rubric": "Full credit requires: (1) a correct derivation, e.g. sigma' = e^{-z}/(1+e^{-z})^2 and 1 - sigma = e^{-z}/(1+e^{-z}); (2) the slope is largest at z = 0 (value 1/4, where sigma = 1/2); (3) for |z| large sigma approaches 0 or 1, so sigma' approaches 0 and the neuron saturates: its weight gradients nearly vanish.",
+				"modelAnswer": "$\\sigma'(z)=e^{-z}/(1+e^{-z})^2=\\frac{1}{1+e^{-z}}\\cdot\\frac{e^{-z}}{1+e^{-z}}=\\sigma(1-\\sigma)$. It peaks at $1/4$ when $\\sigma=1/2$, i.e. $z=0$, the most uncertain point. For large $|z|$ the output is pinned near 0 or 1 and $\\sigma'\\to0$, so a confident neuron barely responds to weight changes: it has saturated."
+			}
+		],
+		"a2-l005-activation-functions": [
+			{
+				"kind": "mc",
+				"prompt": "A 20-layer network uses the identity as its activation in every layer. Compared with a single linear layer, it can represent",
+				"options": [
+					"more functions, since each layer adds a new set of weights.",
+					"smooth curves but not kinks, since each layer is differentiable.",
+					"the same functions: the layers compose into one affine map.",
+					"polynomials up to degree 20, one degree for each extra layer."
+				],
+				"answer": 2,
+				"explanation": "$W_2(W_1x+b_1)+b_2=(W_2W_1)x+(W_2b_1+b_2)$, still affine, and by induction so is any depth. Without a nonlinearity, depth adds parameters but no expressive power; it can't even compute XOR."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Using $\\tanh z=2\\sigma(2z)-1$, find the maximum slope of $\\tanh$ divided by the maximum slope of the sigmoid (both occur at $z=0$).",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"explanation": "$\\frac{d}{dz}\\tanh z=4\\sigma'(2z)$, which is $4\\times\\tfrac14=1$ at $z=0$, versus $\\sigma'(0)=\\tfrac14$. tanh is a stretched, zero-centered sigmoid, so it passes gradients four times more strongly near the origin, though it saturates just the same."
+			},
+			{
+				"kind": "mc",
+				"prompt": "After a large update, one ReLU unit has a negative pre-activation $z$ for every training input. What happens to it from then on?",
+				"options": [
+					"It recovers quickly, because its slope is largest just below zero.",
+					"It trains normally, because ReLU never saturates for any input.",
+					"It acts as a linear unit, passing $z$ through with slope 1.",
+					"It is dead: zero output and zero gradient, so it never updates."
+				],
+				"answer": 3,
+				"explanation": "ReLU's slope is 0 for $z<0$, so no gradient reaches the unit's incoming weights and nothing can push $z$ back up. Leaky ReLU (small slope below zero) and softplus (smooth, slope $\\sigma(z)>0$) keep a little gradient flowing."
+			},
+			{
+				"kind": "short",
+				"prompt": "Compare sigmoid, ReLU and leaky ReLU by the two failure modes that hurt gradient-based training: saturation and dead units. Which activation suffers from which, and why?",
+				"rubric": "Full credit requires: (1) sigmoid (and tanh) saturate: for large |z| the slope goes to 0 at both ends, so gradients through those units vanish; (2) ReLU does not saturate for z > 0 (slope 1) but has zero slope for z < 0, so a unit that is negative on all inputs is dead; (3) leaky ReLU keeps a small nonzero slope for z < 0, removing dead units while keeping the non-saturating positive side.",
+				"modelAnswer": "The sigmoid flattens at both ends, so any neuron driven to large $|z|$ passes almost no gradient: saturation. ReLU has slope 1 for $z>0$, so it never saturates on that side, but its slope is exactly 0 for $z<0$, and a unit stuck there for all inputs stops learning: a dead unit. Leaky ReLU gives the negative side a small slope, so gradients never vanish completely."
+			}
+		],
+		"a2-l006-feedforward-architecture": [
+			{
+				"kind": "mc",
+				"prompt": "In a 784-30-10 network written as $a^l=\\sigma(W^la^{l-1}+b^l)$, what is the shape of $W^2$, the matrix into the output layer?",
+				"options": [
+					"$30\\times10$, because 30 hidden neurons feed 10 outputs.",
+					"$784\\times30$, because the inputs set the row count.",
+					"$10\\times784$, because it maps the input to the output.",
+					"$10\\times30$: 10 rows (outputs) by 30 columns (hidden)."
+				],
+				"answer": 3,
+				"explanation": "$W^la^{l-1}$ must turn a 30-vector into a 10-vector, so $W^2$ is $n_l\\times n_{l-1}=10\\times30$. Row $j$ holds all the incoming weights of output neuron $j$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "How many trainable parameters (weights plus biases) does a fully connected 784-30-10 network have?",
+				"answer": 23860,
+				"tolerance": 0.02,
+				"explanation": "$784\\cdot30+30=23{,}550$ for the hidden layer and $30\\cdot10+10=310$ for the output: $23{,}860$ in total. Almost all of them are in the first layer, where the input is widest."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a fully connected layer, what does a single column $k$ of $W^l$ represent?",
+				"options": [
+					"The incoming weights of neuron $k$ in layer $l$, its 'template'.",
+					"The outgoing weights of neuron $k$ in layer $l-1$, to all of layer $l$.",
+					"The weights connecting neuron $k$ to itself across successive layers.",
+					"The bias vector of layer $l$, stored as the matrix's $k$-th column."
+				],
+				"answer": 1,
+				"explanation": "$W^l_{jk}$ connects neuron $k$ of layer $l-1$ to neuron $j$ of layer $l$. A row $j$ is what neuron $j$ listens to (its template); a column $k$ is how neuron $k$ broadcasts to the next layer."
+			},
+			{
+				"kind": "short",
+				"prompt": "Write the forward pass of a fully connected network layer by layer, state the shape of every $W^l$, $b^l$ and $a^l$, and explain why the whole layer can be computed as one matrix-vector product.",
+				"rubric": "Full credit requires: (1) z^l = W^l a^{l-1} + b^l and a^l = sigma(z^l), starting from a^0 = x; (2) W^l is n_l x n_{l-1}, b^l and a^l are n_l-vectors; (3) explanation that each neuron's weighted input is a dot product of its weight row with the previous activations, so stacking the rows turns all of them into a single matrix-vector product (and a minibatch into a matrix-matrix product).",
+				"modelAnswer": "Start with $a^0=x$; then for each layer $z^l=W^la^{l-1}+b^l$ and $a^l=\\sigma(z^l)$, with $W^l$ of shape $n_l\\times n_{l-1}$ and $b^l$, $z^l$, $a^l$ of length $n_l$. Each neuron's input is the dot product of its row of weights with the previous layer's activations, so stacking the rows computes every neuron at once as $W^la^{l-1}$. A minibatch becomes a matrix-matrix product."
+			}
+		],
+		"a2-l007-xor-by-hand": [
+			{
+				"kind": "mc",
+				"prompt": "A 2-2-1 network has hidden units $h_1=\\mathrm{ReLU}(x_1+x_2)$ and $h_2=\\mathrm{ReLU}(x_1+x_2-1)$. List $(h_1,h_2)$ for the inputs $(0,0),(1,0),(0,1),(1,1)$.",
+				"options": [
+					"$(0,0),\\ (1,0),\\ (1,0),\\ (2,1)$",
+					"$(0,0),\\ (1,1),\\ (1,1),\\ (2,1)$",
+					"$(0,0),\\ (1,0),\\ (0,1),\\ (1,1)$",
+					"$(0,1),\\ (1,0),\\ (1,0),\\ (2,2)$"
+				],
+				"answer": 0,
+				"explanation": "$h_1=x_1+x_2$ and $h_2$ is 1 only when both inputs are on. Inputs $(1,0)$ and $(0,1)$ land on the same hidden point $(1,0)$, and an output $y=h_1-2h_2$ gives $0,1,1,0$: XOR."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why can a linear output unit solve XOR once it reads the hidden activations above instead of the raw inputs?",
+				"options": [
+					"The ReLUs add enough nonlinearity that any output weights work.",
+					"In hidden coordinates a single line now splits the classes.",
+					"The hidden layer memorizes all four inputs and returns their labels.",
+					"The hidden layer doubles the number of inputs, and four is enough."
+				],
+				"answer": 1,
+				"explanation": "The hidden layer is a change of coordinates. In $(h_1,h_2)$ space the class-1 points coincide at $(1,0)$ and the class-0 points sit at $(0,0)$ and $(2,1)$, which a straight line can separate. Training learns this map instead of us choosing it."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain in your own words what it means to call a hidden layer a 'learned change of coordinates', using XOR as the example.",
+				"rubric": "Full credit requires: (1) the hidden layer maps each input x to a new vector h = sigma(Wx + c); (2) in the original coordinates XOR's classes are not linearly separable, but in the h coordinates they are (e.g. (1,0) and (0,1) are mapped to the same point); (3) the output layer is still just a linear threshold, and W, c are learned by training rather than chosen by hand.",
+				"modelAnswer": "The hidden layer sends every input to a new point $h=\\mathrm{ReLU}(Wx+c)$. In the original plane no line separates XOR, but the right $W$ and $c$ fold the plane so that $(1,0)$ and $(0,1)$ land together, away from $(0,0)$ and $(1,1)$. The output unit is still only a linear rule; the work was done by finding coordinates where a linear rule suffices, and training finds those coordinates itself."
+			}
+		],
+		"a2-l008-relu-piecewise-linear": [
+			{
+				"kind": "numeric",
+				"prompt": "A hidden unit in a one-input shallow ReLU network computes $\\max(0,\\ 2-0.5x)$. At what input $x$ does its joint (kink) sit?",
+				"answer": 4.0,
+				"tolerance": 0.02,
+				"explanation": "The joint is where the pre-activation crosses zero: $x=-b/w=-2/(-0.5)=4$. Because $w<0$, this unit is active for $x<4$ and off for $x>4$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A one-input shallow ReLU network has 5 hidden units. What is the largest number of linear pieces its output can have?",
+				"options": [
+					"5, one linear piece contributed by each hidden unit",
+					"6, since 5 joints can split the line into 6 pieces",
+					"10, since each hidden unit has an on and an off piece",
+					"32, since each of the 5 units can be on or off"
+				],
+				"answer": 1,
+				"explanation": "Each unit contributes one joint, at $x=-b_d/w_d$, so at most 5 joints cut the real line into at most 6 linear pieces. The $2^5$ on/off patterns cannot all occur along one line."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The output is $y=\\phi_0+\\sum_d\\phi_d\\max(0,\\theta_{d0}+\\theta_{d1}x)$. As $x$ increases through the joint of unit $d$ (with $\\theta_{d1}>0$), the slope of $y$",
+				"options": [
+					"changes by $\\phi_d\\theta_{d1}$, the slope the unit adds once active.",
+					"jumps by $\\phi_0$, the output bias, which is added at each joint.",
+					"changes sign, because a ReLU joint always turns a rise into a fall.",
+					"is unchanged, since $y$ is continuous at the joint."
+				],
+				"answer": 0,
+				"explanation": "Unit $d$ switches on and starts adding $\\phi_d\\theta_{d1}x$, so the slope changes by exactly $\\phi_d\\theta_{d1}$. The output is continuous, but its slope is not. Fitting a target means placing joints with the biases and setting each slope change with $\\phi_d$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a one-input shallow ReLU network with $D$ hidden units is a piecewise-linear function with at most $D$ joints, and how you would choose weights to fit a target that is flat, rises with slope 2 from $x=1$, then is flat again from $x=3$.",
+				"rubric": "Full credit requires: (1) each hidden unit is linear on either side of its single joint at x = -b/w, and a weighted sum of such functions is linear between joints, so there are at most D joints; (2) for the target: one unit with a joint at x = 1 adding slope +2 (e.g. 2 max(0, x - 1)) and one with a joint at x = 3 adding slope -2 (e.g. -2 max(0, x - 3)), with output bias equal to the left flat value.",
+				"modelAnswer": "Each unit is zero on one side of its joint and linear on the other, and a sum of such functions is linear between consecutive joints, so the output is piecewise linear with at most $D$ kinks. For the target, use $y=c+2\\max(0,x-1)-2\\max(0,x-3)$: the first unit turns on the rise at $x=1$, the second cancels it at $x=3$, and $c$ sets the left plateau."
+			}
+		],
+		"a2-l009-universal-approximation": [
+			{
+				"kind": "mc",
+				"prompt": "In the visual proof of universal approximation, one hidden sigmoid with a very large weight acts as a step, and two such steps make a 'bump'. How is the bump formed?",
+				"options": [
+					"Multiply the two steps together, so the output is nonzero between them.",
+					"Use one steep unit with a large bias, which makes a peak at its threshold.",
+					"Weight the steps by $+h$ and $-h$, so they cancel outside the gap.",
+					"Average the two steps, which gives a smooth hump of height $h/2$."
+				],
+				"answer": 2,
+				"explanation": "A step up at $s_1$ weighted by $+h$ plus a step at $s_2>s_1$ weighted by $-h$ gives height $h$ between them and zero elsewhere. Summing many narrow bumps builds a staircase that follows any continuous curve as closely as you like."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Which statement is what the universal approximation theorem actually guarantees?",
+				"options": [
+					"Gradient descent from a random start will find a one-hidden-layer fit to any continuous function.",
+					"Some one-hidden-layer net is within $\\varepsilon$ of a continuous $f$ on a compact set.",
+					"A one-hidden-layer net that fits the training data also fits unseen data.",
+					"A net with as many hidden units as inputs can represent any function exactly."
+				],
+				"answer": 1,
+				"explanation": "It is an existence result: for continuous $f$ on a compact set and any $\\varepsilon>0$, enough hidden units can get uniformly within $\\varepsilon$. It says nothing about how many units, whether training finds them, or how well the result generalizes."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "In the 'tower' construction, suppose you need 10 towers per input axis to reach the accuracy you want. How many towers does a 6-input function need?",
+				"answer": 1000000.0,
+				"tolerance": 0.02,
+				"explanation": "One tower per cell of a 10-per-axis grid: $10^6$ towers in 6 dimensions, each needing several hidden units. The count grows exponentially with dimension, which is why the theorem guarantees existence but not efficiency."
+			},
+			{
+				"kind": "short",
+				"prompt": "The universal approximation theorem says one hidden layer suffices. Explain why that does not make deep learning a solved problem: name at least three things the theorem does not promise.",
+				"rubric": "Full credit requires at least three of: (1) it gives no bound on the number of hidden units, which can grow exponentially with input dimension; (2) it does not say gradient descent can find the weights; (3) it says nothing about generalization from finite data to new inputs; (4) it applies to continuous functions on a compact (bounded) set only, not outside the training range.",
+				"modelAnswer": "It only says a good set of weights exists. It does not say how many hidden units you need (for towers the count grows exponentially with dimension), whether gradient descent from a random start will find those weights, or whether a network that fits the training data will predict well on new data. It also only covers continuous functions on a bounded region, so extrapolation is not guaranteed."
+			}
+		],
+		"a2-l010-depth-vs-width": [
+			{
+				"kind": "mc",
+				"prompt": "A 'tent' layer maps $[0,1]$ onto $[0,1]$ by rising then falling. Why does composing such layers multiply the number of linear regions instead of adding to them?",
+				"options": [
+					"Each layer adds a fixed number of new joints, so regions grow by a constant.",
+					"Deeper layers use larger weights, so each one creates sharper kinks.",
+					"Each layer folds the line in two, so later kinks are copied into each fold.",
+					"Composition makes the network nonlinear, which it was not before."
+				],
+				"answer": 2,
+				"explanation": "A fold maps two halves of the input onto the same range, so whatever the next layer does on that range happens twice. After $K$ folds, one kink downstream appears $2^K$ times in input space. Width only adds joints one unit at a time."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A deep 1-input ReLU network has 5 hidden layers of 2 units, each pair computing one tent fold of $[0,1]$ (31 parameters). A shallow 1-10-1 network also has 31 parameters and can make at most 11 pieces. How many linear pieces does the deep network's output have on $[0,1]$?",
+				"answer": 32,
+				"tolerance": 0.02,
+				"explanation": "Each fold doubles the pieces: $2^5=32$, versus at most 11 for the shallow net with the same parameter count. Depth buys exponentially many regions, though only for functions with this repeated, self-similar structure."
+			},
+			{
+				"kind": "short",
+				"prompt": "A shallow network can, in principle, represent anything a deep one can. Argue why depth is still useful, framing it as an inductive bias rather than a requirement.",
+				"rubric": "Full credit requires: (1) universal approximation means a shallow net can represent the same functions, so depth is not needed for representability; (2) but deep nets can represent compositional or hierarchical functions with far fewer units (regions grow exponentially with depth, polynomially with width); (3) an inductive bias is a built-in preference: depth favours functions built by composing simpler features (edges, then shapes, then objects; or atoms, then functional groups, then molecules), which matches the structure of much real data.",
+				"modelAnswer": "Representability isn't the issue: one wide hidden layer can approximate anything. The issue is cost. A function built by composing simple pieces, as many real functions are, needs exponentially many units if done in one layer but few if done in stages. So depth is a bet about the world: that useful functions are hierarchical, like atoms building functional groups building molecules. When that bet is right, deep networks learn with fewer parameters and less data."
+			}
+		],
+		"a2-l011-loss-maximum-likelihood": [
+			{
+				"kind": "mc",
+				"prompt": "You predict ion counts in a mass-spec detector, which are Poisson with mean $\\lambda$. Following 'choose a distribution, predict its parameters, minimize the NLL', the per-example loss is",
+				"options": [
+					"$(y-\\lambda)^2$, since squared error is the default regression loss",
+					"$-y\\ln\\lambda-(1-y)\\ln(1-\\lambda)$, the cross-entropy for counts",
+					"$\\lambda-y\\ln\\lambda$, the Poisson NLL up to a constant",
+					"$|y-\\lambda|$, since counts are robust to outliers"
+				],
+				"answer": 2,
+				"explanation": "$-\\ln\\bigl(\\lambda^ye^{-\\lambda}/y!\\bigr)=\\lambda-y\\ln\\lambda+\\ln y!$, and $\\ln y!$ doesn't depend on the network. The network should output $\\lambda>0$, e.g. via $\\lambda=e^{z}$. Squared error would assume Gaussian noise of fixed width, which is wrong for counts."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Training with mean squared error implicitly assumes what about the targets?",
+				"options": [
+					"They are Gaussian around the prediction, with constant variance.",
+					"They are bounded between 0 and 1, like probabilities.",
+					"They follow a heavy-tailed distribution, so outliers are common.",
+					"Nothing; MSE is a purely geometric loss with no probability model."
+				],
+				"answer": 0,
+				"explanation": "$-\\ln\\mathcal N(y\\mid f,\\sigma^2)=(y-f)^2/2\\sigma^2+\\text{const}$, so MSE is the Gaussian NLL with fixed $\\sigma$. That's also why it punishes outliers heavily: a Gaussian treats a large residual as extremely improbable."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A binary classifier outputs $a=0.2$ for an example whose true label is $y=1$. What is the binary cross-entropy loss $-[y\\ln a+(1-y)\\ln(1-a)]$ for this example (natural log)?",
+				"answer": 1.609,
+				"tolerance": 0.02,
+				"explanation": "$-\\ln0.2=1.61$. A confident correct prediction ($a=0.99$) costs only 0.01, and the loss grows without bound as $a\\to0$: being confidently wrong is penalized hardest."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how mean squared error and binary cross-entropy both come from the same recipe, maximum likelihood, and what each one assumes about the data.",
+				"rubric": "Full credit requires: (1) the recipe: choose an output distribution, have the network predict its parameters, minimize the negative log-likelihood of the observed targets; (2) a Gaussian with mean f(x) and fixed variance gives NLL proportional to (y - f)^2, i.e. MSE; (3) a Bernoulli with probability a = f(x) gives NLL -[y ln a + (1 - y) ln(1 - a)], i.e. BCE; (4) so MSE assumes Gaussian noise of constant width and BCE assumes binary labels.",
+				"modelAnswer": "Both are negative log-likelihoods. If you model $y$ as Gaussian around the network's output $f$ with fixed width, $-\\ln p=(y-f)^2/2\\sigma^2+$ const, which is MSE. If you model a 0/1 label as Bernoulli with probability $a$, $-\\ln p=-[y\\ln a+(1-y)\\ln(1-a)]$, which is BCE. Choosing a loss is choosing a noise model."
+			}
+		],
+		"a2-l012-softmax-cross-entropy": [
+			{
+				"kind": "numeric",
+				"prompt": "Three conformers have energies 0, 2.0 and 4.0 kJ/mol at 298 K ($RT=2.479$ kJ/mol). Treating the logits as $z_k=-E_k/RT$, what fraction does the softmax assign to the lowest conformer?",
+				"answer": 0.6077,
+				"tolerance": 0.02,
+				"explanation": "$a_1=1/(1+e^{-0.807}+e^{-1.614})=1/(1+0.446+0.199)=0.608$. Softmax is exactly the Boltzmann distribution: logits are negative energies in units of $kT$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A 3-class softmax gives $a=(0.7,\\,0.2,\\,0.1)$ and the true class is the second one, $y=(0,1,0)$. What is $\\partial L/\\partial z$ for the cross-entropy loss?",
+				"options": [
+					"$(0.7,\\,0.8,\\,0.1)$",
+					"$(-0.7,\\,0.8,\\,-0.1)$",
+					"$(0,\\,-0.8,\\,0)$",
+					"$(0.7,\\,-0.8,\\,0.1)$"
+				],
+				"answer": 3,
+				"explanation": "$\\partial L/\\partial z_k=a_k-y_k$: the wrong classes are pushed down in proportion to the probability they stole, and the right class is pushed up by $1-a_2$. The softmax Jacobian and the log combine into this simple 'prediction minus target'."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Dividing all logits by a temperature, $a_k\\propto e^{z_k/T}$, and letting $T\\to0$ makes the softmax",
+				"options": [
+					"uniform over the classes, like a high-temperature gas.",
+					"approach one-hot on the largest logit, like a ground state.",
+					"proportional to the logits themselves, a linear normalizer.",
+					"unchanged, because softmax depends only on logit differences."
+				],
+				"answer": 1,
+				"explanation": "Logit differences are amplified by $1/T$, so all weight goes to the largest one, just as only the ground state is populated at $T\\to0$. As $T\\to\\infty$ the distribution becomes uniform. Softmax is invariant to adding a constant to the logits, not to scaling them."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why subtracting $\\max_k z_k$ from every logit before exponentiating changes nothing mathematically but prevents overflow, and interpret $\\ln\\sum_k e^{z_k}$ in statistical-mechanics terms.",
+				"rubric": "Full credit requires: (1) e^{z_k - c} / sum e^{z_j - c} = e^{z_k}/sum e^{z_j} because e^{-c} cancels, like shifting the zero of energy; (2) after subtracting the max, the largest exponent is e^0 = 1 and the rest are below 1, so nothing overflows (e^{1000} would); (3) log-sum-exp with z = -E/kT is ln Z, i.e. -F/kT: the (negative) free energy in units of kT.",
+				"modelAnswer": "A constant $c$ subtracted from every logit multiplies numerator and denominator by $e^{-c}$, which cancels, just as shifting the zero of energy leaves Boltzmann populations unchanged. Choosing $c=\\max z$ makes the largest exponential exactly 1, so huge logits can't overflow. With $z_k=-E_k/kT$, $\\ln\\sum e^{z_k}=\\ln Z=-F/kT$: the log-sum-exp is a free energy."
+			}
+		],
+		"a2-l013-gradient-descent": [
+			{
+				"kind": "mc",
+				"prompt": "Gradient descent $\\theta_{t+1}=\\theta_t-\\eta\\nabla L$ is forward Euler applied to overdamped motion $\\gamma\\,\\dot\\theta=-\\nabla L$ with time step $\\Delta t$. Which identification is right?",
+				"options": [
+					"$\\eta=\\gamma\\Delta t$: more friction means larger steps.",
+					"$\\eta=\\Delta t/\\gamma$: more friction means smaller steps.",
+					"$\\eta=1/\\gamma$: the time step drops out of the update.",
+					"$\\eta=\\Delta t$: the friction coefficient plays no role."
+				],
+				"answer": 1,
+				"explanation": "$\\theta(t+\\Delta t)\\approx\\theta-(\\Delta t/\\gamma)\\nabla L$, so $\\eta=\\Delta t/\\gamma$. In an overdamped system velocity is proportional to force, with no inertia, which is exactly gradient descent."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "At the current parameters $\\nabla L=(3,4)$ and $\\eta=0.01$. Using the first-order estimate $\\Delta L\\approx\\nabla L\\cdot\\Delta\\theta$, by how much does one gradient-descent step change $L$?",
+				"answer": -0.25,
+				"tolerance": 0.02,
+				"explanation": "$\\Delta\\theta=-\\eta\\nabla L$, so $\\Delta L\\approx-\\eta\\|\\nabla L\\|^2=-0.01\\times25=-0.25$. The decrease is guaranteed for small enough $\\eta$, because the step points against the gradient."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Among all steps $\\Delta\\theta$ of a fixed small length, why is $-\\nabla L$ the best direction to move?",
+				"options": [
+					"It always points straight at the global minimum of the loss.",
+					"It points at the nearest local minimum, wherever that is.",
+					"It is the only direction in which the loss can decrease at all.",
+					"It makes $\\nabla L\\cdot\\Delta\\theta$ as negative as possible."
+				],
+				"answer": 3,
+				"explanation": "$\\Delta L\\approx\\|\\nabla L\\|\\,\\|\\Delta\\theta\\|\\cos\\theta$ is most negative when the step is antiparallel to the gradient. That's a local statement only: the steepest-descent path curves and need not head straight at any minimum."
+			},
+			{
+				"kind": "short",
+				"prompt": "Compare running gradient descent on a loss to a geometry optimization on a molecular potential energy surface. What are the minima, and why does the result depend on the starting geometry?",
+				"rubric": "Full credit requires: (1) parameters correspond to nuclear coordinates and the loss to the potential energy; minima are stable conformers (local minima of the PES); (2) gradient descent follows the downhill force, has no kinetic energy, and cannot climb barriers, so it ends in the basin of attraction containing the start; (3) hence different starting geometries (initializations) reach different conformers / local minima, with no guarantee of the global minimum.",
+				"modelAnswer": "The parameters play the role of nuclear coordinates and the loss is the potential energy; a geometry optimizer and gradient descent both step downhill along the force. Minima are stable conformers. Because the motion is overdamped, with no kinetic energy to cross barriers, the optimizer ends in whichever basin it started in. A gauche start finds the gauche conformer, not necessarily the global anti minimum, just as a different initialization finds a different network minimum."
+			}
+		],
+		"a2-l014-learning-rate-stability": [
+			{
+				"kind": "numeric",
+				"prompt": "Near a minimum the loss is $L=\\tfrac12\\theta^\\top H\\theta$, with Hessian eigenvalues 50 and 0.5. What is the largest learning rate for which gradient descent still converges?",
+				"answer": 0.04,
+				"tolerance": 0.02,
+				"explanation": "Each eigenmode is multiplied by $(1-\\eta\\lambda_i)$ per step, which needs $|1-\\eta\\lambda_i|<1$, i.e. $\\eta<2/\\lambda_{\\max}=2/50=0.04$. The stiffest direction alone sets the limit."
+			},
+			{
+				"kind": "mc",
+				"prompt": "On the same bowl, what goes wrong if $\\eta$ is set just above $2/\\lambda_{\\max}$?",
+				"options": [
+					"The soft mode diverges slowly while the stiff mode converges.",
+					"Both modes converge, but the stiff one does so more slowly.",
+					"The stiff mode flips sign each step with growing amplitude.",
+					"The iterate gets stuck at a saddle point instead of the minimum."
+				],
+				"answer": 2,
+				"explanation": "For the stiff mode $1-\\eta\\lambda_{\\max}<-1$, so its amplitude changes sign and grows each step: the zigzag across the valley blows up. The soft mode is still shrinking, slowly."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The condition number here is $\\kappa=\\lambda_{\\max}/\\lambda_{\\min}=100$. Why is plain gradient descent slow on this bowl even at the best stable learning rate?",
+				"options": [
+					"The stiff mode caps $\\eta$, so the soft mode barely moves.",
+					"The soft mode oscillates wildly, so its progress keeps cancelling out.",
+					"A high condition number means the bowl has several separate minima.",
+					"The gradient is zero along the soft direction, so it never moves there."
+				],
+				"answer": 0,
+				"explanation": "With $\\eta<2/\\lambda_{\\max}$, the soft mode's factor is $1-\\eta\\lambda_{\\min}\\gtrsim1-2/\\kappa=0.98$, so it takes on the order of $\\kappa$ steps to make progress. Meanwhile the iterate zigzags across the stiff direction."
+			},
+			{
+				"kind": "short",
+				"prompt": "In molecular dynamics the time step is limited to about 1 fs, mainly because of C–H stretches. Explain the connection to the learning-rate limit $\\eta<2/\\lambda_{\\max}$ in gradient descent.",
+				"rubric": "Full credit requires: (1) the stiffest mode (largest curvature / force constant, highest frequency) sets the stability limit of an explicit integrator, in MD and in gradient descent alike; (2) in GD each mode is multiplied by (1 - eta lambda_i), so the largest Hessian eigenvalue bounds eta; in MD a step larger than ~ a fraction of the fastest vibrational period makes the integration blow up; (3) the soft, slow modes (conformational change / flat loss directions) are what we care about but they progress slowly because the stiff mode caps the step; remedies like constraining bonds (SHAKE) or preconditioning address this.",
+				"modelAnswer": "Both are explicit integrators on a quadratic-ish surface, and both go unstable when the step is too large for the stiffest mode. In gradient descent that's the largest Hessian eigenvalue: $\\eta<2/\\lambda_{\\max}$. In MD it's the C–H stretch, the highest-frequency vibration, that forces a ~1 fs step. In both cases the interesting motion lies in the soft directions (a conformational change, the flat direction of the loss), which crawl because the stiff mode caps the step. Constraining bonds (SHAKE) and preconditioning the optimizer are the matching fixes."
+			}
+		],
+		"a2-l015-stochastic-gradient-descent": [
+			{
+				"kind": "mc",
+				"prompt": "Why is a minibatch gradient, averaged over $B$ examples drawn at random, an unbiased estimate of the full-data gradient?",
+				"options": [
+					"Its errors cancel inside every batch, so each estimate is exact.",
+					"Each sampled term has the full gradient as its expected value.",
+					"It becomes unbiased only once $B$ exceeds about 30 examples.",
+					"The bias is removed by shuffling the data before each epoch."
+				],
+				"answer": 1,
+				"explanation": "The full gradient is the average of per-example gradients, so a uniformly sampled example's gradient has exactly that expectation, and so does an average of $B$ of them. Unbiased does not mean exact: each estimate still scatters, with variance $\\sigma^2/B$."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The minibatch gradient's standard deviation in some direction is 0.8 with $B=16$. What is it with $B=256$, if examples are drawn independently?",
+				"answer": 0.2,
+				"tolerance": 0.02,
+				"explanation": "Variance scales as $1/B$, so standard deviation as $1/\\sqrt B$: $0.8/\\sqrt{16}=0.2$. Sixteen times the compute buys only four times less noise, one reason small batches are efficient."
+			},
+			{
+				"kind": "mc",
+				"prompt": "SGD noise acts like an effective temperature $T\\propto\\eta/B$. You double the batch size. To keep the same 'temperature', you should",
+				"options": [
+					"halve the learning rate, since a larger batch already moves faster.",
+					"keep the learning rate fixed, since temperature depends only on $\\eta$.",
+					"double the learning rate, so the ratio $\\eta/B$ stays the same.",
+					"quadruple the learning rate, since the noise scales as $1/\\sqrt B$."
+				],
+				"answer": 2,
+				"explanation": "Holding $\\eta/B$ fixed keeps the Langevin temperature fixed: this is the 'linear scaling rule' used when training with large batches. The noise lets the iterate hop out of shallow minima, like thermal motion on a PES."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what an epoch is, why the data are reshuffled between epochs, and why SGD makes more progress per unit of computation than full-batch gradient descent on a large, redundant data set.",
+				"rubric": "Full credit requires: (1) an epoch is one pass through all training examples in minibatches; (2) shuffling makes the minibatches random and independent, avoiding systematic ordering effects (and keeping the estimate unbiased); (3) on redundant data many examples give nearly the same gradient, so a small batch already gives a good direction at a fraction of the cost: N/B updates per epoch instead of one, and noise falls only as 1/sqrt(B).",
+				"modelAnswer": "An epoch is one full pass through the training set, split into minibatches. Reshuffling keeps the batches random, so no fixed ordering biases the updates. If the data are redundant, say 10,000 near-duplicate spectra, the full gradient is nearly the same as one computed from 100 of them, so SGD takes 100 updates for the price of one full-batch step. Its extra noise shrinks only as $1/\\sqrt B$, so larger batches have diminishing returns."
+			}
+		],
+		"a2-l016-chain-rule-single-path": [
+			{
+				"kind": "numeric",
+				"prompt": "A chain of three sigmoid neurons has every weight equal to 1 and every bias 0. With input $x=1$, target $y=0$ and cost $C=\\tfrac12(a_3-y)^2$, the forward pass gives $a_1=0.731$, $a_2=0.675$, $a_3=0.663$. Compute $\\partial C/\\partial w_1$, where $w_1$ is the first weight.",
+				"answer": 0.006389,
+				"tolerance": 0.02,
+				"explanation": "$\\partial C/\\partial w_1=(a_3-y)\\,\\sigma'(z_3)\\,w_3\\,\\sigma'(z_2)\\,w_2\\,\\sigma'(z_1)\\,x=0.663\\times0.224\\times0.219\\times0.197\\approx0.0064$. Each $\\sigma'$ is at most $\\tfrac14$, so the gradient shrinks with every layer it passes back through."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the same chain, the input is changed to $x=0$. What happens to the gradients?",
+				"options": [
+					"All gradients become zero, because nothing flows forward.",
+					"Only $\\partial C/\\partial w_3$ vanishes, since it is farthest from the input.",
+					"No gradient changes, because the input only enters the forward pass.",
+					"$\\partial C/\\partial w_1$ vanishes, since its factor $x$ is zero."
+				],
+				"answer": 3,
+				"explanation": "Every weight's gradient has the activation feeding that weight as a factor; for $w_1$ that's $x$. With $x=0$, $w_1$ had no influence on the output, so its gradient is zero. Later weights still have nonzero inputs and still learn."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain what each factor in $\\partial C/\\partial w_1=(a_3-y)\\,\\sigma'(z_3)w_3\\,\\sigma'(z_2)w_2\\,\\sigma'(z_1)\\,x$ contributes, and why a long chain of such factors already hints at vanishing gradients.",
+				"rubric": "Full credit requires: (1) (a_3 - y) is how wrong the output is; each sigma'(z) is how sensitive a neuron is to its input; each downstream weight w is how strongly a change is passed on; x is the incoming activation, i.e. how much w_1 matters at all; (2) sigma' <= 1/4, so with weights of order 1 each extra layer multiplies the gradient by at most about 1/4, and early-layer gradients shrink geometrically with depth.",
+				"modelAnswer": "$(a_3-y)$ is the error at the output; each $\\sigma'(z)$ is how responsive a neuron is; each downstream weight is how much of a change gets passed along; and $x$ is how much $w_1$ affected anything in the first place. The derivative is a product of all the local sensitivities along the path. Since $\\sigma'\\le\\tfrac14$, every extra sigmoid layer with weights near 1 cuts the gradient by a factor of at least 4, so the first layers of a deep chain barely learn."
+			}
+		],
+		"a2-l017-error-output-layer": [
+			{
+				"kind": "mc",
+				"prompt": "Backprop defines the error of a neuron as $\\delta_j^l=\\partial C/\\partial z_j^l$ rather than $\\partial C/\\partial a_j^l$. Why is $z$ the convenient choice?",
+				"options": [
+					"Weights and biases enter $z$ linearly, so their gradients follow at once.",
+					"$z$ is always bounded between 0 and 1, which keeps $\\delta$ numerically stable.",
+					"$\\partial C/\\partial a$ is undefined for sigmoid neurons, so $z$ is required.",
+					"The cost is a function of $z$ only, never of the activations $a$."
+				],
+				"answer": 0,
+				"explanation": "Since $z_j=\\sum_kw_{jk}a_k+b_j$, $\\partial C/\\partial b_j=\\delta_j$ and $\\partial C/\\partial w_{jk}=a_k\\delta_j$ immediately. The nonlinearity sits between $z$ and $a$, so it appears once, as $\\sigma'(z)$, in each backward step."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An output sigmoid neuron has $a^L=0.8$, target $y=0$, and quadratic cost $C=\\tfrac12(a^L-y)^2$. Using BP1, $\\delta^L=(a^L-y)\\,\\sigma'(z^L)$, compute $\\delta^L$.",
+				"answer": 0.128,
+				"tolerance": 0.02,
+				"explanation": "$\\sigma'(z)=a(1-a)=0.8\\times0.2=0.16$, so $\\delta^L=0.8\\times0.16=0.128$. The error is the cost's sensitivity to $a$, times how sensitive $a$ is to $z$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive BP1, $\\delta^L=\\nabla_aC\\odot\\sigma'(z^L)$, from the chain rule, and explain why the result is an element-wise (Hadamard) product rather than a matrix product.",
+				"rubric": "Full credit requires: (1) delta_j^L = sum_k (dC/da_k^L)(da_k^L/dz_j^L); (2) a_k^L = sigma(z_k^L) depends only on its own z_k^L, so da_k/dz_j = sigma'(z_j) when k = j and 0 otherwise; (3) the sum collapses to one term, delta_j^L = (dC/da_j^L) sigma'(z_j^L), which for all j at once is the element-wise product.",
+				"modelAnswer": "By the chain rule $\\delta_j^L=\\sum_k\\frac{\\partial C}{\\partial a_k^L}\\frac{\\partial a_k^L}{\\partial z_j^L}$. Each activation $a_k=\\sigma(z_k)$ depends only on its own $z_k$, so the Jacobian $\\partial a/\\partial z$ is diagonal and the sum keeps only $k=j$: $\\delta_j^L=\\frac{\\partial C}{\\partial a_j^L}\\sigma'(z_j^L)$. A diagonal matrix times a vector is an element-wise product, hence $\\odot$."
+			}
+		],
+		"a2-l018-backpropagating-error": [
+			{
+				"kind": "numeric",
+				"prompt": "Layer $l+1$ has weights $W^{l+1}=\\begin{pmatrix}1&2\\\\3&-1\\end{pmatrix}$ (row $j$ = neuron $j$ of layer $l+1$) and errors $\\delta^{l+1}=(0.1,\\,-0.2)$. Layer $l$ has $\\sigma'(z^l)=(0.25,\\,0.2)$. Using BP2, what is $\\delta_1^l$?",
+				"answer": -0.125,
+				"tolerance": 0.02,
+				"explanation": "$((W^{l+1})^\\top\\delta^{l+1})_1=1(0.1)+3(-0.2)=-0.5$, then times $\\sigma'(z_1^l)=0.25$: $\\delta_1^l=-0.125$. Neuron 1 of layer $l$ gathers blame from every neuron it feeds, through column 1 of $W$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does BP2 use the transpose $(W^{l+1})^\\top$ rather than $W^{l+1}$ itself?",
+				"options": [
+					"Transposing makes the matrix symmetric, which keeps the gradient stable.",
+					"The transpose undoes the forward pass, acting like the inverse of $W$.",
+					"Neuron $k$'s error sums over the neurons it feeds: column $k$.",
+					"Transposing is only needed when the two layers have different sizes."
+				],
+				"answer": 2,
+				"explanation": "Forward, row $j$ collects inputs into neuron $j$. Backward, neuron $k$ of layer $l$ must collect errors from every neuron $j$ it fed, weighted by $w_{jk}$: that's column $k$, i.e. row $k$ of $W^\\top$. It's the same wiring run in reverse, not an inverse."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive BP2, $\\delta^l=\\bigl((W^{l+1})^\\top\\delta^{l+1}\\bigr)\\odot\\sigma'(z^l)$, by writing $z^{l+1}$ as a function of $z^l$ and using the multivariable chain rule.",
+				"rubric": "Full credit requires: (1) z_j^{l+1} = sum_k w_jk^{l+1} sigma(z_k^l) + b_j^{l+1}; (2) delta_k^l = sum_j (dC/dz_j^{l+1})(dz_j^{l+1}/dz_k^l), summing over every path through layer l+1; (3) dz_j^{l+1}/dz_k^l = w_jk^{l+1} sigma'(z_k^l), giving delta_k^l = sum_j w_jk^{l+1} delta_j^{l+1} sigma'(z_k^l), which is the stated matrix form with the transpose.",
+				"modelAnswer": "Neuron $k$ in layer $l$ affects the cost only through every $z_j^{l+1}=\\sum_kw_{jk}\\sigma(z_k^l)+b_j$. So $\\delta_k^l=\\sum_j\\frac{\\partial C}{\\partial z_j^{l+1}}\\frac{\\partial z_j^{l+1}}{\\partial z_k^l}=\\sum_j\\delta_j^{l+1}w_{jk}\\,\\sigma'(z_k^l)$. The sum over $j$ with $w_{jk}$ is $(W^\\top\\delta^{l+1})_k$, and the shared factor $\\sigma'(z_k^l)$ gives the $\\odot$."
+			}
+		],
+		"a2-l019-gradients-weights-biases": [
+			{
+				"kind": "numeric",
+				"prompt": "A layer has errors $\\delta^l=(0.2,\\,-0.1)$, and the previous layer's activations are $a^{l-1}=(1.0,\\,0.5,\\,0.0)$. Using BP4, $\\partial C/\\partial w_{jk}^l=a_k^{l-1}\\delta_j^l$, what is $\\partial C/\\partial w_{21}^l$?",
+				"answer": -0.1,
+				"tolerance": 0.02,
+				"explanation": "$a_1^{l-1}\\delta_2^l=1.0\\times(-0.1)=-0.1$. The whole gradient is the outer product $\\delta^l(a^{l-1})^\\top$, a $2\\times3$ matrix whose third column is zero because $a_3^{l-1}=0$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In that layer, $a_3^{l-1}=0$. What does BP4 say about the weights leaving neuron 3 of layer $l-1$?",
+				"options": [
+					"They learn fastest, since a silent neuron has the most room to change.",
+					"They learn normally, since the error $\\delta^l$ is not zero.",
+					"Their gradients flip sign, pushing that neuron to turn on.",
+					"Their gradients are zero: a silent input had no effect on the cost."
+				],
+				"answer": 3,
+				"explanation": "$\\partial C/\\partial w_{j3}=a_3\\delta_j=0$. A weight only matters in proportion to the activation it carries, so weights out of low-activation neurons learn slowly, and out of a dead ReLU not at all."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Neuron $j$ in layer $l$ is saturated, with $\\sigma'(z_j^l)\\approx0$. Which of its parameters learn slowly?",
+				"options": [
+					"Only its bias $b_j$, because the weights still see large inputs.",
+					"Its bias and all weights into it, via the factor $\\delta_j^l$.",
+					"Only the weights out of it, toward layer $l+1$.",
+					"None of them, as long as the output error is large."
+				],
+				"answer": 1,
+				"explanation": "$\\delta_j^l$ contains $\\sigma'(z_j^l)$ (BP1/BP2), and BP3 and BP4 give $\\partial C/\\partial b_j=\\delta_j$ and $\\partial C/\\partial w_{jk}=a_k\\delta_j$. A saturated neuron is insensitive to its inputs, so nothing feeding it learns much."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive BP3 ($\\partial C/\\partial b_j^l=\\delta_j^l$) and BP4 ($\\partial C/\\partial w_{jk}^l=a_k^{l-1}\\delta_j^l$) from the definition $\\delta_j^l=\\partial C/\\partial z_j^l$, and write BP4 as a matrix outer product.",
+				"rubric": "Full credit requires: (1) z_j^l = sum_k w_jk^l a_k^{l-1} + b_j^l, and b_j and w_jk affect C only through z_j; (2) dz_j/db_j = 1 gives BP3; dz_j/dw_jk = a_k^{l-1} gives BP4; (3) collecting all j, k: grad_W C = delta^l (a^{l-1})^T, an outer product of the error column and the activation row.",
+				"modelAnswer": "The bias and weights of neuron $j$ reach the cost only through $z_j^l=\\sum_kw_{jk}a_k^{l-1}+b_j$. So $\\partial C/\\partial b_j=\\delta_j\\cdot\\partial z_j/\\partial b_j=\\delta_j$ and $\\partial C/\\partial w_{jk}=\\delta_j\\cdot\\partial z_j/\\partial w_{jk}=\\delta_ja_k^{l-1}$. Collecting all entries, the weight gradient is the outer product $\\delta^l(a^{l-1})^\\top$: 'error out' times 'activation in'."
+			}
+		],
+		"a2-l020-backprop-algorithm": [
+			{
+				"kind": "mc",
+				"prompt": "Why must the forward pass come first, and its intermediate values be kept, before the backward pass can run?",
+				"options": [
+					"The forward pass sets the learning rate that the backward pass uses.",
+					"The backward pass needs every layer's stored $z^l$ and $a^l$.",
+					"The backward pass recomputes the forward pass anyway, but in reverse order.",
+					"Storing values is optional; it only makes the backward pass slightly faster."
+				],
+				"answer": 1,
+				"explanation": "BP1 and BP2 need $\\sigma'(z^l)$ and BP4 needs $a^{l-1}$ at every layer. Keeping them is why training uses more memory than inference: activations for every layer and every example in the batch."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A network has $10^6$ weights and one forward pass takes 10 ms. How long would one gradient take using one-sided finite differences, i.e. one extra forward pass per weight? Give the answer in hours.",
+				"answer": 2.778,
+				"tolerance": 0.03,
+				"unit": "h",
+				"explanation": "$10^6\\times0.01\\text{ s}=10^4$ s $\\approx2.8$ h, for a single gradient. Backprop gets all $10^6$ derivatives from one forward and one backward pass, about 20–30 ms."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does one backward pass cost about the same as one forward pass, no matter how many weights there are?",
+				"options": [
+					"Each weight is used a constant number of times on the way back.",
+					"The backward pass skips the weights whose gradients are small.",
+					"Only the output layer needs a backward step; the others reuse it.",
+					"The backward pass computes one weight's gradient at a time, in order."
+				],
+				"answer": 0,
+				"explanation": "Forward, each weight does one multiply-add. Backward, each weight is used once to pass $\\delta$ back (BP2) and once to form its own gradient (BP4): a fixed amount of work per weight. Finite differences instead pay one full forward pass per weight."
+			},
+			{
+				"kind": "short",
+				"prompt": "State the backpropagation training algorithm for one minibatch in order, from inputs to parameter update.",
+				"rubric": "Full credit requires these steps in order: (1) for each example, forward pass computing and storing z^l and a^l for every layer; (2) output error delta^L via BP1; (3) backward pass for l = L-1 down to 2 via BP2; (4) gradients dC/db = delta and dC/dw = a^{l-1} delta^T (BP3, BP4); (5) average the gradients over the minibatch; (6) update w <- w - eta * avg grad, b likewise.",
+				"modelAnswer": "For each example in the minibatch: run the forward pass, storing every $z^l$ and $a^l$; compute the output error $\\delta^L=\\nabla_aC\\odot\\sigma'(z^L)$; propagate it back with $\\delta^l=(W^{l+1})^\\top\\delta^{l+1}\\odot\\sigma'(z^l)$; read off $\\partial C/\\partial b=\\delta^l$ and $\\partial C/\\partial W=\\delta^l(a^{l-1})^\\top$. Then average the gradients over the minibatch and update $W\\leftarrow W-\\eta\\,\\overline{\\partial C/\\partial W}$, and the same for $b$."
+			}
+		],
+		"a2-l021-backprop-worked-example": [
+			{
+				"kind": "numeric",
+				"prompt": "A 2-2-1 sigmoid network, no biases: input $x=(1,\\,0.5)$, hidden weights $W^1=\\begin{pmatrix}0.5&-0.5\\\\0.3&0.8\\end{pmatrix}$ (row $j$ feeds hidden unit $j$), output weights $(1,\\,-1)$, target $y=1$, cost $C=\\tfrac12(a-y)^2$. Carry out the forward and backward pass and give $\\partial C/\\partial W^1_{11}$, the weight from $x_1$ into hidden unit 1.",
+				"answer": -0.03231,
+				"tolerance": 0.02,
+				"explanation": "Forward: $z^1=(0.25,\\,0.70)$, $h=(0.562,\\,0.668)$, $z^2=-0.106$, $a=0.474$. Backward: $\\delta^2=(a-1)a(1-a)=-0.131$, $\\delta_1^1=1\\times(-0.131)\\times0.246=-0.0323$, and $\\partial C/\\partial W^1_{11}=\\delta_1^1x_1\\approx-0.0323$. The negative sign says increasing this weight lowers the cost."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Your hand-computed gradient is $+0.032$, but a central finite difference with $h=10^{-5}$ gives $-0.032$. What is the most likely mistake?",
+				"options": [
+					"The finite difference is unreliable at this $h$ and should be ignored.",
+					"You forgot to multiply by the learning rate in the analytic gradient.",
+					"You used the wrong activation, e.g. ReLU's slope instead of $\\sigma'$.",
+					"You used $y-a$ instead of $a-y$ as the output error $\\partial C/\\partial a$."
+				],
+				"answer": 3,
+				"explanation": "Equal magnitude with opposite sign points to a sign convention, and $\\partial C/\\partial a=a-y$ is the usual culprit. A wrong $\\sigma'$ would change the magnitude, and the learning rate has no place in a gradient."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why a central finite difference $\\bigl(C(w+h)-C(w-h)\\bigr)/2h$ agrees with the true derivative to $O(h^2)$, while a one-sided difference only agrees to $O(h)$.",
+				"rubric": "Full credit requires: (1) Taylor expand C(w +/- h) = C +/- hC' + h^2 C''/2 +/- h^3 C'''/6 + ...; (2) in the central difference the even terms (C and C'') cancel, leaving C' + h^2 C'''/6, so the error is O(h^2); (3) the one-sided difference keeps the h C''/2 term, so its error is O(h); hence shrinking h by 10 cuts the central error by about 100.",
+				"modelAnswer": "Expanding, $C(w\\pm h)=C\\pm hC'+\\tfrac{h^2}{2}C''\\pm\\tfrac{h^3}{6}C'''+\\dots$. Subtracting cancels every even-order term, so $(C(w+h)-C(w-h))/2h=C'+\\tfrac{h^2}{6}C'''+\\dots$: error $O(h^2)$. A one-sided difference keeps the $\\tfrac h2C''$ term, so its error is $O(h)$. Shrinking $h$ tenfold cuts the central error about a hundredfold, until round-off takes over."
+			}
+		],
+		"a2-l022-cross-entropy-learning-slowdown": [
+			{
+				"kind": "numeric",
+				"prompt": "A sigmoid output neuron has $z=-5$ but the target is $y=1$, so it is confidently wrong. How many times larger is $|\\delta^L|$ with cross-entropy cost ($\\delta^L=a-y$) than with quadratic cost ($\\delta^L=(a-y)\\sigma'(z)$)?",
+				"answer": 150.4,
+				"tolerance": 0.02,
+				"explanation": "The ratio is $1/\\sigma'(-5)=1/(0.00669\\times0.99331)\\approx150$. With quadratic cost the badly wrong neuron barely moves because it is saturated; cross-entropy removes that factor."
+			},
+			{
+				"kind": "mc",
+				"prompt": "With cross-entropy, $\\delta^L=a^L-y$. What does this mean for an output neuron that is very wrong?",
+				"options": [
+					"It learns fastest, since the error signal scales with how wrong it is.",
+					"It learns slowest, because it is saturated and its slope $\\sigma'$ is small.",
+					"It learns at a fixed rate, set only by the learning rate $\\eta$.",
+					"It stops learning, because the log of a tiny probability overflows."
+				],
+				"answer": 0,
+				"explanation": "The $\\sigma'$ factor cancels, so the update scales with the error itself, which is how we'd want a learner to behave. With quadratic cost the most wrong saturated neurons are the slowest to correct."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A colleague says switching to cross-entropy 'removes the $\\sigma'$ factor, so sigmoid networks no longer have gradient problems anywhere.' What is wrong with this?",
+				"options": [
+					"Nothing; with cross-entropy the $\\sigma'$ factors cancel in every layer.",
+					"Cross-entropy adds a $1/\\sigma'$ factor, so gradients now explode instead.",
+					"It cancels only at the output; hidden layers still carry $\\sigma'$.",
+					"Cross-entropy only works for softmax outputs, not for sigmoid ones."
+				],
+				"answer": 2,
+				"explanation": "Cross-entropy pairs with the output activation to cancel the output's $\\sigma'$. BP2 still multiplies by $\\sigma'(z^l)$ at every hidden layer, so saturated hidden units and vanishing gradients remain."
+			},
+			{
+				"kind": "short",
+				"prompt": "Show that for a sigmoid output neuron with cross-entropy cost $C=-[y\\ln a+(1-y)\\ln(1-a)]$, the output error is $\\delta^L=a-y$, and explain why the $\\sigma'$ factor disappears.",
+				"rubric": "Full credit requires: (1) dC/da = -y/a + (1 - y)/(1 - a) = (a - y)/(a(1 - a)); (2) multiplying by da/dz = sigma'(z) = a(1 - a) gives delta = a - y; (3) explanation: the 1/(a(1-a)) from the log exactly cancels the sigmoid's slope, so saturation no longer shrinks the output error.",
+				"modelAnswer": "$\\partial C/\\partial a=-y/a+(1-y)/(1-a)=(a-y)/\\bigl(a(1-a)\\bigr)$. Multiplying by $\\partial a/\\partial z=\\sigma'(z)=a(1-a)$ gives $\\delta^L=a-y$. The logarithm's $1/a(1-a)$ is exactly the inverse of the sigmoid's slope: the log 'unsquashes' the sigmoid, so how wrong the neuron is, not how saturated, sets its learning speed."
+			}
+		],
+		"a2-l023-computational-graphs": [
+			{
+				"kind": "numeric",
+				"prompt": "For $L=(ab+c)^2\\tanh d$ with $a=1$, $b=2$, $c=-1$, $d=0.5$, multiply local derivatives along the path from $a$ to $L$ to find $\\partial L/\\partial a$.",
+				"answer": 1.848,
+				"tolerance": 0.02,
+				"explanation": "Let $u=ab+c=1$ and $v=u^2=1$. The path $a\\to u\\to v\\to L$ has edge derivatives $b=2$, $2u=2$, and $\\tanh d=0.462$, so $\\partial L/\\partial a=2\\times2\\times0.462=1.85$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a computational graph, the input $x$ reaches the output $f$ along two separate paths. The total derivative $\\partial f/\\partial x$ is",
+				"options": [
+					"the product of the two path derivatives, since paths act in series.",
+					"the larger of the two path derivatives, since it dominates.",
+					"the derivative along the shorter path; the longer one is negligible.",
+					"the sum of the two path derivatives, each a product of edges."
+				],
+				"answer": 3,
+				"explanation": "Edges along a path multiply (chain rule in series); separate paths add (multivariable chain rule in parallel). For $f=xy+x$: one path gives $y$, the other 1, so $\\partial f/\\partial x=y+1$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Draw (describe in words) the computational graph for $L=(ab+c)^2\\tanh d$, labelling every intermediate node, and explain how the gradients with respect to all four inputs are obtained from local derivatives.",
+				"rubric": "Full credit requires: (1) nodes such as p = ab, u = p + c, v = u^2, t = tanh d, L = v t, with edges from inputs to the operations; (2) each edge carries a local derivative (dp/da = b, du/dp = 1, dv/du = 2u, dL/dv = t, dL/dt = v, dt/dd = 1 - t^2); (3) the derivative w.r.t. any input is the sum over paths to L of the product of edge derivatives, e.g. dL/dd = v (1 - t^2), dL/dc = 2u t.",
+				"modelAnswer": "Nodes: $p=ab$, $u=p+c$, $v=u^2$, $t=\\tanh d$, $L=vt$. Each edge has a simple local derivative: $\\partial p/\\partial a=b$, $\\partial u/\\partial p=1$, $\\partial v/\\partial u=2u$, $\\partial L/\\partial v=t$, $\\partial L/\\partial t=v$, $\\partial t/\\partial d=1-t^2$. The gradient for any input is the product of edge derivatives along its path to $L$, summed over paths: e.g. $\\partial L/\\partial c=2u\\,t$ and $\\partial L/\\partial d=v(1-t^2)$. No global calculus is needed, only local rules and bookkeeping."
+			}
+		],
+		"a2-l024-forward-vs-reverse-mode": [
+			{
+				"kind": "numeric",
+				"prompt": "Forward mode with dual numbers ($\\varepsilon^2=0$): evaluate $f(x)=x\\,e^{x}$ at $x=1+\\varepsilon$. What is the coefficient of $\\varepsilon$, i.e. $f'(1)$?",
+				"answer": 5.437,
+				"tolerance": 0.02,
+				"explanation": "$e^{1+\\varepsilon}=e(1+\\varepsilon)$, so $(1+\\varepsilon)\\,e(1+\\varepsilon)=e(1+2\\varepsilon)$, and the $\\varepsilon$ coefficient is $2e\\approx5.44$. The tangent rides along with the value through every operation."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A kinetics model takes 3 rate constants and outputs 1000 concentration time points. You need the full $1000\\times3$ sensitivity Jacobian. Which mode is cheaper?",
+				"options": [
+					"Forward mode: one pass per input gives 3 passes in total.",
+					"Reverse mode: one pass per output gives 1000 passes in total.",
+					"Reverse mode, because it is always faster than forward mode.",
+					"Both cost the same, since each must build the whole Jacobian."
+				],
+				"answer": 0,
+				"explanation": "Forward mode gives one Jacobian column (a JVP) per pass, so 3 passes. Reverse mode gives one row (a VJP) per pass, so 1000. For a neural-network loss it's the opposite: millions of inputs, one output."
+			},
+			{
+				"kind": "mc",
+				"prompt": "For a scalar loss $L(\\theta)$ with $10^6$ parameters, what does one reverse-mode pass, seeded with $\\bar L=1$, produce?",
+				"options": [
+					"One directional derivative of $L$ along a random direction.",
+					"The derivative of $L$ with respect to the first parameter only.",
+					"The whole gradient, i.e. the single row of the Jacobian.",
+					"The diagonal of the Hessian, used for second-order updates."
+				],
+				"answer": 2,
+				"explanation": "Reverse mode computes a vector-Jacobian product $\\bar y^\\top J$. With one output and $\\bar L=1$, that row is the entire gradient. Forward mode would need $10^6$ passes, one per parameter."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the difference between forward mode (Jacobian-vector products) and reverse mode (vector-Jacobian products), and why deep learning uses reverse mode.",
+				"rubric": "Full credit requires: (1) forward mode pushes a tangent from inputs to outputs and one pass yields J v, one column (or directional derivative); (2) reverse mode pulls adjoints from outputs back to inputs and one pass yields u^T J, one row; (3) a loss has many inputs (parameters) and one scalar output, so one reverse pass gives the full gradient while forward mode would need one pass per parameter; forward mode wins when inputs are few and outputs many.",
+				"modelAnswer": "Forward mode carries a derivative forward alongside each value, so one pass gives $Jv$: how all outputs change along one input direction. Reverse mode first runs forward, then carries $\\partial L/\\partial(\\text{node})$ backward, so one pass gives $u^\\top J$: how one output depends on every input. A training loss is one number depending on millions of parameters, so one reverse pass gives the whole gradient; forward mode would need millions. When inputs are few and outputs many, forward mode wins."
+			}
+		],
+		"a2-l025-local-gradient-rules": [
+			{
+				"kind": "mc",
+				"prompt": "A multiply node computes $z=xy$ with $x=3$, $y=-2$, and receives upstream gradient $\\bar z=1.5$. What does it send back?",
+				"options": [
+					"$\\bar x=1.5$, $\\bar y=1.5$: it routes the gradient unchanged.",
+					"$\\bar x=4.5$, $\\bar y=-3$: each input gets its own value times $\\bar z$.",
+					"$\\bar x=-3$, $\\bar y=4.5$: each gets the other input times $\\bar z$.",
+					"$\\bar x=-9$, $\\bar y=-9$: both get the product $xy$ times $\\bar z$."
+				],
+				"answer": 2,
+				"explanation": "$\\partial z/\\partial x=y$ and $\\partial z/\\partial y=x$, so $\\bar x=y\\bar z=-3$ and $\\bar y=x\\bar z=4.5$: multiply swaps its inputs. Routing unchanged is the add node's rule."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A graph computes $b=a+a$ and then $L=b^2$, with $a=3$. Accumulating gradients correctly at the fan-out, what is $\\partial L/\\partial a$?",
+				"answer": 24.0,
+				"tolerance": 0.02,
+				"explanation": "$\\bar b=2b=12$; the add node routes 12 to each of its two inputs, and both are $a$, so $\\bar a=12+12=24$ (check: $L=4a^2$, $dL/da=8a=24$). Overwriting instead of accumulating would give 12."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why must the backward pass visit nodes in reverse topological order?",
+				"options": [
+					"A node's gradient is only complete once every child has added to it.",
+					"Reverse order is faster because it visits the largest tensors first.",
+					"Any order works as long as each node is visited exactly once.",
+					"It ensures the forward values are recomputed before they are needed."
+				],
+				"answer": 0,
+				"explanation": "$\\bar v_j=\\sum_{i\\in\\text{children}}\\bar v_i\\,\\partial v_i/\\partial v_j$, so every child must have finished before $v_j$ can pass its own gradient on. Reverse topological order guarantees that."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why gradients must be accumulated (`+=`) rather than assigned when a node feeds several children, using $b=a+a$ as an example of what goes wrong otherwise.",
+				"rubric": "Full credit requires: (1) when a value is used by several downstream nodes, it influences the output through each of them, and the multivariable chain rule sums those contributions; (2) assignment keeps only the last contribution; (3) for b = a + a, each input slot of the add node passes back b-bar, so a-bar should be 2 b-bar; overwriting gives b-bar, half the true value (e.g. 12 instead of 24 for L = b^2 at a = 3).",
+				"modelAnswer": "If a value feeds several nodes, changing it changes the output through all of them, and the chain rule adds those effects. Assigning instead keeps only whichever child wrote last. In $b=a+a$ both inputs of the add node are $a$, each receiving $\\bar b$; accumulating gives $\\bar a=2\\bar b$, the correct $db/da=2$, while overwriting gives $\\bar b$, half the true gradient. The same bug appears whenever a weight or activation is reused."
+			}
+		],
+		"a2-l026-matrix-backprop": [
+			{
+				"kind": "mc",
+				"prompt": "A linear layer computes $Y=XW$ with $X$ of shape $B\\times n$ and $W$ of shape $n\\times m$. Given $G=\\partial L/\\partial Y$ (shape $B\\times m$), which expression has the right shape for $\\partial L/\\partial W$?",
+				"options": [
+					"$G\\,X^\\top$",
+					"$G^\\top X$",
+					"$X\\,G^\\top$",
+					"$X^\\top G$"
+				],
+				"answer": 3,
+				"explanation": "$\\partial L/\\partial W$ must be $n\\times m$, like $W$. Only $X^\\top G$ ($n\\times B$ times $B\\times m$) fits. Index by index, $\\partial L/\\partial W_{ij}=\\sum_bX_{bi}G_{bj}$, the same thing."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the forward pass the bias vector $b$ is broadcast and added to every row of $XW$. In the backward pass, $\\partial L/\\partial b$ is",
+				"options": [
+					"the gradient of the first row of $\\partial L/\\partial Y$, since every row is the same $b$.",
+					"the average of $\\partial L/\\partial Y$ over all the entries of the matrix.",
+					"the sum of $\\partial L/\\partial Y$ over the batch, one total per output column.",
+					"zero, since the bias does not depend on the inputs $X$."
+				],
+				"answer": 2,
+				"explanation": "The same $b_j$ is used once per example, a fan-out of size $B$, so its gradient accumulates over every row: $\\partial L/\\partial b=G^\\top\\mathbf1$, the column sums. Broadcasting forward becomes summing backward."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive $\\partial L/\\partial X=\\frac{\\partial L}{\\partial Y}W^\\top$ for $Y=XW$, either index by index or by matching shapes, and explain the meaning of the transpose.",
+				"rubric": "Full credit requires: (1) Y_bj = sum_i X_bi W_ij, so dY_bj/dX_bi = W_ij; (2) dL/dX_bi = sum_j G_bj W_ij = (G W^T)_bi; (3) shape check: (B x m)(m x n) = B x n, like X; (4) the transpose reflects running the same connections backward: each input feature collects gradient from every output it fed.",
+				"modelAnswer": "$Y_{bj}=\\sum_iX_{bi}W_{ij}$, so $\\partial Y_{bj}/\\partial X_{bi}=W_{ij}$ and $\\partial L/\\partial X_{bi}=\\sum_jG_{bj}W_{ij}=(GW^\\top)_{bi}$. Shapes agree: $(B\\times m)(m\\times n)$ is $B\\times n$, like $X$. The transpose appears because input $i$ collects gradient from every output $j$ it contributed to, the same wiring as BP2's $W^\\top$."
+			}
+		],
+		"a2-l027-gradient-checking": [
+			{
+				"kind": "mc",
+				"prompt": "A gradient check gives relative errors $|g_a-g_n|/\\max(|g_a|,|g_n|)$ of about $10^{-2}$ for many parameters (float64, smooth activations). What should you conclude?",
+				"options": [
+					"The analytic gradient is correct; $10^{-2}$ is typical round-off.",
+					"There is very likely a bug in the analytic gradient code.",
+					"The step $h$ is too large; any value below $10^{-1}$ is acceptable.",
+					"The network is too deep for gradient checking to work at all."
+				],
+				"answer": 1,
+				"explanation": "With float64 and a good $h$, a correct gradient typically agrees to $10^{-7}$ or better. $10^{-2}$ means something is wrong, unless the check straddles a kink such as ReLU at 0."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why compare gradients by relative error rather than by absolute difference?",
+				"options": [
+					"Relative error is cheaper to compute than an absolute difference.",
+					"Absolute differences are always smaller, so they hide real bugs.",
+					"Relative error removes round-off, so it equals zero when correct.",
+					"Gradients vary over orders of magnitude, so no single cutoff fits."
+				],
+				"answer": 3,
+				"explanation": "An absolute difference of $10^{-6}$ is excellent for a gradient of size 10 and terrible for one of size $10^{-6}$. Dividing by the scale makes one threshold meaningful for every parameter."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "The error of a central-difference gradient behaves like $h^2+\\varepsilon/h$, with $\\varepsilon=2.2\\times10^{-16}$ (float64). Minimize over $h$: what is the optimal step size?",
+				"answer": 4.791e-06,
+				"tolerance": 0.05,
+				"explanation": "Setting $2h-\\varepsilon/h^2=0$ gives $h=(\\varepsilon/2)^{1/3}\\approx4.8\\times10^{-6}$. Smaller $h$ is dominated by round-off, larger $h$ by truncation; in practice $h\\sim10^{-5}$ to $10^{-6}$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the trade-off in choosing $h$ for a finite-difference gradient check: why making $h$ very small (say $10^{-12}$) makes the check worse, not better.",
+				"rubric": "Full credit requires: (1) truncation error of central differences scales as h^2 (from the Taylor expansion), favouring small h; (2) round-off: L(theta + h) and L(theta - h) agree in most digits, so their difference loses precision (catastrophic cancellation), an error of about eps_machine * |L| / h, which grows as h shrinks; (3) the total is minimized at an intermediate h, about eps^{1/3} for central differences.",
+				"modelAnswer": "Two errors compete. Truncation, from neglected Taylor terms, shrinks as $h^2$. But for tiny $h$, $L(\\theta+h)$ and $L(\\theta-h)$ agree in nearly all their digits, so subtracting them leaves mostly round-off, of order $\\varepsilon_{\\text{mach}}/h$, which then gets divided by a tiny number. At $h=10^{-12}$ round-off dominates completely. The best $h$ balances the two, about $\\varepsilon^{1/3}\\sim10^{-5}$."
+			}
+		],
+		"a2-l028-momentum": [
+			{
+				"kind": "numeric",
+				"prompt": "With momentum $v_{t+1}=\\beta v_t-\\eta\\nabla L$ on a long, uniform slope (constant gradient), the velocity reaches a terminal value. With $\\beta=0.95$, how many times larger is that terminal step than a plain gradient-descent step $\\eta|\\nabla L|$?",
+				"answer": 20.0,
+				"tolerance": 0.02,
+				"explanation": "At steady state $v=\\beta v-\\eta g$, so $v=-\\eta g/(1-\\beta)$: a factor $1/(1-\\beta)=20$. Like a ball reaching terminal velocity, a consistent gradient accumulates speed."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a long, narrow valley, why does momentum help compared with plain gradient descent?",
+				"options": [
+					"It raises the effective learning rate equally in every direction.",
+					"It aims each step straight at the minimum rather than downhill.",
+					"It adds noise that bumps the iterate out of the valley.",
+					"Gradients add up along the valley and cancel across it."
+				],
+				"answer": 3,
+				"explanation": "The velocity is a running average of past gradients. The consistent component along the floor builds up; the back-and-forth component across the steep walls averages toward zero. That's the heavy ball with friction."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does Nesterov momentum differ from classical momentum?",
+				"options": [
+					"It takes the gradient at the look-ahead point $\\theta+\\beta v$.",
+					"It resets the velocity to zero whenever the loss goes up.",
+					"It divides the velocity by a running average of squared gradients.",
+					"It uses a momentum coefficient $\\beta$ that grows with each step."
+				],
+				"answer": 0,
+				"explanation": "Since the ball will move by about $\\beta v$ anyway, Nesterov measures the slope where it is about to be. If it is heading into a wall, the correction comes one step earlier, which reduces overshoot."
+			},
+			{
+				"kind": "short",
+				"prompt": "Show how the momentum update comes from discretizing $m\\ddot\\theta+\\gamma\\dot\\theta=-\\nabla L$, say what $\\beta$ means physically, and explain what happens when $\\beta$ is too close to 1.",
+				"rubric": "Full credit requires: (1) writing velocity v and discretizing: v_{t+1} = (1 - gamma dt/m) v_t - (dt/m) grad L, theta_{t+1} = theta_t + v_{t+1} (up to step-size bookkeeping), so beta = 1 - gamma dt/m and eta corresponds to dt^2/m or dt/m depending on convention; (2) beta is the fraction of velocity kept each step, i.e. how little friction there is; (3) beta near 1 means little friction: the system is underdamped, overshoots the minimum and oscillates before settling.",
+				"modelAnswer": "Introduce a velocity $v$; one Euler step of $m\\dot v=-\\gamma v-\\nabla L$ gives $v_{t+1}=(1-\\gamma\\Delta t/m)v_t-(\\Delta t/m)\\nabla L$, then $\\theta_{t+1}=\\theta_t+v_{t+1}$ (with $\\Delta t$ absorbed into $\\eta$). So $\\beta=1-\\gamma\\Delta t/m$ is the fraction of velocity kept per step: low friction means $\\beta$ near 1. Too little friction makes the system underdamped: the ball rolls past the minimum and oscillates, like a weakly damped spring."
+			}
+		],
+		"a2-l029-adaptive-optimizers": [
+			{
+				"kind": "numeric",
+				"prompt": "Adam's first moment starts at $m_0=0$ and updates $m_t=0.9\\,m_{t-1}+0.1\\,g_t$. If the gradient is constant, $g_t=2$, what is the uncorrected $m_3$?",
+				"answer": 0.542,
+				"tolerance": 0.02,
+				"explanation": "$m_t=g(1-\\beta_1^t)$, so $m_3=2(1-0.729)=0.542$, biased toward zero because of the zero start. Dividing by $1-\\beta_1^3$ restores the true value 2; that's Adam's bias correction."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Every gradient is multiplied by 1000, say from a change of loss units. How does Adam's step size respond?",
+				"options": [
+					"It grows 1000-fold, exactly as plain gradient descent would.",
+					"It grows about 30-fold, the square root of 1000.",
+					"It shrinks 1000-fold, because the squared-gradient denominator dominates.",
+					"It is nearly unchanged, since $\\hat m/\\sqrt{\\hat v}$ is scale-free."
+				],
+				"answer": 3,
+				"explanation": "Both $\\hat m$ and $\\sqrt{\\hat v}$ scale by 1000, so their ratio, and the step, are unchanged (apart from $\\epsilon$). Each parameter's step is measured in units of its own typical gradient size."
+			},
+			{
+				"kind": "mc",
+				"prompt": "A loss valley is long and narrow, but tilted at 45° to the parameter axes. Why do Adam and RMSProp help much less here than when the valley is aligned with an axis?",
+				"options": [
+					"They only rescale each axis, which can't undo a tilted stretch.",
+					"Their momentum term makes them overshoot in tilted valleys.",
+					"They need the Hessian, which is undefined for tilted valleys.",
+					"They are fine here; the tilt only affects plain gradient descent."
+				],
+				"answer": 0,
+				"explanation": "Adaptive methods are diagonal preconditioners: one scale factor per parameter, like using scaled coordinates. That fixes stiffness along the axes, but a valley tilted at 45° needs a rotation as well, which only a full preconditioner (Hessian-like) can supply."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the idea shared by AdaGrad, RMSProp and Adam, and why RMSProp's change to AdaGrad (an exponential moving average instead of a running sum of $g^2$) matters for long training runs.",
+				"rubric": "Full credit requires: (1) all divide each parameter's step by a running estimate of that parameter's gradient magnitude (root of accumulated or averaged g^2), so steep directions get small steps and flat ones large steps; (2) AdaGrad sums g^2 over all time, so the denominator only grows and the effective learning rate decays toward zero, which can stop training early; (3) RMSProp uses a decaying average, so the scale tracks recent gradients and the step does not shrink forever; Adam adds momentum and bias correction on top.",
+				"modelAnswer": "All three give each parameter its own step size, dividing by an estimate of that parameter's typical gradient size, $\\sqrt{\\text{accumulated }g^2}$, so steep directions take small steps and flat ones large steps. AdaGrad adds up every $g^2$ ever seen, so its denominator only grows and learning eventually grinds to a halt. RMSProp averages with exponential decay, so the scale follows recent gradients and the step stays alive. Adam is RMSProp plus momentum and bias correction."
+			}
+		],
+		"a2-l030-learning-rate-schedules": [
+			{
+				"kind": "numeric",
+				"prompt": "Cosine annealing uses $\\eta_t=\\eta_{\\min}+\\tfrac12(\\eta_{\\max}-\\eta_{\\min})\\bigl(1+\\cos(\\pi t/T)\\bigr)$. With $\\eta_{\\max}=0.1$, $\\eta_{\\min}=0.001$ and $T=1000$, what is $\\eta$ at $t=250$?",
+				"answer": 0.0855,
+				"tolerance": 0.02,
+				"explanation": "$\\cos(\\pi/4)=0.707$, so $\\eta=0.001+0.0495\\times1.707=0.0855$. The schedule falls slowly at first, fastest in the middle, and gently levels off near $\\eta_{\\min}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At step 2000 of training, someone cuts the learning rate from 0.1 straight to $10^{-5}$. Later, the model generalizes worse than one whose learning rate was lowered gradually. What is the best analogy?",
+				"options": [
+					"Overheating: the low rate adds too much noise, scattering the iterate.",
+					"Equilibration: both runs reach the same minimum, one just takes longer.",
+					"Quenching: the iterate freezes in the nearest, often poor, minimum.",
+					"Superheating: the sudden change pushes the loss above its starting value."
+				],
+				"answer": 2,
+				"explanation": "Lowering $\\eta$ lowers the SGD temperature. Dropping it abruptly is like quenching a melt into a glass: the system freezes in whatever basin it happens to be in. Slow cooling, as in growing a good crystal or simulated annealing, lets it explore first and settle into a better minimum."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Many runs begin with linear warmup, $\\eta_t=\\eta_0\\,t/W$ for $t<W$. What problem does warmup address?",
+				"options": [
+					"Early on, big steps can diverge before the statistics settle.",
+					"The data loader needs time to shuffle, so early steps must be small.",
+					"Warmup raises the SGD temperature so the iterate can escape the minimum.",
+					"Small early steps make the final learning rate irrelevant to the result."
+				],
+				"answer": 0,
+				"explanation": "At initialization the loss surface can be sharp and Adam's $\\hat v$ estimates rest on very few samples, so a full-size step can diverge. Ramping $\\eta$ up over $W$ steps lets things stabilize before taking large steps."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why decaying the learning rate during training lets SGD settle into a minimum, using the idea of SGD noise as a temperature and the analogy to slow cooling in crystallization.",
+				"rubric": "Full credit requires: (1) at fixed eta, SGD noise keeps the iterate jittering in a region around the minimum whose size grows with eta (effective temperature proportional to eta/B), so it never settles; (2) decaying eta lowers the temperature, shrinking the fluctuations so it settles to the bottom; (3) analogy: a high temperature early lets it explore and cross small barriers, and slow cooling (annealing) lets it end in a good, broad minimum rather than freezing into a poor one, like slow crystallization versus quenching.",
+				"modelAnswer": "With a fixed learning rate, minibatch noise acts like a temperature proportional to $\\eta/B$: the iterate keeps jittering around the minimum instead of sitting at the bottom. Decaying $\\eta$ cools the system, so the fluctuations shrink and it settles. Doing it gradually matters: early high temperature lets it explore and cross small barriers, and slow cooling lets it find a good basin, just as slow cooling grows a good crystal while quenching traps a disordered glass."
+			}
+		],
+		"a2-l031-loss-landscapes": [
+			{
+				"kind": "mc",
+				"prompt": "At a critical point of the loss, the Hessian has eigenvalues $5,\\ 2,\\ -0.3$. On a potential energy surface this point would be",
+				"options": [
+					"a local minimum, because most of the eigenvalues are positive.",
+					"a local maximum, because one eigenvalue is negative.",
+					"a shallow minimum, since $-0.3$ is close enough to zero.",
+					"an index-1 saddle, the analogue of a transition state."
+				],
+				"answer": 3,
+				"explanation": "The index is the number of negative eigenvalues. Index 1 means downhill in exactly one direction and uphill in all others: a first-order saddle, which on a PES is a transition state connecting two minima."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "As a toy model, suppose each of the $N=30$ Hessian eigenvalues at a random critical point is independently positive or negative with probability 1/2. What fraction of critical points are local minima?",
+				"answer": 9.313e-10,
+				"tolerance": 0.02,
+				"explanation": "All 30 must be positive: $2^{-30}\\approx9.3\\times10^{-10}$. Real landscapes aren't this simple, but the point holds: in high dimensions almost every critical point is a saddle, so saddles, not bad local minima, are the main obstacle."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Gradient descent with exact gradients approaches a saddle point and slows to a crawl. Why does adding gradient noise (as in SGD) help?",
+				"options": [
+					"Noise makes the gradient larger near critical points, speeding the descent.",
+					"A random kick has a downhill component, which then grows.",
+					"Noise averages the Hessian to zero, so the saddle disappears.",
+					"Noise only helps with local minima; at saddles it has no effect."
+				],
+				"answer": 1,
+				"explanation": "Near a saddle the gradient vanishes, so exact GD stalls if it lies close to the stable directions. Any perturbation with a component along the negative-curvature direction grows exponentially, just as a molecule at a transition state slides off toward reactants or products with the slightest push."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the 'flat minima generalize better' picture and the main caveat about measuring sharpness.",
+				"rubric": "Full credit requires: (1) in a flat (wide) minimum the loss changes little when parameters are perturbed, so small shifts between training and test conditions cost little and the solution is robust; sharp minima are sensitive; (2) SGD noise tends to favour flat basins; (3) caveat: sharpness depends on the parametrization; e.g. in a ReLU network, scaling one layer's weights by alpha and the next by 1/alpha leaves the function unchanged but changes the Hessian, so a minimum can be made arbitrarily sharp without changing what it computes.",
+				"modelAnswer": "In a wide, flat basin the loss barely changes if the parameters shift, so the small mismatch between training and test data costs little; a sharp minimum is fragile. SGD noise also tends to kick the iterate out of narrow basins, favouring wide ones. The caveat: sharpness isn't a property of the function computed. In a ReLU network you can multiply one layer by $\\alpha$ and the next by $1/\\alpha$, giving the same function but a differently curved minimum. A flatness measure must account for reparametrizations like this."
+			}
+		],
+		"a2-l032-diagnosing-training": [
+			{
+				"kind": "mc",
+				"prompt": "Training loss keeps falling, but validation loss reached its lowest value at epoch 15 and has risen steadily since. What is the diagnosis?",
+				"options": [
+					"Underfitting: the model needs more capacity or more epochs.",
+					"Learning rate too high: the iterate is bouncing around the minimum.",
+					"Overfitting: the model is fitting noise in the training set.",
+					"A data-loading bug: the validation set must contain training data."
+				],
+				"answer": 2,
+				"explanation": "A widening gap, with training still improving and validation getting worse, is the signature of overfitting. Remedies: stop around epoch 15, regularize, or add data. A too-high learning rate would make the training loss erratic too."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "A 10-class classifier with cross-entropy loss is initialized so that it predicts all classes equally. What loss value should you see on the first batch (natural log)?",
+				"answer": 2.303,
+				"tolerance": 0.02,
+				"explanation": "Uniform prediction gives $-\\ln(1/10)=\\ln10\\approx2.30$. If the initial loss is far from this, or if training stays stuck at 2.30, suspect a bug (labels, loss wiring) or a learning rate that is far too low."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You are tuning 4 hyperparameters, but only 1 of them strongly affects performance. Why does random search with 16 trials usually beat a $2\\times2\\times2\\times2$ grid?",
+				"options": [
+					"Random search tries 16 values of the important one; the grid tries 2.",
+					"Random search uses the validation set more efficiently than a grid does.",
+					"A grid always misses the optimum, while random search always finds it.",
+					"Random search tunes the hyperparameters one at a time, which converges faster."
+				],
+				"answer": 0,
+				"explanation": "A grid spends most trials repeating the same few values along each axis. When only a few hyperparameters matter, random sampling explores many more distinct values of those."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why hyperparameters such as the learning rate and network size should be chosen using a validation set and not the test set.",
+				"rubric": "Full credit requires: (1) choosing hyperparameters is itself fitting: picking the best of many runs adapts the choice to the data used to compare them; (2) if that data is the test set, the test score becomes optimistically biased and no longer measures performance on unseen data; (3) so use a separate validation set (or cross-validation) for selection and touch the test set only once at the end.",
+				"modelAnswer": "Every comparison between hyperparameter settings uses the scoring data to make a decision, so the winner is partly tuned to that data's quirks. If that data is the test set, the final test score is biased upward and no longer estimates performance on new data. Tune on a validation split, then report the test set once, untouched."
+			}
+		],
+		"a2-l033-vanishing-exploding-gradients": [
+			{
+				"kind": "numeric",
+				"prompt": "In a deep chain of sigmoid layers with weights near 1, each layer multiplies the backpropagated gradient by at most $\\sigma'_{\\max}=1/4$. What is the largest possible ratio of the gradient 10 layers back to the gradient at the output?",
+				"answer": 9.537e-07,
+				"tolerance": 0.02,
+				"explanation": "$(1/4)^{10}\\approx9.5\\times10^{-7}$. Ten layers back, the weights learn about a million times more slowly than the last ones, and in practice $\\sigma'$ is often well below $1/4$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "To fight vanishing gradients in a sigmoid network, a colleague initializes all weights 10 times larger. What is the likely result?",
+				"options": [
+					"Gradients reach the early layers intact, so training speeds up.",
+					"Neurons saturate, so $\\sigma'$ shrinks and gradients vanish.",
+					"The network becomes linear, so the gradient problem disappears.",
+					"Nothing changes, since gradients do not depend on the weights."
+				],
+				"answer": 1,
+				"explanation": "Each factor is $w\\,\\sigma'(z)$, and large $w$ makes $|z|$ large, so $\\sigma'(z)$ collapses. Where the factors do exceed 1, gradients explode instead. A large product of factors is rarely balanced near 1."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why are vanishing and exploding gradients described as one phenomenon, 'unstable gradients'?",
+				"options": [
+					"Both are caused by using the sigmoid; with ReLU neither can happen.",
+					"Both occur only when the learning rate is set too high.",
+					"Both come from multiplying many per-layer factors together.",
+					"Both are floating-point errors, fixed by switching to float64."
+				],
+				"answer": 2,
+				"explanation": "The early-layer gradient is a product of $(L-l)$ factors $W^k\\sigma'(z^k)$. Unless those factors are tuned to be about 1, the product shrinks or grows geometrically with depth. The cure has to make the per-layer factor near 1, which is what careful initialization and normalization do."
+			},
+			{
+				"kind": "short",
+				"prompt": "Using BP2, explain why the gradient at an early layer $l$ contains a product of $L-l$ factors, and why sigmoid networks with small weights suffer from vanishing gradients.",
+				"rubric": "Full credit requires: (1) applying BP2 repeatedly, delta^l = sigma'(z^l) (W^{l+1})^T sigma'(z^{l+1}) ... (W^L)^T grad_a C sigma'(z^L), so each layer between l and L contributes a factor W^k sigma'(z^k); (2) for sigmoid, sigma' <= 1/4, and with |w| small (around 1 or less) each factor has magnitude below about 1/4; (3) the product shrinks geometrically with the number of layers, so early layers get tiny gradients and learn very slowly.",
+				"modelAnswer": "BP2 expresses $\\delta^l$ in terms of $\\delta^{l+1}$, which depends on $\\delta^{l+2}$, and so on down to the output: $\\delta^l$ is a chain of $L-l$ factors $(W^k)^\\top\\sigma'(z^k)$ applied to the output error. With sigmoid, each $\\sigma'\\le\\tfrac14$, and with small weights each factor is well below 1. A product of many numbers below 1 shrinks geometrically, so the early layers get almost no gradient and barely learn."
+			}
+		],
+		"a2-l034-initialization": [
+			{
+				"kind": "numeric",
+				"prompt": "He initialization for ReLU layers uses $\\mathrm{Var}(w)=2/n_{\\text{in}}$. What standard deviation should the weights of a layer with $n_{\\text{in}}=512$ inputs have?",
+				"answer": 0.0625,
+				"tolerance": 0.02,
+				"explanation": "$\\sqrt{2/512}=\\sqrt{1/256}=0.0625$. With standard deviation 1 instead, $z$ would have a spread of about $\\sqrt{512}\\approx23$, and activations would blow up layer after layer."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does He initialization for ReLU use $\\mathrm{Var}(w)=2/n_{\\text{in}}$ rather than $1/n_{\\text{in}}$?",
+				"options": [
+					"ReLU's slope is 2 for positive inputs, so the weights must compensate.",
+					"The factor 2 averages the forward and backward fan-in for stability.",
+					"ReLU outputs are larger than sigmoid outputs, so weights must be larger.",
+					"ReLU zeroes about half its inputs, halving the signal's mean square."
+				],
+				"answer": 3,
+				"explanation": "For symmetric $z$, $E[\\mathrm{ReLU}(z)^2]=\\tfrac12\\mathrm{Var}(z)$, because half the time the output is zero. Doubling the weight variance restores the signal's scale from layer to layer."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Glorot (Xavier) initialization sets $\\mathrm{Var}(w)=2/(n_{\\text{in}}+n_{\\text{out}})$. What is this a compromise between?",
+				"options": [
+					"Constant activation variance forward and gradient variance backward.",
+					"Making weights large enough to learn but small enough to avoid saturation.",
+					"Matching the variances of the sigmoid output and of the ReLU output.",
+					"Keeping the training loss and the validation loss at the same scale."
+				],
+				"answer": 0,
+				"explanation": "The forward pass sums over $n_{\\text{in}}$ inputs and wants $\\mathrm{Var}(w)=1/n_{\\text{in}}$; the backward pass sums over $n_{\\text{out}}$ outputs and wants $1/n_{\\text{out}}$. When the two differ, Glorot uses the harmonic-mean compromise."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive $\\mathrm{Var}(z)=n_{\\text{in}}\\mathrm{Var}(w)\\mathrm{Var}(x)$ for $z=\\sum_{i=1}^{n_{\\text{in}}}w_ix_i$ with independent, zero-mean weights and inputs, and explain how it determines a good choice of $\\mathrm{Var}(w)$.",
+				"rubric": "Full credit requires: (1) independence lets the variance of the sum be the sum of variances; (2) for independent zero-mean w and x, Var(wx) = E[w^2]E[x^2] = Var(w)Var(x); (3) so Var(z) = n_in Var(w) Var(x); (4) choosing Var(w) = 1/n_in keeps Var(z) equal to Var(x), so the signal neither grows nor shrinks across layers (adjusted to 2/n_in for ReLU).",
+				"modelAnswer": "The terms $w_ix_i$ are independent, so their variances add. For each, with zero means, $\\mathrm{Var}(w_ix_i)=E[w_i^2]E[x_i^2]=\\mathrm{Var}(w)\\mathrm{Var}(x)$. Summing $n_{\\text{in}}$ of them gives $\\mathrm{Var}(z)=n_{\\text{in}}\\mathrm{Var}(w)\\mathrm{Var}(x)$. To keep the signal's scale unchanged from layer to layer, choose $\\mathrm{Var}(w)=1/n_{\\text{in}}$ (doubled for ReLU); otherwise it grows or shrinks geometrically with depth, like the unstable gradients."
+			}
+		],
+		"a2-l035-batch-normalization": [
+			{
+				"kind": "numeric",
+				"prompt": "A batch-norm unit sees the values $2,4,6,8$ in one batch. Standardizing with the batch mean and the (population) batch variance, ignoring $\\epsilon$, then applying $\\gamma=2$, $\\beta=1$: what is the output for the input 8?",
+				"answer": 3.683,
+				"tolerance": 0.02,
+				"explanation": "$\\mu=5$, $\\sigma^2=5$, so $\\hat x=3/\\sqrt5=1.342$ and $y=2(1.342)+1=3.68$. The learned $\\gamma$ and $\\beta$ then put back whatever scale and offset the next layer prefers."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Batch norm standardizes each unit to mean 0 and variance 1, then applies a learned scale $\\gamma$ and shift $\\beta$. Why learn $\\gamma$ and $\\beta$?",
+				"options": [
+					"They undo the standardization at test time, when there is no batch.",
+					"They let the layer recover any mean and scale, even the identity.",
+					"They are needed to keep the batch statistics from overflowing.",
+					"They replace the layer's ordinary weights and biases entirely."
+				],
+				"answer": 1,
+				"explanation": "Forcing every unit to mean 0, variance 1 would restrict what the network can represent; a sigmoid, for example, would be stuck in its near-linear middle. With $\\gamma=\\sigma_B$ and $\\beta=\\mu_B$ the layer can even undo the normalization, so batch norm reparametrizes without limiting."
+			},
+			{
+				"kind": "mc",
+				"prompt": "At inference you classify one sample at a time. What does a batch-norm layer use for $\\mu$ and $\\sigma^2$?",
+				"options": [
+					"The mean and variance of that single sample's features.",
+					"Fresh statistics from the current test batch, as in training.",
+					"No statistics; batch norm is switched off after training.",
+					"Running averages of the batch statistics from training."
+				],
+				"answer": 3,
+				"explanation": "With one sample, batch statistics are meaningless, and even with a batch the output would depend on which other samples happen to be present. Fixed running averages make inference deterministic. Forgetting to switch the layer to inference mode is a classic bug."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why batch normalization tends to make training more stable and allows larger learning rates.",
+				"rubric": "Full credit requires: (1) it keeps each layer's pre-activations at a controlled scale regardless of how earlier weights change, so units stay out of saturation and activations do not explode or vanish with depth; (2) the scale of a layer's output no longer depends on the scale of its weights, so large updates cannot blow up the signal and the loss surface is better conditioned; (3) hence larger learning rates are tolerated (it also adds mild noise from batch statistics, a regularizing side effect).",
+				"modelAnswer": "Without it, every update to early layers changes the scale and offset of everything downstream, so later layers chase a moving target and units drift into saturation or blow up. Batch norm re-standardizes each layer's inputs every step, so the signal stays at a sensible scale whatever the earlier weights do. Because rescaling a layer's weights no longer changes its normalized output, a large step can't blow up the signal, so larger learning rates are safe. The batch-to-batch noise in $\\mu_B$ and $\\sigma_B$ adds a slight regularizing effect."
+			}
+		],
+		"a2-l036-overfitting-generalization": [
+			{
+				"kind": "mc",
+				"prompt": "A network with more parameters than training images reaches 100% training accuracy even when the image labels are randomly shuffled, while its test accuracy is at chance. What does this show?",
+				"options": [
+					"The network must have a bug, since random labels cannot be fitted at all.",
+					"Fitting random labels proves the network will generalize well.",
+					"Shuffled labels act as data augmentation and improve accuracy.",
+					"Capacity alone cannot explain why it generalizes on real labels."
+				],
+				"answer": 3,
+				"explanation": "The same architecture can memorize pure noise, so the gap between training and test error is entirely overfitting here. Yet on real labels it generalizes. Something beyond parameter count (the data's structure, SGD's implicit biases) must account for the difference."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a double-descent curve, test error is plotted against model size. Where does test error peak?",
+				"options": [
+					"At the smallest model, where bias is largest.",
+					"Where the model can just fit the training data.",
+					"At the largest model, where variance is largest.",
+					"Nowhere; test error falls steadily as the model grows."
+				],
+				"answer": 1,
+				"explanation": "Near the point where parameters roughly equal training examples, the model is forced to fit every point, noise included, with a contorted solution. Beyond it, many interpolating solutions exist and training tends to find smooth ones, so test error falls again."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain the double-descent curve and why it complicates the classical bias-variance picture, in which test error is U-shaped in model size.",
+				"rubric": "Full credit requires: (1) classical picture: small models underfit (high bias), large ones overfit (high variance), so test error is U-shaped with a sweet spot; (2) double descent: test error rises to a peak near the interpolation threshold (model just able to fit the training data exactly) and then falls again as the model grows further; (3) explanation: past the threshold there are many zero-training-error solutions and gradient-based training picks low-norm / smooth ones, so variance decreases again; the 'larger is worse' advice is wrong for very overparametrized models.",
+				"modelAnswer": "The classical story says small models are too rigid (bias) and large ones chase noise (variance), so test error is U-shaped. Double descent adds a second act: error peaks near the interpolation threshold, where the model has just enough capacity to fit every training point, then falls again as the model keeps growing. Past that threshold many perfect fits exist, and training tends to land on the smoothest, so variance drops. 'Bigger means more overfitting' fails for heavily overparametrized networks."
+			}
+		],
+		"a2-l037-weight-decay": [
+			{
+				"kind": "numeric",
+				"prompt": "With L2 weight decay the update is $w\\leftarrow(1-\\eta\\lambda)w-\\eta\\nabla L$. Take $\\eta=0.1$ and $\\lambda=10^{-3}$, and suppose the data gradient for some weight is zero. What fraction of its initial value remains after 10,000 steps?",
+				"answer": 0.3679,
+				"tolerance": 0.02,
+				"explanation": "$(1-10^{-4})^{10000}\\approx e^{-1}=0.368$. Without a data gradient holding it in place, the weight relaxes exponentially toward zero, like a coordinate under a harmonic restraint in an overdamped bath."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does L1 regularization drive many weights exactly to zero, while L2 only shrinks them?",
+				"options": [
+					"L1's pull is constant down to zero; L2's pull fades as $w\\to0$.",
+					"L1 is applied after training, by pruning the smallest weights.",
+					"L2 is too weak to affect weights, so they only shrink slightly.",
+					"L1's gradient grows with $|w|$, so small weights are crushed first."
+				],
+				"answer": 0,
+				"explanation": "L2's gradient is $\\lambda w$, which vanishes as $w\\to0$, so weights get small but rarely exactly zero. L1's is $\\lambda\\,\\mathrm{sign}(w)$, constant size right up to zero, so weights with weak data support are pinned there. In Bayesian terms, the Laplace prior has a sharp peak at zero; the Gaussian does not."
+			},
+			{
+				"kind": "mc",
+				"prompt": "L2 regularization is equivalent to MAP estimation with a Gaussian prior on the weights. What does increasing $\\lambda$ correspond to?",
+				"options": [
+					"A broader prior, letting the data choose larger weights more freely.",
+					"A prior centred on larger weights, shifting the optimum away from zero.",
+					"A narrower prior, i.e. a stronger belief that weights are small.",
+					"Switching from a Gaussian prior to a uniform one over weights."
+				],
+				"answer": 2,
+				"explanation": "$p(w)\\propto e^{-\\lambda\\|w\\|^2/2}$ is a Gaussian with variance $1/\\lambda$. Larger $\\lambda$ means a narrower prior, a stiffer restraint pulling weights toward zero, like a stiffer restraint force constant in a structure refinement."
+			},
+			{
+				"kind": "short",
+				"prompt": "Show that adding $\\tfrac{\\lambda}{2}\\|w\\|^2$ to the loss turns gradient descent into $w\\leftarrow(1-\\eta\\lambda)w-\\eta\\nabla L$, and interpret the extra term physically.",
+				"rubric": "Full credit requires: (1) gradient of the penalty is lambda w, so the update is w - eta(grad L + lambda w) = (1 - eta lambda) w - eta grad L; (2) the factor (1 - eta lambda) shrinks every weight by a constant fraction each step ('decay'); (3) physical interpretation: the penalty is a harmonic potential (spring) centred at w = 0 with force constant lambda, a restraint that pulls weights toward zero, balanced against the data's pull.",
+				"modelAnswer": "$\\nabla(\\tfrac\\lambda2\\|w\\|^2)=\\lambda w$, so $w-\\eta(\\nabla L+\\lambda w)=(1-\\eta\\lambda)w-\\eta\\nabla L$: before following the data, every weight shrinks by a fixed fraction. Physically the penalty is a harmonic spring with force constant $\\lambda$ tethering each weight to zero. The weights settle where the data's force balances the spring's, just like a harmonic positional restraint in an MD or crystallographic refinement."
+			}
+		],
+		"a2-l038-dropout-ensembles": [
+			{
+				"kind": "mc",
+				"prompt": "With dropout probability $p=0.5$ (inverted dropout), a unit's activation is 2.0. During training, what does the next layer receive from this unit?",
+				"options": [
+					"Either 0 or 2.0, and at test time 1.0, to match the training mean.",
+					"Always 1.0, the expected value of the dropped activation.",
+					"Either 0 or 4.0, so the expected value stays at 2.0 as at test time.",
+					"Either 0 or 2.0, and the next layer halves its weights to compensate."
+				],
+				"answer": 2,
+				"explanation": "Kept units are scaled by $1/(1-p)=2$, so the expected input is $\\tfrac12\\cdot0+\\tfrac12\\cdot4=2.0$, the same as at test time, when nothing is dropped and nothing is rescaled."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "Dropout on a network with two hidden layers of 50 units each: if every pattern of dropped hidden units is a different 'subnetwork', how many subnetworks share the weights?",
+				"answer": 1.2676506002282294e+30,
+				"tolerance": 0.02,
+				"explanation": "Each of the 100 units is independently kept or dropped: $2^{100}\\approx1.27\\times10^{30}$ subnetworks, all sharing one set of weights. Each training step trains one random member of this huge ensemble."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Why does dropout discourage 'co-adapted' features?",
+				"options": [
+					"Dropped units have their weights reset, so features must be relearned.",
+					"No unit can count on its partners, so each must be useful alone.",
+					"It lowers the learning rate of units that fire together often.",
+					"It removes the units with the largest weights, which co-adapt most."
+				],
+				"answer": 1,
+				"explanation": "If unit A only works when unit B is also on, dropout often removes B and A's contribution fails. Units are pushed to learn features that are useful in many contexts, a form of robustness rather than fragile teamwork."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain dropout as training an exponentially large ensemble, and why no units are dropped at test time.",
+				"rubric": "Full credit requires: (1) each training step uses a random mask, i.e. a random subnetwork, and all subnetworks share weights, so training updates an ensemble of up to 2^N models; (2) ensembles generalize better because their individual errors partly cancel; (3) at test time we want the ensemble's average prediction; running the full network with all units (with activations correctly scaled, as inverted dropout already does in training) approximates that average in one pass, and keeps predictions deterministic.",
+				"modelAnswer": "Each minibatch trains a different random subnetwork, and all of them share the same weights, so dropout trains an ensemble of up to $2^N$ networks at the cost of one. Ensembles generalize because their members' errors partly average out. At test time we want the ensemble's average prediction, and the full network, with activations scaled to match their training-time expectation, is a cheap and good approximation to that average. Dropping units at test time would just add noise."
+			}
+		],
+		"a2-l039-early-stopping-augmentation": [
+			{
+				"kind": "numeric",
+				"prompt": "For a quadratic loss, stopping gradient descent after $t$ steps acts like L2 regularization with $\\lambda_{\\text{eff}}\\approx1/(\\eta t)$. With $\\eta=0.01$ and $t=500$, what is $\\lambda_{\\text{eff}}$?",
+				"answer": 0.2,
+				"tolerance": 0.02,
+				"explanation": "$1/(0.01\\times500)=0.2$. Directions with curvature well above 0.2 have converged; flatter ones have barely moved from the initialization, exactly as if a restraint of strength 0.2 held them back."
+			},
+			{
+				"kind": "mc",
+				"prompt": "You train a network to predict a molecule's energy from its 3-D atomic coordinates, augmenting the data with random rigid rotations of each molecule. What does this teach the network?",
+				"options": [
+					"That energy is rotation-invariant, a symmetry the raw model lacks.",
+					"That rotated molecules are new compounds, enlarging the chemical space.",
+					"To predict the rotation angle as well as the energy.",
+					"Nothing new; it only adds noise that slows down training."
+				],
+				"answer": 0,
+				"explanation": "Rotating a molecule doesn't change its energy, but a network fed raw coordinates doesn't know that. Augmentation shows it the same label across rotations, encoding the symmetry through the data."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Training on inputs with small added Gaussian noise of variance $s^2$ approximately adds which penalty to the squared-error loss?",
+				"options": [
+					"An L1 penalty $\\propto s^2\\|w\\|_1$ that drives many weights exactly to zero.",
+					"A penalty $\\propto s^2$ times the training error itself.",
+					"No penalty; the noise averages out exactly in the loss.",
+					"A penalty $\\propto s^2\\|\\partial f/\\partial x\\|^2$ on the output's slope."
+				],
+				"answer": 3,
+				"explanation": "Expanding $f(x+\\epsilon)\\approx f(x)+\\epsilon\\cdot\\nabla_xf$ and averaging over the noise adds about $s^2\\|\\nabla_xf\\|^2$: the network is rewarded for being smooth, insensitive to small input changes. For a linear model this is exactly L2 weight decay."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain early stopping: how it is done, and why for a quadratic loss it behaves like L2 regularization.",
+				"rubric": "Full credit requires: (1) monitor validation loss during training and keep the parameters from the step with the lowest validation loss; the number of steps is effectively a hyperparameter chosen on validation data; (2) for a quadratic loss started near zero, each Hessian eigendirection approaches its optimum at rate (1 - eta lambda_i)^t: stiff directions (lambda_i >> 1/(eta t)) are fitted, while soft ones have barely moved; (3) L2 with strength lambda_eff ~ 1/(eta t) does the same: it keeps directions with curvature above lambda_eff and suppresses those below it.",
+				"modelAnswer": "Track the validation loss as training proceeds and keep the weights from its minimum; the number of steps becomes a hyperparameter chosen on validation data. For a quadratic loss starting near zero, each Hessian direction moves toward its optimum as $1-(1-\\eta\\lambda_i)^t$. Stiff directions converge quickly; soft ones, with $\\lambda_i\\ll1/(\\eta t)$, have hardly moved. L2 regularization with $\\lambda\\approx1/(\\eta t)$ does the same, fitting high-curvature directions and suppressing low-curvature ones, so stopping early is an implicit weight penalty."
+			}
+		],
+		"a2-l040-hopfield-energy": [
+			{
+				"kind": "numeric",
+				"prompt": "A 3-unit Hopfield network has $w_{12}=1$, $w_{13}=-1$, $w_{23}=1$ (symmetric), no biases, and state $s=(+1,-1,-1)$. Compute $E=-\\tfrac12\\sum_{i\\ne j}w_{ij}s_is_j=-\\sum_{i<j}w_{ij}s_is_j$.",
+				"answer": -1.0,
+				"tolerance": 0.02,
+				"explanation": "$-[\\,1(1)(-1)+(-1)(1)(-1)+1(-1)(-1)\\,]=-[-1+1+1]=-1$. Each satisfied coupling (positive $w$ with aligned spins, negative $w$ with opposed ones) lowers $E$, exactly as for bonds in an Ising magnet."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Mapping the Hopfield energy onto the Ising Hamiltonian $H=-\\sum J_{ij}\\sigma_i\\sigma_j-\\sum h_i\\sigma_i$, a large positive weight $w_{ij}$ corresponds to",
+				"options": [
+					"an external field on spin $i$ that favors $\\sigma_i=+1$.",
+					"an antiferromagnetic bond that favors opposite spins.",
+					"a high temperature that randomizes the two spins.",
+					"a ferromagnetic bond $J_{ij}>0$ favoring aligned spins."
+				],
+				"answer": 3,
+				"explanation": "$w_{ij}\\leftrightarrow J_{ij}$, $b_i\\leftrightarrow h_i$, $s_i\\leftrightarrow\\sigma_i$. Positive $w_{ij}$ lowers the energy when $s_i=s_j$; negative $w_{ij}$ is antiferromagnetic. Biases act as local magnetic fields."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The proof that asynchronous Hopfield updates never raise the energy assumes symmetric weights with zero diagonal. What can happen with asymmetric weights?",
+				"options": [
+					"Nothing new; the energy still decreases, only more slowly.",
+					"No energy function need exist, so states can cycle forever.",
+					"The network always converges, but to the global minimum only.",
+					"The updates become stochastic, as in a Boltzmann machine."
+				],
+				"answer": 1,
+				"explanation": "With $w_{ij}\\ne w_{ji}$, unit $i$ can 'want' to agree with $j$ while $j$ wants to disagree with $i$, and the pair can flip forever. Symmetry is what makes $\\Delta E=-\\Delta s_i\\,h_i$, the key step in the proof."
+			},
+			{
+				"kind": "short",
+				"prompt": "Prove that the asynchronous update $s_i\\leftarrow\\mathrm{sign}\\bigl(\\sum_jw_{ij}s_j+b_i\\bigr)$ never increases $E=-\\tfrac12\\sum_{i\\ne j}w_{ij}s_is_j-\\sum_ib_is_i$ when $w$ is symmetric with zero diagonal, and say what this implies about the dynamics.",
+				"rubric": "Full credit requires: (1) the terms involving s_i are -s_i(sum_j w_ij s_j + b_i) = -s_i h_i (using symmetry so the factor 1/2 cancels against the two copies w_ij and w_ji, and w_ii = 0 so there is no self-term); (2) changing s_i by Delta s_i changes E by Delta E = -Delta s_i h_i; (3) the update sets s_i = sign(h_i), so Delta s_i is either zero or has the same sign as h_i, giving Delta E <= 0; (4) since E is bounded below and the state space is finite, the dynamics must reach a fixed point, a local minimum of E.",
+				"modelAnswer": "Collect the terms containing $s_i$: because $w_{ij}=w_{ji}$, the pair terms appear twice, cancelling the $\\tfrac12$, and $w_{ii}=0$ removes self-interaction, so they equal $-s_ih_i$ with $h_i=\\sum_jw_{ij}s_j+b_i$. Flipping $s_i$ changes the energy by $\\Delta E=-\\Delta s_i\\,h_i$. The update sets $s_i=\\mathrm{sign}(h_i)$, so $\\Delta s_i$ is either 0 or has the sign of $h_i$, giving $\\Delta E\\le0$. $E$ is bounded and there are finitely many states, so the network must come to rest in a local minimum: a zero-temperature quench of an Ising model."
+			}
+		],
+		"a2-l041-hopfield-memory": [
+			{
+				"kind": "numeric",
+				"prompt": "A Hopfield network has $N=1000$ units and stores random $\\pm1$ patterns with the Hebbian rule. Using the capacity limit $P_{\\max}\\approx0.138N$, about how many patterns can it store before recall breaks down?",
+				"answer": 138,
+				"tolerance": 0.05,
+				"unit": "patterns",
+				"explanation": "$0.138\\times1000\\approx138$. Beyond this, crosstalk between stored patterns destroys their stability, and the network falls into spurious states instead."
+			},
+			{
+				"kind": "mc",
+				"prompt": "With Hebbian weights, the local field at unit $i$ when the network is in pattern $\\nu$ is $\\xi_i^\\nu$ plus a crosstalk term from the other patterns. When is pattern $\\nu$ a stable fixed point?",
+				"options": [
+					"Whenever the patterns are stored with large enough weights.",
+					"Only if exactly one pattern is stored in the network.",
+					"When crosstalk stays below 1: few, near-orthogonal patterns.",
+					"When crosstalk is larger than 1, so it reinforces the signal term."
+				],
+				"answer": 2,
+				"explanation": "The update keeps $s_i=\\xi_i^\\nu$ when $\\mathrm{sign}(h_i)=\\xi_i^\\nu$. The signal is $\\pm1$; the crosstalk is a sum of roughly random terms whose size grows like $\\sqrt{P/N}$. Few, nearly orthogonal patterns keep it below 1."
+			},
+			{
+				"kind": "mc",
+				"prompt": "After storing patterns $\\xi^1,\\xi^2,\\xi^3$ (no biases), which spurious states can the network also settle into?",
+				"options": [
+					"None: Hebbian storage guarantees that only the stored patterns are energy minima.",
+					"Only noisy copies of the patterns, never anything new.",
+					"Only the all-$+1$ and all-$-1$ states, by symmetry.",
+					"The reversed patterns $-\\xi^\\mu$, and odd mixtures of stored patterns."
+				],
+				"answer": 3,
+				"explanation": "With no biases $E(s)=E(-s)$, so every reversed pattern is an equally deep minimum. Symmetric mixtures of an odd number of patterns are also local minima. These are memories the network never learned."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain how a Hopfield network recalls a stored pattern from a corrupted cue, in terms of its energy landscape.",
+				"rubric": "Full credit requires: (1) Hebbian storage makes each stored pattern a local minimum of the energy (an attractor); (2) a corrupted cue is a state near that minimum, inside its basin of attraction; (3) asynchronous updates only lower the energy, so the state flows downhill to the nearest minimum, correcting the flipped bits; (4) this works only if the cue lies in the right basin (not too corrupted) and the network is below capacity; otherwise it may land in a spurious state or another pattern.",
+				"modelAnswer": "Storing a pattern carves a valley in the energy landscape with the pattern at its bottom. A corrupted cue starts partway up that valley. Each update can only lower the energy, so the state rolls downhill, flipping the wrong bits back, until it reaches the bottom: the stored memory. This is content-addressable memory. It fails if the cue is so corrupted it starts in another basin, or if too many patterns are stored and the valleys merge into spurious minima."
+			}
+		],
+		"a2-l042-boltzmann-stochastic-units": [
+			{
+				"kind": "numeric",
+				"prompt": "A stochastic $\\pm1$ unit has local field $h_i=1$ at temperature $T=2$. Using $p(s_i=+1)=\\sigma(2h_i/T)$, what is the probability that it is set to $+1$?",
+				"answer": 0.7311,
+				"tolerance": 0.02,
+				"explanation": "$\\sigma(2\\cdot1/2)=\\sigma(1)=0.731$. This is the heat-bath rule: the unit's two states are populated in the Boltzmann ratio $e^{h_i/T}:e^{-h_i/T}$, given its neighbours."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In a Boltzmann machine with $p(s_i=+1)=\\sigma(2h_i/T)$, what happens as $T\\to0$ and as $T\\to\\infty$?",
+				"options": [
+					"$T\\to0$ makes units random; $T\\to\\infty$ makes them deterministic.",
+					"$T\\to0$ gives the Hopfield update; $T\\to\\infty$ gives coin flips.",
+					"Both limits recover the Hopfield network, with weights rescaled by $T$.",
+					"$T$ only changes how fast the chain mixes, not where it ends up."
+				],
+				"answer": 1,
+				"explanation": "As $T\\to0$, $\\sigma(2h/T)$ becomes a step: $s_i=\\mathrm{sign}(h_i)$, the Hopfield rule. As $T\\to\\infty$ it tends to $\\tfrac12$ for every unit: pure noise. In between, the network samples $e^{-E/T}/Z$, crossing barriers more easily when hotter."
+			},
+			{
+				"kind": "mc",
+				"prompt": "How does this heat-bath (Gibbs) update compare with the Metropolis Monte Carlo a chemist might have used for an Ising model or a liquid?",
+				"options": [
+					"Metropolis samples the Boltzmann distribution, but Gibbs only finds minima.",
+					"Gibbs samples exactly at any $T$, but Metropolis is valid only at high $T$.",
+					"Both leave $e^{-E/T}/Z$ invariant; they differ only in how a flip is made.",
+					"Gibbs needs $Z$ computed first; Metropolis avoids computing $Z$ altogether."
+				],
+				"answer": 2,
+				"explanation": "Metropolis proposes a flip and accepts it with probability $\\min(1,e^{-\\Delta E/T})$; Gibbs draws the spin's new value directly from its conditional distribution. Both satisfy detailed balance with the same Boltzmann distribution, and neither needs $Z$."
+			},
+			{
+				"kind": "short",
+				"prompt": "Explain why the partition function $Z=\\sum_se^{-E(s)/T}$ of a Boltzmann machine is intractable, and why this is the same difficulty as for the Ising model.",
+				"rubric": "Full credit requires: (1) the sum runs over every joint configuration of N binary units, 2^N terms; (2) for even moderate N (e.g. N = 100 gives about 10^30 terms) this cannot be enumerated, and in general there is no shortcut because the couplings correlate all the units; (3) it is the same sum as the Ising partition function, which is solvable only in special cases (e.g. 1-D, 2-D without field); so one must rely on sampling (Monte Carlo) to estimate averages, never computing Z itself.",
+				"modelAnswer": "$Z$ sums over every configuration of $N$ two-state units: $2^N$ terms. For $N=100$ that's about $10^{30}$, far beyond enumeration, and the couplings tie the units together so the sum doesn't factor. That's precisely the Ising partition function, which is exactly solvable only in special cases such as 1-D or the 2-D zero-field lattice. So, as in statistical mechanics, we never compute $Z$; we estimate averages by Monte Carlo sampling, which only needs energy differences."
+			}
+		],
+		"a2-l043-boltzmann-learning": [
+			{
+				"kind": "numeric",
+				"prompt": "A two-unit Boltzmann machine ($\\pm1$ units, $T=1$, no biases) has energy $E=-w\\,s_1s_2$, so $\\langle s_1s_2\\rangle_{\\text{model}}=\\tanh w$. The training data have $\\langle s_1s_2\\rangle_{\\text{data}}=0.6$. Learning stops when the clamped and free correlations match: at what $w$?",
+				"answer": 0.6931,
+				"tolerance": 0.02,
+				"explanation": "$\\tanh w=0.6$ gives $w=\\operatorname{artanh}0.6=\\tfrac12\\ln4=\\ln2\\approx0.693$. The update $\\Delta w\\propto\\langle s_1s_2\\rangle_{\\text{data}}-\\langle s_1s_2\\rangle_{\\text{model}}$ drives the model's correlation up to the data's."
+			},
+			{
+				"kind": "mc",
+				"prompt": "In the learning rule $\\Delta w_{ij}\\propto\\langle s_is_j\\rangle_{\\text{data}}-\\langle s_is_j\\rangle_{\\text{model}}$, what does the negative (free-running) phase do?",
+				"options": [
+					"It lowers the probability of the model's own 'fantasy' states.",
+					"It removes noisy training examples that the model cannot fit.",
+					"It clamps the visible units to the data, raising their probability.",
+					"It decays the weights toward zero, acting as a regularizer."
+				],
+				"answer": 0,
+				"explanation": "The positive phase lowers the energy of data configurations; the negative phase raises the energy of whatever the model currently favours. When the model's own correlations match the data's, the two cancel and learning stops."
+			},
+			{
+				"kind": "mc",
+				"prompt": "The identity $\\partial\\ln Z/\\partial w_{ij}=\\langle s_is_j\\rangle$ is an instance of which statistical-mechanics fact?",
+				"options": [
+					"Entropy is the derivative of the free energy with respect to temperature.",
+					"Derivatives of $\\ln Z$ with respect to a coupling give thermal averages.",
+					"The partition function equals the number of states at infinite temperature.",
+					"Equilibrium populations depend only on energy differences between states."
+				],
+				"answer": 1,
+				"explanation": "Just as $\\partial\\ln Z/\\partial(\\beta h)=\\langle M\\rangle$ for a magnet in a field, or $-\\partial\\ln Z/\\partial\\beta=\\langle E\\rangle$, differentiating $\\ln Z$ with respect to the coupling $w_{ij}$ (multiplying $s_is_j$ in $-E$) gives $\\langle s_is_j\\rangle$. This term is the costly one, because it needs an equilibrium average over the model."
+			},
+			{
+				"kind": "short",
+				"prompt": "Starting from $p(v)=\\sum_he^{-E(v,h)}/Z$ with $E=-\\sum_{i<j}w_{ij}s_is_j$, derive the log-likelihood gradient $\\langle s_is_j\\rangle_{\\text{data}}-\\langle s_is_j\\rangle_{\\text{model}}$, and explain why the model term is the expensive part.",
+				"rubric": "Full credit requires: (1) ln p(v) = ln sum_h e^{-E(v,h)} - ln Z; (2) the derivative of the first term w.r.t. w_ij is the average of s_i s_j over hidden states given v clamped, which averaged over the data is <s_i s_j>_data; (3) the derivative of ln Z is the average of s_i s_j under the full model distribution, <s_i s_j>_model; (4) the model term requires samples from the equilibrium distribution of the whole network, which means running a Markov chain to equilibrium (slow, especially at low T or with high barriers), whereas the data term only needs the clamped network.",
+				"modelAnswer": "$\\ln p(v)=\\ln\\sum_he^{-E(v,h)}-\\ln Z$. Since $-E$ contains $w_{ij}s_is_j$, differentiating the first term gives $\\langle s_is_j\\rangle$ with the visibles clamped to $v$ (averaged over the data: the data term), and differentiating $\\ln Z$ gives $\\langle s_is_j\\rangle$ under the free-running model. The data term needs sampling only the hidden units with $v$ fixed. The model term needs equilibrium samples of the whole network: a Monte Carlo run long enough to equilibrate, repeated at every learning step. That's what makes Boltzmann machines slow."
+			}
+		],
+		"a2-l044-rbm-contrastive-divergence": [
+			{
+				"kind": "mc",
+				"prompt": "In a restricted Boltzmann machine there are no hidden-hidden and no visible-visible connections. What does this buy you?",
+				"options": [
+					"Hidden units are independent given the visibles, so sample all at once.",
+					"The partition function $Z$ becomes a short sum that can be computed exactly.",
+					"Training needs no sampling at all; gradients have closed forms.",
+					"The hidden units become deterministic, like a Hopfield network."
+				],
+				"answer": 0,
+				"explanation": "With only visible-hidden couplings, $E$ is a sum of terms each involving one hidden unit, so $p(h\\mid v)=\\prod_jp(h_j\\mid v)$ with $p(h_j=1\\mid v)=\\sigma(b_j+(W^\\top v)_j)$. One whole layer is sampled exactly in parallel (block Gibbs). $Z$ is still intractable."
+			},
+			{
+				"kind": "numeric",
+				"prompt": "An RBM with 0/1 units has visible-bias term $a^\\top v=0.5$ for a particular $v$, two hidden units with $b=(0,\\,-1)$, and $W^\\top v=(1,\\,1)$. Using $F(v)=-a^\\top v-\\sum_j\\ln\\bigl(1+e^{\\,b_j+(W^\\top v)_j}\\bigr)$, compute $F(v)$.",
+				"answer": -2.506,
+				"tolerance": 0.02,
+				"explanation": "The hidden inputs are $1$ and $0$: $F=-0.5-\\ln(1+e)-\\ln2=-0.5-1.313-0.693=-2.51$. Lower free energy means higher $p(v)\\propto e^{-F(v)}$."
+			},
+			{
+				"kind": "mc",
+				"prompt": "Contrastive divergence (CD-$k$) estimates the model term by running only $k$ Gibbs steps (often $k=1$) started from a training example. What is the trade-off?",
+				"options": [
+					"It is exact for $k=1$, because RBM layers are conditionally independent.",
+					"Cheap but biased: a short chain from the data isn't at equilibrium.",
+					"It is unbiased but noisy, since the chain starts from a random state.",
+					"It avoids sampling the hidden units, so the hidden layer is not trained."
+				],
+				"answer": 1,
+				"explanation": "Starting at the data puts the chain near high-probability regions, so a few steps give a useful signal: 'which way does the model drift away from the data?' But $k$ steps are far from equilibrium, so the gradient is biased. It works well in practice, at a fraction of the cost."
+			},
+			{
+				"kind": "short",
+				"prompt": "Derive the RBM free energy $F(v)$ by summing out the hidden units from $E(v,h)=-a^\\top v-b^\\top h-v^\\top Wh$ (0/1 units), and give a chemistry analogy for what 'summing out' means.",
+				"rubric": "Full credit requires: (1) p(v) = sum_h e^{-E(v,h)}/Z and the sum over h factorizes because E is linear in each h_j: sum_h e^{-E} = e^{a^T v} prod_j sum_{h_j in {0,1}} e^{h_j(b_j + (W^T v)_j)} = e^{a^T v} prod_j (1 + e^{b_j + (W^T v)_j}); (2) defining p(v) = e^{-F(v)}/Z gives F(v) = -a^T v - sum_j ln(1 + e^{b_j + (W^T v)_j}); (3) analogy: like a potential of mean force, or a free energy obtained by integrating out solvent or fast degrees of freedom, leaving an effective energy for the visible variables alone.",
+				"modelAnswer": "Because $E$ is linear in each $h_j$ and there are no hidden-hidden couplings, the sum over $h$ factorizes: $\\sum_he^{-E}=e^{a^\\top v}\\prod_j\\sum_{h_j=0,1}e^{h_j(b_j+(W^\\top v)_j)}=e^{a^\\top v}\\prod_j\\bigl(1+e^{b_j+(W^\\top v)_j}\\bigr)$. Writing this as $e^{-F(v)}$ gives $F(v)=-a^\\top v-\\sum_j\\ln(1+e^{b_j+(W^\\top v)_j})$. This is like a potential of mean force: integrate out the solvent (here the hidden units) and what's left is an effective free energy for the solute (the visibles) alone."
+			}
+		]
+	}
+}

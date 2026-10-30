@@ -21,7 +21,10 @@ So, per lesson (3–4 questions):
     misconception, or connecting to chemistry and everyday phenomena.
   - At most 1–2 are calculational (never more than half): `numeric` questions or calculation-flavoured `mc`. Make them quick and
     physically meaningful, ideally an estimate with real numbers, never an algebra marathon.
-- **Math courses** (`m*`): about 2 technique and computation questions and 1–2 conceptual ones ("what does
+- **AI courses** (`a*`): the physics rule — at least 2 questions test understanding (why a method works, what a
+  loss or architecture choice does, what breaks in a limit, spotting a misconception); at most 1–2 are calculational
+  (a gradient by hand, a parameter count, a softmax value). Tie to physics/chemistry where natural.
+- **Math courses** (`m*`, including M7 probability & statistics): about 2 technique and computation questions and 1–2 conceptual ones ("what does
   this tell you", "when does this method fail", "geometric meaning"). Tie the math to physics or
   chemistry uses where natural.
 

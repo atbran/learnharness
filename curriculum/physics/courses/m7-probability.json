@@ -1,0 +1,1685 @@
+{
+	"id": "m7-probability",
+	"code": "M7",
+	"title": "Probability & Statistics",
+	"track": "math",
+	"depth": "core",
+	"hours": 35,
+	"prereqs": [
+		"m1-calculus"
+	],
+	"coreqs": [],
+	"subject": "Probability & Statistics",
+	"summary": "Probability from counting and Bayes' rule through the normal, Poisson and exponential distributions, the central limit theorem, maximum likelihood and Bayesian inference, then the frequentist toolkit of the analytical lab: confidence intervals, t-tests, chi-square, least-squares calibration curves and error propagation. Blitzstein and Hwang carry the probability; OpenIntro carries the applied statistics. Chemistry hooks throughout: counting statistics in detectors and mass spectrometers, isotope patterns, first-order decay, Bayesian spectral assignment and calibration-curve uncertainty. The groundwork for the probabilistic view of machine learning in A1 and for statistical mechanics.",
+	"books": [
+		{
+			"bookId": "blitzstein-prob",
+			"role": "primary"
+		},
+		{
+			"bookId": "openintro-stats",
+			"role": "secondary"
+		}
+	],
+	"units": [
+		{
+			"id": "m7-u01-probability-counting",
+			"title": "Probability and Counting",
+			"summary": "Sample spaces, the naive definition, counting with the multiplication rule and binomial coefficients, and the axioms that make probability work when outcomes are not equally likely.",
+			"lessons": [
+				{
+					"id": "m7-l001-sample-spaces-naive-probability",
+					"title": "Sample Spaces and the Naive Definition",
+					"minutes": 32,
+					"objectives": [
+						"Write the sample space for an experiment (coin tosses, drawing vials from a rack) and express events as subsets built with union, intersection and complement.",
+						"Compute probabilities with the naive definition and state exactly when it is valid (finite sample space, equally likely outcomes)."
+					],
+					"keyEquations": [
+						"P_{\\text{naive}}(A) = \\frac{|A|}{|S|}",
+						"(A\\cup B)^c = A^c \\cap B^c"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "1.2",
+							"title": "Sample spaces and Pebble World"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "1.3",
+							"title": "Naive definition of probability"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Statistics 110: Probability (full lecture playlist)",
+							"url": "https://www.youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 1a reading notes: Introduction",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class01-prep-a_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"A 'pebble world' grid of outcomes: the learner lassoes pebbles to define events A and B and sees A∪B, A∩B and A^c highlighted with their probabilities."
+					]
+				},
+				{
+					"id": "m7-l002-counting-binomial-coefficients-story-proofs",
+					"title": "Counting: Multiplication Rule, Binomial Coefficients and Story Proofs",
+					"minutes": 40,
+					"objectives": [
+						"Count ordered and unordered samples with and without replacement (the four entries of the sampling table), e.g. the number of ways to pick 3 of 12 NMR tubes.",
+						"Prove a combinatorial identity such as n·C(n-1,k-1) = k·C(n,k) by a story proof (counting the same set two ways).",
+						"Count isomers or substitution patterns with binomial coefficients (e.g. placements of 2 deuteriums on 6 equivalent sites) and recognise when symmetry makes outcomes non-equally-likely."
+					],
+					"keyEquations": [
+						"\\binom{n}{k} = \\frac{n!}{k!(n-k)!}",
+						"\\text{unordered, with replacement: } \\binom{n+k-1}{k}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "1.4",
+							"title": "How to count"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "1.5",
+							"title": "Story proofs"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Lecture 2: Story Proofs, Axioms of Probability",
+							"url": "https://www.youtube.com/watch?v=FJd_1H3rZGg"
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 1b reading notes: Counting and Sets",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class01-prep-b_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Choose n and k and a sampling mode (ordered/unordered, with/without replacement); the demo enumerates samples for small n and checks the count against the formula."
+					]
+				},
+				{
+					"id": "m7-l003-axioms-inclusion-exclusion",
+					"title": "The Axioms of Probability and Inclusion-Exclusion",
+					"minutes": 35,
+					"objectives": [
+						"State the two axioms of probability and derive P(A^c) = 1 - P(A) and P(A ∪ B) = P(A) + P(B) - P(A ∩ B) from them.",
+						"Apply inclusion-exclusion to three or more events (e.g. the matching problem) and use complements to solve 'at least one' problems such as the birthday problem."
+					],
+					"keyEquations": [
+						"P\\left(\\bigcup_j A_j\\right) = \\sum_j P(A_j) \\text{ for disjoint } A_j",
+						"P(A\\cup B) = P(A)+P(B)-P(A\\cap B)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "1.6",
+							"title": "Non-naive definition of probability"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "3.1",
+							"title": "Defining probability",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Lecture 3: Birthday Problem, Properties of Probability",
+							"url": "https://www.youtube.com/watch?v=LZ5Wergp_PA"
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 2 reading notes: Probability: Terminology and Examples",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class02-prep_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Birthday-problem simulator: slide the group size and watch the simulated and exact P(shared birthday) cross 0.5 near 23."
+					]
+				}
+			]
+		},
+		{
+			"id": "m7-u02-conditional-bayes",
+			"title": "Conditional Probability and Bayes' Rule",
+			"summary": "Updating probabilities on evidence: conditional probability, the law of total probability and Bayes' rule, applied to diagnostic tests and to assigning a spectrum to a candidate structure.",
+			"lessons": [
+				{
+					"id": "m7-l004-conditional-probability",
+					"title": "Conditional Probability",
+					"minutes": 35,
+					"objectives": [
+						"Compute P(A|B) = P(A∩B)/P(B) from a two-way table or tree diagram and explain it as restricting the sample space to B.",
+						"Use the multiplication rule P(A∩B) = P(B)P(A|B) to compute the probability of a sequence of events (e.g. drawing two contaminated samples in a row)."
+					],
+					"keyEquations": [
+						"P(A\\mid B) = \\frac{P(A\\cap B)}{P(B)}",
+						"P(A_1\\cap\\cdots\\cap A_n) = P(A_1)P(A_2\\mid A_1)\\cdots P(A_n\\mid A_1,\\dots,A_{n-1})"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "2.1",
+							"title": "The importance of thinking conditionally",
+							"optional": true
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "2.2",
+							"title": "Definition and intuition"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Statistics 110: Probability (full lecture playlist)",
+							"url": "https://www.youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo",
+							"optional": true
+						},
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Lecture 4: Conditional Probability",
+							"url": "https://www.youtube.com/watch?v=P7NE4WF8j-Q"
+						}
+					],
+					"demoIdeas": [
+						"Two overlapping event regions on a unit square: clicking 'condition on B' rescales B to fill the square and shows P(A|B) as the shaded share."
+					]
+				},
+				{
+					"id": "m7-l005-bayes-rule-total-probability-diagnostic-tests",
+					"title": "Bayes' Rule, Total Probability and Diagnostic Tests",
+					"minutes": 40,
+					"objectives": [
+						"Compute P(B) by the law of total probability over a partition, and invert conditionals with Bayes' rule.",
+						"Compute the positive predictive value of a test from sensitivity, specificity and prevalence (e.g. a drug screen or a qualitative spot test) and explain why a rare condition gives many false positives."
+					],
+					"keyEquations": [
+						"P(A\\mid B) = \\frac{P(B\\mid A)P(A)}{P(B)}",
+						"P(B) = \\sum_i P(B\\mid A_i)P(A_i)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "2.3",
+							"title": "Bayes' rule and the law of total probability"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "3.2",
+							"title": "Conditional probability",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Lecture 5: Conditioning Continued, Law of Total Probability",
+							"url": "https://www.youtube.com/watch?v=JzDvVgNDxo8"
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 3 reading notes: Conditional Probability, Independence, Bayes' Theorem",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class03-prep_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"A 1000-person icon array with sliders for prevalence, sensitivity and specificity; true/false positives recolour live and the PPV updates."
+					]
+				},
+				{
+					"id": "m7-l006-bayes-odds-spectral-assignment",
+					"title": "Bayes in Odds Form: Assigning a Spectrum",
+					"minutes": 40,
+					"objectives": [
+						"Rewrite Bayes' rule as posterior odds = prior odds × likelihood ratio, and update the odds sequentially for independent pieces of evidence.",
+						"Assign posterior probabilities to 3–4 candidate structures from a prior (synthetic route plausibility) and the likelihood of each observed spectral feature (an IR carbonyl band, an NMR multiplet, an MS fragment), stating the independence assumption used.",
+						"Explain why conditional probabilities given E obey all the probability rules, so evidence can be applied one piece at a time."
+					],
+					"keyEquations": [
+						"\\frac{P(H_1\\mid E)}{P(H_2\\mid E)} = \\frac{P(E\\mid H_1)}{P(E\\mid H_2)}\\cdot\\frac{P(H_1)}{P(H_2)}",
+						"P(H_i\\mid E) = \\frac{P(E\\mid H_i)P(H_i)}{\\sum_j P(E\\mid H_j)P(H_j)}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "2.4",
+							"title": "Conditional probabilities are probabilities"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "2.6",
+							"title": "Coherency of Bayes' rule"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 12b reading notes: Bayesian Updating: Odds",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class12-prep-b_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Structure-assignment board: four candidate structures as bars; toggling observed spectral features (C=O stretch, doublet at 7.2 ppm, m/z 91) multiplies in likelihoods and the posterior bars re-normalise."
+					]
+				},
+				{
+					"id": "m7-l007-independence-conditional-independence",
+					"title": "Independence and Conditional Independence",
+					"minutes": 35,
+					"objectives": [
+						"Test two or three events for independence and pairwise vs. full independence from their probabilities.",
+						"Give an example where events are conditionally independent given C but dependent unconditionally (two instruments reading the same unknown sample), and explain why this matters when combining evidence."
+					],
+					"keyEquations": [
+						"P(A\\cap B) = P(A)P(B)",
+						"P(A\\cap B\\mid C) = P(A\\mid C)P(B\\mid C)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "2.5",
+							"title": "Independence of events"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Lecture 4: Conditional Probability (independence)",
+							"url": "https://www.youtube.com/watch?v=P7NE4WF8j-Q",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Simulate two detectors that each read a sample of unknown concentration with noise: the scatter of their readings is correlated overall but uncorrelated once the concentration is fixed."
+					]
+				},
+				{
+					"id": "m7-l008-conditioning-pitfalls-paradoxes",
+					"title": "Conditioning as a Tool; Pitfalls and Paradoxes",
+					"minutes": 35,
+					"objectives": [
+						"Solve the Monty Hall problem by conditioning on the host's action, and solve recursive problems by first-step analysis (conditioning on the first event).",
+						"Explain Simpson's paradox with a two-catalyst yield table where one catalyst wins in every substrate class yet loses overall, and name the prosecutor's fallacy (confusing P(E|H) with P(H|E))."
+					],
+					"keyEquations": [
+						"P(A) = P(A\\mid B)P(B) + P(A\\mid B^c)P(B^c)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "2.7",
+							"title": "Conditioning as a problem-solving tool"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "2.8",
+							"title": "Pitfalls and paradoxes"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Lecture 6: Monty Hall, Simpson's Paradox",
+							"url": "https://www.youtube.com/watch?v=fDcjhAKuhqQ"
+						}
+					],
+					"demoIdeas": [
+						"Simpson's-paradox table: drag the number of easy vs. hard substrates run with each catalyst and watch the aggregate winner flip while the per-class winner stays the same."
+					]
+				}
+			]
+		},
+		{
+			"id": "m7-u03-discrete-random-variables",
+			"title": "Discrete Random Variables",
+			"summary": "Random variables, PMFs and CDFs, the binomial and hypergeometric models, expectation and variance, and the Poisson distribution behind counting statistics in detectors, mass spectrometers and scintillation counters.",
+			"lessons": [
+				{
+					"id": "m7-l009-random-variables-pmf-cdf",
+					"title": "Random Variables, PMFs and CDFs",
+					"minutes": 35,
+					"objectives": [
+						"Define a random variable as a function on the sample space and distinguish the r.v. from its distribution.",
+						"Write the PMF and CDF of a discrete r.v. and check validity (non-negative, sums to 1; CDF non-decreasing, right-continuous, limits 0 and 1)."
+					],
+					"keyEquations": [
+						"p_X(x) = P(X = x)",
+						"F_X(x) = P(X\\le x)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "3.1",
+							"title": "Random variables"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "3.2",
+							"title": "Distributions and probability mass functions"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "3.6",
+							"title": "Cumulative distribution functions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Statistics 110: Probability (full lecture playlist)",
+							"url": "https://www.youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 4a reading notes: Discrete Random Variables",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class04-prep-a_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Edit a PMF by dragging bar heights (auto-normalised) and see the step-function CDF redraw beneath it."
+					]
+				},
+				{
+					"id": "m7-l010-bernoulli-binomial-hypergeometric",
+					"title": "Bernoulli, Binomial and Hypergeometric",
+					"minutes": 40,
+					"objectives": [
+						"Recognise binomial stories (n independent trials, fixed p) and compute binomial probabilities, e.g. the number of 13C atoms in a molecule with 10 carbons at 1.1% natural abundance (the M+1 peak).",
+						"Distinguish sampling with replacement (binomial) from without replacement (hypergeometric), e.g. defective vials in a lot of 50, and state when the binomial approximates the hypergeometric."
+					],
+					"keyEquations": [
+						"P(X=k) = \\binom{n}{k}p^k(1-p)^{n-k}",
+						"P(X=k) = \\frac{\\binom{w}{k}\\binom{b}{n-k}}{\\binom{w+b}{n}}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "3.3",
+							"title": "Bernoulli and Binomial"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "3.4",
+							"title": "Hypergeometric"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "4.3",
+							"title": "Binomial distribution",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Isotope-pattern explorer: choose the number of C, Cl or Br atoms and the binomial PMF becomes the predicted M, M+1, M+2… peak pattern."
+					]
+				},
+				{
+					"id": "m7-l011-expectation-linearity-indicators",
+					"title": "Expectation, Linearity and Indicator Variables",
+					"minutes": 40,
+					"objectives": [
+						"Compute E[X] for a discrete r.v. from its PMF and use linearity E[X+Y] = E[X]+E[Y] even for dependent X and Y.",
+						"Use indicator r.v.s and the fundamental bridge E[I_A] = P(A) to find expectations of counts (e.g. expected number of matches, expected number of sites substituted).",
+						"Derive the mean of the binomial and geometric distributions by linearity."
+					],
+					"keyEquations": [
+						"E[X] = \\sum_x x\\,P(X=x)",
+						"E[aX+bY] = aE[X]+bE[Y]",
+						"E[I_A] = P(A)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "4.1",
+							"title": "Definition of expectation"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "4.2",
+							"title": "Linearity of expectation"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "4.3",
+							"title": "Geometric and Negative Binomial",
+							"optional": true
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "4.4",
+							"title": "Indicator r.v.s and the fundamental bridge"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Lecture 10: Expectation Continued",
+							"url": "https://www.youtube.com/watch?v=P1fSFvhPf7Q"
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 4b reading notes: Expected Value of Discrete Random Variables",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class04-prep-b_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Running-average simulator: roll a loaded die repeatedly and watch the running mean converge to E[X] while the PMF bars sit beside it."
+					]
+				},
+				{
+					"id": "m7-l012-lotus-variance",
+					"title": "LOTUS and Variance",
+					"minutes": 35,
+					"objectives": [
+						"Compute E[g(X)] with LOTUS without finding the distribution of g(X).",
+						"Compute Var(X) = E[X^2] - (E[X])^2 and use Var(aX+b) = a^2 Var(X) and additivity of variance for independent r.v.s, e.g. the variance of a binomial as a sum of Bernoullis."
+					],
+					"keyEquations": [
+						"E[g(X)] = \\sum_x g(x)P(X=x)",
+						"\\operatorname{Var}(X) = E[X^2]-(E[X])^2",
+						"\\operatorname{Var}(aX+b) = a^2\\operatorname{Var}(X)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "4.5",
+							"title": "Law of the unconscious statistician (LOTUS)"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "4.6",
+							"title": "Variance"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 5a reading notes: Variance of Discrete Random Variables",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class05-prep-a_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Shift and scale a PMF with sliders for a and b: the mean moves with b and a, the standard deviation scales with |a| only."
+					]
+				},
+				{
+					"id": "m7-l013-poisson-counting-statistics",
+					"title": "The Poisson Distribution and Counting Statistics",
+					"minutes": 40,
+					"objectives": [
+						"Derive the Poisson as the limit of the binomial with n large, p small, np = λ, and state its mean and variance (both λ).",
+						"Explain counting statistics: a detector recording N counts has standard deviation √N, so relative precision is 1/√N; compute the counts needed for 1% precision and the uncertainty of a background-subtracted count.",
+						"Decide whether a Poisson model fits a counting experiment (ion counts in an MS bin, scintillation counts, photon counts) and name what breaks it (dead time, detector saturation)."
+					],
+					"keyEquations": [
+						"P(X=k) = \\frac{e^{-\\lambda}\\lambda^k}{k!}",
+						"E[X] = \\operatorname{Var}(X) = \\lambda",
+						"\\sigma_{N_s - N_b} = \\sqrt{N_s + N_b}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "4.7",
+							"title": "Poisson"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "4.8",
+							"title": "Connections between Poisson and Binomial"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "4.5",
+							"title": "Poisson distribution",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Lecture 11: The Poisson Distribution",
+							"url": "https://www.youtube.com/watch?v=TD1N4hxqMzY"
+						}
+					],
+					"demoIdeas": [
+						"Photon-counting detector: set the count rate and integration time, collect repeated readings, and compare the histogram with the Poisson PMF and its √N error bar.",
+						"Binomial(n, λ/n) vs Poisson(λ): increase n and watch the two PMFs merge."
+					]
+				}
+			]
+		},
+		{
+			"id": "m7-u04-continuous-random-variables",
+			"title": "Continuous Random Variables",
+			"summary": "Densities and CDFs, the uniform, normal and exponential distributions, the Poisson process that ties exponential waiting times (radioactive and first-order decay) to Poisson counts, and moment generating functions.",
+			"lessons": [
+				{
+					"id": "m7-l014-pdfs-uniform",
+					"title": "Probability Density Functions and the Uniform",
+					"minutes": 35,
+					"objectives": [
+						"Compute probabilities as areas under a PDF, find a PDF from a CDF by differentiation, and explain why P(X = x) = 0 for a continuous r.v.",
+						"Compute the mean and variance of a continuous r.v. by integration, using the Uniform(a, b) as the worked case (e.g. the reading error of a pipette graduation)."
+					],
+					"keyEquations": [
+						"P(a<X\\le b) = \\int_a^b f(x)\\,dx = F(b)-F(a)",
+						"E[X] = \\int x f(x)\\,dx",
+						"\\operatorname{Var}(U) = \\frac{(b-a)^2}{12}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "5.1",
+							"title": "Probability density functions"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "5.2",
+							"title": "Uniform"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Statistics 110: Probability (full lecture playlist)",
+							"url": "https://www.youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 5b reading notes: Continuous Random Variables",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class05-prep-b_pdf/",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 6a reading notes: Continuous Random Variables: Expectation and Variance",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class06-prep-a_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Drag the endpoints of an interval under a PDF curve and see the shaded area, the CDF difference and a Monte Carlo hit fraction agree."
+					]
+				},
+				{
+					"id": "m7-l015-normal-distribution",
+					"title": "The Normal Distribution",
+					"minutes": 40,
+					"objectives": [
+						"Standardise X ~ N(μ, σ^2) to Z and compute probabilities and quantiles with Φ, including the 68-95-99.7 rule.",
+						"Use the facts that a linear function of a normal is normal and a sum of independent normals is normal (means add, variances add).",
+						"Explain why replicate lab measurements are often modelled as normal, and when that fails (outliers, skewed concentrations, values near a detection limit)."
+					],
+					"keyEquations": [
+						"f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}}e^{-(x-\\mu)^2/(2\\sigma^2)}",
+						"Z = \\frac{X-\\mu}{\\sigma}",
+						"X+Y\\sim N(\\mu_1+\\mu_2,\\,\\sigma_1^2+\\sigma_2^2)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "5.4",
+							"title": "Normal"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "4.1",
+							"title": "Normal distribution",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 5c reading notes: Gallery of Continuous Random Variables",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class05-prep-c_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Normal-curve explorer: set μ and σ, drag two cut-offs and read the shaded probability and the z-scores."
+					]
+				},
+				{
+					"id": "m7-l016-exponential-memorylessness-decay",
+					"title": "The Exponential Distribution and Decay",
+					"minutes": 35,
+					"objectives": [
+						"State the Exponential(λ) PDF, CDF, mean 1/λ and variance 1/λ^2, and connect λ to a half-life (t_1/2 = ln 2 / λ) and to a first-order rate constant.",
+						"Prove the memoryless property and interpret it for radioactive nuclei and for single molecules undergoing first-order reaction (no ageing)."
+					],
+					"keyEquations": [
+						"f(t) = \\lambda e^{-\\lambda t},\\ t>0",
+						"P(T>s+t\\mid T>s) = P(T>t)",
+						"t_{1/2} = \\frac{\\ln 2}{\\lambda}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "5.5",
+							"title": "Exponential"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Single-molecule decay: a field of molecules each decays at random; the survivor count tracks e^{-λt} and the histogram of lifetimes fills in the exponential PDF."
+					]
+				},
+				{
+					"id": "m7-l017-poisson-process",
+					"title": "The Poisson Process: Counts and Waiting Times",
+					"minutes": 35,
+					"prereqs": [
+						"m7-l013-poisson-counting-statistics"
+					],
+					"objectives": [
+						"Define a Poisson process of rate λ and show that the count in time t is Poisson(λt) while the gaps between arrivals are i.i.d. Exponential(λ).",
+						"Use the count/waiting-time duality P(T_1 > t) = P(N_t = 0) to solve problems such as the probability of no decay events in a 10 s counting window."
+					],
+					"keyEquations": [
+						"N_t \\sim \\operatorname{Pois}(\\lambda t)",
+						"P(T_1>t) = P(N_t=0) = e^{-\\lambda t}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "5.6",
+							"title": "Poisson processes"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"A timeline of random arrival ticks at rate λ: the demo shows the inter-arrival histogram (exponential) and the counts-per-window histogram (Poisson) side by side."
+					]
+				},
+				{
+					"id": "m7-l018-moments-mgfs",
+					"title": "Moments and Moment Generating Functions",
+					"minutes": 40,
+					"objectives": [
+						"Interpret mean, variance, skewness and kurtosis as summaries of a distribution's location, spread, asymmetry and tails.",
+						"Find the MGF of the Bernoulli, Poisson and normal, generate moments by differentiating at t = 0, and use MGFs to show that a sum of independent Poissons is Poisson."
+					],
+					"keyEquations": [
+						"M_X(t) = E[e^{tX}]",
+						"E[X^n] = M_X^{(n)}(0)",
+						"M_{X+Y}(t) = M_X(t)M_Y(t) \\text{ for independent } X,Y"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "6.1",
+							"title": "Summaries of a distribution"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "6.4",
+							"title": "Moment generating functions"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "6.6",
+							"title": "Sums of independent r.v.s via MGFs"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Lecture 17: Moment Generating Functions",
+							"url": "https://www.youtube.com/watch?v=N8O6zd6vTZ8"
+						}
+					],
+					"demoIdeas": [
+						"Pick a distribution and see its MGF plotted near t = 0 with tangent-line slope = mean and curvature giving E[X^2]."
+					]
+				}
+			]
+		},
+		{
+			"id": "m7-u05-joint-error-propagation",
+			"title": "Joint Distributions, Covariance and Error Propagation",
+			"summary": "Several random quantities at once: joint, marginal and conditional distributions, covariance and correlation, and the variance of functions of measured quantities, the theory behind the propagation-of-error formulas used in lab reports.",
+			"lessons": [
+				{
+					"id": "m7-l019-joint-marginal-conditional",
+					"title": "Joint, Marginal and Conditional Distributions",
+					"minutes": 40,
+					"objectives": [
+						"Find marginal and conditional distributions from a joint PMF table or joint PDF, and test independence by factorisation.",
+						"Compute E[g(X, Y)] with 2D LOTUS, e.g. the expected product of two measured quantities."
+					],
+					"keyEquations": [
+						"p_X(x) = \\sum_y p_{X,Y}(x,y)",
+						"f_{Y\\mid X}(y\\mid x) = \\frac{f_{X,Y}(x,y)}{f_X(x)}",
+						"E[g(X,Y)] = \\iint g(x,y)f_{X,Y}(x,y)\\,dx\\,dy"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "7.1",
+							"title": "Joint, marginal, and conditional"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "7.2",
+							"title": "2D LOTUS"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Statistics 110: Probability (full lecture playlist)",
+							"url": "https://www.youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 7a reading notes: Joint Distributions, Independence",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class07-prep-a_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"A joint-density heat map with draggable slice line: the slice renormalises into the conditional density, the projections give the marginals."
+					]
+				},
+				{
+					"id": "m7-l020-covariance-correlation",
+					"title": "Covariance and Correlation",
+					"minutes": 40,
+					"objectives": [
+						"Compute Cov(X, Y) and Corr(X, Y), use bilinearity of covariance, and derive Var(X + Y) = Var(X) + Var(Y) + 2Cov(X, Y).",
+						"Explain why zero correlation does not imply independence, and why correlated errors (a shared calibration standard, a shared balance) must not be added as if independent."
+					],
+					"keyEquations": [
+						"\\operatorname{Cov}(X,Y) = E[XY]-E[X]E[Y]",
+						"\\rho = \\frac{\\operatorname{Cov}(X,Y)}{\\sigma_X\\sigma_Y}",
+						"\\operatorname{Var}(X+Y) = \\operatorname{Var}X + \\operatorname{Var}Y + 2\\operatorname{Cov}(X,Y)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "7.3",
+							"title": "Covariance and correlation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Lecture 21: Covariance and Correlation",
+							"url": "https://www.youtube.com/watch?v=IujCYxtpszU"
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 7b reading notes: Covariance and Correlation",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class07-prep-b_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Scatter-cloud generator: set ρ with a slider and watch the cloud tilt; a readout compares Var(X+Y) with and without the covariance term."
+					]
+				},
+				{
+					"id": "m7-l021-error-propagation",
+					"title": "Propagation of Uncertainty",
+					"minutes": 40,
+					"prereqs": [
+						"m7-l012-lotus-variance"
+					],
+					"objectives": [
+						"Derive the variance of a linear combination aX + bY (including the covariance term) and apply it to a difference of masses or a background-subtracted signal.",
+						"Derive the first-order (delta-method) propagation formula σ_f^2 ≈ Σ (∂f/∂x_i)^2 σ_i^2 from a Taylor expansion, and apply it to a concentration c = A/(εl) and to a ratio or product (relative errors add in quadrature).",
+						"Check a propagated uncertainty against a Monte Carlo simulation and explain when the linear approximation fails (large relative errors, logs near zero)."
+					],
+					"keyEquations": [
+						"\\operatorname{Var}(aX+bY) = a^2\\sigma_X^2 + b^2\\sigma_Y^2 + 2ab\\,\\sigma_{XY}",
+						"\\sigma_f^2 \\approx \\sum_i \\left(\\frac{\\partial f}{\\partial x_i}\\right)^2\\sigma_i^2",
+						"\\left(\\frac{\\sigma_q}{q}\\right)^2 \\approx \\left(\\frac{\\sigma_x}{x}\\right)^2 + \\left(\\frac{\\sigma_y}{y}\\right)^2 \\text{ for } q = xy \\text{ or } x/y"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "7.3",
+							"title": "Covariance and correlation"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Beer-Lambert error budget: set uncertainties on absorbance, path length and ε; compare the first-order formula with a Monte Carlo histogram of c and see them diverge as errors grow."
+					]
+				}
+			]
+		},
+		{
+			"id": "m7-u06-limit-theorems",
+			"title": "Inequalities and Limit Theorems",
+			"summary": "Why averaging replicates works: Markov and Chebyshev bounds, the law of large numbers, the central limit theorem, and the chi-square and Student-t distributions that small lab samples need.",
+			"lessons": [
+				{
+					"id": "m7-l022-inequalities-law-of-large-numbers",
+					"title": "Markov, Chebyshev and the Law of Large Numbers",
+					"minutes": 35,
+					"objectives": [
+						"Apply Markov's and Chebyshev's inequalities to bound tail probabilities using only a mean (and variance).",
+						"State the weak law of large numbers, prove it from Chebyshev, and explain what it does and does not promise about the sample mean of replicate measurements."
+					],
+					"keyEquations": [
+						"P(|X-\\mu|\\ge a)\\le\\frac{\\sigma^2}{a^2}",
+						"\\bar X_n \\to \\mu \\text{ as } n\\to\\infty",
+						"\\operatorname{Var}(\\bar X_n) = \\frac{\\sigma^2}{n}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "10.1",
+							"title": "Inequalities"
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "10.2",
+							"title": "Law of large numbers"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Harvard Stat 110 (Blitzstein)",
+							"title": "Statistics 110: Probability (full lecture playlist)",
+							"url": "https://www.youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Running sample mean of n replicates from a chosen distribution, with the Chebyshev bound band shrinking as 1/√n."
+					]
+				},
+				{
+					"id": "m7-l023-central-limit-theorem",
+					"title": "The Central Limit Theorem",
+					"minutes": 40,
+					"objectives": [
+						"State the CLT and use it to approximate the distribution of a sum or mean of n i.i.d. measurements (standard error σ/√n).",
+						"Use the normal approximation to the binomial and Poisson (e.g. a count of 400 ± 20) and judge when n is large enough."
+					],
+					"keyEquations": [
+						"\\frac{\\bar X_n-\\mu}{\\sigma/\\sqrt n} \\xrightarrow{d} N(0,1)",
+						"\\operatorname{SE}(\\bar X) = \\frac{\\sigma}{\\sqrt n}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "10.3",
+							"title": "Central limit theorem"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "5.1",
+							"title": "Point estimates and sampling variability",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 6b reading notes: Central Limit Theorem",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class06-prep-b_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"CLT machine: pick a skewed parent distribution (exponential, Poisson with small λ) and a sample size n; the histogram of sample means morphs into a bell curve."
+					]
+				},
+				{
+					"id": "m7-l024-chi-square-student-t",
+					"title": "Chi-Square and Student-t Distributions",
+					"minutes": 35,
+					"objectives": [
+						"Define the chi-square distribution as a sum of squared standard normals and show that (n-1)S^2/σ^2 ~ χ²_{n-1} for normal samples.",
+						"Define the Student-t distribution, explain why replacing σ by the sample S widens the tails, and compare t and z critical values for n = 3, 5 and 30 (triplicate measurements)."
+					],
+					"keyEquations": [
+						"\\chi^2_n = \\sum_{i=1}^n Z_i^2",
+						"T = \\frac{\\bar X-\\mu}{S/\\sqrt n}\\sim t_{n-1}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "10.4",
+							"title": "Chi-Square and Student-t"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Overlay t_ν on N(0,1) with a slider for ν; the 95% critical value readout drops from 4.30 (ν = 2) towards 1.96."
+					]
+				}
+			]
+		},
+		{
+			"id": "m7-u07-estimation",
+			"title": "Estimation and Maximum Likelihood",
+			"summary": "Turning data into parameter estimates: bias, variance and mean squared error of estimators, maximum likelihood, standard errors from the curvature of the log-likelihood, and inverse-variance weighting of measurements.",
+			"lessons": [
+				{
+					"id": "m7-l025-estimators-bias-variance-mse",
+					"title": "Estimators: Bias, Variance and MSE",
+					"minutes": 40,
+					"objectives": [
+						"Define an estimator and compute its bias, variance and MSE, and show MSE = bias^2 + variance.",
+						"Show that the sample mean is unbiased and that the sample variance needs the n-1 divisor to be unbiased."
+					],
+					"keyEquations": [
+						"\\operatorname{MSE}(\\hat\\theta) = \\operatorname{Bias}(\\hat\\theta)^2 + \\operatorname{Var}(\\hat\\theta)",
+						"S^2 = \\frac{1}{n-1}\\sum_i (X_i-\\bar X)^2"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "6.3",
+							"title": "Sample moments"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "5.1",
+							"title": "Point estimates and sampling variability",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.650 (Fall 2016)",
+							"title": "Lecture 3: Parametric Inference",
+							"url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/lecture-3-video/"
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 10a reading notes: Introduction to Statistics",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class10-prep-a_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Repeat a small experiment many times and plot the sampling distributions of S^2 with divisor n and n-1; the dashed true σ² shows which is centred."
+					]
+				},
+				{
+					"id": "m7-l026-maximum-likelihood",
+					"title": "Maximum Likelihood Estimation",
+					"minutes": 40,
+					"objectives": [
+						"Write the likelihood and log-likelihood for i.i.d. data and find the MLE by setting the score to zero.",
+						"Derive the MLE for a Bernoulli p, a Poisson rate λ (counts in repeated windows) and an exponential decay rate from measured lifetimes, and check each is a maximum."
+					],
+					"keyEquations": [
+						"L(\\theta) = \\prod_i f(x_i\\mid\\theta)",
+						"\\hat\\theta = \\arg\\max_\\theta \\ell(\\theta),\\quad \\ell = \\log L",
+						"\\hat\\lambda_{\\text{Pois}} = \\bar x,\\quad \\hat\\lambda_{\\text{Expo}} = 1/\\bar t"
+					],
+					"readings": [],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 10b reading notes: Maximum Likelihood Estimates",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class10-prep-b_pdf/"
+						},
+						{
+							"source": "MIT OCW 18.650 (Fall 2016)",
+							"title": "Lecture 4: Parametric Inference (cont.) and Maximum Likelihood Estimation",
+							"url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/lecture-4-video/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Plot the log-likelihood curve for a set of decay times; drag λ to find the peak and compare it with 1/mean."
+					]
+				},
+				{
+					"id": "m7-l027-likelihood-curvature-standard-errors",
+					"title": "Standard Errors from the Likelihood",
+					"minutes": 40,
+					"objectives": [
+						"Compute the Fisher information and explain that a sharply curved log-likelihood means a precise estimate, with asymptotic SE ≈ 1/√(n I(θ)).",
+						"Recover the Poisson counting result σ_λ̂ = √(λ̂/n) from the likelihood curvature, and state the asymptotic normality of the MLE."
+					],
+					"keyEquations": [
+						"I(\\theta) = -E\\left[\\frac{\\partial^2}{\\partial\\theta^2}\\log f(X\\mid\\theta)\\right]",
+						"\\hat\\theta \\approx N\\left(\\theta,\\frac{1}{nI(\\theta)}\\right)"
+					],
+					"readings": [],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.650 (Fall 2016)",
+							"title": "Lecture 5: Maximum Likelihood Estimation (cont.)",
+							"url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/lecture-5-video/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Overlay log-likelihoods for n = 5, 50 and 500 counting windows; the curve narrows and the ±1 SE marks (where ℓ drops by 1/2) tighten as 1/√n."
+					]
+				},
+				{
+					"id": "m7-l028-weighted-mean-combining-measurements",
+					"title": "Combining Measurements: the Weighted Mean",
+					"minutes": 35,
+					"objectives": [
+						"Derive the inverse-variance weighted mean as the MLE of a common value from independent normal measurements with different σ_i, and compute its uncertainty.",
+						"Combine results from two instruments or labs (e.g. a melting point by DSC and by capillary) and judge from the scatter whether the stated uncertainties are consistent."
+					],
+					"keyEquations": [
+						"\\bar x_w = \\frac{\\sum_i x_i/\\sigma_i^2}{\\sum_i 1/\\sigma_i^2}",
+						"\\sigma_{\\bar x_w} = \\left(\\sum_i 1/\\sigma_i^2\\right)^{-1/2}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "7.3",
+							"title": "Covariance and correlation",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Add measurements with error bars to a number line; the weighted mean and its shrinking error bar update, and an inconsistent outlier is flagged by its pull."
+					]
+				}
+			]
+		},
+		{
+			"id": "m7-u08-bayesian-inference",
+			"title": "Bayesian Inference",
+			"summary": "Probability as a state of knowledge about parameters: updating discrete and continuous priors, the Beta-Binomial, Gamma-Poisson and Normal-Normal conjugate pairs, credible intervals, and how Bayesian and frequentist answers compare.",
+			"lessons": [
+				{
+					"id": "m7-l029-bayesian-updating-discrete-priors",
+					"title": "Bayesian Updating with Discrete Priors",
+					"minutes": 35,
+					"prereqs": [
+						"m7-l005-bayes-rule-total-probability-diagnostic-tests"
+					],
+					"objectives": [
+						"Build a Bayesian update table (hypothesis, prior, likelihood, unnormalised posterior, posterior) for a finite set of parameter values.",
+						"Update sequentially on successive data and compute a posterior predictive probability for the next observation."
+					],
+					"keyEquations": [
+						"p(\\theta\\mid x) \\propto p(x\\mid\\theta)\\,p(\\theta)",
+						"P(x_{\\text{new}}\\mid x) = \\sum_\\theta P(x_{\\text{new}}\\mid\\theta)\\,p(\\theta\\mid x)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "2.6",
+							"title": "Coherency of Bayes' rule"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 11 reading notes: Bayesian Updating with Discrete Priors",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class11-prep_pdf/"
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 12a reading notes: Bayesian Updating: Probabilistic Prediction",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class12-prep-a_pdf/",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.650 (Fall 2016)",
+							"title": "Lecture 17: Bayesian Statistics",
+							"url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/lecture-17-video/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Five candidate dice (or five candidate impurity levels) as prior bars; each new observation multiplies in its likelihood and the posterior bars renormalise."
+					]
+				},
+				{
+					"id": "m7-l030-beta-binomial-conjugacy",
+					"title": "The Beta Prior and Beta-Binomial Conjugacy",
+					"minutes": 40,
+					"objectives": [
+						"Describe the Beta(a, b) family, its mean a/(a+b), and how a and b act as pseudo-counts of prior successes and failures.",
+						"Show that a Beta prior with binomial data gives a Beta(a+k, b+n-k) posterior, and apply it to estimating a reaction's success rate or a test's sensitivity from a small number of trials."
+					],
+					"keyEquations": [
+						"f(p)\\propto p^{a-1}(1-p)^{b-1}",
+						"p\\mid k \\sim \\operatorname{Beta}(a+k,\\,b+n-k)",
+						"E[p\\mid k] = \\frac{a+k}{a+b+n}"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "8.3",
+							"title": "Beta"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 15 reading notes: Beta Distributions, Conjugate Priors: Beta and Normal",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class15-prep_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Set a Beta prior with two sliders, then click 'success'/'failure' to add trials; the posterior density sharpens and its mean moves from prior guess to data frequency."
+					]
+				},
+				{
+					"id": "m7-l031-gamma-poisson-normal-normal",
+					"title": "Gamma-Poisson and Normal-Normal Conjugacy",
+					"minutes": 40,
+					"prereqs": [
+						"m7-l017-poisson-process"
+					],
+					"objectives": [
+						"Show that a Gamma(r, b) prior on a Poisson rate λ with counts y observed over time t gives a Gamma(r + y, b + t) posterior, and apply it to a low-count background rate in a detector.",
+						"Derive the Normal-Normal update for a mean with known σ: the posterior precision is the sum of precisions and the posterior mean is the precision-weighted average of prior mean and data, the Bayesian twin of the weighted mean."
+					],
+					"keyEquations": [
+						"\\lambda\\mid y \\sim \\operatorname{Gamma}(r+y,\\,b+t)",
+						"\\frac{1}{\\sigma_{\\text{post}}^2} = \\frac{1}{\\sigma_0^2}+\\frac{n}{\\sigma^2}",
+						"\\mu_{\\text{post}} = \\sigma_{\\text{post}}^2\\left(\\frac{\\mu_0}{\\sigma_0^2}+\\frac{n\\bar x}{\\sigma^2}\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "8.4",
+							"title": "Gamma"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 15 reading notes: Beta Distributions, Conjugate Priors: Beta and Normal",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class15-prep_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Detector background estimator: enter counts per run as they arrive; the Gamma posterior for the rate narrows, compared with the naive count/time estimate and its √N error."
+					]
+				},
+				{
+					"id": "m7-l032-credible-intervals-priors-bayes-vs-frequentist",
+					"title": "Credible Intervals, Choosing Priors, and Bayes vs. Frequentist",
+					"minutes": 35,
+					"objectives": [
+						"Compute an equal-tailed 95% credible interval from a posterior and state its interpretation (probability about the parameter given the data).",
+						"Choose and justify a prior (flat, weakly informative, informed by previous batches) and show how the prior's influence fades with more data.",
+						"Contrast a credible interval with a confidence interval and explain which question each answers."
+					],
+					"keyEquations": [
+						"P(a\\le\\theta\\le b\\mid x) = 0.95"
+					],
+					"readings": [
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "8.3",
+							"title": "Beta",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 16a reading notes: Choosing Priors",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class16-prep-a_pdf/",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 16b reading notes: Probability Intervals",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class16-prep-b_pdf/",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 20 reading notes: Comparison of Frequentist and Bayesian Inference",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class20-prep_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Compare a flat and a strong prior on the same data stream; shaded 95% credible intervals converge as the number of observations grows."
+					]
+				}
+			]
+		},
+		{
+			"id": "m7-u09-intervals-tests",
+			"title": "Confidence Intervals and Hypothesis Tests",
+			"summary": "Frequentist inference as used in the lab: confidence intervals for means and proportions, null-hypothesis tests and p-values, t-tests for comparing methods or batches, and chi-square goodness of fit for count data.",
+			"lessons": [
+				{
+					"id": "m7-l033-confidence-intervals",
+					"title": "Confidence Intervals for Means and Proportions",
+					"minutes": 40,
+					"prereqs": [
+						"m7-l023-central-limit-theorem"
+					],
+					"objectives": [
+						"Construct z and t confidence intervals for a mean and a CLT interval for a proportion, and choose between them by sample size and whether σ is known.",
+						"Interpret a 95% CI correctly as a statement about the procedure's long-run coverage, and report a triplicate result as mean ± t·s/√n with the right t value."
+					],
+					"keyEquations": [
+						"\\bar x \\pm t^*_{n-1}\\frac{s}{\\sqrt n}",
+						"\\hat p \\pm z^*\\sqrt{\\frac{\\hat p(1-\\hat p)}{n}}"
+					],
+					"readings": [
+						{
+							"bookId": "openintro-stats",
+							"ref": "5.2",
+							"title": "Confidence intervals for a proportion"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "7.1",
+							"title": "One-sample means with the t-distribution"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 22 reading notes: Confidence Intervals Based on Normal Data",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class22-prep_pdf/",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 23a reading notes: Confidence Intervals: Three Views",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class23-prep-a_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Coverage simulator: draw 100 samples, plot their 95% intervals as horizontal bars, and count how many miss the true mean; switch between z and t for n = 3."
+					]
+				},
+				{
+					"id": "m7-l034-hypothesis-testing-p-values",
+					"title": "Hypothesis Tests and p-values",
+					"minutes": 40,
+					"objectives": [
+						"Set up null and alternative hypotheses, a test statistic and a rejection region, and compute a p-value for a one-sample z or t test.",
+						"Define type I and type II errors, significance level and power, and explain why a non-significant result is not evidence that a new synthesis gives the same yield as the old one."
+					],
+					"keyEquations": [
+						"p = P(T\\ge t_{\\text{obs}}\\mid H_0)",
+						"\\alpha = P(\\text{reject }H_0\\mid H_0),\\quad \\text{power} = P(\\text{reject }H_0\\mid H_1)"
+					],
+					"readings": [
+						{
+							"bookId": "openintro-stats",
+							"ref": "5.3",
+							"title": "Hypothesis testing for a proportion"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 17b reading notes: NHST I",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class17-prep-b_pdf/",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.650 (Fall 2016)",
+							"title": "Lecture 7: Parametric Hypothesis Testing",
+							"url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/lecture-7-video/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Two overlapping sampling distributions (H0 and H1): slide the critical value and the true effect size to see α, β and power trade off."
+					]
+				},
+				{
+					"id": "m7-l035-t-tests-comparing-methods",
+					"title": "t-Tests: Paired and Two-Sample Comparisons",
+					"minutes": 40,
+					"prereqs": [
+						"m7-l024-chi-square-student-t"
+					],
+					"objectives": [
+						"Run a paired t-test (the same samples measured by two methods, e.g. HPLC vs. UV-Vis assay) and explain why pairing removes sample-to-sample variation.",
+						"Run a Welch two-sample t-test (two batches or two analysts) and report the effect with its confidence interval, not only the p-value."
+					],
+					"keyEquations": [
+						"t = \\frac{\\bar d}{s_d/\\sqrt n}",
+						"t = \\frac{\\bar x_1-\\bar x_2}{\\sqrt{s_1^2/n_1+s_2^2/n_2}}"
+					],
+					"readings": [
+						{
+							"bookId": "openintro-stats",
+							"ref": "7.2",
+							"title": "Paired data"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "7.3",
+							"title": "Difference of two means"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "7.4",
+							"title": "Power calculations for a difference of means",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 18 reading notes: NHST II",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class18-prep_pdf/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Method-comparison data set: toggle between treating it as paired and as two independent samples and watch the t statistic and p-value change."
+					]
+				},
+				{
+					"id": "m7-l036-chi-square-goodness-of-fit",
+					"title": "Chi-Square Goodness of Fit",
+					"minutes": 35,
+					"prereqs": [
+						"m7-l024-chi-square-student-t"
+					],
+					"objectives": [
+						"Compute the chi-square statistic for observed vs. expected counts and its degrees of freedom, and obtain a p-value.",
+						"Test whether detector counts across repeated windows are consistent with a Poisson model, or whether an observed isotope pattern matches the predicted one."
+					],
+					"keyEquations": [
+						"\\chi^2 = \\sum_i \\frac{(O_i-E_i)^2}{E_i}",
+						"\\nu = k - 1 - (\\text{number of fitted parameters})"
+					],
+					"readings": [
+						{
+							"bookId": "openintro-stats",
+							"ref": "6.3",
+							"title": "Testing for goodness of fit using chi-square"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 19 reading notes: NHST III",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class19-prep_pdf/",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.650 (Fall 2016)",
+							"title": "Lecture 11: Parametric Hypothesis Testing (cont.) and Testing Goodness of Fit",
+							"url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/lecture-11-video/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Bin simulated counts, overlay expected Poisson frequencies, and see each bin's (O-E)²/E contribution stack into the χ² bar against its critical value."
+					]
+				}
+			]
+		},
+		{
+			"id": "m7-u10-regression-calibration",
+			"title": "Linear Regression and Calibration Curves",
+			"summary": "Fitting straight lines to lab data: least squares, inference on slope and intercept, calibration curves with inverse prediction and detection limits, and weighted least squares with the reduced chi-square as a fit-quality check.",
+			"lessons": [
+				{
+					"id": "m7-l037-least-squares-line",
+					"title": "Least Squares, Residuals and Correlation",
+					"minutes": 40,
+					"objectives": [
+						"Derive the least-squares slope and intercept by minimising the sum of squared residuals, and compute them for a small data set.",
+						"Read a residual plot for curvature, heteroscedasticity and outliers, and explain why a high r (e.g. r = 0.999 on a calibration curve) does not prove linearity."
+					],
+					"keyEquations": [
+						"\\hat\\beta_1 = \\frac{\\sum(x_i-\\bar x)(y_i-\\bar y)}{\\sum(x_i-\\bar x)^2}",
+						"\\hat\\beta_0 = \\bar y-\\hat\\beta_1\\bar x",
+						"R^2 = 1-\\frac{\\sum e_i^2}{\\sum (y_i-\\bar y)^2}"
+					],
+					"readings": [
+						{
+							"bookId": "openintro-stats",
+							"ref": "8.1",
+							"title": "Fitting a line, residuals, and correlation"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "8.2",
+							"title": "Least squares regression"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.05 (Spring 2022)",
+							"title": "Class 26 reading notes: Linear Regression",
+							"url": "https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/resources/mit18_05_s22_class26-prep_pdf/",
+							"optional": true
+						},
+						{
+							"source": "MIT OCW 18.650 (Fall 2016)",
+							"title": "Lecture 13: Regression",
+							"url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/lecture-13-video/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Drag points on a scatter plot; the least-squares line, its squared-residual boxes and R² update, and a residual plot below exposes hidden curvature."
+					]
+				},
+				{
+					"id": "m7-l038-inference-for-regression",
+					"title": "Inference for Slope and Intercept",
+					"minutes": 40,
+					"objectives": [
+						"Compute the standard errors of the slope and intercept from the residual standard deviation, and build t-based confidence intervals for each.",
+						"Test whether an intercept differs from zero (a blank offset) and distinguish the confidence band for the mean response from the wider prediction band for a new observation."
+					],
+					"keyEquations": [
+						"s_e = \\sqrt{\\frac{\\sum e_i^2}{n-2}}",
+						"\\operatorname{SE}(\\hat\\beta_1) = \\frac{s_e}{\\sqrt{\\sum (x_i-\\bar x)^2}}"
+					],
+					"readings": [
+						{
+							"bookId": "openintro-stats",
+							"ref": "8.4",
+							"title": "Inference for linear regression"
+						},
+						{
+							"bookId": "openintro-stats",
+							"ref": "8.3",
+							"title": "Types of outliers in linear regression",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.650 (Fall 2016)",
+							"title": "Lecture 14: Regression (cont.)",
+							"url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/lecture-14-video/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Resample noise on a fixed set of standards many times; the cloud of fitted lines shows the slope/intercept uncertainty and fills in the confidence band."
+					]
+				},
+				{
+					"id": "m7-l039-calibration-curves-inverse-prediction",
+					"title": "Calibration Curves: Inverse Prediction and Detection Limits",
+					"minutes": 40,
+					"prereqs": [
+						"m7-l021-error-propagation"
+					],
+					"objectives": [
+						"Predict an unknown's concentration x_0 = (y_0 - b_0)/b_1 from a calibration line and propagate the uncertainty from replicate signals, the slope and the intercept.",
+						"Compute a limit of detection and of quantitation from the blank or residual standard deviation (3s/slope, 10s/slope) and explain how the placement and number of standards change the uncertainty in x_0."
+					],
+					"keyEquations": [
+						"\\hat x_0 = \\frac{\\bar y_0-\\hat\\beta_0}{\\hat\\beta_1}",
+						"s_{x_0}\\approx\\frac{s_e}{\\hat\\beta_1}\\sqrt{\\frac{1}{m}+\\frac{1}{n}+\\frac{(\\bar y_0-\\bar y)^2}{\\hat\\beta_1^2\\sum(x_i-\\bar x)^2}}",
+						"\\text{LOD} = \\frac{3s_{\\text{blank}}}{\\hat\\beta_1}"
+					],
+					"readings": [
+						{
+							"bookId": "openintro-stats",
+							"ref": "8.4",
+							"title": "Inference for linear regression"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Calibration-curve sandbox: place standards along the concentration axis, read an unknown's signal, and see the inverse-prediction interval widen when the unknown lies far from the centroid of the standards."
+					]
+				},
+				{
+					"id": "m7-l040-weighted-least-squares-reduced-chi-square",
+					"title": "Weighted Least Squares and the Reduced Chi-Square",
+					"minutes": 40,
+					"prereqs": [
+						"m7-l028-weighted-mean-combining-measurements"
+					],
+					"objectives": [
+						"Fit a line by weighted least squares with weights 1/σ_i^2 (e.g. Poisson count data where σ_i = √y_i) and explain why ordinary least squares mis-weights such data.",
+						"Use the reduced chi-square χ²/ν to judge whether the stated error bars and the model are consistent (≈1 good, ≫1 under-estimated errors or wrong model, ≪1 over-estimated errors)."
+					],
+					"keyEquations": [
+						"\\chi^2 = \\sum_i \\frac{(y_i - \\beta_0 - \\beta_1 x_i)^2}{\\sigma_i^2}",
+						"\\chi^2_\\nu = \\frac{\\chi^2}{n-p}"
+					],
+					"readings": [
+						{
+							"bookId": "openintro-stats",
+							"ref": "9.3",
+							"title": "Checking model conditions using graphs",
+							"optional": true
+						},
+						{
+							"bookId": "blitzstein-prob",
+							"ref": "10.4",
+							"title": "Chi-Square and Student-t",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT OCW 18.650 (Fall 2016)",
+							"title": "Lecture 15: Regression (cont.)",
+							"url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/resources/lecture-15-video/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Fit the same heteroscedastic count data by OLS and WLS side by side; scale the assumed error bars and watch χ²_ν move through 1."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "m7-placement",
+			"kind": "placement",
+			"title": "M7 Placement: Probability & Statistics",
+			"covers": [
+				"m7-u01-probability-counting",
+				"m7-u02-conditional-bayes",
+				"m7-u03-discrete-random-variables",
+				"m7-u04-continuous-random-variables",
+				"m7-u05-joint-error-propagation",
+				"m7-u06-limit-theorems",
+				"m7-u07-estimation",
+				"m7-u08-bayesian-inference",
+				"m7-u09-intervals-tests",
+				"m7-u10-regression-calibration"
+			],
+			"minutes": 90,
+			"passMark": 0.8
+		},
+		{
+			"id": "m7-midterm",
+			"kind": "midterm",
+			"title": "M7 Midterm: Probability, Bayes, Distributions and Error Propagation",
+			"covers": [
+				"m7-u01-probability-counting",
+				"m7-u02-conditional-bayes",
+				"m7-u03-discrete-random-variables",
+				"m7-u04-continuous-random-variables",
+				"m7-u05-joint-error-propagation"
+			],
+			"minutes": 110,
+			"passMark": 0.7
+		},
+		{
+			"id": "m7-final",
+			"kind": "final",
+			"title": "M7 Final: Probability & Statistics",
+			"covers": [
+				"m7-u01-probability-counting",
+				"m7-u02-conditional-bayes",
+				"m7-u03-discrete-random-variables",
+				"m7-u04-continuous-random-variables",
+				"m7-u05-joint-error-propagation",
+				"m7-u06-limit-theorems",
+				"m7-u07-estimation",
+				"m7-u08-bayesian-inference",
+				"m7-u09-intervals-tests",
+				"m7-u10-regression-calibration"
+			],
+			"minutes": 180,
+			"passMark": 0.7
+		}
+	],
+	"project": {
+		"title": "Counting Statistics and a Calibration Curve, End to End",
+		"summary": "A Python analysis of a simulated (or the learner's own) analytical data set: Poisson counting data from a detector and a five-standard calibration curve. The learner estimates rates by maximum likelihood and Bayes, tests the Poisson model, fits the calibration line by ordinary and weighted least squares, and reports an unknown's concentration with a propagated uncertainty checked by Monte Carlo and the bootstrap.",
+		"goals": [
+			"Simulate Poisson counting data and verify the √N rule, the MLE of the rate and a chi-square goodness-of-fit test.",
+			"Estimate a low background rate with a Gamma-Poisson posterior and compare the credible interval with the frequentist interval.",
+			"Fit a calibration curve by OLS and WLS, inspect residuals and the reduced chi-square, and compute LOD and LOQ.",
+			"Report an unknown's concentration with an uncertainty from first-order propagation, cross-checked by Monte Carlo and bootstrap resampling."
+		],
+		"steps": [
+			"Set up a Python environment with NumPy, SciPy, Matplotlib and pandas, and write a seeded simulator for detector counts (signal rate + background rate, chosen counting time).",
+			"Simulate 200 counting windows; plot the histogram against the Poisson PMF, and run a chi-square goodness-of-fit test.",
+			"Write the Poisson log-likelihood, find the MLE numerically and analytically, and get its standard error from the curvature.",
+			"Estimate the background rate from a few short runs with a Gamma prior; plot prior and posterior and compare the 95% credible and confidence intervals.",
+			"Simulate a five-standard calibration curve with realistic heteroscedastic noise (or load real data from a past lab notebook) and fit it by OLS; plot residuals.",
+			"Refit by weighted least squares; compare slopes, standard errors and the reduced chi-square, and compute LOD and LOQ.",
+			"Predict an unknown's concentration from three replicate signals and propagate the uncertainty with the first-order formula.",
+			"Check the propagated uncertainty by Monte Carlo (resampling the noise) and by bootstrapping the standards; explain any disagreement.",
+			"Write a two-page report (Jupyter notebook) stating each result with its uncertainty and the assumptions behind it."
+		],
+		"stack": "Python, NumPy, SciPy (stats, optimize), Matplotlib, pandas, Jupyter",
+		"hours": 16
+	}
+}

@@ -1,0 +1,2432 @@
+{
+	"id": "a1-machine-learning",
+	"code": "A1",
+	"title": "Machine Learning",
+	"track": "ai",
+	"depth": "core",
+	"hours": 60,
+	"prereqs": [
+		"m2-multivariable",
+		"m3-linear-algebra",
+		"m7-probability"
+	],
+	"coreqs": [],
+	"subject": "Machine Learning",
+	"summary": "The mathematics of machine learning, derived rather than recited, with Bishop's Pattern Recognition and Machine Learning as the spine. Least squares returns as orthogonal projection (M3), regularizers turn out to be priors, the softmax is the Boltzmann distribution, the exponential family's log-normalizer is ln Z, EM maximizes a free energy, and PCA is the SVD applied to spectra. Kernels, SVMs, Gaussian processes, trees and ensembles, clustering and PCA complete the classical toolkit; grad-touch units on learning theory and graphical models explain why learning works and how structured probability models compute. Lessons are pen-and-paper math and intuition; code lives in the optional capstone.",
+	"books": [
+		{
+			"bookId": "bishop-prml",
+			"role": "primary"
+		},
+		{
+			"bookId": "islp",
+			"role": "secondary"
+		},
+		{
+			"bookId": "shalev-shwartz-uml",
+			"role": "secondary"
+		},
+		{
+			"bookId": "rasmussen-gpml",
+			"role": "reference"
+		}
+	],
+	"units": [
+		{
+			"id": "a1-u01-learning-problem",
+			"title": "The Learning Problem",
+			"summary": "What it means to learn from data: models, loss, risk and generalization, built on M7's probability (likelihood, priors, decision theory) and closed with entropy and KL divergence, information theory's cousins of the chemist's Gibbs entropy.",
+			"lessons": [
+				{
+					"id": "a1-l001-curve-fitting-loss-risk",
+					"title": "Learning from Data: Curve Fitting, Loss and Risk",
+					"minutes": 36,
+					"objectives": [
+						"State the supervised learning problem: from pairs (x_n, t_n) drawn from an unknown distribution, choose a function y(x, w) that minimizes the expected loss on new data.",
+						"Distinguish training error (empirical risk) from expected risk, and explain why minimizing the first is only a proxy for the second.",
+						"Describe how training and test RMS error behave as the order M of a polynomial fitted to noisy samples of sin(2πx) grows."
+					],
+					"keyEquations": [
+						"E(\\mathbf{w}) = \\frac{1}{2}\\sum_{n=1}^{N}\\{y(x_n,\\mathbf{w}) - t_n\\}^2",
+						"R(f) = \\mathbb{E}_{(\\mathbf{x},t)\\sim p}\\left[L(t, f(\\mathbf{x}))\\right]",
+						"\\hat R(f) = \\frac{1}{N}\\sum_{n=1}^{N} L(t_n, f(\\mathbf{x}_n))"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.1",
+							"title": "Example: Polynomial Curve Fitting"
+						},
+						{
+							"bookId": "islp",
+							"ref": "2.1",
+							"title": "What Is Statistical Learning?",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 01: The Learning Problem",
+							"url": "https://www.youtube.com/watch?v=mbyG85GZ0PI"
+						},
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Stanford CS229: Machine Learning led by Andrew Ng, Autumn 2018 (full YouTube playlist)",
+							"url": "https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU",
+							"optional": true
+						},
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 1: Introduction (course overview, what machine learning is)",
+							"url": "https://www.youtube.com/watch?v=jGwO_UgTS7I",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Drag noisy data points and a polynomial-order slider M; watch the fit and the training-versus-test RMS error curves, with the overfitting knee at large M."
+					]
+				},
+				{
+					"id": "a1-l002-likelihood-least-squares",
+					"title": "Maximum Likelihood: Why Least Squares?",
+					"minutes": 38,
+					"objectives": [
+						"Write the likelihood of a data set under the model t = y(x, w) + ε with Gaussian noise of precision β.",
+						"Derive that maximizing this likelihood over w is the same as minimizing the sum-of-squares error, and find the maximum-likelihood noise variance 1/β.",
+						"Explain which noise assumption would instead lead to an absolute-error (L1) loss."
+					],
+					"keyEquations": [
+						"p(t\\mid x,\\mathbf{w},\\beta) = \\mathcal{N}\\left(t\\mid y(x,\\mathbf{w}),\\beta^{-1}\\right)",
+						"\\ln p(\\mathbf{t}\\mid\\mathbf{x},\\mathbf{w},\\beta) = -\\frac{\\beta}{2}\\sum_{n}\\{y(x_n,\\mathbf{w})-t_n\\}^2 + \\frac{N}{2}\\ln\\beta - \\frac{N}{2}\\ln 2\\pi",
+						"\\frac{1}{\\beta_{ML}} = \\frac{1}{N}\\sum_{n}\\{y(x_n,\\mathbf{w}_{ML})-t_n\\}^2"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.2.4",
+							"title": "The Gaussian distribution"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.2.5",
+							"title": "Curve fitting re-visited"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slide a line's slope and intercept and watch the Gaussian noise curve at each data point and the total log-likelihood; its maximum coincides with the least-squares minimum."
+					]
+				},
+				{
+					"id": "a1-l003-priors-posteriors-map",
+					"title": "Priors, Posteriors and MAP Estimation",
+					"minutes": 38,
+					"objectives": [
+						"Apply Bayes' theorem to model parameters (posterior ∝ likelihood × prior), naming each factor and the evidence.",
+						"Show that a zero-mean Gaussian prior on w turns maximum-posterior (MAP) estimation into regularized least squares with λ = α/β.",
+						"Contrast a point estimate (ML or MAP) with the full posterior predictive distribution and say what the latter adds."
+					],
+					"keyEquations": [
+						"p(\\mathbf{w}\\mid\\mathcal{D}) = \\frac{p(\\mathcal{D}\\mid\\mathbf{w})\\,p(\\mathbf{w})}{p(\\mathcal{D})}",
+						"p(\\mathbf{w}\\mid\\alpha) = \\mathcal{N}\\left(\\mathbf{w}\\mid\\mathbf{0},\\alpha^{-1}\\mathbf{I}\\right)",
+						"\\frac{\\beta}{2}\\sum_{n}\\{y(x_n,\\mathbf{w})-t_n\\}^2 + \\frac{\\alpha}{2}\\mathbf{w}^{\\mathsf T}\\mathbf{w}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.2.3",
+							"title": "Bayesian probabilities"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.2.6",
+							"title": "Bayesian curve fitting"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Add data points one at a time and watch the prior, likelihood and posterior over a single slope parameter sharpen; toggle between the MAP point and the full posterior."
+					]
+				},
+				{
+					"id": "a1-l004-decision-theory",
+					"title": "Decision Theory: From Probabilities to Predictions",
+					"minutes": 36,
+					"objectives": [
+						"Derive that the conditional mean E[t|x] minimizes expected squared loss (and the conditional median minimizes expected absolute loss).",
+						"Show that assigning x to the class with the largest posterior p(C_k|x) minimizes the misclassification rate, and adapt the rule to an asymmetric loss matrix.",
+						"Separate inference (learning p(t|x)) from decision (choosing an action), and name the three modelling routes: generative, discriminative, discriminant function."
+					],
+					"keyEquations": [
+						"\\mathbb{E}[L] = \\iint \\{y(\\mathbf{x})-t\\}^2\\, p(\\mathbf{x},t)\\,d\\mathbf{x}\\,dt",
+						"y^*(\\mathbf{x}) = \\mathbb{E}[t\\mid\\mathbf{x}]",
+						"\\hat{\\jmath}(\\mathbf{x}) = \\arg\\min_j \\sum_k L_{kj}\\,p(\\mathcal{C}_k\\mid\\mathbf{x})"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.5",
+							"title": "Decision Theory"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.5.5",
+							"title": "Loss functions for regression"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 04: Error and Noise",
+							"url": "https://www.youtube.com/watch?v=L_0efNkdGMc"
+						}
+					],
+					"demoIdeas": [
+						"Drag a decision threshold across two overlapping class densities and watch the shaded misclassification area; make a missed toxic compound cost 10x and see the optimal threshold move."
+					]
+				},
+				{
+					"id": "a1-l005-overfitting-generalization",
+					"title": "Overfitting, Generalization and Held-Out Data",
+					"minutes": 34,
+					"objectives": [
+						"Explain overfitting as fitting the noise, using the size of the polynomial coefficients and the gap between training and test error.",
+						"Describe how more data, fewer parameters or regularization each reduce overfitting, and why the test set must never be used to choose a model.",
+						"Set up a training/validation/test split and state what each part estimates."
+					],
+					"keyEquations": [
+						"E_{RMS} = \\sqrt{2E(\\mathbf{w}^*)/N}",
+						"\\widetilde{E}(\\mathbf{w}) = \\frac{1}{2}\\sum_{n}\\{y(x_n,\\mathbf{w})-t_n\\}^2 + \\frac{\\lambda}{2}\\|\\mathbf{w}\\|^2"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.3",
+							"title": "Model Selection"
+						},
+						{
+							"bookId": "islp",
+							"ref": "2.2",
+							"title": "Assessing Model Accuracy",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 11: Overfitting",
+							"url": "https://www.youtube.com/watch?v=EQWr3GGCdzw"
+						}
+					],
+					"demoIdeas": [
+						"Increase the number of training points N with M = 9 fixed and watch the wild polynomial settle down; plot the train/test gap against N."
+					]
+				},
+				{
+					"id": "a1-l006-curse-of-dimensionality",
+					"title": "The Curse of Dimensionality",
+					"minutes": 32,
+					"objectives": [
+						"Compute the fraction of a D-dimensional hypersphere's volume lying in a thin outer shell and explain why it tends to 1 as D grows.",
+						"Explain why grid-based and nearest-neighbour methods need exponentially many points in high dimension, and why real data (spectra, molecular descriptors) still work: they lie near low-dimensional manifolds."
+					],
+					"keyEquations": [
+						"\\frac{V_D(1)-V_D(1-\\epsilon)}{V_D(1)} = 1-(1-\\epsilon)^D",
+						"\\text{cells needed} \\propto k^D"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.4",
+							"title": "The Curse of Dimensionality"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slide the dimension D from 1 to 1000 and watch the histogram of distances between random points concentrate around a single value."
+					]
+				},
+				{
+					"id": "a1-l007-entropy-kl",
+					"title": "Entropy, Cross-Entropy and KL Divergence",
+					"minutes": 40,
+					"objectives": [
+						"Compute the entropy of a discrete distribution and connect H = -Σ p ln p to the Gibbs entropy S = -k_B Σ p_i ln p_i of statistical mechanics.",
+						"Define the KL divergence, prove it is non-negative with Jensen's inequality, and explain why it is not symmetric.",
+						"Show that minimizing the cross-entropy between the data distribution and a model is the same as maximizing likelihood."
+					],
+					"keyEquations": [
+						"H[p] = -\\sum_i p_i \\ln p_i",
+						"\\mathrm{KL}(p\\|q) = -\\int p(\\mathbf{x})\\ln\\frac{q(\\mathbf{x})}{p(\\mathbf{x})}\\,d\\mathbf{x} \\ge 0",
+						"H(p,q) = H[p] + \\mathrm{KL}(p\\|q)"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.6",
+							"title": "Information Theory"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.6.1",
+							"title": "Relative entropy and mutual information"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Drag the bars of two discrete distributions p and q and watch H(p), H(p,q), KL(p||q) and KL(q||p) update, showing the asymmetry."
+					]
+				}
+			]
+		},
+		{
+			"id": "a1-u02-linear-regression",
+			"title": "Linear Regression and Least Squares",
+			"summary": "Models linear in their parameters, solved three ways: calculus (normal equations), geometry (orthogonal projection onto the column space, exactly M3's least squares) and iteration (gradient descent), with multicomponent Beer–Lambert calibration as the chemist's running example.",
+			"lessons": [
+				{
+					"id": "a1-l008-basis-function-models",
+					"title": "Linear Basis Function Models",
+					"minutes": 35,
+					"objectives": [
+						"Write a model y(x, w) = w^T φ(x) and explain why it is linear in w even when φ is nonlinear in x (polynomial, Gaussian and sigmoidal bases).",
+						"Build the N×M design matrix Φ for a given data set and basis.",
+						"Recognise the Beer–Lambert absorbance of a mixture, A(λ) = Σ_k ε_k(λ) l c_k, as a linear model whose 'basis functions' are the pure-component spectra."
+					],
+					"keyEquations": [
+						"y(\\mathbf{x},\\mathbf{w}) = \\sum_{j=0}^{M-1} w_j\\phi_j(\\mathbf{x}) = \\mathbf{w}^{\\mathsf T}\\boldsymbol{\\phi}(\\mathbf{x})",
+						"\\phi_j(x) = \\exp\\left\\{-\\frac{(x-\\mu_j)^2}{2s^2}\\right\\}",
+						"\\Phi_{nj} = \\phi_j(\\mathbf{x}_n)"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.1",
+							"title": "Linear Basis Function Models"
+						},
+						{
+							"bookId": "islp",
+							"ref": "3.2",
+							"title": "Multiple Linear Regression",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 2: Linear Regression and Gradient Descent",
+							"url": "https://www.youtube.com/watch?v=4b4MUYve_U8",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Pick a basis (polynomial, Gaussian bumps, sigmoids), drag the weight sliders, and watch the weighted basis functions add up to the fitted curve."
+					]
+				},
+				{
+					"id": "a1-l009-normal-equations",
+					"title": "The Normal Equations",
+					"minutes": 38,
+					"objectives": [
+						"Derive the normal equations Φ^TΦ w = Φ^T t by setting the gradient of the sum-of-squares error to zero with matrix calculus.",
+						"State when Φ^TΦ is invertible (Φ has full column rank) and define the Moore–Penrose pseudo-inverse.",
+						"Fit a straight-line calibration curve by hand with the normal equations and check it against the familiar slope and intercept formulas."
+					],
+					"keyEquations": [
+						"\\nabla_{\\mathbf{w}}E = \\Phi^{\\mathsf T}(\\Phi\\mathbf{w}-\\mathbf{t}) = \\mathbf{0}",
+						"\\mathbf{w}_{ML} = (\\Phi^{\\mathsf T}\\Phi)^{-1}\\Phi^{\\mathsf T}\\mathbf{t}",
+						"\\Phi^{\\dagger} = (\\Phi^{\\mathsf T}\\Phi)^{-1}\\Phi^{\\mathsf T}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.1.1",
+							"title": "Maximum likelihood and least squares"
+						},
+						{
+							"bookId": "islp",
+							"ref": "3.1",
+							"title": "Simple Linear Regression",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 03: The Linear Model I",
+							"url": "https://www.youtube.com/watch?v=FIbVs5GbBlQ"
+						}
+					],
+					"demoIdeas": [
+						"Drag the points of a calibration curve; watch the least-squares line, the residuals and the 2×2 normal-equation system update live."
+					],
+					"practice": [
+						"Bishop PRML Exercise 1.1"
+					]
+				},
+				{
+					"id": "a1-l010-least-squares-projection",
+					"title": "Least Squares as Orthogonal Projection",
+					"minutes": 40,
+					"objectives": [
+						"Show that the least-squares prediction Φ w_ML is the orthogonal projection of t onto the column space of Φ, and that the residual is orthogonal to every column.",
+						"Write the hat (projection) matrix H = Φ(Φ^TΦ)^{-1}Φ^T and verify H² = H and H^T = H.",
+						"Connect this to M3's least-squares picture: the normal equations say exactly Φ^T(t − Φw) = 0."
+					],
+					"keyEquations": [
+						"\\hat{\\mathbf{t}} = \\Phi\\mathbf{w}_{ML} = \\mathbf{H}\\mathbf{t}",
+						"\\mathbf{H} = \\Phi(\\Phi^{\\mathsf T}\\Phi)^{-1}\\Phi^{\\mathsf T},\\quad \\mathbf{H}^2 = \\mathbf{H}",
+						"\\Phi^{\\mathsf T}(\\mathbf{t}-\\hat{\\mathbf{t}}) = \\mathbf{0}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.1.2",
+							"title": "Geometry of least squares"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"With N = 3 data points, rotate a 3D view of the plane spanned by two basis columns and the target vector t; see the projection, the perpendicular residual, and the squared error as its length."
+					]
+				},
+				{
+					"id": "a1-l011-svd-conditioning",
+					"title": "Solving Least Squares Stably: SVD and Conditioning",
+					"minutes": 38,
+					"objectives": [
+						"Write the least-squares solution through the SVD Φ = UΣV^T as w = Σ_i (u_i^T t / σ_i) v_i, and explain why small singular values amplify noise.",
+						"Compute the condition number of Φ^TΦ and explain why collinear features (overlapping spectral bands) make the coefficients unstable."
+					],
+					"keyEquations": [
+						"\\Phi = \\mathbf{U}\\boldsymbol{\\Sigma}\\mathbf{V}^{\\mathsf T}",
+						"\\mathbf{w} = \\sum_{i} \\frac{\\mathbf{u}_i^{\\mathsf T}\\mathbf{t}}{\\sigma_i}\\,\\mathbf{v}_i",
+						"\\kappa(\\Phi^{\\mathsf T}\\Phi) = \\sigma_{\\max}^2/\\sigma_{\\min}^2"
+					],
+					"readings": [
+						{
+							"bookId": "islp",
+							"ref": "3.3",
+							"title": "Other Considerations in the Regression Model",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slide two pure-component spectra together until their bands overlap; watch the singular values shrink and the concentrations fitted to a noisy mixture spectrum blow up."
+					]
+				},
+				{
+					"id": "a1-l012-gradient-descent",
+					"title": "Gradient Descent and Sequential Learning",
+					"minutes": 38,
+					"objectives": [
+						"Derive the batch gradient-descent update for the sum-of-squares error and the stochastic (LMS) update w ← w + η(t_n − w^Tφ_n)φ_n.",
+						"Explain how the learning rate and the eigenvalues of Φ^TΦ set the speed and stability of convergence (η < 2/λ_max), linking back to the condition number.",
+						"Compare the cost of the direct solution with iterative solution when N and M are large."
+					],
+					"keyEquations": [
+						"\\mathbf{w}^{(\\tau+1)} = \\mathbf{w}^{(\\tau)} - \\eta\\nabla E_n",
+						"\\mathbf{w}^{(\\tau+1)} = \\mathbf{w}^{(\\tau)} + \\eta\\left(t_n - \\mathbf{w}^{(\\tau)\\mathsf T}\\boldsymbol{\\phi}_n\\right)\\boldsymbol{\\phi}_n",
+						"0<\\eta<2/\\lambda_{\\max}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.1.3",
+							"title": "Sequential learning"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 2: Linear Regression and Gradient Descent",
+							"url": "https://www.youtube.com/watch?v=4b4MUYve_U8",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"On the contour plot of a two-parameter squared-error bowl, set the learning rate and starting point and step gradient descent: watch it converge, zig-zag on an elongated bowl, or diverge."
+					]
+				},
+				{
+					"id": "a1-l013-coefficient-uncertainty",
+					"title": "Uncertainty of the Fitted Coefficients",
+					"minutes": 36,
+					"objectives": [
+						"Derive Cov(w_ML) = σ²(Φ^TΦ)^{-1} under the Gaussian noise model.",
+						"Compute standard errors and confidence intervals for a calibration slope and intercept, and explain why they grow when the x values are bunched together.",
+						"Read residual plots to detect a wrong model (curvature, variance growing with signal)."
+					],
+					"keyEquations": [
+						"\\mathrm{Cov}(\\mathbf{w}_{ML}) = \\sigma^2(\\Phi^{\\mathsf T}\\Phi)^{-1}",
+						"\\hat\\sigma^2 = \\frac{1}{N-M}\\sum_{n}(t_n-\\hat t_n)^2",
+						"\\mathrm{SE}(\\hat w_j) = \\hat\\sigma\\sqrt{\\left[(\\Phi^{\\mathsf T}\\Phi)^{-1}\\right]_{jj}}"
+					],
+					"readings": [
+						{
+							"bookId": "islp",
+							"ref": "3.1",
+							"title": "Simple Linear Regression"
+						},
+						{
+							"bookId": "islp",
+							"ref": "3.2",
+							"title": "Multiple Linear Regression",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Redraw the noise on a calibration data set 100 times and refit; the cloud of (slope, intercept) estimates fills the predicted covariance ellipse, which tightens as you spread the x values."
+					]
+				}
+			]
+		},
+		{
+			"id": "a1-u03-regularization-model-selection",
+			"title": "Regularization, Bias–Variance and Model Selection",
+			"summary": "Controlling model complexity: ridge and lasso penalties derived as Gaussian and Laplace priors (the MAP view), the full Bayesian treatment of linear regression, the bias–variance decomposition, and choosing models from data by cross-validation, the bootstrap and the model evidence.",
+			"lessons": [
+				{
+					"id": "a1-l014-ridge-regression",
+					"title": "Ridge Regression and Shrinkage",
+					"minutes": 40,
+					"objectives": [
+						"Derive the ridge solution w = (λI + Φ^TΦ)^{-1}Φ^T t and show it exists for every λ > 0.",
+						"Use the SVD to show that ridge shrinks the fit along each singular direction by σ_i²/(σ_i² + λ), most strongly along the poorly determined directions.",
+						"Compute the effective number of parameters df(λ) = Σ σ_i²/(σ_i² + λ) and explain its limits as λ → 0 and λ → ∞."
+					],
+					"keyEquations": [
+						"\\mathbf{w}_{ridge} = (\\lambda\\mathbf{I}+\\Phi^{\\mathsf T}\\Phi)^{-1}\\Phi^{\\mathsf T}\\mathbf{t}",
+						"\\hat{\\mathbf{t}} = \\sum_i \\mathbf{u}_i\\,\\frac{\\sigma_i^2}{\\sigma_i^2+\\lambda}\\,\\mathbf{u}_i^{\\mathsf T}\\mathbf{t}",
+						"\\mathrm{df}(\\lambda) = \\sum_i\\frac{\\sigma_i^2}{\\sigma_i^2+\\lambda}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.1.4",
+							"title": "Regularized least squares"
+						},
+						{
+							"bookId": "islp",
+							"ref": "6.2",
+							"title": "Shrinkage Methods",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 12: Regularization",
+							"url": "https://www.youtube.com/watch?v=I-VfYXzC5ro"
+						}
+					],
+					"demoIdeas": [
+						"Move a log-scale λ slider on a degree-9 fit and watch the curve smooth out, the coefficient paths shrink toward zero, and the per-direction shrink factors fall."
+					],
+					"practice": [
+						"Bishop PRML Exercise 1.2"
+					]
+				},
+				{
+					"id": "a1-l015-lasso-sparsity",
+					"title": "The Lasso and Sparsity",
+					"minutes": 38,
+					"objectives": [
+						"Write the lasso objective and explain geometrically (the L1 diamond versus the L2 disc meeting the error ellipses) why the lasso sets some coefficients exactly to zero.",
+						"Derive the soft-thresholding solution for one coefficient with an orthonormal design.",
+						"Argue when sparsity is useful, for example picking a few informative wavelengths out of hundreds in a spectrum."
+					],
+					"keyEquations": [
+						"\\min_{\\mathbf{w}}\\ \\frac{1}{2}\\|\\mathbf{t}-\\Phi\\mathbf{w}\\|^2 + \\lambda\\sum_j|w_j|",
+						"\\hat w_j = \\mathrm{sign}(z_j)\\,(|z_j|-\\lambda)_+",
+						"\\sum_j|w_j|^q \\le \\eta"
+					],
+					"readings": [
+						{
+							"bookId": "islp",
+							"ref": "6.2",
+							"title": "Shrinkage Methods"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.1.4",
+							"title": "Regularized least squares",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Drag the constraint region (L1 diamond, L2 disc, or general q) over elliptical error contours and see where they first touch; then compare ridge and lasso coefficient paths against λ side by side."
+					]
+				},
+				{
+					"id": "a1-l016-regularizers-as-priors",
+					"title": "Regularizers as Priors: the MAP View",
+					"minutes": 34,
+					"prereqs": [
+						"a1-l003-priors-posteriors-map"
+					],
+					"objectives": [
+						"Show that ridge regression is MAP estimation under a Gaussian prior and the lasso is MAP under a Laplace prior, identifying λ with the ratio of prior precision to noise precision.",
+						"Explain why the Laplace prior's sharp peak at zero produces sparse MAP estimates while the Gaussian's rounded peak does not."
+					],
+					"keyEquations": [
+						"-\\ln p(\\mathbf{w}\\mid\\mathbf{t}) = \\frac{\\beta}{2}\\|\\mathbf{t}-\\Phi\\mathbf{w}\\|^2 + \\frac{\\alpha}{2}\\|\\mathbf{w}\\|^2 + \\text{const}",
+						"p(w_j) = \\frac{1}{2b}\\,e^{-|w_j|/b}",
+						"\\lambda = \\alpha/\\beta"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.3.1",
+							"title": "Parameter distribution"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Overlay a 1D likelihood with a Gaussian or Laplace prior; slide the data and watch the posterior mode, which snaps to exactly zero under the Laplace prior when the evidence is weak."
+					]
+				},
+				{
+					"id": "a1-l017-bayesian-linear-regression",
+					"title": "Bayesian Linear Regression and the Predictive Distribution",
+					"minutes": 42,
+					"objectives": [
+						"Derive the Gaussian posterior over the weights, m_N = βS_NΦ^T t and S_N^{-1} = αI + βΦ^TΦ, by completing the square.",
+						"Derive the predictive distribution and explain why its variance is a noise term plus a parameter-uncertainty term that shrinks near the data.",
+						"Explain sequential Bayesian updating: yesterday's posterior is today's prior."
+					],
+					"keyEquations": [
+						"p(\\mathbf{w}\\mid\\mathbf{t}) = \\mathcal{N}(\\mathbf{w}\\mid\\mathbf{m}_N,\\mathbf{S}_N)",
+						"\\mathbf{m}_N = \\beta\\mathbf{S}_N\\Phi^{\\mathsf T}\\mathbf{t},\\quad \\mathbf{S}_N^{-1} = \\alpha\\mathbf{I}+\\beta\\Phi^{\\mathsf T}\\Phi",
+						"\\sigma_N^2(\\mathbf{x}) = \\frac{1}{\\beta} + \\boldsymbol{\\phi}(\\mathbf{x})^{\\mathsf T}\\mathbf{S}_N\\boldsymbol{\\phi}(\\mathbf{x})"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.3",
+							"title": "Bayesian Linear Regression"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.3.2",
+							"title": "Predictive distribution"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Click to add data points; watch the weight-space posterior ellipse shrink, sample lines drawn from it, and the predictive band narrow near the data and widen away from it."
+					]
+				},
+				{
+					"id": "a1-l018-bias-variance",
+					"title": "The Bias–Variance Decomposition",
+					"minutes": 40,
+					"objectives": [
+						"Derive expected loss = bias² + variance + noise by adding and subtracting the average prediction E_D[y(x; D)].",
+						"Explain how λ (or model order) trades bias against variance, using an ensemble of fits to many resampled data sets.",
+						"Explain why the decomposition is of limited practical use (it needs many independent data sets) yet guides intuition."
+					],
+					"keyEquations": [
+						"\\mathbb{E}_{\\mathcal{D}}\\left[\\{y(\\mathbf{x};\\mathcal{D})-h(\\mathbf{x})\\}^2\\right] = \\{\\mathbb{E}_{\\mathcal{D}}[y(\\mathbf{x};\\mathcal{D})]-h(\\mathbf{x})\\}^2 + \\mathbb{E}_{\\mathcal{D}}\\left[\\{y(\\mathbf{x};\\mathcal{D})-\\mathbb{E}_{\\mathcal{D}}[y(\\mathbf{x};\\mathcal{D})]\\}^2\\right]",
+						"\\text{expected loss} = (\\text{bias})^2 + \\text{variance} + \\text{noise}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.2",
+							"title": "The Bias-Variance Decomposition"
+						},
+						{
+							"bookId": "islp",
+							"ref": "2.2.2",
+							"title": "The Bias-Variance Trade-Off",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 08: Bias-Variance Tradeoff",
+							"url": "https://www.youtube.com/watch?v=zrEyxfl2-a8"
+						},
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 8: Data Splits, Models and Cross-Validation (bias-variance, regularization)",
+							"url": "https://www.youtube.com/watch?v=rjbkWSTjHzM",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Generate 25 noisy data sets from sin(2πx), fit each with Gaussian bases at a chosen λ, and watch the spaghetti of fits, their average, and the bias² and variance bars as λ slides."
+					]
+				},
+				{
+					"id": "a1-l019-cross-validation",
+					"title": "Cross-Validation",
+					"minutes": 36,
+					"prereqs": [
+						"a1-l010-least-squares-projection"
+					],
+					"objectives": [
+						"Carry out k-fold and leave-one-out cross-validation to choose λ or the model order, and explain why CV estimates test error.",
+						"Derive the leave-one-out shortcut for linear smoothers, CV = (1/N) Σ ((t_n − t̂_n)/(1 − H_nn))², from the hat matrix.",
+						"Name the pitfalls: leakage (scaling or feature selection on all the data before splitting) and replicate spectra of one sample landing in both training and test folds."
+					],
+					"keyEquations": [
+						"\\mathrm{CV}_{(k)} = \\frac{1}{k}\\sum_{i=1}^{k}\\mathrm{MSE}_i",
+						"\\mathrm{CV}_{(N)} = \\frac{1}{N}\\sum_{n}\\left(\\frac{t_n-\\hat t_n}{1-H_{nn}}\\right)^2"
+					],
+					"readings": [
+						{
+							"bookId": "islp",
+							"ref": "5.1",
+							"title": "Cross-Validation"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "1.3",
+							"title": "Model Selection",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 13: Validation",
+							"url": "https://www.youtube.com/watch?v=o7zzaKd0Lkk"
+						},
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 8: Data Splits, Models and Cross-Validation (bias-variance, regularization)",
+							"url": "https://www.youtube.com/watch?v=rjbkWSTjHzM",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Animate the folds of k-fold CV over a data set, plot the validation-error curve against λ with error bars, and pick the minimum and the one-standard-error choice."
+					]
+				},
+				{
+					"id": "a1-l020-bootstrap",
+					"title": "The Bootstrap",
+					"minutes": 32,
+					"objectives": [
+						"Explain the bootstrap: resample the data with replacement to approximate the sampling distribution of any statistic, and derive that about 1/e of the points are left out of each resample.",
+						"Use the bootstrap to put an uncertainty on a fitted coefficient or a CV error, and compare it with the analytic standard error of linear regression."
+					],
+					"keyEquations": [
+						"\\mathrm{SE}_B(\\hat\\alpha) = \\sqrt{\\frac{1}{B-1}\\sum_{r=1}^{B}\\left(\\hat\\alpha^{*r}-\\frac{1}{B}\\sum_{r'=1}^{B}\\hat\\alpha^{*r'}\\right)^2}",
+						"\\left(1-\\tfrac{1}{N}\\right)^N \\to e^{-1}"
+					],
+					"readings": [
+						{
+							"bookId": "islp",
+							"ref": "5.2",
+							"title": "The Bootstrap"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Press 'resample' repeatedly; see which points were drawn (and the duplicates), the refitted line, and the histogram of bootstrap slopes building up."
+					]
+				},
+				{
+					"id": "a1-l021-model-evidence",
+					"title": "Model Evidence and Bayesian Occam's Razor",
+					"minutes": 40,
+					"objectives": [
+						"Define the model evidence p(D|M) and explain why it automatically penalizes overly flexible models (Bayesian Occam's razor).",
+						"Use the evidence of Bayesian linear regression to choose the polynomial order, or α and β, without a validation set.",
+						"Compare evidence-based selection with cross-validation: assumptions, cost and failure modes."
+					],
+					"keyEquations": [
+						"p(\\mathcal{M}_i\\mid\\mathcal{D}) \\propto p(\\mathcal{M}_i)\\,p(\\mathcal{D}\\mid\\mathcal{M}_i)",
+						"p(\\mathcal{D}\\mid\\mathcal{M}) = \\int p(\\mathcal{D}\\mid\\mathbf{w},\\mathcal{M})\\,p(\\mathbf{w}\\mid\\mathcal{M})\\,d\\mathbf{w}",
+						"\\ln p(\\mathcal{D}) \\simeq \\ln p(\\mathcal{D}\\mid w_{MAP}) + \\ln\\frac{\\Delta w_{posterior}}{\\Delta w_{prior}}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.4",
+							"title": "Bayesian Model Comparison"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "3.5",
+							"title": "The Evidence Approximation"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Plot the log evidence and the training error against polynomial order M for the same data; the evidence peaks at a modest M while the training error keeps falling."
+					]
+				}
+			]
+		},
+		{
+			"id": "a1-u04-classification",
+			"title": "Linear Classification, Logistic Regression and Softmax",
+			"summary": "Linear decision boundaries from three angles (discriminant functions, generative class models, discriminative logistic regression), Newton's method for fitting them, and the softmax, which is exactly the Boltzmann distribution with logits playing negative energies: the chemist's way in.",
+			"lessons": [
+				{
+					"id": "a1-l022-linear-discriminants",
+					"title": "Linear Discriminants and Decision Boundaries",
+					"minutes": 34,
+					"objectives": [
+						"Write a linear discriminant y(x) = w^T x + w_0 and compute the signed distance of a point from the decision boundary.",
+						"Explain why least-squares regression on 0/1 targets makes a poor classifier (pulled by points far on the correct side, masking of classes)."
+					],
+					"keyEquations": [
+						"y(\\mathbf{x}) = \\mathbf{w}^{\\mathsf T}\\mathbf{x}+w_0",
+						"r = \\frac{y(\\mathbf{x})}{\\|\\mathbf{w}\\|}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.1.1",
+							"title": "Two classes"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.1.3",
+							"title": "Least squares for classification"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Drag points of two classes and see the least-squares boundary; add a cluster of 'easy' points far from the boundary and watch it swing the wrong way while the logistic-regression boundary stays put."
+					]
+				},
+				{
+					"id": "a1-l023-fisher-discriminant",
+					"title": "Fisher's Linear Discriminant",
+					"minutes": 38,
+					"objectives": [
+						"Derive Fisher's criterion J(w) as between-class over within-class variance of the projected data and show its maximizer is w ∝ S_W^{-1}(m_2 − m_1).",
+						"Recognise the multiclass version as the generalized eigenvalue problem S_B w = λ S_W w and relate it to M3's eigenvalue tools."
+					],
+					"keyEquations": [
+						"J(\\mathbf{w}) = \\frac{\\mathbf{w}^{\\mathsf T}\\mathbf{S}_B\\mathbf{w}}{\\mathbf{w}^{\\mathsf T}\\mathbf{S}_W\\mathbf{w}}",
+						"\\mathbf{w}\\propto\\mathbf{S}_W^{-1}(\\mathbf{m}_2-\\mathbf{m}_1)",
+						"\\mathbf{S}_B\\mathbf{w} = \\lambda\\mathbf{S}_W\\mathbf{w}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.1.4",
+							"title": "Fisher's linear discriminant"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Rotate a projection direction for two elongated 2D clusters and watch the projected 1D histograms overlap or separate, with J(w) plotted against angle; snap to Fisher's direction and to the naive mean-difference direction."
+					]
+				},
+				{
+					"id": "a1-l024-perceptron",
+					"title": "The Perceptron",
+					"minutes": 32,
+					"objectives": [
+						"State the perceptron criterion and its stochastic update, and trace several updates by hand.",
+						"State the perceptron convergence theorem and explain why the algorithm never settles on data that are not linearly separable."
+					],
+					"keyEquations": [
+						"E_P(\\mathbf{w}) = -\\sum_{n\\in\\mathcal{M}}\\mathbf{w}^{\\mathsf T}\\boldsymbol{\\phi}_n t_n",
+						"\\mathbf{w}^{(\\tau+1)} = \\mathbf{w}^{(\\tau)} + \\eta\\,\\boldsymbol{\\phi}_n t_n"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.1.7",
+							"title": "The perceptron algorithm"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 03: The Linear Model I",
+							"url": "https://www.youtube.com/watch?v=FIbVs5GbBlQ"
+						},
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 4: Perceptron and Generalized Linear Models (incl. softmax regression)",
+							"url": "https://www.youtube.com/watch?v=iZTeva0WSTQ",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Step through perceptron updates on draggable 2D points; the boundary jumps at each misclassified point, converges on separable data, and cycles forever on non-separable data."
+					]
+				},
+				{
+					"id": "a1-l025-generative-classifiers",
+					"title": "Generative Classifiers: Gaussian Class Models",
+					"minutes": 40,
+					"objectives": [
+						"Show that for two classes the posterior p(C_1|x) is the logistic sigmoid of the log-odds a = ln[p(x|C_1)p(C_1) / (p(x|C_2)p(C_2))].",
+						"Derive that Gaussian class-conditionals with a shared covariance give a linear boundary (LDA/GDA), and unequal covariances a quadratic one.",
+						"Fit the class means, shared covariance and class priors by maximum likelihood."
+					],
+					"keyEquations": [
+						"p(\\mathcal{C}_1\\mid\\mathbf{x}) = \\sigma(a),\\quad \\sigma(a) = \\frac{1}{1+e^{-a}}",
+						"a = \\mathbf{w}^{\\mathsf T}\\mathbf{x}+w_0,\\quad \\mathbf{w} = \\boldsymbol{\\Sigma}^{-1}(\\boldsymbol{\\mu}_1-\\boldsymbol{\\mu}_2)",
+						"w_0 = -\\tfrac12\\boldsymbol\\mu_1^{\\mathsf T}\\boldsymbol\\Sigma^{-1}\\boldsymbol\\mu_1 + \\tfrac12\\boldsymbol\\mu_2^{\\mathsf T}\\boldsymbol\\Sigma^{-1}\\boldsymbol\\mu_2 + \\ln\\frac{p(\\mathcal C_1)}{p(\\mathcal C_2)}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.2",
+							"title": "Probabilistic Generative Models"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.2.1",
+							"title": "Continuous inputs"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.2.2",
+							"title": "Maximum likelihood solution",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 5: GDA and Naive Bayes",
+							"url": "https://www.youtube.com/watch?v=nt63k3bfXS0",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Drag the means and reshape the covariance ellipses of two Gaussian classes; watch the posterior surface and the decision boundary, straight when the covariances are tied and curved when they are not."
+					]
+				},
+				{
+					"id": "a1-l026-logistic-regression",
+					"title": "Logistic Regression and Cross-Entropy",
+					"minutes": 40,
+					"objectives": [
+						"Write the logistic-regression likelihood and derive the cross-entropy error and its gradient ∇E = Σ (y_n − t_n) φ_n.",
+						"Explain why maximum likelihood drives |w| → ∞ on linearly separable data and how a prior (regularizer) fixes it.",
+						"Compare the parameter count of logistic regression (M) with that of the generative Gaussian model (quadratic in M)."
+					],
+					"keyEquations": [
+						"E(\\mathbf{w}) = -\\sum_{n}\\{t_n\\ln y_n + (1-t_n)\\ln(1-y_n)\\},\\quad y_n = \\sigma(\\mathbf{w}^{\\mathsf T}\\boldsymbol\\phi_n)",
+						"\\nabla E(\\mathbf{w}) = \\sum_{n} (y_n-t_n)\\,\\boldsymbol\\phi_n",
+						"\\frac{d\\sigma}{da} = \\sigma(1-\\sigma)"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.3.2",
+							"title": "Logistic regression"
+						},
+						{
+							"bookId": "islp",
+							"ref": "4.3",
+							"title": "Logistic Regression",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 09: The Linear Model II",
+							"url": "https://www.youtube.com/watch?v=qSTHZvN8hzs"
+						},
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 3: Locally Weighted and Logistic Regression",
+							"url": "https://www.youtube.com/watch?v=het9HFqo1TQ",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Drag points of two classes and watch the sigmoid probability surface fit; slide toward separable data and see the sigmoid sharpen into a step as |w| grows."
+					],
+					"practice": [
+						"Bishop PRML Exercise 4.12",
+						"Bishop PRML Exercise 4.13"
+					]
+				},
+				{
+					"id": "a1-l027-newton-irls",
+					"title": "Newton's Method and Iterative Reweighted Least Squares",
+					"minutes": 38,
+					"prereqs": [
+						"a1-l012-gradient-descent"
+					],
+					"objectives": [
+						"Derive the Hessian H = Φ^T R Φ of the cross-entropy, show it is positive definite, and conclude the error is convex with a unique minimum.",
+						"Write the Newton–Raphson step and show it is a weighted least-squares solve (iterative reweighted least squares).",
+						"Compare Newton's method with gradient descent in iteration count and cost per iteration."
+					],
+					"keyEquations": [
+						"\\mathbf{H} = \\Phi^{\\mathsf T}\\mathbf{R}\\Phi,\\quad R_{nn} = y_n(1-y_n)",
+						"\\mathbf{w}^{new} = \\mathbf{w}^{old} - \\mathbf{H}^{-1}\\nabla E(\\mathbf{w}^{old})",
+						"\\mathbf{w}^{new} = (\\Phi^{\\mathsf T}\\mathbf{R}\\Phi)^{-1}\\Phi^{\\mathsf T}\\mathbf{R}\\mathbf{z}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.3.3",
+							"title": "Iterative reweighted least squares"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"On the contours of a two-parameter logistic loss, step Newton/IRLS and gradient descent side by side from the same start and count the iterations each needs."
+					]
+				},
+				{
+					"id": "a1-l028-softmax-boltzmann",
+					"title": "Softmax Regression Is the Boltzmann Distribution",
+					"minutes": 42,
+					"objectives": [
+						"Show that the softmax p_k = exp(a_k)/Σ_j exp(a_j) is the Boltzmann distribution p_i = exp(−E_i/k_BT)/Z with logits a_k = −E_k/k_BT and the denominator as the partition function Z.",
+						"Derive the softmax Jacobian ∂y_k/∂a_j = y_k(δ_kj − y_j) and the multiclass cross-entropy gradient ∇_{w_j}E = Σ_n (y_nj − t_nj) φ_n.",
+						"Explain the temperature (argmax as T → 0, uniform as T → ∞), the invariance to adding a constant to all logits (the energy zero), and the log-sum-exp trick (−ln Z is a free energy)."
+					],
+					"keyEquations": [
+						"p(\\mathcal{C}_k\\mid\\boldsymbol\\phi) = y_k = \\frac{\\exp(a_k)}{\\sum_j\\exp(a_j)},\\quad a_k = \\mathbf{w}_k^{\\mathsf T}\\boldsymbol\\phi",
+						"p_i = \\frac{e^{-E_i/k_BT}}{Z},\\quad Z = \\sum_j e^{-E_j/k_BT}",
+						"\\frac{\\partial y_k}{\\partial a_j} = y_k(I_{kj}-y_j)",
+						"\\nabla_{\\mathbf{w}_j}E = \\sum_{n}(y_{nj}-t_{nj})\\,\\boldsymbol\\phi_n"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.3.4",
+							"title": "Multiclass logistic regression"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 4: Perceptron and Generalized Linear Models (incl. softmax regression)",
+							"url": "https://www.youtube.com/watch?v=iZTeva0WSTQ",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Set the energies of four conformers (or the logits of four classes) and a temperature slider; watch the Boltzmann/softmax populations, the partition function Z, and the collapse onto the lowest-energy state as T → 0."
+					],
+					"practice": [
+						"Bishop PRML Exercise 4.17"
+					]
+				},
+				{
+					"id": "a1-l029-evaluating-classifiers",
+					"title": "Evaluating Classifiers: Confusion Matrices, ROC and Precision–Recall",
+					"minutes": 34,
+					"objectives": [
+						"Build a confusion matrix and compute sensitivity, specificity, precision and recall at a given threshold, linking them to M7's diagnostic-test Bayes calculations.",
+						"Trace an ROC curve by sweeping the threshold, interpret the AUC, and explain why precision–recall is more informative when positives are rare (active compounds in a screen)."
+					],
+					"keyEquations": [
+						"\\mathrm{TPR} = \\frac{TP}{TP+FN},\\quad \\mathrm{FPR} = \\frac{FP}{FP+TN}",
+						"\\text{precision} = \\frac{TP}{TP+FP}",
+						"\\mathrm{AUC} = P\\left(s(\\mathbf{x}^+) > s(\\mathbf{x}^-)\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "islp",
+							"ref": "Ch. 4",
+							"title": "Classification"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slide a threshold over the score histograms of actives and inactives; watch the confusion matrix, the moving point on the ROC curve and the precision–recall curve, then lower the base rate of actives."
+					]
+				}
+			]
+		},
+		{
+			"id": "a1-u05-exponential-family-glms",
+			"title": "The Exponential Family and Generalized Linear Models",
+			"summary": "One template behind the Gaussian, Bernoulli, multinomial and Poisson distributions: the exponential family, whose log-normalizer behaves exactly like ln Z in statistical mechanics (its derivatives give the moments), and the generalized linear models built on it, including Poisson regression for counts from detectors and mass spectrometers.",
+			"lessons": [
+				{
+					"id": "a1-l030-exponential-family",
+					"title": "The Exponential Family",
+					"minutes": 40,
+					"objectives": [
+						"Write the Bernoulli, Gaussian and Poisson distributions in exponential-family form, identifying the natural parameter η, the sufficient statistic u(x) and the normalizer g(η).",
+						"Show that derivatives of the log-normalizer give the mean and covariance of u(x), exactly as derivatives of ln Z give ⟨E⟩ and its fluctuations in statistical mechanics.",
+						"Show that the logistic sigmoid and the softmax arise as the inverse of the natural-parameter map for the Bernoulli and multinomial."
+					],
+					"keyEquations": [
+						"p(\\mathbf{x}\\mid\\boldsymbol\\eta) = h(\\mathbf{x})\\,g(\\boldsymbol\\eta)\\exp\\{\\boldsymbol\\eta^{\\mathsf T}\\mathbf{u}(\\mathbf{x})\\}",
+						"-\\nabla\\ln g(\\boldsymbol\\eta) = \\mathbb{E}[\\mathbf{u}(\\mathbf{x})]",
+						"\\langle E\\rangle = -\\frac{\\partial\\ln Z}{\\partial\\beta}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "2.4",
+							"title": "The Exponential Family"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Pick a distribution (Bernoulli, Poisson, Gaussian) and slide its natural parameter η; watch the distribution, the log-normalizer curve, and its slope (the mean) and curvature (the variance)."
+					]
+				},
+				{
+					"id": "a1-l031-sufficient-statistics",
+					"title": "Maximum Likelihood, Sufficient Statistics and Conjugacy",
+					"minutes": 34,
+					"objectives": [
+						"Show that the maximum-likelihood estimate in an exponential family matches the model's expected sufficient statistic to its sample average (moment matching).",
+						"Explain sufficiency: the data enter the likelihood only through Σ_n u(x_n), and show it for the Poisson rate from repeated counts.",
+						"Write the general conjugate prior and carry out the Gamma–Poisson update."
+					],
+					"keyEquations": [
+						"-\\nabla\\ln g(\\boldsymbol\\eta_{ML}) = \\frac{1}{N}\\sum_{n}\\mathbf{u}(\\mathbf{x}_n)",
+						"\\hat\\lambda_{ML} = \\frac{1}{N}\\sum_{n} x_n",
+						"p(\\boldsymbol\\eta\\mid\\boldsymbol\\chi,\\nu) = f(\\boldsymbol\\chi,\\nu)\\,g(\\boldsymbol\\eta)^{\\nu}\\exp\\{\\nu\\boldsymbol\\eta^{\\mathsf T}\\boldsymbol\\chi\\}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "2.4.1",
+							"title": "Maximum likelihood and sufficient statistics"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "2.4.2",
+							"title": "Conjugate priors",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Add Poisson counts (ions per scan) one at a time; watch the likelihood over λ, which depends only on the running sum, and the Gamma posterior narrowing."
+					]
+				},
+				{
+					"id": "a1-l032-glms",
+					"title": "Generalized Linear Models and Link Functions",
+					"minutes": 38,
+					"objectives": [
+						"Define a GLM by three choices (an exponential-family response, a linear predictor w^Tφ, a link function) and recover linear, logistic and softmax regression as special cases.",
+						"Show that with the canonical link the log-likelihood gradient always takes the form Σ_n (t_n − y_n) φ_n, which is why the same update rule kept appearing."
+					],
+					"keyEquations": [
+						"y = \\mathbb{E}[t\\mid\\mathbf{x}] = f(\\mathbf{w}^{\\mathsf T}\\boldsymbol\\phi),\\quad f^{-1} = \\text{link}",
+						"\\nabla_{\\mathbf{w}}\\ln p(\\mathbf{t}\\mid\\mathbf{w}) = \\frac{1}{s}\\sum_{n}\\{t_n-y_n\\}\\,\\boldsymbol\\phi_n"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "4.3.6",
+							"title": "Canonical link functions"
+						},
+						{
+							"bookId": "islp",
+							"ref": "4.6",
+							"title": "Generalized Linear Models"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 4: Perceptron and Generalized Linear Models (incl. softmax regression)",
+							"url": "https://www.youtube.com/watch?v=iZTeva0WSTQ",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Choose a response type (Gaussian, Bernoulli, Poisson) and link; drag the linear predictor's slope and intercept and watch the mean curve and the response distribution at several x."
+					]
+				},
+				{
+					"id": "a1-l033-poisson-regression",
+					"title": "Poisson Regression for Count Data",
+					"minutes": 34,
+					"objectives": [
+						"Fit a Poisson regression with log link to count data, deriving its gradient and Hessian.",
+						"Explain why ordinary least squares on raw counts is wrong (variance grows with the mean, negative predictions) and interpret coefficients as multiplicative rate ratios.",
+						"Detect overdispersion (variance larger than the mean) and name a remedy."
+					],
+					"keyEquations": [
+						"\\ln\\mathbb{E}[t\\mid\\mathbf{x}] = \\mathbf{w}^{\\mathsf T}\\boldsymbol\\phi(\\mathbf{x})",
+						"\\ln p(\\mathbf{t}\\mid\\mathbf{w}) = \\sum_{n}\\left\\{t_n\\mathbf{w}^{\\mathsf T}\\boldsymbol\\phi_n - e^{\\mathbf{w}^{\\mathsf T}\\boldsymbol\\phi_n} - \\ln t_n!\\right\\}",
+						"\\mathbf{H} = -\\sum_{n} e^{\\mathbf{w}^{\\mathsf T}\\boldsymbol\\phi_n}\\,\\boldsymbol\\phi_n\\boldsymbol\\phi_n^{\\mathsf T}"
+					],
+					"readings": [
+						{
+							"bookId": "islp",
+							"ref": "4.6",
+							"title": "Generalized Linear Models"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Fit detector counts against source activity with least squares and with Poisson regression side by side; drag points and see the least-squares line go negative while the Poisson fit stays positive with mean-proportional spread."
+					]
+				}
+			]
+		},
+		{
+			"id": "a1-u06-kernels-svms-gps",
+			"title": "Kernels, Support Vector Machines and Gaussian Processes",
+			"summary": "Replacing features by similarities: the dual view of regression and the kernel trick, maximum-margin classifiers derived with Lagrange multipliers and KKT conditions, and Gaussian processes as priors over functions, used in chemistry for potential energy surfaces and Bayesian optimization of reaction conditions.",
+			"lessons": [
+				{
+					"id": "a1-l034-dual-kernel-trick",
+					"title": "Dual Representations and the Kernel Trick",
+					"minutes": 40,
+					"objectives": [
+						"Rewrite regularized least squares in dual form, a = (K + λI)^{-1} t with K = ΦΦ^T, so that predictions depend only on inner products k(x, x').",
+						"Explain the kernel trick and show that (x^T z)² is the inner product of explicit quadratic features.",
+						"Compare the cost of the primal (M×M) and dual (N×N) solves."
+					],
+					"keyEquations": [
+						"\\mathbf{a} = (\\mathbf{K}+\\lambda\\mathbf{I}_N)^{-1}\\mathbf{t}",
+						"y(\\mathbf{x}) = \\mathbf{k}(\\mathbf{x})^{\\mathsf T}(\\mathbf{K}+\\lambda\\mathbf{I}_N)^{-1}\\mathbf{t}",
+						"k(\\mathbf{x},\\mathbf{z}) = (\\mathbf{x}^{\\mathsf T}\\mathbf{z})^2 = \\boldsymbol\\phi(\\mathbf{x})^{\\mathsf T}\\boldsymbol\\phi(\\mathbf{z})"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "6.1",
+							"title": "Dual Representations"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 15: Kernel Methods",
+							"url": "https://www.youtube.com/watch?v=XUj5JbQihlU"
+						},
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 7: Kernels",
+							"url": "https://www.youtube.com/watch?v=8NYoQiRANpg",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Kernel ridge regression on draggable points: switch kernels (linear, polynomial, Gaussian), change the width and λ, and see the fit as a sum of kernel bumps centred on the data."
+					]
+				},
+				{
+					"id": "a1-l035-constructing-kernels",
+					"title": "Valid Kernels and How to Build Them",
+					"minutes": 36,
+					"objectives": [
+						"State the condition for a valid kernel (every Gram matrix is symmetric positive semidefinite) and test it on small examples by checking eigenvalues.",
+						"Build new kernels from old (sums, products, exponentials) and explain why the Gaussian kernel corresponds to an infinite-dimensional feature space.",
+						"Describe a similarity measure for molecules (Tanimoto similarity of fingerprints) as a valid kernel."
+					],
+					"keyEquations": [
+						"\\mathbf{c}^{\\mathsf T}\\mathbf{K}\\mathbf{c}\\ge 0\\quad\\forall\\,\\mathbf{c},\\qquad K_{nm} = k(\\mathbf{x}_n,\\mathbf{x}_m)",
+						"k(\\mathbf{x},\\mathbf{x}') = \\exp\\left(-\\|\\mathbf{x}-\\mathbf{x}'\\|^2/2\\sigma^2\\right)",
+						"k = k_1 + k_2,\\quad k = k_1k_2,\\quad k = \\exp(k_1)"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "6.2",
+							"title": "Constructing Kernels"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 16: Radial Basis Functions",
+							"url": "https://www.youtube.com/watch?v=O8CfrnOPtLc"
+						}
+					],
+					"demoIdeas": [
+						"Edit a proposed similarity function on five points and see its Gram matrix as a heat map with its eigenvalues, flagged red if any is negative."
+					]
+				},
+				{
+					"id": "a1-l036-maximum-margin",
+					"title": "The Maximum-Margin Classifier",
+					"minutes": 38,
+					"objectives": [
+						"Define the margin as the smallest distance from the data to the decision boundary and show that maximizing it is equivalent to minimizing ½||w||² subject to t_n(w^Tφ_n + b) ≥ 1.",
+						"Explain intuitively why a large margin should generalize better than an arbitrary separating boundary."
+					],
+					"keyEquations": [
+						"\\frac{t_n y(\\mathbf{x}_n)}{\\|\\mathbf{w}\\|} = \\frac{t_n(\\mathbf{w}^{\\mathsf T}\\boldsymbol\\phi(\\mathbf{x}_n)+b)}{\\|\\mathbf{w}\\|}",
+						"\\min_{\\mathbf{w},b}\\ \\tfrac12\\|\\mathbf{w}\\|^2\\quad\\text{s.t.}\\quad t_n(\\mathbf{w}^{\\mathsf T}\\boldsymbol\\phi(\\mathbf{x}_n)+b)\\ge1"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "7.1",
+							"title": "Maximum Margin Classifiers"
+						},
+						{
+							"bookId": "islp",
+							"ref": "9.1",
+							"title": "Maximal Margin Classifier",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 14: Support Vector Machines",
+							"url": "https://www.youtube.com/watch?v=eHsErlPJWUU"
+						},
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 6: Support Vector Machines",
+							"url": "https://www.youtube.com/watch?v=lDwow4aOrtg",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Drag points of two separable classes and watch the maximum-margin boundary, its margin band and the support vectors; moving any other point changes nothing."
+					]
+				},
+				{
+					"id": "a1-l037-lagrange-duality-kkt",
+					"title": "Lagrange Duality, KKT and Support Vectors",
+					"minutes": 42,
+					"objectives": [
+						"Form the Lagrangian of the hard-margin problem, eliminate w and b, and derive the dual: maximize Σa_n − ½ΣΣ a_n a_m t_n t_m k(x_n, x_m) with a_n ≥ 0 and Σ a_n t_n = 0.",
+						"State the KKT complementary-slackness condition a_n{t_n y(x_n) − 1} = 0 and explain why only the support vectors have a_n > 0.",
+						"Recognise the same Lagrange-multiplier logic as constrained extremization in thermodynamics (maximizing entropy at fixed mean energy gives the Boltzmann distribution)."
+					],
+					"keyEquations": [
+						"L(\\mathbf{w},b,\\mathbf{a}) = \\tfrac12\\|\\mathbf{w}\\|^2 - \\sum_{n} a_n\\{t_n(\\mathbf{w}^{\\mathsf T}\\boldsymbol\\phi_n+b)-1\\}",
+						"\\tilde L(\\mathbf{a}) = \\sum_{n} a_n - \\tfrac12\\sum_{n}\\sum_{m} a_na_mt_nt_m\\,k(\\mathbf{x}_n,\\mathbf{x}_m)",
+						"a_n\\ge0,\\quad t_ny(\\mathbf{x}_n)-1\\ge0,\\quad a_n\\{t_ny(\\mathbf{x}_n)-1\\} = 0"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "7.1",
+							"title": "Maximum Margin Classifiers"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "Appendix E",
+							"title": "Lagrange Multipliers"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 7: Kernels",
+							"url": "https://www.youtube.com/watch?v=8NYoQiRANpg",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"A 2D constrained optimization: level sets of an objective and a constraint curve with their gradients; slide along the constraint until the gradients align, then switch to an inequality constraint that can become inactive."
+					]
+				},
+				{
+					"id": "a1-l038-soft-margin-hinge",
+					"title": "Soft Margins and the Hinge Loss",
+					"minutes": 38,
+					"objectives": [
+						"Introduce slack variables ξ_n and the parameter C, and derive the soft-margin dual with its box constraint 0 ≤ a_n ≤ C.",
+						"Rewrite the soft-margin SVM as minimizing hinge loss plus an L2 penalty, and compare hinge, logistic, squared and 0–1 losses on one plot."
+					],
+					"keyEquations": [
+						"\\min\\ C\\sum_{n}\\xi_n + \\tfrac12\\|\\mathbf{w}\\|^2\\quad\\text{s.t.}\\quad t_ny(\\mathbf{x}_n)\\ge1-\\xi_n,\\ \\xi_n\\ge0",
+						"E_{SV}(y_nt_n) = [1-y_nt_n]_+",
+						"\\sum_{n} E_{SV}(y_nt_n) + \\lambda\\|\\mathbf{w}\\|^2"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "7.1.1",
+							"title": "Overlapping class distributions"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "7.1.2",
+							"title": "Relation to logistic regression"
+						},
+						{
+							"bookId": "islp",
+							"ref": "9.3",
+							"title": "Support Vector Machines",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Overlapping classes with a Gaussian-kernel SVM: slide C and the kernel width and watch the boundary go from smooth to wiggly, with support vectors and margin violators highlighted."
+					]
+				},
+				{
+					"id": "a1-l039-gaussian-process-prior",
+					"title": "Gaussian Processes: Priors over Functions",
+					"minutes": 38,
+					"prereqs": [
+						"a1-l017-bayesian-linear-regression"
+					],
+					"objectives": [
+						"Derive the Gaussian-process view from Bayesian linear regression: with a Gaussian prior on w, the function values y = Φw are jointly Gaussian with covariance K = α^{-1}ΦΦ^T.",
+						"Define a GP by a mean and covariance function, and draw sample functions from squared-exponential priors of different length scales.",
+						"Explain how the length scale and signal variance encode prior beliefs about smoothness, for example of a potential energy surface."
+					],
+					"keyEquations": [
+						"\\mathbf{y} = \\Phi\\mathbf{w},\\quad \\mathbb{E}[\\mathbf{y}\\mathbf{y}^{\\mathsf T}] = \\alpha^{-1}\\Phi\\Phi^{\\mathsf T} = \\mathbf{K}",
+						"f(\\mathbf{x})\\sim\\mathcal{GP}\\left(m(\\mathbf{x}),k(\\mathbf{x},\\mathbf{x}')\\right)",
+						"k_{SE}(x,x') = \\sigma_f^2\\exp\\left(-\\frac{(x-x')^2}{2\\ell^2}\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "6.4.1",
+							"title": "Linear regression revisited"
+						},
+						{
+							"bookId": "rasmussen-gpml",
+							"ref": "2.1",
+							"title": "Weight-space View",
+							"optional": true
+						},
+						{
+							"bookId": "rasmussen-gpml",
+							"ref": "4.2",
+							"title": "Examples of Covariance Functions",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slide the length scale and signal variance of a squared-exponential kernel and redraw sample functions from the GP prior; switch to a Matérn or periodic kernel."
+					]
+				},
+				{
+					"id": "a1-l040-gaussian-process-regression",
+					"title": "Gaussian Process Regression",
+					"minutes": 42,
+					"objectives": [
+						"Derive the GP predictive mean and variance by conditioning a joint Gaussian on the observed values (the conditional-Gaussian formulas).",
+						"Explain why the predictive variance falls to the noise level at observed points and returns to the prior far from the data.",
+						"Describe how the predictive mean and variance drive Bayesian optimization (sample where the model is promising or uncertain), as in optimizing a reaction yield."
+					],
+					"keyEquations": [
+						"m(\\mathbf{x}_{N+1}) = \\mathbf{k}^{\\mathsf T}\\mathbf{C}_N^{-1}\\mathbf{t}",
+						"\\sigma^2(\\mathbf{x}_{N+1}) = c - \\mathbf{k}^{\\mathsf T}\\mathbf{C}_N^{-1}\\mathbf{k}",
+						"\\mathbf{C}_N = \\mathbf{K} + \\beta^{-1}\\mathbf{I}_N"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "6.4.2",
+							"title": "Gaussian processes for regression"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "2.3.1",
+							"title": "Conditional Gaussian distributions",
+							"optional": true
+						},
+						{
+							"bookId": "rasmussen-gpml",
+							"ref": "2.2",
+							"title": "Function-space View",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Click to add noisy observations of a hidden 1D function (yield versus temperature); watch the GP mean and 95% band update and an acquisition curve suggest the next experiment."
+					]
+				},
+				{
+					"id": "a1-l041-gp-hyperparameters",
+					"title": "Learning GP Hyperparameters and Relevance Determination",
+					"minutes": 38,
+					"prereqs": [
+						"a1-l021-model-evidence"
+					],
+					"objectives": [
+						"Write the log marginal likelihood of a GP and identify its data-fit, complexity-penalty and normalization terms.",
+						"Explain how maximizing it selects the length scale and noise level, as the evidence did for Bayesian linear regression.",
+						"Explain automatic relevance determination: a separate length scale per input switches off irrelevant descriptors."
+					],
+					"keyEquations": [
+						"\\ln p(\\mathbf{t}\\mid\\boldsymbol\\theta) = -\\tfrac12\\mathbf{t}^{\\mathsf T}\\mathbf{C}_N^{-1}\\mathbf{t} - \\tfrac12\\ln|\\mathbf{C}_N| - \\tfrac N2\\ln2\\pi",
+						"k(\\mathbf{x},\\mathbf{x}') = \\theta_0\\exp\\left\\{-\\tfrac12\\sum_{i}\\eta_i(x_i-x_i')^2\\right\\}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "6.4.3",
+							"title": "Learning the hyperparameters"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "6.4.4",
+							"title": "Automatic relevance determination"
+						},
+						{
+							"bookId": "rasmussen-gpml",
+							"ref": "Ch. 5",
+							"title": "Model Selection and Adaptation of Hyperparameters",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Show the log marginal likelihood as a surface over length scale and noise level for one data set; click a point to see that GP fit (too wiggly, too smooth, about right)."
+					]
+				}
+			]
+		},
+		{
+			"id": "a1-u07-trees-ensembles",
+			"title": "Trees and Ensembles",
+			"summary": "Axis-aligned decision trees grown greedily by impurity reduction (entropy again), and the ensemble ideas that make them strong: bagging and random forests reduce variance by averaging, and boosting reduces bias by repeatedly fitting what is left over.",
+			"lessons": [
+				{
+					"id": "a1-l042-decision-trees",
+					"title": "Decision Trees",
+					"minutes": 38,
+					"objectives": [
+						"Grow a regression or classification tree by recursive binary splitting, choosing each split to maximize the reduction in squared error, Gini index or entropy.",
+						"Compute the Gini index and cross-entropy of a node by hand and explain why they are preferred to the misclassification rate for growing trees.",
+						"Explain cost-complexity pruning and why a single deep tree has high variance."
+					],
+					"keyEquations": [
+						"G = \\sum_{k} \\hat p_{mk}(1-\\hat p_{mk})",
+						"D = -\\sum_{k}\\hat p_{mk}\\ln\\hat p_{mk}",
+						"C(T) = \\sum_{\\tau=1}^{|T|}Q_\\tau(T) + \\lambda|T|"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "14.4",
+							"title": "Tree-based Models"
+						},
+						{
+							"bookId": "islp",
+							"ref": "8.1",
+							"title": "The Basics of Decision Trees"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Decision Trees and Ensemble Methods",
+							"url": "https://www.youtube.com/watch?v=wr9gUr-eWdA",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Place class points in 2D, grow a tree one split at a time, and see the axis-aligned partition, the tree diagram and each leaf's impurity; slide the maximum depth."
+					]
+				},
+				{
+					"id": "a1-l043-bagging",
+					"title": "Committees and Bagging",
+					"minutes": 34,
+					"prereqs": [
+						"a1-l020-bootstrap"
+					],
+					"objectives": [
+						"Explain bootstrap aggregation and show that averaging M models with uncorrelated errors divides the average squared error by M.",
+						"Estimate test error from out-of-bag samples without a separate validation set."
+					],
+					"keyEquations": [
+						"y_{COM}(\\mathbf{x}) = \\frac{1}{M}\\sum_{m=1}^{M}y_m(\\mathbf{x})",
+						"E_{COM} = \\frac{1}{M}E_{AV}\\quad\\text{(uncorrelated errors)}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "14.2",
+							"title": "Committees"
+						},
+						{
+							"bookId": "islp",
+							"ref": "8.2",
+							"title": "Bagging, Random Forests, Boosting, and Bayesian Additive Regression Trees"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Decision Trees and Ensemble Methods",
+							"url": "https://www.youtube.com/watch?v=wr9gUr-eWdA",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Overlay 1, 10 and 100 bagged deep trees on a noisy 1D regression and watch the jagged single-tree fit smooth into the bagged average."
+					]
+				},
+				{
+					"id": "a1-l044-random-forests",
+					"title": "Random Forests",
+					"minutes": 34,
+					"objectives": [
+						"Derive the variance of an average of B identically distributed variables with pairwise correlation ρ, ρσ² + (1 − ρ)σ²/B, and explain why bagging alone plateaus.",
+						"Explain how random forests decorrelate the trees by considering only m ≈ √p features at each split, and read permutation feature importances (which descriptors predict solubility?)."
+					],
+					"keyEquations": [
+						"\\mathrm{Var}\\left(\\frac{1}{B}\\sum_{b=1}^{B} X_b\\right) = \\rho\\sigma^2 + \\frac{1-\\rho}{B}\\sigma^2",
+						"m\\approx\\sqrt{p}"
+					],
+					"readings": [
+						{
+							"bookId": "islp",
+							"ref": "8.2",
+							"title": "Bagging, Random Forests, Boosting, and Bayesian Additive Regression Trees"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slide B and the correlation ρ and watch the variance of the average approach its floor ρσ²; then vary m, the features tried per split, in a forest and plot the test error."
+					]
+				},
+				{
+					"id": "a1-l045-adaboost",
+					"title": "Boosting: AdaBoost and the Exponential Loss",
+					"minutes": 40,
+					"objectives": [
+						"Trace AdaBoost on a small data set: reweight the misclassified points and compute each weak learner's weight α_m = ln((1 − ε_m)/ε_m).",
+						"Derive AdaBoost as sequential minimization of the exponential loss Σ exp(−t_n f(x_n)).",
+						"Compare the exponential, logistic and hinge losses and explain AdaBoost's sensitivity to mislabeled points."
+					],
+					"keyEquations": [
+						"\\alpha_m = \\ln\\frac{1-\\epsilon_m}{\\epsilon_m}",
+						"w_n^{(m+1)} = w_n^{(m)}\\exp\\{\\alpha_m I(y_m(\\mathbf{x}_n)\\ne t_n)\\}",
+						"E = \\sum_{n}\\exp\\{-t_nf_m(\\mathbf{x}_n)\\}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "14.3",
+							"title": "Boosting"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "14.3.1",
+							"title": "Minimizing exponential error"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Step through AdaBoost rounds with decision stumps on 2D data; point sizes show the weights and the combined boundary sharpens each round."
+					]
+				},
+				{
+					"id": "a1-l046-gradient-boosting",
+					"title": "Gradient Boosting",
+					"minutes": 36,
+					"prereqs": [
+						"a1-l012-gradient-descent"
+					],
+					"objectives": [
+						"Explain gradient boosting as gradient descent in function space: each new tree fits the negative gradient of the loss (for squared loss, the residuals) of the current model.",
+						"Explain the roles of the learning rate (shrinkage), the number of trees and the tree depth, and why boosting can overfit where bagging does not."
+					],
+					"keyEquations": [
+						"r_n^{(m)} = -\\left[\\frac{\\partial L(t_n,f(\\mathbf{x}_n))}{\\partial f(\\mathbf{x}_n)}\\right]_{f=f_{m-1}}",
+						"f_m(\\mathbf{x}) = f_{m-1}(\\mathbf{x}) + \\nu\\,h_m(\\mathbf{x})"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "14.3.2",
+							"title": "Error functions for boosting"
+						},
+						{
+							"bookId": "islp",
+							"ref": "8.2",
+							"title": "Bagging, Random Forests, Boosting, and Bayesian Additive Regression Trees",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Boost a 1D regression with depth-1 trees: each round shows the current fit, its residuals and the stump fitted to them; slide the shrinkage ν."
+					]
+				}
+			]
+		},
+		{
+			"id": "a1-u08-unsupervised",
+			"title": "Unsupervised Learning: Clustering, Mixtures, EM and PCA",
+			"summary": "Finding structure without labels: k-means, Gaussian mixtures fitted by expectation–maximization (whose lower bound is a variational free energy), and principal component analysis via the SVD, the workhorse of chemometrics for spectra and molecular data sets.",
+			"lessons": [
+				{
+					"id": "a1-l047-k-means",
+					"title": "k-Means Clustering",
+					"minutes": 36,
+					"objectives": [
+						"State the k-means objective J and show that the two alternating steps (assign, then update the means) are coordinate descent that never increases J.",
+						"Explain why k-means finds local minima, how to initialize it (k-means++), and how to choose K with an elbow plot."
+					],
+					"keyEquations": [
+						"J = \\sum_{n}\\sum_{k} r_{nk}\\|\\mathbf{x}_n-\\boldsymbol\\mu_k\\|^2",
+						"\\boldsymbol\\mu_k = \\frac{\\sum_{n} r_{nk}\\mathbf{x}_n}{\\sum_{n} r_{nk}}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "9.1",
+							"title": "K-means Clustering"
+						},
+						{
+							"bookId": "islp",
+							"ref": "12.4",
+							"title": "Clustering Methods",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 13: Expectation-Maximization Algorithms (k-means, mixtures of Gaussians, EM)",
+							"url": "https://www.youtube.com/watch?v=rVfZHWTwXSA",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Drop centroids on 2D data and step assign/update; watch J fall at every step, then restart from a bad initialization and land in a worse local minimum."
+					]
+				},
+				{
+					"id": "a1-l048-gaussian-mixtures",
+					"title": "Gaussian Mixture Models",
+					"minutes": 36,
+					"objectives": [
+						"Write a Gaussian mixture as a latent-variable model with mixing coefficients π_k, and compute the responsibilities γ(z_nk) by Bayes' theorem.",
+						"Explain why maximum likelihood for a mixture has no closed form, and why it has singularities when a component collapses onto one point.",
+						"Frame the deconvolution of overlapping peaks in a spectrum or chromatogram as a mixture-model problem."
+					],
+					"keyEquations": [
+						"p(\\mathbf{x}) = \\sum_{k=1}^{K}\\pi_k\\,\\mathcal{N}(\\mathbf{x}\\mid\\boldsymbol\\mu_k,\\boldsymbol\\Sigma_k)",
+						"\\gamma(z_{nk}) = \\frac{\\pi_k\\mathcal{N}(\\mathbf{x}_n\\mid\\boldsymbol\\mu_k,\\boldsymbol\\Sigma_k)}{\\sum_{j}\\pi_j\\mathcal{N}(\\mathbf{x}_n\\mid\\boldsymbol\\mu_j,\\boldsymbol\\Sigma_j)}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "9.2",
+							"title": "Mixtures of Gaussians"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "9.2.1",
+							"title": "Maximum likelihood",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Drag the means, widths and weights of two or three Gaussian components over a 1D histogram; see the mixture density, the responsibilities as colours, and the log-likelihood."
+					]
+				},
+				{
+					"id": "a1-l049-em-for-gmms",
+					"title": "The EM Algorithm for Gaussian Mixtures",
+					"minutes": 40,
+					"objectives": [
+						"Derive the M-step updates for μ_k, Σ_k and π_k by setting derivatives of the log-likelihood to zero, using a Lagrange multiplier for Σ_k π_k = 1.",
+						"Run one EM iteration by hand for a 1D two-component mixture and check that the log-likelihood increases.",
+						"Show that k-means is the limit of EM with shared isotropic covariance εI as ε → 0."
+					],
+					"keyEquations": [
+						"\\boldsymbol\\mu_k = \\frac{1}{N_k}\\sum_{n}\\gamma(z_{nk})\\,\\mathbf{x}_n",
+						"\\boldsymbol\\Sigma_k = \\frac{1}{N_k}\\sum_{n}\\gamma(z_{nk})(\\mathbf{x}_n-\\boldsymbol\\mu_k)(\\mathbf{x}_n-\\boldsymbol\\mu_k)^{\\mathsf T}",
+						"\\pi_k = \\frac{N_k}{N},\\quad N_k = \\sum_{n}\\gamma(z_{nk})"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "9.2.2",
+							"title": "EM for Gaussian mixtures"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "9.3.2",
+							"title": "Relation to K-means",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 13: Expectation-Maximization Algorithms (k-means, mixtures of Gaussians, EM)",
+							"url": "https://www.youtube.com/watch?v=rVfZHWTwXSA",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Run EM step by step on 2D data with an ellipse per component; responsibilities recolour the points, the ellipses move, and the log-likelihood climbs."
+					]
+				},
+				{
+					"id": "a1-l050-em-general-free-energy",
+					"title": "EM in General: the Lower Bound as a Free Energy",
+					"minutes": 42,
+					"prereqs": [
+						"a1-l007-entropy-kl"
+					],
+					"objectives": [
+						"Decompose the log-likelihood as ln p(X|θ) = L(q, θ) + KL(q || p(Z|X, θ)) and prove that L is a lower bound.",
+						"Explain the E-step as raising the bound until it touches ln p (KL = 0) and the M-step as maximizing the bound over θ, so ln p never decreases.",
+						"Recognise −L as a variational free energy (expected energy minus entropy), the same structure as F = U − TS."
+					],
+					"keyEquations": [
+						"\\ln p(\\mathbf{X}\\mid\\boldsymbol\\theta) = \\mathcal{L}(q,\\boldsymbol\\theta) + \\mathrm{KL}(q\\|p)",
+						"\\mathcal{L}(q,\\boldsymbol\\theta) = \\sum_{\\mathbf{Z}}q(\\mathbf{Z})\\ln\\frac{p(\\mathbf{X},\\mathbf{Z}\\mid\\boldsymbol\\theta)}{q(\\mathbf{Z})}",
+						"F = U - TS"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "9.4",
+							"title": "The EM Algorithm in General"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "9.3",
+							"title": "An Alternative View of EM",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Lecture 14: EM Algorithm and Factor Analysis",
+							"url": "https://www.youtube.com/watch?v=tw6cmL5STuY",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Plot ln p(X|θ) against one parameter θ; show the lower bound L(q, θ) touching it after each E-step and its maximum moving θ in the M-step."
+					]
+				},
+				{
+					"id": "a1-l051-pca-maximum-variance",
+					"title": "PCA: Maximum Variance and Minimum Error",
+					"minutes": 40,
+					"objectives": [
+						"Derive that the direction of maximum projected variance is the top eigenvector of the sample covariance S, using a Lagrange multiplier for ||u|| = 1.",
+						"Show the equivalent minimum-reconstruction-error formulation and that the error equals the sum of the discarded eigenvalues.",
+						"Compute the fraction of variance explained by the first k components."
+					],
+					"keyEquations": [
+						"\\mathbf{S} = \\frac{1}{N}\\sum_{n}(\\mathbf{x}_n-\\bar{\\mathbf{x}})(\\mathbf{x}_n-\\bar{\\mathbf{x}})^{\\mathsf T}",
+						"\\mathbf{S}\\mathbf{u}_1 = \\lambda_1\\mathbf{u}_1",
+						"J = \\sum_{i=M+1}^{D}\\lambda_i"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "12.1.1",
+							"title": "Maximum variance formulation"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "12.1.2",
+							"title": "Minimum-error formulation"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Rotate a projection axis through a 2D point cloud; the projected variance and the reconstruction error trade off, peaking and bottoming out at the eigenvector."
+					]
+				},
+				{
+					"id": "a1-l052-pca-via-svd",
+					"title": "PCA via the SVD",
+					"minutes": 40,
+					"prereqs": [
+						"a1-l011-svd-conditioning"
+					],
+					"objectives": [
+						"Show that for centred data X = UΣV^T the principal directions are the columns of V, the scores are UΣ, and the eigenvalues of S are σ_i²/N.",
+						"Explain why the SVD route is numerically better than forming X^TX (which squares the condition number) and how it handles N ≪ D (more wavelengths than spectra).",
+						"Connect the truncated SVD to the best rank-k approximation (Eckart–Young) from M3."
+					],
+					"keyEquations": [
+						"\\mathbf{X} = \\mathbf{U}\\boldsymbol\\Sigma\\mathbf{V}^{\\mathsf T}",
+						"\\mathbf{S} = \\frac{1}{N}\\mathbf{X}^{\\mathsf T}\\mathbf{X} = \\mathbf{V}\\,\\frac{\\boldsymbol\\Sigma^2}{N}\\,\\mathbf{V}^{\\mathsf T}",
+						"\\mathbf{X}_k = \\sum_{i=1}^{k}\\sigma_i\\mathbf{u}_i\\mathbf{v}_i^{\\mathsf T}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "12.1.4",
+							"title": "PCA for high-dimensional data"
+						},
+						{
+							"bookId": "islp",
+							"ref": "12.2",
+							"title": "Principal Components Analysis"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Rebuild a set of spectra from k = 1, 2, 3, … singular components; watch the reconstruction converge and the residual turn into pure noise."
+					]
+				},
+				{
+					"id": "a1-l053-pca-on-spectra",
+					"title": "PCA in Practice: Scores, Loadings and Spectra",
+					"minutes": 36,
+					"objectives": [
+						"Read a scores plot and a loadings plot for a set of mixture spectra: identify sample clusters and the wavelengths that drive each component.",
+						"Explain the effect of centring and scaling (autoscaling or not) on the PCA of spectra, and choose the number of components from a scree plot.",
+						"Explain why loadings are generally not pure-component spectra (rotational ambiguity) and what extra constraints, such as non-negativity, would be needed."
+					],
+					"keyEquations": [
+						"\\mathbf{T} = \\mathbf{X}\\mathbf{V}_k\\quad\\text{(scores)}",
+						"\\text{explained variance ratio}_i = \\frac{\\lambda_i}{\\sum_{j}\\lambda_j}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "12.1.3",
+							"title": "Applications of PCA"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Generate mixtures of three pure-component spectra with random concentrations plus noise; show the scree plot, the scores scatter and the loadings, and toggle autoscaling."
+					]
+				},
+				{
+					"id": "a1-l054-probabilistic-pca",
+					"title": "Probabilistic PCA",
+					"minutes": 38,
+					"objectives": [
+						"Write probabilistic PCA as a linear-Gaussian latent-variable model x = Wz + μ + ε and derive its marginal covariance C = WW^T + σ²I.",
+						"State the maximum-likelihood solution (the columns of W span the principal subspace; σ² is the average discarded eigenvalue) and explain what a probabilistic model adds: likelihoods, missing data, mixtures."
+					],
+					"keyEquations": [
+						"\\mathbf{x} = \\mathbf{W}\\mathbf{z}+\\boldsymbol\\mu+\\boldsymbol\\epsilon,\\quad \\mathbf{z}\\sim\\mathcal{N}(\\mathbf{0},\\mathbf{I})",
+						"\\mathbf{C} = \\mathbf{W}\\mathbf{W}^{\\mathsf T}+\\sigma^2\\mathbf{I}",
+						"\\sigma^2_{ML} = \\frac{1}{D-M}\\sum_{i=M+1}^{D}\\lambda_i"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "12.2",
+							"title": "Probabilistic PCA"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slide the latent coordinate z and watch the generated point move along the principal line inside its isotropic σ² noise cloud; fit to data and compare with ordinary PCA."
+					]
+				}
+			]
+		},
+		{
+			"id": "a1-u09-learning-theory",
+			"title": "Statistical Learning Theory (Grad Touch)",
+			"summary": "Why learning from finite data is possible at all: the formal empirical-risk-minimization model, PAC learnability of finite classes via concentration and the union bound, the no-free-lunch theorem, the VC dimension, and the fundamental theorem that turns it into generalization bounds.",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "a1-l055-erm-framework",
+					"title": "The Formal Learning Model and Empirical Risk Minimization",
+					"minutes": 36,
+					"objectives": [
+						"State the statistical learning framework precisely: domain, label set, unknown distribution D, hypothesis class H, true risk L_D(h) and empirical risk L_S(h).",
+						"Explain why ERM over an unrestricted class overfits (it can memorize the training set) and how restricting H introduces an inductive bias."
+					],
+					"keyEquations": [
+						"L_{\\mathcal D}(h) = \\mathbb{P}_{x\\sim\\mathcal D}\\left[h(x)\\ne f(x)\\right]",
+						"L_S(h) = \\frac{|\\{i\\in[m]: h(x_i)\\ne y_i\\}|}{m}",
+						"h_S\\in\\arg\\min_{h\\in\\mathcal H}L_S(h)"
+					],
+					"readings": [
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "2.1",
+							"title": "A Formal Model – The Statistical Learning Framework"
+						},
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "2.2",
+							"title": "Empirical Risk Minimization"
+						},
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "2.3",
+							"title": "Empirical Risk Minimization with Inductive Bias"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 02: Is Learning Feasible?",
+							"url": "https://www.youtube.com/watch?v=MEG35RDD7RA"
+						},
+						{
+							"source": "Stanford CS229 (2018) — opens on YouTube",
+							"title": "Discussion Section: Learning Theory",
+							"url": "https://www.youtube.com/watch?v=iVOxMcumR4A",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Sample m points from a hidden labelling rule; compare an ERM 'memorizer' with ERM over threshold rules, plotting training versus true error as m grows."
+					]
+				},
+				{
+					"id": "a1-l056-pac-finite-classes",
+					"title": "PAC Learning of Finite Hypothesis Classes",
+					"minutes": 40,
+					"objectives": [
+						"Prove that a finite hypothesis class is PAC learnable in the realizable case with m ≥ ln(|H|/δ)/ε, using the union bound.",
+						"Use Hoeffding's inequality and uniform convergence to extend this to the agnostic case, m ≥ 2 ln(2|H|/δ)/ε².",
+						"Interpret ε (accuracy) and δ (confidence) and compute the required sample size for concrete |H|."
+					],
+					"keyEquations": [
+						"m_{\\mathcal H}(\\epsilon,\\delta)\\le\\left\\lceil\\frac{\\ln(|\\mathcal H|/\\delta)}{\\epsilon}\\right\\rceil",
+						"\\mathbb{P}\\left[\\left|\\frac{1}{m}\\sum_{i=1}^{m}\\theta_i-\\mu\\right|>\\epsilon\\right]\\le2\\exp(-2m\\epsilon^2)",
+						"m\\ge\\frac{2\\ln(2|\\mathcal H|/\\delta)}{\\epsilon^2}"
+					],
+					"readings": [
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "3.1",
+							"title": "PAC Learning"
+						},
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "Ch. 4",
+							"title": "Learning via Uniform Convergence"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 05: Training Versus Testing",
+							"url": "https://www.youtube.com/watch?v=SEYAnnLazMU"
+						}
+					],
+					"demoIdeas": [
+						"Set |H|, ε and δ with sliders to see the required m; simulate many training sets and check that the fraction whose learned rule has error above ε stays below δ."
+					]
+				},
+				{
+					"id": "a1-l057-no-free-lunch",
+					"title": "No Free Lunch and the Bias–Complexity Tradeoff",
+					"minutes": 34,
+					"prereqs": [
+						"a1-l018-bias-variance"
+					],
+					"objectives": [
+						"State the no-free-lunch theorem and explain its proof idea: for any learner, some distribution makes it fail when it sees fewer than half the points of the domain.",
+						"Decompose the error of ERM into approximation and estimation error and explain how the size of the class trades one against the other (the theory's version of bias–variance)."
+					],
+					"keyEquations": [
+						"L_{\\mathcal D}(h_S) = \\epsilon_{app} + \\epsilon_{est}",
+						"\\epsilon_{app} = \\min_{h\\in\\mathcal H}L_{\\mathcal D}(h)"
+					],
+					"readings": [
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "5.1",
+							"title": "The No-Free-Lunch Theorem"
+						},
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "5.2",
+							"title": "Error Decomposition"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Grow a nested sequence of hypothesis classes and watch the approximation error fall while the estimation error rises, with their sum U-shaped."
+					]
+				},
+				{
+					"id": "a1-l058-vc-dimension",
+					"title": "Shattering and the VC Dimension",
+					"minutes": 40,
+					"objectives": [
+						"Define shattering and the VC dimension, and compute it for thresholds (1), intervals (2), axis-aligned rectangles (4) and half-planes in R² (3).",
+						"Explain why infinite classes can still be learnable and why the VC dimension, not the parameter count, is what matters."
+					],
+					"keyEquations": [
+						"\\mathrm{VCdim}(\\mathcal H) = \\max\\{|C|: \\mathcal H\\text{ shatters }C\\}",
+						"\\mathrm{VCdim}(\\text{halfspaces in }\\mathbb{R}^d) = d+1"
+					],
+					"readings": [
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "6.2",
+							"title": "The VC-Dimension"
+						},
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "6.3",
+							"title": "Examples"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 07: The VC Dimension",
+							"url": "https://www.youtube.com/watch?v=Dc0sr0kdBVI"
+						}
+					],
+					"demoIdeas": [
+						"Place 3 or 4 points in the plane and try every labelling: the tool searches for a separating line for each and shows which labellings cannot be realized."
+					]
+				},
+				{
+					"id": "a1-l059-fundamental-theorem",
+					"title": "The Fundamental Theorem and Generalization Bounds",
+					"minutes": 42,
+					"objectives": [
+						"State the fundamental theorem of PAC learning (finite VC dimension ⇔ PAC learnable) with agnostic sample complexity Θ((d + ln(1/δ))/ε²).",
+						"Explain Sauer's lemma (the growth function becomes polynomial in m once m > d) and why it lets the union-bound argument work for infinite classes.",
+						"Evaluate a VC generalization bound numerically and explain why such bounds are loose in practice."
+					],
+					"keyEquations": [
+						"\\tau_{\\mathcal H}(m)\\le\\sum_{i=0}^{d}\\binom{m}{i}\\le\\left(\\frac{em}{d}\\right)^d",
+						"m_{\\mathcal H}(\\epsilon,\\delta) = \\Theta\\left(\\frac{d+\\ln(1/\\delta)}{\\epsilon^2}\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "6.4",
+							"title": "The Fundamental Theorem of PAC Learning"
+						},
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "6.5",
+							"title": "Proof of Theorem 6.7",
+							"optional": true
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "7.1.5",
+							"title": "Computational learning theory",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 06: Theory of Generalization",
+							"url": "https://www.youtube.com/watch?v=6FWRijsmLtE"
+						}
+					],
+					"demoIdeas": [
+						"Plot the growth function for d = 3 against 2^m on a log scale and watch it bend from exponential to polynomial at m = d; overlay the resulting bound on an observed train–test gap."
+					]
+				},
+				{
+					"id": "a1-l060-structural-risk-minimization",
+					"title": "Structural Risk Minimization and Validation",
+					"minutes": 36,
+					"objectives": [
+						"Explain structural risk minimization: weight a nested sequence of classes H_1 ⊂ H_2 ⊂ … and minimize empirical risk plus a complexity term.",
+						"Connect SRM to regularization and to validation-based model selection, and derive why a held-out set gives a tight Hoeffding bound for a single chosen hypothesis."
+					],
+					"keyEquations": [
+						"h\\in\\arg\\min_{h\\in\\mathcal H}\\left[L_S(h)+\\epsilon_{n(h)}\\left(m,\\,w(n(h))\\,\\delta\\right)\\right]",
+						"L_{\\mathcal D}(h)\\le L_V(h)+\\sqrt{\\frac{\\ln(2/\\delta)}{2m_v}}"
+					],
+					"readings": [
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "Ch. 7",
+							"title": "Nonuniform Learnability"
+						},
+						{
+							"bookId": "shalev-shwartz-uml",
+							"ref": "Ch. 11",
+							"title": "Model Selection and Validation"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Caltech CS 156 Learning From Data (Abu-Mostafa, 2012)",
+							"title": "Lecture 17: Three Learning Principles",
+							"url": "https://www.youtube.com/watch?v=EZBUDG12Nr0"
+						}
+					],
+					"demoIdeas": [
+						"Slide the complexity index n of a family of polynomial classes and show the empirical risk, the complexity penalty and their sum; compare the SRM choice with the validation-set choice."
+					]
+				}
+			]
+		},
+		{
+			"id": "a1-u10-graphical-models",
+			"title": "Probabilistic Graphical Models (Grad Touch)",
+			"summary": "Graphs as a language for factorizing joint distributions: directed Bayesian networks, conditional independence and d-separation, undirected Markov random fields whose Gibbs form is literally a Boltzmann distribution over an energy (the Ising model of P7), and exact inference by message passing.",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "a1-l061-bayesian-networks",
+					"title": "Bayesian Networks",
+					"minutes": 36,
+					"objectives": [
+						"Write the joint distribution of a directed acyclic graph as a product of conditionals, and draw the graph for a given factorization.",
+						"Count parameters with and without the graph's structure for discrete variables and explain why factorization makes inference and learning tractable.",
+						"Draw the graphical model for Bayesian linear regression, with plates and observed nodes."
+					],
+					"keyEquations": [
+						"p(\\mathbf{x}) = \\prod_{k=1}^{K}p(x_k\\mid\\mathrm{pa}_k)",
+						"p(\\mathbf{t},\\mathbf{w}) = p(\\mathbf{w})\\prod_{n=1}^{N}p(t_n\\mid\\mathbf{w})"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.1",
+							"title": "Bayesian Networks"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.1.1",
+							"title": "Example: Polynomial regression",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Build a small DAG by dragging nodes and arrows; the tool writes the factorized joint and counts free parameters against the full joint table."
+					]
+				},
+				{
+					"id": "a1-l062-d-separation",
+					"title": "Conditional Independence and d-Separation",
+					"minutes": 40,
+					"objectives": [
+						"Determine conditional independence in the three canonical graphs (tail-to-tail, head-to-tail, head-to-head) and explain 'explaining away' at a head-to-head node.",
+						"Apply d-separation to decide whether A ⊥ B | C holds in a given DAG.",
+						"Identify the Markov blanket of a node."
+					],
+					"keyEquations": [
+						"a\\perp\\!\\!\\!\\perp b\\mid c \\iff p(a,b\\mid c) = p(a\\mid c)\\,p(b\\mid c)"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.2",
+							"title": "Conditional Independence"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.2.1",
+							"title": "Three example graphs"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.2.2",
+							"title": "D-separation"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Click nodes to observe them in a DAG; the tool highlights the active and blocked paths between two chosen nodes and reports whether they are d-separated."
+					]
+				},
+				{
+					"id": "a1-l063-markov-random-fields",
+					"title": "Markov Random Fields and the Ising Model",
+					"minutes": 40,
+					"objectives": [
+						"Write an MRF's joint distribution as a normalized product of clique potentials ψ_C = exp(−E(x_C)) and identify it as a Boltzmann distribution with partition function Z.",
+						"Set up the Ising-model energy for binary image denoising and run iterated conditional modes (ICM) by hand on a small grid.",
+						"Convert a directed graph into an undirected one by moralization."
+					],
+					"keyEquations": [
+						"p(\\mathbf{x}) = \\frac{1}{Z}\\prod_{C}\\psi_C(\\mathbf{x}_C),\\quad Z = \\sum_{\\mathbf{x}}\\prod_{C}\\psi_C(\\mathbf{x}_C)",
+						"\\psi_C(\\mathbf{x}_C) = \\exp\\{-E(\\mathbf{x}_C)\\}",
+						"E(\\mathbf{x},\\mathbf{y}) = h\\sum_{i}x_i - \\beta\\sum_{\\{i,j\\}}x_ix_j - \\eta\\sum_{i}x_iy_i"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.3",
+							"title": "Markov Random Fields"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.3.3",
+							"title": "Illustration: Image de-noising"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.3.4",
+							"title": "Relation to directed graphs",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Denoise a binary image with an Ising prior: slide the coupling β and the data weight η, run ICM sweeps, and watch the energy fall and the image clean up."
+					]
+				},
+				{
+					"id": "a1-l064-chains-factor-graphs",
+					"title": "Inference on Chains and Factor Graphs",
+					"minutes": 38,
+					"objectives": [
+						"Compute a marginal on a chain by passing forward and backward messages, and show the cost drops from O(K^N) to O(NK²).",
+						"Recognise the chain message recursion as the transfer-matrix method for the 1D Ising model.",
+						"Convert directed and undirected graphs into factor graphs."
+					],
+					"keyEquations": [
+						"p(x_n) = \\frac{1}{Z}\\mu_\\alpha(x_n)\\,\\mu_\\beta(x_n)",
+						"\\mu_\\alpha(x_n) = \\sum_{x_{n-1}}\\psi_{n-1,n}(x_{n-1},x_n)\\,\\mu_\\alpha(x_{n-1})",
+						"p(\\mathbf{x}) = \\prod_{s}f_s(\\mathbf{x}_s)"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.4.1",
+							"title": "Inference on a chain"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.4.3",
+							"title": "Factor graphs"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"On a 5-node chain with 3 states per node, animate the forward and backward messages as bar charts and compare the marginals with brute-force enumeration and its cost."
+					]
+				},
+				{
+					"id": "a1-l065-sum-product",
+					"title": "The Sum-Product Algorithm",
+					"minutes": 40,
+					"objectives": [
+						"Derive the sum-product algorithm on a tree-structured factor graph: factor-to-variable and variable-to-factor messages.",
+						"Compute all single-variable marginals with two passes of messages, and explain why loops break exactness (loopy belief propagation is an approximation, linked to the Bethe free energy)."
+					],
+					"keyEquations": [
+						"\\mu_{f_s\\to x}(x) = \\sum_{x_1}\\cdots\\sum_{x_M}f_s(x,x_1,\\dots,x_M)\\prod_{m}\\mu_{x_m\\to f_s}(x_m)",
+						"\\mu_{x_m\\to f_s}(x_m) = \\prod_{l\\in\\mathrm{ne}(x_m)\\setminus f_s}\\mu_{f_l\\to x_m}(x_m)",
+						"p(x)\\propto\\prod_{s\\in\\mathrm{ne}(x)}\\mu_{f_s\\to x}(x)"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.4.2",
+							"title": "Trees"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.4.4",
+							"title": "The sum-product algorithm"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Step through the messages on a small tree-shaped factor graph; each edge lights up as its message is computed and the node marginals fill in."
+					]
+				},
+				{
+					"id": "a1-l066-max-sum-hmms",
+					"title": "Max-Sum, Viterbi and Hidden Markov Models",
+					"minutes": 40,
+					"objectives": [
+						"Replace sums by maxima to derive the max-sum (Viterbi) algorithm, and back-track to recover the most probable configuration.",
+						"Write a hidden Markov model as a chain-structured graphical model and decode the most probable hidden-state path from a sequence of observations."
+					],
+					"keyEquations": [
+						"\\mathbf{x}^{\\max} = \\arg\\max_{\\mathbf{x}}p(\\mathbf{x})",
+						"\\omega(\\mathbf{z}_{n+1}) = \\ln p(\\mathbf{x}_{n+1}\\mid\\mathbf{z}_{n+1}) + \\max_{\\mathbf{z}_n}\\left\\{\\ln p(\\mathbf{z}_{n+1}\\mid\\mathbf{z}_n)+\\omega(\\mathbf{z}_n)\\right\\}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-prml",
+							"ref": "8.4.5",
+							"title": "The max-sum algorithm"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "13.2",
+							"title": "Hidden Markov Models"
+						},
+						{
+							"bookId": "bishop-prml",
+							"ref": "13.2.5",
+							"title": "The Viterbi algorithm",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"A two-state HMM (a single molecule switching between conformers, seen through a noisy fluorescence trace): show the observations, the Viterbi path on a trellis, and the posterior state probabilities."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "a1-midterm",
+			"kind": "midterm",
+			"title": "A1 Midterm: Learning, Regression, Regularization and Linear Classification",
+			"covers": [
+				"a1-u01-learning-problem",
+				"a1-u02-linear-regression",
+				"a1-u03-regularization-model-selection",
+				"a1-u04-classification",
+				"a1-u05-exponential-family-glms"
+			],
+			"minutes": 110,
+			"passMark": 0.7
+		},
+		{
+			"id": "a1-final",
+			"kind": "final",
+			"title": "A1 Final: Machine Learning",
+			"covers": [
+				"a1-u01-learning-problem",
+				"a1-u02-linear-regression",
+				"a1-u03-regularization-model-selection",
+				"a1-u04-classification",
+				"a1-u05-exponential-family-glms",
+				"a1-u06-kernels-svms-gps",
+				"a1-u07-trees-ensembles",
+				"a1-u08-unsupervised",
+				"a1-u09-learning-theory",
+				"a1-u10-graphical-models"
+			],
+			"minutes": 170,
+			"passMark": 0.7
+		}
+	],
+	"project": {
+		"title": "From-Scratch Models on Real Spectra",
+		"summary": "Implement the course's core models in NumPy from their equations and compare them honestly on a real chemistry data set: a public NIR/IR spectra set with known concentrations (e.g. a corn or pharmaceutical-tablet NIR set) or a molecular property set such as ESOL aqueous solubility with computed descriptors. Every from-scratch model is checked against scikit-learn, which is used only for verification and tree-ensemble baselines.",
+		"goals": [
+			"Turn derived equations (normal equations, ridge, IRLS, softmax gradient, PCA via SVD, GP posterior) into working NumPy code.",
+			"Choose hyperparameters honestly with cross-validation and a held-out test set, without leakage between replicate samples.",
+			"Compare linear, regularized, kernel/GP and tree-ensemble models on the same data, with bootstrap uncertainty on the metrics.",
+			"Interpret the fitted models chemically: PCA loadings, lasso-selected wavelengths, GP uncertainty, feature importances."
+		],
+		"steps": [
+			"Load and explore the data: plot the spectra (or descriptor distributions), centre and scale, and make a grouped train/test split so replicates of one sample never straddle it.",
+			"Implement ordinary least squares via the normal equations and via the SVD; confirm both match numpy.linalg.lstsq and report the condition number.",
+			"Implement ridge regression and k-fold cross-validation over λ; plot the CV curve with error bars and the coefficient paths.",
+			"Implement PCA via the SVD; make scree, scores and loadings plots, then fit principal-component regression and compare it with ridge.",
+			"Implement logistic or softmax regression for a categorical target (e.g. sample class or solubility bin) with gradient descent and with Newton/IRLS; report the confusion matrix and ROC curve.",
+			"Implement Gaussian-process regression with an RBF kernel, tune the length scale and noise by maximizing the log marginal likelihood, and plot predictions with uncertainty bands.",
+			"Train a random forest and gradient boosting with scikit-learn as baselines and read their feature importances.",
+			"Bootstrap the test-set metrics for every model and write a two-page comparison: which model wins, by how much, and what the chemistry says about why."
+		],
+		"stack": "Python, NumPy, Matplotlib, pandas; scikit-learn only for verification and tree-ensemble baselines",
+		"hours": 25
+	}
+}

@@ -1,0 +1,1915 @@
+{
+	"id": "a3-deep-learning",
+	"code": "A3",
+	"title": "Deep Learning",
+	"track": "ai",
+	"depth": "core",
+	"hours": 55,
+	"prereqs": [
+		"a2-neural-networks"
+	],
+	"coreqs": [],
+	"subject": "Deep Learning",
+	"summary": "The architectures of modern deep learning and the mathematics behind them: convolutions, residual connections and normalization, recurrent and gated networks, attention as a mechanism, representation learning, the generative-model family (VAEs, GANs, normalizing flows, diffusion), training at scale, and deep learning in chemistry. The generative units are told through statistical mechanics: the ELBO is a variational free energy, flows obey the Liouville continuity equation, and diffusion models are Langevin dynamics with a learned score whose forward process is an Ornstein-Uhlenbeck SDE governed by a Fokker-Planck equation. The course ends with graph neural networks for molecules, AlphaFold and ML on spectra. Lessons teach the math and intuition; code lives in the optional PyTorch capstone.",
+	"books": [
+		{
+			"bookId": "prince-udl",
+			"role": "primary"
+		},
+		{
+			"bookId": "bishop-dl",
+			"role": "secondary"
+		},
+		{
+			"bookId": "goodfellow-dl",
+			"role": "secondary"
+		}
+	],
+	"units": [
+		{
+			"id": "a3-u01-convolutional-networks",
+			"title": "Convolutional Networks",
+			"summary": "Convolution as a weight-sharing, translation-equivariant linear layer: 1-D and 2-D kernels, channels, receptive fields, pooling, the gradient of a convolution and upsampling to the U-Net; the chemist's hook is that smoothing and derivative filters on a spectrum are already fixed 1-D convolutions.",
+			"lessons": [
+				{
+					"id": "a3-l001-conv-invariance-equivariance",
+					"title": "Invariance, Equivariance and Why Convolution",
+					"minutes": 35,
+					"objectives": [
+						"Define translation invariance f(Tx) = f(x) and equivariance f(Tx) = T f(x), and decide which one image classification, object detection and segmentation each need.",
+						"Explain how locality and weight sharing turn a fully connected layer into a convolutional layer, and why this inductive bias suits images and spectra.",
+						"Count and compare the parameters of a fully connected layer and a 3x3 convolutional layer mapping a 64x64 image to a 64x64 feature map."
+					],
+					"keyEquations": [
+						"f(\\mathbf{T}x) = \\mathbf{T}\\,f(x)\\quad(\\text{equivariance})",
+						"f(\\mathbf{T}x) = f(x)\\quad(\\text{invariance})"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "10.1",
+							"title": "Invariance and equivariance"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "9.2",
+							"title": "Motivation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S191 (2026)",
+							"title": "Lecture 3: Deep Computer Vision",
+							"url": "https://www.youtube.com/watch?v=pqIcoskUuWs&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI"
+						},
+						{
+							"source": "Stanford CS231n (Spring 2017)",
+							"title": "Lecture Collection | Convolutional Neural Networks for Visual Recognition (Spring 2017)",
+							"url": "https://www.youtube.com/playlist?list=PL3FW7Lu3i5JvHM8ljYj-zLfQRF3EO8sYv",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Shift a drawing of a benzene ring across the image and watch a convolutional feature map shift with it (equivariance) while a global-max-pooled output stays fixed (invariance)."
+					]
+				},
+				{
+					"id": "a3-l002-1d-convolution",
+					"title": "1-D Convolution: Kernels, Stride, Padding and Dilation",
+					"minutes": 40,
+					"objectives": [
+						"Compute by hand the output of a 1-D convolution for a given kernel, stride, zero padding and dilation, and apply the output-length formula.",
+						"Distinguish convolution from cross-correlation and explain why deep-learning 'convolution' layers compute cross-correlation without loss of generality.",
+						"Recognise moving-average and Savitzky-Golay smoothing and finite-difference derivatives of an IR or UV-vis spectrum as fixed 1-D convolution kernels."
+					],
+					"keyEquations": [
+						"z_i = \\beta + \\sum_{k=1}^{K}\\omega_k\\,x_{i + d(k - \\lceil K/2\\rceil)}",
+						"L_{out} = \\left\\lfloor \\frac{L + 2p - d(K-1) - 1}{s}\\right\\rfloor + 1"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "10.2",
+							"title": "Convolutional networks for 1D inputs"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "9.1",
+							"title": "The Convolution Operation"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slide a 3-, 5- or 7-point kernel along a noisy IR spectrum; switch between smoothing and first-derivative kernels and change stride and dilation to see the output length and peak shapes change."
+					]
+				},
+				{
+					"id": "a3-l003-2d-convolution-channels",
+					"title": "2-D Convolution, Channels and 1x1 Convolutions",
+					"minutes": 40,
+					"objectives": [
+						"Compute the output shape and parameter count of a 2-D convolutional layer with C_in input channels, C_out output channels, a KxK kernel, stride and padding.",
+						"Explain a multi-channel convolution as each output channel summing 2-D correlations over all input channels, and a 1x1 convolution as a per-pixel linear map across channels.",
+						"Hand-design 3x3 kernels for blurring and for horizontal and vertical edge detection, and predict their feature maps on a simple image."
+					],
+					"keyEquations": [
+						"z_{c',i,j} = \\beta_{c'} + \\sum_{c=1}^{C_{in}}\\sum_{m,n}\\omega_{c',c,m,n}\\,x_{c,\\,i+m,\\,j+n}",
+						"\\#\\text{params} = C_{out}\\,(C_{in}K^2 + 1)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "10.3",
+							"title": "Convolutional networks for 2D inputs"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "9.5",
+							"title": "Variants of the Basic Convolution Function",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slide a user-editable 3x3 kernel over a grayscale image (a TLC plate photo) and watch the feature map fill in pixel by pixel; presets for blur, Sobel-x and Sobel-y."
+					]
+				},
+				{
+					"id": "a3-l004-receptive-fields-pooling",
+					"title": "Receptive Fields, Pooling and Downsampling",
+					"minutes": 35,
+					"objectives": [
+						"Compute the receptive field of a unit after a stack of convolution, stride and pooling layers.",
+						"Compare max pooling, average pooling and strided convolution as downsampling operations, and state the local invariance each provides.",
+						"Explain why two stacked 3x3 layers are preferred to one 5x5 layer (same receptive field, fewer parameters, an extra nonlinearity)."
+					],
+					"keyEquations": [
+						"r_\\ell = r_{\\ell-1} + (K_\\ell - 1)\\prod_{i<\\ell} s_i"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "10.4",
+							"title": "Downsampling and upsampling"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "9.3",
+							"title": "Pooling"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Click a unit in a deep layer of a toy CNN and highlight its receptive field in the input image as layers are added and kernel sizes and strides change."
+					]
+				},
+				{
+					"id": "a3-l005-backprop-convolution",
+					"title": "Backpropagation Through a Convolution",
+					"minutes": 35,
+					"objectives": [
+						"Derive the gradient of the loss with respect to a 1-D kernel as the cross-correlation of the layer input with the upstream gradient.",
+						"Derive the gradient with respect to the layer input as a full convolution of the upstream gradient with the flipped kernel, and check both on a 5-sample example.",
+						"Explain why weight sharing makes each kernel weight's gradient a sum over all positions."
+					],
+					"keyEquations": [
+						"\\frac{\\partial L}{\\partial \\omega_k} = \\sum_i \\frac{\\partial L}{\\partial z_i}\\,x_{i+k}",
+						"\\frac{\\partial L}{\\partial x_j} = \\sum_k \\frac{\\partial L}{\\partial z_{j-k}}\\,\\omega_k"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "9.5",
+							"title": "Variants of the Basic Convolution Function"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "Ch. 7",
+							"title": "Gradients and initialization",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Step through the forward and backward pass of a 1-D convolution on a 6-sample signal, with arrows showing which inputs and upstream gradients feed each weight gradient."
+					]
+				},
+				{
+					"id": "a3-l006-upsampling-unet",
+					"title": "Upsampling, Transposed Convolution and the U-Net",
+					"minutes": 35,
+					"objectives": [
+						"Write a strided convolution as a banded matrix and explain transposed convolution as multiplication by its transpose; compute the output size of a transposed convolution.",
+						"Describe the U-Net encoder-decoder with skip connections, explain why it suits dense per-pixel prediction, and note that it is the standard denoising network in diffusion models (Unit 8)."
+					],
+					"keyEquations": [
+						"\\mathbf{z} = \\boldsymbol{\\Omega}\\mathbf{x}\\;\\Rightarrow\\;\\mathbf{x}' = \\boldsymbol{\\Omega}^{\\top}\\mathbf{z}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "10.4",
+							"title": "Downsampling and upsampling"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "11.5",
+							"title": "Common residual architectures",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Toggle between a strided convolution's banded matrix and its transpose to see a 4-sample signal upsampled to 8, with the checkerboard overlap pattern visible."
+					]
+				},
+				{
+					"id": "a3-l007-cnn-architectures",
+					"title": "Classic CNN Architectures and What Filters Learn",
+					"minutes": 35,
+					"objectives": [
+						"Trace the progression LeNet to AlexNet to VGG in depth, kernel size, ReLU, dropout and data augmentation, and compute the parameter count of a VGG-style block.",
+						"Explain how first-layer filters (edges, colour blobs) and deeper features (textures, object parts) are visualised, and what a gradient saliency map does and does not show."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "10.5",
+							"title": "Applications"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 10",
+							"title": "Convolutional Networks",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Pick a unit in a small trained CNN and view its top-activating image patches next to a gradient saliency map overlaid on the input."
+					]
+				}
+			]
+		},
+		{
+			"id": "a3-u02-residual-normalization",
+			"title": "Residual Networks and Normalization",
+			"summary": "Why very deep plain networks are hard to optimise and how residual connections and normalization layers restore signal propagation; the physics hook is that a residual block is one forward-Euler step of an ODE, like a step of a molecular-dynamics integrator.",
+			"lessons": [
+				{
+					"id": "a3-l008-shattered-gradients",
+					"title": "Why Deep Plain Networks Are Hard to Train",
+					"minutes": 35,
+					"objectives": [
+						"Explain the degradation problem: deeper plain networks can have higher training error than shallower ones, so the obstacle is optimisation, not overfitting.",
+						"Describe shattered gradients, where gradients at nearby inputs become uncorrelated as depth grows, and relate it to the variance-propagation analysis of initialization from A2."
+					],
+					"keyEquations": [
+						"\\sigma^2_{\\mathbf{h}_{k+1}} = \\tfrac12 D_h\\,\\sigma^2_{\\Omega}\\,\\sigma^2_{\\mathbf{h}_k}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "11.1",
+							"title": "Sequential processing"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "Ch. 7",
+							"title": "Gradients and initialization",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S191 (2026)",
+							"title": "Lecture 3: Deep Computer Vision",
+							"url": "https://www.youtube.com/watch?v=pqIcoskUuWs&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI"
+						}
+					],
+					"demoIdeas": [
+						"Plot a deep plain network's gradient with respect to a 1-D input as a depth slider goes from 2 to 50 and watch it turn from smooth to noise; toggle residual connections to restore it."
+					]
+				},
+				{
+					"id": "a3-l009-residual-connections",
+					"title": "Residual Connections and the Ensemble-of-Paths View",
+					"minutes": 40,
+					"objectives": [
+						"Write a residual block h_{k+1} = h_k + f_k(h_k) and expand a stack of three blocks into a sum over 2^3 paths of different lengths.",
+						"Show from the Jacobian product that the identity path gives the gradient a direct route through the network.",
+						"Interpret a residual network as forward-Euler integration of dh/dt = f(h, t) (the neural-ODE view), the same discretisation as integrating equations of motion in molecular dynamics."
+					],
+					"keyEquations": [
+						"\\mathbf{h}_{k+1} = \\mathbf{h}_k + \\mathbf{f}_k[\\mathbf{h}_k, \\phi_k]",
+						"\\frac{\\partial \\mathbf{h}_K}{\\partial \\mathbf{h}_k} = \\prod_{j=k}^{K-1}\\left(\\mathbf{I} + \\frac{\\partial \\mathbf{f}_j}{\\partial \\mathbf{h}_j}\\right)",
+						"\\frac{d\\mathbf{h}}{dt} = \\mathbf{f}(\\mathbf{h}, t)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "11.2",
+							"title": "Residual connections and residual blocks"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "9.5",
+							"title": "Residual Connections",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Watch 2-D points flow through a 20-block residual network trained to separate two spirals, each block drawn as a small Euler step along a vector field."
+					]
+				},
+				{
+					"id": "a3-l010-variance-residual",
+					"title": "Variance Growth in Residual Networks",
+					"minutes": 30,
+					"objectives": [
+						"Show that adding residual branches makes the activation variance grow with depth (roughly doubling per block under He initialization).",
+						"Explain the two standard fixes: scaling the residual branches and placing normalization inside each block."
+					],
+					"keyEquations": [
+						"\\mathrm{Var}[\\mathbf{h}_{k+1}] = \\mathrm{Var}[\\mathbf{h}_k] + \\mathrm{Var}[\\mathbf{f}_k(\\mathbf{h}_k)]"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "11.3",
+							"title": "Exploding gradients in residual networks"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Histogram activations block by block in a randomly initialized residual network; slide a branch-scale factor and toggle normalization to keep the variance flat."
+					]
+				},
+				{
+					"id": "a3-l011-normalization-layers",
+					"title": "Normalization Layers: Batch, Layer and Group Norm",
+					"minutes": 40,
+					"objectives": [
+						"Recall batch normalization from A2 and contrast batch, layer, instance and group normalization by which axes of an N x C x H x W tensor the mean and variance are computed over.",
+						"Explain why batch norm misbehaves with small batches and variable-length sequences and why transformers use layer norm instead.",
+						"Compare pre-norm and post-norm placement in a residual block and explain why pre-norm keeps the identity path clean."
+					],
+					"keyEquations": [
+						"\\hat{x} = \\frac{x - \\mu}{\\sqrt{\\sigma^2 + \\epsilon}},\\quad y = \\gamma\\hat{x} + \\beta",
+						"\\mu_{LN} = \\frac{1}{D}\\sum_{d=1}^{D}x_d\\;\\;(\\text{per example})"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "7.4",
+							"title": "Normalization"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "11.4",
+							"title": "Batch normalization",
+							"optional": true
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "12.4",
+							"title": "Transformer layers",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Highlight the cells of an N x C x H x W tensor that share one mean and variance under batch, layer, instance and group norm, and see the normalized values for a toy batch."
+					]
+				},
+				{
+					"id": "a3-l012-residual-architectures",
+					"title": "Common Residual Architectures and Why They Work",
+					"minutes": 35,
+					"objectives": [
+						"Describe the ResNet bottleneck block (1x1, 3x3, 1x1) and compare its parameter count with a basic two-layer block.",
+						"Compare ResNet (addition), DenseNet (concatenation) and U-Net/hourglass skip connections.",
+						"Summarise the loss-landscape evidence that residual connections smooth the optimisation landscape."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "11.5",
+							"title": "Common residual architectures"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "11.6",
+							"title": "Why do nets with residual connections perform so well?"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Compare 2-D slices of the loss landscape of a deep network with and without skip connections as interactive contour plots."
+					]
+				}
+			]
+		},
+		{
+			"id": "a3-u03-recurrent-networks",
+			"title": "Recurrent Networks, LSTMs and GRUs",
+			"summary": "Sequence models that share parameters across time: unfolding, backpropagation through time, the eigenvalue story behind vanishing and exploding gradients (diagonalisation from M3), and the gated LSTM and GRU cells that fix it; kinetic traces and chromatograms are the chemist's sequences.",
+			"lessons": [
+				{
+					"id": "a3-l013-simple-rnn",
+					"title": "Unfolding Computation in Time: the Simple RNN",
+					"minutes": 35,
+					"objectives": [
+						"Write the simple RNN update h_t = tanh(W h_{t-1} + U x_t + b) and draw its unfolded computational graph for T steps.",
+						"Contrast parameter sharing across time in an RNN with sharing across positions in a 1-D convolution (unbounded vs finite memory).",
+						"Classify sequence tasks as many-to-one, many-to-many or sequence-to-sequence and give a chemistry example of each (e.g. a kinetic trace to a rate constant)."
+					],
+					"keyEquations": [
+						"\\mathbf{h}_t = \\tanh(\\mathbf{W}\\mathbf{h}_{t-1} + \\mathbf{U}\\mathbf{x}_t + \\mathbf{b})",
+						"\\hat{\\mathbf{y}}_t = \\mathrm{softmax}(\\mathbf{V}\\mathbf{h}_t + \\mathbf{c})"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "10.1",
+							"title": "Unfolding Computational Graphs"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "10.2",
+							"title": "Recurrent Neural Networks"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S191 (2026)",
+							"title": "Lecture 2: Deep Sequence Modeling (RNNs, LSTMs, attention)",
+							"url": "https://www.youtube.com/watch?v=d02VkQ9MP44&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI"
+						}
+					],
+					"demoIdeas": [
+						"Feed a sequence one symbol at a time into a 2-unit RNN and watch the hidden state trace a trajectory in the plane."
+					]
+				},
+				{
+					"id": "a3-l014-bptt",
+					"title": "Backpropagation Through Time",
+					"minutes": 40,
+					"objectives": [
+						"Derive the BPTT gradient of the loss with respect to the recurrent matrix W as a sum over time steps of products of Jacobians.",
+						"Explain truncated BPTT and teacher forcing and their trade-offs."
+					],
+					"keyEquations": [
+						"\\frac{\\partial L}{\\partial \\mathbf{W}} = \\sum_t\\sum_{k\\le t}\\frac{\\partial L_t}{\\partial \\mathbf{h}_t}\\left(\\prod_{j=k+1}^{t}\\frac{\\partial \\mathbf{h}_j}{\\partial \\mathbf{h}_{j-1}}\\right)\\frac{\\partial^{+}\\mathbf{h}_k}{\\partial \\mathbf{W}}"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "10.2.2",
+							"title": "Computing the Gradient in a Recurrent Neural Network"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "10.2.1",
+							"title": "Teacher Forcing and Networks with Output Recurrence",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Animate the backward pass through an unrolled RNN, colouring each time step by the size of its contribution to the gradient."
+					]
+				},
+				{
+					"id": "a3-l015-long-term-dependencies",
+					"title": "Vanishing and Exploding Gradients: the Eigenvalue Story",
+					"minutes": 40,
+					"objectives": [
+						"Show that for a linear RNN the gradient across k steps scales as W^k, so the eigenvalues of W decide vanishing (|lambda| < 1) or exploding (|lambda| > 1) gradients, using diagonalisation from M3.",
+						"Explain gradient-norm clipping and why it cures explosion but not vanishing.",
+						"Explain why a simple RNN struggles to learn a dependency 50 steps back."
+					],
+					"keyEquations": [
+						"\\mathbf{h}_t = \\mathbf{W}^t\\mathbf{h}_0 = \\mathbf{Q}\\boldsymbol{\\Lambda}^t\\mathbf{Q}^{\\top}\\mathbf{h}_0",
+						"\\mathbf{g} \\leftarrow \\frac{v}{\\|\\mathbf{g}\\|}\\,\\mathbf{g}\\quad\\text{if } \\|\\mathbf{g}\\| > v"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "10.7",
+							"title": "The Challenge of Long-Term Dependencies"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "10.11",
+							"title": "Optimization for Long-Term Dependencies"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Set the eigenvalues of a 2x2 recurrent matrix with sliders and watch the gradient norm over 100 time steps vanish, stay flat or explode on a log plot; toggle clipping."
+					]
+				},
+				{
+					"id": "a3-l016-lstm-gru",
+					"title": "Gated Cells: LSTM and GRU",
+					"minutes": 45,
+					"prereqs": [
+						"a3-l009-residual-connections"
+					],
+					"objectives": [
+						"Write the LSTM equations (forget, input and output gates and the cell state) and explain how the additive cell update gives a near-identity gradient path.",
+						"Write the GRU equations and contrast them with the LSTM (merged gates, no separate cell state).",
+						"Relate the LSTM cell-state path to the residual connection of Unit 2."
+					],
+					"keyEquations": [
+						"\\mathbf{f}_t = \\sigma(\\mathbf{W}_f[\\mathbf{h}_{t-1}, \\mathbf{x}_t] + \\mathbf{b}_f)",
+						"\\mathbf{c}_t = \\mathbf{f}_t\\odot\\mathbf{c}_{t-1} + \\mathbf{i}_t\\odot\\tanh(\\mathbf{W}_c[\\mathbf{h}_{t-1}, \\mathbf{x}_t] + \\mathbf{b}_c)",
+						"\\mathbf{h}_t = \\mathbf{o}_t\\odot\\tanh(\\mathbf{c}_t)"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "10.10",
+							"title": "The Long Short-Term Memory and Other Gated RNNs"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "10.9",
+							"title": "Leaky Units and Other Strategies for Multiple Time Scales",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Open or close each LSTM gate on a toy memory task and watch the cell state carry or forget a stored bit across 40 time steps."
+					]
+				},
+				{
+					"id": "a3-l017-seq2seq-dilated",
+					"title": "Bidirectional and Seq2seq Models; Dilated Convolutions for Sequences",
+					"minutes": 35,
+					"prereqs": [
+						"a3-l002-1d-convolution"
+					],
+					"objectives": [
+						"Describe bidirectional RNNs and encoder-decoder sequence-to-sequence models, and identify the fixed-length context vector as the bottleneck that attention removes.",
+						"Explain how stacked dilated causal 1-D convolutions (WaveNet) reach a receptive field exponential in depth, and compare them with RNNs for parallel training."
+					],
+					"keyEquations": [
+						"r = 1 + (K-1)\\sum_{\\ell=0}^{L-1}2^{\\ell}"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "10.3",
+							"title": "Bidirectional RNNs"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "10.4",
+							"title": "Encoder-Decoder Sequence-to-Sequence Architectures"
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "Building makemore Part 5: Building a WaveNet",
+							"url": "https://youtu.be/t3YJ5hKiMQ0",
+							"minutes": 56,
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Stack dilated causal convolutions with dilations 1, 2, 4, 8 and highlight which past time steps feed the current output."
+					]
+				}
+			]
+		},
+		{
+			"id": "a3-u04-attention",
+			"title": "Attention as a Mechanism",
+			"summary": "Attention as a differentiable, content-based lookup: queries, keys and values, scaled dot-product self-attention (its softmax is a Boltzmann distribution over keys), masking, positional information and multiple heads; the full transformer and language models are A4's subject.",
+			"lessons": [
+				{
+					"id": "a3-l018-attention-soft-lookup",
+					"title": "Attention as Soft Dictionary Lookup",
+					"minutes": 35,
+					"objectives": [
+						"Explain additive (Bahdanau) attention in a seq2seq model as alignment weights over encoder states that replace the fixed context vector.",
+						"Interpret attention as a soft key-value lookup, and its softmax weights as a Boltzmann distribution over keys with scores as negative energies and a temperature."
+					],
+					"keyEquations": [
+						"a_{ij} = \\frac{\\exp\\big(s(\\mathbf{q}_i, \\mathbf{k}_j)/T\\big)}{\\sum_{j'}\\exp\\big(s(\\mathbf{q}_i, \\mathbf{k}_{j'})/T\\big)}",
+						"\\mathbf{c}_i = \\sum_j a_{ij}\\,\\mathbf{v}_j"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "12.4.5.1",
+							"title": "Using an Attention Mechanism and Aligning Pieces of Data"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.1",
+							"title": "Attention"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S191 (2026)",
+							"title": "Lecture 2: Deep Sequence Modeling (RNNs, LSTMs, attention)",
+							"url": "https://www.youtube.com/watch?v=d02VkQ9MP44&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI"
+						}
+					],
+					"demoIdeas": [
+						"Drag a query vector and watch softmax attention weights over 8 key vectors sharpen or flatten as the temperature is lowered or raised."
+					]
+				},
+				{
+					"id": "a3-l019-scaled-dot-product-attention",
+					"title": "Scaled Dot-Product Self-Attention",
+					"minutes": 45,
+					"objectives": [
+						"Compute self-attention by hand for 3 tokens with given W_q, W_k, W_v: Q, K, V, the score matrix, the row-wise softmax and the output.",
+						"Explain the 1/sqrt(d_k) scaling: with unit-variance entries a dot product has variance d_k, which would saturate the softmax.",
+						"Show that self-attention is permutation-equivariant and costs O(N^2 d) for N tokens."
+					],
+					"keyEquations": [
+						"\\mathrm{Attention}(\\mathbf{Q},\\mathbf{K},\\mathbf{V}) = \\mathrm{softmax}\\!\\left(\\frac{\\mathbf{Q}\\mathbf{K}^{\\top}}{\\sqrt{d_k}}\\right)\\mathbf{V}",
+						"\\mathrm{Var}[\\mathbf{q}\\cdot\\mathbf{k}] = d_k"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.2",
+							"title": "Dot-product self-attention"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "12.1",
+							"title": "Attention",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "Andrej Karpathy, Neural Networks: Zero to Hero",
+							"title": "Let's build GPT: from scratch, in code, spelled out.",
+							"url": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+							"minutes": 116,
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Show the N x N attention matrix as a heatmap for a short sentence or SMILES string and let the learner edit token embeddings to see the weights change."
+					]
+				},
+				{
+					"id": "a3-l020-masking-positions-heads",
+					"title": "Masking, Positional Encodings and Multi-Head Attention",
+					"minutes": 40,
+					"objectives": [
+						"Explain why self-attention needs positional information and compute sinusoidal positional encodings for small positions.",
+						"Apply a causal mask (minus infinity above the diagonal) and explain its role in autoregressive generation.",
+						"Describe multi-head attention as several lower-dimensional attentions run in parallel and concatenated, and count its parameters."
+					],
+					"keyEquations": [
+						"PE_{(p,2i)} = \\sin\\!\\left(p/10000^{2i/d}\\right),\\quad PE_{(p,2i+1)} = \\cos\\!\\left(p/10000^{2i/d}\\right)",
+						"\\mathrm{MHA}(\\mathbf{X}) = [\\mathbf{H}_1,\\dots,\\mathbf{H}_h]\\,\\mathbf{W}_O"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.3",
+							"title": "Extensions to dot-product self-attention"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Toggle a causal mask on an attention heatmap and compare 4 heads side by side, each attending to different relative positions."
+					]
+				},
+				{
+					"id": "a3-l021-transformer-block-beyond-text",
+					"title": "The Transformer Block and Attention Beyond Text",
+					"minutes": 40,
+					"prereqs": [
+						"a3-l011-normalization-layers"
+					],
+					"objectives": [
+						"Assemble a transformer block (multi-head attention and an MLP, each wrapped in a residual connection with layer norm) and trace tensor shapes through it.",
+						"Explain how a vision transformer turns an image into a sequence of patches, and compare its inductive bias with a CNN's.",
+						"Recognise self-attention as message passing on a fully connected graph (a preview of graph neural networks in Unit 10)."
+					],
+					"keyEquations": [
+						"\\mathbf{X} \\leftarrow \\mathbf{X} + \\mathrm{MHA}(\\mathrm{LN}(\\mathbf{X}))",
+						"\\mathbf{X} \\leftarrow \\mathbf{X} + \\mathrm{MLP}(\\mathrm{LN}(\\mathbf{X}))"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "12.4",
+							"title": "Transformer layers"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "12.10",
+							"title": "Transformers for images"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Cut an image into 16x16 patches, lay them out as a token sequence, and show one patch's attention map over all the others."
+					]
+				}
+			]
+		},
+		{
+			"id": "a3-u05-representation-learning",
+			"title": "Representation Learning and Embeddings",
+			"summary": "What networks learn in their hidden layers: distributed representations and the manifold hypothesis, autoencoders and their link to PCA, denoising autoencoders that secretly estimate the score of the data density, transfer learning, and contrastive embeddings; hand-made molecular fingerprints versus learned embeddings is the chemist's hook.",
+			"lessons": [
+				{
+					"id": "a3-l022-distributed-representations",
+					"title": "Distributed Representations and the Manifold Hypothesis",
+					"minutes": 35,
+					"objectives": [
+						"Contrast local (one-hot) and distributed representations and explain how n binary features can separate 2^n regions.",
+						"State the manifold hypothesis and explain why molecular conformations and spectra lie near low-dimensional manifolds in high-dimensional spaces.",
+						"Compare a hand-crafted molecular fingerprint (e.g. ECFP) with a learned embedding by what each captures and how it is obtained."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "15.4",
+							"title": "Distributed Representation"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "14.6",
+							"title": "Learning Manifolds with Autoencoders",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Project a learned embedding of small molecules to 2-D and hover over points to see structures cluster by functional group."
+					]
+				},
+				{
+					"id": "a3-l023-autoencoders-pca",
+					"title": "Autoencoders and Their Link to PCA",
+					"minutes": 40,
+					"objectives": [
+						"Write the autoencoder objective and explain the role of the bottleneck in an undercomplete autoencoder.",
+						"Show that a linear autoencoder trained with squared error spans the same subspace as PCA (the SVD from M3 and A1).",
+						"Explain what nonlinear autoencoders add and why an overcomplete autoencoder needs regularisation to avoid learning the identity."
+					],
+					"keyEquations": [
+						"\\min_{f,g}\\sum_i \\|\\mathbf{x}_i - g(f(\\mathbf{x}_i))\\|^2"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "14.1",
+							"title": "Undercomplete Autoencoders"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "14.2",
+							"title": "Regularized Autoencoders",
+							"optional": true
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 19",
+							"title": "Autoencoders",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Train a 2-unit-bottleneck autoencoder on a curved 3-D point cloud and compare its 2-D code with the PCA projection."
+					]
+				},
+				{
+					"id": "a3-l024-denoising-autoencoders-score",
+					"title": "Denoising Autoencoders Estimate the Score",
+					"minutes": 40,
+					"objectives": [
+						"Write the denoising autoencoder objective: corrupt x with Gaussian noise and train the network to reconstruct the clean x.",
+						"Use Tweedie's formula to show that the optimal denoiser's correction r(x~) - x~ equals sigma^2 times the score grad log p_sigma(x~) of the noised density.",
+						"Explain why this result is the seed of score-based diffusion models (Unit 8)."
+					],
+					"keyEquations": [
+						"\\tilde{\\mathbf{x}} = \\mathbf{x} + \\sigma\\boldsymbol{\\epsilon},\\;\\boldsymbol{\\epsilon}\\sim\\mathcal{N}(\\mathbf{0},\\mathbf{I})",
+						"\\mathbb{E}[\\mathbf{x}\\mid\\tilde{\\mathbf{x}}] = \\tilde{\\mathbf{x}} + \\sigma^2\\,\\nabla_{\\tilde{\\mathbf{x}}}\\log p_\\sigma(\\tilde{\\mathbf{x}})"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "14.5",
+							"title": "Denoising Autoencoders"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "14.5.1",
+							"title": "Estimating the Score"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Draw the vector field r(x~) - x~ learned by a denoising autoencoder on a 2-D ring of points and compare it with the true score arrows at several noise levels."
+					]
+				},
+				{
+					"id": "a3-l025-transfer-learning",
+					"title": "Transfer Learning, Pretraining and Fine-Tuning",
+					"minutes": 35,
+					"objectives": [
+						"Explain why features learned on a large task transfer, and distinguish linear probing, fine-tuning and training from scratch.",
+						"Choose and justify a transfer strategy for a small labelled chemistry data set (e.g. 500 measured solubilities) given a model pretrained on millions of unlabelled molecules."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "15.2",
+							"title": "Transfer Learning and Domain Adaptation"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "15.1",
+							"title": "Greedy Layer-Wise Unsupervised Pretraining",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Slide the size of the labelled training set and compare learning curves for from-scratch, linear-probe and fine-tuned models."
+					]
+				},
+				{
+					"id": "a3-l026-contrastive-embeddings",
+					"title": "Self-Supervised and Contrastive Embeddings",
+					"minutes": 40,
+					"objectives": [
+						"Write the InfoNCE loss and recognise it as softmax cross-entropy over one positive and many negatives at a temperature tau.",
+						"Explain how the choice of positive pairs (two augmentations of an image, two SMILES of one molecule, a structure and its spectrum CLIP-style) decides what the embedding becomes invariant to.",
+						"Relate InfoNCE to noise-contrastive estimation."
+					],
+					"keyEquations": [
+						"\\mathcal{L}_i = -\\log\\frac{\\exp(\\mathbf{z}_i\\cdot\\mathbf{z}_i^{+}/\\tau)}{\\sum_j \\exp(\\mathbf{z}_i\\cdot\\mathbf{z}_j/\\tau)}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 6",
+							"title": "Deep Neural Networks"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "18.6",
+							"title": "Noise-Contrastive Estimation",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Watch embeddings on a unit circle as contrastive training pulls positive pairs together and pushes negatives apart, with a temperature slider."
+					]
+				}
+			]
+		},
+		{
+			"id": "a3-u06-latent-variable-generative",
+			"title": "Generative Models I: Latent Variables, VAEs and GANs",
+			"summary": "How to judge a generative model, latent-variable models and the ELBO (a variational free energy with the same structure as the Gibbs-Bogoliubov bound of statistical mechanics), variational autoencoders and the reparameterization trick, and adversarial training with its Jensen-Shannon and Wasserstein views.",
+			"lessons": [
+				{
+					"id": "a3-l027-generative-landscape",
+					"title": "What Makes a Good Generative Model?",
+					"minutes": 35,
+					"objectives": [
+						"Sort VAEs, GANs, normalizing flows and diffusion models by whether they give an exact likelihood, a bound or none, and by sampling speed.",
+						"Explain the evaluation measures (test log-likelihood, Inception score, Frechet Inception distance) and why likelihood and sample quality can disagree."
+					],
+					"keyEquations": [
+						"\\mathrm{FID} = \\|\\boldsymbol{\\mu}_r - \\boldsymbol{\\mu}_g\\|^2 + \\mathrm{Tr}\\!\\left(\\boldsymbol{\\Sigma}_r + \\boldsymbol{\\Sigma}_g - 2(\\boldsymbol{\\Sigma}_r\\boldsymbol{\\Sigma}_g)^{1/2}\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "14.1",
+							"title": "Taxonomy of unsupervised learning models"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "14.2",
+							"title": "What makes a good generative model?"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "14.3",
+							"title": "Quantifying performance"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S191 (2026)",
+							"title": "Lecture 4: Deep Generative Modeling (autoencoders, VAEs, GANs, diffusion)",
+							"url": "https://www.youtube.com/watch?v=R8V8CbuxryI&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI&index=4"
+						},
+						{
+							"source": "Stanford CS231n (Spring 2017)",
+							"title": "Lecture 13 | Generative Models (in the Spring 2017 lecture collection)",
+							"url": "https://www.youtube.com/playlist?list=PL3FW7Lu3i5JvHM8ljYj-zLfQRF3EO8sYv",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Compare samples from four toy generators on a 2-D two-moons data set alongside their log-likelihood and an FID-like score."
+					]
+				},
+				{
+					"id": "a3-l028-latent-variable-models",
+					"title": "Latent Variable Models and the Marginal Likelihood",
+					"minutes": 35,
+					"objectives": [
+						"Write a latent variable model p(x) = integral of p(x|z) p(z) dz and show that a Gaussian mixture is its discrete special case.",
+						"Explain why the marginal likelihood is intractable for a neural-network decoder, and compare this integral with a partition function."
+					],
+					"keyEquations": [
+						"p(\\mathbf{x}\\mid\\phi) = \\int p(\\mathbf{x}\\mid\\mathbf{z},\\phi)\\,p(\\mathbf{z})\\,d\\mathbf{z}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "17.1",
+							"title": "Latent variable models"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "17.2",
+							"title": "Nonlinear latent variable model"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Move through a 1-D latent space and watch the decoder's output density over 2-D data, with the marginal p(x) built from all z overlaid."
+					]
+				},
+				{
+					"id": "a3-l029-elbo-free-energy",
+					"title": "The Evidence Lower Bound as a Free Energy",
+					"minutes": 45,
+					"objectives": [
+						"Derive the ELBO with Jensen's inequality and show that log p(x) minus the ELBO equals KL(q(z|x) || p(z|x)).",
+						"Rewrite the negative ELBO as 'energy minus entropy' and identify it with a variational Helmholtz free energy, which upper-bounds -kT log Z exactly as in the Gibbs-Bogoliubov inequality.",
+						"Decompose the ELBO into a reconstruction term and a KL-to-prior term and explain what each rewards."
+					],
+					"keyEquations": [
+						"\\log p(\\mathbf{x}) \\ge \\mathbb{E}_{q(\\mathbf{z}\\mid\\mathbf{x})}\\big[\\log p(\\mathbf{x},\\mathbf{z}) - \\log q(\\mathbf{z}\\mid\\mathbf{x})\\big]",
+						"\\log p(\\mathbf{x}) - \\mathrm{ELBO} = D_{KL}\\big(q(\\mathbf{z}\\mid\\mathbf{x})\\,\\|\\,p(\\mathbf{z}\\mid\\mathbf{x})\\big)",
+						"F[q] = \\langle E\\rangle_q - T\\,S[q] \\ge -k_BT\\log Z"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "17.3",
+							"title": "Training"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "17.4",
+							"title": "ELBO properties"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "17.5",
+							"title": "Variational approximation"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Fit a Gaussian q(z) to a bimodal posterior by sliding its mean and width, and watch the ELBO, the KL gap and log p(x) as three bars."
+					]
+				},
+				{
+					"id": "a3-l030-vae-reparameterization",
+					"title": "The Variational Autoencoder and the Reparameterization Trick",
+					"minutes": 40,
+					"objectives": [
+						"Assemble a VAE: an encoder giving the mean and variance of q(z|x), a decoder p(x|z), and the closed-form KL term to a standard normal prior.",
+						"Explain why sampling blocks gradients and how z = mu + sigma * epsilon moves the randomness off the gradient path.",
+						"Explain posterior collapse and blurry samples as typical VAE failure modes."
+					],
+					"keyEquations": [
+						"\\mathbf{z} = \\boldsymbol{\\mu}_\\phi(\\mathbf{x}) + \\boldsymbol{\\sigma}_\\phi(\\mathbf{x})\\odot\\boldsymbol{\\epsilon},\\;\\boldsymbol{\\epsilon}\\sim\\mathcal{N}(\\mathbf{0},\\mathbf{I})",
+						"D_{KL}\\big(\\mathcal{N}(\\mu,\\sigma^2)\\,\\|\\,\\mathcal{N}(0,1)\\big) = \\tfrac12\\left(\\mu^2 + \\sigma^2 - 1 - \\log\\sigma^2\\right)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "17.6",
+							"title": "The variational autoencoder"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "17.7",
+							"title": "The reparameterization trick"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "20.10.3",
+							"title": "Variational Autoencoders",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Drag a point through the 2-D latent space of a VAE trained on handwritten digits and decode it live."
+					]
+				},
+				{
+					"id": "a3-l031-gan-minimax",
+					"title": "Generative Adversarial Networks: the Minimax Game",
+					"minutes": 40,
+					"objectives": [
+						"Write the GAN minimax objective and derive the optimal discriminator D*(x) = p_data(x) / (p_data(x) + p_g(x)).",
+						"Show that against D* the generator minimises 2 JS(p_data || p_g) - log 4.",
+						"Explain the non-saturating generator loss and why it is used in practice."
+					],
+					"keyEquations": [
+						"\\min_G\\max_D\\;\\mathbb{E}_{\\mathbf{x}\\sim p_{data}}[\\log D(\\mathbf{x})] + \\mathbb{E}_{\\mathbf{z}}[\\log(1 - D(G(\\mathbf{z})))]",
+						"D^*(\\mathbf{x}) = \\frac{p_{data}(\\mathbf{x})}{p_{data}(\\mathbf{x}) + p_g(\\mathbf{x})}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "15.1",
+							"title": "Discrimination as a signal"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "20.10.4",
+							"title": "Generative Adversarial Networks",
+							"optional": true
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 17",
+							"title": "Generative Adversarial Networks",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Watch a 1-D generator's density and the discriminator's decision curve evolve step by step as the two train against each other."
+					]
+				},
+				{
+					"id": "a3-l032-gan-stability-wasserstein",
+					"title": "GAN Training Pathologies and the Wasserstein Distance",
+					"minutes": 35,
+					"objectives": [
+						"Explain mode collapse and vanishing discriminator gradients when the data and generated distributions have nearly disjoint support.",
+						"Define the Wasserstein (earth mover's) distance, state its Kantorovich-Rubinstein dual form, and explain why a WGAN critic must be 1-Lipschitz."
+					],
+					"keyEquations": [
+						"W(p,q) = \\sup_{\\|f\\|_L\\le 1}\\;\\mathbb{E}_{p}[f(\\mathbf{x})] - \\mathbb{E}_{q}[f(\\mathbf{x})]"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "15.2",
+							"title": "Improving stability"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Train a GAN on a ring of 8 Gaussians and watch mode collapse happen; switch to a Wasserstein loss and compare how many modes are covered."
+					]
+				}
+			]
+		},
+		{
+			"id": "a3-u07-normalizing-flows",
+			"title": "Generative Models II: Normalizing Flows",
+			"summary": "Exact-likelihood generative models built from invertible maps: the change-of-variables formula, coupling layers with cheap Jacobian determinants, and continuous flows whose density obeys the continuity (Liouville) equation; Boltzmann generators that sample molecular conformations are the chemist's hook.",
+			"lessons": [
+				{
+					"id": "a3-l033-change-of-variables",
+					"title": "Change of Variables and the Jacobian Determinant",
+					"minutes": 40,
+					"objectives": [
+						"Derive the 1-D change-of-variables formula and apply it to a monotone map of a standard normal.",
+						"Generalise to D dimensions with the Jacobian determinant and explain why its O(D^3) cost drives the design of flow layers.",
+						"Write the exact negative log-likelihood training objective of a flow built from K layers."
+					],
+					"keyEquations": [
+						"p(\\mathbf{x}) = p(\\mathbf{z})\\left|\\det\\frac{\\partial f^{-1}}{\\partial \\mathbf{x}}\\right|",
+						"\\log p(\\mathbf{x}) = \\log p(\\mathbf{z}_0) - \\sum_{k=1}^{K}\\log\\left|\\det\\frac{\\partial f_k}{\\partial \\mathbf{z}_{k-1}}\\right|"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "16.1",
+							"title": "1D example"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "16.2",
+							"title": "General case"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Drag the control points of a monotone 1-D spline and watch a standard normal stretch into a bimodal density, with |df/dz| shaded."
+					]
+				},
+				{
+					"id": "a3-l034-coupling-flows",
+					"title": "Invertible Layers: Coupling Flows and Boltzmann Generators",
+					"minutes": 40,
+					"objectives": [
+						"Construct an affine coupling layer, show that its Jacobian is triangular, and compute its log-determinant as a sum of log-scales.",
+						"Explain why alternating which half is transformed (and adding permutations) lets a stack of couplings model arbitrary dependencies.",
+						"Describe Boltzmann generators: flows trained against an energy function U(x) to draw molecular configurations with Boltzmann weights exp(-U/kT), reweighted for exactness."
+					],
+					"keyEquations": [
+						"\\mathbf{y}_{1:d} = \\mathbf{x}_{1:d},\\quad \\mathbf{y}_{d+1:D} = \\mathbf{x}_{d+1:D}\\odot\\exp\\big(\\mathbf{s}(\\mathbf{x}_{1:d})\\big) + \\mathbf{t}(\\mathbf{x}_{1:d})",
+						"\\log|\\det\\mathbf{J}| = \\sum_j s_j(\\mathbf{x}_{1:d})"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "16.3",
+							"title": "Invertible network layers"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "16.5",
+							"title": "Applications",
+							"optional": true
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 18",
+							"title": "Normalizing Flows",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Apply affine coupling layers one at a time to a 2-D Gaussian and watch it deform into two moons, with each layer's log-determinant displayed."
+					]
+				},
+				{
+					"id": "a3-l035-continuous-flows",
+					"title": "Continuous Flows and the Continuity Equation",
+					"minutes": 40,
+					"prereqs": [
+						"a3-l009-residual-connections"
+					],
+					"objectives": [
+						"Write a continuous normalizing flow dx/dt = v(x, t) and derive the instantaneous change of log-density d log p/dt = -div v.",
+						"Recognise the continuity equation dp/dt + div(p v) = 0 as probability conservation, the Liouville equation of classical and statistical mechanics.",
+						"Explain how a continuous flow is the infinite-depth limit of the residual network of Unit 2."
+					],
+					"keyEquations": [
+						"\\frac{\\partial p_t}{\\partial t} + \\nabla\\cdot(p_t\\,\\mathbf{v}_t) = 0",
+						"\\frac{d}{dt}\\log p_t(\\mathbf{x}(t)) = -\\nabla\\cdot\\mathbf{v}_t(\\mathbf{x}(t))"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 18",
+							"title": "Normalizing Flows"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S184 (2026): Introduction to Flow Matching and Diffusion Models",
+							"title": "Lecture 1: Flow and Diffusion Models (course page with slides, notes and recordings)",
+							"url": "https://diffusion.csail.mit.edu/2026/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Draw a time-dependent 2-D velocity field and watch a particle cloud and its density colouring flow from a Gaussian to a target shape, with divergence shown as compression or expansion."
+					]
+				}
+			]
+		},
+		{
+			"id": "a3-u08-diffusion-score",
+			"title": "Diffusion Models, Score Matching and Langevin Dynamics",
+			"summary": "Diffusion models through statistical mechanics: Langevin dynamics samples a Boltzmann distribution from its score (the force over kT, no partition function needed), the forward noising process is an Ornstein-Uhlenbeck SDE whose density obeys a Fokker-Planck equation, a network learns the score by denoising score matching, and sampling runs the dynamics backwards; flow matching and guidance complete the picture (the generative core of AlphaFold 3 and molecular conformer generators).",
+			"grad": true,
+			"lessons": [
+				{
+					"id": "a3-l036-score-langevin",
+					"title": "Score Functions and Langevin Dynamics",
+					"minutes": 45,
+					"objectives": [
+						"Define the score grad_x log p(x) and show that for a Boltzmann density p proportional to exp(-U/kT) it equals the force -grad U / kT, independent of the partition function Z.",
+						"Write the overdamped Langevin update and explain why its stationary distribution is p(x), connecting it to Brownian dynamics of a molecule in solution.",
+						"Explain why Langevin sampling with an estimated score fails in low-density regions and how annealing over noise levels fixes it."
+					],
+					"keyEquations": [
+						"\\mathbf{s}(\\mathbf{x}) = \\nabla_{\\mathbf{x}}\\log p(\\mathbf{x}) = -\\nabla U(\\mathbf{x})/k_BT",
+						"\\mathbf{x}_{k+1} = \\mathbf{x}_k + \\eta\\,\\nabla_{\\mathbf{x}}\\log p(\\mathbf{x}_k) + \\sqrt{2\\eta}\\,\\boldsymbol{\\epsilon}_k"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "14.3",
+							"title": "Langevin Sampling"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "17.3",
+							"title": "Markov Chain Monte Carlo Methods",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S184 (2026): Introduction to Flow Matching and Diffusion Models",
+							"title": "Lecture 3-A: Score Functions and Score Matching (course page with slides, notes and recordings)",
+							"url": "https://diffusion.csail.mit.edu/2026/"
+						}
+					],
+					"demoIdeas": [
+						"Run Langevin dynamics on a 2-D double-well potential: adjust temperature and step size and watch the particle histogram converge to the Boltzmann distribution."
+					]
+				},
+				{
+					"id": "a3-l037-forward-process",
+					"title": "The Forward Process: Noising Data into a Gaussian",
+					"minutes": 40,
+					"objectives": [
+						"Write the forward step q(x_t | x_{t-1}) = N(sqrt(1 - beta_t) x_{t-1}, beta_t I) and derive the closed-form marginal q(x_t | x_0) in terms of alpha-bar_t.",
+						"Explain why the variance-preserving scaling sends any data distribution to N(0, I), and compare linear and cosine noise schedules."
+					],
+					"keyEquations": [
+						"q(\\mathbf{x}_t\\mid\\mathbf{x}_{t-1}) = \\mathcal{N}\\big(\\sqrt{1-\\beta_t}\\,\\mathbf{x}_{t-1},\\,\\beta_t\\mathbf{I}\\big)",
+						"q(\\mathbf{x}_t\\mid\\mathbf{x}_0) = \\mathcal{N}\\big(\\sqrt{\\bar\\alpha_t}\\,\\mathbf{x}_0,\\,(1-\\bar\\alpha_t)\\mathbf{I}\\big),\\quad \\bar\\alpha_t = \\prod_{s=1}^{t}(1-\\beta_s)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "18.1",
+							"title": "Overview"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "18.2",
+							"title": "Encoder (forward process)"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "20.1",
+							"title": "Forward Encoder",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S191 (2026)",
+							"title": "Lecture 4: Deep Generative Modeling (autoencoders, VAEs, GANs, diffusion)",
+							"url": "https://www.youtube.com/watch?v=R8V8CbuxryI&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI&index=4"
+						}
+					],
+					"demoIdeas": [
+						"Scrub a time slider and watch a 2-D point cloud (a spiral, or the atom positions of a small molecule) dissolve into Gaussian noise under a chosen beta schedule."
+					]
+				},
+				{
+					"id": "a3-l038-sde-fokker-planck",
+					"title": "The SDE and Fokker-Planck View",
+					"minutes": 45,
+					"prereqs": [
+						"a3-l036-score-langevin"
+					],
+					"objectives": [
+						"Write the continuous-time forward process as the Ornstein-Uhlenbeck SDE dx = -1/2 beta(t) x dt + sqrt(beta(t)) dW and identify it as Brownian motion in a harmonic well.",
+						"Write the Fokker-Planck equation for this SDE and show that N(0, I) is its stationary solution.",
+						"State the reverse-time SDE (Anderson) and identify the score of p_t as the only unknown needed to run diffusion backwards."
+					],
+					"keyEquations": [
+						"d\\mathbf{x} = -\\tfrac12\\beta(t)\\,\\mathbf{x}\\,dt + \\sqrt{\\beta(t)}\\,d\\mathbf{W}",
+						"\\frac{\\partial p_t}{\\partial t} = \\nabla\\cdot\\!\\left(\\tfrac12\\beta(t)\\,\\mathbf{x}\\,p_t\\right) + \\tfrac12\\beta(t)\\,\\nabla^2 p_t",
+						"d\\mathbf{x} = \\left[\\mathbf{f}(\\mathbf{x},t) - g(t)^2\\,\\nabla_{\\mathbf{x}}\\log p_t(\\mathbf{x})\\right]dt + g(t)\\,d\\bar{\\mathbf{W}}"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 20",
+							"title": "Diffusion Models"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S184 (2026): Introduction to Flow Matching and Diffusion Models",
+							"title": "Lecture 1: Flow and Diffusion Models (SDEs; course page with slides, notes and recordings)",
+							"url": "https://diffusion.csail.mit.edu/2026/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Evolve a bimodal 1-D density under the forward Fokker-Planck equation as a p(x, t) heat map beside a histogram of simulated SDE particles."
+					]
+				},
+				{
+					"id": "a3-l039-score-matching",
+					"title": "Score Matching and Denoising Score Matching",
+					"minutes": 45,
+					"prereqs": [
+						"a3-l024-denoising-autoencoders-score"
+					],
+					"objectives": [
+						"Write the explicit score-matching objective, explain why it needs the unknown true score, and state Hyvarinen's integration-by-parts form with the trace of the score's Jacobian.",
+						"Derive denoising score matching: the score of the Gaussian perturbation kernel, -(x~ - x)/sigma^2, is a valid regression target, so the network learns grad log p_sigma.",
+						"Connect denoising score matching to the denoising autoencoder of Unit 5 and to noise prediction via s_theta(x_t, t) = -epsilon_theta(x_t, t) / sqrt(1 - alpha-bar_t)."
+					],
+					"keyEquations": [
+						"J_{DSM}(\\theta) = \\mathbb{E}_{\\mathbf{x},\\tilde{\\mathbf{x}}}\\left\\|\\mathbf{s}_\\theta(\\tilde{\\mathbf{x}}) + \\frac{\\tilde{\\mathbf{x}} - \\mathbf{x}}{\\sigma^2}\\right\\|^2",
+						"\\mathbf{s}_\\theta(\\mathbf{x}_t, t) = -\\frac{\\boldsymbol{\\epsilon}_\\theta(\\mathbf{x}_t, t)}{\\sqrt{1-\\bar\\alpha_t}}"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "18.4",
+							"title": "Score Matching and Ratio Matching"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "18.5",
+							"title": "Denoising Score Matching"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "20.3",
+							"title": "Score Matching",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Train a tiny score network on a 2-D mixture of Gaussians and overlay its learned score arrows on the true ones at several noise levels sigma."
+					]
+				},
+				{
+					"id": "a3-l040-reverse-process-loss",
+					"title": "The Reverse Process and the DDPM Loss",
+					"minutes": 45,
+					"prereqs": [
+						"a3-l029-elbo-free-energy"
+					],
+					"objectives": [
+						"Derive the Gaussian posterior q(x_{t-1} | x_t, x_0) and explain why the learned reverse step p_theta(x_{t-1} | x_t) is taken to be Gaussian.",
+						"Show how the diffusion ELBO reduces to a sum of KL divergences between Gaussians and, after reparameterising the mean, to the simple noise-prediction loss."
+					],
+					"keyEquations": [
+						"q(\\mathbf{x}_{t-1}\\mid\\mathbf{x}_t,\\mathbf{x}_0) = \\mathcal{N}\\big(\\tilde{\\boldsymbol{\\mu}}_t(\\mathbf{x}_t,\\mathbf{x}_0),\\,\\tilde\\beta_t\\mathbf{I}\\big)",
+						"\\mathcal{L}_{simple} = \\mathbb{E}_{t,\\mathbf{x}_0,\\boldsymbol{\\epsilon}}\\left\\|\\boldsymbol{\\epsilon} - \\boldsymbol{\\epsilon}_\\theta\\big(\\sqrt{\\bar\\alpha_t}\\,\\mathbf{x}_0 + \\sqrt{1-\\bar\\alpha_t}\\,\\boldsymbol{\\epsilon},\\,t\\big)\\right\\|^2"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "18.3",
+							"title": "Decoder model (reverse process)"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "18.4",
+							"title": "Training"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "18.5",
+							"title": "Reparameterization of loss function"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "20.2",
+							"title": "Reverse Decoder",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Pick a time step t to see a noisy point x_t, the true noise, a model's predicted noise and the loss; scrub t to find which steps are hardest."
+					]
+				},
+				{
+					"id": "a3-l041-sampling-sde-ode",
+					"title": "Sampling: Ancestral Steps, the Reverse SDE and the Probability-Flow ODE",
+					"minutes": 40,
+					"prereqs": [
+						"a3-l035-continuous-flows",
+						"a3-l038-sde-fokker-planck"
+					],
+					"objectives": [
+						"Write the DDPM ancestral sampling step and carry out one step by hand.",
+						"Derive the probability-flow ODE that shares the SDE's marginals, and explain deterministic (DDIM-style) sampling and its speed-quality trade-off.",
+						"Identify the probability-flow ODE as a continuous normalizing flow (Unit 7) whose velocity field is built from the score."
+					],
+					"keyEquations": [
+						"\\mathbf{x}_{t-1} = \\frac{1}{\\sqrt{1-\\beta_t}}\\left(\\mathbf{x}_t - \\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\,\\boldsymbol{\\epsilon}_\\theta(\\mathbf{x}_t,t)\\right) + \\sigma_t\\mathbf{z}",
+						"\\frac{d\\mathbf{x}}{dt} = \\mathbf{f}(\\mathbf{x},t) - \\tfrac12 g(t)^2\\,\\nabla_{\\mathbf{x}}\\log p_t(\\mathbf{x})"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "18.6",
+							"title": "Implementation"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 20",
+							"title": "Diffusion Models",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Run reverse diffusion on a 2-D point cloud: Gaussian noise denoises into a spiral step by step; toggle stochastic (SDE) versus deterministic (ODE) sampling and change the number of steps."
+					]
+				},
+				{
+					"id": "a3-l042-flow-matching",
+					"title": "Flow Matching",
+					"minutes": 40,
+					"objectives": [
+						"Define a probability path from noise to data and the conditional velocity field for the straight-line path x_t = (1 - t) x_0 + t x_1.",
+						"Write the conditional flow-matching loss and explain why regressing the conditional velocity yields the marginal velocity field.",
+						"Compare flow matching with diffusion (straighter paths, fewer sampling steps) and note that both learn the velocity field of a continuity equation."
+					],
+					"keyEquations": [
+						"\\mathbf{x}_t = (1-t)\\,\\mathbf{x}_0 + t\\,\\mathbf{x}_1",
+						"\\mathcal{L}_{CFM} = \\mathbb{E}_{t,\\mathbf{x}_0,\\mathbf{x}_1}\\left\\|\\mathbf{v}_\\theta(\\mathbf{x}_t,t) - (\\mathbf{x}_1 - \\mathbf{x}_0)\\right\\|^2"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 18",
+							"title": "Normalizing Flows",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S184 (2026): Introduction to Flow Matching and Diffusion Models",
+							"title": "Lecture 2: Flow Matching (course page with slides, notes and recordings)",
+							"url": "https://diffusion.csail.mit.edu/2026/"
+						}
+					],
+					"demoIdeas": [
+						"Compare particle trajectories from noise to a two-moons distribution under a diffusion path and a straight flow-matching path, counting the ODE steps each needs."
+					]
+				},
+				{
+					"id": "a3-l043-guidance-conditional",
+					"title": "Conditional Generation and Guidance",
+					"minutes": 40,
+					"objectives": [
+						"Apply Bayes' rule to scores, grad log p(x|y) = grad log p(x) + grad log p(y|x), to derive classifier guidance.",
+						"Derive classifier-free guidance as an extrapolation between conditional and unconditional noise estimates and explain the fidelity-diversity trade-off of the guidance scale w.",
+						"Describe conditional diffusion in chemistry: generating 3-D conformers from a molecular graph, or ligand poses inside a protein pocket."
+					],
+					"keyEquations": [
+						"\\nabla_{\\mathbf{x}}\\log p(\\mathbf{x}\\mid y) = \\nabla_{\\mathbf{x}}\\log p(\\mathbf{x}) + \\nabla_{\\mathbf{x}}\\log p(y\\mid\\mathbf{x})",
+						"\\tilde{\\boldsymbol{\\epsilon}} = (1+w)\\,\\boldsymbol{\\epsilon}_\\theta(\\mathbf{x}_t, y) - w\\,\\boldsymbol{\\epsilon}_\\theta(\\mathbf{x}_t)"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "20.4",
+							"title": "Guided Diffusion"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "18.6",
+							"title": "Implementation",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S184 (2026): Introduction to Flow Matching and Diffusion Models",
+							"title": "Lecture 3-B: Classifier-free Guidance (course page with slides, notes and recordings)",
+							"url": "https://diffusion.csail.mit.edu/2026/",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Sample a three-class 2-D mixture with a guidance-scale slider and watch samples concentrate on the chosen class as w grows."
+					]
+				}
+			]
+		},
+		{
+			"id": "a3-u09-training-at-scale",
+			"title": "Training at Scale",
+			"summary": "The engineering mathematics of training large networks: minibatch size and gradient noise, data pipelines, floating-point formats and mixed precision, data and model parallelism and memory budgets, and a practical methodology for debugging a training run.",
+			"lessons": [
+				{
+					"id": "a3-l044-minibatch-gradient-noise",
+					"title": "Minibatches, Batch Size and Gradient Noise",
+					"minutes": 35,
+					"objectives": [
+						"Show that the minibatch gradient is an unbiased estimator whose variance falls as 1/B, and explain the linear learning-rate scaling rule and where it breaks down.",
+						"Describe a data pipeline (shuffling, batching, prefetching, on-the-fly augmentation) and explain why GPU utilisation depends on it."
+					],
+					"keyEquations": [
+						"\\hat{\\mathbf{g}}_B = \\frac{1}{B}\\sum_{i\\in\\mathcal{B}}\\nabla\\ell_i,\\quad \\mathrm{Var}[\\hat{\\mathbf{g}}_B] = \\frac{1}{B}\\,\\mathrm{Var}[\\nabla\\ell_i]",
+						"\\eta \\propto B"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "8.1.3",
+							"title": "Batch and Minibatch Algorithms"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "6.2",
+							"title": "Stochastic gradient descent",
+							"optional": true
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S191 (2026)",
+							"title": "Secrets to Massively Parallel Training (guest lecture, Mathias Lechner, Liquid AI)",
+							"url": "https://www.youtube.com/watch?v=UZZD9d9YqnQ&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI",
+							"optional": true
+						}
+					],
+					"demoIdeas": [
+						"Show SGD trajectories on a 2-D loss surface for batch sizes 1, 16 and 256, with a gradient-noise cloud drawn around each step."
+					]
+				},
+				{
+					"id": "a3-l045-mixed-precision",
+					"title": "Floating Point and Mixed Precision",
+					"minutes": 40,
+					"objectives": [
+						"Compare fp32, fp16 and bf16 by exponent and mantissa bits, dynamic range and machine epsilon.",
+						"Explain mixed-precision training (low-precision matrix multiplies, fp32 master weights and accumulation) and why loss scaling prevents fp16 gradient underflow.",
+						"Apply the log-sum-exp trick to compute softmax and cross-entropy stably."
+					],
+					"keyEquations": [
+						"x = (-1)^{s}\\,(1.m)_2\\,2^{\\,e-\\text{bias}}",
+						"\\log\\sum_i e^{x_i} = m + \\log\\sum_i e^{x_i - m},\\quad m = \\max_i x_i"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "4.1",
+							"title": "Overflow and Underflow"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "12.1.2",
+							"title": "GPU Implementations",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Type a number to see its bit pattern and rounding error in fp32, fp16 and bf16; slide a loss scale and watch small gradients survive or underflow to zero."
+					]
+				},
+				{
+					"id": "a3-l046-parallelism-memory",
+					"title": "Data Parallelism, Model Parallelism and Memory",
+					"minutes": 35,
+					"objectives": [
+						"Estimate the memory of a training run (weights, gradients, Adam moments, activations) for a given parameter count and precision.",
+						"Contrast data parallelism (all-reduce of gradients) with model and pipeline parallelism, and explain gradient accumulation and activation checkpointing as memory-for-compute trades."
+					],
+					"keyEquations": [
+						"M \\approx (4 + 4 + 8)\\,P\\ \\text{bytes} + M_{act}\\quad(\\text{fp32 weights, gradients, Adam moments})"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "12.1.3",
+							"title": "Large-Scale Distributed Implementations"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"A stacked-bar memory calculator: enter parameter count, batch size and precision and see GPU memory split into weights, gradients, optimizer states and activations, with toggles for checkpointing and sharding."
+					]
+				},
+				{
+					"id": "a3-l047-practical-methodology",
+					"title": "Practical Methodology: Debugging a Training Run",
+					"minutes": 35,
+					"objectives": [
+						"Apply a debugging checklist: overfit a single batch, check the initial loss (about log C for C classes), and monitor gradient norms and activation statistics.",
+						"Run a learning-rate range test and read training and validation curves to diagnose under- versus overfitting.",
+						"Choose a baseline and a hyperparameter search strategy, and explain why random search beats grid search."
+					],
+					"keyEquations": [
+						"L_0 \\approx \\log C"
+					],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "11.5",
+							"title": "Debugging Strategies"
+						},
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "11.4",
+							"title": "Selecting Hyperparameters",
+							"optional": true
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "Ch. 8",
+							"title": "Measuring performance",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Pick a broken training run from a menu (learning rate too high, shuffled labels, missing input normalization) and diagnose it from its loss and gradient-norm curves."
+					]
+				}
+			]
+		},
+		{
+			"id": "a3-u10-science",
+			"title": "Deep Learning in Science: Molecules, Proteins and Spectra",
+			"summary": "Where the chemist's own data meet the course: molecules as graphs, message passing (the adjacency matrix of a conjugated system is the Hueckel Hamiltonian), molecular property prediction, symmetry-aware 3-D networks for energies and forces, AlphaFold's architecture, and deep learning on IR, NMR and mass spectra.",
+			"lessons": [
+				{
+					"id": "a3-l048-molecules-as-graphs",
+					"title": "Molecules as Graphs",
+					"minutes": 35,
+					"objectives": [
+						"Encode a molecule as a graph with node features (element, formal charge, hybridisation), edge features (bond order) and an adjacency matrix, and write these out for ethanol.",
+						"Explain why a graph model must be permutation-invariant for graph-level outputs and permutation-equivariant for node-level outputs, and show that relabelling atoms maps A to P A P^T.",
+						"Classify graph-, node- and edge-level tasks with chemistry examples (solubility, partial charges, bond reactivity)."
+					],
+					"keyEquations": [
+						"\\mathbf{A}' = \\mathbf{P}\\mathbf{A}\\mathbf{P}^{\\top},\\quad \\mathbf{X}' = \\mathbf{P}\\mathbf{X}"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "13.1",
+							"title": "What is a graph?"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "13.2",
+							"title": "Graph representation"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "13.3",
+							"title": "Graph neural networks, tasks, and loss functions"
+						}
+					],
+					"lectures": [
+						{
+							"source": "MIT 6.S191 (2026)",
+							"title": "AI for Science (guest lecture, Chris Bishop, Microsoft)",
+							"url": "https://www.youtube.com/watch?v=rZACoZD8AG8&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI"
+						}
+					],
+					"demoIdeas": [
+						"Draw a small molecule and see its adjacency and node-feature matrices update; relabel atoms and watch rows and columns permute together."
+					]
+				},
+				{
+					"id": "a3-l049-message-passing",
+					"title": "Message Passing and Graph Convolutions",
+					"minutes": 45,
+					"objectives": [
+						"Write a graph-convolution layer with self-loops and symmetric degree normalisation, compute one layer by hand for a 4-atom molecule, and note that the adjacency matrix of a conjugated system is, up to alpha and beta, its Hueckel Hamiltonian.",
+						"Generalise to message passing (message, aggregate, update) and explain why sum, mean or max aggregation preserves permutation equivariance.",
+						"Explain how K layers give each atom a K-bond neighbourhood, and the over-smoothing problem."
+					],
+					"keyEquations": [
+						"\\mathbf{H}^{(k+1)} = \\sigma\\!\\left(\\tilde{\\mathbf{D}}^{-1/2}\\tilde{\\mathbf{A}}\\tilde{\\mathbf{D}}^{-1/2}\\mathbf{H}^{(k)}\\mathbf{W}^{(k)}\\right),\\quad \\tilde{\\mathbf{A}} = \\mathbf{A} + \\mathbf{I}",
+						"\\mathbf{h}_v' = \\phi\\Big(\\mathbf{h}_v,\\ \\sum_{u\\in\\mathcal{N}(v)}\\psi(\\mathbf{h}_v, \\mathbf{h}_u, \\mathbf{e}_{uv})\\Big)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "13.4",
+							"title": "Graph convolutional networks"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "13.8",
+							"title": "Layers for graph convolutional networks"
+						},
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 13",
+							"title": "Graph Neural Networks",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Step message passing on a drawn molecule: each atom's colour mixes its neighbours' colours layer by layer, showing the receptive field grow one bond at a time."
+					]
+				},
+				{
+					"id": "a3-l050-property-prediction",
+					"title": "Molecular Property Prediction",
+					"minutes": 40,
+					"objectives": [
+						"Build a graph-level model (message passing, a permutation-invariant readout, an MLP head) and explain why sum readout suits extensive properties such as energies and mean readout suits intensive ones.",
+						"Explain scaffold versus random splits and why random splits overestimate performance on new chemistry.",
+						"Compare a GNN with a fingerprint-plus-MLP baseline and state when each tends to win as data size changes."
+					],
+					"keyEquations": [
+						"\\hat{y} = \\mathrm{MLP}\\Big(\\sum_{v}\\mathbf{h}_v^{(K)}\\Big)"
+					],
+					"readings": [
+						{
+							"bookId": "prince-udl",
+							"ref": "13.5",
+							"title": "Example: graph classification"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "13.6",
+							"title": "Inductive vs. transductive models",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Compare test error under random and scaffold splits for a toy solubility model, with held-out molecules coloured by scaffold."
+					]
+				},
+				{
+					"id": "a3-l051-equivariant-3d",
+					"title": "Geometry and Symmetry: Invariant and Equivariant 3-D Networks",
+					"minutes": 40,
+					"prereqs": [
+						"a3-l001-conv-invariance-equivariance"
+					],
+					"objectives": [
+						"Explain why 3-D molecular models should be invariant (energies) or equivariant (forces, dipoles) under rotations, translations and reflections, and show that F = -grad E inherits equivariance from an invariant E.",
+						"Describe how distance-based models (SchNet-style radial-basis features) achieve invariance and how equivariant networks carry vector features, and why built-in symmetry improves the data efficiency of machine-learned force fields."
+					],
+					"keyEquations": [
+						"E(\\mathbf{R}\\mathbf{x} + \\mathbf{t}) = E(\\mathbf{x})",
+						"\\mathbf{F}(\\mathbf{R}\\mathbf{x} + \\mathbf{t}) = \\mathbf{R}\\,\\mathbf{F}(\\mathbf{x}),\\quad \\mathbf{F} = -\\nabla_{\\mathbf{x}}E"
+					],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 13",
+							"title": "Graph Neural Networks"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "10.1",
+							"title": "Invariance and equivariance",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Rotate a water molecule in 3-D and compare the outputs of an invariant energy model (unchanged), an equivariant force model (arrows rotate with it) and a plain MLP on raw coordinates (changes arbitrarily)."
+					]
+				},
+				{
+					"id": "a3-l052-alphafold",
+					"title": "AlphaFold: Deep Learning for Protein Structure",
+					"minutes": 45,
+					"prereqs": [
+						"a3-l021-transformer-block-beyond-text"
+					],
+					"objectives": [
+						"Describe the AlphaFold 2 pipeline: MSA and pair representations, the Evoformer's row/column attention and triangle updates, and the structure module that outputs 3-D coordinates with pLDDT confidence.",
+						"Explain why co-evolution in a multiple sequence alignment carries residue-contact information, and what consistency of pairwise distances the triangle updates encourage.",
+						"Explain how AlphaFold 3 replaces the structure module with a diffusion module that generates all-atom complexes, connecting to Unit 8."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "bishop-dl",
+							"ref": "Ch. 1",
+							"title": "The Deep Learning Revolution"
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Show a contact map estimated from a toy MSA's covariance next to the protein's 3-D structure; click a contact to highlight the residue pair in 3-D."
+					]
+				},
+				{
+					"id": "a3-l053-spectra",
+					"title": "Deep Learning on Spectra",
+					"minutes": 40,
+					"prereqs": [
+						"a3-l002-1d-convolution"
+					],
+					"objectives": [
+						"Choose input representations for IR, NMR and mass spectra (binned vectors, peak lists as sets, 2-D NMR as images) and match each to an architecture (1-D CNN, set model or transformer, 2-D CNN).",
+						"Distinguish the forward problem (structure to spectrum, e.g. GNN-predicted NMR shifts) from the inverse problem (spectrum to structure or functional groups), and explain why the inverse is ill-posed and often framed as retrieval or conditional generation.",
+						"Design physically sensible augmentations (small peak shifts, baseline drift, noise, intensity scaling) and justify each from how the spectrum is measured."
+					],
+					"keyEquations": [],
+					"readings": [
+						{
+							"bookId": "goodfellow-dl",
+							"ref": "9.7",
+							"title": "Data Types"
+						},
+						{
+							"bookId": "prince-udl",
+							"ref": "10.2",
+							"title": "Convolutional networks for 1D inputs",
+							"optional": true
+						}
+					],
+					"lectures": [],
+					"demoIdeas": [
+						"Feed a simulated IR spectrum through a 1-D CNN functional-group classifier; apply augmentations with sliders and watch a saliency trace highlight the C=O and O-H regions."
+					]
+				}
+			]
+		}
+	],
+	"exams": [
+		{
+			"id": "a3-midterm",
+			"kind": "midterm",
+			"title": "A3 Midterm: Convolutions, Residual Networks, Recurrence, Attention and Representations",
+			"covers": [
+				"a3-u01-convolutional-networks",
+				"a3-u02-residual-normalization",
+				"a3-u03-recurrent-networks",
+				"a3-u04-attention",
+				"a3-u05-representation-learning"
+			],
+			"minutes": 110,
+			"passMark": 0.7
+		},
+		{
+			"id": "a3-final",
+			"kind": "final",
+			"title": "A3 Final: Deep Learning",
+			"covers": [
+				"a3-u01-convolutional-networks",
+				"a3-u02-residual-normalization",
+				"a3-u03-recurrent-networks",
+				"a3-u04-attention",
+				"a3-u05-representation-learning",
+				"a3-u06-latent-variable-generative",
+				"a3-u07-normalizing-flows",
+				"a3-u08-diffusion-score",
+				"a3-u09-training-at-scale",
+				"a3-u10-science"
+			],
+			"minutes": 170,
+			"passMark": 0.7
+		}
+	],
+	"project": {
+		"title": "From Convolutions to Diffusion: a CNN and a Small Diffusion Model in PyTorch",
+		"summary": "Build two models from scratch in PyTorch. First a residual CNN with batch norm that classifies images (Fashion-MNIST) or simulated IR spectra by functional group; then a small denoising diffusion model that learns a 2-D point cloud and finally MNIST digits, sampled three ways (DDPM, a deterministic probability-flow sampler, and annealed Langevin dynamics with the learned score) to make the stat-mech picture concrete.",
+		"goals": [
+			"Implement and train a residual CNN with batch normalization in PyTorch, and inspect its filters and saliency maps.",
+			"Implement the diffusion forward process, the noise-prediction training loop and the ancestral sampler.",
+			"Verify the score connection by sampling the trained model with annealed Langevin dynamics and a probability-flow ODE.",
+			"Practise training-at-scale habits: data loaders, mixed precision, checkpoints and loss-curve debugging."
+		],
+		"steps": [
+			"Set up PyTorch (CPU or a consumer GPU) and write a Dataset/DataLoader for Fashion-MNIST or a simulated IR-spectrum set (Lorentzian peaks per functional group plus noise and baseline); plot a batch.",
+			"Build a small CNN (conv-BN-ReLU blocks, pooling, linear head), confirm it can overfit one batch, then train with Adam and plot training and validation curves.",
+			"Add residual blocks, compare accuracy and gradient norms with the plain network, and visualise first-layer filters and a saliency map.",
+			"Turn on mixed precision (torch.autocast with a gradient scaler) and gradient accumulation and measure the speed and memory differences.",
+			"Implement the forward noising process with a linear or cosine beta schedule on a 2-D Swiss roll or two-moons set and animate x_t over t.",
+			"Train a small MLP noise predictor epsilon_theta(x_t, t) with a sinusoidal time embedding using the simple noise-prediction loss.",
+			"Implement DDPM ancestral sampling and a deterministic DDIM/probability-flow sampler; compare samples against the number of steps.",
+			"Convert epsilon_theta into a score, sample with annealed Langevin dynamics, and plot the learned score field against the true one at several noise levels.",
+			"Scale up: train a small U-Net diffusion model on MNIST and show a grid of generated digits, optionally with classifier-free guidance on the digit label."
+		],
+		"stack": "Python, PyTorch, NumPy, Matplotlib",
+		"hours": 28
+	}
+}

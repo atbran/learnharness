@@ -1,6 +1,7 @@
 # Authoring brief: physics program course files
 
-Learner: an organic chemist (BS/MS-level chemistry, did p-chem and calculus long ago, "bad at math,
+Learner: an organic chemist working through "The Long Curriculum", a self-study program in physics, chemistry,
+computing and adjacent fields (things they've always wanted to learn). The physics spine: (BS/MS-level chemistry, did p-chem and calculus long ago, "bad at math,
 forgot the shortcuts"). Goal: in ~2.5 years at ~8 h/week, reach first-year-PhD-level physics,
 with deep core (math, mechanics, E&M, QM, stat mech) and survey depth for particle, astro, GR, and QFT.
 Teaching is done by an AI tutor that reads each lesson's objectives and readings. Write
@@ -38,6 +39,11 @@ objectives so precise that a tutor knows exactly what "mastered" means.
 - **Order**: lessons in teaching order. The previous lesson is an implicit prerequisite, so only list `prereqs` for
   earlier lessons in the SAME course that are non-adjacent but essential. Cross-course dependencies are handled
   at course level (see below), so don't list lessons of other courses.
+- **Project capstone** (AI track and M7; optional elsewhere): a course-level `project` (`courseProjectSchema`):
+  `{title, summary, goals (2–6), steps (3–10), stack, hours}`. A hands-on coding project that pulls the course
+  together (e.g. A4: build and train a tiny GPT). It is optional and off the lesson path, so lessons never depend on it.
+  Steps are concrete milestones the learner can check off; `stack` names the tools (Python, NumPy, PyTorch…);
+  `hours` is a realistic estimate (8–30). The learner runs code on their own PC; a tutor mentors the project.
 - **For the chemist**: where a topic connects to chemistry (orbitals, spectroscopy, thermodynamics, partition
   functions, Boltzmann factors, NMR spin), say so in an objective or the unit summary. It's a hook for the tutor.
 
@@ -63,6 +69,11 @@ objectives so precise that a tutor knows exactly what "mastered" means.
 | s2-astro | S2 | Astrophysics & Cosmology | survey | survey | 35 | p3-modern, p7-statmech | Astrophysics |
 | s3-gr | S3 | General Relativity | survey | survey | 45 | p4-classical, m5-methods | Relativity |
 | s4-qft | S4 | Quantum Field Theory | survey | survey | 55 | p6-quantum, p5-em, p4-classical | Particles & Fields |
+| m7-probability | M7 | Probability & Statistics | math | core | 35 | m1-calculus | Probability & Statistics |
+| a1-machine-learning | A1 | Machine Learning | ai | core | 60 | m2-multivariable, m3-linear-algebra, m7-probability | Machine Learning |
+| a2-neural-networks | A2 | Neural Networks | ai | core | 40 | a1-machine-learning | Neural Networks |
+| a3-deep-learning | A3 | Deep Learning | ai | core | 55 | a2-neural-networks | Deep Learning |
+| a4-modern-ai | A4 | Modern AI: Transformers & LLMs | ai | core | 65 | a3-deep-learning | Modern AI |
 | q-qualifier | Q | Qualifier Review: Comprehensive Problem Solving | capstone | capstone | 30 | p4-classical, p5-em, p6-quantum, p7-statmech | Qualifier |
 
 Course content notes:
@@ -126,3 +137,37 @@ Course content notes:
 - Q (cahn-nadgorny): topic-mixed problem sessions in qualifier style: mechanics, E&M, QM, stat mech, plus
   estimation and "mixed" problems. Lessons here are problem-solving workshops (objectives = problem classes).
   Midterm and final are mock qualifying exams.
+- M7 (blitzstein-prob primary, openintro-stats secondary): probability rules and counting, conditional probability
+  and Bayes (diagnostic tests, spectral assignment), random variables, expectation/variance, common distributions
+  (binomial, Poisson — counting statistics in detectors and MS, normal, exponential/decay), joint distributions and
+  covariance, LLN and CLT, estimation (maximum likelihood, bias/variance of estimators), Bayesian inference and conjugate
+  priors, confidence intervals and hypothesis tests, linear regression and error propagation for lab data. Placement exam.
+  Project: a Python analysis of a real or simulated data set (e.g. Poisson counting, a calibration curve with errors).
+- A1 (bishop-prml primary, islp + shalev-shwartz-uml + rasmussen-gpml secondary/reference): the learning problem (loss,
+  risk, generalization), linear regression (least squares as projection — tie to M3) and regularization (ridge/lasso,
+  MAP view), logistic regression and softmax (softmax = Boltzmann distribution — the chemist's hook), GLMs,
+  bias–variance, cross-validation and model selection, kernels and SVMs, Gaussian processes, trees and ensembles
+  (bagging, random forests, boosting), unsupervised learning (k-means, Gaussian mixtures and EM, PCA via SVD),
+  and grad units: learning theory (PAC, VC dimension, generalization bounds) and probabilistic graphical models.
+  Project: implement and compare models from scratch in NumPy on a real data set (e.g. a chemistry/spectra data set).
+- A2 (nielsen-nndl primary, prince-udl + goodfellow-dl secondary): perceptron and linear separability, multilayer
+  networks and universal approximation, backpropagation derived by hand, computational graphs and reverse-mode
+  automatic differentiation, optimization (SGD, momentum, Adam, schedules, loss landscapes), initialization and
+  vanishing/exploding gradients, regularization (weight decay, dropout, early stopping, augmentation), energy-based
+  models (Hopfield networks, Boltzmann machines — tie to the Ising model and partition functions of P7).
+  Project: a tiny autograd engine plus an MLP trained with it (micrograd-style).
+- A3 (prince-udl primary, bishop-dl + goodfellow-dl secondary): convolutional networks, normalization and residual
+  networks, recurrent networks/LSTM/GRU, attention as a mechanism, representation learning and embeddings, generative
+  models (VAEs, GANs, normalizing flows, diffusion models via score matching and Langevin dynamics — tie to stat mech),
+  training at scale (batching, mixed precision, data pipelines), deep learning in science (molecular property
+  prediction and graph neural networks, AlphaFold, spectra). Project: a CNN and a small diffusion model in PyTorch.
+- A4 (prince-udl + jurafsky-slp primary, sutton-barto-rl secondary, bishop-dl reference): tokenization and
+  embeddings, the transformer in detail (self-attention, multi-head, positional encodings, residual stream, layer
+  norm), pretraining objectives (next-token, masked) and scaling laws, fine-tuning/instruction tuning/parameter-efficient
+  methods (LoRA), reinforcement learning basics (MDPs, value functions, policy gradients) then RLHF and preference
+  optimization (DPO), in-context learning, prompting and retrieval-augmented generation, agents and tool use,
+  multimodal models, interpretability (probing, superposition and features, circuits), evaluation, alignment and
+  safety. Mark the RL theory, interpretability and alignment units `grad` where they go beyond an intro.
+  Project: build and train a tiny GPT on a small text corpus in PyTorch, then probe what it learned.
+- AI-track and M7 readings: the free books' printed section numbers. Where only an online version exists
+  (nielsen-nndl, jurafsky-slp drafts), cite chapters ("Ch. 2") with their titles.
