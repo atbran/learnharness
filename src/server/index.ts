@@ -56,3 +56,5 @@ export * from "./curriculum.ts";
 export { resolveLecture, type ResolvedLecture } from "./lectures.ts";
 export * from "./bookshelf.ts";
 export * from "./assessments.ts";
+export * from "./demos.ts";
+export * from "./audio.ts";
