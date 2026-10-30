@@ -59,7 +59,12 @@ export type ModelRole =
 	| "visualMaker"
 	| "pdfReader"
 	| "extractor"
-	| "auditor";
+	| "auditor"
+	// The physics program's background writers/graders:
+	| "checkWriter" // quick-check questions (cheap)
+	| "examWriter" // problem sets, exams, placement (strong)
+	| "grader" // reads typed + photographed work against rubrics (vision)
+	| "scriptWriter"; // spoken audio-guide scripts (cheap)
 
 /**
  * The LIVE graph store (src/store/graph.ts) — owned by the app's extraction

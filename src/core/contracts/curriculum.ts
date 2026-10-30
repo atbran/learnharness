@@ -156,3 +156,86 @@ export type ProgressEvent = z.infer<typeof progressEventSchema>;
 export type ProgressEventType = ProgressEvent["type"];
 
 export type LessonStatus = "locked" | "available" | "in-progress" | "mastered" | "review-due";
+
+// ─── Assessments (generated once, cached under data/curriculum/) ────────────
+
+/** A quick-check question. mc/numeric grade deterministically; short
+ *  answers are judged against the rubric by the cheap model. */
+export type CheckQuestion =
+	| { kind: "mc"; prompt: string; options: string[]; answer: number; explanation: string }
+	| { kind: "numeric"; prompt: string; answer: number; tolerance: number; unit?: string; explanation: string }
+	| { kind: "short"; prompt: string; rubric: string; modelAnswer: string };
+
+export interface QuickCheck {
+	lessonId: string;
+	createdAt: string;
+	questions: CheckQuestion[];
+}
+
+export interface CheckResult {
+	lessonId: string;
+	at: string;
+	score: number;
+	perQuestion: { correct: boolean; credit: number; feedback: string }[];
+}
+
+export type AssessmentKind = "pset" | "midterm" | "final" | "placement";
+
+export interface AssessmentProblem {
+	id: string;
+	unitId: string;
+	lessonIds: string[];
+	/** Markdown with $…$ / $$…$$ math. */
+	prompt: string;
+	points: number;
+	/** Point-bearing criteria, e.g. "2 pts: sets up Gauss's law with a spherical surface". */
+	rubric: string[];
+	/** Full worked solution (markdown + math), revealed after grading. */
+	solution: string;
+	/** Provenance, e.g. "Griffiths EM 4e Problem 2.15 (adapted)". */
+	source?: string;
+}
+
+export interface ProblemAnswer {
+	text: string;
+	/** Uploaded photo file names (data/curriculum/uploads/). */
+	images: string[];
+}
+
+export interface ProblemGrade {
+	problemId: string;
+	points: number;
+	max: number;
+	feedback: string;
+	/** Where the reasoning first went wrong, when it did. */
+	firstError?: string;
+}
+
+export interface Assessment {
+	id: string;
+	kind: AssessmentKind;
+	courseId: string;
+	unitIds: string[];
+	/** The exam definition id (spine), absent for unit problem sets. */
+	examId?: string;
+	title: string;
+	/** Time limit in minutes (exams/placement); null = untimed. */
+	minutes: number | null;
+	closedBook: boolean;
+	passMark: number;
+	status: "generating" | "ready" | "in-progress" | "grading" | "graded" | "error";
+	error?: string;
+	createdAt: string;
+	problems: AssessmentProblem[];
+	startedAt?: string;
+	submittedAt?: string;
+	answers: Record<string, ProblemAnswer>;
+	grade?: {
+		score: number;
+		perProblem: ProblemGrade[];
+		summary: string;
+		/** Placement: lessons tested out (units scored ≥ passMark). */
+		testedOut?: string[];
+		gradedAt: string;
+	};
+}

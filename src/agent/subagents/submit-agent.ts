@@ -76,6 +76,9 @@ export async function runSubmitAgent<T>(opts: {
 	 *  a problem string yields an isError result (invalidInputResult) →
 	 *  the model retries within maxTurns. null = accept. */
 	validate?: (value: T) => string | null;
+	/** Images riding with the prompt (the grader's photographed work):
+	 *  present = the prompt goes out as one multimodal user message. */
+	images?: { data: string; mimeType: string }[];
 }): Promise<T> {
 	let submitted: T | undefined;
 	const result = await runSubagent(
@@ -110,7 +113,20 @@ export async function runSubmitAgent<T>(opts: {
 			role: opts.role,
 			engine: opts.engine,
 			systemPrompt: opts.systemPrompt,
-			prompt: opts.prompt,
+			...(opts.images?.length
+				? {
+						messages: [
+							{
+								role: "user" as const,
+								content: [
+									{ type: "text" as const, text: opts.prompt },
+									...opts.images.map((img) => ({ type: "image" as const, data: img.data, mimeType: img.mimeType })),
+								],
+								timestamp: Date.now(),
+							},
+						],
+					}
+				: { prompt: opts.prompt }),
 			maxTurns: opts.maxTurns ?? 4,
 			abortSignal: opts.signal,
 			chatId: opts.chatId,
