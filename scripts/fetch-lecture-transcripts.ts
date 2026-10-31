@@ -2,14 +2,16 @@
  * Fetch every curated lecture's length and transcript (YouTube captions via
  * yt-dlp) so the lecture pass can read what each video actually covers.
  *
- *   npx tsx scripts/fetch-lecture-transcripts.ts [--youtube [--cookies-from-browser <browser>]] [courseId ...]
+ *   npx tsx scripts/fetch-lecture-transcripts.ts [--youtube [--cookies-from-browser <browser> | --cookies <cookies.txt>]] [courseId ...]
  *
  * MIT OCW lectures take their captions from OCW itself (the page links a
  * .vtt), which needs no YouTube request. Other YouTube videos go through
  * yt-dlp only with --youtube, one at a time with long pauses: YouTube
  * answers a fast run with a "confirm you're not a bot" block. The learner
  * can run it with their own signed-in browser (--cookies-from-browser,
- * yt-dlp's documented option); the pace stays the same.
+ * yt-dlp's documented option) or a cookies.txt exported from it (--cookies;
+ * Chrome and Edge on Windows encrypt their cookies so yt-dlp can't read
+ * them directly); the pace stays the same.
  *
  * Writes data/curriculum/lectures/transcripts/:
  *   <youtubeId>.txt        the transcript in ~30 s chunks, "[mm:ss] text"
@@ -32,6 +34,9 @@ const YOUTUBE = ARGS.includes("--youtube");
 const cookieAt = ARGS.indexOf("--cookies-from-browser");
 const COOKIES_FROM = cookieAt >= 0 ? ARGS[cookieAt + 1] : undefined;
 if (cookieAt >= 0 && !COOKIES_FROM) throw new Error("--cookies-from-browser needs a browser name (chrome, edge, firefox, …)");
+const cookieFileAt = ARGS.indexOf("--cookies");
+const COOKIES_FILE = cookieFileAt >= 0 ? ARGS[cookieFileAt + 1] : undefined;
+if (cookieFileAt >= 0 && !(COOKIES_FILE && fs.existsSync(COOKIES_FILE))) throw new Error(`--cookies needs a cookies.txt that exists (got ${COOKIES_FILE ?? "nothing"})`);
 const CONCURRENCY = YOUTUBE ? 1 : 4;
 const YOUTUBE_PAUSE_MS = 25_000;
 const YT_ID = /(?:youtube(?:-nocookie)?\.com\/(?:embed\/|watch\?(?:[^"'\s]*&)?v=|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/;
@@ -109,6 +114,7 @@ async function fetchVideo(id: string): Promise<{ duration: number | null; title:
 			"--js-runtimes",
 			"node",
 			...(COOKIES_FROM ? ["--cookies-from-browser", COOKIES_FROM] : []),
+			...(COOKIES_FILE ? ["--cookies", COOKIES_FILE] : []),
 			"--write-subs",
 			"--write-auto-subs",
 			"--sub-langs",
@@ -166,7 +172,7 @@ async function fetchOcw(url: string): Promise<{ youtubeId: string | null; durati
 
 async function main() {
 	fs.mkdirSync(OUT, { recursive: true });
-	const only = ARGS.filter((a, i) => !a.startsWith("--") && i !== cookieAt + 1);
+	const only = ARGS.filter((a, i) => !a.startsWith("--") && i !== cookieAt + 1 && i !== cookieFileAt + 1);
 	const lectures = new Map<string, Lecture>();
 	for (const f of fs.readdirSync(COURSES).filter((n) => n.endsWith(".json"))) {
 		if (only.length && !only.includes(f.replace(/\.json$/, ""))) continue;
