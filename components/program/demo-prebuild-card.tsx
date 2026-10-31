@@ -18,7 +18,7 @@ interface PrebuildStatus {
 	active: boolean;
 }
 
-/** Program home: the background build of every lesson demo — progress,
+/** Settings › Program content: the background build of every lesson demo — progress,
  *  what's building now, and start/pause. */
 export function DemoPrebuildCard() {
 	return (
@@ -35,7 +35,7 @@ export function DemoPrebuildCard() {
 	);
 }
 
-/** Program home: the background build of every lesson's worked examples. */
+/** Settings › Program content: the background build of every lesson's worked examples. */
 export function ExamplesPrebuildCard() {
 	return (
 		<PrebuildCard
@@ -51,7 +51,7 @@ export function ExamplesPrebuildCard() {
 	);
 }
 
-/** Program home: the background build of every lesson's flashcards. */
+/** Settings › Program content: the background build of every lesson's flashcards. */
 export function FlashcardsPrebuildCard() {
 	return (
 		<PrebuildCard

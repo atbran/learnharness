@@ -51,6 +51,7 @@ import { Hint } from "@/components/ui/hint";
 import { AppearanceSection, GraphSection } from "./appearance-section.tsx";
 import { KeyboardSection } from "./keyboard-section.tsx";
 import { IpadSettings } from "./ipad-settings.tsx";
+import { DemoPrebuildCard, ExamplesPrebuildCard, FlashcardsPrebuildCard } from "@/components/program/demo-prebuild-card";
 import { ChatGPTUIProvider } from "./chatgpt-connection.tsx";
 import { NativeSubscriptionUIProvider } from "./subscription-connections.tsx";
 
@@ -64,6 +65,7 @@ const SECTIONS = [
 	{ id: "graph", label: "Graph" },
 	{ id: "keyboard", label: "Keyboard", hint: "Stored on this device" },
 	{ id: "ipad", label: "iPad" },
+	{ id: "program", label: "Program content" },
 	{ id: "general", label: "General" },
 ] as const;
 type SectionId = (typeof SECTIONS)[number]["id"];
@@ -380,6 +382,13 @@ export function SettingsDialogBody({
 									testid="section-ipad"
 								>
 									<IpadSettings />
+								</SettingsSection>
+							)}
+							{active === "program" && (
+								<SettingsSection title="Program content" testid="section-program">
+									<DemoPrebuildCard />
+									<ExamplesPrebuildCard />
+									<FlashcardsPrebuildCard />
 								</SettingsSection>
 							)}
 							{active === "keys" && (

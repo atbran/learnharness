@@ -24,7 +24,6 @@ import type { Pause } from "@/src/core";
 import { TopBar } from "@/components/top-bar";
 import { cn } from "@/lib/utils";
 import { MasteryRadar, ProgressRing, ScoreTrends, StudyHeatmap } from "./charts";
-import { DemoPrebuildCard, ExamplesPrebuildCard, FlashcardsPrebuildCard } from "./demo-prebuild-card";
 import { FlashcardsDue } from "./flashcards";
 import { PauseBanner, PauseControl } from "./pause-control";
 import { ProgramMap } from "./program-map";
@@ -224,10 +223,6 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 							)}
 						</div>
 					</section>
-
-					<DemoPrebuildCard />
-					<ExamplesPrebuildCard />
-					<FlashcardsPrebuildCard />
 
 					{/* Views */}
 					<section>
