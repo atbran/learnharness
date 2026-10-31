@@ -5,7 +5,8 @@
  *   npx tsx scripts/fetch-lecture-transcripts.ts [--youtube [--cookies-from-browser <browser> | --cookies <cookies.txt>]] [courseId ...]
  *
  * MIT OCW lectures take their captions from OCW itself (the page links a
- * .vtt), which needs no YouTube request. Other YouTube videos go through
+ * .vtt), and archive.org video files from the .srt archive.org keeps beside
+ * them; neither needs a YouTube request. Other YouTube videos go through
  * yt-dlp only with --youtube, one at a time with long pauses: YouTube
  * answers a fast run with a "confirm you're not a bot" block. The learner
  * can run it with their own signed-in browser (--cookies-from-browser,
@@ -25,7 +26,7 @@ import * as os from "node:os";
 import * as path from "node:path";
 import { PATHS } from "../config.ts";
 import type { Lecture } from "../src/core/contracts/curriculum.ts";
-import { resolveLecture } from "../src/server/lectures.ts";
+import { resolveLecture, videoTranscriptKey } from "../src/server/lectures.ts";
 
 const COURSES = path.join(PATHS.curriculumSource, "physics", "courses");
 const OUT = path.join(PATHS.curriculum, "lectures", "transcripts");
@@ -66,12 +67,12 @@ function run(args: string[]): Promise<string> {
 
 const stamp = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
-/** WebVTT (incl. YouTube's rolling auto-captions) → "[mm:ss] text" lines,
- *  ~30 s per line, duplicate rolling lines dropped. */
+/** WebVTT (incl. YouTube's rolling auto-captions) or SRT → "[mm:ss] text"
+ *  lines, ~30 s per line, duplicate rolling lines dropped. */
 export function vttToText(vtt: string): string {
 	const cues: { t: number; text: string }[] = [];
 	for (const block of vtt.split(/\r?\n\r?\n/)) {
-		const m = /(\d+):(\d{2}):(\d{2})\.\d{3}\s+-->/.exec(block) ?? /(?:^|\n)()(\d{2}):(\d{2})\.\d{3}\s+-->/.exec(block);
+		const m = /(\d+):(\d{2}):(\d{2})[.,]\d{3}\s+-->/.exec(block) ?? /(?:^|\n)()(\d{2}):(\d{2})[.,]\d{3}\s+-->/.exec(block);
 		if (!m) continue;
 		const t = Number(m[1] || 0) * 3600 + Number(m[2]) * 60 + Number(m[3]);
 		const lines = block
@@ -144,6 +145,24 @@ async function fetchVideo(id: string): Promise<{ duration: number | null; title:
 	}
 }
 
+/** An archive.org video file → the .srt caption file archive.org keeps
+ *  next to it (MIT's uploads have one), or null when there is none. */
+async function fetchArchive(url: string): Promise<{ youtubeId: string | null; duration: number | null; title: string | null } | null> {
+	const m = /archive\.org\/(?:details|download)\/([^/]+)\/(.+)\.(?:mp4|ogv|webm)$/i.exec(url);
+	if (!m) return null;
+	const res = await fetch(`https://archive.org/download/${m[1]}/${m[2]}.srt`, { headers: { "User-Agent": "Mozilla/5.0 LearnHarness lecture pass" } });
+	if (!res.ok) return null;
+	const srt = await res.text();
+	const transcript = vttToText(srt);
+	if (!transcript) return null;
+	const key = videoTranscriptKey(url);
+	const ends = [...srt.matchAll(/-->\s*(\d+):(\d{2}):(\d{2})/g)].map((e) => Number(e[1]) * 3600 + Number(e[2]) * 60 + Number(e[3]));
+	const duration = ends.length ? Math.max(...ends) : null;
+	fs.writeFileSync(path.join(OUT, `${key}.txt`), transcript);
+	fs.writeFileSync(path.join(OUT, `${key}.meta.json`), JSON.stringify({ id: key, title: m[2], channel: "MIT (archive.org)", duration, chapters: [], transcript: true, source: url }, null, 1));
+	return { youtubeId: key, duration, title: m[2] ?? null };
+}
+
 /** An MIT OCW lecture page → its own caption file (no YouTube request). */
 async function fetchOcw(url: string): Promise<{ youtubeId: string | null; duration: number | null; title: string | null } | null> {
 	const page = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 LearnHarness lecture pass" } });
@@ -191,6 +210,15 @@ async function main() {
 		for (let lec = todo.shift(); lec && !blocked; lec = todo.shift()) {
 			try {
 				const prior = index[lec.url];
+				const hasText = !!prior?.youtubeId && fs.existsSync(path.join(OUT, `${prior.youtubeId}.txt`));
+				if (!hasText && /archive\.org\//.test(lec.url)) {
+					const archived = await fetchArchive(lec.url);
+					if (archived) {
+						index[lec.url] = archived;
+						if (++done % 25 === 0) console.log(`${done}/${lectures.size} lectures · ${failed} failed`);
+						continue;
+					}
+				}
 				if (prior && !prior.error && (prior.duration !== null || !YOUTUBE)) {
 					done++;
 					continue;

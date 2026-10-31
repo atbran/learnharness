@@ -93,13 +93,20 @@ export async function resolveLecture(lecture: Lecture): Promise<ResolvedLecture>
 	return { ...lecture, youtubeId, playlistId, embedUrl: embedFor(lecture, youtubeId, playlistId) };
 }
 
+/** The transcript file key of a direct video file (archive.org MIT videos),
+ *  which has no YouTube id to name it by. */
+export function videoTranscriptKey(videoUrl: string): string {
+	return `v-${createHash("sha1").update(videoUrl.replace(/^http:/, "https:")).digest("hex").slice(0, 16)}`;
+}
+
 /** A lecture's transcript, trimmed to its clip, when one was fetched
- *  (data/curriculum/lectures/transcripts/<youtubeId>.txt). */
+ *  (data/curriculum/lectures/transcripts/<youtubeId or video key>.txt). */
 export async function lectureTranscript(lecture: Lecture): Promise<TranscriptLine[] | null> {
-	const { youtubeId } = await resolveLecture(lecture);
-	if (!youtubeId) return null;
+	const { youtubeId, videoUrl } = await resolveLecture(lecture);
+	const key = youtubeId ?? (videoUrl ? videoTranscriptKey(videoUrl) : null);
+	if (!key) return null;
 	try {
-		const raw = fs.readFileSync(path.join(/*turbopackIgnore: true*/ PATHS.curriculum, "lectures", "transcripts", `${youtubeId}.txt`), "utf-8");
+		const raw = fs.readFileSync(path.join(/*turbopackIgnore: true*/ PATHS.curriculum, "lectures", "transcripts", `${key}.txt`), "utf-8");
 		const lines = clipTranscript(parseTranscript(raw), lecture.start, lecture.end);
 		return lines.length ? lines : null;
 	} catch {
