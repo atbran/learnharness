@@ -285,7 +285,7 @@ class ClaudeTurn {
 
 			case "toolUse":
 				if (!block.name.startsWith(`mcp__${BRIDGE_SERVER_NAME}__`)) {
-					this.fail("claude CLI emitted an unsupported native tool call", "error");
+					this.fail(`claude CLI emitted an unsupported native tool call (${block.name})`, "error");
 					return;
 				}
 				this.toolBlocks.set(index, { type: "toolCall", id: block.id, name: toolNameFromMcp(block.name), arguments: {} });

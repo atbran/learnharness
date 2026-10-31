@@ -15,7 +15,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { Type } from "typebox";
 
-import { BRIDGE_SERVER_NAME, createToolBridge, toolNameFromMcp, type ToolBridge } from "../src/agent/claude-code/tool-bridge.ts";
+import { BRIDGE_SERVER_NAME, createToolBridge, toolNameFromMcp, withMcpToolNames, type ToolBridge } from "../src/agent/claude-code/tool-bridge.ts";
 
 const READ_TOOL: Tool = { name: "read", description: "Read a file", parameters: Type.Object({ path: Type.String() }) };
 const SCREENSHOT_TOOL: Tool = { name: "screenshot", description: "Capture the screen", parameters: Type.Object({}) };
@@ -268,4 +268,13 @@ test("missing and reused Claude tool IDs are rejected rather than matched by arg
 test("toolNameFromMcp strips the bridge prefix", () => {
 	assert.equal(toolNameFromMcp("mcp__learnharness__read"), "read");
 	assert.equal(toolNameFromMcp("read"), "read");
+});
+
+test("bare tool mentions become the callable CLI names; plain words stay prose", () => {
+	const names = ["send_to_user", "read", "problem"];
+	const text = "ALWAYS USE `send_to_user`; call send_to_user then `problem`. Read the problem and read `read` notes. mcp__learnharness__send_to_user stays.";
+	assert.equal(
+		withMcpToolNames(text, names),
+		"ALWAYS USE `mcp__learnharness__send_to_user`; call mcp__learnharness__send_to_user then `mcp__learnharness__problem`. Read the problem and read `mcp__learnharness__read` notes. mcp__learnharness__send_to_user stays.",
+	);
 });

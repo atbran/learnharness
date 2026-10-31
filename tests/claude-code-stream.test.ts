@@ -711,7 +711,7 @@ test("user message after tool results starts fresh with unfinished calls in the 
 	await assertCleanedUp(oldCall);
 
 	const stdin = readFileSync(stdinFile, "utf8");
-	assert.ok(stdin.includes('[tool call read] {\\"path\\":\\"a\\"}'), stdin);
+	assert.ok(stdin.includes('[tool call mcp__learnharness__read] {\\"path\\":\\"a\\"}'), stdin);
 	assert.ok(stdin.includes("wait, explain sockets first"), stdin);
 });
 
@@ -806,8 +806,8 @@ test("a tool result arriving after the idle timeout starts fresh with the call a
 	await assertCleanedUp(getOnlyCall(fresh.calls));
 
 	const stdin = readFileSync(stdinFile, "utf8");
-	assert.ok(stdin.includes('[tool call read] {\\"path\\":\\"a\\"}'), stdin);
-	assert.ok(stdin.includes("[tool result read]"), stdin);
+	assert.ok(stdin.includes('[tool call mcp__learnharness__read] {\\"path\\":\\"a\\"}'), stdin);
+	assert.ok(stdin.includes("[tool result mcp__learnharness__read]"), stdin);
 	assert.ok(stdin.includes("contents of a"), stdin);
 });
 

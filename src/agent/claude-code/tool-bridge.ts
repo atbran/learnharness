@@ -45,6 +45,29 @@ export function toolNameFromMcp(name: string): string {
 	return name.startsWith(MCP_TOOL_PREFIX) ? name.slice(MCP_TOOL_PREFIX.length) : name;
 }
 
+export function toolNameToMcp(name: string): string {
+	return `${MCP_TOOL_PREFIX}${name}`;
+}
+
+function escapeRegExp(text: string): string {
+	return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/** The CLI exposes bridge tools only as mcp__learnharness__<name>, while
+ *  prompts and tool descriptions name them bare; a model that copies a bare
+ *  name calls a tool the CLI does not have. Backticked mentions are always
+ *  rewritten; unquoted ones only for names with an underscore, since plain
+ *  names like read or problem are also ordinary words. */
+export function withMcpToolNames(text: string, toolNames: readonly string[]): string {
+	let out = text;
+	for (const name of [...toolNames].sort((a, b) => b.length - a.length)) {
+		const n = escapeRegExp(name);
+		out = out.replace(new RegExp(`\`${n}\``, "g"), `\`${toolNameToMcp(name)}\``);
+		if (name.includes("_")) out = out.replace(new RegExp(`(?<![\\w\`])${n}(?![\\w\`])`, "g"), toolNameToMcp(name));
+	}
+	return out;
+}
+
 function toMcpContent(block: TextContent | ImageContent): CallToolResult["content"][number] {
 	switch (block.type) {
 		case "text":
@@ -59,8 +82,8 @@ function toCallToolResult(result: ToolResultMessage): CallToolResult {
 	return { content: result.content.map(toMcpContent), isError: result.isError };
 }
 
-function toMcpTool(tool: Tool): McpTool {
-	return { name: tool.name, description: tool.description, inputSchema: tool.parameters as McpTool["inputSchema"] };
+function toMcpTool(tool: Tool, toolNames: readonly string[]): McpTool {
+	return { name: tool.name, description: withMcpToolNames(tool.description, toolNames), inputSchema: tool.parameters as McpTool["inputSchema"] };
 }
 
 class ToolCallQueue {
@@ -128,7 +151,7 @@ class ToolCallQueue {
 function createMcpServer(tools: Tool[], queue: ToolCallQueue, callbacks?: BridgeCallbacks): Server {
 	const server = new Server({ name: BRIDGE_SERVER_NAME, version: "1.0.0" }, { capabilities: { tools: {} } });
 
-	server.setRequestHandler(ListToolsRequestSchema, () => ({ tools: tools.map(toMcpTool) }));
+	server.setRequestHandler(ListToolsRequestSchema, () => ({ tools: tools.map((tool) => toMcpTool(tool, tools.map((t) => t.name))) }));
 
 	const seenIds = new Set<string>();
 	server.setRequestHandler(CallToolRequestSchema, (request, extra) => {

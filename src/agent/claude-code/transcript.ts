@@ -1,5 +1,6 @@
 import type { ImageContent, Message, TextContent, Tool } from "@earendil-works/pi-ai";
 import { getCurrentSystemPrompt, getCurrentTools } from "@earendil-works/pi-ai/utils/transcript";
+import { toolNameToMcp, withMcpToolNames } from "./tool-bridge.ts";
 
 export type ClaudeContentBlock =
 	| { type: "text"; text: string }
@@ -37,12 +38,14 @@ function getReplayParts(message: Message): ReplayPart[] {
 		case "assistant":
 			return message.content.flatMap((block) => {
 				if (block.type === "text") return [`[assistant]\n${block.text}`];
-				if (block.type === "toolCall") return [`[tool call ${block.name}] ${JSON.stringify(block.arguments)}`];
+				// Replayed under the callable CLI name, so the model never copies a bare one.
+				if (block.type === "toolCall") return [`[tool call ${toolNameToMcp(block.name)}] ${JSON.stringify(block.arguments)}`];
 				return [];
 			});
 
 		case "toolResult": {
-			const label = message.isError ? `[tool result ${message.toolName} error]` : `[tool result ${message.toolName}]`;
+			const name = toolNameToMcp(message.toolName);
+			const label = message.isError ? `[tool result ${name} error]` : `[tool result ${name}]`;
 			return getLabelledParts(label, message.content);
 		}
 	}
@@ -86,10 +89,11 @@ function toUserContent(conversation: Message[]): ClaudeContentBlock[] {
 
 export function toClaudeInput(messages: Message[]): ClaudeInput {
 	const conversation = messages.filter((message) => message.role !== "system");
+	const tools = getCurrentTools(messages);
 
 	return {
-		systemPrompt: getCurrentSystemPrompt(messages),
-		tools: getCurrentTools(messages),
+		systemPrompt: withMcpToolNames(getCurrentSystemPrompt(messages), tools.map((tool) => tool.name)),
+		tools,
 		userContent: toUserContent(conversation),
 	};
 }
