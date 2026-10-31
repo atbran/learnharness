@@ -8,6 +8,7 @@
 import { indexProgram, type ProgramIndex } from "../core/curriculum.ts";
 import { addDays, deriveProgress, isoDate, weekStart, type ProgressSnapshot } from "../core/progress.ts";
 import { thenNowCandidate, weekSummary, type MotivationView } from "../core/motivation.ts";
+import { latestExampleAttempts, troubleAttempts } from "../core/example-attempts.ts";
 import type { CourseProject, Lesson, Program, ProgressEvent } from "../core/contracts/curriculum.ts";
 import type { LessonContextData } from "../core/native-messages.ts";
 import { stores } from "./stores.ts";
@@ -206,6 +207,27 @@ export function projectBrief(courseId: string): { content: string; details: Less
 	};
 }
 
+const RESULT_LABEL = { got: "got it right", partly: "partly right", missed: "missed it" } as const;
+
+/** The learner's own reports on the lesson's worked examples that say they
+ *  need help (missed/partly, low confidence, a stuck note), for the brief. */
+function workedExampleNotes(lessonId: string): string[] {
+	const attempts = latestExampleAttempts(stores.curriculumStore.readEvents(), lessonId);
+	const trouble = troubleAttempts(attempts);
+	if (!trouble.length) return [];
+	const examples = stores.curriculumStore.readCache<{ examples: { problem: string }[] }>("examples", lessonId)?.examples ?? [];
+	const solid = Object.keys(attempts).length - trouble.length;
+	return [
+		"",
+		`The learner tried this lesson's worked examples on their own and reported trouble with these${solid ? ` (${solid} other${solid === 1 ? "" : "s"} went fine)` : ""} — work on them where they fit the objectives:`,
+		...trouble.map((a) => {
+			const problem = (examples[a.example]?.problem ?? "").replace(/\s+/g, " ").slice(0, 240);
+			const how = [a.result && RESULT_LABEL[a.result], a.confidence !== undefined && `confidence ${a.confidence}/5`].filter(Boolean).join(", ");
+			return `- Example ${a.example + 1}${problem ? `: ${problem}` : ""}${how ? ` — ${how}` : ""}${a.stuck?.trim() ? ` — stuck on: "${a.stuck.trim()}"` : ""}`;
+		}),
+	];
+}
+
 /** The model-facing brief + UI payload for a lesson-session marker. */
 export function lessonBrief(lessonId: string, mode: "teach" | "practice"): { content: string; details: LessonContextData } | null {
 	const index = programIndex();
@@ -245,6 +267,7 @@ export function lessonBrief(lessonId: string, mode: "teach" | "practice"): { con
 	if (earlier.length) lines.push("", `Just before this, the learner covered: ${earlier.map((l) => l.title).join("; ")}.`);
 	if (weak.length) lines.push(`Weak spots in this course so far: ${weak.join("; ")}.`);
 	if (lp?.bestCheck !== null && lp?.bestCheck !== undefined) lines.push(`Previous quick check on this lesson: ${Math.round(lp.bestCheck * 100)}%.`);
+	lines.push(...workedExampleNotes(lessonId));
 	lines.push(
 		"",
 		mode === "practice"

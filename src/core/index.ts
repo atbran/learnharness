@@ -88,6 +88,7 @@ export * from "./session-markdown.ts";
 export * from "./curriculum.ts";
 export * from "./progress.ts";
 export * from "./flashcards.ts";
+export * from "./example-attempts.ts";
 export * from "./practice.ts";
 export * from "./motivation.ts";
 export * from "./transcripts.ts";

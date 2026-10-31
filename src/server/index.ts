@@ -67,6 +67,7 @@ export { diagnosticView, ensureDiagnostic, submitDiagnostic, type DiagnosticLess
 export { ensureLessonNotes, notesView, notesPrebuildStatus, setNotesPrebuild, type LessonNotes, type NotesView, type NotesPrebuildStatus } from "./notes.ts";
 export {
 	ensureWorkedExamples,
+	recordExampleAttempt,
 	examplesView,
 	examplesPrebuildStatus,
 	setExamplesPrebuild,

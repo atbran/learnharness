@@ -196,6 +196,18 @@ export const progressEventSchema = z.discriminatedUnion("type", [
 	z.object({ type: z.literal("card_added"), at, cardId: z.string().min(1), lessonId: id(), front: z.string().min(1), back: z.string().min(1) }),
 	z.object({ type: z.literal("card_removed"), at, cardId: z.string().min(1) }),
 	z.object({ type: z.literal("card_restored"), at, cardId: z.string().min(1) }),
+	/** The learner's own report on trying a worked example (`example`: its
+	 *  index in the lesson's examples). Each save is the whole report; the
+	 *  latest wins. Feeds the lesson tutor's brief, never mastery. */
+	z.object({
+		type: z.literal("example_attempt"),
+		at,
+		lessonId: id(),
+		example: z.number().int().min(0),
+		confidence: z.number().int().min(1).max(5).optional(),
+		result: z.enum(["got", "partly", "missed"]).optional(),
+		stuck: z.string().max(4000).optional(),
+	}),
 	z.object({ type: z.literal("study_time"), at, minutes: z.number().positive().max(240), lessonId: id().optional(), source: z.enum(["heartbeat", "manual"]) }),
 	z.object({ type: z.literal("review_done"), at, lessonId: id(), quality: z.number().int().min(0).max(5) }),
 ]);

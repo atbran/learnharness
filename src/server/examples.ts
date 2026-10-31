@@ -10,7 +10,8 @@ import * as path from "node:path";
 import { PATHS } from "../../config.ts";
 import { writeWorkedExamples, type WorkedExample } from "../agent/subagents/program-writers.ts";
 import { lessonContext, runTask, taskStatus, writerDeps } from "./assessments.ts";
-import { programIndex } from "./curriculum.ts";
+import { latestExampleAttempts, type AttemptResult, type ExampleAttempt } from "../core/example-attempts.ts";
+import { programIndex, recordProgress } from "./curriculum.ts";
 import { createPrebuild, type PrebuildStatus } from "./prebuild.ts";
 import { stores } from "./stores.ts";
 
@@ -25,14 +26,14 @@ const taskId = (lessonId: string) => `examples:${lessonId}`;
 const readExamples = (lessonId: string) => stores.curriculumStore.readCache<LessonExamples>("examples", lessonId);
 
 export type ExamplesView =
-	| { status: "ready"; examples: LessonExamples }
+	| { status: "ready"; examples: LessonExamples; attempts: Record<number, ExampleAttempt> }
 	| { status: "writing" | "missing" }
 	| { status: "error"; error: string };
 
 export function examplesView(lessonId: string): ExamplesView | null {
 	if (!programIndex().lessons.has(lessonId)) return null;
 	const examples = readExamples(lessonId);
-	if (examples) return { status: "ready", examples };
+	if (examples) return { status: "ready", examples, attempts: latestExampleAttempts(stores.curriculumStore.readEvents(), lessonId) };
 	const t = taskStatus(taskId(lessonId));
 	if (t?.status === "running") return { status: "writing" };
 	if (t?.status === "error") return { status: "error", error: t.error ?? "the worked examples could not be written" };
@@ -49,6 +50,13 @@ export function ensureWorkedExamples(lessonId: string, opts: { fresh?: boolean }
 		const examples = await writeWorkedExamples(ref.lesson, lessonContext(ref.lesson), ref.course.track, writerDeps("notesWriter", true));
 		stores.curriculumStore.writeCache("examples", lessonId, { examples, createdAt: new Date().toISOString() } satisfies LessonExamples);
 	});
+}
+
+/** Save the learner's report on trying one example (the whole report; the latest wins). */
+export function recordExampleAttempt(lessonId: string, attempt: { example: number; confidence?: number; result?: AttemptResult; stuck?: string }): void {
+	const count = readExamples(lessonId)?.examples.length ?? 0;
+	if (attempt.example >= count) throw new Error("no such worked example");
+	recordProgress({ type: "example_attempt", at: new Date().toISOString(), lessonId, ...attempt, stuck: attempt.stuck?.trim() || undefined });
 }
 
 const examples = createPrebuild({
