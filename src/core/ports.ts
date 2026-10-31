@@ -272,7 +272,7 @@ export interface CurriculumStore {
 	artifactPath(kind: "audio" | "uploads", file: string): string;
 }
 
-export type CacheKind = "quizzes" | "assessments" | "audio" | "demos" | "lectures" | "notes" | "diagnostics" | "learner";
+export type CacheKind = "quizzes" | "assessments" | "audio" | "demos" | "lectures" | "notes" | "examples" | "flashcards" | "diagnostics" | "learner";
 
 // ─── BookshelfStore — ingested textbooks (data/books/<bookId>/) ─────────────
 

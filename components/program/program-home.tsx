@@ -11,6 +11,7 @@ import {
 	LibraryIcon,
 	MapIcon,
 	MessageCircleQuestionMarkIcon,
+	Layers3Icon,
 	NotebookPenIcon,
 	PrinterIcon,
 	RadarIcon,
@@ -23,7 +24,8 @@ import type { Pause } from "@/src/core";
 import { TopBar } from "@/components/top-bar";
 import { cn } from "@/lib/utils";
 import { MasteryRadar, ProgressRing, ScoreTrends, StudyHeatmap } from "./charts";
-import { DemoPrebuildCard } from "./demo-prebuild-card";
+import { DemoPrebuildCard, ExamplesPrebuildCard, FlashcardsPrebuildCard } from "./demo-prebuild-card";
+import { FlashcardsDue } from "./flashcards";
 import { PauseBanner, PauseControl } from "./pause-control";
 import { ProgramMap } from "./program-map";
 import { Timeline } from "./timeline";
@@ -70,6 +72,7 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 							className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground pointer-coarse:min-h-11"
 						>
 							<Icon className="size-3.5" /> <span className="max-sm:sr-only">{label}</span>
+							{href === "/program/flashcards" && <FlashcardsDue />}
 						</Link>
 					))}
 					<ProgramSettings
@@ -223,6 +226,8 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 					</section>
 
 					<DemoPrebuildCard />
+					<ExamplesPrebuildCard />
+					<FlashcardsPrebuildCard />
 
 					{/* Views */}
 					<section>
@@ -313,6 +318,7 @@ export function ProgramHome({ initial }: { initial: ProgramData | null }) {
 }
 
 const TOP_LINKS = [
+	{ href: "/program/flashcards", label: "Flashcards", icon: Layers3Icon },
 	{ href: "/program/questions", label: "Questions", icon: MessageCircleQuestionMarkIcon },
 	{ href: "/program/notebook", label: "Notebook", icon: NotebookPenIcon },
 	{ href: "/program/books", label: "Bookshelf", icon: LibraryIcon },

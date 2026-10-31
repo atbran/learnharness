@@ -15,6 +15,7 @@ import {
 	GraduationCapIcon,
 	HeadphonesIcon,
 	MonitorPlayIcon,
+	PenLineIcon,
 	SparklesIcon,
 	TimerIcon,
 } from "lucide-react";
@@ -23,6 +24,7 @@ import { TopBar } from "@/components/top-bar";
 import { cn } from "@/lib/utils";
 import type { Lesson } from "@/src/core";
 import { Expander, FastTrackSwitch, MissedCard, NotesSummary, useFastTrackOverride, useLessonNotesView, useNotesSummary } from "./fast-track";
+import { LessonFlashcards } from "./flashcards";
 import { LecturePlayer } from "./lecture-player";
 import { LessonNotes } from "./lesson-notes";
 import { LessonQuestions } from "./question-board";
@@ -101,6 +103,13 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 				action={starting === "teach" ? "Starting…" : "Start lesson session"}
 				onClick={() => void startSession("teach")}
 				primary={!fast}
+			/>
+			<ActionCard
+				icon={PenLineIcon}
+				title="Worked examples"
+				body="Problems solved step by step, at least one for each objective, so you see how each kind is done before you try one."
+				action="See worked examples"
+				href={`/program/examples/${lesson.id}`}
 			/>
 			{!fast && (
 				<ActionCard
@@ -204,6 +213,8 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 								{cards}
 							</>
 						)}
+
+						{fast !== null && <LessonFlashcards lessonId={lesson.id} />}
 
 						{lp?.masteredAt ? <TeachBack lessonId={lesson.id} lessonTitle={lesson.title} courseCode={course.code} /> : null}
 

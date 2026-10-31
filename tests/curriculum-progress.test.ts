@@ -139,3 +139,13 @@ test("streak tolerates one missed day per week; XP and levels accrue", () => {
 	assert.equal(snap.xp, 105);
 	assert.deepEqual(levelFor(250), { level: 2, xpIntoLevel: 0, xpForLevel: 500 });
 });
+
+test("a short answer counted as correct by the learner masters the lesson but earns no XP twice", () => {
+	const graded: ProgressEvent = { type: "quick_check", at: at("2026-11-01"), lessonId: "a-1", score: 2.3 / 3, missed: [2] };
+	const before = deriveProgress(index, [graded], { now: NOW });
+	const after = deriveProgress(index, [graded, { type: "quick_check", at: "2026-11-01T10:05:00.000Z", lessonId: "a-1", score: 1, missed: [], overridden: [2] }], { now: NOW });
+	assert.equal(before.lessons["a-1"]!.masteredAt, null);
+	assert.equal(after.lessons["a-1"]!.masteredAt, "2026-11-01T10:05:00.000Z");
+	assert.deepEqual(after.lessons["a-1"]!.missed, []);
+	assert.equal(after.xp - before.xp, 100); // the lesson's mastery, nothing for the re-score
+});

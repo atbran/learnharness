@@ -334,8 +334,11 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 				const l = L(ev.lessonId);
 				if (!l) break;
 				l.started = true;
-				xp += XP.quickCheckPerPoint * ev.score * 5;
-				if (ev.score >= 0.999) perfectChecks++;
+				// An override re-scores an attempt already counted: no XP twice.
+				if (!ev.overridden) {
+					xp += XP.quickCheckPerPoint * ev.score * 5;
+					if (ev.score >= 0.999) perfectChecks++;
+				}
 				l.bestCheck = Math.max(l.bestCheck ?? 0, ev.score);
 				if (ev.missed) {
 					l.missed = ev.missed;

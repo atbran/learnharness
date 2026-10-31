@@ -87,7 +87,28 @@ export function QuickCheck({
 	const [result, setResult] = useState<Result | null>(null);
 	const [submitting, setSubmitting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [overridden, setOverridden] = useState<number[]>([]);
 	const setAnswer = (i: number) => (v: string) => setAnswers((a) => Object.assign([...a], { [i]: v }));
+	// A plain quick check (every question, in order): a short answer the grader
+	// marked wrong can be counted as correct by the learner.
+	const canOverride = !review && !only && !missedRetake && !thenNow;
+	const countAsCorrect = async (i: number) => {
+		if (!result) return;
+		setError(null);
+		const r = await fetch(`/api/program/checks/${lessonId}`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ override: i, credits: result.perQuestion.map((p) => p.credit), overridden }),
+		});
+		const body = (await r.json()) as { score: number; credits: number[]; error?: string };
+		if (!r.ok) return setError(body.error ?? "couldn't count it");
+		setOverridden((o) => [...o, i]);
+		setResult({
+			score: body.score,
+			perQuestion: result.perQuestion.map((p, k) => (k === i ? { correct: true, credit: 1, feedback: `${p.feedback}\n\n*Counted as correct by you.*` } : p)),
+		});
+		onDone?.(body.score);
+	};
 
 	const load = useCallback(() => {
 		void fetch(`/api/program/checks/${lessonId}`)
@@ -158,7 +179,16 @@ export function QuickCheck({
 				</div>
 			)}
 			{qs.map((q, i) => (
-				<CheckQuestionField key={i} q={q} index={i} value={answers[i] ?? ""} onChange={setAnswer(i)} locked={!!result} result={result?.perQuestion[i]} />
+				<CheckQuestionField
+					key={i}
+					q={q}
+					index={i}
+					value={answers[i] ?? ""}
+					onChange={setAnswer(i)}
+					locked={!!result}
+					result={result?.perQuestion[i]}
+					onCountAsCorrect={canOverride && q.kind === "short" && result && !result.perQuestion[i]?.correct ? () => void countAsCorrect(i) : undefined}
+				/>
 			))}
 			{error && <div className="text-sm text-destructive">{error}</div>}
 			{!result && (
@@ -199,6 +229,7 @@ export function CheckQuestionField({
 	onChange,
 	locked,
 	result,
+	onCountAsCorrect,
 }: {
 	q: PublicQ;
 	/** Position in the form: numbers the card and names its radio group. */
@@ -208,6 +239,8 @@ export function CheckQuestionField({
 	/** Graded or submitting: inputs disabled, math buttons hidden. */
 	locked: boolean;
 	result?: { correct: boolean; feedback: string };
+	/** Offered under a short answer the grader marked wrong: full credit, quiz re-scored. */
+	onCountAsCorrect?: () => void;
 }) {
 	const field = useRef<HTMLTextAreaElement | HTMLInputElement | null>(null);
 	const r = result;
@@ -282,6 +315,18 @@ export function CheckQuestionField({
 			{r && (
 				<div className="lh-prose mt-3 rounded-lg bg-accent/50 p-3 text-sm">
 					<MessageResponse>{r.feedback}</MessageResponse>
+				</div>
+			)}
+			{onCountAsCorrect && (
+				<div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+					<button
+						type="button"
+						onClick={onCountAsCorrect}
+						className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-foreground hover:bg-accent pointer-coarse:min-h-11"
+					>
+						<CheckCircle2Icon className="size-3.5" /> Count it as correct
+					</button>
+					If you think your answer has it, give it full credit and re-score the quiz.
 				</div>
 			)}
 		</div>

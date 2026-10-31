@@ -87,6 +87,7 @@ export * from "./session-markdown.ts";
 // The physics program: spine indexing/validation + progress derivation.
 export * from "./curriculum.ts";
 export * from "./progress.ts";
+export * from "./flashcards.ts";
 export * from "./practice.ts";
 export * from "./motivation.ts";
 export * from "./transcripts.ts";

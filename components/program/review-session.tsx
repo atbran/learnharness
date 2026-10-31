@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ChevronRightIcon, PartyPopperIcon } from "lucide-react";
 import { TopBar } from "@/components/top-bar";
+import { FlashcardStudy, useDeck } from "./flashcards";
 import { QuickCheck } from "./quick-check";
 
 interface ReviewItem {
@@ -14,14 +15,20 @@ interface ReviewItem {
 	only?: number[];
 }
 
-/** Review: first the quiz questions missed on earlier days (just those),
- *  then the spaced-review lessons due, each a retake of its quick check's
- *  auto-graded questions (no model call). */
+/** Review: the flashcards due today, then the quiz questions missed on
+ *  earlier days (just those), then the spaced-review lessons due, each a
+ *  retake of its quick check's auto-graded questions (no model call). */
 export function ReviewSession({ missed, due: spaced }: { missed: ReviewItem[]; due: ReviewItem[] }) {
 	const [i, setI] = useState(0);
 	const [done, setDone] = useState(false);
+	const { deck } = useDeck();
+	// Fixed when the deck first loads: flipping cards changes the ledger, not this session's plan.
+	const [cardsDue, setCardsDue] = useState<number | null>(null);
+	if (deck && cardsDue === null) setCardsDue(deck.due.length);
+	const [cardsDone, setCardsDone] = useState(false);
 	const due = [...missed, ...spaced];
 	const cur = due[i];
+	const onCards = cardsDue !== null && cardsDue > 0 && !cardsDone;
 	return (
 		<div className="flex h-full min-h-0 flex-col">
 			<TopBar>
@@ -30,17 +37,28 @@ export function ReviewSession({ missed, due: spaced }: { missed: ReviewItem[]; d
 						Program
 					</Link>
 					<ChevronRightIcon className="size-3.5" />
-					<span>
-						Review {due.length ? `${Math.min(i + 1, due.length)}/${due.length}` : ""}
-					</span>
+					<span>{onCards ? "Review · flashcards" : `Review ${due.length ? `${Math.min(i + 1, due.length)}/${due.length}` : ""}`}</span>
 				</div>
 			</TopBar>
 			<div className="min-h-0 flex-1 overflow-y-auto">
 				<div className="mx-auto max-w-3xl space-y-4 px-6 py-6 max-sm:px-4">
-					{!cur ? (
+					{cardsDue === null ? null : onCards && deck ? (
+						<>
+							<FlashcardStudy deck={deck} onDone={() => setCardsDone(true)} />
+							<button
+								type="button"
+								onClick={() => setCardsDone(true)}
+								className="w-full rounded-lg border border-border px-4 py-2 text-sm hover:bg-accent pointer-coarse:min-h-11"
+							>
+								{due.length ? "Skip to the quiz reviews →" : "Finish"}
+							</button>
+						</>
+					) : !cur ? (
 						<div className="rounded-xl border border-border bg-card p-8 text-center">
 							<PartyPopperIcon className="mx-auto size-8 text-[var(--st-review)]" />
-							<p className="mt-3 text-sm text-muted-foreground">No reviews due. Mastered lessons come back here on a spaced schedule, and questions you miss come back the next day.</p>
+							<p className="mt-3 text-sm text-muted-foreground">
+								{cardsDue ? "Flashcards done, and no quiz reviews due." : "No reviews due."} Mastered lessons come back here on a spaced schedule, and questions you miss come back the next day.
+							</p>
 							<Link href="/program" className="mt-4 inline-flex items-center rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-accent pointer-coarse:min-h-11">
 								Back to the program
 							</Link>

@@ -172,6 +172,23 @@ export async function submitQuickCheck(
 	return { lessonId, at, score, perQuestion };
 }
 
+/** The learner counts a model-graded short answer as correct over the
+ *  grader: it gets full credit and the attempt is re-scored, recorded as a
+ *  quick_check marked `overridden` (which can master the lesson but earns
+ *  no XP). `credits`: the attempt's per-question credits, in question order. */
+export function overrideShortAnswer(lessonId: string, credits: number[], question: number, overridden: number[]): { score: number; credits: number[] } {
+	const check = readQuickCheck(lessonId);
+	if (!check) throw new Error("no quick check for this lesson yet");
+	if (credits.length !== check.questions.length) throw new Error("the credits don't match this quick check");
+	if (check.questions[question]?.kind !== "short") throw new Error("only a short answer can be counted as correct");
+	const next = credits.map((c, i) => (i === question ? 1 : Math.max(0, Math.min(1, c))));
+	const score = next.reduce((s, c) => s + c, 0) / next.length;
+	// Same line as grading: a short answer is right at 0.7 credit, mc/numeric only at 1.
+	const missed = next.flatMap((c, i) => (c >= 0.7 ? [] : [i]));
+	recordProgress({ type: "quick_check", at: new Date().toISOString(), lessonId, score, missed, overridden: [...new Set([...overridden, question])].sort((a, b) => a - b) });
+	return { score, credits: next };
+}
+
 // ─── Problem sets / exams / placement ───────────────────────────────────────
 
 /** A practice sheet's lessons: recent and weak lessons across the active

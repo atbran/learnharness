@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Loader2Icon, PauseIcon, PlayIcon, RotateCcwIcon, SparklesIcon } from "lucide-react";
+import { Layers3Icon, Loader2Icon, PauseIcon, PenLineIcon, PlayIcon, RotateCcwIcon, SparklesIcon } from "lucide-react";
 import { useServerEvent } from "@/components/server-events";
 import { pct } from "./status";
 
@@ -21,6 +21,72 @@ interface PrebuildStatus {
 /** Program home: the background build of every lesson demo — progress,
  *  what's building now, and start/pause. */
 export function DemoPrebuildCard() {
+	return (
+		<PrebuildCard
+			endpoint="/api/program/demos/prebuild"
+			title="Interactive demos"
+			icon={SparklesIcon}
+			startLabel="Build all demos"
+			doneText="Every demo is built."
+			pausedText="Paused. Demos still build one at a time when you open them."
+			href={(lessonId, i) => `/program/demo/${lessonId}/${i}`}
+			testid="demo-prebuild"
+		/>
+	);
+}
+
+/** Program home: the background build of every lesson's worked examples. */
+export function ExamplesPrebuildCard() {
+	return (
+		<PrebuildCard
+			endpoint="/api/program/examples/prebuild"
+			title="Worked examples"
+			icon={PenLineIcon}
+			startLabel="Build worked examples"
+			doneText="Every lesson's worked examples are written."
+			pausedText="Paused. A lesson's examples are still written when you open them."
+			href={(lessonId) => `/program/examples/${lessonId}`}
+			testid="examples-prebuild"
+		/>
+	);
+}
+
+/** Program home: the background build of every lesson's flashcards. */
+export function FlashcardsPrebuildCard() {
+	return (
+		<PrebuildCard
+			endpoint="/api/program/flashcards/prebuild"
+			title="Flashcards"
+			icon={Layers3Icon}
+			startLabel="Build flashcards"
+			doneText="Every lesson's flashcards are written."
+			pausedText="Paused. A lesson's flashcards are still written when you open it."
+			href={(lessonId) => `/program/lesson/${lessonId}`}
+			testid="flashcards-prebuild"
+		/>
+	);
+}
+
+/** One background builder: progress, what's building now, and start/pause. */
+function PrebuildCard({
+	endpoint,
+	title,
+	icon: Icon,
+	startLabel,
+	doneText,
+	pausedText,
+	href,
+	testid,
+}: {
+	endpoint: string;
+	title: string;
+	icon: typeof SparklesIcon;
+	startLabel: string;
+	doneText: string;
+	pausedText: string;
+	href: (lessonId: string, i: number) => string;
+	testid: string;
+}) {
 	const [s, setS] = useState<PrebuildStatus | null>(null);
 	const [busy, setBusy] = useState(false);
 	// Build events arrive in bursts; one refetch per burst is plenty.
@@ -29,22 +95,22 @@ export function DemoPrebuildCard() {
 		if (pending.current) return;
 		pending.current = setTimeout(() => {
 			pending.current = null;
-			void fetch("/api/program/demos/prebuild", { cache: "no-store" })
+			void fetch(endpoint, { cache: "no-store" })
 				.then((r) => r.json())
 				.then(setS);
 		}, 1000);
-	}, []);
+	}, [endpoint]);
 	useEffect(() => {
-		void fetch("/api/program/demos/prebuild", { cache: "no-store" })
+		void fetch(endpoint, { cache: "no-store" })
 			.then((r) => r.json())
 			.then(setS);
-	}, []);
+	}, [endpoint]);
 	useServerEvent("curriculum-changed", refresh);
 
 	const set = async (enabled: boolean, retryFailed = false) => {
 		setBusy(true);
 		try {
-			const r = await fetch("/api/program/demos/prebuild", {
+			const r = await fetch(endpoint, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ enabled, retryFailed }),
@@ -60,10 +126,13 @@ export function DemoPrebuildCard() {
 	const paused = s.pausedUntil ? new Date(s.pausedUntil).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }) : null;
 
 	return (
-		<section className="rounded-xl border border-border bg-card p-4" data-testid="demo-prebuild">
+		<section className="rounded-xl border border-border bg-card p-4" data-testid={testid}>
 			<div className="flex flex-wrap items-center gap-3">
-				<SparklesIcon className="size-4 text-[var(--xp)]" />
-				<h2 className="text-sm font-semibold">Interactive demos{s.courses.length ? ` · ${s.courses.join(", ")}` : ""}</h2>
+				<Icon className="size-4 text-[var(--xp)]" />
+				<h2 className="text-sm font-semibold">
+					{title}
+					{s.courses.length ? ` · ${s.courses.join(", ")}` : ""}
+				</h2>
 				<span className="text-xs text-muted-foreground">
 					{s.built}/{s.total} built ({pct(s.built / s.total)}){s.failed > 0 ? ` · ${s.failed} couldn't be built` : ""}
 				</span>
@@ -86,7 +155,7 @@ export function DemoPrebuildCard() {
 							className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1 text-xs hover:bg-accent pointer-coarse:min-h-11"
 						>
 							{s.enabled ? <PauseIcon className="size-3.5" /> : <PlayIcon className="size-3.5" />}
-							{s.enabled ? "Pause" : s.built > 0 ? "Resume building" : "Build all demos"}
+							{s.enabled ? "Pause" : s.built > 0 ? "Resume building" : startLabel}
 						</button>
 					)}
 				</div>
@@ -95,14 +164,14 @@ export function DemoPrebuildCard() {
 				<div className="h-full bg-[var(--xp)] transition-[width]" style={{ width: pct(s.built / s.total) }} />
 			</div>
 			<div className="mt-2 space-y-1 text-xs text-muted-foreground">
-				{done && <p>Every demo is built.</p>}
-				{!done && !s.enabled && <p>Paused. Demos still build one at a time when you open them.</p>}
+				{done && <p>{doneText}</p>}
+				{!done && !s.enabled && <p>{pausedText}</p>}
 				{s.enabled && paused && <p>Hit the usage limit; resuming around {paused}.</p>}
 				{s.enabled && !paused && s.building.length > 0 && (
 					<p className="flex flex-wrap items-center gap-x-3 gap-y-1">
 						<Loader2Icon className="size-3 animate-spin" />
 						{s.building.map((b) => (
-							<Link key={`${b.lessonId}-${b.i}`} href={`/program/demo/${b.lessonId}/${b.i}`} className="hover:text-foreground">
+							<Link key={`${b.lessonId}-${b.i}`} href={href(b.lessonId, b.i)} className="hover:text-foreground">
 								{b.title}
 							</Link>
 						))}

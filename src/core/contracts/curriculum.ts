@@ -168,7 +168,16 @@ export const progressEventSchema = z.discriminatedUnion("type", [
 	/** The learner finished the teaching session for a lesson. */
 	z.object({ type: z.literal("lesson_completed"), at, lessonId: id() }),
 	/** `missed`: indexes of the questions answered wrong (they come back in review). */
-	z.object({ type: z.literal("quick_check"), at, lessonId: id(), score: z.number().min(0).max(1), missed: z.array(z.number().int().min(0)).optional() }),
+	/** `overridden`: short answers the learner counted as correct over the
+	 *  grader — a re-score of the attempt just taken, so it earns no XP. */
+	z.object({
+		type: z.literal("quick_check"),
+		at,
+		lessonId: id(),
+		score: z.number().min(0).max(1),
+		missed: z.array(z.number().int().min(0)).optional(),
+		overridden: z.array(z.number().int().min(0)).optional(),
+	}),
 	z.object({ type: z.literal("assessment_graded"), at, assessmentId: z.string(), kind: z.enum(["pset", "midterm", "final", "placement", "worksheet"]), courseId: id(), unitIds: z.array(id()), score: z.number().min(0).max(1) }),
 	/** Lessons tested out by placement (counted as mastered). */
 	z.object({ type: z.literal("placement"), at, lessonIds: z.array(id()) }),
@@ -181,6 +190,12 @@ export const progressEventSchema = z.discriminatedUnion("type", [
 	z.object({ type: z.literal("diagnostic"), at, unitId: id(), lessonId: id(), missed: z.array(z.object({ prompt: z.string(), explanation: z.string() })) }),
 	/** An optional course capstone project marked done (never affects mastery). */
 	z.object({ type: z.literal("project_done"), at, courseId: id() }),
+	/** Flashcards (never affect mastery): one graded flip, a card the learner
+	 *  wrote, and a card removed from (or restored to) their deck. */
+	z.object({ type: z.literal("card_review"), at, cardId: z.string().min(1), rating: z.enum(["again", "hard", "good", "easy"]) }),
+	z.object({ type: z.literal("card_added"), at, cardId: z.string().min(1), lessonId: id(), front: z.string().min(1), back: z.string().min(1) }),
+	z.object({ type: z.literal("card_removed"), at, cardId: z.string().min(1) }),
+	z.object({ type: z.literal("card_restored"), at, cardId: z.string().min(1) }),
 	z.object({ type: z.literal("study_time"), at, minutes: z.number().positive().max(240), lessonId: id().optional(), source: z.enum(["heartbeat", "manual"]) }),
 	z.object({ type: z.literal("review_done"), at, lessonId: id(), quality: z.number().int().min(0).max(5) }),
 ]);

@@ -65,3 +65,26 @@ export { demoPrebuildStatus, setDemoPrebuild, type DemoPrebuildStatus } from "./
 export { addExplanation, addQuestion, listNotebook, listQuestions, removeExplanation, removeQuestion, type BoardQuestion, type NotebookEntry } from "./learner.ts";
 export { diagnosticView, ensureDiagnostic, submitDiagnostic, type DiagnosticLessonResult, type DiagnosticResult, type DiagnosticView, type PublicDiagnosticQuestion } from "./diagnostics.ts";
 export { ensureLessonNotes, notesView, notesPrebuildStatus, setNotesPrebuild, type LessonNotes, type NotesView, type NotesPrebuildStatus } from "./notes.ts";
+export {
+	ensureWorkedExamples,
+	examplesView,
+	examplesPrebuildStatus,
+	setExamplesPrebuild,
+	type LessonExamples,
+	type ExamplesView,
+	type ExamplesPrebuildStatus,
+	type WorkedExample,
+} from "./examples.ts";
+export {
+	addCard,
+	deckView,
+	ensureFlashcards,
+	flashcardsPrebuildStatus,
+	lessonCardsStatus,
+	removeCard,
+	restoreCard,
+	reviewCard,
+	setFlashcardsPrebuild,
+	type FlashcardsPrebuildStatus,
+	type LessonCardsStatus,
+} from "./flashcards.ts";

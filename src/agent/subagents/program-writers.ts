@@ -14,6 +14,7 @@ import type { Usage } from "@earendil-works/pi-ai";
 import type { PiEngine } from "../models.ts";
 import { runSubmitAgent } from "./submit-agent.ts";
 import type { AssessmentKind, AssessmentProblem, CheckQuestion, Lesson, ProblemGrade } from "../../core/contracts/curriculum.ts";
+import type { FlashcardDraft } from "../../core/flashcards.ts";
 
 export interface WriterDeps {
 	engine: PiEngine | undefined;
@@ -487,6 +488,101 @@ export async function writeLessonNotes(lesson: Lesson, context: string, track: s
 		validate: (v) => (v.notes.split(/\s+/).length < 600 ? "the notes are too short; write the full lesson notes" : null),
 	});
 	return out.notes;
+}
+
+// ─── Worked examples ────────────────────────────────────────────────────────
+
+export interface WorkedExample {
+	/** The lesson objective (subtopic) it works, verbatim. */
+	objective: string;
+	/** Markdown with $…$ / $$…$$ math. */
+	problem: string;
+	steps: string[];
+	answer: string;
+	/** Why the answer is believable: units, limits, order of magnitude. */
+	check: string;
+}
+
+const examplesSchema = Type.Object({
+	examples: Type.Array(
+		Type.Object({
+			objective: Type.String({ description: "The lesson objective this example works, copied verbatim." }),
+			problem: Type.String({ description: "The problem statement: markdown with $…$ / $$…$$ math, every given value with units." }),
+			steps: Type.Array(Type.String(), { minItems: 1, maxItems: 12, description: "The solution, one step per entry: what is done AND why, every algebra step shown." }),
+			answer: Type.String({ description: "The final answer (with units), or the conclusion for a conceptual example." }),
+			check: Type.String({ description: "A short sanity check: units, a limiting case, or an order-of-magnitude estimate." }),
+		}),
+		{ minItems: 1, maxItems: 10 },
+	),
+});
+
+/** 1–10 fully worked examples covering every objective of the lesson, so
+ *  the learner sees how each kind of problem is done before trying one. */
+export async function writeWorkedExamples(lesson: Lesson, context: string, track: string, deps: WriterDeps): Promise<WorkedExample[]> {
+	const out = await runSubmitAgent<{ examples: WorkedExample[] }>({
+		role: "notesWriter",
+		toolName: "submit_examples",
+		toolDescription: "Submit the worked examples.",
+		parameters: examplesSchema,
+		fill: (x) => x,
+		systemPrompt:
+			`You write worked examples for a self-study program (physics, chemistry, math, computing): problems solved step by step so the learner sees how each kind of problem is done before trying one alone. ${LEARNER}\n\n` +
+			`${calculationShare(track)}\n\n` +
+			"Cover EVERY objective of the lesson with at least one example; give an objective a second example when it has a distinctly different kind of problem (a harder variant, a common trap, a chemistry application). " +
+			"1–10 examples in all, in the lesson's order, easy before hard. Purely conceptual objectives get a reasoning example (predict, explain, estimate) rather than a forced calculation. " +
+			"Each solution shows every step — what is done and why — with no skipped algebra, using the lesson's key equations and the textbook's notation. " +
+			"End each with the answer and a sanity check (units, a limiting case, or an order of magnitude). " +
+			"Use the book tools (when available) to adapt real textbook examples and stay at the assigned reading's level. Double-check every step, number and unit.",
+		prompt: `${context}\n\n${lessonBlock(lesson)}\n\nWrite the worked examples and call submit_examples.`,
+		engine: deps.engine,
+		signal: deps.signal,
+		onStep: step(deps),
+		extraTools: deps.bookTools,
+		maxTurns: deps.bookTools ? 12 : 4,
+		neverSubmitted: "the examples writer never submitted",
+		validate: (v) => {
+			const missing = lesson.objectives.filter((o) => !v.examples.some((e) => e.objective.trim() === o.trim()));
+			return missing.length ? `every objective needs an example (copy its text verbatim into \`objective\`); missing: ${missing.join(" | ")}` : null;
+		},
+	});
+	return out.examples;
+}
+
+// ─── Flashcards ─────────────────────────────────────────────────────────────
+
+const flashcardsSchema = Type.Object({
+	cards: Type.Array(
+		Type.Object({
+			kind: Type.Union([Type.Literal("definition"), Type.Literal("equation"), Type.Literal("fact")]),
+			front: Type.String({ description: "The cue: a term to define, or what an equation relates/is called. Markdown, $…$ math allowed — never the answer itself." }),
+			back: Type.String({ description: "The answer: the definition, or the equation in $$…$$ followed by one line on what each symbol means (with units)." }),
+		}),
+		{ minItems: 3, maxItems: 12 },
+	),
+});
+
+/** Flashcards for what is worth memorizing in a lesson: definitions, the
+ *  key equations, and the few facts/values the learner must recall. */
+export async function writeFlashcards(lesson: Lesson, context: string, deps: WriterDeps): Promise<FlashcardDraft[]> {
+	const out = await runSubmitAgent<{ cards: FlashcardDraft[] }>({
+		role: "checkWriter",
+		toolName: "submit_cards",
+		toolDescription: "Submit the flashcards.",
+		parameters: flashcardsSchema,
+		fill: (x) => x,
+		systemPrompt:
+			`You write flashcards for a self-study program (physics, chemistry, math, computing), studied on a spaced-repetition schedule. ${LEARNER}\n\n` +
+			"Write a card only for what is worth MEMORIZING from this lesson: the definitions of its terms, its key equations (every key equation of the lesson gets a card), and the few facts, rules or values a learner must recall without looking them up. " +
+			"Not problems to solve, not 'explain why' questions — those live in the quiz. 3–12 cards, in the lesson's order. " +
+			"One idea per card. The front is a short cue that has exactly one right answer (\"Definition: the discriminant of a quadratic\", \"Equation: the Arrhenius equation\", \"Product rule for exponents: $a^m a^n = ?$\"); it never contains the answer. " +
+			"The back is short: the definition in one or two sentences, or the equation in $$…$$ followed by one line naming every symbol (with units). Use the field's standard notation. Double-check every equation.",
+		prompt: `${context}\n\n${lessonBlock(lesson)}\n\nWrite the flashcards and call submit_cards.`,
+		engine: deps.engine,
+		signal: deps.signal,
+		onStep: step(deps),
+		neverSubmitted: "the flashcard writer never submitted",
+	});
+	return out.cards;
 }
 
 // ─── Audio-guide scripts ────────────────────────────────────────────────────
