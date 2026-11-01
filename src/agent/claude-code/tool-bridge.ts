@@ -14,6 +14,8 @@ import {
 	type Tool as McpTool,
 } from "@modelcontextprotocol/sdk/types.js";
 
+import { MCP_TOOL_TIMEOUT_MS } from "./constants.ts";
+
 export const BRIDGE_SERVER_NAME = "learnharness";
 
 const MCP_TOOL_PREFIX = `mcp__${BRIDGE_SERVER_NAME}__`;
@@ -220,7 +222,7 @@ function closeHttpServer(server: http.Server): Promise<void> {
 }
 
 function toMcpConfig(port: number, authorization: string): string {
-	const server = { type: "http", url: `http://${LOOPBACK_HOST}:${port}/mcp`, headers: { Authorization: authorization } };
+	const server = { type: "http", url: `http://${LOOPBACK_HOST}:${port}/mcp`, headers: { Authorization: authorization }, timeout: MCP_TOOL_TIMEOUT_MS };
 
 	return JSON.stringify({ mcpServers: { [BRIDGE_SERVER_NAME]: server } });
 }

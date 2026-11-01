@@ -27,7 +27,7 @@ import { externalCliEnv } from "../../core/auth-env.ts";
 import type { LhMessage } from "../../core/native-messages.ts";
 import { ClaudeLaunchError, createClaudeLauncher } from "./launch.ts";
 import { parseCliLine, type CliBlock, type CliEvent, type CliUsage } from "./cli-events.ts";
-import { ClaudeCodeError } from "./constants.ts";
+import { ClaudeCodeError, MCP_TOOL_TIMEOUT_MS } from "./constants.ts";
 import { ContextWindowProbe } from "./context-window.ts";
 import { addLiveProcess, getLiveProcess, removeLiveProcess, type LiveProcess } from "./live-processes.ts";
 import { configurationForReuse, conversationForReuse } from "./reuse-context.ts";
@@ -38,11 +38,6 @@ type RunClaudeOptions = { cwd: string; env: NodeJS.ProcessEnv; signal?: AbortSig
 
 type ClaudeChild = ChildProcessWithoutNullStreams | null;
 export type RunClaude = (args: string[], options: RunClaudeOptions) => ClaudeChild | Promise<ClaudeChild>;
-
-// A held MCP call lasts until pi calls back with the tool result, which for a question tool is
-// whenever the learner answers; this must outlast the live-process idle timeout so the CLI never
-// times out first.
-const MCP_TOOL_TIMEOUT_MS = 30 * 60_000;
 
 const PRIVATE_FILE_MODE = 0o600;
 

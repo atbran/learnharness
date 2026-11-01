@@ -571,8 +571,10 @@ test("cwd is an empty temp dir; prompt and mcp config live in a separate private
 	assert.equal(call.systemPrompt, "You are a tutor.");
 	assert.equal(call.mcpConfigMode, 0o600);
 
-	const mcpConfig = JSON.parse(call.mcpConfig) as { mcpServers: Record<string, { url: string }> };
+	const mcpConfig = JSON.parse(call.mcpConfig) as { mcpServers: Record<string, { url: string; timeout?: number }> };
 	assert.match(mcpConfig.mcpServers.learnharness?.url ?? "", /^http:\/\/127\.0\.0\.1:\d+\/mcp$/);
+	// Without it the CLI aborts a question tool after 300 s with no answer.
+	assert.equal(mcpConfig.mcpServers.learnharness?.timeout, 1_800_000);
 });
 
 test("spawns with the model alias, effort, bridge tools, MCP_TOOL_TIMEOUT and the caller's HOME", async (t) => {
