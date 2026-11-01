@@ -22,7 +22,7 @@
 import { createHash } from "node:crypto";
 
 import type { CoverageEntry } from "./contracts/graph.ts";
-import { failedOutputCallIds, userFacingTextOf, type LhMessage } from "./native-messages.ts";
+import { failedOutputCallIds, PRACTICE_CONCLUDE_TOOL, PRACTICE_PROBLEM_TOOL, userFacingTextOf, type LhMessage } from "./native-messages.ts";
 
 export type { CoverageEntry };
 
@@ -42,10 +42,33 @@ export function messageViewLines(
 ): string[] {
 	const lines: string[] = [];
 	if ((message as { role?: string }).role !== "assistant") return lines;
-	for (const text of userFacingTextOf((message as { content: unknown }).content, failedOutputCalls)) {
+	for (const text of [...userFacingTextOf((message as { content: unknown }).content, failedOutputCalls), ...practiceTextOf(message)]) {
 		lines.push(`TEACHER [${mid}] ${text.trim()}`);
 	}
 	return lines;
+}
+
+/** PRACTICE CONTENT (owner 2026-11-01): a practice session's teaching
+ *  lives in its tool calls — each problem with its committed solution,
+ *  and each conclude's verdict — so they read as teacher passages too.
+ *  Only program practice sessions are ever extracted (feedsGraph); the
+ *  learner's own answers stay invisible, as everywhere. */
+function practiceTextOf(message: LhMessage): string[] {
+	const content = (message as { content?: unknown }).content;
+	if (!Array.isArray(content)) return [];
+	const out: string[] = [];
+	for (const block of content as Array<{ type?: string; name?: string; arguments?: Record<string, unknown> }>) {
+		if (block.type !== "toolCall") continue;
+		const args = block.arguments ?? {};
+		const text = (key: string) => (typeof args[key] === "string" ? (args[key] as string).trim() : "");
+		if (block.name === PRACTICE_PROBLEM_TOOL) {
+			if (text("statement")) out.push(`Problem: ${text("statement")}`);
+			if (text("modelSolution")) out.push(`Model solution: ${text("modelSolution")}`);
+		} else if (block.name === PRACTICE_CONCLUDE_TOOL && text("verdict")) {
+			out.push(`Verdict: ${text("verdict")}`);
+		}
+	}
+	return out;
 }
 
 /**
@@ -59,7 +82,7 @@ export function teacherProseBlocks(messages: ReadonlyArray<LhMessage>): string[]
 	const failedOutputCalls = failedOutputCallIds(messages);
 	for (const message of messages) {
 		if ((message as { role?: string }).role !== "assistant") continue;
-		for (const text of userFacingTextOf((message as { content: unknown }).content, failedOutputCalls)) out.push(text.trim());
+		for (const text of [...userFacingTextOf((message as { content: unknown }).content, failedOutputCalls), ...practiceTextOf(message)]) out.push(text.trim());
 	}
 	return out;
 }

@@ -75,6 +75,7 @@ import {
 	activeProblemOf,
 	pendingQuestionOf,
 	askedDraftFor,
+	feedsGraph,
 	dismissedAnswer,
 	endsInFailedTurn,
 	findPendingToolCall,
@@ -1372,9 +1373,10 @@ export function Chat({
 					    flight, vanishes when the graph is off. Click → the exact
 					    numbers. Before the phase label — the chips cluster right. */}
 					{/* Practice (owner, 2026-10-04): the coverage ring hides —
-				    practice never extracts, so an ever-filling ring with no
-				    run behind it would lie. */}
-					{kind !== "practice" && <CoverageRing chatId={chatId} refreshKey={coverageTick} />}
+				    free-form practice never extracts, so an ever-filling ring with
+				    no run behind it would lie. Program practice does (owner
+				    2026-11-01): feedsGraph decides, same as the server. */}
+					{feedsGraph({ kind, messages: nativeMessages }) && <CoverageRing chatId={chatId} refreshKey={coverageTick} />}
 					{/* Practice sessions: no phase arc — a quiet Practice tag
 					    instead of the phase chip. */}
 					{kind === "practice" ? (

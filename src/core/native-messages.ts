@@ -336,6 +336,20 @@ export function newLessonContextMessage(content: string, details: LessonContextD
 	};
 }
 
+/** A session started from the Program (lesson, lesson practice, unit
+ *  drill, teach-back, capstone project): its record opens with the
+ *  lesson-context brief. */
+export function isProgramSession(messages: readonly LhMessage[]): boolean {
+	return messages.some((m) => m.role === "custom" && m.customType === "lesson-context");
+}
+
+/** Whether a session feeds the knowledge graph (owner 2026-11-01):
+ *  teaching sessions always; practice sessions only when started from
+ *  the Program — free-form home-page practice still writes nothing. */
+export function feedsGraph(record: { kind?: string; messages: readonly LhMessage[] }): boolean {
+	return record.kind !== "practice" || isProgramSession(record.messages);
+}
+
 /** The learner's thinking submission (ONE send lane, owner round
  *  2026-10-05): the register is no longer declared by a button — the
  *  model READS the text to tell working traces from claimed answers. The

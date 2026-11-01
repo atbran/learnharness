@@ -18,7 +18,7 @@
 import type { AgentMessage } from "@earendil-works/pi-agent-core";
 import type { ToolResultMessage } from "@earendil-works/pi-ai";
 import type { LhMessage } from "../core/native-messages.ts";
-import { newMessageId } from "../core/native-messages.ts";
+import { isProgramSession, newMessageId } from "../core/native-messages.ts";
 import { QUESTION_TOOLS } from "../core/pending.ts";
 import { planBlocksFor } from "../core/plan-blocks.ts";
 import { coverageOf } from "../core/coverage.ts";
@@ -118,22 +118,80 @@ export function triggerExtraction(
 		if (!record) return;
 		const covered = coverageOf(record.messages, deps.graphStore.readCoverage(), chatId);
 		if (covered.uncoveredTokens < chunkTokens) return;
-		void extraction.runExtraction(chatId).catch((err) => {
-			// BYOK (owner, 2026-09-22) + key presence (provider-key interlude,
-			// 2026-09-25): an unconfigured OR keyless write channel SKIPS (the
-			// coverage ledger keeps the messages uncovered — the next trigger
-			// retries once slots/keys are set); only real failures log.
-			if (err instanceof ModelsNotConfiguredError) {
-				console.info(`[chat ${chatId}] extraction skipped — ${err.envelope.error} (missing: ${err.envelope.missing.join(", ")})`);
-				return;
-			}
-			if (err instanceof ProviderKeyMissingError) {
-				console.info(`[chat ${chatId}] extraction skipped — ${err.envelope.error} (provider: ${err.envelope.provider})`);
-				return;
-			}
-			console.error(`[chat ${chatId}] extraction pipeline failed:`, err);
-		});
+		void runLoggedExtraction(extraction, chatId);
 	} catch (err) {
 		console.error(`[chat ${chatId}] extraction trigger failed:`, err);
+	}
+}
+
+/** One extraction run with the trigger's logging: an unconfigured OR
+ *  keyless write channel SKIPS (BYOK, owner 2026-09-22; provider-key
+ *  interlude, 2026-09-25 — the coverage ledger keeps the messages
+ *  uncovered, the next trigger retries once slots/keys are set); only
+ *  real failures log as errors. */
+async function runLoggedExtraction(extraction: ExtractionPipeline, chatId: string): Promise<void> {
+	try {
+		await extraction.runExtraction(chatId);
+	} catch (err) {
+		if (err instanceof ModelsNotConfiguredError) {
+			console.info(`[chat ${chatId}] extraction skipped — ${err.envelope.error} (missing: ${err.envelope.missing.join(", ")})`);
+			return;
+		}
+		if (err instanceof ProviderKeyMissingError) {
+			console.info(`[chat ${chatId}] extraction skipped — ${err.envelope.error} (provider: ${err.envelope.provider})`);
+			return;
+		}
+		console.error(`[chat ${chatId}] extraction pipeline failed:`, err);
+	}
+}
+
+/**
+ * QUIET-SESSION EXTRACTION (owner 2026-11-01): program sessions are
+ * usually shorter than the chunk budget, so the size trigger alone never
+ * reads them. After a program session's last turn, a timer reads whatever
+ * is still uncovered once it has been quiet this long; every turn resets
+ * it. Timers live in memory — catchUpProgramSessions covers restarts.
+ */
+export const PROGRAM_IDLE_EXTRACTION_MS = 10 * 60_000;
+
+/** Test seam (live-processes.ts's liveProcessIdleTimeoutMs idiom). */
+export const programIdleExtractionMs = { current: PROGRAM_IDLE_EXTRACTION_MS };
+
+type IdleExtractionDeps = { chatStore: ChatStore; graphStore: GraphStore; enabled: () => boolean };
+
+const idleTimers = new Map<string, NodeJS.Timeout>();
+
+export function scheduleIdleExtraction(deps: IdleExtractionDeps, extraction: ExtractionPipeline, chatId: string, delayMs = programIdleExtractionMs.current): void {
+	clearTimeout(idleTimers.get(chatId));
+	const timer = setTimeout(() => {
+		idleTimers.delete(chatId);
+		void extractIfUncovered(deps, extraction, chatId);
+	}, delayMs);
+	timer.unref();
+	idleTimers.set(chatId, timer);
+}
+
+async function extractIfUncovered(deps: IdleExtractionDeps, extraction: ExtractionPipeline, chatId: string): Promise<void> {
+	if (!deps.enabled()) return;
+	const record = deps.chatStore.getChat(chatId);
+	if (!record || !isProgramSession(record.messages)) return;
+	if (coverageOf(record.messages, deps.graphStore.readCoverage(), chatId).uncoveredTokens === 0) return;
+	await runLoggedExtraction(extraction, chatId);
+}
+
+/** Server start: every program session with uncovered content is read
+ *  once it has been quiet for the idle delay — now if it already has
+ *  been (this is also the one-time catch-up of earlier sessions), else
+ *  when the remainder elapses. One chat at a time: each run already
+ *  makes several model calls. */
+export async function catchUpProgramSessions(deps: IdleExtractionDeps, extraction: ExtractionPipeline, now = Date.now()): Promise<void> {
+	if (!deps.enabled()) return;
+	for (const summary of deps.chatStore.listChats()) {
+		const record = deps.chatStore.getChat(summary.id);
+		if (!record || !isProgramSession(record.messages)) continue;
+		const quietFor = now - Date.parse(summary.updatedAt);
+		const remaining = programIdleExtractionMs.current - (Number.isFinite(quietFor) ? quietFor : 0);
+		if (remaining > 0) scheduleIdleExtraction(deps, extraction, summary.id, remaining);
+		else await extractIfUncovered(deps, extraction, summary.id);
 	}
 }

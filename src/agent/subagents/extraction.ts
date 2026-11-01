@@ -391,7 +391,11 @@ export const SESSION_MESSAGE_ID_RULE =
 export const SESSION_PREAMBLE =
 	"You are the extraction stage of a learning application. You read one stretch of a source — a teaching " +
 	"session, rendered as the teacher's prose in reading order — and report what it teaches as findings " +
-	"for the learner's global knowledge graph, building on everything already extracted from this source.";
+	"for the learner's global knowledge graph, building on everything already extracted from this source. " +
+	// Program practice sessions (owner 2026-11-01): their teaching is in worked problems.
+	"Some passages may be worked problems (\"Problem:\", \"Model solution:\", and the teacher's \"Verdict:\" on " +
+	"the learner's attempt): extract the facts, rules and reasoning steps they rely on, not the specific " +
+	"numbers or how the learner did.";
 
 export const NOTES_PREAMBLE =
 	"You are the extraction stage of a learning application. You read one stretch of a source — the " +

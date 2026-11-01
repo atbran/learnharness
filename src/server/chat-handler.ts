@@ -44,8 +44,8 @@ import { modelsNotConfigured, providerKeyMissing as providerKeyMissingEnvelope, 
 import { beginTurn, endTurn } from "./turn-liveness.ts";
 import { applyParkedDismissal } from "./dismissal-park.ts";
 import { registerTurn, rememberTurnFailure, unregisterTurn } from "./turn-runs.ts";
-import { persistTurn, triggerExtraction, TurnPersistenceError } from "./turn-service.ts";
-import { hasProbeDone, danglingQuestionOf } from "../core/native-messages.ts";
+import { catchUpProgramSessions, persistTurn, scheduleIdleExtraction, triggerExtraction, TurnPersistenceError } from "./turn-service.ts";
+import { danglingQuestionOf, feedsGraph, hasProbeDone, isProgramSession } from "../core/native-messages.ts";
 import { composeInstructions } from "../agent/teacher-agent.ts";
 import { ensureCompacted, kickCompaction, effectiveThresholdTokens } from "./compaction.ts";
 import { catalogContextLimits, refreshConnectionCatalog } from "./model-catalog.ts";
@@ -132,6 +132,17 @@ export const extraction = createExtractionPipeline({
 		providerKeyPresent(provider) ? null : providerKeyMissingEnvelope(provider, [tier]),
 });
 
+
+/** The quiet-session reader's deps: the graph master switch is read
+ *  fresh at run time, so turning the graph off stops pending reads. */
+const graphCatchUpDeps = { ...stores, enabled: () => extractionEnabled(effectiveSettings().graph) };
+
+/** Server start (instrumentation.ts): read program sessions left
+ *  uncovered — after a restart, and the one-time catch-up of sessions
+ *  from before program sessions fed the graph (owner 2026-11-01). */
+export function resumeProgramGraphReads(): void {
+	void catchUpProgramSessions(graphCatchUpDeps, extraction).catch((err) => console.error("program graph catch-up failed:", err));
+}
 
 // Wake-pipeline wiring (contracts.ts "THE ASYNC PROTOCOL" §4): the pipeline
 // delivers its steers through THIS composition root (one event: the steer
@@ -590,14 +601,18 @@ export async function handleChatInput(
 				}
 				// GRAPH GATE (settings-storage wave, 2026-09-19): the write channel —
 				// extraction, its auditor — dies with the master switch.
-				// PRACTICE (owner, 2026-10-04): practice sessions write nothing —
-				// no extraction, no graph, no coverage (v1: the session itself
-				// is the deliverable).
-				if ((!requestCycle || requestCycle.dispatched) && record.kind !== "practice" && extractionEnabled(effective.graph)) {
+				// PRACTICE (owner, 2026-10-04): free-form practice sessions write
+				// nothing — no extraction, no graph, no coverage. Program sessions
+				// of every kind feed the graph (owner 2026-11-01), and also get
+				// read once quiet: they rarely reach the chunk budget.
+				const persistedRecord = stores.chatStore.getChat(chatId) ?? record;
+				if ((!requestCycle || requestCycle.dispatched) && feedsGraph(persistedRecord) && extractionEnabled(effective.graph)) {
 					// Fresh per-turn read of the graph section's chunk budget
 					// (extraction-UX redesign, 2026-09-24): the trigger compares
 					// against it and the pipeline's batches share it.
 					triggerExtraction(stores, extraction, chatId, effective.graph.extractionChunkTokens);
+					if (process.env.NODE_ENV !== "test" && isProgramSession(persistedRecord.messages))
+						scheduleIdleExtraction(graphCatchUpDeps, extraction, chatId);
 				}
 				// PARKED DISMISSAL (owner, 2026-10-04): a dismissal that arrived
 				// mid-turn was parked by the dismiss route (202); now that

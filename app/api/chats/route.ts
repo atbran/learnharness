@@ -23,7 +23,8 @@ export async function POST(req: Request) {
 	const body = (await req.json().catch(() => ({}))) as { title?: unknown; kind?: unknown; graphContext?: unknown; lessonId?: unknown; unitId?: unknown; courseId?: unknown };
 	const title = typeof body.title === "string" ? body.title : "";
 	// Practice sessions (owner, 2026-10-04): kind "practice" marks the
-	// record — the practice agent + its tools from turn 1, no extraction.
+	// record — the practice agent + its tools from turn 1. Program ones
+	// (lesson, drill, project) still feed the graph: feedsGraph.
 	const kind = body.kind === "practice" || body.kind === "project" ? ("practice" as const) : undefined;
 	const chat = createChat(titleFromPrompt(title || "Untitled session"), kind);
 	// PER-SESSION MODELS (owner, 2026-09-28): a session owns its model +

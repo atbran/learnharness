@@ -250,3 +250,18 @@ describe("the all-sessions coverage GET is dead (extraction-UX close-out, 2026-0
 		assert.equal(fs.existsSync("app/api/graph/coverage/extract/route.ts"), true, "the Extract POST survives");
 	});
 });
+
+describe("program practice content (owner 2026-11-01)", () => {
+	it("a problem's statement and solution and a conclude's verdict are teacher passages", () => {
+		const posed = assistantWithCalls("m1", [{ id: "c1", name: "problem", args: { statement: "Simplify x^(3/2)·x^(1/2).", modelSolution: "Add exponents: x^2." } }]);
+		assert.deepEqual(messageViewLines(posed, "m1"), ["TEACHER [m1] Problem: Simplify x^(3/2)·x^(1/2).", "TEACHER [m1] Model solution: Add exponents: x^2."]);
+		const concluded = assistantWithCalls("m2", [{ id: "c2", name: "conclude", args: { outcome: "solved", verdict: "Product rule applied correctly." } }]);
+		assert.deepEqual(messageViewLines(concluded, "m2"), ["TEACHER [m2] Verdict: Product rule applied correctly."]);
+		assert.deepEqual(teacherProseBlocks([posed, concluded]), ["Problem: Simplify x^(3/2)·x^(1/2).", "Model solution: Add exponents: x^2.", "Verdict: Product rule applied correctly."]);
+	});
+
+	it("other tool calls and the learner's own words stay invisible", () => {
+		assert.deepEqual(messageViewLines(assistantWithCalls("m3", [{ id: "c3", name: "probe", args: { question: "Q?" } }]), "m3"), []);
+		assert.deepEqual(messageViewLines(user("m4", "my answer is x^2"), "m4"), []);
+	});
+});
