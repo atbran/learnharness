@@ -43,7 +43,7 @@ import {
 	NEXT_PROBLEM_TEXT,
 	THINKING_LABEL,
 } from "./contracts/chat.ts";
-import { compactAnswerForModel, type QuestionAnswerData } from "./question-core.ts";
+import { compactAnswerForModel, DEFAULT_CONFIDENCE_INDEX, emptyDockSelection, type QuestionAnswerData, type QuestionFormDraft } from "./question-core.ts";
 import { activeCompactionOf, keptIndexFor } from "./compaction.ts";
 
 /** The hard-invariant wording for an aborted turn's unanswered calls —
@@ -731,6 +731,21 @@ export function pendingQuestionOf(messages: readonly LhMessage[]): PendingQuesti
 		...question,
 		key: occurrences > 1 ? JSON.stringify([question.messageId, question.contentIndex, question.toolCallId]) : question.toolCallId,
 	};
+}
+
+/** The draft for a question re-asked after the learner asked about it
+ *  (owner 2026-11-01): the same question text, newest ask-instead record
+ *  first — what they asked comes back in Your thinking. */
+export function askedDraftFor(messages: readonly LhMessage[], question: string): QuestionFormDraft | undefined {
+	for (let i = messages.length - 1; i >= 0; i--) {
+		const m = messages[i]!;
+		if (m.role !== "toolResult") continue;
+		const details = (m as { details?: unknown }).details as Partial<QuestionAnswerData> | undefined;
+		if (details?.questionText !== question) continue;
+		if (!details.asked) return undefined;
+		return { selection: emptyDockSelection(), thinking: details.asked, other: "", text: "", confidenceIndex: DEFAULT_CONFIDENCE_INDEX };
+	}
+	return undefined;
 }
 
 /** Only the transient c_ result with the questionResult contract qualifies.

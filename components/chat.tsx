@@ -74,6 +74,7 @@ import { Button } from "@/components/ui/button";
 import {
 	activeProblemOf,
 	pendingQuestionOf,
+	askedDraftFor,
 	dismissedAnswer,
 	endsInFailedTurn,
 	findPendingToolCall,
@@ -1682,7 +1683,7 @@ export function Chat({
 				    fold) and NEVER overlaps the composer. */}
 				<DockOverlay
 					pending={pending}
-					initialQuestionDraft={pending ? questionDraft(pending.key)?.form : undefined}
+					initialQuestionDraft={pending ? questionDraft(pending.key)?.form ?? askedDraftFor(nativeMessages, (pending.input as { question?: string }).question ?? "") : undefined}
 					onSaveQuestionDraft={(form) => { if (pending) saveQuestionDraft(pending.key, { form }); }}
 					practice={activeProblem}
 					compactionRunning={compacting}

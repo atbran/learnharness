@@ -468,6 +468,10 @@ export interface QuestionAnswerData {
 	committed?: string; // explain only (rendering): the model's committed answer
 	explanation?: string; // quiz only (rendering)
 	dismissed?: boolean;
+	/** The learner's question INSTEAD of an answer (owner 2026-11-01):
+	 *  nothing is graded; the tutor answers it and asks the same
+	 *  question again (compactAnswerForModel says so). */
+	asked?: string;
 	answeredAt: string;
 }
 
@@ -776,8 +780,29 @@ export function dismissedAnswer(kind: QuestionKind, questionText: string): Quest
 	};
 }
 
+/** The ask-instead record (owner 2026-11-01): the learner asks about
+ *  the question before answering it. Ungraded; the card renders the
+ *  question text + what they asked. */
+export function askedAnswer(kind: QuestionKind, questionText: string, asked: string, tool?: string): QuestionAnswerData {
+	return {
+		kind,
+		...(tool ? { tool } : {}),
+		questionText,
+		dontKnow: false,
+		answers: [],
+		asked: asked.trim(),
+		answeredAt: new Date().toISOString(),
+	};
+}
+
 export function compactAnswerForModel(ad: QuestionAnswerData): Record<string, unknown> {
 	if (ad.dismissed) return { kind: ad.kind, dismissed: true };
+	if (ad.asked)
+		return {
+			kind: ad.kind,
+			askedInsteadOfAnswering: ad.asked,
+			next: "Answer the learner's question without giving away this question's answer, then call the same tool again with the same question, options and explanation so they can still answer it.",
+		};
 	const out: Record<string, unknown> = { kind: ad.kind };
 	if (ad.dontKnow) out.dontKnow = true;
 	// Array.isArray: the seam is called with `unknown` answers (test

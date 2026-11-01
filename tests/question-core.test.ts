@@ -10,6 +10,7 @@ import {
 	askInputSchema,
 	quizInputBase,
 	askOptionProblems,
+	askedAnswer,
 	buildAnswer,
 	compactAnswerForModel,
 	dismissedAnswer,
@@ -36,6 +37,7 @@ import {
 	toClientQuestion,
 } from "../src/core/question-core.ts";
 import { toolQuestionKind } from "../src/core/pending.ts";
+import { askedDraftFor } from "../src/core/native-messages.ts";
 import { parseQuizInput } from "../src/core/tool-parts.ts";
 
 // ─── the authoring contract (TypeBox schemas + execute-time refinements) ──
@@ -817,5 +819,32 @@ describe("the quiz role field (predict | check)", () => {
 	it("the display parse KEEPS the role: quizDisplayInputSchema retains type where the base strips it", () => {
 		const cleaned = Value.Clean(quizDisplayInputSchema, { ...valid }) as Record<string, unknown>;
 		assert.equal(cleaned.type, "check", "role survives the display parse (the dock gates collapse + labels on it)");
+	});
+});
+
+// ─── asking before answering (owner 2026-11-01) ────────────────────────────
+
+describe("askedAnswer", () => {
+	it("is ungraded and tells the model to answer, then ask the same question again", () => {
+		const ad = askedAnswer("quiz", "Complete the square of −2x²+12x−5.", "  why does the 18 appear?  ", "probe");
+		assert.equal(ad.asked, "why does the 18 appear?");
+		assert.equal(ad.correct, undefined);
+		assert.deepEqual(ad.answers, []);
+		const model = compactAnswerForModel(ad);
+		assert.equal(model.askedInsteadOfAnswering, "why does the 18 appear?");
+		assert.match(String(model.next), /call the same tool again with the same question/);
+		assert.equal("correct" in model, false);
+	});
+
+	it("brings what was asked back into Your thinking when the same question returns", () => {
+		const q = "Complete the square of −2x²+12x−5.";
+		const asked = { role: "toolResult", toolCallId: "t1", toolName: "probe", content: [], isError: false, timestamp: 0, details: askedAnswer("quiz", q, "why 18?") };
+		const draft = askedDraftFor([asked] as never, q);
+		assert.equal(draft?.thinking, "why 18?");
+		assert.equal(draft?.selection.selected.size, 0);
+		assert.equal(askedDraftFor([asked] as never, "another question"), undefined);
+		// A real answer after the ask means the question was answered: no carry.
+		const answered = { ...asked, toolCallId: "t2", details: { ...askedAnswer("quiz", q, "x"), asked: undefined } };
+		assert.equal(askedDraftFor([asked, answered] as never, q), undefined);
 	});
 });

@@ -9,6 +9,7 @@ import { PathInput } from "@/components/path-input";
 import { ToolContentResponse } from "@/components/ai-elements/message";
 import { cn } from "@/lib/utils";
 import {
+	askedAnswer,
 	buildAnswer,
 	repairMathForDisplay,
 	normalizeQuizType,
@@ -412,6 +413,21 @@ function QuestionDockForm({
 			confidenceIndex: confIdx,
 		});
 		onSubmit(buildAnswer(qd, req, toolName));
+	};
+
+	/* ASK INSTEAD (owner 2026-11-01): a question about the question,
+	 * sent from the thinking field before answering. Nothing is graded;
+	 * the tutor answers and asks the same question again. Quiz kinds only
+	 * (probe and quiz cards) — an ask card is already a conversation. */
+	const canAsk = kind === "quiz" && thinking.trim().length > 0;
+	const ask = () => {
+		if (!canAsk || compactionRunning) return;
+		const send = () => {
+			const text = thinkingTextRef.current.trim();
+			if (text) onSubmit(askedAnswer(qd.kind, qd.question, text, toolName));
+		};
+		if (!isDictationActive()) send();
+		else void finishDictation().then(send);
 	};
 
 	/* ENTER SUBMITS FROM ANYWHERE (owner round 6, 2026-10-05): the same
@@ -918,10 +934,22 @@ function QuestionDockForm({
 						<span aria-hidden className="pl-1.5 text-xs text-muted-foreground">
 								{compactionRunning ? "compacting session…" : "↵ submits · ⇧↵ newline"}
 						</span>
+						{kind === "quiz" && (
+							<Button
+								type="button"
+								variant="outline"
+								onClick={ask}
+								disabled={!canAsk || compactionRunning}
+								title="Send what's in Your thinking as a question; this question comes back after"
+								className="ml-auto h-9 rounded-[6px] px-3.5 text-sm font-medium"
+							>
+								Ask the tutor
+							</Button>
+						)}
 						<Button
 							type="submit"
 							disabled={!canSubmit || compactionRunning}
-							className="ml-auto h-9 rounded-[6px] px-3.5 text-sm font-medium"
+							className={cn("h-9 rounded-[6px] px-3.5 text-sm font-medium", kind !== "quiz" && "ml-auto")}
 						>
 							Submit answer
 						</Button>
