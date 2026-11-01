@@ -7,6 +7,10 @@ import { TopBar } from "@/components/top-bar";
 import { cn } from "@/lib/utils";
 import { useStudyHeartbeat } from "./use-program";
 
+/** Bump when the server's page rendering changes, so browsers drop page
+ *  images they cached for a day (2: scanned pages had rendered black). */
+const RENDER = 2;
+
 /**
  * The textbook reader: server-rendered page images (cached PNGs — no PDF
  * runs in the browser), opened at an assigned range. Arrow keys turn
@@ -107,14 +111,14 @@ export function BookReader({
 				{/* eslint-disable-next-line @next/next/no-img-element -- server-rendered PNG of a local PDF page */}
 				<img
 					key={`${page}@${dpi}`}
-					src={`/api/books/${bookId}/pages/${page}?dpi=${dpi}`}
+					src={`/api/books/${bookId}/pages/${page}?dpi=${dpi}&r=${RENDER}`}
 					alt={`${title}, page ${label(page)}`}
 					className={cn("mx-auto rounded bg-white shadow-2xl max-sm:h-auto max-sm:w-full", inRange(page) && "ring-2 ring-[var(--st-available)]")}
 				/>
 				{/* Prefetch the next page so turning feels instant. */}
 				{page < pageCount && (
 					// eslint-disable-next-line @next/next/no-img-element
-					<img src={`/api/books/${bookId}/pages/${page + 1}?dpi=${dpi}`} alt="" className="hidden" />
+					<img src={`/api/books/${bookId}/pages/${page + 1}?dpi=${dpi}&r=${RENDER}`} alt="" className="hidden" />
 				)}
 			</div>
 		</div>
