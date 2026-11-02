@@ -801,7 +801,9 @@ export function compactAnswerForModel(ad: QuestionAnswerData): Record<string, un
 		return {
 			kind: ad.kind,
 			askedInsteadOfAnswering: ad.asked,
-			next: "Answer the learner's question without giving away this question's answer, then call the same tool again with the same question, options and explanation so they can still answer it.",
+			// "Visible" (owner 2026-11-02): the tutor twice worked the answer
+			// out in its thinking and re-asked with nothing shown.
+			next: "Answer the learner's question in VISIBLE text (your thinking is never shown to them) without giving away this question's answer. Only after that answer is written, call the same tool again with the same question, options and explanation so they can still answer it.",
 		};
 	const out: Record<string, unknown> = { kind: ad.kind };
 	if (ad.dontKnow) out.dontKnow = true;

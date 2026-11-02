@@ -182,6 +182,7 @@ export function LessonPage({ detail }: { detail: LessonPageData }) {
 								<span className="rounded-full border px-2 py-0.5" style={{ borderColor: STATUS_COLOR[status], color: STATUS_COLOR[status] }}>
 									{STATUS_LABEL[status]}
 									{lp?.testedOut ? " · tested out" : ""}
+									{lp?.masteredBy === "tutor" && lp.masteredAt ? ` · in a tutor session, ${new Date(lp.masteredAt).toLocaleDateString(undefined, { month: "short", day: "numeric" })}` : ""}
 								</span>
 								<span className="flex items-center gap-1 text-muted-foreground">
 									<TimerIcon className="size-3.5" /> {lesson.minutes} min

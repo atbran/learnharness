@@ -188,18 +188,17 @@ body {
 	font-family: var(--font-ui);
 }
 
-/* iPad home-screen app (viewport-fit=cover + black-translucent status bar,
-   app/layout.tsx): keep the shell out from under the status bar and the
-   home indicator. env() is 0 everywhere else (desktop, Electron), so this
-   is a no-op there. The full-height shells (`h-dvh`: sidebar wrapper, chat,
-   home) shrink by the same insets so the padded body never scrolls.
-   Unlayered on purpose: it must beat Tailwind's layered `.h-dvh` utility.
-   Fixed overlays (dialogs, the mobile drawer) are NOT covered by this. */
-body {
-	padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-}
-.h-dvh {
-	height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+/* The app shell (components/sidebar.tsx) is pinned to the screen edges,
+   inset by the safe areas so it stays out from under the status bar and
+   the home indicator of the home-screen app (viewport-fit=cover +
+   black-translucent status bar, app/layout.tsx). Not sized by 100dvh:
+   iOS home-screen apps can report 100dvh a status bar short, which left
+   an empty strip at the bottom of the iPhone. env() is 0 everywhere else
+   (desktop, Electron), so there it fills the window. Fixed overlays
+   (dialogs, the mobile drawer) apply the insets themselves. */
+.lh-shell {
+	position: fixed;
+	inset: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 /* Teaching prose (the markdown renderer's container gets .lh-prose):

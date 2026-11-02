@@ -2210,6 +2210,24 @@ function DockOverlay({
 	};
 	const expandAndRevealRef = useRef(expandAndReveal);
 	expandAndRevealRef.current = expandAndReveal;
+	// The Hide button (phone round, 2026-11-01): on a phone the open form
+	// covers the transcript and the scroll fold is hard to reach. Folding by
+	// hand leaves the reserve where the form was (it never shrinks while a
+	// question owns the dock), so once the morph settles the transcript
+	// scrolls up by the height the form gave back — the tutor's last words
+	// land right above the bar instead of an empty gap. Scrolling up also
+	// releases stick-to-bottom, so it doesn't pull back down.
+	const collapseByHand = () => {
+		const before = blockRef.current?.getBoundingClientRect().height ?? 0;
+		setExpanded(false);
+		requestAnimationFrame(() => {
+			const shell = shellRef.current;
+			void Promise.all((shell?.getAnimations() ?? []).map((a) => a.finished.catch(() => undefined))).then(() => {
+				const after = blockRef.current?.getBoundingClientRect().height ?? before;
+				scrollRef.current?.scrollBy({ top: -(before - after) });
+			});
+		});
+	};
 	// ENTER OPENS THE WAITING CHECK (owner, keyboard round 2026-10-06):
 	// while a question waits with the dock CLOSED — behind its reveal
 	// invitation or collapsed by scroll — Enter is never dead. Any live
@@ -2387,6 +2405,7 @@ function DockOverlay({
 									reveal={revealPending}
 									phase={phase}
 									onExpand={expandAndReveal}
+									onCollapse={collapseByHand}
 									onSubmit={onSubmitAnswer}
 									initialDraft={initialQuestionDraft}
 									onSaveDraft={onSaveQuestionDraft}
@@ -2403,6 +2422,7 @@ function DockOverlay({
 										setExpanded(true);
 										void suppressFoldDuringReveal();
 									}}
+									onCollapse={collapseByHand}
 									onSubmit={onSubmitThinking}
 									onEscape={dictationCancel}
 									compactionRunning={compactionRunning}

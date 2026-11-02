@@ -161,7 +161,7 @@ export function teachBackBrief(lessonId: string): { content: string; details: Le
 			"Then ask one short question at a time: why something is true, what happens in a limiting case or 'what if' variation, where an equation comes from, or how it connects to something in chemistry — probing especially where the explanation was vague or skipped a step. " +
 			"Occasionally voice a plausible misconception and let the learner correct you. After 5–8 exchanges, or when the learner asks to stop, step out of the role and give a short summary: what they explained clearly, and the one or two points that were shaky, with the correct idea stated briefly.",
 	];
-	return { content: lines.join("\n"), details: { ...base.details, lessonTitle: `Teach it back · ${lesson.title}` } };
+	return { content: lines.join("\n"), details: { ...base.details, kind: "teach-back", lessonTitle: `Teach it back · ${lesson.title}` } };
 }
 
 /** The brief for a course's optional CAPSTONE PROJECT session: the tutor
@@ -272,7 +272,7 @@ export function lessonBrief(lessonId: string, mode: "teach" | "practice"): { con
 		"",
 		mode === "practice"
 			? "This is a PRACTICE session for this lesson: problems at the level of the objectives, prefer the cited textbook exercises. With every problem, state the equation(s) it needs in display math (unless the problem asks the learner to derive or recall that equation)."
-			: "Keep the probe short (the curriculum already places the learner): check the prerequisites this lesson leans on, then teach toward the objectives.",
+			: "Keep the probe short (the curriculum already places the learner): check the prerequisites this lesson leans on, then teach toward the objectives. When every step on your plan map has a passed check and you judge the objectives met, call lesson_mastered with a short summary; if it refuses, check the steps it names.",
 		"The learner's goal is genuine understanding — why things are true and how they explain the real world (tie to everyday phenomena and chemistry) — with fluent use of the equations and calculations, not problem drilling.",
 	);
 

@@ -30,6 +30,9 @@ export interface LessonProgress {
 	completed: boolean;
 	testedOut: boolean;
 	masteredAt: string | null;
+	/** What mastered it: a passing quick check, the tutor's call in a lesson
+	 *  session (backed by a passed check on every plan step), or a test-out. */
+	masteredBy: "check" | "tutor" | "placement" | null;
 	sessions: { chatId: string; mode: "teach" | "practice"; at: string }[];
 	review: ReviewState | null;
 	minutesStudied: number;
@@ -292,6 +295,7 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 			completed: false,
 			testedOut: false,
 			masteredAt: null,
+			masteredBy: null,
 			sessions: [],
 			review: null,
 			minutesStudied: 0,
@@ -309,10 +313,11 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 	const diagnosedAt: Record<string, string> = {};
 	const projectsDone: string[] = [];
 
-	const markMastered = (id: string, at: string) => {
+	const markMastered = (id: string, at: string, by: NonNullable<LessonProgress["masteredBy"]>) => {
 		const l = L(id);
 		if (!l || l.masteredAt) return;
 		l.masteredAt = at;
+		l.masteredBy = by;
 		l.review = initialReview(isoDate(at));
 	};
 
@@ -345,16 +350,24 @@ export function deriveProgress(index: ProgramIndex, events: readonly ProgressEve
 					l.missedAt = ev.at;
 				}
 				if (ev.score >= MASTERY_CHECK && !l.masteredAt) {
-					markMastered(ev.lessonId, ev.at);
+					markMastered(ev.lessonId, ev.at, "check");
 					xp += XP.lessonMastered;
 				}
+				break;
+			}
+			case "tutor_mastered": {
+				const l = L(ev.lessonId);
+				if (!l || l.masteredAt) break;
+				l.started = true;
+				markMastered(ev.lessonId, ev.at, "tutor");
+				xp += XP.lessonMastered;
 				break;
 			}
 			case "placement":
 				for (const id of ev.lessonIds) {
 					if (!L(id) || L(id).masteredAt) continue;
 					L(id).testedOut = true;
-					markMastered(id, ev.at);
+					markMastered(id, ev.at, "placement");
 					xp += XP.testedOutLesson;
 				}
 				break;

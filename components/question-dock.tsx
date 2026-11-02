@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowDownIcon, ChevronRightIcon, PlayIcon } from "lucide-react";
+import { ArrowDownIcon, ChevronDownIcon, ChevronRightIcon, PlayIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { finishDictation, isDictationActive, joinDictation, useDictationTarget } from "@/components/dictation";
 import { useEnterSubmits } from "@/components/enter-submits";
@@ -74,6 +74,10 @@ export interface QuestionDockProps {
 	 */
 	reveal?: boolean;
 	onExpand: () => void;
+	/** Folds the open form to its bar by hand (the Hide button) — on a
+	 *  phone the form covers the transcript and the scroll fold is hard
+	 *  to reach. Owned by the DockOverlay. */
+	onCollapse?: () => void;
 	onSubmit: (output: QuestionAnswerData) => void;
 	/** Restore only this call's unconfirmed submission after recovery. */
 	initialDraft?: QuestionFormDraft;
@@ -106,6 +110,7 @@ export function QuestionDock({
 	expanded,
 	reveal = false,
 	onExpand,
+	onCollapse,
 	onSubmit,
 	initialDraft,
 	onSaveDraft,
@@ -163,6 +168,7 @@ export function QuestionDock({
 					input={parsed}
 					phase={phase}
 					active={expanded}
+					onCollapse={onCollapse}
 					onSubmit={onSubmit}
 					initialDraft={initialDraft}
 					onSaveDraft={onSaveDraft}
@@ -172,6 +178,22 @@ export function QuestionDock({
 				/>
 			</div>
 		</>
+	);
+}
+
+/** Folds an open dock to its bar so the transcript above can be read
+ *  (question and practice docks share it). */
+export function DockHideButton({ onClick }: { onClick: () => void }) {
+	return (
+		<button
+			type="button"
+			onClick={onClick}
+			data-testid="dock-hide"
+			title="Fold this away to read the conversation; tap the bar to bring it back"
+			className="-my-1 flex shrink-0 items-center gap-1 rounded-md px-1.5 py-1 normal-case tracking-normal hover:bg-accent hover:text-foreground pointer-coarse:min-h-10 pointer-coarse:px-2.5"
+		>
+			<ChevronDownIcon className="size-3.5" /> Hide
+		</button>
 	);
 }
 
@@ -260,6 +282,7 @@ function QuestionDockForm({
 	input,
 	phase = "probe",
 	active,
+	onCollapse,
 	onSubmit,
 	initialDraft,
 	onSaveDraft,
@@ -582,7 +605,8 @@ function QuestionDockForm({
 			    Capped by the measured column (--dock-max-h; the old fixed 55dvh cut
 			    long questions short — owner round, 2026-10-05). */}
 			<div data-dock-scroll-area="" data-session-find-root="" className="max-h-[var(--dock-max-h,55dvh)] overflow-y-auto px-4 pt-3">
-				<div className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+				<div className="mb-1 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+					<span className="min-w-0 flex-1">
 					{toolName === "probe"
 						? "Probe"
 						: toolName === "recall"
@@ -595,6 +619,8 @@ function QuestionDockForm({
 										? "Explain"
 											: "Question"}
 					{qd.mode === "multi-select" && " · select all that apply"}
+					</span>
+					{onCollapse && <DockHideButton onClick={onCollapse} />}
 				</div>
 				<div className="mb-3 font-medium">
 					<ToolContentResponse>{qd.question}</ToolContentResponse>

@@ -45,6 +45,7 @@ import {
 } from "./contracts/chat.ts";
 import { compactAnswerForModel, DEFAULT_CONFIDENCE_INDEX, emptyDockSelection, type QuestionAnswerData, type QuestionFormDraft } from "./question-core.ts";
 import { activeCompactionOf, keptIndexFor } from "./compaction.ts";
+import type { PlanNode, PlanTree } from "./contracts/plan.ts";
 
 /** The hard-invariant wording for an aborted turn's unanswered calls —
  *  carried over verbatim from the pre-native era so the model's view
@@ -315,6 +316,9 @@ export interface LessonContextData {
 	unitTitle: string;
 	lessonTitle: string;
 	mode: "teach" | "practice";
+	/** Set on teach-back sessions (mode "teach", but the lesson is already
+	 *  mastered and the learner does the teaching). */
+	kind?: "teach-back";
 	objectives: string[];
 	readings: { label: string; pages?: string }[];
 }
@@ -341,6 +345,18 @@ export function newLessonContextMessage(content: string, details: LessonContextD
  *  lesson-context brief. */
 export function isProgramSession(messages: readonly LhMessage[]): boolean {
 	return messages.some((m) => m.role === "custom" && m.customType === "lesson-context");
+}
+
+/** The lesson a program LESSON teach session is for — the one the tutor
+ *  may mark mastered (lesson_mastered). Null for teach-backs, practice,
+ *  drills, projects and ordinary chats. */
+export function masterableLessonOf(messages: readonly LhMessage[]): string | null {
+	for (const m of messages) {
+		if (m.role !== "custom" || m.customType !== "lesson-context") continue;
+		const d = m.details as Partial<LessonContextData> | undefined;
+		return d?.mode === "teach" && !d.kind && typeof d.lessonId === "string" ? d.lessonId : null;
+	}
+	return null;
 }
 
 /** Whether a session feeds the knowledge graph (owner 2026-11-01):
@@ -760,6 +776,40 @@ export function askedDraftFor(messages: readonly LhMessage[], question: string):
 		return { selection: emptyDockSelection(), thinking: details.asked, other: "", text: "", confidenceIndex: DEFAULT_CONFIDENCE_INDEX };
 	}
 	return undefined;
+}
+
+/** The plan-map steps a lesson session has NOT proven (lesson_mastered's
+ *  gate): a step is proven when the LATEST check tagged to it (quiz or
+ *  explain call carrying its `nodeId`) was passed — a quiz answered
+ *  correctly, or an explain answered at all (the tutor grades those). "I
+ *  don't know", dismissed and asked-instead answers prove nothing; a call
+ *  with no answer yet is not a pass. Tags naming steps a map rewrite
+ *  dropped are ignored. */
+export function unprovenPlanSteps(tree: PlanTree, messages: readonly LhMessage[]): PlanNode[] {
+	const nodeOfCall = new Map<string, string>();
+	const latestCall = new Map<string, string>();
+	for (const m of messages) {
+		if (m.role !== "assistant") continue;
+		for (const block of m.content) {
+			if (block.type !== "toolCall" || !(QUESTION_TOOLS as readonly string[]).includes(block.name)) continue;
+			const nodeId = (block.arguments as { nodeId?: unknown } | undefined)?.nodeId;
+			if (typeof nodeId !== "string" || !nodeId) continue;
+			nodeOfCall.set(block.id, nodeId);
+			latestCall.set(nodeId, block.id);
+		}
+	}
+	const passed = new Set<string>();
+	for (const m of messages) {
+		if (m.role !== "toolResult" || m.isError || !nodeOfCall.has(m.toolCallId)) continue;
+		const d = m.details as Partial<QuestionAnswerData> | null | undefined;
+		const ok = !!d && !d.dismissed && !d.dontKnow && !d.asked && (d.kind === "quiz" ? d.correct === true : d.kind === "explain");
+		if (ok) passed.add(m.toolCallId);
+		else passed.delete(m.toolCallId);
+	}
+	return tree.nodes.filter((n) => {
+		const call = latestCall.get(n.id);
+		return !call || !passed.has(call);
+	});
 }
 
 /** Only the transient c_ result with the questionResult contract qualifies.

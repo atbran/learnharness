@@ -45,7 +45,8 @@ import { beginTurn, endTurn } from "./turn-liveness.ts";
 import { applyParkedDismissal } from "./dismissal-park.ts";
 import { registerTurn, rememberTurnFailure, unregisterTurn } from "./turn-runs.ts";
 import { catchUpProgramSessions, persistTurn, scheduleIdleExtraction, triggerExtraction, TurnPersistenceError } from "./turn-service.ts";
-import { danglingQuestionOf, feedsGraph, hasProbeDone, isProgramSession } from "../core/native-messages.ts";
+import { danglingQuestionOf, feedsGraph, hasProbeDone, isProgramSession, masterableLessonOf } from "../core/native-messages.ts";
+import { progressSnapshot, recordProgress } from "./curriculum.ts";
 import { composeInstructions } from "../agent/teacher-agent.ts";
 import { ensureCompacted, kickCompaction, effectiveThresholdTokens } from "./compaction.ts";
 import { catalogContextLimits, refreshConnectionCatalog } from "./model-catalog.ts";
@@ -410,6 +411,16 @@ export async function handleChatInput(
 	// The physics program's textbook shelf: book tools ride every teach and
 	// practice turn once at least one book is ingested.
 	const booksCtx = stores.bookshelfStore.listBooks().length > 0 ? bookToolContext() : null;
+	// A program lesson's teach session: the tutor may mark the lesson
+	// mastered (lesson_mastered — only with a passed check on every plan step).
+	const masterable = masterableLessonOf(agentMessages);
+	const lessonCtx = masterable
+		? {
+				lessonId: masterable,
+				isMastered: () => !!progressSnapshot().lessons[masterable]?.masteredAt,
+				recordMastered: () => recordProgress({ type: "tutor_mastered", at: new Date().toISOString(), lessonId: masterable, chatId }),
+			}
+		: null;
 	// BYOK (owner, 2026-09-22): the conversation chain was resolved by the
 	// turn gate above (chat.model override → strong slot → refused) — the
 	// engine build is pure from here; thinking levels clamp natively.
@@ -498,6 +509,7 @@ export async function handleChatInput(
 						// = no research tool in the teacher's registry.
 						searchAvailable,
 						...(booksCtx ? { books: booksCtx } : {}),
+						...(lessonCtx ? { lesson: lessonCtx } : {}),
 					},
 					agentOpts,
 				)

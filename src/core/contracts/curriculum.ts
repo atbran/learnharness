@@ -178,6 +178,10 @@ export const progressEventSchema = z.discriminatedUnion("type", [
 		missed: z.array(z.number().int().min(0)).optional(),
 		overridden: z.array(z.number().int().min(0)).optional(),
 	}),
+	/** The tutor judged a lesson session's objectives met, and every step on
+	 *  the session's plan map had a passed check (the lesson_mastered tool).
+	 *  Counts like a passing quick check. */
+	z.object({ type: z.literal("tutor_mastered"), at, lessonId: id(), chatId: z.string() }),
 	z.object({ type: z.literal("assessment_graded"), at, assessmentId: z.string(), kind: z.enum(["pset", "midterm", "final", "placement", "worksheet"]), courseId: id(), unitIds: z.array(id()), score: z.number().min(0).max(1) }),
 	/** Lessons tested out by placement (counted as mastered). */
 	z.object({ type: z.literal("placement"), at, lessonIds: z.array(id()) }),

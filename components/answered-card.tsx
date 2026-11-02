@@ -34,7 +34,9 @@ export function AnsweredCard({ answer: savedAnswer, input }: { answer: QuestionA
 	if (answer.asked) {
 		return (
 			<div className="rounded-xl border bg-card p-4 text-sm" data-testid="asked-card">
-				<span className="font-medium text-muted-foreground">{answer.questionText}</span>
+				<div className="font-medium text-muted-foreground">
+					<ToolContentResponse>{answer.questionText}</ToolContentResponse>
+				</div>
 				<p className="mt-2">
 					<span className="text-xs uppercase tracking-wide text-muted-foreground">You asked first</span>
 					<br />

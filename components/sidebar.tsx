@@ -220,20 +220,20 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
 	return (
 		<SidebarContext.Provider value={{ open: drawer ? drawerOpen : open && !narrow, toggle, drawer, closeDrawer }}>
 			{/* transitions gated on mount: no slide-in flash on page load */}
-			<div ref={rootRef} className={cn("flex h-dvh", mounted && "[&_.sidebar-motion]:transition-[width,margin,opacity,translate]")}>{children}</div>
+			<div ref={rootRef} className={cn("lh-shell flex", mounted && "[&_.sidebar-motion]:transition-[width,margin,opacity,translate]")}>{children}</div>
 		</SidebarContext.Provider>
 	);
 }
 
 /**
  * On-screen keyboard inset (iPad companion): iOS/iPadOS Safari shrinks only
- * the VISUAL viewport when the software keyboard opens — h-dvh keeps the
- * full height, so a bottom-docked composer would sit under the keyboard.
+ * the VISUAL viewport when the software keyboard opens — the pinned shell
+ * keeps the full height, so a bottom-docked composer would sit under the keyboard.
  * While an editable element has focus and the visual viewport is clearly
  * shorter than the layout viewport (unzoomed), pin the app shell to the
  * visible rectangle (fixed, top = offsetTop, height = visual height) and
  * keep the focused field in view. Everything else (desktop, hardware
- * keyboard, pinch-zoom) leaves the shell's own h-dvh untouched.
+ * keyboard, pinch-zoom) leaves the shell's own .lh-shell sizing untouched.
  */
 function useKeyboardInset(rootRef: React.RefObject<HTMLDivElement | null>) {
 	useEffect(() => {
@@ -258,9 +258,8 @@ function useKeyboardInset(rootRef: React.RefObject<HTMLDivElement | null>) {
 					}
 					return;
 				}
-				// Fixed escapes body's safe-area padding (home-screen app), so
-				// the insets are re-applied here; the bottom one sits under the
-				// keyboard and doesn't apply.
+				// Same safe-area insets as .lh-shell, offset to the visual
+				// viewport; the bottom one sits under the keyboard and doesn't apply.
 				el.style.position = "fixed";
 				el.style.inset = `calc(${vv.offsetTop}px + env(safe-area-inset-top)) env(safe-area-inset-right) auto env(safe-area-inset-left)`;
 				el.style.height = `calc(${vv.height}px - env(safe-area-inset-top))`;

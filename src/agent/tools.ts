@@ -17,6 +17,7 @@ import type { JobRecord } from "../core/contracts.ts";
 import type { JobStore } from "../core/ports.ts";
 import { jobTools, type DemoInput, type PdfInput, type ResearchInput, type VisualInput } from "./tools/jobs.ts";
 import { planTools, type PlanToolContext } from "./tools/plan.ts";
+import { lessonMasteredTool, type LessonMasteredContext } from "./tools/lesson-mastered.ts";
 import { probeDoneTool, type ProbeDoneContext } from "./tools/probe.ts";
 import { proberGraphTools } from "./tools/graph.ts";
 import { bookTools, type BookToolContext } from "./tools/books.ts";
@@ -405,6 +406,9 @@ export interface TeacherToolContext extends PlanToolContext {
 	 *  tools are registered; the composition root passes it only when at
 	 *  least one book is ingested. */
 	books?: BookToolContext;
+	/** A program LESSON teach session: present = the tutor gets
+	 *  lesson_mastered (the composition root passes it only then). */
+	lesson?: Omit<LessonMasteredContext, "chatId" | "chatStore">;
 }
 
 /**
@@ -465,6 +469,7 @@ export function createTeacherTools(
 			...planTools(ctx),
 			...jobTools({ chatId: ctx.chatId, jobStore: ctx.jobStore, spawn: ctx.spawn, searchAvailable: ctx.searchAvailable }),
 			...(ctx.books ? bookTools(ctx.books) : {}),
+			...(ctx.lesson ? lessonMasteredTool({ chatId: ctx.chatId, chatStore: ctx.chatStore, ...ctx.lesson }) : {}),
 		},
 		withoutMechanics(enabled),
 		),
